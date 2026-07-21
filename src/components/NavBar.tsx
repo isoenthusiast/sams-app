@@ -15,11 +15,13 @@ export async function NavBar() {
   const userCompanies = userId
     ? await prisma.userCompany.findMany({ where: { userId }, include: { company: true } })
     : [];
-  const companies = userCompanies.map((uc) => ({
-    id: uc.company.id,
-    companyID: uc.company.companyID,
-    companyName: uc.company.companyName,
-  }));
+  const companies = userCompanies
+    .filter((uc) => uc.company != null)
+    .map((uc) => ({
+      id: uc.company.id,
+      companyID: uc.company.companyID,
+      companyName: uc.company.companyName,
+    }));
 
   return (
     <header className="border-b border-slate-200 bg-white">

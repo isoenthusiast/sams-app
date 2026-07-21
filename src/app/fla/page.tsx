@@ -19,26 +19,31 @@ export default async function DashboardPage() {
   const userName = (session.user as { name?: string }).name ?? "Unknown";
   const companyId = await getSelectedCompanyId();
 
-  // Process areas with health data
-  const processAreas = await prisma.processArea.findMany({
-    where: companyId ? { companyId } : {},
-    include: {
-      standardRef: true,
-      controls: {
-        include: {
-          controlAssignments: {
-            where: { effective: { not: null } },
-            orderBy: { createdAt: "desc" },
-            take: 100,
+  // Process areas with health data — safe fallback
+  let processAreas: any[] = [];
+  try {
+    processAreas = await prisma.processArea.findMany({
+      where: companyId ? { companyId } : {},
+      include: {
+        standardRef: true,
+        controls: {
+          include: {
+            controlAssignments: {
+              where: { effective: { not: null } },
+              orderBy: { createdAt: "desc" },
+              take: 100,
+            },
           },
         },
       },
-    },
-    orderBy: { name: "asc" },
-  });
+      orderBy: { name: "asc" },
+    });
+  } catch {
+    processAreas = [];
+  }
 
   // Group by standard
-  const byStandard = new Map<string, typeof processAreas>();
+  const byStandard = new Map<string, any[]>();
   for (const pa of processAreas) {
     const std = pa.standardRef?.standard ?? pa.standard ?? "Other";
     if (!byStandard.has(std)) byStandard.set(std, []);
@@ -46,10 +51,10 @@ export default async function DashboardPage() {
   }
 
   // Compute health per PA
-  const paHealth = processAreas.map((pa) => {
+  const paHealth = processAreas.map((pa: any) => {
     const total = pa.controls.length;
-    const effective = pa.controls.filter((c) =>
-      c.controlAssignments.some((ca) => ca.effective === "Effective")
+    const effective = pa.controls.filter((c: any) =>
+      c.controlAssignments.some((ca: any) => ca.effective === "Effective")
     ).length;
     const pct = total > 0 ? Math.round((effective / total) * 100) : 0;
     return { ...pa, total, effective, pct };
@@ -65,41 +70,51 @@ export default async function DashboardPage() {
       })
     : [];
 
-  // Gamification
-  const [userRecord, pointsAgg, recentBadgesRaw, leaderboardRaw] = userId ? await Promise.all([
-    prisma.user.findUnique({ where: { id: userId }, select: { dailyPointStreak: true } }),
-    prisma.pointTransaction.aggregate({ where: { userId }, _sum: { points: true } }),
-    prisma.userAchievement.findMany({
-      where: { userId },
-      include: { badge: true },
-      orderBy: { earnedAt: "desc" },
-      take: 5,
-    }),
-    prisma.$queryRawUnsafe<Array<{ username: string; totalPoints: number; rank: number }>>(
-      `SELECT username, total_points as "totalPoints", RANK() OVER (ORDER BY total_points DESC) as rank
-       FROM (SELECT u.username, COALESCE(SUM(pt.points), 0) as total_points
-             FROM "User" u LEFT JOIN "PointTransaction" pt ON pt."userId" = u.id
-             WHERE u.username != 'admin'
-             GROUP BY u.id, u.username) sub
-       ORDER BY total_points DESC LIMIT 10`
-    ),
-  ]) : [null, { _sum: { points: 0 } }, [], []];
+  // Gamification — safe fallback
+  let totalPoints = 0;
+  let dailyStreak = 0;
+  let recentBadges: any[] = [];
+  let leaderboard: any[] = [];
+  try {
+    const [userRecord, pointsAgg, recentBadgesRaw, leaderboardRaw] = userId ? await Promise.all([
+      prisma.user.findUnique({ where: { id: userId }, select: { dailyPointStreak: true } }),
+      prisma.pointTransaction.aggregate({ where: { userId }, _sum: { points: true } }),
+      prisma.userAchievement.findMany({
+        where: { userId },
+        include: { badge: true },
+        orderBy: { earnedAt: "desc" },
+        take: 5,
+      }),
+      prisma.$queryRawUnsafe<Array<{ username: string; totalPoints: number; rank: number }>>(
+        `SELECT username, total_points as "totalPoints", RANK() OVER (ORDER BY total_points DESC) as rank
+         FROM (SELECT u.username, COALESCE(SUM(pt.points), 0) as total_points
+               FROM "User" u LEFT JOIN "PointTransaction" pt ON pt."userId" = u.id
+               WHERE u.username != 'admin'
+               GROUP BY u.id, u.username) sub
+         ORDER BY total_points DESC LIMIT 10`
+      ),
+    ]) : [null, { _sum: { points: 0 } }, [], []];
 
-  const totalPoints = pointsAgg._sum.points ?? 0;
-  const dailyStreak = userRecord?.dailyPointStreak ?? 0;
+    totalPoints = pointsAgg._sum.points ?? 0;
+    dailyStreak = userRecord?.dailyPointStreak ?? 0;
 
-  const recentBadges = recentBadgesRaw.map((ua) => ({
-    name: ua.badge.badgeName,
-    description: ua.badge.description ?? undefined,
-    rarity: ua.badge.rarity,
-    earnedAt: ua.earnedAt?.toISOString(),
-  }));
+    recentBadges = (recentBadgesRaw || [])
+      .filter((ua: any) => ua.badge != null)
+      .map((ua: any) => ({
+        name: ua.badge.badgeName,
+        description: ua.badge.description ?? undefined,
+        rarity: ua.badge.rarity,
+        earnedAt: ua.earnedAt?.toISOString(),
+      }));
 
-  const leaderboard = leaderboardRaw.map((r) => ({
-    username: r.username,
-    totalPoints: Number(r.totalPoints),
-    rank: Number(r.rank),
-  }));
+    leaderboard = (leaderboardRaw || []).map((r: any) => ({
+      username: r.username,
+      totalPoints: Number(r.totalPoints),
+      rank: Number(r.rank),
+    }));
+  } catch {
+    // gamification data is optional — page renders without it
+  }
 
   const userRank = leaderboard.find((e) => e.username === userName)?.rank;
 
