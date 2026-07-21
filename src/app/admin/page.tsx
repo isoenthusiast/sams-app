@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { Card } from "@/components/Card";
 import { Button } from "@/components/Button";
+import { HealthIndicator } from "@/components/HealthIndicator";
 import { RequirementsView } from "./RequirementsView";
 import { BadgesView } from "./BadgesView";
 import { KnowledgebaseView } from "./KnowledgebaseView";
@@ -112,6 +113,42 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
     ? await prisma.processArea.findMany({ where, orderBy: { name: "asc" }, select: { id: true, name: true } })
     : [];
 
+  // Process Health data (for dashboard view)
+  let paHealth: any[] = [];
+  let paByStandard = new Map<string, any[]>();
+  if (view === "dashboard") {
+    try {
+      const pas = await prisma.processArea.findMany({
+        where,
+        include: {
+          standardRef: true,
+          controls: {
+            include: {
+              controlAssignments: {
+                where: { effective: { not: null } },
+                orderBy: { createdAt: "desc" },
+                take: 100,
+              },
+            },
+          },
+        },
+        orderBy: { name: "asc" },
+      });
+      paHealth = pas.map((pa: any) => {
+        const total = pa.controls.length;
+        const effective = pa.controls.filter((c: any) =>
+          c.controlAssignments.some((ca: any) => ca.effective === "Effective")
+        ).length;
+        return { ...pa, total, effective, pct: total > 0 ? Math.round((effective / total) * 100) : 0 };
+      });
+      for (const pa of paHealth) {
+        const std = pa.standardRef?.standard ?? pa.standard ?? "Other";
+        if (!paByStandard.has(std)) paByStandard.set(std, []);
+        paByStandard.get(std)!.push(pa);
+      }
+    } catch { /* process health is optional */ }
+  }
+
   return (
     <div className="mx-auto max-w-6xl px-4 py-6">
       <div className="flex items-center justify-between mb-6">
@@ -143,22 +180,50 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
 
       {/* ── Dashboard ── */}
       {view === "dashboard" && (
-        <div className="mt-6 grid gap-4 sm:grid-cols-2">
-          <Card title="⚡ Quick Actions" padding="sm">
-            <div className="flex flex-wrap gap-2">
-              <Link href="/setup/process-areas"><Button variant="secondary" size="sm">Process Areas</Button></Link>
-              <Link href="/admin/database"><Button variant="secondary" size="sm">Database</Button></Link>
-              <Link href="/admin?view=users"><Button variant="secondary" size="sm">Users</Button></Link>
-              <Link href="/admin?view=templates"><Button variant="secondary" size="sm">Templates</Button></Link>
-              <Link href="/admin?view=activity"><Button variant="secondary" size="sm">Activity Log</Button></Link>
-            </div>
-          </Card>
-          <Card title="📊 System Status" padding="sm">
-            <div className="space-y-2 text-sm">
-              <div className="flex justify-between"><span className="text-slate-500">Connected as</span><span className="font-medium">{session.user.name} (Admin)</span></div>
-              <div className="flex justify-between"><span className="text-slate-500">Company</span><span className="font-medium">{companyId ?? "All"}</span></div>
-            </div>
-          </Card>
+        <div className="mt-6 space-y-6">
+          {/* Process Health */}
+          {paByStandard.size > 0 && (
+            <Card title="📊 Process Health" subtitle="Control effectiveness by process area">
+              {[...paByStandard.entries()].map(([std, pas]) => (
+                <div key={std} className="mb-4">
+                  <h3 className="mb-2 text-sm font-semibold text-slate-700">{std}</h3>
+                  <div className="space-y-1.5">
+                    {pas.map((pa: any) => (
+                      <Link
+                        key={pa.id}
+                        href={`/setup/processdetails/${pa.id}`}
+                        className="flex items-center justify-between rounded-md border border-slate-100 px-3 py-2 hover:bg-slate-50"
+                      >
+                        <span className="text-sm text-slate-800">{pa.name}</span>
+                        <span className="flex items-center gap-2 text-xs text-slate-500">
+                          {pa.effective}/{pa.total}
+                          <HealthIndicator score={pa.pct} size="sm" />
+                        </span>
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </Card>
+          )}
+
+          <div className="grid gap-4 sm:grid-cols-2">
+            <Card title="⚡ Quick Actions" padding="sm">
+              <div className="flex flex-wrap gap-2">
+                <Link href="/setup/process-areas"><Button variant="secondary" size="sm">Process Areas</Button></Link>
+                <Link href="/admin/database"><Button variant="secondary" size="sm">Database</Button></Link>
+                <Link href="/admin?view=users"><Button variant="secondary" size="sm">Users</Button></Link>
+                <Link href="/admin?view=templates"><Button variant="secondary" size="sm">Templates</Button></Link>
+                <Link href="/admin?view=activity"><Button variant="secondary" size="sm">Activity Log</Button></Link>
+              </div>
+            </Card>
+            <Card title="📊 System Status" padding="sm">
+              <div className="space-y-2 text-sm">
+                <div className="flex justify-between"><span className="text-slate-500">Connected as</span><span className="font-medium">{session.user.name} (Admin)</span></div>
+                <div className="flex justify-between"><span className="text-slate-500">Company</span><span className="font-medium">{companyId ?? "All"}</span></div>
+              </div>
+            </Card>
+          </div>
         </div>
       )}
 
