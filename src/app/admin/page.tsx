@@ -224,8 +224,6 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
           )}
         </div>
       )}
-        </div>
-      )}
 
       {/* ── Activity Log ── */}
       {view === "activity" && (
