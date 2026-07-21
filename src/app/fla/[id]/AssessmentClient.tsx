@@ -4,10 +4,9 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Card } from "@/components/Card";
-import { Badge } from "@/components/Badge";
 import { StatusBadge } from "@/components/StatusBadge";
 import { Button } from "@/components/Button";
-import { Select } from "@/components/Select";
+import { FindingCard } from "@/components/FindingCard";
 
 type Props = {
   assessment: any;
@@ -200,31 +199,19 @@ export default function AssessmentClient({ assessment, allControls, processAreas
             <p className="py-12 text-center text-sm text-slate-400">No findings recorded.</p>
           ) : (
             assessment.findings?.map((f: any) => (
-              <Card key={f.id} padding="sm">
-                <div className="flex items-start gap-3">
-                  <Badge variant={f.severity === "Serious" || f.severity === "High" ? "danger" : f.severity === "Medium" ? "warning" : "default"}>{f.severity}</Badge>
-                  <div className="flex-1">
-                    <p className="text-sm font-medium text-slate-900">{f.description}</p>
-                    {f.risks && <p className="text-xs text-slate-500 mt-1">Risk: {f.risks}</p>}
-                    {f.actions?.length > 0 && (
-                      <div className="mt-3 border-t border-slate-100 pt-2">
-                        <p className="text-xs font-medium text-slate-600 mb-1">Actions ({f.actions.length})</p>
-                        {f.actions.map((act: any) => (
-                          <div key={act.id} className="flex items-center justify-between py-1 text-xs">
-                            <span>{act.actionDescription}</span>
-                            <span className="flex items-center gap-2">
-                              <span className="text-slate-400">{act.actionParty ?? "—"}</span>
-                              <Badge variant={act.actionClosureEffective ? "success" : "default"} size="sm">
-                                {act.actionClosureEffective ? "Done" : "Open"}
-                              </Badge>
-                            </span>
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </Card>
+              <FindingCard
+                key={f.id}
+                id={f.id}
+                description={f.description}
+                severity={f.severity}
+                risks={f.risks}
+                actions={f.actions?.map((act: any) => ({
+                  id: act.id,
+                  actionDescription: act.actionDescription,
+                  actionParty: act.actionParty,
+                  actionClosureEffective: act.actionClosureEffective,
+                })) ?? []}
+              />
             ))
           )}
         </div>

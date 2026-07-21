@@ -1,6 +1,6 @@
 # SAMS App — Development Checklist
 
-**Status:** In Progress — 66/100 (66%), deployed at https://sams-app-sams.up.railway.app  
+**Status:** In Progress — 71/100 (71%), deployed at https://sams-app-sams.up.railway.app  
 **Reference:** `01_DESIGN_CONTEXT.md`, `02_DATA_MODEL.md`, `03_UI_WIREFRAMES.md`, `04_USER_ROLES_AND_TEST_SCENARIOS.md`  
 **Rule:** sams-app shares the seam-assurance-app database — **no schema changes, no new tables, same APIs, same auth**
 
@@ -252,11 +252,11 @@ Low-effort, high-impact improvements.
 
 Extract inline code into standalone reusable components.
 
-- [ ] **11.1** `ProcessAreaCard` (1.11) — from `/setup/process-areas`
-- [ ] **11.2** `RequirementCard` (1.12) — from `ProcessDetailsClient`
-- [ ] **11.3** `AssessmentCard` (1.14) — from `/fla` dashboard
-- [ ] **11.4** `FindingCard` (1.15) — from `AssessmentClient`
-- [ ] **11.5** `KnowledgebasePanel` (1.17) — from `ProcessDetailsClient`
+- [x] **11.1** `ProcessAreaCard` (1.11) — from `/setup/process-areas`
+- [x] **11.2** `RequirementCard` (1.12) — from `ProcessDetailsClient`
+- [x] **11.3** `AssessmentCard` (1.14) — from `/fla` dashboard
+- [x] **11.4** `FindingCard` (1.15) — from `AssessmentClient`
+- [x] **11.5** `KnowledgebasePanel` (1.17) — from `ProcessDetailsClient`
 
 **Prerequisites:** None  
 **Exit criteria:** Each component renders in isolation; all existing pages continue working.

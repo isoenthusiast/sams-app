@@ -1,14 +1,13 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Card } from "@/components/Card";
-import { Badge } from "@/components/Badge";
-import { HealthIndicator } from "@/components/HealthIndicator";
 import { StatusBadge } from "@/components/StatusBadge";
 import { Button } from "@/components/Button";
-import { formatDate } from "@/lib/formatDate";
+import { RequirementCard } from "@/components/RequirementCard";
+import { KnowledgebasePanel } from "@/components/KnowledgebasePanel";
 
 type Props = {
   processArea: any;
@@ -235,58 +234,21 @@ export default function ProcessDetailsClient(props: Props) {
             </div>
           ) : (
             /* Normal: requirement cards */
-            reqData.map((req: any) => {
-              const isExp = expandedReqs.has(req.rId);
-              return (
-                <Card key={req.rId} padding="none" className="overflow-hidden">
-                  <button
-                    onClick={() => toggleReq(req.rId)}
-                    onDragOver={(e) => { e.preventDefault(); setDragOverReqId(req.rId); }}
-                    onDragLeave={() => setDragOverReqId(null)}
-                    onDrop={(e) => { e.preventDefault(); setDragOverReqId(null); if (dragCtrlId) handleDropControl(dragCtrlId, req.rId); }}
-                    className={`w-full text-left px-4 py-3 bg-slate-50 hover:bg-slate-100 transition-colors ${dragOverReqId === req.rId ? "bg-blue-100" : ""}`}
-                  >
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <h3 className="font-semibold text-sm text-slate-900">{req.requirementId} ({req.controls.length})</h3>
-                        <p className="text-xs text-slate-500 mt-0.5 whitespace-normal break-words">{req.clauseContent}</p>
-                      </div>
-                      <span className="text-xs text-slate-300">{isExp ? "▼" : "▶"}</span>
-                    </div>
-                  </button>
-                  {isExp && req.controls.length > 0 && (
-                    <div className="overflow-x-auto">
-                      <table className="w-full text-sm">
-                        <thead className="bg-slate-100"><tr><th className="w-5"></th><th className="px-4 py-2 text-left font-medium text-slate-600">Control</th><th className="px-4 py-2 text-left font-medium text-slate-600">Type</th><th className="px-4 py-2 text-left font-medium text-slate-600">Health</th><th className="px-4 py-2 text-left font-medium text-slate-600">Move to</th></tr></thead>
-                        <tbody>
-                          {req.controls.map((c: any) => (
-                            <tr key={c.id} draggable onDragStart={(e) => { setDragCtrlId(c.id); }} onDragEnd={() => { setDragCtrlId(null); setDragOverReqId(null); }} className={`border-t border-slate-100 hover:bg-slate-50 cursor-grab ${dragCtrlId === c.id ? "opacity-40" : ""}`}>
-                              <td className="px-1 py-2 text-slate-300 text-center select-none" title="Drag to move control">⋮⋮</td>
-                              <td className="px-4 py-2 font-medium text-slate-900">{c.name}</td>
-                              <td className="px-4 py-2 text-slate-600">{c.controlType}</td>
-                              <td className="px-4 py-2">{c._count?.controlAssignments === 0 ? <HealthIndicator score={0} size="sm" /> : <HealthIndicator score={c.rawHealthScore ?? 80} size="sm" />}</td>
-                              <td className="px-2 py-2">
-                                <select
-                                  aria-label={`Move ${c.name} to requirement`}
-                                  className="rounded border border-slate-200 px-1 py-0.5 text-xs text-slate-500"
-                                  onChange={(e) => { const v = e.target.value; e.target.value = ""; if (v) handleDropControl(c.id, Number(v)); }}
-                                >
-                                  <option value="">Move to ▾</option>
-                                  {reqData.filter((r: any) => r.rId !== req.rId).sort((a: any, b: any) => a.requirementId.localeCompare(b.requirementId)).map((r: any) => (
-                                    <option key={r.rId} value={r.rId}>{r.requirementId}</option>
-                                  ))}
-                                </select>
-                              </td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </div>
-                  )}
-                  {isExp && req.controls.length === 0 && <p className="px-4 py-4 text-center text-sm text-slate-400">No controls linked.</p>}
-                </Card>
-              );
-            })
+            reqData.map((req: any) => (
+              <RequirementCard
+                key={req.rId}
+                req={req}
+                isExpanded={expandedReqs.has(req.rId)}
+                onToggle={() => toggleReq(req.rId)}
+                onDropControl={handleDropControl}
+                dragCtrlId={dragCtrlId}
+                dragOverReqId={dragOverReqId}
+                setDragCtrlId={setDragCtrlId}
+                setDragOverReqId={setDragOverReqId}
+                allReqs={reqData}
+                onMoveControl={handleDropControl}
+              />
+            ))
           )}
         </div>
       )}
@@ -315,20 +277,8 @@ export default function ProcessDetailsClient(props: Props) {
 
       {/* ─── TAB 4: Knowledgebase ─── */}
       {activeTab === "knowledgebase" && (
-        <div className="mt-6 space-y-4">
-          {kbEntries.length === 0 ? (
-            <p className="py-12 text-center text-sm text-slate-400">No knowledgebase entries for this process area.</p>
-          ) : (
-            kbEntries.map((entry) => (
-              <Card key={entry.kID} padding="sm">
-                <h3 className="font-semibold text-slate-900">{entry.knowledgeName}</h3>
-                <div className="text-xs text-slate-500 mt-1">
-                  Added by {entry.addedBy ?? "—"} · {formatDate(entry.createdDate)}
-                </div>
-                <p className="text-sm text-slate-700 mt-2 whitespace-pre-wrap line-clamp-6">{entry.knowledgeContent}</p>
-              </Card>
-            ))
-          )}
+        <div className="mt-6">
+          <KnowledgebasePanel entries={kbEntries} />
         </div>
       )}
     </div>

@@ -7,6 +7,7 @@ import { Card } from "@/components/Card";
 import { HealthIndicator } from "@/components/HealthIndicator";
 import { StatusBadge } from "@/components/StatusBadge";
 import { GamificationPanel } from "@/components/GamificationPanel";
+import { AssessmentCard } from "@/components/AssessmentCard";
 
 export const dynamic = "force-dynamic";
 
@@ -158,19 +159,16 @@ export default async function DashboardPage() {
             ) : (
               <div className="space-y-2">
                 {myAssessments.map((a) => (
-                  <Link
+                  <AssessmentCard
                     key={a.id}
-                    href={`/fla/${a.id}`}
-                    className="flex items-center justify-between rounded-md border border-slate-100 px-4 py-3 hover:bg-slate-50"
-                  >
-                    <div>
-                      <div className="text-sm font-medium text-slate-900">{a.name}</div>
-                      <div className="text-xs text-slate-500">
-                        {a.activityType.name} · {new Date(a.startDate).toLocaleDateString()} · {a._count.samples} samples · {a._count.findings} findings
-                      </div>
-                    </div>
-                    <StatusBadge status={a.status} />
-                  </Link>
+                    id={a.id}
+                    name={a.name}
+                    status={a.status}
+                    activityTypeName={a.activityType.name}
+                    startDate={a.startDate}
+                    samplesCount={a._count.samples}
+                    findingsCount={a._count.findings}
+                  />
                 ))}
               </div>
             )}

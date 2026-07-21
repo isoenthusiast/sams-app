@@ -2,8 +2,7 @@ import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { getSelectedCompanyId } from "@/lib/authz";
 import { redirect } from "next/navigation";
-import Link from "next/link";
-import { Card } from "@/components/Card";
+import { ProcessAreaCard } from "@/components/ProcessAreaCard";
 
 export const dynamic = "force-dynamic";
 
@@ -29,19 +28,14 @@ export default async function ProcessAreasPage() {
       </div>
       <div className="grid gap-3">
         {processAreas.map((pa) => (
-          <Link key={pa.id} href={`/setup/processdetails/${pa.id}`}>
-            <Card className="hover:border-blue-300 transition-colors" padding="sm">
-              <div className="flex items-center justify-between">
-                <div>
-                  <div className="font-semibold text-slate-900">{pa.name}</div>
-                  <div className="text-xs text-slate-500">
-                    {pa.standardRef?.standard ?? pa.standard} · {pa._count.requirements} requirements · {pa._count.controls} controls
-                  </div>
-                </div>
-                <span className="text-slate-300">→</span>
-              </div>
-            </Card>
-          </Link>
+          <ProcessAreaCard
+            key={pa.id}
+            id={pa.id}
+            name={pa.name}
+            standard={pa.standardRef?.standard ?? pa.standard ?? undefined}
+            requirementsCount={pa._count.requirements}
+            controlsCount={pa._count.controls}
+          />
         ))}
         {processAreas.length === 0 && (
           <p className="py-12 text-center text-sm text-slate-400">No process areas found for the selected company.</p>
