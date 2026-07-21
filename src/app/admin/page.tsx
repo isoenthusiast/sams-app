@@ -6,6 +6,7 @@ import Link from "next/link";
 import { Card } from "@/components/Card";
 import { Button } from "@/components/Button";
 import { HealthIndicator } from "@/components/HealthIndicator";
+import { CollapsibleSection } from "@/components/CollapsibleSection";
 import { RequirementsView } from "./RequirementsView";
 import { BadgesView } from "./BadgesView";
 import { KnowledgebaseView } from "./KnowledgebaseView";
@@ -181,32 +182,6 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
       {/* ── Dashboard ── */}
       {view === "dashboard" && (
         <div className="mt-6 space-y-6">
-          {/* Process Health */}
-          {paByStandard.size > 0 && (
-            <Card title="📊 Process Health" subtitle="Control effectiveness by process area">
-              {[...paByStandard.entries()].map(([std, pas]) => (
-                <div key={std} className="mb-4">
-                  <h3 className="mb-2 text-sm font-semibold text-slate-700">{std}</h3>
-                  <div className="space-y-1.5">
-                    {pas.map((pa: any) => (
-                      <Link
-                        key={pa.id}
-                        href={`/setup/processdetails/${pa.id}`}
-                        className="flex items-center justify-between rounded-md border border-slate-100 px-3 py-2 hover:bg-slate-50"
-                      >
-                        <span className="text-sm text-slate-800">{pa.name}</span>
-                        <span className="flex items-center gap-2 text-xs text-slate-500">
-                          {pa.effective}/{pa.total}
-                          <HealthIndicator score={pa.pct} size="sm" />
-                        </span>
-                      </Link>
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </Card>
-          )}
-
           <div className="grid gap-4 sm:grid-cols-2">
             <Card title="⚡ Quick Actions" padding="sm">
               <div className="flex flex-wrap gap-2">
@@ -224,6 +199,31 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
               </div>
             </Card>
           </div>
+
+          {/* Process Health — collapsible by standard */}
+          {paByStandard.size > 0 && (
+            <Card title="📊 Process Health" subtitle="Control effectiveness by process area">
+              {[...paByStandard.entries()].map(([std, pas]) => (
+                <CollapsibleSection key={std} title={std} count={pas.length}>
+                  {pas.map((pa: any) => (
+                    <Link
+                      key={pa.id}
+                      href={`/setup/processdetails/${pa.id}`}
+                      className="flex items-center justify-between rounded-md border border-slate-100 px-3 py-2 hover:bg-slate-50"
+                    >
+                      <span className="text-sm text-slate-800">{pa.name}</span>
+                      <span className="flex items-center gap-2 text-xs text-slate-500">
+                        {pa.effective}/{pa.total}
+                        <HealthIndicator score={pa.pct} size="sm" />
+                      </span>
+                    </Link>
+                  ))}
+                </CollapsibleSection>
+              ))}
+            </Card>
+          )}
+        </div>
+      )}
         </div>
       )}
 

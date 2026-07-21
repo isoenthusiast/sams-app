@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { Card } from "@/components/Card";
 import { HealthIndicator } from "@/components/HealthIndicator";
+import { CollapsibleSection } from "@/components/CollapsibleSection";
 import { StatusBadge } from "@/components/StatusBadge";
 import { GamificationPanel } from "@/components/GamificationPanel";
 import { AssessmentCard } from "@/components/AssessmentCard";
@@ -124,27 +125,24 @@ export default async function DashboardPage() {
         <div className="lg:col-span-2 space-y-6">
           <Card title="📊 Process Health" subtitle="Control effectiveness by process area">
             {[...byStandard.entries()].map(([std, pas]) => (
-              <div key={std} className="mb-4">
-                <h3 className="mb-2 text-sm font-semibold text-slate-700">{std}</h3>
-                <div className="space-y-1.5">
-                  {pas.map((pa) => {
-                    const h = paHealth.find((p) => p.id === pa.id)!;
-                    return (
-                      <Link
-                        key={pa.id}
-                        href={`/setup/processdetails/${pa.id}`}
-                        className="flex items-center justify-between rounded-md border border-slate-100 px-3 py-2 hover:bg-slate-50"
-                      >
-                        <span className="text-sm text-slate-800">{pa.name}</span>
-                        <span className="flex items-center gap-2 text-xs text-slate-500">
-                          {h.effective}/{h.total}
-                          <HealthIndicator score={h.pct} size="sm" />
-                        </span>
-                      </Link>
-                    );
-                  })}
-                </div>
-              </div>
+              <CollapsibleSection key={std} title={std} count={pas.length}>
+                {pas.map((pa) => {
+                  const h = paHealth.find((p: any) => p.id === pa.id)!;
+                  return (
+                    <Link
+                      key={pa.id}
+                      href={`/setup/processdetails/${pa.id}`}
+                      className="flex items-center justify-between rounded-md border border-slate-100 px-3 py-2 hover:bg-slate-50"
+                    >
+                      <span className="text-sm text-slate-800">{pa.name}</span>
+                      <span className="flex items-center gap-2 text-xs text-slate-500">
+                        {h.effective}/{h.total}
+                        <HealthIndicator score={h.pct} size="sm" />
+                      </span>
+                    </Link>
+                  );
+                })}
+              </CollapsibleSection>
             ))}
             {processAreas.length === 0 && (
               <p className="text-sm text-slate-400">No process areas found for the selected company.</p>
