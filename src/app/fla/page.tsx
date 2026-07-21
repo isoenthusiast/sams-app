@@ -9,6 +9,7 @@ import { CollapsibleSection } from "@/components/CollapsibleSection";
 import { StatusBadge } from "@/components/StatusBadge";
 import { GamificationPanel } from "@/components/GamificationPanel";
 import { AssessmentCard } from "@/components/AssessmentCard";
+import { ActionRowClient } from "@/components/ActionRowClient";
 
 export const dynamic = "force-dynamic";
 
@@ -119,11 +120,52 @@ export default async function DashboardPage() {
 
   const userRank = leaderboard.find((e) => e.username === userName)?.rank;
 
+  // My Actions
+  const myActions = userName
+    ? await prisma.action.findMany({
+        where: { actionParty: userName },
+        include: {
+          finding: {
+            include: {
+              assessment: { include: { activityType: true, assessor: { select: { name: true } } } },
+            },
+          },
+        },
+        orderBy: { createdDate: "desc" },
+        take: 20,
+      })
+    : [];
+
   return (
     <div className="mx-auto max-w-7xl px-4 py-6">
-      <div className="grid gap-6 lg:grid-cols-3">
-        <div className="lg:col-span-2 space-y-6">
-          <Card title="📊 Process Health" subtitle="Control effectiveness by process area">
+      {/* Quick Actions + Gamification compact bar */}
+      <div className="mb-6 flex flex-wrap items-start gap-4">
+        <div className="flex flex-wrap gap-2 flex-1">
+          <Link href="/fla/new" className="rounded-md bg-blue-800 px-4 py-2 text-sm font-medium text-white hover:bg-blue-900 inline-flex items-center gap-1">
+            + New Assessment
+          </Link>
+          <Link href="/setup/process-areas" className="rounded-md border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 inline-flex items-center gap-1">
+            📋 Process Areas
+          </Link>
+          <Link href="/setup/controls" className="rounded-md border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 inline-flex items-center gap-1">
+            🔍 Browse Controls
+          </Link>
+          <Link href="/help" className="rounded-md border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 inline-flex items-center gap-1">
+            ❓ Help
+          </Link>
+        </div>
+        <div className="flex items-center gap-3 text-sm">
+          <span className="font-bold text-slate-900">{totalPoints.toLocaleString()} pts</span>
+          {dailyStreak > 0 && <span className="text-amber-700">🔥 {dailyStreak}</span>}
+          {userRank && <span className="text-slate-500">Rank #{userRank}</span>}
+        </div>
+      </div>
+
+      {/* Two-column dashboard */}
+      <div className="grid gap-6 lg:grid-cols-2">
+        {/* Left: Process Health */}
+        <div>
+          <Card title="📊 Process Health" subtitle="Control effectiveness by process area" className="h-full">
             {[...byStandard.entries()].map(([std, pas]) => (
               <CollapsibleSection key={std} title={std} count={pas.length}>
                 {pas.map((pa) => {
@@ -148,29 +190,15 @@ export default async function DashboardPage() {
               <p className="text-sm text-slate-400">No process areas found for the selected company.</p>
             )}
           </Card>
+        </div>
 
-          <Card title="⚡ Quick Actions" padding="sm">
-            <div className="flex flex-wrap gap-2">
-              <Link href="/fla/new" className="rounded-md bg-blue-800 px-4 py-2 text-sm font-medium text-white hover:bg-blue-900 inline-flex items-center gap-1">
-                + New Assessment
-              </Link>
-              <Link href="/setup/process-areas" className="rounded-md border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 inline-flex items-center gap-1">
-                📋 Process Areas
-              </Link>
-              <Link href="/setup/controls" className="rounded-md border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 inline-flex items-center gap-1">
-                🔍 Browse Controls
-              </Link>
-              <Link href="/help" className="rounded-md border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 inline-flex items-center gap-1">
-                ❓ Help
-              </Link>
-            </div>
-          </Card>
-
-          <Card title="📋 My Assessments" actions={<Link href="/fla/new" className="text-sm font-medium text-blue-700 hover:underline">+ New Assessment</Link>}>
+        {/* Right: My Assessments + My Actions */}
+        <div className="space-y-6">
+          <Card title="📋 My Assessments" actions={<Link href="/fla/new" className="text-sm font-medium text-blue-700 hover:underline">+ New</Link>}>
             {myAssessments.length === 0 ? (
-              <p className="text-sm text-slate-400">No assessments yet. Create your first one.</p>
+              <p className="text-sm text-slate-400 py-4">No assessments yet.</p>
             ) : (
-              <div className="space-y-2">
+              <div className="space-y-2 max-h-[40vh] overflow-y-auto">
                 {myAssessments.map((a) => (
                   <AssessmentCard
                     key={a.id}
@@ -186,20 +214,18 @@ export default async function DashboardPage() {
               </div>
             )}
           </Card>
-        </div>
 
-        <div>
-          <GamificationPanel
-            totalPoints={totalPoints}
-            dailyStreak={dailyStreak}
-            recentBadges={recentBadges}
-            leaderboard={leaderboard}
-            userRank={userRank}
-            nextBadge={totalPoints < 10 ? { name: "First Assessment", progress: totalPoints, target: 10 }
-              : totalPoints < 50 ? { name: "Assessment Master", progress: totalPoints, target: 50 }
-              : totalPoints < 100 ? { name: "Control Champion", progress: totalPoints, target: 100 }
-              : undefined}
-          />
+          <Card title="✅ My Actions" subtitle={myActions.length > 0 ? `${myActions.length} assigned` : ""}>
+            {myActions.length === 0 ? (
+              <p className="text-sm text-slate-400 py-4">No actions assigned to you.</p>
+            ) : (
+              <div className="space-y-1 max-h-[40vh] overflow-y-auto">
+                {myActions.map((act) => (
+                  <ActionRowClient key={act.id} action={act} />
+                ))}
+              </div>
+            )}
+          </Card>
         </div>
       </div>
     </div>

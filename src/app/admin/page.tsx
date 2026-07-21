@@ -7,6 +7,7 @@ import { Card } from "@/components/Card";
 import { Button } from "@/components/Button";
 import { HealthIndicator } from "@/components/HealthIndicator";
 import { CollapsibleSection } from "@/components/CollapsibleSection";
+import { ActionRowClient } from "@/components/ActionRowClient";
 import { RequirementsView } from "./RequirementsView";
 import { BadgesView } from "./BadgesView";
 import { KnowledgebaseView } from "./KnowledgebaseView";
@@ -148,6 +149,38 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
         paByStandard.get(std)!.push(pa);
       }
     } catch { /* process health is optional */ }
+
+  // Admin's My Assessments + My Actions (for dashboard view)
+  let myAssessments: any[] = [];
+  let myActions: any[] = [];
+  if (view === "dashboard") {
+    const adminUserId = (session.user as any).id;
+    const adminName = (session.user as any).name;
+    try {
+      myAssessments = await prisma.assessment.findMany({
+        where: { assessorId: adminUserId, ...(companyId ? { companyId } : {}) },
+        include: { activityType: true, _count: { select: { samples: true, findings: true } } },
+        orderBy: { startDate: "desc" },
+        take: 10,
+      });
+    } catch {}
+    try {
+      if (adminName) {
+        myActions = await prisma.action.findMany({
+          where: { actionParty: adminName },
+          include: {
+            finding: {
+              include: {
+                assessment: { include: { activityType: true, assessor: { select: { name: true } } } },
+              },
+            },
+          },
+          orderBy: { createdDate: "desc" },
+          take: 20,
+        });
+      }
+    } catch {}
+  }
   }
 
   return (
@@ -200,28 +233,76 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
             </Card>
           </div>
 
-          {/* Process Health — collapsible by standard */}
-          {paByStandard.size > 0 && (
-            <Card title="📊 Process Health" subtitle="Control effectiveness by process area">
-              {[...paByStandard.entries()].map(([std, pas]) => (
-                <CollapsibleSection key={std} title={std} count={pas.length}>
-                  {pas.map((pa: any) => (
-                    <Link
-                      key={pa.id}
-                      href={`/setup/processdetails/${pa.id}`}
-                      className="flex items-center justify-between rounded-md border border-slate-100 px-3 py-2 hover:bg-slate-50"
-                    >
-                      <span className="text-sm text-slate-800">{pa.name}</span>
-                      <span className="flex items-center gap-2 text-xs text-slate-500">
-                        {pa.effective}/{pa.total}
-                        <HealthIndicator score={pa.pct} size="sm" />
-                      </span>
-                    </Link>
+          {/* Two-column dashboard */}
+          <div className="grid gap-6 lg:grid-cols-2">
+            {/* Left: Process Health */}
+            <div>
+              {paByStandard.size > 0 ? (
+                <Card title="📊 Process Health" subtitle="Control effectiveness by process area">
+                  {[...paByStandard.entries()].map(([std, pas]) => (
+                    <CollapsibleSection key={std} title={std} count={pas.length}>
+                      {pas.map((pa: any) => (
+                        <Link
+                          key={pa.id}
+                          href={`/setup/processdetails/${pa.id}`}
+                          className="flex items-center justify-between rounded-md border border-slate-100 px-3 py-2 hover:bg-slate-50"
+                        >
+                          <span className="text-sm text-slate-800">{pa.name}</span>
+                          <span className="flex items-center gap-2 text-xs text-slate-500">
+                            {pa.effective}/{pa.total}
+                            <HealthIndicator score={pa.pct} size="sm" />
+                          </span>
+                        </Link>
+                      ))}
+                    </CollapsibleSection>
                   ))}
-                </CollapsibleSection>
-              ))}
-            </Card>
-          )}
+                </Card>
+              ) : (
+                <Card title="📊 Process Health" padding="sm">
+                  <p className="text-sm text-slate-400 py-4">No process area data available.</p>
+                </Card>
+              )}
+            </div>
+
+            {/* Right: My Assessments + My Actions */}
+            <div className="space-y-6">
+              <Card title="📋 My Assessments" actions={<Link href="/fla/new" className="text-sm font-medium text-blue-700 hover:underline">+ New</Link>}>
+                {myAssessments.length === 0 ? (
+                  <p className="text-sm text-slate-400 py-4">No assessments yet.</p>
+                ) : (
+                  <div className="space-y-2 max-h-[40vh] overflow-y-auto">
+                    {myAssessments.map((a: any) => (
+                      <Link
+                        key={a.id}
+                        href={`/fla/${a.id}`}
+                        className="flex items-center justify-between rounded-md border border-slate-100 px-4 py-3 hover:bg-slate-50"
+                      >
+                        <div>
+                          <div className="text-sm font-medium text-slate-900">{a.name}</div>
+                          <div className="text-xs text-slate-500">
+                            {a.activityType.name} · {new Date(a.startDate).toLocaleDateString()} · {a._count.samples} samples · {a._count.findings} findings
+                          </div>
+                        </div>
+                        <span className="text-slate-300">→</span>
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </Card>
+
+              <Card title="✅ My Actions" subtitle={myActions.length > 0 ? `${myActions.length} assigned` : ""}>
+                {myActions.length === 0 ? (
+                  <p className="text-sm text-slate-400 py-4">No actions assigned to you.</p>
+                ) : (
+                  <div className="space-y-1 max-h-[40vh] overflow-y-auto">
+                    {myActions.map((act: any) => (
+                      <ActionRowClient key={act.id} action={act} />
+                    ))}
+                  </div>
+                )}
+              </Card>
+            </div>
+          </div>
         </div>
       )}
 
