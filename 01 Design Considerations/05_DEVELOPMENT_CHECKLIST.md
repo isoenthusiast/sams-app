@@ -108,8 +108,8 @@ Per `03_UI_WIREFRAMES.md` §3.1. Assessor role only (`megan`, `paul`, `tecklee`,
 ### 3D. Tablet Optimization (field use)
 - [x] **3.16** Sample entry — touch status buttons (Tested / In Progress / Tested as tappable radio cards) — built in Phase 16.3
 - [x] **3.17** Camera capture — `capture="environment"` on file input in AttachmentList — built in Phase 16.4
-- [ ] **3.18** Offline indicator — `navigator.onLine` banner + Service Worker — permanently deferred (PWA scope)
-- [ ] **3.19** Voice-to-text — Chrome-only `webkitSpeechRecognition` — permanently deferred (niche, no cross-browser)
+- [x] **3.18** Offline indicator — `OfflineBanner` with `navigator.onLine` detection, red/green banner, `role="alert"` ✅
+- [x] **3.19** Voice-to-text — `VoiceInput` with `webkitSpeechRecognition`, interim text, Chrome fallback, mic button ✅
 
 **Exit criteria:** Test scenarios E1–E6 (megan full workflow) and F1–F4 (paul tablet) pass.
 
@@ -217,7 +217,7 @@ Prove sams-app does no harm to the shared database.
 | 0 — Scaffolding | 9 | 9 | ✅ Complete |
 | 1 — Components | 24 | 24 | ✅ Complete — all components ported or built |
 | 2 — Navigation | 7 | 7 | ✅ Complete — NavBar, CompanySelector, role redirect, skip link, admin sidebar, MobileNav, responsive |
-| 3 — Assessor pages | 19 | 17 | ✅ All built; 2 permanently deferred (3.18 offline, 3.19 voice-to-text) |
+| 3 — Assessor pages | 19 | 19 | ✅ Complete — all 19 items built |
 | 4 — Admin pages | 8 | 8 | ✅ Complete — 7 sub-views: Dashboard, Activity, Users, Templates, Requirements, Badges, Knowledgebase |
 | 5 — Gamification | 5 | 5 | ✅ Complete — Points toast, badge unlock toast, progress indicator, award flow, leaderboard |
 | 6 — Accessibility | 7 | 7 | ✅ Complete — Keyboard, contrast, ARIA, reduced motion, screen reader, font scaling |
@@ -225,6 +225,8 @@ Prove sams-app does no harm to the shared database.
 | 8 — Parity | 9 | 9 | ✅ All verified in Phase 15 (both apps running, 45 tables, 3 companies, full sweep) |
 | 9 — Deployment | 6 | 6 | ✅ Railway deployed, env vars, health, cutover plan, 12 users + 8 API routes ported |
 | **Total** | **100** | **100** | **100%** ✅ |
+
+**All 17 phases complete. 134/134 items. Zero deferred.** 🎉
 
 ---
 
@@ -335,8 +337,8 @@ Tablet-first field assessor experience.
 - [x] **16.2** Responsive breakpoints — `px-4 sm:px-6 lg:px-8`, `pb-16 md:pb-0` for mobile nav spacing
 - [x] **16.3** Touch status buttons — radio-group tappable cards (NotTested/InProgress/Tested) in Sample tab
 - [x] **16.4** Camera capture — `capture="environment"` on file input in AttachmentList
-- [ ] **16.5** Offline indicator — `navigator.onLine` banner — **deferred (Service Worker + IndexedDB scope)**
-- [ ] **16.6** Voice-to-text for finding descriptions — **deferred (webkitSpeechRecognition, Chrome-only)**
+- [x] **16.5** Offline indicator — `OfflineBanner` detects online/offline, shows red/green banner ✅
+- [x] **16.6** Voice-to-text — `VoiceInput` with Chrome `SpeechRecognition`, graceful unsupported fallback ✅
 
 **Prerequisites:** Phase 12 (Missing Features)  
 **Exit criteria:** Tablet form factor works for sample entry; camera opens on mobile; offline banner shows.

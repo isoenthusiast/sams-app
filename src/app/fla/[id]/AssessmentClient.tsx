@@ -8,6 +8,7 @@ import { StatusBadge } from "@/components/StatusBadge";
 import { Button } from "@/components/Button";
 import { FindingCard } from "@/components/FindingCard";
 import { showToast } from "@/components/Toast";
+import { VoiceInput } from "@/components/VoiceInput";
 
 type Props = {
   assessment: any;
@@ -242,6 +243,13 @@ export default function AssessmentClient({ assessment, allControls, processAreas
                       className="w-full rounded border border-slate-300 px-2 py-1 text-sm mt-1"
                       placeholder="Optional notes"
                     />
+                    <div className="mt-1">
+                      <VoiceInput
+                        value={s.notes ?? ""}
+                        onResult={(text) => handleSaveSample(s.id, { notes: text })}
+                        placeholder="Describe the sample…"
+                      />
+                    </div>
                   </div>
                 </div>
               </Card>
