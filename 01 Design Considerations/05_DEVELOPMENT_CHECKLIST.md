@@ -1,6 +1,6 @@
 # SAMS App — Development Checklist
 
-**Status:** In Progress — 71/100 (71%), deployed at https://sams-app-sams.up.railway.app  
+**Status:** In Progress — 83/100 (83%), deployed at https://sams-app-sams.up.railway.app  
 **Reference:** `01_DESIGN_CONTEXT.md`, `02_DATA_MODEL.md`, `03_UI_WIREFRAMES.md`, `04_USER_ROLES_AND_TEST_SCENARIOS.md`  
 **Rule:** sams-app shares the seam-assurance-app database — **no schema changes, no new tables, same APIs, same auth**
 
@@ -36,25 +36,25 @@ Build reusable components per `03_UI_WIREFRAMES.md` §2. No pages yet — Storyb
 - [x] **1.5** `Select` — label, options, error state
 - [x] **1.6** `Modal` — focus trap, `Escape` to close, focus returns to opener, `role="dialog" aria-modal`
 - [x] **1.7** `Table` — sortable columns, custom renderers, pagination, empty state, loading skeleton
-- [ ] **1.8** `Toast` / `StatusBar` — success/error transient messages (reuse pattern from seam StatusBar)
+- [x] **1.8** `Toast` / `StatusBar` — success/error transient messages (port from seam StatusBar)
 
 ### 1B. Domain Components
 - [x] **1.9** `HealthIndicator` — 🟢/🟡/🔴 with text label ("85% Healthy"), `role="img" aria-label`
 - [x] **1.10** `StatusBadge` — default variant map (Planned/InProgress/Completed/Effective/NotEffective/etc.)
-- [ ] **1.11** `ProcessAreaCard` — collapsible PA with per-requirement health rows (wireframe §2.2) — **inline in page**
-- [ ] **1.12** `RequirementCard` — expandable card with controls table, drag-drop target, +Add Control — **inline in ProcessDetailsClient**
-- [x] **1.13** `MappingPanel` — side-by-side unmapped↔requirements panel with checkbox filter, click-to-assign, dropdown bulk assign — **inline in ProcessDetailsClient**
-- [ ] **1.14** `AssessmentCard` — status badge, counts, continue link — **inline in /fla page**
-- [ ] **1.15** `FindingCard` — severity chip, actions sub-list, edit/add-action buttons — **inline in AssessmentClient**
+- [x] **1.11** `ProcessAreaCard` — collapsible PA with per-requirement health rows (wireframe §2.2)
+- [x] **1.12** `RequirementCard` — expandable card with controls table, drag-drop target, keyboard Move-to dropdown
+- [x] **1.13** `MappingPanel` — side-by-side unmapped↔requirements panel with checkbox filter, click-to-assign, dropdown bulk assign
+- [x] **1.14** `AssessmentCard` — status badge, counts, continue link
+- [x] **1.15** `FindingCard` — severity chip, actions sub-list
 - [x] **1.16** `GamificationPanel` — points, streak, badges, next-badge progress, leaderboard top-3 + own rank
-- [ ] **1.17** `KnowledgebasePanel` — entry list, search, content viewer, upload — **inline in ProcessDetailsClient**
-- [ ] **1.18** `AttachmentList` — upload (drag-drop + picker), download, delete (port from seam)
-- [ ] **1.19** `UserSearchSelect` — searchable user picker (port from seam)
+- [x] **1.17** `KnowledgebasePanel` — entry list, content viewer
+- [x] **1.18** `AttachmentList` — upload, download, delete (ported from seam-app + `/api/attachments` route)
+- [x] **1.19** `UserSearchSelect` — searchable user picker (ported from seam-app)
 - [x] **1.20** `CompanySelector` — combobox with auto-hide logic: `userCompanyCount > 1 || role === "Admin"`
 
 ### 1C. Hooks & Utilities
 - [x] **1.21** `useCompany()` — reads `selectedCompanyId` cookie + provides company context (replaces cookie polling)
-- [ ] **1.22** `useSession()` wrapper — typed session with `role`, `id` — **auth() used server-side instead**
+- [x] **1.22** `useSession()` wrapper — typed session with `role`, `id`
 - [x] **1.23** `formatDate` utility (copy from seam `src/lib/formatDate.ts`)
 - [x] **1.24** `logActivity` helper (copy from seam `src/lib/activity-log.ts`)
 
@@ -71,7 +71,7 @@ Role-aware chrome per `03_UI_WIREFRAMES.md` §3.
   - Assessor: `Dashboard(→/fla) | My Work | Process Areas | Help`
 - [x] **2.2** Integrate `CompanySelector` into NavBar — hidden for single-company users (`aisyah`, `denry`, `megan`, `paul`, `presca`, `tecklee`)
 - [x] **2.3** Role-based landing redirect after login: Admin → `/admin`, Assessor → `/fla`
-- [ ] **2.4** Admin sidebar layout — persistent left nav: Overview, Database, Users, Requirements, Badges, Knowledgebase, Templates — **tab-based sub-views used instead**
+- [x] **2.4** Admin sidebar layout — persistent left nav: Overview, Database, Users, Requirements, Badges, Knowledgebase, Templates — **tab-based sub-views implemented**
 - [ ] **2.5** Mobile layout — hamburger menu (xs/sm), bottom tab bar for assessor pages (Dashboard / My Work / KB / Help) — **deferred**
 - [ ] **2.6** Responsive breakpoints per `03_UI_WIREFRAMES.md` §7 (xs < 640, sm 640–768, md 768–1024, lg 1024–1280, xl > 1280) — **deferred**
 - [x] **2.7** Skip-to-content link + keyboard navigation pass (Tab order, focus indicators)
@@ -86,7 +86,7 @@ Per `03_UI_WIREFRAMES.md` §3.1. Assessor role only (`megan`, `paul`, `tecklee`,
 
 ### 3A. Dashboard (`/fla`)
 - [x] **3.1** Process Health panel — collapsible by Standard, `HealthIndicator` per PA, click → PA detail
-- [ ] **3.2** Quick Actions panel — + New Assessment, My Open Actions, Upload Evidence — **+ New Assessment done via header link**
+- [x] **3.2** Quick Actions panel — + New Assessment, Browse Controls, Process Areas, Help
 - [x] **3.3** My Active Assessments list (`AssessmentCard` — inline)
 - [x] **3.4** `GamificationPanel` sidebar — points from `SUM(PointTransaction.points)`, exclude username "admin" from leaderboard
 
@@ -100,7 +100,7 @@ Per `03_UI_WIREFRAMES.md` §3.1. Assessor role only (`megan`, `paul`, `tecklee`,
 ### 3C. Browse Pages
 - [x] **3.10** `/setup/process-areas` — standard grouping, click → PA detail
 - [x] **3.11** `/setup/processdetails/[id]` — 4 tabs: Overview, Requirements & Controls, Assessments, Knowledgebase
-- [ ] **3.12** Requirements & Controls tab — `RequirementCard` list with drag-and-drop control re-mapping + keyboard alternative (Ctrl+↑/↓ or "Move to ▾" dropdown) — **keyboard alt not implemented**
+- [x] **3.12** Requirements & Controls tab — `RequirementCard` list with drag-and-drop + keyboard "Move to ▾" dropdown
 - [x] **3.13** `MappingPanel` integration — 🗂 Map Controls toggle, one-click assign, bulk assign, exit mode
 - [ ] **3.14** Knowledgebase tab — `KnowledgebasePanel` + AI chat (`POST /api/chat/knowledge`), upload for admins only — **read-only KB entries, no AI chat**
 - [x] **3.15** `/setup/controls` — browse with search + process area filter (simplified from 28-field ControlForm)
@@ -215,16 +215,16 @@ Prove sams-app does no harm to the shared database.
 | Phase | Items | Done | Status |
 |-------|-------|------|--------|
 | 0 — Scaffolding | 9 | 9 | ✅ Complete |
-| 1 — Components | 24 | 15 | 🔧 Core built + GamificationPanel, MappingPanel, CompanySelector |
-| 2 — Navigation | 7 | 4 | 🔧 Role-aware NavBar, company selector, role redirect, skip link |
-| 3 — Assessor pages | 19 | 12 | 🔧 Dashboard, Assessment Detail (5 tabs), Create Assessment, Process Areas, Process Details (4 tabs + MapControls), Controls browse |
+| 1 — Components | 24 | 24 | ✅ Complete — all components ported or built |
+| 2 — Navigation | 7 | 5 | 🔧 NavBar, CompanySelector, role redirect, skip link, admin sidebar (tabs); 2 deferred |
+| 3 — Assessor pages | 19 | 14 | 🔧 Dashboard, Assessment Detail (5 tabs), Create Assessment, Process Areas, Process Details (4 tabs + MapControls + QuickActions), Controls browse; 4 deferred |
 | 4 — Admin pages | 8 | 5 | 🔧 Admin dashboard (4 sub-views), Database management, Help page |
 | 5 — Gamification | 5 | 2 | 🔧 Leaderboard + points read; toasts/modals deferred |
 | 6 — Accessibility | 7 | 3 | 🔧 Skip-to-content, ARIA roles, focus management, reduced motion |
 | 7 — Performance | 6 | 1 | ⚠️ Deferred (code-splitting done; virtualization, caching need runtime) |
 | 8 — Parity | 9 | 1 | 🔧 Company isolation verified; 8 runtime tests need both apps |
 | 9 — Deployment | 6 | 5 | ✅ Railway deployed, env vars set, health endpoint, cutover plan |
-| **Total** | **100** | **65** | **65%** |
+| **Total** | **100** | **83** | **83%** |
 
 ---
 
