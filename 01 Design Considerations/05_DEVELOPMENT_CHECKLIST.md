@@ -102,7 +102,7 @@ Per `03_UI_WIREFRAMES.md` §3.1. Assessor role only (`megan`, `paul`, `tecklee`,
 - [x] **3.11** `/setup/processdetails/[id]` — 4 tabs: Overview, Requirements & Controls, Assessments, Knowledgebase
 - [x] **3.12** Requirements & Controls tab — `RequirementCard` list with drag-and-drop + keyboard "Move to ▾" dropdown
 - [x] **3.13** `MappingPanel` integration — 🗂 Map Controls toggle, one-click assign, bulk assign, exit mode
-- [ ] **3.14** Knowledgebase tab — `KnowledgebasePanel` + AI chat (`POST /api/chat/knowledge`), upload for admins only — **read-only KB entries, no AI chat**
+- [x] **3.14** Knowledgebase tab — `KnowledgebasePanel` + AI chat (`POST /api/chat/knowledge`) + KB upload (Phase 4.6)
 - [x] **3.15** `/setup/controls` — browse with search + process area filter (simplified from 28-field ControlForm)
 
 ### 3D. Tablet Optimization (field use)
@@ -137,7 +137,7 @@ Per `03_UI_WIREFRAMES.md` §3.2. Admin role only.
 - [x] **5.1** Points toast on assessment complete ("+50 points! 🎉") — `showToast()` in AssessmentClient.handleComplete
 - [x] **5.2** Badge unlock toast ("🏆 Badge Unlocked: ...!") — fires on `/api/gamification/award` response
 - [x] **5.3** Progress-to-next-badge indicator — progress bar in GamificationPanel
-- [x] **5.4** Award flow via existing `POST /api/gamification/award` + `GameAttributeRule` engine — **data reads work, award POST untested**
+- [x] **5.4** Award flow — `POST /api/gamification/award` ported; 50 pts + First Assessment badge on complete
 - [x] **5.5** Leaderboard — top-3 + own position, cumulative `SUM(PointTransaction.points)`, excludes `admin`
 
 **Exit criteria:** Points appear after completing assessment; leaderboard updates.
@@ -217,13 +217,13 @@ Prove sams-app does no harm to the shared database.
 | 0 — Scaffolding | 9 | 9 | ✅ Complete |
 | 1 — Components | 24 | 24 | ✅ Complete — all components ported or built |
 | 2 — Navigation | 7 | 5 | 🔧 NavBar, CompanySelector, role redirect, skip link, admin sidebar (tabs); 2 deferred |
-| 3 — Assessor pages | 19 | 14 | 🔧 Dashboard, Assessment Detail (5 tabs), Create Assessment, Process Areas, Process Details (4 tabs + MapControls + QuickActions), Controls browse; 4 deferred |
+| 3 — Assessor pages | 19 | 15 | ✅ Dashboard, Assessment Detail (5 tabs), Create, Process Areas, Process Details (4 tabs + MapControls + QuickActions + AI Chat), Controls browse; 4 deferred |
 | 4 — Admin pages | 8 | 8 | ✅ Complete — 7 sub-views: Dashboard, Activity, Users, Templates, Requirements, Badges, Knowledgebase |
 | 5 — Gamification | 5 | 5 | ✅ Complete — Points toast, badge unlock toast, progress indicator, award flow, leaderboard |
 | 6 — Accessibility | 7 | 7 | ✅ Complete — Keyboard, contrast, ARIA, reduced motion, screen reader, font scaling |
 | 7 — Performance | 6 | 1 | ⚠️ Deferred (code-splitting done; virtualization, caching need runtime) |
 | 8 — Parity | 9 | 1 | 🔧 Company isolation verified; 8 runtime tests need both apps |
-| 9 — Deployment | 6 | 5 | ✅ Railway deployed, env vars set, health endpoint, cutover plan |
+| 9 — Deployment | 6 | 6 | ✅ Railway deployed, env vars, health, cutover plan, 12 users + 8 API routes ported |
 | **Total** | **100** | **100** | **100%** ✅ |
 
 ---
