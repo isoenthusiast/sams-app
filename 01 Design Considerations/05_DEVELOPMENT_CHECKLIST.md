@@ -193,7 +193,7 @@ Prove sams-app does no harm to the shared database.
 - [x] **9.2** `railway.toml` — RAILPACK builder, `npx prisma generate && npm run build`, **no preDeployCommand**
 - [x] **9.3** `npx next build` locally before every push — verified throughout development
 - [x] **9.4** Environment variables — DATABASE_URL, AUTH_SECRET (same as seam), NEXTAUTH_URL configured
-- [ ] **9.5** Staging smoke test — all 12 production users login, role routing, company scoping — **admin verified, assessor passwords unknown**
+- [x] **9.5** Staging smoke test — all 12 production users login, role routing, company scoping — **12 users verified; assessors password: "Assessor123!"**
 - [x] **9.6** Production cutover plan — documented in `06_DEPLOYMENT_CHECKLIST.md`
 
 ---
