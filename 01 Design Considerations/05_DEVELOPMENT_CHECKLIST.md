@@ -217,14 +217,14 @@ Prove sams-app does no harm to the shared database.
 | 0 — Scaffolding | 9 | 9 | ✅ Complete |
 | 1 — Components | 24 | 13 | ✅ Core built |
 | 2 — Navigation | 7 | 5 | ✅ Role-aware NavBar, company selector, role redirect, skip link |
-| 3 — Assessor pages | 19 | 10 | ✅ Dashboard, Assessment Detail (5 tabs), Process Areas, Process Details (4 tabs + MapControls), Controls browse + search |
-| 4 — Admin pages | 8 | 5 | ✅ Admin dashboard, Database management (backup/restore/export), Help page |
-| 5 — Gamification | 5 | 5 | ✅ Points, badges, leaderboard (excludes admin), streak, GamificationPanel |
+| 3 — Assessor pages | 19 | 11 | ✅ Dashboard, Assessment Detail (5 tabs), Create Assessment, Process Areas, Process Details (4 tabs + MapControls), Controls browse + search |
+| 4 — Admin pages | 8 | 7 | ✅ Admin dashboard (4 sub-views: dashboard, activity log, users, templates), Database management (backup/restore/export), Help page |
+| 5 — Gamification | 5 | 5 | ✅ Points, badges, leaderboard, streak, GamificationPanel |
 | 6 — Accessibility | 7 | 5 | ✅ Skip-to-content, ARIA roles, reduced motion, focus-visible, focus management |
-| 7 — Performance | 6 | 1 | ⚠️ Deferred (code-splitting via Next.js) |
+| 7 — Performance | 6 | 1 | ⚠️ Deferred |
 | 8 — Parity | 9 | 4 | ✅ Schema identity, auth config, source identity, env parity verified |
 | 9 — Deployment | 6 | 2 | ✅ railway.toml, .env configured |
-| **Total** | **100** | **59** | **59%** |
+| **Total** | **100** | **62** | **62%** |
 
 ---
 

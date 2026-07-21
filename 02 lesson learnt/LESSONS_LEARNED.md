@@ -51,4 +51,15 @@
 - **Pattern**: (1) Build a phase, (2) `next build` to verify, (3) commit/capture lessons, (4) ask user to continue
 - **Lesson**: For projects with 100+ items, batch into phases of 5-15 items each. Verify each phase before starting next. Context is the limiting resource.
 
+### 9. Copied API routes need their dependencies verified
+- **What worked**: Copying 4 database API route files from seam-app (`backup`, `restore`, `export-controls`, `export-requirements`) with identical Prisma schema and auth helpers compiled first try
+- **Verification**: `next build` confirmed all 4 routes resolve; `verify_parity.py` confirmed schema + auth identity
+- **Pattern**: When sharing APIs across apps with the same database, copy the route files verbatim — no modification needed if the lib imports resolve to identical modules
+- **Preventive**: Always run `next build` after copying routes to verify all imports resolve
+
+### 10. Admin sub-views with searchParams avoid route explosion
+- **What worked**: Single `/admin` page with `?view=dashboard|activity|users|templates` query param, conditional server-side data fetching, sub-nav tabs
+- **Pattern**: For admin sections with similar layout, use searchParams sub-views instead of separate routes — reduces boilerplate and keeps navigation simple
+- **Lesson**: Server components can read `searchParams` as a Promise in Next.js 16. Use `const sp = await searchParams` pattern.
+
 
