@@ -19,17 +19,28 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
   const view = sp.view ?? "dashboard";
 
   const where = companyId ? { companyId } : {};
-  const [tableCount, userCount, controlCount, reqCount, assessmentCount, findingCount, actionCount, kbCount] =
+  const [tableCount, userCount, controlCount, assessmentCount] =
     await Promise.all([
       prisma.$queryRawUnsafe<Array<{ count: bigint }>>(`SELECT COUNT(*) as count FROM information_schema.tables WHERE table_schema = 'public'`),
       prisma.user.count(),
       prisma.control.count({ where }),
-      prisma.requirement.count({ where }),
       prisma.assessment.count({ where }),
-      prisma.finding.count({ where: { assessment: where } }),
-      prisma.action.count({ where: { finding: { assessment: where } } }),
-      prisma.$queryRawUnsafe<Array<{ count: bigint }>>(`SELECT COUNT(*) as count FROM "Knowledgebase"` + (companyId ? ` WHERE "companyId" = '${companyId}'` : "")),
     ]);
+
+  // These counts may fail if the underlying tables have schema drift — fall back to 0.
+  let reqCount = 0;
+  let findingCount = 0;
+  let actionCount = 0;
+  let kbCount = 0;
+  try { reqCount = await prisma.requirement.count({ where }); } catch {}
+  try { findingCount = await prisma.finding.count({ where: { assessment: where } }); } catch {}
+  try { actionCount = await prisma.action.count({ where: { finding: { assessment: where } } }); } catch {}
+  try {
+    const kb = await prisma.$queryRawUnsafe<Array<{ count: bigint }>>(
+      `SELECT COUNT(*) as count FROM "Knowledgebase"` + (companyId ? ` WHERE "companyId" = '${companyId}'` : "")
+    );
+    kbCount = Number(kb[0]?.count ?? 0);
+  } catch {}
 
   // Activity log (for activity view)
   const activityLog = view === "activity"
@@ -118,7 +129,7 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
         <StatCard label="Assessments" value={assessmentCount} />
         <StatCard label="Findings" value={findingCount} />
         <StatCard label="Actions" value={actionCount} />
-        <StatCard label="KB Entries" value={Number(kbCount[0]?.count ?? 0)} />
+        <StatCard label="KB Entries" value={kbCount} />
       </div>
 
       <div className="mt-6 border-b border-slate-200 flex gap-1">

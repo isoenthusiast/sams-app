@@ -8,7 +8,12 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "SAMS",
   description: "Shell Asset Management System — Assurance App",
-  viewport: "width=device-width, initial-scale=1, maximum-scale=5",
+};
+
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
 };
 
 export default function RootLayout({
