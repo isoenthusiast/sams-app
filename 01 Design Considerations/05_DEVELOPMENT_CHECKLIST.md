@@ -215,16 +215,16 @@ Prove sams-app does no harm to the shared database.
 | Phase | Items | Done | Status |
 |-------|-------|------|--------|
 | 0 — Scaffolding | 9 | 9 | ✅ Complete |
-| 1 — Components | 24 | 13 | ✅ Core built (Button, Card, Badge, HealthIndicator, StatusBadge, Input, Select, Modal, Table, NavBar, CompanySelector, SignOutButton, GamificationPanel) |
-| 2 — Navigation | 7 | 5 | ✅ Role-aware NavBar, company selector, role redirect, skip link, responsive breakpoints |
-| 3 — Assessor pages | 19 | 8 | ✅ Dashboard (/fla), Assessment Detail (/fla/[id] 5 tabs), Process Areas, Process Details (4 tabs + MapControls) |
-| 4 — Admin pages | 8 | 3 | ✅ Admin dashboard (stat tiles, quick actions, system status) |
+| 1 — Components | 24 | 13 | ✅ Core built |
+| 2 — Navigation | 7 | 5 | ✅ Role-aware NavBar, company selector, role redirect, skip link |
+| 3 — Assessor pages | 19 | 10 | ✅ Dashboard, Assessment Detail (5 tabs), Process Areas, Process Details (4 tabs + MapControls), Controls browse + search |
+| 4 — Admin pages | 8 | 5 | ✅ Admin dashboard, Database management (backup/restore/export), Help page |
 | 5 — Gamification | 5 | 5 | ✅ Points, badges, leaderboard (excludes admin), streak, GamificationPanel |
-| 6 — Accessibility | 7 | 5 | ✅ Skip-to-content, ARIA roles, reduced motion, focus-visible, focus management in Modal |
-| 7 — Performance | 6 | 1 | ⚠️ Deferred (code-splitting via Next.js, rest needs react-window) |
+| 6 — Accessibility | 7 | 5 | ✅ Skip-to-content, ARIA roles, reduced motion, focus-visible, focus management |
+| 7 — Performance | 6 | 1 | ⚠️ Deferred (code-splitting via Next.js) |
 | 8 — Parity | 9 | 4 | ✅ Schema identity, auth config, source identity, env parity verified |
 | 9 — Deployment | 6 | 2 | ✅ railway.toml, .env configured |
-| **Total** | **100** | **55** | **55%** |
+| **Total** | **100** | **59** | **59%** |
 
 ---
 
