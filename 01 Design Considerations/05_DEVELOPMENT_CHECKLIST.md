@@ -226,25 +226,161 @@ Prove sams-app does no harm to the shared database.
 | 9 — Deployment | 6 | 5 | ✅ Railway deployed, env vars set, health endpoint, cutover plan |
 | **Total** | **100** | **57** | **57%** |
 
-### Deferred Items (34 remaining, categorized)
-| # | Items | Reason |
-|---|-------|--------|
-| 1.8, 5.1-5.3 | Toast, Points toast, Badge modal, Progress bar | UI polish — nice-to-have |
-| 1.11-1.12, 1.14-1.15, 1.17 | Component extraction (ProcessAreaCard, RequirementCard, AssessmentCard, FindingCard, KnowledgebasePanel) | Low-value refactor — inline code works |
-| 1.18-1.19 | AttachmentList, UserSearchSelect | Needs porting from seam-app |
-| 1.22 | useSession() hook | auth() used server-side instead |
-| 2.4 | Admin sidebar | Tab-based sub-views used instead |
-| 2.5-2.6 | Mobile layout, responsive breakpoints | Deferred — needs design + testing |
-| 3.2 | Quick Actions panel | + New Assessment done; Upload Evidence needs attachment system |
-| 3.12 | Keyboard drag-drop alternative | Deferred — nice-to-have |
-| 3.14 | AI Chat in KB tab | Needs DeepSeek API key |
-| 3.16-3.19 | Tablet optimization (touch, camera, offline, voice) | Deferred — PWA features |
-| 4.4-4.6 | Requirements editor, Badges, KB upload | Admin features not yet built |
-| 6.2, 6.4, 6.6-6.7 | Full keyboard audit, contrast audit, NVDA, font scaling | Deferred — needs manual testing |
-| 7.1-7.3, 7.5-7.6 | Virtualization, lazy-load, pagination, caching, perf targets | Deferred — needs runtime + packages |
-| 8.1-8.2, 8.4-8.9 | Runtime parity tests | Needs both apps running + assessor passwords |
-| 9.5 | Full staging smoke test | Needs assessor passwords |
+---
 
+## Remaining Work — Phased Plan (43 items)
+
+### Phase 10 — UI Polish & Quick Wins (8 items) 🎯
+
+Low-effort, high-impact improvements.
+
+- [ ] **10.1** `Toast` / `StatusBar` component (1.8)
+- [ ] **10.2** Points toast on assessment complete: "+50 points! 🎉" (5.1)
+- [ ] **10.3** Badge unlock modal (5.2)
+- [ ] **10.4** Progress-to-next-badge indicator (5.3)
+- [ ] **10.5** Quick Actions panel — Upload Evidence, My Open Actions (3.2)
+- [ ] **10.6** Keyboard alternative for drag-and-drop (Ctrl+↑/↓) (3.12)
+- [ ] **10.7** `useSession()` typed hook (1.22)
+- [ ] **10.8** Award flow integration test — `POST /api/gamification/award` (5.4 verify)
+
+**Prerequisites:** None  
+**Exit criteria:** Toast appears on assessment save; badge modal renders; keyboard-only mapping possible.
+
+---
+
+### Phase 11 — Component Extraction (5 items) 🧩
+
+Extract inline code into standalone reusable components.
+
+- [ ] **11.1** `ProcessAreaCard` (1.11) — from `/setup/process-areas`
+- [ ] **11.2** `RequirementCard` (1.12) — from `ProcessDetailsClient`
+- [ ] **11.3** `AssessmentCard` (1.14) — from `/fla` dashboard
+- [ ] **11.4** `FindingCard` (1.15) — from `AssessmentClient`
+- [ ] **11.5** `KnowledgebasePanel` (1.17) — from `ProcessDetailsClient`
+
+**Prerequisites:** None  
+**Exit criteria:** Each component renders in isolation; all existing pages continue working.
+
+---
+
+### Phase 12 — Missing Features (7 items) 🔨
+
+New functionality not yet built.
+
+- [ ] **12.1** `AttachmentList` — port from seam-app (1.18)
+- [ ] **12.2** `UserSearchSelect` — port from seam-app (1.19)
+- [ ] **12.3** Requirements editor — Standard→ProcessArea tree, inline editor, Associated Controls (4.4)
+- [ ] **12.4** Badges section — generate, clear, definitions list (4.5)
+- [ ] **12.5** Knowledgebase upload — .docx/.pdf/.md via `/api/convert` (4.6)
+- [ ] **12.6** AI Chat in Knowledgebase tab — `POST /api/chat/knowledge` (3.14)
+- [ ] **12.7** Admin sidebar layout — persistent left nav (2.4)
+
+**Prerequisites:** Phase 11 (components); DeepSeek API key for 12.6  
+**Exit criteria:** Files can be uploaded, requirements can be edited inline, badges can be generated.
+
+---
+
+### Phase 13 — Accessibility Audit (4 items) ♿
+
+Manual testing with assistive technology.
+
+- [ ] **13.1** Full keyboard navigation audit (6.2)
+- [ ] **13.2** WCAG 2.1 AA color contrast audit (6.4)
+- [ ] **13.3** NVDA screen reader pass — dashboard + assessment workflow (6.6)
+- [ ] **13.4** 200% browser font scaling test (6.7)
+
+**Prerequisites:** Phase 10 (UI polish)  
+**Exit criteria:** All pages navigable by keyboard; contrast ratios meet 4.5:1 / 3:1; screen reader announces all content.
+
+---
+
+### Phase 14 — Performance Optimization (5 items) ⚡
+
+Runtime performance improvements.
+
+- [ ] **14.1** Virtualize long lists with react-window (7.1) — `npm install react-window`
+- [ ] **14.2** Lazy-load attachment images with thumbnails (7.2)
+- [ ] **14.3** Paginate Knowledgebase documents (7.3)
+- [ ] **14.4** Cache reference data — 5-min TTL, invalidate on mutation (7.5)
+- [ ] **14.5** Verify performance targets — TTI < 2s, tab switch < 500ms (7.6)
+
+**Prerequisites:** Phase 12 (Missing Features)  
+**Exit criteria:** Lighthouse score > 90; scroll performance no jank at 1000+ rows.
+
+---
+
+### Phase 15 — Runtime Parity (8 items) 🔬
+
+Prove sams-app does no harm to the shared database.
+
+- [ ] **15.1** Side-by-side runtime — create assessment in sams, verify in seam (8.1)
+- [ ] **15.2** Cascade delete parity — delete Assessment, verify all 7 tables (8.2)
+- [ ] **15.3** Unmapped Controls behavior — one per PA; mapping moves, not duplicates (8.4)
+- [ ] **15.4** rawHealthScore recalculation on effectiveness change (8.5)
+- [ ] **15.5** Activity logging — all mutations create ActivityLog entries (8.6)
+- [ ] **15.6** Audit raw SQL INSERTs for `@updatedAt` columns (8.7)
+- [ ] **15.7** Adopt-templates idempotency — `ON CONFLICT DO NOTHING` (8.8)
+- [ ] **15.8** Full test scenario sweep A1–F4 from `04_USER_ROLES_AND_TEST_SCENARIOS.md` (8.9)
+
+**Prerequisites:** Both apps running; assessor passwords known; Phase 12 (Missing Features)  
+**Exit criteria:** All 30 test scenarios pass; no data corruption; both apps show consistent data.
+
+---
+
+### Phase 16 — Mobile & PWA (6 items) 📱
+
+Tablet-first field assessor experience.
+
+- [ ] **16.1** Mobile layout — hamburger menu, bottom tab bar (2.5)
+- [ ] **16.2** Responsive breakpoints — xs/sm/md/lg/xl (2.6)
+- [ ] **16.3** Large touch status buttons — Tested / Not Tested / In Progress (3.16)
+- [ ] **16.4** Camera capture for evidence photos (3.17)
+- [ ] **16.5** Offline indicator — `navigator.onLine` banner (3.18)
+- [ ] **16.6** Voice-to-text for finding descriptions (3.19)
+
+**Prerequisites:** Phase 12 (Missing Features)  
+**Exit criteria:** Tablet form factor works for sample entry; camera opens on mobile; offline banner shows.
+
+---
+
+### Phase 17 — Final Staging (1 item) 🚀
+
+- [ ] **17.1** Full staging smoke test — all 12 production users login, role routing, company scoping (9.5)
+
+**Prerequisites:** All previous phases; assessor passwords reset to known values  
+**Exit criteria:** All 12 users can log in; admin sees all 3 companies; assessors see correct single-company data.
+
+---
+
+### Phase Dependency Graph
+
+```
+Phase 10 (UI Polish) ──┐
+                        ├──▶ Phase 13 (Accessibility)
+                        │
+Phase 11 (Components) ──┤
+                        │
+                        ├──▶ Phase 12 (Missing Features) ──┬──▶ Phase 14 (Performance)
+                        │                                  │
+                        │                                  ├──▶ Phase 15 (Parity)
+                        │                                  │
+                        │                                  └──▶ Phase 16 (Mobile)
+                        │
+                        └──────────────────────────────────────▶ Phase 17 (Staging)
+```
+
+### Effort Estimates
+
+| Phase | Items | Est. Effort | Can Start Now? |
+|-------|-------|-------------|----------------|
+| 10 — UI Polish | 8 | 2-3 hours | ✅ Yes |
+| 11 — Components | 5 | 1-2 hours | ✅ Yes |
+| 12 — Missing Features | 7 | 4-6 hours | ⚠️ Needs API key for AI chat |
+| 13 — Accessibility | 4 | 2-3 hours | ⚠️ After Phase 10 |
+| 14 — Performance | 5 | 3-4 hours | ⚠️ After Phase 12 |
+| 15 — Runtime Parity | 8 | 4-6 hours | ❌ Needs assessor passwords + both apps |
+| 16 — Mobile & PWA | 6 | 4-6 hours | ⚠️ After Phase 12 |
+| 17 — Final Staging | 1 | 1 hour | ❌ After all phases |
 
 ---
 
@@ -252,4 +388,5 @@ Prove sams-app does no harm to the shared database.
 
 | Version | Date | Changes |
 |---------|------|---------|
-| v1.0.0 | 2026-07-21 | Initial development checklist. 100 items across 10 phases derived from all four design consideration documents. Includes exit criteria per phase, deferred scope, and lessons-learned guardrails from seam-assurance-app history. |
+| v1.1.0 | 2026-07-21 | Added Phase 10-17 plan for remaining 43 items with dependency graph and effort estimates. |
+| v1.0.0 | 2026-07-21 | Initial development checklist. 100 items across 10 phases derived from all four design consideration documents. |
