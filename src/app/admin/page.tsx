@@ -118,6 +118,8 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
   // Process Health data (for dashboard view)
   let paHealth: any[] = [];
   let paByStandard = new Map<string, any[]>();
+  let myAssessments: any[] = [];
+  let myActions: any[] = [];
   if (view === "dashboard") {
     try {
       const pas = await prisma.processArea.findMany({
@@ -150,10 +152,7 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
       }
     } catch { /* process health is optional */ }
 
-  // Admin's My Assessments + My Actions (for dashboard view)
-  let myAssessments: any[] = [];
-  let myActions: any[] = [];
-  if (view === "dashboard") {
+    // Admin's My Assessments + My Actions
     const adminUserId = (session.user as any).id;
     const adminName = (session.user as any).name;
     try {
