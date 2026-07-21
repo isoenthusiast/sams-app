@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { NavBar } from "@/components/NavBar";
+import { ToastContainer } from "@/components/Toast";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -20,6 +21,7 @@ export default function RootLayout({
         </a>
         <NavBar />
         <main id="main-content" tabIndex={-1}>{children}</main>
+        <ToastContainer />
       </body>
     </html>
   );

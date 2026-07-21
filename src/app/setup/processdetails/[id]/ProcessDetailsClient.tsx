@@ -257,14 +257,26 @@ export default function ProcessDetailsClient(props: Props) {
                   {isExp && req.controls.length > 0 && (
                     <div className="overflow-x-auto">
                       <table className="w-full text-sm">
-                        <thead className="bg-slate-100"><tr><th className="w-5"></th><th className="px-4 py-2 text-left font-medium text-slate-600">Control</th><th className="px-4 py-2 text-left font-medium text-slate-600">Type</th><th className="px-4 py-2 text-left font-medium text-slate-600">Health</th></tr></thead>
+                        <thead className="bg-slate-100"><tr><th className="w-5"></th><th className="px-4 py-2 text-left font-medium text-slate-600">Control</th><th className="px-4 py-2 text-left font-medium text-slate-600">Type</th><th className="px-4 py-2 text-left font-medium text-slate-600">Health</th><th className="px-4 py-2 text-left font-medium text-slate-600">Move to</th></tr></thead>
                         <tbody>
                           {req.controls.map((c: any) => (
                             <tr key={c.id} draggable onDragStart={(e) => { setDragCtrlId(c.id); }} onDragEnd={() => { setDragCtrlId(null); setDragOverReqId(null); }} className={`border-t border-slate-100 hover:bg-slate-50 cursor-grab ${dragCtrlId === c.id ? "opacity-40" : ""}`}>
-                              <td className="px-1 py-2 text-slate-300 text-center select-none">⋮⋮</td>
+                              <td className="px-1 py-2 text-slate-300 text-center select-none" title="Drag to move control">⋮⋮</td>
                               <td className="px-4 py-2 font-medium text-slate-900">{c.name}</td>
                               <td className="px-4 py-2 text-slate-600">{c.controlType}</td>
                               <td className="px-4 py-2">{c._count?.controlAssignments === 0 ? <HealthIndicator score={0} size="sm" /> : <HealthIndicator score={c.rawHealthScore ?? 80} size="sm" />}</td>
+                              <td className="px-2 py-2">
+                                <select
+                                  aria-label={`Move ${c.name} to requirement`}
+                                  className="rounded border border-slate-200 px-1 py-0.5 text-xs text-slate-500"
+                                  onChange={(e) => { const v = e.target.value; e.target.value = ""; if (v) handleDropControl(c.id, Number(v)); }}
+                                >
+                                  <option value="">Move to ▾</option>
+                                  {reqData.filter((r: any) => r.rId !== req.rId).sort((a: any, b: any) => a.requirementId.localeCompare(b.requirementId)).map((r: any) => (
+                                    <option key={r.rId} value={r.rId}>{r.requirementId}</option>
+                                  ))}
+                                </select>
+                              </td>
                             </tr>
                           ))}
                         </tbody>

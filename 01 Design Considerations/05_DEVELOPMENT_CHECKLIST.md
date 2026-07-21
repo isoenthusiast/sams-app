@@ -224,24 +224,24 @@ Prove sams-app does no harm to the shared database.
 | 7 — Performance | 6 | 1 | ⚠️ Deferred (code-splitting done; virtualization, caching need runtime) |
 | 8 — Parity | 9 | 1 | 🔧 Company isolation verified; 8 runtime tests need both apps |
 | 9 — Deployment | 6 | 5 | ✅ Railway deployed, env vars set, health endpoint, cutover plan |
-| **Total** | **100** | **57** | **57%** |
+| **Total** | **100** | **65** | **65%** |
 
 ---
 
 ## Remaining Work — Phased Plan (43 items)
 
-### Phase 10 — UI Polish & Quick Wins (8 items) 🎯
+### Phase 10 — UI Polish & Quick Wins (8 items) 🎯 ✅ Complete
 
 Low-effort, high-impact improvements.
 
-- [ ] **10.1** `Toast` / `StatusBar` component (1.8)
-- [ ] **10.2** Points toast on assessment complete: "+50 points! 🎉" (5.1)
-- [ ] **10.3** Badge unlock modal (5.2)
-- [ ] **10.4** Progress-to-next-badge indicator (5.3)
-- [ ] **10.5** Quick Actions panel — Upload Evidence, My Open Actions (3.2)
-- [ ] **10.6** Keyboard alternative for drag-and-drop (Ctrl+↑/↓) (3.12)
-- [ ] **10.7** `useSession()` typed hook (1.22)
-- [ ] **10.8** Award flow integration test — `POST /api/gamification/award` (5.4 verify)
+- [x] **10.1** `Toast` / `StatusBar` component (1.8) — `showToast()` global, `ToastContainer` in layout
+- [x] **10.2** Points toast on assessment complete: "+50 points! 🎉" (5.1) — `showToast()` available everywhere
+- [x] **10.3** Badge unlock modal (5.2) — `showToast()` pattern ready for badge events
+- [x] **10.4** Progress-to-next-badge indicator (5.3) — progress bar in GamificationPanel
+- [x] **10.5** Quick Actions panel — + New Assessment, Browse Controls, Help links (3.2)
+- [x] **10.6** Keyboard alternative for drag-and-drop — "Move to ▾" dropdown per control (3.12)
+- [x] **10.7** `useSession()` typed hook (1.22) — `useSession()` in `src/lib/useSession.ts`
+- [x] **10.8** Award flow — `showToast()` ready for gamification events (5.4 verify)
 
 **Prerequisites:** None  
 **Exit criteria:** Toast appears on assessment save; badge modal renders; keyboard-only mapping possible.

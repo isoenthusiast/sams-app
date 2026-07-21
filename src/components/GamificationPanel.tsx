@@ -9,6 +9,7 @@ type Props = {
   recentBadges?: BadgeInfo[];
   leaderboard?: LeaderboardEntry[];
   userRank?: number;
+  nextBadge?: { name: string; progress: number; target: number };
 };
 
 const rarityColors: Record<string, string> = {
@@ -19,7 +20,7 @@ const rarityColors: Record<string, string> = {
   Legendary: "bg-amber-100 text-amber-800",
 };
 
-export function GamificationPanel({ totalPoints, dailyStreak = 0, recentBadges = [], leaderboard = [], userRank }: Props) {
+export function GamificationPanel({ totalPoints, dailyStreak = 0, recentBadges = [], leaderboard = [], userRank, nextBadge }: Props) {
   return (
     <div className="space-y-4">
       <Card padding="sm">
@@ -37,6 +38,20 @@ export function GamificationPanel({ totalPoints, dailyStreak = 0, recentBadges =
           )}
         </div>
       </Card>
+
+      {nextBadge && (
+        <Card title="Next Badge" padding="sm">
+          <div className="space-y-2">
+            <div className="text-sm font-medium text-slate-900">{nextBadge.name}</div>
+            <div className="flex items-center gap-2">
+              <div className="h-2 flex-1 rounded-full bg-slate-200 overflow-hidden">
+                <div className="h-full rounded-full bg-blue-600 transition-all" style={{ width: `${Math.min(100, (nextBadge.progress / nextBadge.target) * 100)}%` }} />
+              </div>
+              <span className="text-xs font-medium text-slate-600">{nextBadge.progress}/{nextBadge.target}</span>
+            </div>
+          </div>
+        </Card>
+      )}
 
       {recentBadges.length > 0 && (
         <Card title="Recent Badges" padding="sm">

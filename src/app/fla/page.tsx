@@ -135,6 +135,23 @@ export default async function DashboardPage() {
             )}
           </Card>
 
+          <Card title="⚡ Quick Actions" padding="sm">
+            <div className="flex flex-wrap gap-2">
+              <Link href="/fla/new" className="rounded-md bg-blue-800 px-4 py-2 text-sm font-medium text-white hover:bg-blue-900 inline-flex items-center gap-1">
+                + New Assessment
+              </Link>
+              <Link href="/setup/process-areas" className="rounded-md border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 inline-flex items-center gap-1">
+                📋 Process Areas
+              </Link>
+              <Link href="/setup/controls" className="rounded-md border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 inline-flex items-center gap-1">
+                🔍 Browse Controls
+              </Link>
+              <Link href="/help" className="rounded-md border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 inline-flex items-center gap-1">
+                ❓ Help
+              </Link>
+            </div>
+          </Card>
+
           <Card title="📋 My Assessments" actions={<Link href="/fla/new" className="text-sm font-medium text-blue-700 hover:underline">+ New Assessment</Link>}>
             {myAssessments.length === 0 ? (
               <p className="text-sm text-slate-400">No assessments yet. Create your first one.</p>
@@ -167,6 +184,10 @@ export default async function DashboardPage() {
             recentBadges={recentBadges}
             leaderboard={leaderboard}
             userRank={userRank}
+            nextBadge={totalPoints < 10 ? { name: "First Assessment", progress: totalPoints, target: 10 }
+              : totalPoints < 50 ? { name: "Assessment Master", progress: totalPoints, target: 50 }
+              : totalPoints < 100 ? { name: "Control Champion", progress: totalPoints, target: 100 }
+              : undefined}
           />
         </div>
       </div>

@@ -80,4 +80,14 @@
 - **Fix**: After env var changes, triggered a fresh `railway up` to deploy the latest commit with the new env vars
 - **Lesson**: After any env var change, always run `railway up` to ensure the latest code is deployed with the new variables.
 
+### 14. Global toast system: module-level setter avoids prop drilling
+- **What worked**: `Toast.tsx` uses a `globalSetToasts` module-level variable that `showToast()` calls. Any component can call `showToast("message", "success")` without prop drilling or context.
+- **Pattern**: `let globalSetter: ((updater) => void) | null = null` in the module scope; `useEffect` sets it on mount; exported `showToast()` function calls it.
+- **Lesson**: For truly global UI elements (toasts, modals), module-level setters are simpler than React Context — no provider wrapping needed.
+
+### 15. Keyboard drag-drop alternative: simple `<select>` onChange per control row
+- **What worked**: Added a "Move to ▾" `<select>` dropdown in each control row that calls `handleDropControl` on change. The dropdown lists all other requirements in the PA.
+- **Pattern**: `onChange={(e) => { const v = e.target.value; e.target.value = ""; if (v) handleDrop(ctrlId, Number(v)); }}` — resetting value to "" lets the user re-select the same option.
+- **Lesson**: Providing a keyboard-accessible alternative to drag-and-drop takes ~5 lines of JSX — low effort, high accessibility value.
+
 
