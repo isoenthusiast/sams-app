@@ -202,15 +202,23 @@ export default function AssessmentClient({ assessment, allControls, processAreas
                   </div>
                   <div>
                     <label className="text-xs font-medium text-slate-600">Status</label>
-                    <select
-                      value={s.status ?? ""}
-                      onChange={(e) => handleSaveSample(s.id, { status: e.target.value })}
-                      className="w-full rounded border border-slate-300 px-2 py-1 text-sm mt-1"
-                    >
-                      <option value="NotTested">Not Tested</option>
-                      <option value="Tested">Tested</option>
-                      <option value="InProgress">In Progress</option>
-                    </select>
+                    <div className="mt-1 flex gap-1" role="radiogroup" aria-label="Sample status">
+                      {["NotTested", "InProgress", "Tested"].map((status) => (
+                        <button
+                          key={status}
+                          onClick={() => handleSaveSample(s.id, { status })}
+                          className={`flex-1 rounded-md px-2 py-2 text-xs font-medium transition-colors touch-manipulation ${
+                            s.status === status
+                              ? status === "Tested" ? "bg-emerald-700 text-white" : status === "InProgress" ? "bg-amber-600 text-white" : "bg-slate-200 text-slate-700"
+                              : "bg-slate-50 text-slate-500 hover:bg-slate-100 border border-slate-200"
+                          }`}
+                          role="radio"
+                          aria-checked={s.status === status}
+                        >
+                          {status === "NotTested" ? "◯ Not Tested" : status === "InProgress" ? "◐ In Progress" : "● Tested"}
+                        </button>
+                      ))}
+                    </div>
                   </div>
                   <div>
                     <label className="text-xs font-medium text-slate-600">Conclusion</label>

@@ -90,4 +90,37 @@
 - **Pattern**: `onChange={(e) => { const v = e.target.value; e.target.value = ""; if (v) handleDrop(ctrlId, Number(v)); }}` — resetting value to "" lets the user re-select the same option.
 - **Lesson**: Providing a keyboard-accessible alternative to drag-and-drop takes ~5 lines of JSX — low effort, high accessibility value.
 
+---
+
+## Session: API Routes + Performance + Mobile — July 21, 2026
+
+### 16. "100% checklist" ≠ fully functional — always audit API routes
+- **What failed**: The checklist showed 100/100 (all [x]), but 7 API routes the frontend called were never ported from seam-app. Features silently broke with 404 errors at runtime: control assignment toggle, sample editing, assessment completion, requirement editing, KB creation, gamification awarding, control-requirement mapping.
+- **Root cause**: The frontend was built to call `/api/admin/control-assignments`, `/api/admin/samples/[id]`, etc., but only the frontend code was written — the backend route handlers were never created. The checklist marked items "done" based on frontend code existing, not on end-to-end verification.
+- **Fix**: Created 8 targeted API routes using raw SQL (avoids Prisma schema drift): control-assignments CRUD, samples PUT, Assessment PUT, MapControl2Requirement GET/POST/PUT, Requirement PUT, Knowledgebase POST, gamification/award POST.
+- **Lesson**: A checklist item should only be marked done after verifying the full request-response cycle works. Frontend code that calls a non-existent API is NOT "done." Always audit: `grep -r "fetch(" src/` → cross-reference with `ls src/app/api/` → any unmatched routes are bugs.
+
+### 17. Prisma schema ≠ DB schema — always check actual DB columns
+- **What failed**: `prisma.user.findUnique()` crashed with `Column "position" does not exist` and `Column "companyId" does not exist`. The Prisma schema had columns that were never added to the actual PostgreSQL database. Similarly, `UserCompany` table didn't exist in the DB.
+- **Root cause**: The Prisma schema was copied from seam-app and may have been ahead of the actual DB migration state. Prisma's `db push` or `migrate dev` was not run before querying.
+- **Fix**: Used `information_schema.columns` to check actual DB columns. Wrote raw SQL INSERTs that only reference columns that actually exist. Avoided Prisma model methods for tables with schema drift.
+- **Lesson**: Before writing any Prisma query against a shared/unknown DB, run `SELECT column_name FROM information_schema.columns WHERE table_name = 'X'`. Never assume the Prisma schema matches the actual DB.
+
+### 18. Railway proxy vs local DB — use `railway run` for production ops
+- **What failed**: Created assessor users locally → they appeared in local DB but login failed on deployed app. The local `.env` pointed to a Railway proxy URL that may route to a different instance.
+- **Root cause**: `railway up` deploys code; database operations need `railway run "npx tsx script.ts"` to execute against the production DB.
+- **Fix**: Ran `railway run "npx tsx create_assessors.ts"` to create users in production. Verified megan login on deployed URL.
+- **Lesson**: Always use `railway run` for DB mutations against production. Local scripts may hit a different DB instance.
+
+### 19. react-window v2+ uses `children` as component, not render function
+- **What failed**: `import { FixedSizeList } from "react-window"` — `FixedSizeList` doesn't exist. Then `List` children as render function failed type check.
+- **Root cause**: react-window v2+ renamed exports (`List` instead of `FixedSizeList`) and changed the children API from render-prop to component-prop.
+- **Fix**: Used `import { List } from "react-window"`. The children API in v2 requires a component, not a render function — deferred full integration.
+- **Lesson**: Check library exports at runtime (`require("pkg")`) before assuming API. Major version bumps often change core APIs.
+
+### 20. PowerShell `$` in inline code breaks — use .ts files always
+- **What failed**: Every `npx tsx -e "...prisma.$queryRawUnsafe..."` command failed with PowerShell interpreting `$queryRawUnsafe` as a variable.
+- **Root cause**: PowerShell treats `$` as a variable prefix even inside single-quoted strings passed to Node.
+- **Fix**: Always write a `.ts` file and run it with `npx tsx`. Never use `-e` for Prisma operations in PowerShell terminals.
+- **Lesson**: This is lesson #22 from the user memory — confirmed again. Use .ts files for ALL database operations.
 

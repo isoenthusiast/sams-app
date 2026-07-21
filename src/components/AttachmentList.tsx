@@ -87,25 +87,31 @@ export function AttachmentList({ destTable, recId }: Props) {
     return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
   };
 
+  const isImage = (fileName: string) => /\.(jpg|jpeg|png|gif|webp|svg)$/i.test(fileName);
+
   return (
     <div className="border-t border-slate-100 pt-3 mt-3">
       <h4 className="text-xs font-medium text-slate-700 mb-2">📎 Attachments ({attachments.length})</h4>
 
-      {error && <div className="mb-2 text-xs text-red-600">{error}</div>}
+      {error && <div className="mb-2 text-xs text-red-600" role="alert">{error}</div>}
 
       {/* Upload form */}
-      <form onSubmit={handleUpload} className="flex items-center gap-2 mb-2">
+      <form onSubmit={handleUpload} className="flex flex-wrap items-center gap-2 mb-2">
         <input
           ref={fileRef}
           type="file"
+          accept="image/*,.pdf,.doc,.docx,.md,.txt,.csv,.json"
+          capture="environment"
           className="text-xs text-slate-600 file:mr-2 file:rounded file:border-0 file:bg-slate-100 file:px-2 file:py-1 file:text-xs"
+          aria-label="Upload attachment"
         />
         <input
           type="text"
           value={description}
           onChange={e => setDescription(e.target.value)}
           placeholder="Description (optional)"
-          className="flex-1 rounded border border-slate-200 px-2 py-1 text-xs"
+          className="flex-1 min-w-[120px] rounded border border-slate-200 px-2 py-1 text-xs"
+          aria-label="Attachment description"
         />
         <button
           type="submit"
@@ -122,14 +128,24 @@ export function AttachmentList({ destTable, recId }: Props) {
           {attachments.map(att => (
             <div key={att.id} className="flex items-center justify-between rounded bg-slate-50 px-2 py-1 text-xs">
               <div className="flex items-center gap-2 min-w-0">
+                {isImage(att.fileName) && (
+                  <a href={att.filePath} target="_blank" className="shrink-0">
+                    <img
+                      src={att.filePath}
+                      alt={att.description || att.fileName}
+                      className="h-8 w-8 rounded object-cover border border-slate-200"
+                      loading="lazy"
+                    />
+                  </a>
+                )}
                 <a href={att.filePath} target="_blank" className="text-blue-600 hover:underline truncate max-w-[200px]" title={att.fileName}>
                   {att.fileName}
                 </a>
                 {att.description && <span className="text-slate-400 truncate max-w-[150px]">{att.description}</span>}
-                <span className="text-slate-400">{formatSize(att.fileSize)}</span>
-                <span className="text-slate-400">{formatDate(att.uploadDate)}</span>
+                <span className="text-slate-400 hidden sm:inline">{formatSize(att.fileSize)}</span>
+                <span className="text-slate-400 hidden sm:inline">{formatDate(att.uploadDate)}</span>
               </div>
-              <button onClick={() => handleDelete(att)} className="text-red-500 hover:underline ml-2 shrink-0">✕</button>
+              <button onClick={() => handleDelete(att)} className="text-red-500 hover:underline ml-2 shrink-0" aria-label={`Delete ${att.fileName}`}>✕</button>
             </div>
           ))}
         </div>
