@@ -1,0 +1,823 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id                   String                 @id @default(cuid())
+  name                 String
+  username             String                 @unique
+  passwordHash         String
+  role                 Role                   @default(Assessor)
+  position             String?
+  companyId            String?
+  createdAt            DateTime               @default(now())
+  totalPoints          Int                    @default(0)
+  dailyPointStreak     Int                    @default(0)
+  lastActivityDate     DateTime?
+  confidenceInfluencer Boolean                @default(false)
+  assessments          Assessment[]           @relation("AssessmentAssessor")
+  emotionalDrives      EmotionalDriveMetric[]
+  milestones           Milestone[]
+  points               PointTransaction[]
+  achievements         UserAchievement[]
+  roleMappings         UserRoleMapping[]
+  userCompanies        UserCompany[]
+}
+
+model ActivityLog {
+  id               String             @id @default(cuid())
+  timestamp        DateTime           @default(now())
+  description      String
+  activityType     String
+  username         String
+  refTable         String?
+  refRecord        String?
+  beforeData       Json?
+  afterData        Json?
+  createdAt        DateTime           @default(now())
+  pointTransactions PointTransaction[]
+
+  @@index([timestamp])
+  @@index([username])
+  @@index([activityType])
+  @@index([refTable])
+}
+
+model ActivityLogType {
+  id           String @id @default(cuid())
+  activityType String @unique
+  refTable     String?
+  description  String?
+  createdAt    DateTime @default(now())
+}
+
+model AssuranceActivityType {
+  id               String                           @id @default(cuid())
+  name             String                           @unique
+  description      String?
+  defaultLOA       LOA
+  createdAt        DateTime                         @default(now())
+  assessments      Assessment[]
+  templateLinkages AssessmentTemplateActivityType[]
+}
+
+// ── Standard — Management system standards (ISO, ICOP, etc.) ─────────
+model Standard {
+  id                  String         @id @default(cuid())
+  standard            String
+  standardDescription String?
+  sequenceNo          Int            @default(0)
+  companyId           String?
+  createdAt           DateTime       @default(now())
+  processAreas        ProcessArea[]
+
+  @@unique([standard, companyId])
+  @@map("Standard")
+}
+
+model ProcessArea {
+  id           String             @id @default(cuid())
+  name         String
+  description  String?
+  createdAt    DateTime           @default(now())
+  @@unique([name, companyId])
+  pId          String?
+  standard     String?
+  standardId   String?            @map("StandardID")
+  companyId    String?
+  standardRef  Standard?          @relation(fields: [standardId], references: [id])
+  controls     Control[]
+  subProcesses SubProcess[]
+  badges       AchievementBadge[]
+  requirements Requirement[]
+
+  @@index([standardId])
+}
+
+model SubProcess {
+  id                     String                  @id @default(cuid())
+  name                   String
+  description            String?
+  processAreaId          String
+  createdAt              DateTime                @default(now())
+  companyId              String?
+  processArea            ProcessArea             @relation(fields: [processAreaId], references: [id])
+  controlSubProcesses    ControlSubProcess[]
+  controlFDSubProcesses  ControlFDSubProcess[]
+}
+
+// Many-to-many: a Control can belong to multiple SubProcesses (e.g. the same
+// control logic applies across ISO 9001, ISO 14001, ISO 45001 without
+// duplicating the control record). The junction's isPrimary flag marks the
+// "primary" sub-process for display and filtering purposes.
+model ControlSubProcess {
+  id           String      @id @default(cuid())
+  controlId    String
+  subProcessId String
+  isPrimary    Boolean     @default(false)
+  createdAt    DateTime    @default(now())
+  control      Control     @relation(fields: [controlId], references: [id], onDelete: Cascade)
+  subProcess   SubProcess  @relation(fields: [subProcessId], references: [id], onDelete: Cascade)
+
+  @@unique([controlId, subProcessId])
+  @@index([controlId])
+  @@index([subProcessId])
+}
+
+// Many-to-many: a ControlFromDocument can belong to multiple SubProcesses.
+// Mirrors ControlSubProcess but for document-extracted controls.
+model ControlFDSubProcess {
+  id                     String               @id @default(cuid())
+  controlFromDocumentId  String
+  subProcessId           String
+  isPrimary              Boolean              @default(false)
+  createdAt              DateTime             @default(now())
+  controlFromDocument    ControlFromDocument  @relation(fields: [controlFromDocumentId], references: [id], onDelete: Cascade)
+  subProcess             SubProcess           @relation(fields: [subProcessId], references: [id], onDelete: Cascade)
+
+  @@unique([controlFromDocumentId, subProcessId])
+  @@index([controlFromDocumentId])
+  @@index([subProcessId])
+}
+
+model Control {
+  id                 String                             @id @default(cuid())
+  name               String
+  statement          String
+  controlType        ControlType
+  processAreaId      String
+  isHsseCritical     Boolean                            @default(false)
+  ramRating          String?
+  riskWeight         Int                                @default(1)
+  rawHealthScore     Int                                @default(80)
+  lastTestedDate     DateTime?
+  lastTestResult     String?
+  createdAt          DateTime                           @default(now())
+  controlRef         String?
+  sourceFile         String?
+  practiceDocument   String?
+  controlTypeDetail  String?
+  csfWho             String?
+  csfWhat            String?
+  csfWhen            String?
+  csfWhere           String?
+  csfWhy             String?
+  csfHow             String?
+  csfEvidence        String?
+  keyActivities      String?
+  riskAddressed      String?
+  testingApproach    String?
+  uncertainFlags     String?
+  standard           String?
+  pId                String?
+  Requirements       String?
+  companyId          String?
+  controlAssignments ControlAssignment[]
+  controlSubProcesses ControlSubProcess[]
+  templateLinkages   AssessmentTemplateControlLinkage[]
+  requirementMappings MapControl2Requirement[]
+  processArea        ProcessArea                        @relation(fields: [processAreaId], references: [id])
+
+  @@index([controlRef])
+  @@unique([name, companyId])
+}
+
+model AssessmentTemplate {
+  id              String                             @id @default(cuid())
+  name            String
+  description     String?
+  createdAt       DateTime                           @default(now())
+  updatedAt       DateTime                           @updatedAt
+  companyId       String?
+  activityTypes   AssessmentTemplateActivityType[]
+  controlLinkages AssessmentTemplateControlLinkage[]
+
+  @@unique([name, companyId])
+}
+
+model AssessmentTemplateControlLinkage {
+  id         String             @id @default(cuid())
+  templateId String
+  controlId  String
+  createdAt  DateTime           @default(now())
+  control    Control            @relation(fields: [controlId], references: [id], onDelete: Cascade)
+  template   AssessmentTemplate @relation(fields: [templateId], references: [id], onDelete: Cascade)
+
+  @@unique([templateId, controlId])
+  @@index([templateId])
+  @@index([controlId])
+}
+
+model AssessmentTemplateActivityType {
+  id             String                @id @default(cuid())
+  templateId     String
+  activityTypeId String
+  createdAt      DateTime              @default(now())
+  activityType   AssuranceActivityType @relation(fields: [activityTypeId], references: [id], onDelete: Cascade)
+  template       AssessmentTemplate    @relation(fields: [templateId], references: [id], onDelete: Cascade)
+
+  @@unique([templateId, activityTypeId])
+  @@index([templateId])
+  @@index([activityTypeId])
+}
+
+model Assessment {
+  id                 String                @id @default(cuid())
+  activityTypeId     String
+  name               String
+  assessorId         String
+  startDate          DateTime
+  endDate            DateTime?
+  loa                LOA
+  status             AssessmentStatus      @default(Planned)
+  companyId          String?
+  createdAt          DateTime              @default(now())
+  assessor           User                  @relation("AssessmentAssessor", fields: [assessorId], references: [id])
+  activityType       AssuranceActivityType @relation(fields: [activityTypeId], references: [id])
+  controlAssignments ControlAssignment[]
+  samples            Sample[]
+  findings           Finding[]
+  aacts              Aact[]
+}
+
+// Assigns Controls to an Assessment from the assessment UI.
+// Many-to-many: an Assessment can have many Controls, a Control can be
+// assigned to many Assessments.
+model ControlAssignment {
+  id                 String         @id @default(cuid())
+  assessmentId       String
+  controlId          String
+  // null = "Select One" (not yet assessed).
+  effective          Effectiveness?
+  // Set whenever `effective` is changed, and only then.
+  effectiveUpdatedAt DateTime?
+  createdAt          DateTime       @default(now())
+  control            Control        @relation(fields: [controlId], references: [id], onDelete: Cascade)
+  assessment         Assessment     @relation(fields: [assessmentId], references: [id], onDelete: Cascade)
+
+  @@unique([assessmentId, controlId])
+  @@index([assessmentId])
+  @@index([controlId])
+}
+
+enum Effectiveness {
+  Effective
+  NotEffective
+}
+
+model SampleType {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  createdAt DateTime @default(now())
+  samples   Sample[]
+}
+
+model RecordSourceType {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  createdAt DateTime @default(now())
+  samples   Sample[]
+}
+
+model Sample {
+  id               String            @id @default(cuid())
+  assessmentId     String
+  sampleTypeId     String?
+  recordSourceId   String?
+  recordReference  String?
+  controlEffective Boolean           @default(false)
+  comment          String?
+  status           SampleStatus      @default(NotTested)
+  conclusion       SampleConclusion?
+  evidenceUrl      String?
+  createdAt        DateTime          @default(now())
+  recordSource     RecordSourceType? @relation(fields: [recordSourceId], references: [id])
+  sampleType       SampleType?       @relation(fields: [sampleTypeId], references: [id])
+  assessment       Assessment        @relation(fields: [assessmentId], references: [id], onDelete: Cascade)
+  findings         Finding[]
+}
+
+// A Finding is raised against an Assessment (required) and may optionally be
+// tied to the specific Sample it was observed from. Findings use a
+// human-readable running-number id (FID-XXXXXX) instead of a cuid, generated
+// in application code (see src/lib/findings.ts).
+model Finding {
+  id           String          @id
+  assessmentId String
+  sampleId     String?
+  description  String
+  details      String?
+  controlIds   String?
+  risks        String?
+  repeat       Boolean         @default(false)
+  severity     FindingSeverity
+  createdAt    DateTime        @default(now())
+  assessment   Assessment      @relation(fields: [assessmentId], references: [id], onDelete: Cascade)
+  sample       Sample?         @relation(fields: [sampleId], references: [id], onDelete: SetNull)
+  actions      Action[]
+
+  @@index([assessmentId])
+  @@index([sampleId])
+}
+
+// An Action is a remediation item tied to exactly one Finding.
+model Action {
+  id                      String    @id @default(cuid())
+  actionId                String?   @unique
+  findingId               String
+  actionDescription       String
+  actionDetails           String?
+  actionTaken             String?
+  actionParty             String?
+  auditee                 String?
+  createdDate             DateTime  @default(now())
+  targetDate              DateTime?
+  apAgreed                Boolean   @default(false)
+  originalTargetDate      DateTime?
+  numberOfExtensions      Int       @default(0)
+  actionClosureEffective  Boolean   @default(false)
+  actionClosureApprovedBy String?
+  finding                 Finding   @relation(fields: [findingId], references: [id], onDelete: Cascade)
+
+  @@index([findingId])
+}
+
+model Attachment {
+  id          String   @id @default(cuid())
+  description String?
+  fileName    String
+  filePath    String
+  fileSize    Int?
+  uploadedBy  String
+  uploadDate  DateTime @default(now())
+  companyId   String?
+  mappings    AttachmentMapping[]
+}
+
+model AttachmentMapping {
+  id           String     @id @default(cuid())
+  attachmentId String
+  destTable    String
+  recId        String
+  attachment   Attachment @relation(fields: [attachmentId], references: [id], onDelete: Cascade)
+
+  @@index([destTable, recId])
+  @@index([attachmentId])
+}
+
+enum FindingSeverity {
+  Low
+  Medium
+  High
+  Serious
+}
+
+model AchievementBadge {
+  id               String            @id @default(cuid())
+  badgeName        String
+  description      String
+  icon             String
+  badgeImage       String?
+  emotionalDrive   EmotionalDrive
+  rarity           BadgeRarity       @default(Uncommon)
+  level            String?
+  processAreaId    String?
+  processArea      ProcessArea?      @relation(fields: [processAreaId], references: [id])
+  pointsRequired   Int?
+  controlsChecked  Int?
+  streakDays       Int?
+  achievementType  String
+  createdAt        DateTime          @default(now())
+  userAchievements UserAchievement[]
+
+  @@unique([badgeName, level])
+  @@index([emotionalDrive])
+  @@index([processAreaId])
+  @@index([level])
+}
+
+model UserAchievement {
+  id       String           @id @default(cuid())
+  userId   String
+  badgeId  String
+  earnedAt DateTime         @default(now())
+  badge    AchievementBadge @relation(fields: [badgeId], references: [id])
+  user     User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, badgeId])
+  @@index([userId])
+}
+
+model PointTransaction {
+  id               String          @id @default(cuid())
+  userId           String
+  points           Int
+  reason           String
+  assessmentId     String?
+  sampleId         String?
+  emotionalDrive   EmotionalDrive?
+  multiplier       Float           @default(1.0)
+  gameAttributeId  String?
+  activityLogId    String?
+  createdAt        DateTime        @default(now())
+  user             User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  gameAttribute    GameAttribute?  @relation(fields: [gameAttributeId], references: [id])
+  activityLog      ActivityLog?    @relation(fields: [activityLogId], references: [id], onDelete: SetNull)
+
+  @@index([userId])
+  @@index([createdAt])
+  @@index([gameAttributeId])
+  @@index([activityLogId])
+}
+
+model GameAttribute {
+  id                   String               @id @default(cuid())
+  attributeName        String               @unique
+  attributeDescription String?
+  attributeStatus      String               @default("Active")
+  createdAt            DateTime             @default(now())
+  points               PointTransaction[]
+  rules                GameAttributeRule[]
+}
+
+model GameAttributeRule {
+  id               String        @id @default(cuid())
+  gameAttributeId  String
+  activityType     String
+  basePoints       Int           @default(0)
+  perControlPoints Int           @default(0)
+  hsseBonusPoints  Int           @default(0)
+  qualityThreshold Float?
+  qualityBonus     Int           @default(0)
+  multiplier       Float         @default(1.0)
+  description      String?
+  isActive         Boolean       @default(true)
+  createdAt        DateTime      @default(now())
+  gameAttribute    GameAttribute @relation(fields: [gameAttributeId], references: [id], onDelete: Cascade)
+
+  @@unique([gameAttributeId, activityType])
+  @@index([gameAttributeId])
+  @@index([activityType])
+}
+
+model EmotionalDriveMetric {
+  id                String   @id @default(cuid())
+  userId            String
+  period            DateTime
+  diversity         Int      @default(0)
+  belonging         Int      @default(0)
+  recognition       Int      @default(0)
+  achievement       Int      @default(0)
+  excellence        Int      @default(0)
+  growth            Int      @default(0)
+  contribution      Int      @default(0)
+  security          Int      @default(0)
+  overallEngagement Float    @default(0)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, period])
+  @@index([userId])
+}
+
+model Milestone {
+  id           String    @id @default(cuid())
+  userId       String
+  title        String
+  description  String?
+  targetValue  Int
+  currentValue Int       @default(0)
+  type         String
+  completedAt  DateTime?
+  createdAt    DateTime  @default(now())
+  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([completedAt])
+}
+
+enum Role {
+  Admin
+  Assessor
+}
+
+model UserRole {
+  id                 String   @id @default(cuid())
+  uRoleName          String
+  uRoleDescription   String?
+  uRolePositions     String?
+  uRoleReportingLine String?
+  companyId          String?
+  createdAt          DateTime @default(now())
+  userMappings       UserRoleMapping[]
+
+  @@unique([uRoleName, companyId])
+}
+
+model UserRoleMapping {
+  id           String   @id @default(cuid())
+  userId       String
+  userRoleId   String
+  remarks      String?
+  createdDate  DateTime @default(now())
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userRole     UserRole @relation(fields: [userRoleId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, userRoleId])
+  @@index([userId])
+  @@index([userRoleId])
+}
+
+model Company {
+  id           String   @id @default(cuid())
+  companyID    String   @unique
+  companyName  String
+  referenceID  String?
+  shortName    String?
+  createdAt    DateTime @default(now())
+  userCompanies UserCompany[]
+}
+
+model UserCompany {
+  id        String   @id @default(cuid())
+  userId    String
+  companyId String
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  company   Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, companyId])
+  @@index([userId])
+  @@index([companyId])
+  @@map("UserCompany")
+}
+
+model UserFavorite {
+  id         String   @id @default(cuid())
+  userId     String
+  entityType String
+  entityId   String
+  createdAt  DateTime @default(now())
+
+  @@unique([userId, entityType, entityId])
+  @@index([userId])
+  @@index([entityType])
+  @@index([entityId])
+}
+
+model AssessmentActType {
+  id              String   @id @default(cuid())
+  assacttypeid    String   @unique
+  assacttypeName  String   @unique
+  description     String?
+  createddate     DateTime @default(now())
+}
+
+model Aact {
+  id                  String          @id @default(cuid())
+  aaID                String          @unique
+  assuranceID         String
+  assacttypeid        String
+  activityName        String
+  activityDate        DateTime
+  activityStartTime   String
+  activityEndTime     String
+  activityDuration    String?
+  activityDescription String?
+  createdAt           DateTime        @default(now())
+  assessment          Assessment      @relation(fields: [assuranceID], references: [id], onDelete: Cascade)
+  controls            AActControls[]  @relation("AactToAActControls")
+  users               AActUsers[]     @relation("AactToAActUsers")
+  details             AActDetails[]   @relation("AactToAActDetails")
+}
+
+model AActControls {
+  id        String   @id @default(cuid())
+  aaId      String
+  controlId String
+  createdAt DateTime @default(now())
+  aact      Aact     @relation("AactToAActControls", fields: [aaId], references: [aaID], onDelete: Cascade)
+
+  @@unique([aaId, controlId])
+  @@index([aaId])
+  @@index([controlId])
+}
+
+model AActUsers {
+  id                String   @id @default(cuid())
+  aaId              String
+  userId            String
+  userRoles         String
+  assignmentRemarks String?
+  createdAt         DateTime @default(now())
+  aact              Aact     @relation("AactToAActUsers", fields: [aaId], references: [aaID], onDelete: Cascade)
+
+  @@unique([aaId, userId])
+  @@index([aaId])
+  @@index([userId])
+}
+
+model AActDetails {
+  id                     String   @id @default(cuid())
+  aactDetID              String   @unique
+  aaId                   String
+  detail                 String?
+  summaryAgainstControls String?
+  checklists             String?
+  activityNotes          String?
+  createdAt              DateTime @default(now())
+  aact                   Aact     @relation("AactToAActDetails", fields: [aaId], references: [aaID], onDelete: Cascade)
+
+  @@index([aaId])
+}
+
+model Knowledgebase {
+  kID              String   @id @default(cuid())
+  knowledgeName    String
+  knowledgeContent String
+  remarks          String?
+  createdDate      DateTime @default(now())
+  addedBy          String
+  companyId        String?
+  processAreaId    String?
+
+  @@unique([knowledgeName, companyId])
+  @@index([knowledgeName])
+  @@index([createdDate])
+  @@index([addedBy])
+  @@index([companyId])
+  @@index([processAreaId])
+}
+
+model MapArt2Know {
+  id        String   @id @default(cuid())
+  mapA2KID  String   @unique
+  artName   String
+  artID     String
+  kID       String
+  whyToMap  String?
+  createdAt DateTime @default(now())
+
+  @@index([kID])
+  @@index([artID])
+}
+
+model DocumentExtract {
+  id                    String                  @id @default(cuid())
+  docNo                 Int
+  documentNumber        String?
+  documentType          String?
+  documentTitle         String
+  custodian             String?
+  authorizer            String?
+  content               String
+  Status                String                  @default("Not Started")
+  CompletedOn           DateTime?
+  createdAt             DateTime                @default(now())
+  controlFromDocuments  ControlFromDocument[]
+
+  @@index([docNo])
+  @@index([documentNumber])
+  @@index([Status])
+}
+
+model ControlFromDocument {
+  id                 String        @id @default(cuid())
+  documentExtractId  String
+  name               String
+  statement          String
+  controlType        String
+  processAreaId      String
+  isHsseCritical     Boolean       @default(false)
+  ramRating          String?
+  riskWeight         Int           @default(1)
+  rawHealthScore     Int           @default(80)
+  lastTestedDate     DateTime?
+  lastTestResult     String?
+  createdAt          DateTime      @default(now())
+  controlRef         String?
+  sourceFile         String?
+  practiceDocument   String?
+  controlTypeDetail  String?
+  csfWho             String?
+  csfWhat            String?
+  csfWhen            String?
+  csfWhere           String?
+  csfWhy             String?
+  csfHow             String?
+  csfEvidence        String?
+  keyActivities      String?
+  riskAddressed      String?
+  testingApproach    String?
+  keyRiskIndicator   String?
+  uncertainFlags     String?
+  standard           String?
+  pId                String?
+  Requirements       String?
+  documentExtract       DocumentExtract        @relation(fields: [documentExtractId], references: [id], onDelete: Cascade)
+  controlFDSubProcesses ControlFDSubProcess[]
+
+  @@index([documentExtractId])
+  @@index([controlRef])
+}
+
+// ── Requirement — SMDS ICOP Statutory Requirements ─────────────────────
+// Imported from frontline library/mRequirement.csv.
+// rID is the canonical requirement identifier (from source data, not auto-generated).
+// processAreaId is backfilled from ProcessArea via pID → ProcessArea.pId mapping.
+model Requirement {
+  rId                 Int          @id @map("rID")
+  standard            String
+  pId                 String       @map("pID")
+  processAreaId       String?
+  requirementId       String
+  clauseContent       String
+  intentOutcome       String
+  clauseApplicability String
+  references          String?
+  applicable          Boolean      @default(true)
+  createdAt           DateTime     @default(now())
+  companyId           String?
+  processArea         ProcessArea? @relation(fields: [processAreaId], references: [id])
+  controlMappings     MapControl2Requirement[]
+
+  @@map("Requirement")
+  @@index([processAreaId])
+  @@unique([requirementId, processAreaId, companyId])
+}
+
+// ── MapControl2Requirement — M2M: Control ⟷ Requirement ──────────────
+// One requirement can map to many controls; one control to many requirements.
+// processAreaId provides the initial mapping anchor (same PA = potential link).
+model MapControl2Requirement {
+  id             String      @id @default(cuid())
+  controlId      String
+  requirementRId Int
+  processAreaId  String?
+  createdAt      DateTime    @default(now())
+  control        Control     @relation(fields: [controlId], references: [id], onDelete: Cascade)
+  requirement    Requirement @relation(fields: [requirementRId], references: [rId], onDelete: Cascade)
+
+  @@unique([controlId, requirementRId])
+  @@index([controlId])
+  @@index([requirementRId])
+  @@index([processAreaId])
+  @@map("MapControl2Requirement")
+}
+
+enum LOA {
+  FirstLine
+  SecondLine
+  ThirdLine
+}
+
+enum ControlType {
+  Administrative
+  Procedural
+  Analytical
+  Behavioral
+  Informational
+  Engineering
+}
+
+enum AssessmentStatus {
+  Planned
+  InProgress
+  Completed
+  Cancelled
+}
+
+enum SampleStatus {
+  Tested
+  NotTested
+}
+
+enum SampleConclusion {
+  Pass
+  Fail
+}
+
+enum EmotionalDrive {
+  Diversity
+  Belonging
+  Recognition
+  Achievement
+  Excellence
+  Growth
+  Contribution
+  Security
+}
+
+enum BadgeRarity {
+  Common
+  Uncommon
+  Rare
+  Epic
+  Legendary
+}

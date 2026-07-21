@@ -1,0 +1,9 @@
+[build]
+builder = "RAILPACK"
+buildCommand = "npx prisma generate && npm run build"
+
+[deploy]
+startCommand = "npm run start"
+# NOTE: No preDeployCommand. Schema sync and seeding are one-time operations.
+# The database is shared with seam-assurance-app — no migrations needed.
+# If schema changes are required, run npx tsx prisma/sync-schema.ts manually.

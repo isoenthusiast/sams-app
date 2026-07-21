@@ -1,0 +1,264 @@
+"use client";
+
+import { useState } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { Card } from "@/components/Card";
+import { Badge } from "@/components/Badge";
+import { StatusBadge } from "@/components/StatusBadge";
+import { Button } from "@/components/Button";
+import { Select } from "@/components/Select";
+
+type Props = {
+  assessment: any;
+  allControls: any[];
+  processAreas: Array<{ id: string; name: string }>;
+  currentUserId?: string;
+};
+
+export default function AssessmentClient({ assessment, allControls, processAreas, currentUserId }: Props) {
+  const router = useRouter();
+  const [activeTab, setActiveTab] = useState<"overview" | "controls" | "samples" | "findings" | "activities">("overview");
+  const [saving, setSaving] = useState(false);
+
+  const tabs = [
+    { key: "overview" as const, label: "Overview" },
+    { key: "controls" as const, label: "Control Assignment" },
+    { key: "samples" as const, label: "Sample Selection" },
+    { key: "findings" as const, label: "Finding & Actions" },
+    { key: "activities" as const, label: "Activities" },
+  ];
+
+  const assignedControlIds = new Set(assessment.controlAssignments?.map((ca: any) => ca.controlId) ?? []);
+
+  const handleToggleControl = async (controlId: string) => {
+    setSaving(true);
+    try {
+      if (assignedControlIds.has(controlId)) {
+        const ca = assessment.controlAssignments.find((c: any) => c.controlId === controlId);
+        if (ca) {
+          await fetch(`/api/admin/control-assignments/${ca.id}`, { method: "DELETE" });
+        }
+      } else {
+        await fetch("/api/admin/control-assignments", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ assessmentId: assessment.id, controlId }),
+        });
+      }
+      router.refresh();
+    } finally { setSaving(false); }
+  };
+
+  const handleSaveSample = async (sampleId: string, data: Record<string, any>) => {
+    await fetch(`/api/admin/samples/${sampleId}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    });
+    router.refresh();
+  };
+
+  return (
+    <div className="mx-auto max-w-6xl px-4 py-6">
+      <Link href="/fla" className="text-sm text-blue-600 hover:underline">← Dashboard</Link>
+      <div className="mt-2 flex items-center gap-3">
+        <h1 className="text-2xl font-bold text-slate-900">{assessment.name}</h1>
+        <StatusBadge status={assessment.status} />
+      </div>
+      <p className="text-sm text-slate-500">{assessment.activityType?.name} · Assessor: {assessment.assessor?.name} · LOA: {assessment.loa}</p>
+
+      <div className="mt-4 flex border-b border-slate-200">
+        {tabs.map((t) => (
+          <button key={t.key} onClick={() => setActiveTab(t.key)}
+            className={`px-6 py-3 text-sm font-medium border-b-2 transition-colors ${activeTab === t.key ? "border-slate-900 text-slate-900" : "border-transparent text-slate-500 hover:text-slate-700"}`}>
+            {t.label}
+          </button>
+        ))}
+      </div>
+
+      {/* ─── TAB 1: Overview ─── */}
+      {activeTab === "overview" && (
+        <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <Card padding="sm"><div className="text-2xl font-bold">{assignedControlIds.size}</div><div className="text-xs text-slate-500">Controls Assigned</div></Card>
+          <Card padding="sm"><div className="text-2xl font-bold">{assessment.samples?.length ?? 0}</div><div className="text-xs text-slate-500">Samples</div></Card>
+          <Card padding="sm"><div className="text-2xl font-bold">{assessment.findings?.length ?? 0}</div><div className="text-xs text-slate-500">Findings</div></Card>
+          <Card padding="sm"><div className="text-2xl font-bold">{assessment.findings?.reduce((s: number, f: any) => s + (f.actions?.length ?? 0), 0) ?? 0}</div><div className="text-xs text-slate-500">Actions</div></Card>
+        </div>
+      )}
+
+      {/* ─── TAB 2: Control Assignment ─── */}
+      {activeTab === "controls" && (
+        <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+          <Card title="Select Controls" padding="sm">
+            <div className="max-h-[60vh] overflow-y-auto space-y-1">
+              {allControls.map((c: any) => {
+                const checked = assignedControlIds.has(c.id);
+                return (
+                  <label key={c.id} className={`flex items-center gap-2 px-3 py-2 rounded cursor-pointer hover:bg-slate-50 text-sm ${checked ? "bg-blue-50" : ""}`}>
+                    <input type="checkbox" checked={checked} onChange={() => handleToggleControl(c.id)} disabled={saving} className="rounded text-blue-600" />
+                    <span className="flex-1">{c.name}</span>
+                    <span className="text-xs text-slate-400">{c.processArea?.name}</span>
+                  </label>
+                );
+              })}
+            </div>
+          </Card>
+          <Card title={`Assigned Controls (${assignedControlIds.size})`} padding="sm">
+            {assignedControlIds.size === 0 ? (
+              <p className="text-sm text-slate-400">No controls assigned yet.</p>
+            ) : (
+              <div className="max-h-[60vh] overflow-y-auto space-y-2">
+                {assessment.controlAssignments?.map((ca: any) => (
+                  <div key={ca.id} className="flex items-center justify-between border-b border-slate-100 pb-2">
+                    <div>
+                      <div className="text-sm font-medium text-slate-900">{ca.control?.name}</div>
+                      <div className="text-xs text-slate-500">{ca.control?.processArea?.name}</div>
+                    </div>
+                    <select
+                      value={ca.effective ?? ""}
+                      onChange={async (e) => {
+                        await fetch(`/api/admin/control-assignments/${ca.id}`, {
+                          method: "PUT", headers: { "Content-Type": "application/json" },
+                          body: JSON.stringify({ effective: e.target.value || null }),
+                        });
+                        router.refresh();
+                      }}
+                      className="rounded border border-slate-300 px-2 py-1 text-xs"
+                    >
+                      <option value="">—</option>
+                      <option value="Effective">Effective</option>
+                      <option value="NotEffective">Not Effective</option>
+                    </select>
+                  </div>
+                ))}
+              </div>
+            )}
+          </Card>
+        </div>
+      )}
+
+      {/* ─── TAB 3: Samples ─── */}
+      {activeTab === "samples" && (
+        <div className="mt-6 space-y-4">
+          {assessment.samples?.length === 0 ? (
+            <p className="py-12 text-center text-sm text-slate-400">No samples recorded.</p>
+          ) : (
+            assessment.samples?.map((s: any) => (
+              <Card key={s.id} padding="sm">
+                <div className="grid gap-3 sm:grid-cols-2">
+                  <div>
+                    <label className="text-xs font-medium text-slate-600">Type</label>
+                    <p className="text-sm">{s.sampleType?.name ?? s.sampleTypeId ?? "—"}</p>
+                  </div>
+                  <div>
+                    <label className="text-xs font-medium text-slate-600">Status</label>
+                    <select
+                      value={s.status ?? ""}
+                      onChange={(e) => handleSaveSample(s.id, { status: e.target.value })}
+                      className="w-full rounded border border-slate-300 px-2 py-1 text-sm mt-1"
+                    >
+                      <option value="NotTested">Not Tested</option>
+                      <option value="Tested">Tested</option>
+                      <option value="InProgress">In Progress</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="text-xs font-medium text-slate-600">Conclusion</label>
+                    <select
+                      value={s.conclusion ?? ""}
+                      onChange={(e) => handleSaveSample(s.id, { conclusion: e.target.value || null })}
+                      className="w-full rounded border border-slate-300 px-2 py-1 text-sm mt-1"
+                    >
+                      <option value="">—</option>
+                      <option value="Effective">Effective</option>
+                      <option value="NotEffective">Not Effective</option>
+                      <option value="NotApplicable">Not Applicable</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="text-xs font-medium text-slate-600">Notes</label>
+                    <input
+                      type="text"
+                      value={s.notes ?? ""}
+                      onChange={(e) => handleSaveSample(s.id, { notes: e.target.value })}
+                      className="w-full rounded border border-slate-300 px-2 py-1 text-sm mt-1"
+                      placeholder="Optional notes"
+                    />
+                  </div>
+                </div>
+              </Card>
+            ))
+          )}
+        </div>
+      )}
+
+      {/* ─── TAB 4: Findings ─── */}
+      {activeTab === "findings" && (
+        <div className="mt-6 space-y-4">
+          {assessment.findings?.length === 0 ? (
+            <p className="py-12 text-center text-sm text-slate-400">No findings recorded.</p>
+          ) : (
+            assessment.findings?.map((f: any) => (
+              <Card key={f.id} padding="sm">
+                <div className="flex items-start gap-3">
+                  <Badge variant={f.severity === "Serious" || f.severity === "High" ? "danger" : f.severity === "Medium" ? "warning" : "default"}>{f.severity}</Badge>
+                  <div className="flex-1">
+                    <p className="text-sm font-medium text-slate-900">{f.description}</p>
+                    {f.risks && <p className="text-xs text-slate-500 mt-1">Risk: {f.risks}</p>}
+                    {f.actions?.length > 0 && (
+                      <div className="mt-3 border-t border-slate-100 pt-2">
+                        <p className="text-xs font-medium text-slate-600 mb-1">Actions ({f.actions.length})</p>
+                        {f.actions.map((act: any) => (
+                          <div key={act.id} className="flex items-center justify-between py-1 text-xs">
+                            <span>{act.actionDescription}</span>
+                            <span className="flex items-center gap-2">
+                              <span className="text-slate-400">{act.actionParty ?? "—"}</span>
+                              <Badge variant={act.actionClosureEffective ? "success" : "default"} size="sm">
+                                {act.actionClosureEffective ? "Done" : "Open"}
+                              </Badge>
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </Card>
+            ))
+          )}
+        </div>
+      )}
+
+      {/* ─── TAB 5: Activities ─── */}
+      {activeTab === "activities" && (
+        <div className="mt-6 space-y-3">
+          {assessment.aacts?.length === 0 ? (
+            <p className="py-12 text-center text-sm text-slate-400">No activities scheduled.</p>
+          ) : (
+            assessment.aacts?.map((act: any) => (
+              <Card key={act.id} padding="sm">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <div className="font-medium text-sm text-slate-900">{act.activityName}</div>
+                    <div className="text-xs text-slate-500">
+                      {new Date(act.activityDate).toLocaleDateString()} · {act.activityStartTime}–{act.activityEndTime}
+                    </div>
+                    {act.activityDescription && <p className="text-xs text-slate-600 mt-1">{act.activityDescription}</p>}
+                  </div>
+                  <div className="text-xs text-slate-400">
+                    {act.controls?.length ?? 0} control(s) · {act.users?.length ?? 0} participant(s)
+                  </div>
+                </div>
+              </Card>
+            ))
+          )}
+        </div>
+      )}
+
+      <div className="mt-6 flex gap-3">
+        <Button variant="secondary" size="sm" onClick={() => router.push("/fla")}>← Back</Button>
+      </div>
+    </div>
+  );
+}
