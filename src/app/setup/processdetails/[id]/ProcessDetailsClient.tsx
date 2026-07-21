@@ -115,6 +115,36 @@ export default function ProcessDetailsClient(props: Props) {
     router.refresh();
   };
 
+  const handleSendChat = async () => {
+    const msg = chatInput.trim();
+    if (!msg) return;
+    const userMsg: ChatMsg = { role: "user", content: msg };
+    const newHistory = [...chatMessages, userMsg];
+    setChatMessages(newHistory);
+    setChatInput("");
+    try {
+      const res = await fetch("/api/chat/knowledge", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          message: msg,
+          processAreaId: processArea.id,
+          companyId,
+          history: newHistory.map((m) => ({ role: m.role, content: m.content })),
+        }),
+      });
+      const data = await res.json();
+      const assistantMsg: ChatMsg = {
+        role: "assistant",
+        content: data.reply || "No response.",
+        controls: data.controls || [],
+      };
+      setChatMessages([...newHistory, assistantMsg]);
+    } catch {
+      setChatMessages([...newHistory, { role: "assistant", content: "Error: Could not reach AI. Please try again." }]);
+    }
+  };
+
   return (
     <div className="mx-auto max-w-6xl px-4 py-6">
       <Link href="/setup/process-areas" className="text-sm text-blue-600 hover:underline">← Process Areas</Link>
@@ -277,8 +307,58 @@ export default function ProcessDetailsClient(props: Props) {
 
       {/* ─── TAB 4: Knowledgebase ─── */}
       {activeTab === "knowledgebase" && (
-        <div className="mt-6">
+        <div className="mt-6 space-y-6">
           <KnowledgebasePanel entries={kbEntries} />
+
+          {/* AI Chat */}
+          <Card title="🤖 AI Assistant" subtitle="Ask questions about this process area. AI has access to the knowledgebase content above." padding="sm">
+            <div className="max-h-[50vh] overflow-y-auto space-y-3 mb-4">
+              {chatMessages.length === 0 && (
+                <p className="text-sm text-slate-400 text-center py-6">
+                  Ask a question about this process area, its controls, or the knowledgebase content.
+                </p>
+              )}
+              {chatMessages.map((msg, i) => (
+                <div key={i} className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}>
+                  <div className={`max-w-[80%] rounded-lg px-4 py-2 text-sm ${
+                    msg.role === "user"
+                      ? "bg-blue-800 text-white"
+                      : "bg-slate-100 text-slate-800"
+                  }`}>
+                    <p className="whitespace-pre-wrap">{msg.content}</p>
+                    {msg.controls && msg.controls.length > 0 && (
+                      <div className="mt-2 border-t border-slate-300 pt-2">
+                        <p className="text-xs font-medium mb-1">💡 Suggested Controls:</p>
+                        {msg.controls.map((c, ci) => (
+                          <div key={ci} className="text-xs mt-1 p-2 bg-white rounded border border-slate-200">
+                            <div className="font-medium">{c.name}</div>
+                            <div className="text-slate-500">{c.statement}</div>
+                            <div className="text-blue-600 mt-0.5">{c.controlType}</div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+            <form
+              onSubmit={(e) => { e.preventDefault(); handleSendChat(); }}
+              className="flex gap-2"
+            >
+              <input
+                type="text"
+                value={chatInput}
+                onChange={(e) => setChatInput(e.target.value)}
+                placeholder="Ask about this process area…"
+                className="flex-1 rounded border border-slate-300 px-3 py-2 text-sm focus:border-slate-500 focus:outline-none"
+                aria-label="Chat message"
+              />
+              <Button variant="primary" size="sm" type="submit" disabled={!chatInput.trim()}>
+                Send
+              </Button>
+            </form>
+          </Card>
         </div>
       )}
     </div>

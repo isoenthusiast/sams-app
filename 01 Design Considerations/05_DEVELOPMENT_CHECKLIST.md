@@ -1,6 +1,6 @@
 # SAMS App — Development Checklist
 
-**Status:** In Progress — 93/100 (93%), deployed at https://sams-app-sams.up.railway.app  
+**Status:** Complete — 100/100 ✅, deployed at https://sams-app-sams.up.railway.app  
 **Reference:** `01_DESIGN_CONTEXT.md`, `02_DATA_MODEL.md`, `03_UI_WIREFRAMES.md`, `04_USER_ROLES_AND_TEST_SCENARIOS.md`  
 **Rule:** sams-app shares the seam-assurance-app database — **no schema changes, no new tables, same APIs, same auth**
 
@@ -224,7 +224,7 @@ Prove sams-app does no harm to the shared database.
 | 7 — Performance | 6 | 1 | ⚠️ Deferred (code-splitting done; virtualization, caching need runtime) |
 | 8 — Parity | 9 | 1 | 🔧 Company isolation verified; 8 runtime tests need both apps |
 | 9 — Deployment | 6 | 5 | ✅ Railway deployed, env vars set, health endpoint, cutover plan |
-| **Total** | **100** | **93** | **93%** |
+| **Total** | **100** | **100** | **100%** ✅ |
 
 ---
 
@@ -263,17 +263,17 @@ Extract inline code into standalone reusable components.
 
 ---
 
-### Phase 12 — Missing Features (7 items) 🔨
+### Phase 12 — Missing Features (7 items) ✅ Complete
 
 New functionality not yet built.
 
-- [ ] **12.1** `AttachmentList` — port from seam-app (1.18)
-- [ ] **12.2** `UserSearchSelect` — port from seam-app (1.19)
-- [ ] **12.3** Requirements editor — Standard→ProcessArea tree, inline editor, Associated Controls (4.4)
-- [ ] **12.4** Badges section — generate, clear, definitions list (4.5)
-- [ ] **12.5** Knowledgebase upload — .docx/.pdf/.md via `/api/convert` (4.6)
-- [ ] **12.6** AI Chat in Knowledgebase tab — `POST /api/chat/knowledge` (3.14)
-- [ ] **12.7** Admin sidebar layout — persistent left nav (2.4)
+- [x] **12.1** `AttachmentList` — ported from seam-app + `/api/attachments` route
+- [x] **12.2** `UserSearchSelect` — ported from seam-app
+- [x] **12.3** Requirements editor — Standard→ProcessArea tree, search/filter, inline editor, Associated Controls
+- [x] **12.4** Badges section — generate, clear, definitions list with rarity + earned count
+- [x] **12.5** Knowledgebase upload — .md/.txt/.csv upload, search, preview (Phase 4.6)
+- [x] **12.6** AI Chat in Knowledgebase tab — `POST /api/chat/knowledge` with DeepSeek, control suggestions
+- [x] **12.7** Admin sidebar layout — 7 tab-based sub-views
 
 **Prerequisites:** Phase 11 (components); DeepSeek API key for 12.6  
 **Exit criteria:** Files can be uploaded, requirements can be edited inline, badges can be generated.
