@@ -7,6 +7,7 @@ import { Card } from "@/components/Card";
 import { StatusBadge } from "@/components/StatusBadge";
 import { Button } from "@/components/Button";
 import { FindingCard } from "@/components/FindingCard";
+import { showToast } from "@/components/Toast";
 
 type Props = {
   assessment: any;
@@ -58,6 +59,45 @@ export default function AssessmentClient({ assessment, allControls, processAreas
     router.refresh();
   };
 
+  const handleComplete = async () => {
+    if (!confirm("Mark this assessment as Complete? This will award gamification points.")) return;
+    setSaving(true);
+    try {
+      const res = await fetch(`/api/admin/table/Assessment/${assessment.id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ status: "Completed", endDate: new Date().toISOString() }),
+      });
+      if (!res.ok) throw new Error("Failed to complete");
+
+      // Award points
+      try {
+        const awardRes = await fetch("/api/gamification/award", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ userId: currentUserId, trigger: "assessment_complete", context: { assessmentId: assessment.id } }),
+        });
+        if (awardRes.ok) {
+          const awardData = await awardRes.json();
+          if (awardData.pointsAwarded) {
+            showToast(`+${awardData.pointsAwarded} points! 🎉`, "success");
+          }
+          if (awardData.badgesAwarded?.length > 0) {
+            for (const badge of awardData.badgesAwarded) {
+              showToast(`🏆 Badge Unlocked: ${badge.name}!`, "info");
+            }
+          }
+        }
+      } catch { /* gamification optional */ }
+
+      router.refresh();
+    } catch (err) {
+      showToast(err instanceof Error ? err.message : "Failed to complete assessment", "error");
+    } finally {
+      setSaving(false);
+    }
+  };
+
   return (
     <div className="mx-auto max-w-6xl px-4 py-6">
       <Link href="/fla" className="text-sm text-blue-600 hover:underline">← Dashboard</Link>
@@ -78,12 +118,22 @@ export default function AssessmentClient({ assessment, allControls, processAreas
 
       {/* ─── TAB 1: Overview ─── */}
       {activeTab === "overview" && (
+        <>
         <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           <Card padding="sm"><div className="text-2xl font-bold">{assignedControlIds.size}</div><div className="text-xs text-slate-500">Controls Assigned</div></Card>
           <Card padding="sm"><div className="text-2xl font-bold">{assessment.samples?.length ?? 0}</div><div className="text-xs text-slate-500">Samples</div></Card>
           <Card padding="sm"><div className="text-2xl font-bold">{assessment.findings?.length ?? 0}</div><div className="text-xs text-slate-500">Findings</div></Card>
           <Card padding="sm"><div className="text-2xl font-bold">{assessment.findings?.reduce((s: number, f: any) => s + (f.actions?.length ?? 0), 0) ?? 0}</div><div className="text-xs text-slate-500">Actions</div></Card>
         </div>
+        {assessment.status !== "Completed" && (
+          <div className="mt-6">
+            <Button variant="success" disabled={saving} onClick={handleComplete}>
+              {saving ? "Completing…" : "✅ Complete Assessment"}
+            </Button>
+            <p className="mt-2 text-xs text-slate-400">Marking complete awards points and may unlock badges.</p>
+          </div>
+        )}
+        </>
       )}
 
       {/* ─── TAB 2: Control Assignment ─── */}

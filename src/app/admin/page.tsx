@@ -5,6 +5,9 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { Card } from "@/components/Card";
 import { Button } from "@/components/Button";
+import { RequirementsView } from "./RequirementsView";
+import { BadgesView } from "./BadgesView";
+import { KnowledgebaseView } from "./KnowledgebaseView";
 
 export const dynamic = "force-dynamic";
 
@@ -43,6 +46,61 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
     ? await prisma.assessmentTemplate.findMany({ where, orderBy: { name: "asc" }, include: { _count: { select: { controlLinkages: true } } } })
     : [];
 
+  // Requirements (for requirements view)
+  const requirements = view === "requirements"
+    ? (await prisma.requirement.findMany({
+        where,
+        include: {
+          processArea: { include: { standardRef: true } },
+          controlMappings: { include: { control: true } },
+        },
+        orderBy: [{ processArea: { standardRef: { sequenceNo: "asc" } } }, { requirementId: "asc" }],
+      })).map((r) => ({
+        rId: r.rId,
+        requirementId: r.requirementId,
+        clauseContent: r.clauseContent,
+        standard: r.processArea?.standardRef?.standard ?? r.standard ?? "Unknown",
+        processAreaName: r.processArea?.name ?? "Unknown",
+        processAreaId: r.processArea?.id ?? "",
+        controls: r.controlMappings.map((c) => ({ id: c.control.id, name: c.control.name, controlType: c.control.controlType })),
+      }))
+    : [];
+
+  // Standards list (for requirements filter)
+  const standards = view === "requirements"
+    ? await prisma.standard.findMany({ orderBy: { standard: "asc" } })
+    : [];
+
+  // Badges (for badges view)
+  const badges = view === "badges"
+    ? (await prisma.achievementBadge.findMany({
+        include: { _count: { select: { userAchievements: true } } },
+        orderBy: { badgeName: "asc" },
+      })).map((b) => ({
+        id: b.id,
+        badgeName: b.badgeName,
+        description: b.description,
+        rarity: b.rarity,
+        earnedCount: b._count.userAchievements,
+      }))
+    : [];
+
+  // Knowledgebase entries (for knowledgebase view)
+  const kbEntries = view === "knowledgebase"
+    ? (await prisma.$queryRawUnsafe<Array<{ kID: string; knowledgeName: string; knowledgeContent: string; remarks: string | null; createdDate: string; addedBy: string; processAreaId: string | null; processAreaName: string | null }>>(
+        `SELECT kb."kID", kb."knowledgeName", kb."knowledgeContent", kb."remarks", kb."createdDate"::text, kb."addedBy", kb."processAreaId", pa.name as "processAreaName"
+         FROM "Knowledgebase" kb
+         LEFT JOIN "ProcessArea" pa ON pa.id = kb."processAreaId"
+         ${companyId ? `WHERE kb."companyId" = '${companyId}'` : ""}
+         ORDER BY kb."createdDate" DESC`
+      ))
+    : [];
+
+  // Process areas list (for KB upload filter)
+  const processAreas = view === "knowledgebase"
+    ? await prisma.processArea.findMany({ where, orderBy: { name: "asc" }, select: { id: true, name: true } })
+    : [];
+
   return (
     <div className="mx-auto max-w-6xl px-4 py-6">
       <div className="flex items-center justify-between mb-6">
@@ -64,7 +122,7 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
       </div>
 
       <div className="mt-6 border-b border-slate-200 flex gap-1">
-        {[{ k: "dashboard", l: "📊 Dashboard" }, { k: "activity", l: "📜 Activity Log" }, { k: "users", l: "👥 Users" }, { k: "templates", l: "📦 Templates" }].map((t) => (
+        {[{ k: "dashboard", l: "📊 Dashboard" }, { k: "activity", l: "📜 Activity Log" }, { k: "users", l: "👥 Users" }, { k: "templates", l: "📦 Templates" }, { k: "requirements", l: "📋 Requirements" }, { k: "badges", l: "🏅 Badges" }, { k: "knowledgebase", l: "📚 Knowledgebase" }].map((t) => (
           <Link key={t.k} href={`/admin?view=${t.k}`}
             className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${view === t.k ? "border-slate-900 text-slate-900" : "border-transparent text-slate-500 hover:text-slate-700"}`}>
             {t.l}
@@ -147,6 +205,15 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
           {templates.length === 0 && <p className="py-8 text-center text-sm text-slate-400">No templates found.</p>}
         </div>
       )}
+
+      {/* ── Requirements ── */}
+      {view === "requirements" && <RequirementsView requirements={requirements} standards={standards} />}
+
+      {/* ── Badges ── */}
+      {view === "badges" && <BadgesView badges={badges} />}
+
+      {/* ── Knowledgebase ── */}
+      {view === "knowledgebase" && <KnowledgebaseView entries={kbEntries} processAreas={processAreas} companyId={companyId} />}
     </div>
   );
 }
