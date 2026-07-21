@@ -306,16 +306,27 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
 
       {/* ── Activity Log ── */}
       {view === "activity" && (
-        <div className="mt-6 space-y-1">
+        <div className="mt-6">
           <p className="text-sm text-slate-500 mb-4">Last 50 activity log entries</p>
-          {activityLog.map((log) => (
-            <div key={log.id} className="flex items-start gap-3 border-b border-slate-100 py-2 text-sm">
-              <span className="text-xs text-slate-400 whitespace-nowrap">{new Date(log.timestamp).toLocaleString()}</span>
-              <span className="text-xs font-medium text-slate-600 w-20 flex-shrink-0">{log.activityType}</span>
-              <span className="flex-1 text-slate-700">{log.description}</span>
-              <span className="text-xs text-slate-400">{log.username}</span>
+          <div className="overflow-x-auto">
+            <div className="min-w-[600px]">
+              {/* Header */}
+              <div className="flex items-center gap-3 border-b border-slate-200 pb-2 mb-1 text-xs font-medium text-slate-500">
+                <span className="w-36 flex-shrink-0">Timestamp</span>
+                <span className="w-28 flex-shrink-0">Type</span>
+                <span className="flex-1 min-w-0">Description</span>
+                <span className="w-24 flex-shrink-0 text-right">User</span>
+              </div>
+              {activityLog.map((log) => (
+                <div key={log.id} className="flex items-start gap-3 border-b border-slate-50 py-2 text-sm">
+                  <span className="w-36 flex-shrink-0 text-xs text-slate-400">{new Date(log.timestamp).toLocaleString()}</span>
+                  <span className="w-28 flex-shrink-0 text-xs font-medium text-slate-600">{log.activityType}</span>
+                  <span className="flex-1 min-w-0 text-slate-700 truncate" title={log.description}>{log.description}</span>
+                  <span className="w-24 flex-shrink-0 text-xs text-slate-400 text-right">{log.username}</span>
+                </div>
+              ))}
             </div>
-          ))}
+          </div>
           {activityLog.length === 0 && <p className="py-8 text-center text-sm text-slate-400">No activity recorded yet.</p>}
         </div>
       )}
