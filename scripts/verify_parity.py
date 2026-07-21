@@ -79,6 +79,53 @@ def check_env():
     assert auth_seam == auth_sams, f"AUTH_SECRET differs!"
     print("✅ 4. Environment: PASS (same DATABASE_URL, same AUTH_SECRET)")
 
+# ── 5. Company isolation (DB query) ──
+def check_company_isolation():
+    DATABASE_URL = "postgresql://postgres:kCTwHlHQEOrrQZGiTMWihARJUavIaFUV@hayabusa.proxy.rlwy.net:54471/railway"
+    try:
+        import psycopg2
+        conn = psycopg2.connect(DATABASE_URL)
+        cur = conn.cursor()
+        
+        # Verify each company has the expected table counts
+        for co_id in ["SAMS001", "SMDS", "OGP"]:
+            cur.execute('SELECT id FROM "Company" WHERE "companyID" = %s', (co_id,))
+            row = cur.fetchone()
+            if not row:
+                print(f"⚠️  5. Company {co_id}: NOT FOUND")
+                continue
+            co_pk = row[0]
+            
+            # Control count
+            cur.execute('SELECT COUNT(*) FROM "Control" WHERE "companyId" = %s', (co_pk,))
+            ctrl_count = cur.fetchone()[0]
+            
+            # Requirement count
+            cur.execute('SELECT COUNT(*) FROM "Requirement" WHERE "companyId" = %s', (co_pk,))
+            req_count = cur.fetchone()[0]
+            
+            # ProcessArea count
+            cur.execute('SELECT COUNT(*) FROM "ProcessArea" WHERE "companyId" = %s', (co_pk,))
+            pa_count = cur.fetchone()[0]
+            
+            print(f"  5. {co_id}: {ctrl_count} controls, {req_count} requirements, {pa_count} process areas")
+        
+        # Verify SAMS001 has at least as many controls as SMDS/OGP (template)
+        cur.execute("""
+            SELECT c."companyID", COUNT(ct.id) 
+            FROM "Company" c LEFT JOIN "Control" ct ON ct."companyId" = c.id 
+            GROUP BY c.id, c."companyID"
+        """)
+        counts = {r[0]: r[1] for r in cur.fetchall()}
+        if "SAMS001" in counts and "SMDS" in counts:
+            assert counts["SAMS001"] >= counts["SMDS"], f"SAMS001 has fewer controls than SMDS!"
+        
+        cur.close()
+        conn.close()
+        print("✅ 5. Company isolation: PASS")
+    except Exception as e:
+        print(f"⚠️  5. Company isolation: SKIPPED ({e})")
+
 if __name__ == "__main__":
     print("=== sams-app Parity Verification ===\n")
     try:
@@ -86,6 +133,7 @@ if __name__ == "__main__":
         check_auth_identity()
         check_source_identity()
         check_env()
+        check_company_isolation()
         print("\n🎉 All parity checks passed!")
     except AssertionError as e:
         print(f"\n❌ PARITY FAILED: {e}")

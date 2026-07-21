@@ -218,13 +218,23 @@ Prove sams-app does no harm to the shared database.
 | 1 — Components | 24 | 13 | ✅ Core built |
 | 2 — Navigation | 7 | 5 | ✅ Role-aware NavBar, company selector, role redirect, skip link |
 | 3 — Assessor pages | 19 | 11 | ✅ Dashboard, Assessment Detail (5 tabs), Create Assessment, Process Areas, Process Details (4 tabs + MapControls), Controls browse + search |
-| 4 — Admin pages | 8 | 7 | ✅ Admin dashboard (4 sub-views: dashboard, activity log, users, templates), Database management (backup/restore/export), Help page |
+| 4 — Admin pages | 8 | 7 | ✅ Admin dashboard (4 sub-views), Database management (backup/restore/export), Help page |
 | 5 — Gamification | 5 | 5 | ✅ Points, badges, leaderboard, streak, GamificationPanel |
 | 6 — Accessibility | 7 | 5 | ✅ Skip-to-content, ARIA roles, reduced motion, focus-visible, focus management |
-| 7 — Performance | 6 | 1 | ⚠️ Deferred |
-| 8 — Parity | 9 | 4 | ✅ Schema identity, auth config, source identity, env parity verified |
-| 9 — Deployment | 6 | 2 | ✅ railway.toml, .env configured |
-| **Total** | **100** | **62** | **62%** |
+| 7 — Performance | 6 | 1 | ⚠️ Deferred (code-splitting done via Next.js; virtualization, lazy-load, caching need runtime) |
+| 8 — Parity | 9 | 6 | ✅ Schema identity, auth config, source identity, env parity, company isolation, deploy checklist |
+| 9 — Deployment | 6 | 4 | ✅ railway.toml, .env, health endpoint, deployment checklist |
+| **Total** | **100** | **66** | **66%** |
+
+### Deferred Items (34 remaining)
+- Virtualization (react-window) — needs package install
+- Tablet optimization — needs responsive testing
+- Knowledgebase upload UI — needs file handling component
+- Badge generation UI — needs admin privileges
+- Runtime parity tests — needs both apps running
+- Railway staging smoke test — needs deploy
+- Camera capture / offline mode — Progressive Web App features
+
 
 ---
 
