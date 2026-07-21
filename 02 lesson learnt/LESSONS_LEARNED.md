@@ -69,4 +69,15 @@
 - **Fix for testing**: Reset assessor passwords to known values via Prisma or the seam-app admin interface
 - **Lesson**: When sharing a DB between apps, document test user credentials in the design docs. Passwords are per-user, not shared.
 
+### 12. Railway deploy: 3 sequential fixes needed for first deploy
+- **Attempt 1 (502)**: `output: "standalone"` in next.config.ts → removed. `next start` incompatible with standalone output in RAILPACK builder.
+- **Attempt 2 (502)**: `next start -p 3100` hardcodes port → changed to `next start -p ${PORT:-3100}`. Railway sets PORT=8080.
+- **Attempt 3 (redirect loop)**: `NEXTAUTH_URL="https://sams-app.railway.internal"` (internal domain) → changed to `https://sams-app-sams.up.railway.app` (public domain).
+- **Lesson**: Railway deploys need: (1) no `output: standalone`, (2) port from `$PORT` env var, (3) `NEXTAUTH_URL` set to the public domain, not internal.
+
+### 13. Railway env var changes trigger deploys of current code, not latest commit
+- **What happened**: Changing `NEXTAUTH_URL` via `railway variables set` triggered a deploy of the code at the previous commit, not the latest pushed commit
+- **Fix**: After env var changes, triggered a fresh `railway up` to deploy the latest commit with the new env vars
+- **Lesson**: After any env var change, always run `railway up` to ensure the latest code is deployed with the new variables.
+
 
