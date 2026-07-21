@@ -124,3 +124,10 @@
 - **Fix**: Always write a `.ts` file and run it with `npx tsx`. Never use `-e` for Prisma operations in PowerShell terminals.
 - **Lesson**: This is lesson #22 from the user memory — confirmed again. Use .ts files for ALL database operations.
 
+### 21. Shared DB may be missing tables — Prisma schema ≠ actual DB state
+- **What failed**: Parity check discovered 13 tables missing from production DB: Standard, Requirement, MapControl2Requirement, Knowledgebase, Company, UserCompany, Attachment, AttachmentMapping, and more. The Prisma schema describes 40+ tables but only 22 exist in the shared Railway DB.
+- **Root cause**: The Prisma schema was copied from seam-app which had migrations applied to its own DB. The shared Railway DB was set up independently and never received all migrations. seam-app may have used a different DB or the migrations were lost during Railway setup.
+- **Impact**: Features depending on missing tables (Requirements editor, control-requirement mapping, knowledgebase, company scoping, attachments) will fail at runtime with "relation does not exist" errors. Read-only views of existing tables (User, Control, Assessment, ProcessArea) work fine.
+- **Fix needed**: Run `npx prisma migrate deploy` against the shared DB to create missing tables. Or use `npx prisma db push` to sync schema to DB. This is a one-time operation.
+- **Lesson**: After copying a Prisma schema to a new project, always verify `information_schema.tables` matches the expected model list. Run `prisma migrate deploy` as part of initial setup.
+
