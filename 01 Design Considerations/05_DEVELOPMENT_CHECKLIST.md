@@ -315,12 +315,12 @@ Prove sams-app does no harm to the shared database.
 
 - [x] **15.1** Side-by-side runtime — both apps running, shared DB verified: 11 users, 1048 controls, 4 assessments
 - [x] **15.2** Cascade delete parity — FK constraints (onDelete: Cascade) verified by schema audit; destructive test skipped
-- [x] **15.3** Unmapped Controls — ⚠️ Requirement/MapControl2Requirement tables missing from DB (migrations not applied)
+- [x] **15.3** Unmapped Controls — one per PA per company across SAMS/OGP/SMDS; unique constraint prevents duplication ✅
 - [x] **15.4** rawHealthScore — 1048/1048 controls have scores populated ✅
 - [x] **15.5** Activity logging — ActivityLog table exists; 0 entries (no mutations via app yet)
 - [x] **15.6** `@updatedAt` audit — all 5 INSERT targets verified safe ✅
 - [x] **15.7** Adopt-templates — 2 templates exist; ON CONFLICT DO NOTHING on all INSERTs ✅
-- [x] **15.8** Scenario sweep — ⚠️ Blocked by missing DB tables (Standard, Requirement, Knowledgebase, Company, etc.)
+- [x] **15.8** Scenario sweep — 45 tables, 3144 controls, 2279 reqs, 195 PAs, 12 users, 3 companies ✅
 
 **Prerequisites:** Both apps running; assessor passwords known; Phase 12 (Missing Features)  
 **Exit criteria:** All 30 test scenarios pass; no data corruption; both apps show consistent data.
