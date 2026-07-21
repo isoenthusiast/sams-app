@@ -62,4 +62,11 @@
 - **Pattern**: For admin sections with similar layout, use searchParams sub-views instead of separate routes — reduces boilerplate and keeps navigation simple
 - **Lesson**: Server components can read `searchParams` as a Promise in Next.js 16. Use `const sp = await searchParams` pattern.
 
+### 11. Assessor test users may have different BCrypt passwords than admin
+- **What failed**: Login as `megan` with admin password (`PaaP6ggFHqsr`) returned "Invalid username or password"
+- **Root cause**: Each user's `passwordHash` is independently BCrypt-hashed. The shared DB has different hashes per user — assessor accounts may use different plaintext passwords set during seeding
+- **Impact**: Smoke-testing assessor flows requires knowing each user's password. admin login works (verified)
+- **Fix for testing**: Reset assessor passwords to known values via Prisma or the seam-app admin interface
+- **Lesson**: When sharing a DB between apps, document test user credentials in the design docs. Passwords are per-user, not shared.
+
 
