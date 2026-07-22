@@ -12,6 +12,7 @@ import { RequirementsView } from "./RequirementsView";
 import { BadgesView } from "./BadgesView";
 import { KnowledgebaseView } from "./KnowledgebaseView";
 import { KanbanBoard } from "@/components/KanbanBoard";
+import { UserManager } from "@/components/UserManager";
 
 export const dynamic = "force-dynamic";
 
@@ -54,6 +55,11 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
   // Users (for users view)
   const users = view === "users"
     ? await prisma.user.findMany({ orderBy: { name: "asc" }, include: { userCompanies: { include: { company: true } } } })
+    : [];
+
+  // Companies (for user management)
+  const companies = view === "users"
+    ? await prisma.company.findMany({ orderBy: { companyID: "asc" } })
     : [];
 
   // Templates (for templates view)
@@ -345,22 +351,11 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
 
       {/* ── Users ── */}
       {view === "users" && (
-        <div className="mt-6 space-y-3">
-          <p className="text-sm text-slate-500 mb-2">{users.length} user(s)</p>
-          {users.map((u) => (
-            <Card key={u.id} padding="sm">
-              <div className="flex items-center justify-between">
-                <div>
-                  <div className="font-medium text-slate-900">{u.name} <span className="text-xs text-slate-400">@{u.username}</span></div>
-                  <div className="text-xs text-slate-500">Role: {u.role} · Points: {u.totalPoints}</div>
-                </div>
-                <div className="text-xs text-slate-400">
-                  {u.userCompanies?.map((uc) => uc.company.companyID).join(", ") || "No company"}
-                </div>
-              </div>
-            </Card>
-          ))}
-        </div>
+        <UserManager
+          initialUsers={users}
+          companies={companies}
+          currentUserId={(session.user as any)?.id}
+        />
       )}
 
       {/* ── Templates ── */}
