@@ -633,10 +633,10 @@ model AActUsers {
   userId             String
   userRoles          String
   assignmentRemarks  String?
-  acceptedAt         DateTime?
-  acceptanceRemarks  String?
   createdAt          DateTime  @default(now())
   aact               Aact      @relation("AactToAActUsers", fields: [aaId], references: [aaID], onDelete: Cascade)
+  // acceptedAt        DateTime?
+  // acceptanceRemarks String?
 
   @@unique([aaId, userId])
   @@index([aaId])

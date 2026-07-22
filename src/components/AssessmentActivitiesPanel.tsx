@@ -28,8 +28,6 @@ interface AactRecord {
     userId: string;
     userRoles: string;
     assignmentRemarks: string | null;
-    acceptedAt: string | null;
-    acceptanceRemarks: string | null;
     user: { id: string; name: string | null; username: string } | null;
   }>;
   details: Array<{
@@ -511,9 +509,6 @@ export default function AssessmentActivitiesPanel({
                               <th className="px-2 py-1 text-left font-medium text-slate-600">
                                 Remarks
                               </th>
-                              <th className="px-2 py-1 text-left font-medium text-slate-600 w-20">
-                                Accepted
-                              </th>
                               <th className="px-2 py-1 w-16"></th>
                             </tr>
                           </thead>
@@ -533,13 +528,6 @@ export default function AssessmentActivitiesPanel({
                                 </td>
                                 <td className="px-2 py-1 text-slate-500">
                                   {au.assignmentRemarks || "—"}
-                                </td>
-                                <td className="px-2 py-1">
-                                  {au.acceptedAt ? (
-                                    <span className="text-green-600 text-2xs" title={new Date(au.acceptedAt).toLocaleString()}>✓ {new Date(au.acceptedAt).toLocaleDateString(undefined, { month: "short", day: "numeric" })}</span>
-                                  ) : (
-                                    <span className="text-amber-500 text-2xs">—</span>
-                                  )}
                                 </td>
                                 <td className="px-2 py-1">
                                   {!readOnly && (

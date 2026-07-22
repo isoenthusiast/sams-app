@@ -10,8 +10,6 @@ type Interview = {
   assignmentId: string;
   userRoles: string;
   remarks: string | null;
-  acceptedAt: string | null;
-  acceptanceRemarks: string | null;
   activity: {
     id: string;
     aaID: string;
@@ -44,8 +42,6 @@ export function MyInterviewsClient() {
   const [interviews, setInterviews] = useState<Interview[]>([]);
   const [loading, setLoading] = useState(true);
   const [expanded, setExpanded] = useState<Set<string>>(new Set());
-  const [ackRemarks, setAckRemarks] = useState<Record<string, string>>({});
-  const [acknowledging, setAcknowledging] = useState<Set<string>>(new Set());
 
   useEffect(() => {
     fetch("/api/my/interviews")
@@ -62,30 +58,6 @@ export function MyInterviewsClient() {
       else next.add(id);
       return next;
     });
-  };
-
-  const handleAcknowledge = async (assignmentId: string) => {
-    setAcknowledging((prev) => new Set(prev).add(assignmentId));
-    try {
-      const res = await fetch(`/api/my/interviews/${assignmentId}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ remarks: ackRemarks[assignmentId] || null }),
-      });
-      if (!res.ok) throw new Error("Failed to acknowledge");
-      // Update local state
-      setInterviews((prev) =>
-        prev.map((inv) =>
-          inv.assignmentId === assignmentId
-            ? { ...inv, acceptedAt: new Date().toISOString(), acceptanceRemarks: ackRemarks[assignmentId] || null }
-            : inv
-        )
-      );
-    } catch {
-      // silently fail — data will reload on next visit
-    } finally {
-      setAcknowledging((prev) => { const n = new Set(prev); n.delete(assignmentId); return n; });
-    }
   };
 
   if (loading) {
@@ -179,17 +151,12 @@ export function MyInterviewsClient() {
                   </span>
                 </div>
 
-                {/* Your role + remarks + acceptance */}
+                {/* Your role + remarks */}
                 <div className="mt-2 flex items-center gap-2 text-xs flex-wrap">
                   <span className="text-slate-500">Your role:</span>
                   <span className="font-medium text-slate-700">{inv.userRoles || "Participant"}</span>
                   {inv.remarks && (
                     <span className="text-slate-400 italic">— {inv.remarks}</span>
-                  )}
-                  {inv.acceptedAt ? (
-                    <span className="text-green-700 font-medium ml-2">✓ Acknowledged {new Date(inv.acceptedAt).toLocaleDateString()}</span>
-                  ) : (
-                    <span className="text-amber-600 font-medium ml-2">⏳ Pending acknowledgement</span>
                   )}
                 </div>
               </div>
@@ -235,37 +202,7 @@ export function MyInterviewsClient() {
                     </div>
                   )}
 
-                  <div className="flex gap-2 pt-2 flex-wrap">
-                    {!inv.acceptedAt && (
-                      <div className="w-full border-t border-slate-200 pt-3 mt-2">
-                        <div className="flex items-end gap-2 flex-wrap">
-                          <div className="flex-1 min-w-[200px]">
-                            <label className="text-xs text-slate-500 block mb-0.5">Remarks (optional)</label>
-                            <input
-                              type="text"
-                              value={ackRemarks[inv.assignmentId] || ""}
-                              onChange={(e) => setAckRemarks((prev) => ({ ...prev, [inv.assignmentId]: e.target.value }))}
-                              placeholder="e.g. Content verified and accepted"
-                              className="w-full rounded border border-slate-300 px-2 py-1 text-xs"
-                              onClick={(e) => e.stopPropagation()}
-                            />
-                          </div>
-                          <button
-                            onClick={(e) => { e.stopPropagation(); handleAcknowledge(inv.assignmentId); }}
-                            disabled={acknowledging.has(inv.assignmentId)}
-                            className="rounded-md bg-green-700 px-3 py-1.5 text-xs font-medium text-white hover:bg-green-800 disabled:opacity-50"
-                          >
-                            {acknowledging.has(inv.assignmentId) ? "Saving…" : "✓ Acknowledge"}
-                          </button>
-                        </div>
-                        <p className="text-2xs text-slate-400 mt-1">By acknowledging, you confirm the conversation content is accurate.</p>
-                      </div>
-                    )}
-                    {inv.acceptedAt && inv.acceptanceRemarks && (
-                      <div className="w-full border-t border-slate-200 pt-2 mt-2">
-                        <p className="text-xs text-slate-500"><span className="font-medium">Your remarks:</span> {inv.acceptanceRemarks}</p>
-                      </div>
-                    )}
+                  <div className="flex gap-2 pt-2">
                     <Link
                       href={`/fla/${inv.assessment.id}`}
                       className="rounded-md bg-blue-800 px-3 py-1.5 text-xs font-medium text-white hover:bg-blue-900"

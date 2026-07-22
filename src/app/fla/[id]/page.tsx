@@ -35,7 +35,6 @@ export default async function AssessmentDetailPage({ params }: { params: Promise
       aacts: {
         include: {
           controls: true,
-          users: true,
           details: true,
         },
         orderBy: { activityDate: "desc" },

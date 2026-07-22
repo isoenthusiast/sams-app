@@ -24,7 +24,7 @@ async function loadActivityExtras(activities: { id: string }[]) {
   const userMap = new Map(userRecords.map((u) => [u.id, u]));
 
   const controlsMap = new Map<string, Array<{ id: string; controlId: string; control: { id: string; name: string } | null }>>();
-  const usersMap = new Map<string, Array<{ id: string; userId: string; userRoles: string; assignmentRemarks: string | null; acceptedAt: string | null; acceptanceRemarks: string | null; user: { id: string; name: string | null; username: string } | null }>>();
+  const usersMap = new Map<string, Array<{ id: string; userId: string; userRoles: string; assignmentRemarks: string | null; user: { id: string; name: string | null; username: string } | null }>>();
 
   for (const c of controls) {
     const list = controlsMap.get(c.aaId) ?? [];
@@ -33,7 +33,7 @@ async function loadActivityExtras(activities: { id: string }[]) {
   }
   for (const u of users) {
     const list = usersMap.get(u.aaId) ?? [];
-    list.push({ id: u.id, userId: u.userId, userRoles: u.userRoles, assignmentRemarks: u.assignmentRemarks, acceptedAt: u.acceptedAt?.toISOString() ?? null, acceptanceRemarks: u.acceptanceRemarks, user: userMap.get(u.userId) ?? null });
+    list.push({ id: u.id, userId: u.userId, userRoles: u.userRoles, assignmentRemarks: u.assignmentRemarks, user: userMap.get(u.userId) ?? null });
     usersMap.set(u.aaId, list);
   }
 
