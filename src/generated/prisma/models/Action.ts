@@ -50,6 +50,8 @@ export type ActionMinAggregateOutputType = {
   numberOfExtensions: number | null
   actionClosureEffective: boolean | null
   actionClosureApprovedBy: string | null
+  closureDate: Date | null
+  closureEvidence: string | null
 }
 
 export type ActionMaxAggregateOutputType = {
@@ -68,6 +70,8 @@ export type ActionMaxAggregateOutputType = {
   numberOfExtensions: number | null
   actionClosureEffective: boolean | null
   actionClosureApprovedBy: string | null
+  closureDate: Date | null
+  closureEvidence: string | null
 }
 
 export type ActionCountAggregateOutputType = {
@@ -86,6 +90,8 @@ export type ActionCountAggregateOutputType = {
   numberOfExtensions: number
   actionClosureEffective: number
   actionClosureApprovedBy: number
+  closureDate: number
+  closureEvidence: number
   _all: number
 }
 
@@ -114,6 +120,8 @@ export type ActionMinAggregateInputType = {
   numberOfExtensions?: true
   actionClosureEffective?: true
   actionClosureApprovedBy?: true
+  closureDate?: true
+  closureEvidence?: true
 }
 
 export type ActionMaxAggregateInputType = {
@@ -132,6 +140,8 @@ export type ActionMaxAggregateInputType = {
   numberOfExtensions?: true
   actionClosureEffective?: true
   actionClosureApprovedBy?: true
+  closureDate?: true
+  closureEvidence?: true
 }
 
 export type ActionCountAggregateInputType = {
@@ -150,6 +160,8 @@ export type ActionCountAggregateInputType = {
   numberOfExtensions?: true
   actionClosureEffective?: true
   actionClosureApprovedBy?: true
+  closureDate?: true
+  closureEvidence?: true
   _all?: true
 }
 
@@ -255,6 +267,8 @@ export type ActionGroupByOutputType = {
   numberOfExtensions: number
   actionClosureEffective: boolean
   actionClosureApprovedBy: string | null
+  closureDate: Date | null
+  closureEvidence: string | null
   _count: ActionCountAggregateOutputType | null
   _avg: ActionAvgAggregateOutputType | null
   _sum: ActionSumAggregateOutputType | null
@@ -296,6 +310,8 @@ export type ActionWhereInput = {
   numberOfExtensions?: Prisma.IntFilter<"Action"> | number
   actionClosureEffective?: Prisma.BoolFilter<"Action"> | boolean
   actionClosureApprovedBy?: Prisma.StringNullableFilter<"Action"> | string | null
+  closureDate?: Prisma.DateTimeNullableFilter<"Action"> | Date | string | null
+  closureEvidence?: Prisma.StringNullableFilter<"Action"> | string | null
   finding?: Prisma.XOR<Prisma.FindingScalarRelationFilter, Prisma.FindingWhereInput>
 }
 
@@ -315,6 +331,8 @@ export type ActionOrderByWithRelationInput = {
   numberOfExtensions?: Prisma.SortOrder
   actionClosureEffective?: Prisma.SortOrder
   actionClosureApprovedBy?: Prisma.SortOrderInput | Prisma.SortOrder
+  closureDate?: Prisma.SortOrderInput | Prisma.SortOrder
+  closureEvidence?: Prisma.SortOrderInput | Prisma.SortOrder
   finding?: Prisma.FindingOrderByWithRelationInput
 }
 
@@ -337,6 +355,8 @@ export type ActionWhereUniqueInput = Prisma.AtLeast<{
   numberOfExtensions?: Prisma.IntFilter<"Action"> | number
   actionClosureEffective?: Prisma.BoolFilter<"Action"> | boolean
   actionClosureApprovedBy?: Prisma.StringNullableFilter<"Action"> | string | null
+  closureDate?: Prisma.DateTimeNullableFilter<"Action"> | Date | string | null
+  closureEvidence?: Prisma.StringNullableFilter<"Action"> | string | null
   finding?: Prisma.XOR<Prisma.FindingScalarRelationFilter, Prisma.FindingWhereInput>
 }, "id" | "actionId">
 
@@ -356,6 +376,8 @@ export type ActionOrderByWithAggregationInput = {
   numberOfExtensions?: Prisma.SortOrder
   actionClosureEffective?: Prisma.SortOrder
   actionClosureApprovedBy?: Prisma.SortOrderInput | Prisma.SortOrder
+  closureDate?: Prisma.SortOrderInput | Prisma.SortOrder
+  closureEvidence?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.ActionCountOrderByAggregateInput
   _avg?: Prisma.ActionAvgOrderByAggregateInput
   _max?: Prisma.ActionMaxOrderByAggregateInput
@@ -382,6 +404,8 @@ export type ActionScalarWhereWithAggregatesInput = {
   numberOfExtensions?: Prisma.IntWithAggregatesFilter<"Action"> | number
   actionClosureEffective?: Prisma.BoolWithAggregatesFilter<"Action"> | boolean
   actionClosureApprovedBy?: Prisma.StringNullableWithAggregatesFilter<"Action"> | string | null
+  closureDate?: Prisma.DateTimeNullableWithAggregatesFilter<"Action"> | Date | string | null
+  closureEvidence?: Prisma.StringNullableWithAggregatesFilter<"Action"> | string | null
 }
 
 export type ActionCreateInput = {
@@ -399,6 +423,8 @@ export type ActionCreateInput = {
   numberOfExtensions?: number
   actionClosureEffective?: boolean
   actionClosureApprovedBy?: string | null
+  closureDate?: Date | string | null
+  closureEvidence?: string | null
   finding: Prisma.FindingCreateNestedOneWithoutActionsInput
 }
 
@@ -418,6 +444,8 @@ export type ActionUncheckedCreateInput = {
   numberOfExtensions?: number
   actionClosureEffective?: boolean
   actionClosureApprovedBy?: string | null
+  closureDate?: Date | string | null
+  closureEvidence?: string | null
 }
 
 export type ActionUpdateInput = {
@@ -435,6 +463,8 @@ export type ActionUpdateInput = {
   numberOfExtensions?: Prisma.IntFieldUpdateOperationsInput | number
   actionClosureEffective?: Prisma.BoolFieldUpdateOperationsInput | boolean
   actionClosureApprovedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  closureDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  closureEvidence?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   finding?: Prisma.FindingUpdateOneRequiredWithoutActionsNestedInput
 }
 
@@ -454,6 +484,8 @@ export type ActionUncheckedUpdateInput = {
   numberOfExtensions?: Prisma.IntFieldUpdateOperationsInput | number
   actionClosureEffective?: Prisma.BoolFieldUpdateOperationsInput | boolean
   actionClosureApprovedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  closureDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  closureEvidence?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type ActionCreateManyInput = {
@@ -472,6 +504,8 @@ export type ActionCreateManyInput = {
   numberOfExtensions?: number
   actionClosureEffective?: boolean
   actionClosureApprovedBy?: string | null
+  closureDate?: Date | string | null
+  closureEvidence?: string | null
 }
 
 export type ActionUpdateManyMutationInput = {
@@ -489,6 +523,8 @@ export type ActionUpdateManyMutationInput = {
   numberOfExtensions?: Prisma.IntFieldUpdateOperationsInput | number
   actionClosureEffective?: Prisma.BoolFieldUpdateOperationsInput | boolean
   actionClosureApprovedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  closureDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  closureEvidence?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type ActionUncheckedUpdateManyInput = {
@@ -507,6 +543,8 @@ export type ActionUncheckedUpdateManyInput = {
   numberOfExtensions?: Prisma.IntFieldUpdateOperationsInput | number
   actionClosureEffective?: Prisma.BoolFieldUpdateOperationsInput | boolean
   actionClosureApprovedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  closureDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  closureEvidence?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type ActionListRelationFilter = {
@@ -535,6 +573,8 @@ export type ActionCountOrderByAggregateInput = {
   numberOfExtensions?: Prisma.SortOrder
   actionClosureEffective?: Prisma.SortOrder
   actionClosureApprovedBy?: Prisma.SortOrder
+  closureDate?: Prisma.SortOrder
+  closureEvidence?: Prisma.SortOrder
 }
 
 export type ActionAvgOrderByAggregateInput = {
@@ -557,6 +597,8 @@ export type ActionMaxOrderByAggregateInput = {
   numberOfExtensions?: Prisma.SortOrder
   actionClosureEffective?: Prisma.SortOrder
   actionClosureApprovedBy?: Prisma.SortOrder
+  closureDate?: Prisma.SortOrder
+  closureEvidence?: Prisma.SortOrder
 }
 
 export type ActionMinOrderByAggregateInput = {
@@ -575,6 +617,8 @@ export type ActionMinOrderByAggregateInput = {
   numberOfExtensions?: Prisma.SortOrder
   actionClosureEffective?: Prisma.SortOrder
   actionClosureApprovedBy?: Prisma.SortOrder
+  closureDate?: Prisma.SortOrder
+  closureEvidence?: Prisma.SortOrder
 }
 
 export type ActionSumOrderByAggregateInput = {
@@ -638,6 +682,8 @@ export type ActionCreateWithoutFindingInput = {
   numberOfExtensions?: number
   actionClosureEffective?: boolean
   actionClosureApprovedBy?: string | null
+  closureDate?: Date | string | null
+  closureEvidence?: string | null
 }
 
 export type ActionUncheckedCreateWithoutFindingInput = {
@@ -655,6 +701,8 @@ export type ActionUncheckedCreateWithoutFindingInput = {
   numberOfExtensions?: number
   actionClosureEffective?: boolean
   actionClosureApprovedBy?: string | null
+  closureDate?: Date | string | null
+  closureEvidence?: string | null
 }
 
 export type ActionCreateOrConnectWithoutFindingInput = {
@@ -702,6 +750,8 @@ export type ActionScalarWhereInput = {
   numberOfExtensions?: Prisma.IntFilter<"Action"> | number
   actionClosureEffective?: Prisma.BoolFilter<"Action"> | boolean
   actionClosureApprovedBy?: Prisma.StringNullableFilter<"Action"> | string | null
+  closureDate?: Prisma.DateTimeNullableFilter<"Action"> | Date | string | null
+  closureEvidence?: Prisma.StringNullableFilter<"Action"> | string | null
 }
 
 export type ActionCreateManyFindingInput = {
@@ -719,6 +769,8 @@ export type ActionCreateManyFindingInput = {
   numberOfExtensions?: number
   actionClosureEffective?: boolean
   actionClosureApprovedBy?: string | null
+  closureDate?: Date | string | null
+  closureEvidence?: string | null
 }
 
 export type ActionUpdateWithoutFindingInput = {
@@ -736,6 +788,8 @@ export type ActionUpdateWithoutFindingInput = {
   numberOfExtensions?: Prisma.IntFieldUpdateOperationsInput | number
   actionClosureEffective?: Prisma.BoolFieldUpdateOperationsInput | boolean
   actionClosureApprovedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  closureDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  closureEvidence?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type ActionUncheckedUpdateWithoutFindingInput = {
@@ -753,6 +807,8 @@ export type ActionUncheckedUpdateWithoutFindingInput = {
   numberOfExtensions?: Prisma.IntFieldUpdateOperationsInput | number
   actionClosureEffective?: Prisma.BoolFieldUpdateOperationsInput | boolean
   actionClosureApprovedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  closureDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  closureEvidence?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type ActionUncheckedUpdateManyWithoutFindingInput = {
@@ -770,6 +826,8 @@ export type ActionUncheckedUpdateManyWithoutFindingInput = {
   numberOfExtensions?: Prisma.IntFieldUpdateOperationsInput | number
   actionClosureEffective?: Prisma.BoolFieldUpdateOperationsInput | boolean
   actionClosureApprovedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  closureDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  closureEvidence?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 
@@ -790,6 +848,8 @@ export type ActionSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   numberOfExtensions?: boolean
   actionClosureEffective?: boolean
   actionClosureApprovedBy?: boolean
+  closureDate?: boolean
+  closureEvidence?: boolean
   finding?: boolean | Prisma.FindingDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["action"]>
 
@@ -809,6 +869,8 @@ export type ActionSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extens
   numberOfExtensions?: boolean
   actionClosureEffective?: boolean
   actionClosureApprovedBy?: boolean
+  closureDate?: boolean
+  closureEvidence?: boolean
   finding?: boolean | Prisma.FindingDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["action"]>
 
@@ -828,6 +890,8 @@ export type ActionSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
   numberOfExtensions?: boolean
   actionClosureEffective?: boolean
   actionClosureApprovedBy?: boolean
+  closureDate?: boolean
+  closureEvidence?: boolean
   finding?: boolean | Prisma.FindingDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["action"]>
 
@@ -847,9 +911,11 @@ export type ActionSelectScalar = {
   numberOfExtensions?: boolean
   actionClosureEffective?: boolean
   actionClosureApprovedBy?: boolean
+  closureDate?: boolean
+  closureEvidence?: boolean
 }
 
-export type ActionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "actionId" | "findingId" | "actionDescription" | "actionDetails" | "actionTaken" | "actionParty" | "auditee" | "createdDate" | "targetDate" | "apAgreed" | "originalTargetDate" | "numberOfExtensions" | "actionClosureEffective" | "actionClosureApprovedBy", ExtArgs["result"]["action"]>
+export type ActionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "actionId" | "findingId" | "actionDescription" | "actionDetails" | "actionTaken" | "actionParty" | "auditee" | "createdDate" | "targetDate" | "apAgreed" | "originalTargetDate" | "numberOfExtensions" | "actionClosureEffective" | "actionClosureApprovedBy" | "closureDate" | "closureEvidence", ExtArgs["result"]["action"]>
 export type ActionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   finding?: boolean | Prisma.FindingDefaultArgs<ExtArgs>
 }
@@ -881,6 +947,8 @@ export type $ActionPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     numberOfExtensions: number
     actionClosureEffective: boolean
     actionClosureApprovedBy: string | null
+    closureDate: Date | null
+    closureEvidence: string | null
   }, ExtArgs["result"]["action"]>
   composites: {}
 }
@@ -1320,6 +1388,8 @@ export interface ActionFieldRefs {
   readonly numberOfExtensions: Prisma.FieldRef<"Action", 'Int'>
   readonly actionClosureEffective: Prisma.FieldRef<"Action", 'Boolean'>
   readonly actionClosureApprovedBy: Prisma.FieldRef<"Action", 'String'>
+  readonly closureDate: Prisma.FieldRef<"Action", 'DateTime'>
+  readonly closureEvidence: Prisma.FieldRef<"Action", 'String'>
 }
     
 

@@ -359,6 +359,8 @@ model Action {
   numberOfExtensions      Int       @default(0)
   actionClosureEffective  Boolean   @default(false)
   actionClosureApprovedBy String?
+  closureDate             DateTime?
+  closureEvidence         String?
   finding                 Finding   @relation(fields: [findingId], references: [id], onDelete: Cascade)
 
   @@index([findingId])

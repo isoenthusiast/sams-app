@@ -247,7 +247,7 @@ export default function AssessmentClient({ assessment, allControls, processAreas
   };
 
   const handleComplete = async () => {
-    if (!confirm("Mark this assessment as Complete? This will award gamification points.")) return;
+    if (!confirm("Mark this assessment as Complete? This will recalculate control health and award gamification points.")) return;
     setSaving(true);
     try {
       const res = await fetch(`/api/admin/table/Assessment/${assessment.id}`, {
@@ -256,6 +256,15 @@ export default function AssessmentClient({ assessment, allControls, processAreas
         body: JSON.stringify({ status: "Completed", endDate: new Date().toISOString() }),
       });
       if (!res.ok) throw new Error("Failed to complete");
+
+      // Recalculate control health
+      try {
+        const healthRes = await fetch(`/api/admin/assessments/${assessment.id}/recalculate-health`, { method: "POST" });
+        if (healthRes.ok) {
+          const healthData = await healthRes.json();
+          showToast(`Control health recalculated for ${healthData.updated} controls`, "success");
+        }
+      } catch { /* health recalculation optional */ }
 
       // Award points
       try {
@@ -852,20 +861,29 @@ export default function AssessmentClient({ assessment, allControls, processAreas
 
                   {/* Existing actions */}
                   {f.actions?.map((act: any) => (
-                    <div key={act.id} className="flex items-start justify-between py-1.5 border-b border-slate-50 last:border-0">
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-2">
-                          <span className="text-sm text-slate-800 truncate">{act.actionDescription}</span>
-                          {act.actionClosureEffective && <span className="text-xs text-emerald-600">✓ Closed</span>}
+                    <div key={act.id} className="py-1.5 border-b border-slate-50 last:border-0">
+                      <div className="flex items-start justify-between">
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2">
+                            <span className="text-sm text-slate-800 truncate">{act.actionDescription}</span>
+                            {act.actionClosureEffective && <span className="text-xs text-emerald-600">✓ Closed</span>}
+                          </div>
+                          <div className="text-xs text-slate-400">
+                            {act.actionParty && <span>{act.actionParty}</span>}
+                            {act.targetDate && <span> · Due: {new Date(act.targetDate).toLocaleDateString()}</span>}
+                            {act.apAgreed && <span> · Agreed</span>}
+                            {act.closureDate && <span> · Closed: {new Date(act.closureDate).toLocaleDateString()}</span>}
+                          </div>
+                          {act.closureEvidence && (
+                            <div className="text-xs text-slate-500 mt-1 italic">Evidence: {act.closureEvidence}</div>
+                          )}
                         </div>
-                        <div className="text-xs text-slate-400">
-                          {act.actionParty && <span>{act.actionParty}</span>}
-                          {act.targetDate && <span> · Due: {new Date(act.targetDate).toLocaleDateString()}</span>}
-                          {act.apAgreed && <span> · Agreed</span>}
+                        <div className="flex items-center gap-1 ml-2 shrink-0">
+                          <ClosureButton action={act} assessmentId={assessment.id} />
+                          <button onClick={() => handleDeleteAction(act.id)}
+                            className="text-xs text-red-400 hover:text-red-600">🗑</button>
                         </div>
                       </div>
-                      <button onClick={() => handleDeleteAction(act.id)}
-                        className="text-xs text-red-400 hover:text-red-600 ml-2 shrink-0">🗑</button>
                     </div>
                   ))}
                   {(!f.actions || f.actions.length === 0) && !actionForms[f.id] && (
@@ -895,6 +913,75 @@ export default function AssessmentClient({ assessment, allControls, processAreas
 
       <div className="mt-6 flex gap-3">
         <Button variant="secondary" size="sm" onClick={() => router.push("/fla")}>← Back</Button>
+      </div>
+    </div>
+  );
+}
+
+// Inline closure button + form for actions
+function ClosureButton({ action, assessmentId }: { action: any; assessmentId: string }) {
+  const [showForm, setShowForm] = useState(false);
+  const [date, setDate] = useState(new Date().toISOString().slice(0, 10));
+  const [evidence, setEvidence] = useState("");
+  const [saving, setSaving] = useState(false);
+
+  const handleClose = async () => {
+    setSaving(true);
+    try {
+      const res = await fetch(`/api/admin/actions/${action.id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          actionClosureEffective: true,
+          closureDate: date ? new Date(date).toISOString() : new Date().toISOString(),
+          closureEvidence: evidence || null,
+          actionClosureApprovedBy: "Assessor",
+        }),
+      });
+      if (!res.ok) throw new Error("Failed");
+      setShowForm(false);
+      window.location.reload();
+    } catch (err: any) {
+      showToast(err.message || "Failed", "error");
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  if (action.actionClosureEffective) return null;
+
+  if (!showForm) {
+    return (
+      <button onClick={() => setShowForm(true)} className="text-xs text-emerald-600 hover:text-emerald-800 font-medium">
+        ✓ Close
+      </button>
+    );
+  }
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40" onClick={() => setShowForm(false)}>
+      <div className="bg-white rounded-lg shadow-xl p-5 max-w-sm w-full mx-4" onClick={(e) => e.stopPropagation()}>
+        <h3 className="text-sm font-semibold mb-3">Close Action</h3>
+        <div className="space-y-2">
+          <div>
+            <label className="text-xs text-slate-500">Closure Date</label>
+            <input type="date" value={date} onChange={(e) => setDate(e.target.value)}
+              className="w-full rounded border border-slate-300 px-2 py-1.5 text-sm mt-0.5" />
+          </div>
+          <div>
+            <label className="text-xs text-slate-500">Evidence Description</label>
+            <textarea value={evidence} onChange={(e) => setEvidence(e.target.value)}
+              className="w-full rounded border border-slate-300 px-2 py-1.5 text-sm mt-0.5" rows={3}
+              placeholder="Describe the evidence supporting this closure..." />
+          </div>
+          <AttachmentList destTable="Action" recId={action.id} />
+          <div className="flex gap-2 pt-2">
+            <Button variant="primary" size="sm" disabled={saving} onClick={handleClose}>
+              {saving ? "Closing…" : "Close Action"}
+            </Button>
+            <Button variant="ghost" size="sm" onClick={() => setShowForm(false)}>Cancel</Button>
+          </div>
+        </div>
       </div>
     </div>
   );

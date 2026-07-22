@@ -25,6 +25,9 @@ export async function PUT(
     if (body.apAgreed !== undefined) { fields.push(`"apAgreed" = $${idx++}`); values.push(body.apAgreed); }
     if (body.actionTaken !== undefined) { fields.push(`"actionTaken" = $${idx++}`); values.push(body.actionTaken); }
     if (body.actionClosureEffective !== undefined) { fields.push(`"actionClosureEffective" = $${idx++}`); values.push(body.actionClosureEffective); }
+    if (body.actionClosureApprovedBy !== undefined) { fields.push(`"actionClosureApprovedBy" = $${idx++}`); values.push(body.actionClosureApprovedBy); }
+    if (body.closureDate !== undefined) { fields.push(`"closureDate" = $${idx++}`); values.push(body.closureDate ? new Date(body.closureDate) : null); }
+    if (body.closureEvidence !== undefined) { fields.push(`"closureEvidence" = $${idx++}`); values.push(body.closureEvidence); }
 
     if (fields.length === 0) {
       return NextResponse.json({ error: "No fields to update" }, { status: 400 });

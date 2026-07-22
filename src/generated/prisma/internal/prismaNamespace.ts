@@ -4256,7 +4256,9 @@ export const ActionScalarFieldEnum = {
   originalTargetDate: 'originalTargetDate',
   numberOfExtensions: 'numberOfExtensions',
   actionClosureEffective: 'actionClosureEffective',
-  actionClosureApprovedBy: 'actionClosureApprovedBy'
+  actionClosureApprovedBy: 'actionClosureApprovedBy',
+  closureDate: 'closureDate',
+  closureEvidence: 'closureEvidence'
 } as const
 
 export type ActionScalarFieldEnum = (typeof ActionScalarFieldEnum)[keyof typeof ActionScalarFieldEnum]
