@@ -23,6 +23,7 @@ type Props = {
 
 const ROLE_OPTIONS = [
   { value: "Admin", label: "Admin" },
+  { value: "Superuser", label: "Superuser" },
   { value: "Assessor", label: "Assessor" },
   { value: "Interviewee", label: "Interviewee" },
 ];

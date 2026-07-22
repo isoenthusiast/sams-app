@@ -1,12 +1,12 @@
-import { auth } from "@/auth";
+import { requireAuth } from "@/lib/authz";
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 
 // GET — list interviews the current user is assigned to
 export async function GET() {
   try {
-    const session = await auth();
-    if (!session?.user) return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
+    const { session, response } = await requireAuth();
+    if (response) return response;
 
     const userId = (session.user as { id?: string }).id;
     if (!userId) return NextResponse.json({ error: "No user id" }, { status: 400 });

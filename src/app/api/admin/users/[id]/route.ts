@@ -1,4 +1,4 @@
-import { auth } from "@/auth";
+import { requireAdmin, logActivity } from "@/lib/authz";
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
@@ -9,10 +9,8 @@ export async function PUT(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const session = await auth();
-    if (!session?.user || (session.user as any)?.role !== "Admin") {
-      return NextResponse.json({ error: "Admin only" }, { status: 403 });
-    }
+    const { session, response } = await requireAdmin();
+    if (response) return response;
 
     const { id } = await params;
     const body = await request.json();
@@ -34,7 +32,7 @@ export async function PUT(
       fields.push(`"username" = $${idx++}`); values.push(username);
     }
     if (role !== undefined) {
-      const validRoles = ["Admin", "Assessor", "Interviewee"];
+      const validRoles = ["Admin", "Superuser", "Assessor", "Interviewee"];
       fields.push(`"role" = $${idx++}::"Role"`); values.push(validRoles.includes(role) ? role : "Assessor");
     }
     if (password !== undefined && password !== "") {
@@ -83,10 +81,8 @@ export async function DELETE(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const session = await auth();
-    if (!session?.user || (session.user as any)?.role !== "Admin") {
-      return NextResponse.json({ error: "Admin only" }, { status: 403 });
-    }
+    const { session, response } = await requireAdmin();
+    if (response) return response;
 
     const { id } = await params;
     const currentUserId = (session.user as any)?.id;
@@ -96,7 +92,23 @@ export async function DELETE(
       return NextResponse.json({ error: "Cannot delete your own account" }, { status: 400 });
     }
 
+    // Get user info before deleting for the log
+    const targetUser = await prisma.$queryRawUnsafe<any[]>(
+      `SELECT username, role FROM "User" WHERE id = $1`, id
+    );
+
     await prisma.$executeRawUnsafe(`DELETE FROM "User" WHERE id = $1`, id);
+
+    if (targetUser[0]) {
+      await logActivity({
+        userId: currentUserId || "unknown",
+        username: (session.user as { name?: string }).name || currentUserId,
+        action: "DELETE",
+        entityType: "User",
+        entityId: id,
+        summary: `Deleted user: ${targetUser[0].username} (${targetUser[0].role})`,
+      });
+    }
 
     return NextResponse.json({ success: true });
   } catch (error) {

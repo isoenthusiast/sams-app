@@ -1,4 +1,4 @@
-import { auth } from "@/auth";
+import { requireSuperuser } from "@/lib/authz";
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 
@@ -8,8 +8,8 @@ export async function DELETE(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const session = await auth();
-    if (!session?.user) return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
+    const { session, response } = await requireSuperuser();
+    if (response) return response;
 
     const { id } = await params;
     await prisma.aActControls.delete({ where: { id } });

@@ -1,4 +1,4 @@
-import { auth } from "@/auth";
+import { requireAuth, requireAssessor } from "@/lib/authz";
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 import { writeFile, mkdir } from "fs/promises";
@@ -7,8 +7,8 @@ import path from "path";
 // GET — list attachments for a specific record
 export async function GET(request: Request) {
   try {
-    const session = await auth();
-    if (!session?.user) return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
+    const { session, response } = await requireAuth();
+    if (response) return response;
 
     const { searchParams } = new URL(request.url);
     const destTable = searchParams.get("destTable");
@@ -34,8 +34,8 @@ export async function GET(request: Request) {
 // POST — upload and link attachment
 export async function POST(request: Request) {
   try {
-    const session = await auth();
-    if (!session?.user) return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
+    const { session, response } = await requireAssessor();
+    if (response) return response;
 
     const formData = await request.formData();
     const file = formData.get("file") as File;

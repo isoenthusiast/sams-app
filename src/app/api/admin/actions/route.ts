@@ -1,13 +1,14 @@
-import { auth } from "@/auth";
+import { requireAssessor, logActivity } from "@/lib/authz";
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 
 // POST — create a new action for a finding
 export async function POST(request: Request) {
   try {
-    const session = await auth();
-    if (!session?.user) return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
+    const { session, response } = await requireAssessor();
+    if (response) return response;
 
+    const userId = (session.user as { id?: string }).id || "unknown";
     const body = await request.json();
     const { findingId, actionDescription, actionParty, actionDetails, targetDate, apAgreed } = body;
 
@@ -30,6 +31,16 @@ export async function POST(request: Request) {
         targetDate: targetDate ? new Date(targetDate) : null,
         apAgreed: apAgreed ?? false,
       },
+    });
+
+    await logActivity({
+      userId,
+      username: (session.user as { name?: string }).name || userId,
+      action: "CREATE",
+      entityType: "Action",
+      entityId: action.id,
+      summary: `Created action: ${actionDescription.slice(0, 80)}`,
+      metadata: { findingId, actionParty: actionParty || null },
     });
 
     return NextResponse.json({ action }, { status: 201 });

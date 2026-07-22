@@ -22,6 +22,31 @@ export async function requireAdmin() {
   return { session, response: null };
 }
 
+export async function requireSuperuser() {
+  const session = await auth();
+  if (!session?.user) {
+    return { session: null, response: NextResponse.json({ error: "Not authenticated" }, { status: 401 }) };
+  }
+  const role = session.user.role;
+  if (role !== "Admin" && role !== "Superuser") {
+    return { session: null, response: NextResponse.json({ error: "Superuser access required" }, { status: 403 }) };
+  }
+  return { session, response: null };
+}
+
+/** Require at least Assessor (Admin, Superuser, or Assessor). Interviewees excluded. */
+export async function requireAssessor() {
+  const session = await auth();
+  if (!session?.user) {
+    return { session: null, response: NextResponse.json({ error: "Not authenticated" }, { status: 401 }) };
+  }
+  const role = session.user.role;
+  if (role !== "Admin" && role !== "Superuser" && role !== "Assessor") {
+    return { session: null, response: NextResponse.json({ error: "Assessor access required" }, { status: 403 }) };
+  }
+  return { session, response: null };
+}
+
 export async function requireAuth() {
   const session = await auth();
   if (!session?.user) {
@@ -71,6 +96,35 @@ export async function getCompanyWhere(sessionUser: SessionUser, tableField = "co
     return { where: {}, response: null };
   }
   return { where: { [tableField]: companyId }, response: null };
+}
+
+// ── Activity Logging ──────────────────────────────────────────────────────
+
+export async function logActivity(params: {
+  userId: string;
+  username?: string;
+  action: string;
+  entityType: string;
+  entityId: string;
+  summary: string;
+  metadata?: Record<string, unknown>;
+}) {
+  try {
+    await prisma.$executeRawUnsafe(
+      `INSERT INTO "ActivityLog" (id, "timestamp", description, "activityType", username, "refTable", "refRecord", "beforeData", "afterData", "createdAt")
+       VALUES ($1, NOW(), $2, $3, $4, $5, $6, $7, $8, NOW())`,
+      `log_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`,
+      params.summary,
+      params.action,
+      params.username || params.userId,
+      params.entityType,
+      params.entityId,
+      params.metadata ? JSON.stringify(params.metadata) : null
+    );
+  } catch (err) {
+    console.error("[ActivityLog] Failed to write log:", err);
+    // Never fail a request because logging failed
+  }
 }
 
 export async function requireCompanyIdAccess(sessionUser: SessionUser, companyId: string | null | undefined) {

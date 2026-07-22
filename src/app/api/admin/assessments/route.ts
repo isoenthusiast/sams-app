@@ -1,6 +1,5 @@
-import { auth } from "@/auth";
+import { requireSuperuser, getSelectedCompanyId, logActivity } from "@/lib/authz";
 import { prisma } from "@/lib/prisma";
-import { getSelectedCompanyId } from "@/lib/authz";
 import { NextResponse } from "next/server";
 
 // Default activity template — created for every new assessment.
@@ -21,8 +20,8 @@ function generateAaId(assessmentId: string, seq: number): string {
 // POST — create a new assessment with template activities
 export async function POST(request: Request) {
   try {
-    const session = await auth();
-    if (!session?.user) return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
+    const { session, response } = await requireSuperuser();
+    if (response) return response;
 
     const userId = (session.user as { id?: string }).id;
     if (!userId) return NextResponse.json({ error: "No user id" }, { status: 400 });
@@ -134,16 +133,15 @@ export async function POST(request: Request) {
     }
 
     // Log activity
-    await prisma.$executeRawUnsafe(
-      `INSERT INTO "ActivityLog" (id, description, "activityType", username, "refTable", "refRecord")
-       VALUES ($1, $2, $3, $4, $5, $6)`,
-      `log_${Date.now()}`,
-      `Created assessment: ${name.trim()}`,
-      "Assessment",
-      (session.user as { name?: string }).name || "unknown",
-      "Assessment",
-      assessmentId,
-    );
+    await logActivity({
+      userId,
+      username: (session.user as { name?: string }).name || userId,
+      action: "CREATE",
+      entityType: "Assessment",
+      entityId: assessmentId,
+      summary: `Created assessment: ${name.trim()}`,
+      metadata: { controlCount: controlIds.length, loa: loa || "SecondLine" },
+    });
 
     return NextResponse.json({ id: assessmentId, name: name.trim(), status: "Planned" }, { status: 201 });
   } catch (error) {

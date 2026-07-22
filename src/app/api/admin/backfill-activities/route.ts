@@ -1,4 +1,4 @@
-import { auth } from "@/auth";
+import { requireAdmin } from "@/lib/authz";
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 
@@ -18,10 +18,8 @@ function generateAaId(assessmentId: string, seq: number): string {
 // POST — backfill activities for all assessments that don't have any
 export async function POST() {
   try {
-    const session = await auth();
-    if (!session?.user || (session.user as any)?.role !== "Admin") {
-      return NextResponse.json({ error: "Admin only" }, { status: 403 });
-    }
+    const { session, response } = await requireAdmin();
+    if (response) return response;
 
     const assessments = await prisma.$queryRawUnsafe<Array<{ id: string; name: string; "startDate": Date }>>(
       `SELECT id, name, "startDate" FROM "Assessment" ORDER BY "createdAt"`

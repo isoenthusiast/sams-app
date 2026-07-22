@@ -523,6 +523,7 @@ model Milestone {
 
 enum Role {
   Admin
+  Superuser
   Assessor
   Interviewee
 }

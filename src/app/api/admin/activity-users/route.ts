@@ -1,12 +1,12 @@
-import { auth } from "@/auth";
+import { requireSuperuser } from "@/lib/authz";
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 
 // POST — assign a user to an activity
 export async function POST(request: Request) {
   try {
-    const session = await auth();
-    if (!session?.user) return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
+    const { session, response } = await requireSuperuser();
+    if (response) return response;
 
     const body = await request.json();
     const { aaId, userId, userRoles, assignmentRemarks } = body;

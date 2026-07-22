@@ -1,15 +1,12 @@
-import { auth } from "@/auth";
+import { requireAdmin, getSelectedCompanyId } from "@/lib/authz";
 import { prisma } from "@/lib/prisma";
-import { getSelectedCompanyId } from "@/lib/authz";
 import { NextResponse } from "next/server";
 
 // GET — list all backlog items, optionally filtered by status
 export async function GET(request: Request) {
   try {
-    const session = await auth();
-    if (!session?.user || session.user.role !== "Admin") {
-      return NextResponse.json({ error: "Admin access required" }, { status: 403 });
-    }
+    const { session, response } = await requireAdmin();
+    if (response) return response;
     const companyId = await getSelectedCompanyId();
     const { searchParams } = new URL(request.url);
     const status = searchParams.get("status");
@@ -33,10 +30,8 @@ export async function GET(request: Request) {
 // POST — create a new backlog item
 export async function POST(request: Request) {
   try {
-    const session = await auth();
-    if (!session?.user || session.user.role !== "Admin") {
-      return NextResponse.json({ error: "Admin access required" }, { status: 403 });
-    }
+    const { session, response } = await requireAdmin();
+    if (response) return response;
     const companyId = await getSelectedCompanyId();
     const body = await request.json();
     const { title, description, type, priority, justification, approach } = body;
@@ -69,10 +64,8 @@ export async function POST(request: Request) {
 // PATCH — update status, stage, priority, or fields of a backlog item
 export async function PATCH(request: Request) {
   try {
-    const session = await auth();
-    if (!session?.user || session.user.role !== "Admin") {
-      return NextResponse.json({ error: "Admin access required" }, { status: 403 });
-    }
+    const { session, response } = await requireAdmin();
+    if (response) return response;
     const body = await request.json();
     const { id, status, stage, priority, title, description, type, justification, approach } = body;
 
@@ -117,10 +110,8 @@ export async function PATCH(request: Request) {
 // DELETE — remove a backlog item
 export async function DELETE(request: Request) {
   try {
-    const session = await auth();
-    if (!session?.user || session.user.role !== "Admin") {
-      return NextResponse.json({ error: "Admin access required" }, { status: 403 });
-    }
+    const { session, response } = await requireAdmin();
+    if (response) return response;
     const { searchParams } = new URL(request.url);
     const id = searchParams.get("id");
 

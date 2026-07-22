@@ -1,4 +1,4 @@
-import { auth } from "@/auth";
+import { requireAuth, requireSuperuser } from "@/lib/authz";
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 
@@ -43,8 +43,8 @@ async function loadActivityExtras(activities: { id: string }[]) {
 // GET — list activities for an assessment
 export async function GET(request: Request) {
   try {
-    const session = await auth();
-    if (!session?.user) return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
+    const { session, response } = await requireAuth();
+    if (response) return response;
 
     const { searchParams } = new URL(request.url);
     const assessmentId = searchParams.get("assessmentId");
@@ -148,8 +148,8 @@ export async function GET(request: Request) {
 // POST — create a new assessment activity
 export async function POST(request: Request) {
   try {
-    const session = await auth();
-    if (!session?.user) return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
+    const { session, response } = await requireSuperuser();
+    if (response) return response;
 
     const body = await request.json();
     const {

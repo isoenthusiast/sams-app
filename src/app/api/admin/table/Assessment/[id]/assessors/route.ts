@@ -1,4 +1,4 @@
-import { auth } from "@/auth";
+import { requireAuth, requireSuperuser } from "@/lib/authz";
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 
@@ -9,8 +9,8 @@ export async function PUT(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const session = await auth();
-    if (!session?.user) return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
+    const { session, response } = await requireSuperuser();
+    if (response) return response;
 
     const { id: assessmentId } = await params;
     const body = await request.json();
@@ -55,8 +55,8 @@ export async function GET(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const session = await auth();
-    if (!session?.user) return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
+    const { session, response } = await requireAuth();
+    if (response) return response;
 
     const { id: assessmentId } = await params;
     const links = await prisma.assessmentAssessor.findMany({

@@ -1,4 +1,4 @@
-import { auth } from "@/auth";
+import { requireAdmin, logActivity } from "@/lib/authz";
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
@@ -6,10 +6,8 @@ import bcrypt from "bcryptjs";
 // POST — create a new user
 export async function POST(request: Request) {
   try {
-    const session = await auth();
-    if (!session?.user || (session.user as any)?.role !== "Admin") {
-      return NextResponse.json({ error: "Admin only" }, { status: 403 });
-    }
+    const { session, response } = await requireAdmin();
+    if (response) return response;
 
     const body = await request.json();
     const { name, username, password, role, companyIds } = body;
@@ -25,7 +23,7 @@ export async function POST(request: Request) {
     }
 
     const passwordHash = await bcrypt.hash(password, 10);
-    const validRoles = ["Admin", "Assessor", "Interviewee"];
+    const validRoles = ["Admin", "Superuser", "Assessor", "Interviewee"];
     const userRole = validRoles.includes(role) ? role : "Assessor";
 
     const user = await prisma.$executeRawUnsafe(
@@ -59,6 +57,16 @@ export async function POST(request: Request) {
     const fullUser = await prisma.$queryRawUnsafe<any[]>(
       `SELECT id, name, username, role, "totalPoints" FROM "User" WHERE id = $1`, userId
     );
+
+    await logActivity({
+      userId: (session.user as { id?: string }).id || "unknown",
+      username: (session.user as { name?: string }).name || "unknown",
+      action: "CREATE",
+      entityType: "User",
+      entityId: userId,
+      summary: `Created user: ${username} (${userRole})`,
+      metadata: { role: userRole, name },
+    });
 
     return NextResponse.json({ user: fullUser[0] }, { status: 201 });
   } catch (error) {
