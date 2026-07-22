@@ -349,3 +349,4 @@ sams-app will call the **same API endpoints** as seam-assurance-app:
 | Version | Date | Changes |
 |---------|------|---------|
 | v1.0.0 | 2026-07-21 | Initial design context document. User personas, navigation architecture, information architecture, shared database strategy, technology stack, constraints, success metrics, risks. |
+| v1.1.0 | 2026-07-22 | Assessment workflow (Phase 11) implemented: editable overview, sample/finding/action CRUD, activity scheduling with participants/controls/details/attachments. Added note on using browser-originated fetch for NextAuth-protected API tests in dev. |

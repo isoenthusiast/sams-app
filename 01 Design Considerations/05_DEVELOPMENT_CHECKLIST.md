@@ -434,7 +434,24 @@ The assessment workflow was read-only for creating samples, findings, and action
 - [x] **11.24** Activity controls — map/remove controls tested during the activity
 - [x] **11.25** Activity details — checklists, notes, attachments
 
-### 11F. Attachment Integration (deferred)
-- [ ] **11.26** Attach files/evidence to samples and findings via existing AttachmentList component
+### 11F. Sample-to-Finding Linkage
+- [ ] **11.26** Extend Finding model/API with `sampleIds` to link evidence samples
+- [ ] **11.27** Finding modal — multi-select samples tested for this finding
+- [ ] **11.28** Finding detail — show linked sample references and status
 
-**New API routes:** `/api/admin/samples`, `/api/admin/samples/[id]`, `/api/admin/findings`, `/api/admin/findings/[id]`, `/api/admin/actions`, `/api/admin/actions/[id]`
+### 11G. Action Closure Fields
+- [ ] **11.29** Extend Action model/API with closure fields: closureDate, closureEvidence, closureApprovedBy, closureEffective
+- [ ] **11.30** Inline action UI — mark action closed with closure details
+
+### 11H. API Authorization & Activity Logging
+- [ ] **11.31** Add role/company checks to assessment mutation APIs
+- [ ] **11.32** Write ActivityLog entries on assessment/finding/action mutations
+
+### 11I. Control Health Recalculation
+- [ ] **11.33** On assessment completion, aggregate sample conclusions, finding severity, and activity coverage per control
+- [ ] **11.34** Update `Control.rawHealthScore`, `lastTestedDate`, and `lastTestResult`
+
+### 11J. Attachment Integration (deferred)
+- [ ] **11.35** Attach files/evidence to samples and findings via existing AttachmentList component
+
+**New API routes:** `/api/admin/samples`, `/api/admin/samples/[id]`, `/api/admin/findings`, `/api/admin/findings/[id]`, `/api/admin/actions`, `/api/admin/actions/[id]`, `/api/admin/activities`, `/api/admin/activities/[id]`, `/api/admin/activity-users`, `/api/admin/activity-controls`, `/api/admin/activity-details`

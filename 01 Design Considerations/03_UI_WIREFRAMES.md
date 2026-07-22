@@ -631,22 +631,57 @@ interface KnowledgebasePanelProps {
 │  [Overview] [Control Assignment] [Sample Selection] [Findings] [Activities]│
 │  ─────────────────────────────────────────────────────────────────────  │
 │                                                                         │
+│  ┌──────────────────────┬──────────────────────────────────────────┐   │
+│  │  📅 Activities       │  (Select an activity or add a new one)   │   │
+│  │  ─────────────────   │                                          │   │
+│  │  [+ Add Activity]    │                                          │   │
+│  │  ─────────────────   │                                          │   │
+│  │  ▶ ACT-001 Interview │                                          │   │
+│  │    Jul 20 · 09:00-10 │                                          │   │
+│  │  ▶ ACT-002 Doc Review│                                          │   │
+│  │    Jul 21 · 14:00-16 │                                          │   │
+│  │                      │                                          │   │
+│  └──────────────────────┘                                          │   │
+│                                                                         │
+│  When an activity is selected, the right pane shows sub-tabs:            │
+│  [Participants] [Details] [Controls]                                    │
+│                                                                         │
+│  Participants sub-tab:                                                  │
 │  ┌─────────────────────────────────────────────────────────────────┐   │
-│  │  📅 Assessment Activities                                       │   │
+│  │  Assigned Participants                                          │   │
+│  │  User: [Megan ▾]  Role: [Interviewer ___]  Remarks: [____]     │   │
+│  │  [+ Add]                                                        │   │
 │  │  ─────────────────────────────────────────────────────────────  │   │
-│  │  ┌─────────────────────────────────────────────────────────┐    │   │
-│  │  │ ACT-001 Interview                                       │    │   │
-│  │  │ Date: Jul 20, 2026 | 09:00-10:00 | Duration: 1h        │    │   │
-│  │  │ Participants: Megan, John, Sarah                        │    │   │
-│  │  │ Controls: Control A, Control B                          │    │   │
-│  │  │ [Edit] [Delete]                                         │    │   │
-│  │  ├─────────────────────────────────────────────────────────┤    │   │
-│  │  │ ACT-002 Document Review                                 │    │   │
-│  │  │ Date: Jul 21, 2026 | 14:00-16:00 | Duration: 2h        │    │   │
-│  │  │ ...                                                     │    │   │
-│  │  └─────────────────────────────────────────────────────────┘    │   │
-│  │  [+ Schedule Activity]                                          │   │
+│  │  Megan      Interviewer     Test notes              [Remove]    │   │
+│  │  John       Observer        —                       [Remove]    │   │
 │  └─────────────────────────────────────────────────────────────────┘   │
+│                                                                         │
+│  Details sub-tab:                                                       │
+│  ┌─────────────────────────────────────────────────────────────────┐   │
+│  │  Activity Type: [Interview ▾]   Date: [Jul 20, 2026 ▾]         │   │
+│  │  Start: [09:00]  End: [10:00]  Duration: [1h]                  │   │
+│  │  Activity Name: [Interview with operations manager]            │   │
+│  │  Description: [_________________]                              │   │
+│  │  Checklists: [_________________]                               │   │
+│  │  Activity Notes: [_________________]                           │   │
+│  │  📎 Attachments (0) [Upload]                                    │   │
+│  │  [Save Changes]                                                 │   │
+│  └─────────────────────────────────────────────────────────────────┘   │
+│                                                                         │
+│  Controls sub-tab:                                                      │
+│  ┌─────────────────────────────────────────────────────────────────┐   │
+│  │  Mapped Controls (2)                                            │   │
+│  │  • Conduct Air Dispersion Modelling                    [Remove] │   │
+│  │  • Identify Air Emission Risks                         [Remove] │   │
+│  │  ─────────────────────────────────────────────────────────────  │   │
+│  │  Available Controls                                             │   │
+│  │  • Reduce VOC Emissions to ALARP                    [+ Map]     │   │
+│  │  • Manage Ozone Depleting Substances                [+ Map]     │   │
+│  └─────────────────────────────────────────────────────────────────┘   │
+│                                                                         │
+│  [+ Add Activity] opens a modal with the same fields as Details.        │
+│  [Delete Activity] removes the activity and its participants/controls.  │
+│  Duplicate user/control assignments are blocked with a clear message.   │
 └─────────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -921,6 +956,19 @@ interface KnowledgebasePanelProps {
 | 3 | Upload complete | File appears in list with download/delete buttons |
 | 4 | Error | Red border, error message |
 
+### 5.5 Assessment Activities
+
+| Step | Action | Visual Feedback |
+|------|--------|-----------------|
+| 1 | Click "Activities" tab | Activity list + empty detail pane appears |
+| 2 | Click "+ Add Activity" | Modal opens with activity fields |
+| 3 | Fill fields, click "Create Activity" | Modal closes, activity appears in list, toast success |
+| 4 | Click an activity | Right pane shows Participants/Details/Controls sub-tabs |
+| 5 | Add participant | Participant appears in table; duplicate shows error toast |
+| 6 | Map control | Control moves from Available to Mapped list |
+| 7 | Save details | Toast: "Activity updated" |
+| 8 | Click "Delete Activity" | Confirm dialog; on confirm, activity removed |
+
 ---
 
 ## 6. Accessibility Specifications
@@ -980,3 +1028,4 @@ interface KnowledgebasePanelProps {
 | Version | Date | Changes |
 |---------|------|---------|
 | v1.0.0 | 2026-07-21 | Initial UI wireframes. Design system (colors, typography, spacing), component library specs, page wireframes for all major pages, mobile wireframes, interaction patterns, accessibility specifications. |
+| v1.1.0 | 2026-07-22 | Updated Assessment Detail Activities tab wireframe to reflect implemented two-pane layout with Participants/Details/Controls sub-tabs, duplicate-assignment guards, and attachment support. Added Activity interaction pattern. |

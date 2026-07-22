@@ -843,6 +843,7 @@ export default function AssessmentClient({ assessment, allControls, processAreas
             assessmentId={assessment.id}
             users={users}
             availableControls={assessment.controlAssignments?.map((ca: any) => ({ id: ca.controlId, name: ca.control?.name ?? ca.controlId })) ?? []}
+            readOnly={assessment.status === "Completed"}
           />
         </div>
       )}

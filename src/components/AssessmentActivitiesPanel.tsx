@@ -45,9 +45,10 @@ interface Props {
   assessmentId: string;
   users: Array<{ id: string; name: string | null; username?: string; role: string }>;
   availableControls: Array<{ id: string; name: string }>;
+  readOnly?: boolean;
 }
 
-export default function AssessmentActivitiesPanel({ assessmentId, users, availableControls }: Props) {
+export default function AssessmentActivitiesPanel({ assessmentId, users, availableControls, readOnly = false }: Props) {
   const [activities, setActivities] = useState<AactRecord[]>([]);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [subTab, setSubTab] = useState<"users" | "details" | "controls">("users");
@@ -263,9 +264,11 @@ export default function AssessmentActivitiesPanel({ assessmentId, users, availab
       <Card className="w-full md:w-72 shrink-0 flex flex-col p-0 overflow-hidden">
         <div className="px-3 py-2 border-b border-slate-200 space-y-2">
           <div className="text-xs font-semibold text-slate-500 uppercase tracking-wide">Activities</div>
-          <Button variant="primary" size="sm" className="w-full" onClick={() => setShowAdd(true)}>
-            + Add Activity
-          </Button>
+          {!readOnly && (
+            <Button variant="primary" size="sm" className="w-full" onClick={() => setShowAdd(true)}>
+              + Add Activity
+            </Button>
+          )}
         </div>
         <div className="flex-1 overflow-y-auto">
           {loading ? (
@@ -315,12 +318,14 @@ export default function AssessmentActivitiesPanel({ assessmentId, users, availab
                 </button>
               ))}
               <div className="flex-1" />
-              <button
-                onClick={() => handleDeleteActivity(selectedId!)}
-                className="px-2 py-1 text-2xs text-red-500 hover:text-red-700 self-center"
-              >
-                Delete Activity
-              </button>
+              {!readOnly && (
+                <button
+                  onClick={() => handleDeleteActivity(selectedId!)}
+                  className="px-2 py-1 text-2xs text-red-500 hover:text-red-700 self-center"
+                >
+                  Delete Activity
+                </button>
+              )}
             </div>
 
             <div className="flex-1 overflow-y-auto p-4">
@@ -374,7 +379,7 @@ export default function AssessmentActivitiesPanel({ assessmentId, users, availab
                             placeholder="Optional"
                           />
                         </label>
-                        <Button variant="primary" size="sm" onClick={handleAssignUser}>+ Add</Button>
+                        {!readOnly && <Button variant="primary" size="sm" onClick={handleAssignUser}>+ Add</Button>}
                       </div>
 
                       {selectedActivity.users.length === 0 ? (
@@ -396,7 +401,7 @@ export default function AssessmentActivitiesPanel({ assessmentId, users, availab
                                 <td className="px-2 py-1">{au.userRoles || "—"}</td>
                                 <td className="px-2 py-1 text-slate-500">{au.assignmentRemarks || "—"}</td>
                                 <td className="px-2 py-1">
-                                  <button onClick={() => handleRemoveUser(au.id)} className="text-red-500 hover:text-red-700 text-2xs">Remove</button>
+                                  {!readOnly && <button onClick={() => handleRemoveUser(au.id)} className="text-red-500 hover:text-red-700 text-2xs">Remove</button>}
                                 </td>
                               </tr>
                             ))}
@@ -502,7 +507,7 @@ export default function AssessmentActivitiesPanel({ assessmentId, users, availab
 
                   <AttachmentList destTable="Aact" recId={selectedId!} />
 
-                  <Button variant="primary" size="sm" onClick={handleSaveEdit}>Save Changes</Button>
+                  {!readOnly && <Button variant="primary" size="sm" onClick={handleSaveEdit}>Save Changes</Button>}
                 </div>
               )}
 
@@ -527,7 +532,7 @@ export default function AssessmentActivitiesPanel({ assessmentId, users, availab
                             <tr key={ac.id} className="border-t border-slate-100">
                               <td className="px-2 py-1">{ac.control?.name || ac.controlId}</td>
                               <td className="px-2 py-1">
-                                <button onClick={() => handleRemoveControl(ac.id)} className="text-red-500 hover:text-red-700 text-2xs">Remove</button>
+                                {!readOnly && <button onClick={() => handleRemoveControl(ac.id)} className="text-red-500 hover:text-red-700 text-2xs">Remove</button>}
                               </td>
                             </tr>
                           ))}
@@ -544,7 +549,7 @@ export default function AssessmentActivitiesPanel({ assessmentId, users, availab
                       {unassignedControls.slice(0, 100).map((c) => (
                         <div key={c.id} className="flex items-center justify-between px-3 py-1.5 text-xs border-b border-slate-50 hover:bg-slate-50">
                           <span className="truncate flex-1 mr-2">{c.name}</span>
-                          <button onClick={() => handleAddControl(c.id)} className="text-green-600 hover:text-green-700 text-2xs shrink-0">+ Map</button>
+                          {!readOnly && <button onClick={() => handleAddControl(c.id)} className="text-green-600 hover:text-green-700 text-2xs shrink-0">+ Map</button>}
                         </div>
                       ))}
                     </div>
