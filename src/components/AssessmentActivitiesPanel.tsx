@@ -28,6 +28,8 @@ interface AactRecord {
     userId: string;
     userRoles: string;
     assignmentRemarks: string | null;
+    acceptedAt: string | null;
+    acceptanceRemarks: string | null;
     user: { id: string; name: string | null; username: string } | null;
   }>;
   details: Array<{
@@ -509,6 +511,9 @@ export default function AssessmentActivitiesPanel({
                               <th className="px-2 py-1 text-left font-medium text-slate-600">
                                 Remarks
                               </th>
+                              <th className="px-2 py-1 text-left font-medium text-slate-600 w-20">
+                                Accepted
+                              </th>
                               <th className="px-2 py-1 w-16"></th>
                             </tr>
                           </thead>
@@ -528,6 +533,13 @@ export default function AssessmentActivitiesPanel({
                                 </td>
                                 <td className="px-2 py-1 text-slate-500">
                                   {au.assignmentRemarks || "—"}
+                                </td>
+                                <td className="px-2 py-1">
+                                  {au.acceptedAt ? (
+                                    <span className="text-green-600 text-2xs" title={new Date(au.acceptedAt).toLocaleString()}>✓ {new Date(au.acceptedAt).toLocaleDateString(undefined, { month: "short", day: "numeric" })}</span>
+                                  ) : (
+                                    <span className="text-amber-500 text-2xs">—</span>
+                                  )}
                                 </td>
                                 <td className="px-2 py-1">
                                   {!readOnly && (
@@ -695,6 +707,25 @@ export default function AssessmentActivitiesPanel({
                   </label>
 
                   <AttachmentList destTable="Aact" recId={selectedId!} />
+
+                  {/* Document Review section — only for ACT-002 (Document Review) */}
+                  {selectedActivity.assacttypeid === "ACT-002" && (
+                    <div className="rounded border border-blue-200 bg-blue-50/50 p-3 space-y-2">
+                      <div className="flex items-center gap-2">
+                        <span className="text-sm">📄</span>
+                        <span className="text-xs font-semibold text-blue-800">Documents for Review</span>
+                        <span className="text-2xs text-blue-500">(Mandatory)</span>
+                      </div>
+                      <p className="text-xs text-slate-600">
+                        Add documents that need to be reviewed as part of this assessment activity. Use the attachments section above to upload files.
+                      </p>
+                      <div className="text-xs text-slate-500">
+                        <p>✓ Review document titles and descriptions in the checklists field</p>
+                        <p>✓ Upload relevant documents using the Attachments panel</p>
+                        <p>✓ Mark documents as reviewed by updating the checklists</p>
+                      </div>
+                    </div>
+                  )}
 
                   {!readOnly && (
                     <Button

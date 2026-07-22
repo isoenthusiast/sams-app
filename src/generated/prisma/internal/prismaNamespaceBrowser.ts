@@ -647,6 +647,8 @@ export const AActUsersScalarFieldEnum = {
   userId: 'userId',
   userRoles: 'userRoles',
   assignmentRemarks: 'assignmentRemarks',
+  acceptedAt: 'acceptedAt',
+  acceptanceRemarks: 'acceptanceRemarks',
   createdAt: 'createdAt'
 } as const
 

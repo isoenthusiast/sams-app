@@ -41,6 +41,8 @@ export async function GET() {
       assignmentId: assn.id,
       userRoles: assn.userRoles,
       remarks: assn.assignmentRemarks,
+      acceptedAt: assn.acceptedAt?.toISOString() ?? null,
+      acceptanceRemarks: assn.acceptanceRemarks ?? null,
       activity: {
         id: assn.aact.id,
         aaID: assn.aact.aaID,

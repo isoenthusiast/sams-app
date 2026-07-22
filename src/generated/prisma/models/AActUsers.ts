@@ -30,6 +30,8 @@ export type AActUsersMinAggregateOutputType = {
   userId: string | null
   userRoles: string | null
   assignmentRemarks: string | null
+  acceptedAt: Date | null
+  acceptanceRemarks: string | null
   createdAt: Date | null
 }
 
@@ -39,6 +41,8 @@ export type AActUsersMaxAggregateOutputType = {
   userId: string | null
   userRoles: string | null
   assignmentRemarks: string | null
+  acceptedAt: Date | null
+  acceptanceRemarks: string | null
   createdAt: Date | null
 }
 
@@ -48,6 +52,8 @@ export type AActUsersCountAggregateOutputType = {
   userId: number
   userRoles: number
   assignmentRemarks: number
+  acceptedAt: number
+  acceptanceRemarks: number
   createdAt: number
   _all: number
 }
@@ -59,6 +65,8 @@ export type AActUsersMinAggregateInputType = {
   userId?: true
   userRoles?: true
   assignmentRemarks?: true
+  acceptedAt?: true
+  acceptanceRemarks?: true
   createdAt?: true
 }
 
@@ -68,6 +76,8 @@ export type AActUsersMaxAggregateInputType = {
   userId?: true
   userRoles?: true
   assignmentRemarks?: true
+  acceptedAt?: true
+  acceptanceRemarks?: true
   createdAt?: true
 }
 
@@ -77,6 +87,8 @@ export type AActUsersCountAggregateInputType = {
   userId?: true
   userRoles?: true
   assignmentRemarks?: true
+  acceptedAt?: true
+  acceptanceRemarks?: true
   createdAt?: true
   _all?: true
 }
@@ -159,6 +171,8 @@ export type AActUsersGroupByOutputType = {
   userId: string
   userRoles: string
   assignmentRemarks: string | null
+  acceptedAt: Date | null
+  acceptanceRemarks: string | null
   createdAt: Date
   _count: AActUsersCountAggregateOutputType | null
   _min: AActUsersMinAggregateOutputType | null
@@ -189,6 +203,8 @@ export type AActUsersWhereInput = {
   userId?: Prisma.StringFilter<"AActUsers"> | string
   userRoles?: Prisma.StringFilter<"AActUsers"> | string
   assignmentRemarks?: Prisma.StringNullableFilter<"AActUsers"> | string | null
+  acceptedAt?: Prisma.DateTimeNullableFilter<"AActUsers"> | Date | string | null
+  acceptanceRemarks?: Prisma.StringNullableFilter<"AActUsers"> | string | null
   createdAt?: Prisma.DateTimeFilter<"AActUsers"> | Date | string
   aact?: Prisma.XOR<Prisma.AactScalarRelationFilter, Prisma.AactWhereInput>
 }
@@ -199,6 +215,8 @@ export type AActUsersOrderByWithRelationInput = {
   userId?: Prisma.SortOrder
   userRoles?: Prisma.SortOrder
   assignmentRemarks?: Prisma.SortOrderInput | Prisma.SortOrder
+  acceptedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  acceptanceRemarks?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   aact?: Prisma.AactOrderByWithRelationInput
 }
@@ -213,6 +231,8 @@ export type AActUsersWhereUniqueInput = Prisma.AtLeast<{
   userId?: Prisma.StringFilter<"AActUsers"> | string
   userRoles?: Prisma.StringFilter<"AActUsers"> | string
   assignmentRemarks?: Prisma.StringNullableFilter<"AActUsers"> | string | null
+  acceptedAt?: Prisma.DateTimeNullableFilter<"AActUsers"> | Date | string | null
+  acceptanceRemarks?: Prisma.StringNullableFilter<"AActUsers"> | string | null
   createdAt?: Prisma.DateTimeFilter<"AActUsers"> | Date | string
   aact?: Prisma.XOR<Prisma.AactScalarRelationFilter, Prisma.AactWhereInput>
 }, "id" | "aaId_userId">
@@ -223,6 +243,8 @@ export type AActUsersOrderByWithAggregationInput = {
   userId?: Prisma.SortOrder
   userRoles?: Prisma.SortOrder
   assignmentRemarks?: Prisma.SortOrderInput | Prisma.SortOrder
+  acceptedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  acceptanceRemarks?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   _count?: Prisma.AActUsersCountOrderByAggregateInput
   _max?: Prisma.AActUsersMaxOrderByAggregateInput
@@ -238,6 +260,8 @@ export type AActUsersScalarWhereWithAggregatesInput = {
   userId?: Prisma.StringWithAggregatesFilter<"AActUsers"> | string
   userRoles?: Prisma.StringWithAggregatesFilter<"AActUsers"> | string
   assignmentRemarks?: Prisma.StringNullableWithAggregatesFilter<"AActUsers"> | string | null
+  acceptedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"AActUsers"> | Date | string | null
+  acceptanceRemarks?: Prisma.StringNullableWithAggregatesFilter<"AActUsers"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"AActUsers"> | Date | string
 }
 
@@ -246,6 +270,8 @@ export type AActUsersCreateInput = {
   userId: string
   userRoles: string
   assignmentRemarks?: string | null
+  acceptedAt?: Date | string | null
+  acceptanceRemarks?: string | null
   createdAt?: Date | string
   aact: Prisma.AactCreateNestedOneWithoutUsersInput
 }
@@ -256,6 +282,8 @@ export type AActUsersUncheckedCreateInput = {
   userId: string
   userRoles: string
   assignmentRemarks?: string | null
+  acceptedAt?: Date | string | null
+  acceptanceRemarks?: string | null
   createdAt?: Date | string
 }
 
@@ -264,6 +292,8 @@ export type AActUsersUpdateInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   userRoles?: Prisma.StringFieldUpdateOperationsInput | string
   assignmentRemarks?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  acceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  acceptanceRemarks?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   aact?: Prisma.AactUpdateOneRequiredWithoutUsersNestedInput
 }
@@ -274,6 +304,8 @@ export type AActUsersUncheckedUpdateInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   userRoles?: Prisma.StringFieldUpdateOperationsInput | string
   assignmentRemarks?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  acceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  acceptanceRemarks?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -283,6 +315,8 @@ export type AActUsersCreateManyInput = {
   userId: string
   userRoles: string
   assignmentRemarks?: string | null
+  acceptedAt?: Date | string | null
+  acceptanceRemarks?: string | null
   createdAt?: Date | string
 }
 
@@ -291,6 +325,8 @@ export type AActUsersUpdateManyMutationInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   userRoles?: Prisma.StringFieldUpdateOperationsInput | string
   assignmentRemarks?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  acceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  acceptanceRemarks?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -300,6 +336,8 @@ export type AActUsersUncheckedUpdateManyInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   userRoles?: Prisma.StringFieldUpdateOperationsInput | string
   assignmentRemarks?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  acceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  acceptanceRemarks?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -324,6 +362,8 @@ export type AActUsersCountOrderByAggregateInput = {
   userId?: Prisma.SortOrder
   userRoles?: Prisma.SortOrder
   assignmentRemarks?: Prisma.SortOrder
+  acceptedAt?: Prisma.SortOrder
+  acceptanceRemarks?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -333,6 +373,8 @@ export type AActUsersMaxOrderByAggregateInput = {
   userId?: Prisma.SortOrder
   userRoles?: Prisma.SortOrder
   assignmentRemarks?: Prisma.SortOrder
+  acceptedAt?: Prisma.SortOrder
+  acceptanceRemarks?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -342,6 +384,8 @@ export type AActUsersMinOrderByAggregateInput = {
   userId?: Prisma.SortOrder
   userRoles?: Prisma.SortOrder
   assignmentRemarks?: Prisma.SortOrder
+  acceptedAt?: Prisma.SortOrder
+  acceptanceRemarks?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -392,6 +436,8 @@ export type AActUsersCreateWithoutAactInput = {
   userId: string
   userRoles: string
   assignmentRemarks?: string | null
+  acceptedAt?: Date | string | null
+  acceptanceRemarks?: string | null
   createdAt?: Date | string
 }
 
@@ -400,6 +446,8 @@ export type AActUsersUncheckedCreateWithoutAactInput = {
   userId: string
   userRoles: string
   assignmentRemarks?: string | null
+  acceptedAt?: Date | string | null
+  acceptanceRemarks?: string | null
   createdAt?: Date | string
 }
 
@@ -438,6 +486,8 @@ export type AActUsersScalarWhereInput = {
   userId?: Prisma.StringFilter<"AActUsers"> | string
   userRoles?: Prisma.StringFilter<"AActUsers"> | string
   assignmentRemarks?: Prisma.StringNullableFilter<"AActUsers"> | string | null
+  acceptedAt?: Prisma.DateTimeNullableFilter<"AActUsers"> | Date | string | null
+  acceptanceRemarks?: Prisma.StringNullableFilter<"AActUsers"> | string | null
   createdAt?: Prisma.DateTimeFilter<"AActUsers"> | Date | string
 }
 
@@ -446,6 +496,8 @@ export type AActUsersCreateManyAactInput = {
   userId: string
   userRoles: string
   assignmentRemarks?: string | null
+  acceptedAt?: Date | string | null
+  acceptanceRemarks?: string | null
   createdAt?: Date | string
 }
 
@@ -454,6 +506,8 @@ export type AActUsersUpdateWithoutAactInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   userRoles?: Prisma.StringFieldUpdateOperationsInput | string
   assignmentRemarks?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  acceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  acceptanceRemarks?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -462,6 +516,8 @@ export type AActUsersUncheckedUpdateWithoutAactInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   userRoles?: Prisma.StringFieldUpdateOperationsInput | string
   assignmentRemarks?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  acceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  acceptanceRemarks?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -470,6 +526,8 @@ export type AActUsersUncheckedUpdateManyWithoutAactInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   userRoles?: Prisma.StringFieldUpdateOperationsInput | string
   assignmentRemarks?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  acceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  acceptanceRemarks?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -481,6 +539,8 @@ export type AActUsersSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   userId?: boolean
   userRoles?: boolean
   assignmentRemarks?: boolean
+  acceptedAt?: boolean
+  acceptanceRemarks?: boolean
   createdAt?: boolean
   aact?: boolean | Prisma.AactDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["aActUsers"]>
@@ -491,6 +551,8 @@ export type AActUsersSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ext
   userId?: boolean
   userRoles?: boolean
   assignmentRemarks?: boolean
+  acceptedAt?: boolean
+  acceptanceRemarks?: boolean
   createdAt?: boolean
   aact?: boolean | Prisma.AactDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["aActUsers"]>
@@ -501,6 +563,8 @@ export type AActUsersSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
   userId?: boolean
   userRoles?: boolean
   assignmentRemarks?: boolean
+  acceptedAt?: boolean
+  acceptanceRemarks?: boolean
   createdAt?: boolean
   aact?: boolean | Prisma.AactDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["aActUsers"]>
@@ -511,10 +575,12 @@ export type AActUsersSelectScalar = {
   userId?: boolean
   userRoles?: boolean
   assignmentRemarks?: boolean
+  acceptedAt?: boolean
+  acceptanceRemarks?: boolean
   createdAt?: boolean
 }
 
-export type AActUsersOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "aaId" | "userId" | "userRoles" | "assignmentRemarks" | "createdAt", ExtArgs["result"]["aActUsers"]>
+export type AActUsersOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "aaId" | "userId" | "userRoles" | "assignmentRemarks" | "acceptedAt" | "acceptanceRemarks" | "createdAt", ExtArgs["result"]["aActUsers"]>
 export type AActUsersInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   aact?: boolean | Prisma.AactDefaultArgs<ExtArgs>
 }
@@ -536,6 +602,8 @@ export type $AActUsersPayload<ExtArgs extends runtime.Types.Extensions.InternalA
     userId: string
     userRoles: string
     assignmentRemarks: string | null
+    acceptedAt: Date | null
+    acceptanceRemarks: string | null
     createdAt: Date
   }, ExtArgs["result"]["aActUsers"]>
   composites: {}
@@ -966,6 +1034,8 @@ export interface AActUsersFieldRefs {
   readonly userId: Prisma.FieldRef<"AActUsers", 'String'>
   readonly userRoles: Prisma.FieldRef<"AActUsers", 'String'>
   readonly assignmentRemarks: Prisma.FieldRef<"AActUsers", 'String'>
+  readonly acceptedAt: Prisma.FieldRef<"AActUsers", 'DateTime'>
+  readonly acceptanceRemarks: Prisma.FieldRef<"AActUsers", 'String'>
   readonly createdAt: Prisma.FieldRef<"AActUsers", 'DateTime'>
 }
     

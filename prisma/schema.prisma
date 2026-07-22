@@ -628,13 +628,15 @@ model AActControls {
 }
 
 model AActUsers {
-  id                String   @id @default(cuid())
-  aaId              String
-  userId            String
-  userRoles         String
-  assignmentRemarks String?
-  createdAt         DateTime @default(now())
-  aact              Aact     @relation("AactToAActUsers", fields: [aaId], references: [aaID], onDelete: Cascade)
+  id                 String    @id @default(cuid())
+  aaId               String
+  userId             String
+  userRoles          String
+  assignmentRemarks  String?
+  acceptedAt         DateTime?
+  acceptanceRemarks  String?
+  createdAt          DateTime  @default(now())
+  aact               Aact      @relation("AactToAActUsers", fields: [aaId], references: [aaID], onDelete: Cascade)
 
   @@unique([aaId, userId])
   @@index([aaId])
