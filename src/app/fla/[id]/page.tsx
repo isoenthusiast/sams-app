@@ -21,7 +21,7 @@ export default async function AssessmentDetailPage({ params }: { params: Promise
       activityType: true,
       assessor: true,
       samples: { include: { sampleType: true, recordSource: true } },
-      findings: { include: { actions: { orderBy: { createdDate: "asc" } } } },
+      findings: { include: { actions: { orderBy: { createdDate: "asc" } }, sample: { include: { sampleType: true } } } },
       controlAssignments: {
         include: {
           control: {

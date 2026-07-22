@@ -9,7 +9,7 @@ export async function POST(request: Request) {
     if (!session?.user) return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
 
     const body = await request.json();
-    const { assessmentId, description, severity, risks, details, controlIds, repeat } = body;
+    const { assessmentId, description, severity, risks, details, controlIds, repeat, sampleId } = body;
 
     if (!assessmentId || !description) {
       return NextResponse.json({ error: "assessmentId and description are required" }, { status: 400 });
@@ -29,6 +29,7 @@ export async function POST(request: Request) {
         details: details || null,
         controlIds: controlIds || null,
         repeat: repeat ?? false,
+        sampleId: sampleId || null,
       },
     });
 

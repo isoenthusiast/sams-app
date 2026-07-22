@@ -32,7 +32,7 @@ export default function AssessmentClient({ assessment, allControls, processAreas
   const [showAddSample, setShowAddSample] = useState(false);
   const [sampleForm, setSampleForm] = useState({ sampleTypeId: "", recordSourceId: "", recordReference: "", comment: "" });
   const [showAddFinding, setShowAddFinding] = useState(false);
-  const [findingForm, setFindingForm] = useState({ description: "", severity: "Low", risks: "", details: "", repeat: false, controlIds: new Set<string>() });
+  const [findingForm, setFindingForm] = useState({ description: "", severity: "Low", risks: "", details: "", repeat: false, controlIds: new Set<string>(), sampleId: "" });
   const [expandedFindings, setExpandedFindings] = useState<Set<string>>(new Set());
   const [actionForms, setActionForms] = useState<Record<string, { description: string; party: string; details: string; targetDate: string }>>({});
   const [expandedGroups, setExpandedGroups] = useState<Set<string>>(new Set());
@@ -192,11 +192,12 @@ export default function AssessmentClient({ assessment, allControls, processAreas
           details: findingForm.details || null,
           controlIds: [...findingForm.controlIds].join(", ") || null,
           repeat: findingForm.repeat || undefined,
+          sampleId: findingForm.sampleId || null,
         }),
       });
       if (!res.ok) throw new Error("Failed to add finding");
       setShowAddFinding(false);
-      setFindingForm({ description: "", severity: "Low", risks: "", details: "", repeat: false, controlIds: new Set<string>() });
+      setFindingForm({ description: "", severity: "Low", risks: "", details: "", repeat: false, controlIds: new Set<string>(), sampleId: "" });
       router.refresh();
     } catch (err) {
       showToast(err instanceof Error ? err.message : "Failed to add finding", "error");
@@ -631,10 +632,16 @@ export default function AssessmentClient({ assessment, allControls, processAreas
                   <div className="text-sm font-medium text-slate-800">
                     {s.sampleType?.name ?? "Sample"} {s.recordReference ? `· ${s.recordReference}` : ""}
                   </div>
-                  <button onClick={() => handleDeleteSample(s.id)}
-                    className="text-xs text-red-400 hover:text-red-600 transition-colors" title="Delete sample">
-                    🗑
-                  </button>
+                  <div className="flex items-center gap-1 shrink-0">
+                    <button onClick={() => { setFindingForm({ description: "", severity: "Low", risks: "", details: "", repeat: false, controlIds: new Set<string>(), sampleId: s.id }); setShowAddFinding(true); }}
+                      className="text-xs text-blue-600 hover:text-blue-800 transition-colors" title="Create finding from this sample">
+                      + Finding
+                    </button>
+                    <button onClick={() => handleDeleteSample(s.id)}
+                      className="text-xs text-red-400 hover:text-red-600 transition-colors" title="Delete sample">
+                      🗑
+                    </button>
+                  </div>
                 </div>
                 <div className="grid gap-3 sm:grid-cols-2">
                   <div>
@@ -823,6 +830,17 @@ export default function AssessmentClient({ assessment, allControls, processAreas
                     className="text-xs text-red-400 hover:text-red-600 transition-colors" title="Delete finding">🗑</button>
                 </div>
                 <p className="text-sm text-slate-800 mb-2">{f.description}</p>
+                {f.sampleId && (
+                  <p className="text-xs text-slate-500 mb-1">
+                    <strong>Sample:</strong>{" "}
+                    <span
+                      className="text-blue-600 cursor-help underline decoration-dotted"
+                      title={f.sample ? `Type: ${f.sample.sampleType?.name ?? "—"}\nStatus: ${f.sample.status ?? "—"}\nConclusion: ${f.sample.conclusion ?? "—"}\nNotes: ${f.sample.comment ?? "—"}` : `Sample ID: ${f.sampleId}`}
+                    >
+                      {f.sample?.sampleType?.name ?? f.sample?.recordReference ?? f.sampleId}
+                    </span>
+                  </p>
+                )}
                 {f.risks && <p className="text-xs text-slate-500 mb-1"><strong>Risks:</strong> {f.risks}</p>}
                 {f.controlIds && <p className="text-xs text-slate-500 mb-2"><strong>Controls:</strong> {f.controlIds}</p>}
 
