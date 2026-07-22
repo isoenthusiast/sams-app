@@ -52,18 +52,90 @@ export async function GET(request: Request) {
       return NextResponse.json({ error: "assessmentId is required" }, { status: 400 });
     }
 
-    const activities = await prisma.aact.findMany({
-      where: { assuranceID: assessmentId },
-      include: { details: true },
-      orderBy: { activityDate: "desc" },
-    });
+    // Use raw SQL to bypass PrismaPg adapter introspection caching
+    const activities = await prisma.$queryRawUnsafe<any[]>(
+      `SELECT * FROM "Aact" WHERE "assuranceID" = $1 ORDER BY "activityDate" DESC`,
+      assessmentId
+    );
 
-    const { controlsMap, usersMap } = await loadActivityExtras(activities);
+    // Load details for each activity
+    const detailRows = activities.length > 0
+      ? await prisma.$queryRawUnsafe<any[]>(
+          `SELECT * FROM "AActDetails" WHERE "aaId" IN (${activities.map((_, i) => `$${i + 1}`).join(", ")})`,
+          ...activities.map((a: any) => a.aaID)
+        )
+      : [];
 
-    const enriched = activities.map((a) => ({
-      ...a,
-      controls: controlsMap.get(a.id) ?? [],
-      users: usersMap.get(a.id) ?? [],
+    const detailsMap = new Map<string, any[]>();
+    for (const d of detailRows) {
+      const list = detailsMap.get(d.aaId) ?? [];
+      list.push(d);
+      detailsMap.set(d.aaId, list);
+    }
+
+    // Load controls
+    const controlRows = activities.length > 0
+      ? await prisma.$queryRawUnsafe<any[]>(
+          `SELECT * FROM "AActControls" WHERE "aaId" IN (${activities.map((_, i) => `$${i + 1}`).join(", ")})`,
+          ...activities.map((a: any) => a.aaID)
+        )
+      : [];
+
+    const controlIds = [...new Set(controlRows.map((c: any) => c.controlId))];
+    const controlRecords = controlIds.length > 0
+      ? await prisma.$queryRawUnsafe<any[]>(
+          `SELECT id, name FROM "Control" WHERE id IN (${controlIds.map((_, i) => `$${i + 1}`).join(", ")})`,
+          ...controlIds
+        )
+      : [];
+    const controlMap = new Map(controlRecords.map((c: any) => [c.id, c]));
+
+    const controlsMap = new Map<string, any[]>();
+    for (const c of controlRows) {
+      const list = controlsMap.get(c.aaId) ?? [];
+      list.push({ id: c.id, controlId: c.controlId, control: controlMap.get(c.controlId) ?? null });
+      controlsMap.set(c.aaId, list);
+    }
+
+    // Load users
+    const userRows = activities.length > 0
+      ? await prisma.$queryRawUnsafe<any[]>(
+          `SELECT * FROM "AActUsers" WHERE "aaId" IN (${activities.map((_, i) => `$${i + 1}`).join(", ")})`,
+          ...activities.map((a: any) => a.aaID)
+        )
+      : [];
+
+    const userIds = [...new Set(userRows.map((u: any) => u.userId))];
+    const userRecords = userIds.length > 0
+      ? await prisma.$queryRawUnsafe<any[]>(
+          `SELECT id, name, username FROM "User" WHERE id IN (${userIds.map((_, i) => `$${i + 1}`).join(", ")})`,
+          ...userIds
+        )
+      : [];
+    const userMap = new Map(userRecords.map((u: any) => [u.id, u]));
+
+    const usersMap = new Map<string, any[]>();
+    for (const u of userRows) {
+      const list = usersMap.get(u.aaId) ?? [];
+      list.push({ id: u.id, userId: u.userId, userRoles: u.userRoles, assignmentRemarks: u.assignmentRemarks, user: userMap.get(u.userId) ?? null });
+      usersMap.set(u.aaId, list);
+    }
+
+    const enriched = activities.map((a: any) => ({
+      id: a.id,
+      aaID: a.aaID,
+      assuranceID: a.assuranceID,
+      assacttypeid: a.assacttypeid,
+      activityName: a.activityName,
+      activityDate: a.activityDate,
+      activityStartTime: a.activityStartTime,
+      activityEndTime: a.activityEndTime,
+      activityDuration: a.activityDuration,
+      activityDescription: a.activityDescription,
+      createdAt: a.createdAt,
+      details: detailsMap.get(a.aaID) ?? [],
+      controls: controlsMap.get(a.aaID) ?? [],
+      users: usersMap.get(a.aaID) ?? [],
     }));
 
     return NextResponse.json({ activities: enriched });

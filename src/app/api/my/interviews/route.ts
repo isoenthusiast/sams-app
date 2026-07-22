@@ -11,59 +11,77 @@ export async function GET() {
     const userId = (session.user as { id?: string }).id;
     if (!userId) return NextResponse.json({ error: "No user id" }, { status: 400 });
 
-    // Find all AActUsers entries where this user is assigned
-    const myAssignments = await prisma.aActUsers.findMany({
-      where: { userId },
-      include: {
-        aact: {
-          include: {
-            assessment: {
-              select: { id: true, name: true, status: true, assessor: { select: { name: true } } },
-            },
-            controls: {
-              select: { id: true, controlId: true },
-            },
-            details: true,
-          },
-        },
-      },
-      orderBy: { createdAt: "desc" },
-    });
+    // Raw SQL: find AActUsers → join Aact → join Assessment
+    const myAssignments = await prisma.$queryRawUnsafe<any[]>(
+      `SELECT au.id, au."userRoles", au."assignmentRemarks",
+              a.id as "aactId", a."aaID", a."assuranceID", a."assacttypeid", a."activityName",
+              a."activityDate", a."activityStartTime", a."activityEndTime", a."activityDuration", a."activityDescription",
+              asm.id as "assessmentId", asm.name as "assessmentName", asm.status as "assessmentStatus",
+              u.name as "assessorName"
+       FROM "AActUsers" au
+       JOIN "Aact" a ON a."aaID" = au."aaId"
+       JOIN "Assessment" asm ON asm.id = a."assuranceID"
+       LEFT JOIN "User" u ON u.id = asm."assessorId"
+       WHERE au."userId" = $1
+       ORDER BY au."createdAt" DESC`,
+      userId
+    );
 
-    // Enrich controls with names
-    const allControlIds = [...new Set(myAssignments.flatMap((a) => a.aact.controls.map((c) => c.controlId)))];
-    const controlRecords = allControlIds.length > 0
-      ? await prisma.control.findMany({ where: { id: { in: allControlIds } }, select: { id: true, name: true } })
-      : [];
-    const controlMap = new Map(controlRecords.map((c) => [c.id, c.name]));
+    if (myAssignments.length === 0) return NextResponse.json({ interviews: [] });
 
-    const interviews = myAssignments.map((assn) => ({
+    // Get controls for all activities
+    const aaIds = [...new Set(myAssignments.map((a: any) => a.aaID))];
+    const controlRows = await prisma.$queryRawUnsafe<any[]>(
+      `SELECT ac."aaId", ac."controlId", c.name as "controlName"
+       FROM "AActControls" ac
+       LEFT JOIN "Control" c ON c.id = ac."controlId"
+       WHERE ac."aaId" IN (${aaIds.map((_, i) => `$${i + 1}`).join(", ")})`,
+      ...aaIds
+    );
+
+    // Get details for all activities
+    const detailRows = await prisma.$queryRawUnsafe<any[]>(
+      `SELECT "aaId", "checklists", "activityNotes"
+       FROM "AActDetails"
+       WHERE "aaId" IN (${aaIds.map((_, i) => `$${i + 1}`).join(", ")})`,
+      ...aaIds
+    );
+
+    const controlsMap = new Map<string, any[]>();
+    for (const c of controlRows) {
+      const list = controlsMap.get(c.aaId) ?? [];
+      list.push({ id: "", controlId: c.controlId, name: c.controlName ?? c.controlId });
+      controlsMap.set(c.aaId, list);
+    }
+
+    const detailsMap = new Map<string, any>();
+    for (const d of detailRows) {
+      if (!detailsMap.has(d.aaId)) detailsMap.set(d.aaId, d);
+    }
+
+    const interviews = myAssignments.map((assn: any) => ({
       assignmentId: assn.id,
       userRoles: assn.userRoles,
       remarks: assn.assignmentRemarks,
       activity: {
-        id: assn.aact.id,
-        aaID: assn.aact.aaID,
-        activityName: assn.aact.activityName,
-        activityDate: assn.aact.activityDate,
-        activityStartTime: assn.aact.activityStartTime,
-        activityEndTime: assn.aact.activityEndTime,
-        activityDuration: assn.aact.activityDuration,
-        activityDescription: assn.aact.activityDescription,
-        typeId: assn.aact.assacttypeid,
-        checklists: assn.aact.details?.[0]?.checklists ?? null,
-        activityNotes: assn.aact.details?.[0]?.activityNotes ?? null,
-        controls: assn.aact.controls.map((c) => ({
-          id: c.id,
-          controlId: c.controlId,
-          name: controlMap.get(c.controlId) ?? c.controlId,
-        })),
+        id: assn.aactId,
+        aaID: assn.aaID,
+        activityName: assn.activityName,
+        activityDate: assn.activityDate,
+        activityStartTime: assn.activityStartTime,
+        activityEndTime: assn.activityEndTime,
+        activityDuration: assn.activityDuration,
+        activityDescription: assn.activityDescription,
+        typeId: assn.assacttypeid,
+        checklists: detailsMap.get(assn.aaID)?.checklists ?? null,
+        activityNotes: detailsMap.get(assn.aaID)?.activityNotes ?? null,
+        controls: controlsMap.get(assn.aaID) ?? [],
       },
       assessment: {
-        id: assn.aact.assessment.id,
-        name: assn.aact.assessment.name,
-        status: assn.aact.assessment.status,
-        assessorName: assn.aact.assessment.assessor?.name ?? "—",
+        id: assn.assessmentId,
+        name: assn.assessmentName,
+        status: assn.assessmentStatus,
+        assessorName: assn.assessorName ?? "—",
       },
     }));
 
