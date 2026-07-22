@@ -228,6 +228,7 @@ export type AssessmentWhereInput = {
   samples?: Prisma.SampleListRelationFilter
   findings?: Prisma.FindingListRelationFilter
   aacts?: Prisma.AactListRelationFilter
+  assessorLinks?: Prisma.AssessmentAssessorListRelationFilter
 }
 
 export type AssessmentOrderByWithRelationInput = {
@@ -247,6 +248,7 @@ export type AssessmentOrderByWithRelationInput = {
   samples?: Prisma.SampleOrderByRelationAggregateInput
   findings?: Prisma.FindingOrderByRelationAggregateInput
   aacts?: Prisma.AactOrderByRelationAggregateInput
+  assessorLinks?: Prisma.AssessmentAssessorOrderByRelationAggregateInput
 }
 
 export type AssessmentWhereUniqueInput = Prisma.AtLeast<{
@@ -269,6 +271,7 @@ export type AssessmentWhereUniqueInput = Prisma.AtLeast<{
   samples?: Prisma.SampleListRelationFilter
   findings?: Prisma.FindingListRelationFilter
   aacts?: Prisma.AactListRelationFilter
+  assessorLinks?: Prisma.AssessmentAssessorListRelationFilter
 }, "id">
 
 export type AssessmentOrderByWithAggregationInput = {
@@ -318,6 +321,7 @@ export type AssessmentCreateInput = {
   samples?: Prisma.SampleCreateNestedManyWithoutAssessmentInput
   findings?: Prisma.FindingCreateNestedManyWithoutAssessmentInput
   aacts?: Prisma.AactCreateNestedManyWithoutAssessmentInput
+  assessorLinks?: Prisma.AssessmentAssessorCreateNestedManyWithoutAssessmentInput
 }
 
 export type AssessmentUncheckedCreateInput = {
@@ -335,6 +339,7 @@ export type AssessmentUncheckedCreateInput = {
   samples?: Prisma.SampleUncheckedCreateNestedManyWithoutAssessmentInput
   findings?: Prisma.FindingUncheckedCreateNestedManyWithoutAssessmentInput
   aacts?: Prisma.AactUncheckedCreateNestedManyWithoutAssessmentInput
+  assessorLinks?: Prisma.AssessmentAssessorUncheckedCreateNestedManyWithoutAssessmentInput
 }
 
 export type AssessmentUpdateInput = {
@@ -352,6 +357,7 @@ export type AssessmentUpdateInput = {
   samples?: Prisma.SampleUpdateManyWithoutAssessmentNestedInput
   findings?: Prisma.FindingUpdateManyWithoutAssessmentNestedInput
   aacts?: Prisma.AactUpdateManyWithoutAssessmentNestedInput
+  assessorLinks?: Prisma.AssessmentAssessorUpdateManyWithoutAssessmentNestedInput
 }
 
 export type AssessmentUncheckedUpdateInput = {
@@ -369,6 +375,7 @@ export type AssessmentUncheckedUpdateInput = {
   samples?: Prisma.SampleUncheckedUpdateManyWithoutAssessmentNestedInput
   findings?: Prisma.FindingUncheckedUpdateManyWithoutAssessmentNestedInput
   aacts?: Prisma.AactUncheckedUpdateManyWithoutAssessmentNestedInput
+  assessorLinks?: Prisma.AssessmentAssessorUncheckedUpdateManyWithoutAssessmentNestedInput
 }
 
 export type AssessmentCreateManyInput = {
@@ -550,6 +557,20 @@ export type EnumAssessmentStatusFieldUpdateOperationsInput = {
   set?: $Enums.AssessmentStatus
 }
 
+export type AssessmentCreateNestedOneWithoutAssessorLinksInput = {
+  create?: Prisma.XOR<Prisma.AssessmentCreateWithoutAssessorLinksInput, Prisma.AssessmentUncheckedCreateWithoutAssessorLinksInput>
+  connectOrCreate?: Prisma.AssessmentCreateOrConnectWithoutAssessorLinksInput
+  connect?: Prisma.AssessmentWhereUniqueInput
+}
+
+export type AssessmentUpdateOneRequiredWithoutAssessorLinksNestedInput = {
+  create?: Prisma.XOR<Prisma.AssessmentCreateWithoutAssessorLinksInput, Prisma.AssessmentUncheckedCreateWithoutAssessorLinksInput>
+  connectOrCreate?: Prisma.AssessmentCreateOrConnectWithoutAssessorLinksInput
+  upsert?: Prisma.AssessmentUpsertWithoutAssessorLinksInput
+  connect?: Prisma.AssessmentWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.AssessmentUpdateToOneWithWhereWithoutAssessorLinksInput, Prisma.AssessmentUpdateWithoutAssessorLinksInput>, Prisma.AssessmentUncheckedUpdateWithoutAssessorLinksInput>
+}
+
 export type AssessmentCreateNestedOneWithoutControlAssignmentsInput = {
   create?: Prisma.XOR<Prisma.AssessmentCreateWithoutControlAssignmentsInput, Prisma.AssessmentUncheckedCreateWithoutControlAssignmentsInput>
   connectOrCreate?: Prisma.AssessmentCreateOrConnectWithoutControlAssignmentsInput
@@ -620,6 +641,7 @@ export type AssessmentCreateWithoutAssessorInput = {
   samples?: Prisma.SampleCreateNestedManyWithoutAssessmentInput
   findings?: Prisma.FindingCreateNestedManyWithoutAssessmentInput
   aacts?: Prisma.AactCreateNestedManyWithoutAssessmentInput
+  assessorLinks?: Prisma.AssessmentAssessorCreateNestedManyWithoutAssessmentInput
 }
 
 export type AssessmentUncheckedCreateWithoutAssessorInput = {
@@ -636,6 +658,7 @@ export type AssessmentUncheckedCreateWithoutAssessorInput = {
   samples?: Prisma.SampleUncheckedCreateNestedManyWithoutAssessmentInput
   findings?: Prisma.FindingUncheckedCreateNestedManyWithoutAssessmentInput
   aacts?: Prisma.AactUncheckedCreateNestedManyWithoutAssessmentInput
+  assessorLinks?: Prisma.AssessmentAssessorUncheckedCreateNestedManyWithoutAssessmentInput
 }
 
 export type AssessmentCreateOrConnectWithoutAssessorInput = {
@@ -694,6 +717,7 @@ export type AssessmentCreateWithoutActivityTypeInput = {
   samples?: Prisma.SampleCreateNestedManyWithoutAssessmentInput
   findings?: Prisma.FindingCreateNestedManyWithoutAssessmentInput
   aacts?: Prisma.AactCreateNestedManyWithoutAssessmentInput
+  assessorLinks?: Prisma.AssessmentAssessorCreateNestedManyWithoutAssessmentInput
 }
 
 export type AssessmentUncheckedCreateWithoutActivityTypeInput = {
@@ -710,6 +734,7 @@ export type AssessmentUncheckedCreateWithoutActivityTypeInput = {
   samples?: Prisma.SampleUncheckedCreateNestedManyWithoutAssessmentInput
   findings?: Prisma.FindingUncheckedCreateNestedManyWithoutAssessmentInput
   aacts?: Prisma.AactUncheckedCreateNestedManyWithoutAssessmentInput
+  assessorLinks?: Prisma.AssessmentAssessorUncheckedCreateNestedManyWithoutAssessmentInput
 }
 
 export type AssessmentCreateOrConnectWithoutActivityTypeInput = {
@@ -738,6 +763,90 @@ export type AssessmentUpdateManyWithWhereWithoutActivityTypeInput = {
   data: Prisma.XOR<Prisma.AssessmentUpdateManyMutationInput, Prisma.AssessmentUncheckedUpdateManyWithoutActivityTypeInput>
 }
 
+export type AssessmentCreateWithoutAssessorLinksInput = {
+  id?: string
+  name: string
+  startDate: Date | string
+  endDate?: Date | string | null
+  loa: $Enums.LOA
+  status?: $Enums.AssessmentStatus
+  companyId?: string | null
+  createdAt?: Date | string
+  assessor: Prisma.UserCreateNestedOneWithoutAssessmentsInput
+  activityType: Prisma.AssuranceActivityTypeCreateNestedOneWithoutAssessmentsInput
+  controlAssignments?: Prisma.ControlAssignmentCreateNestedManyWithoutAssessmentInput
+  samples?: Prisma.SampleCreateNestedManyWithoutAssessmentInput
+  findings?: Prisma.FindingCreateNestedManyWithoutAssessmentInput
+  aacts?: Prisma.AactCreateNestedManyWithoutAssessmentInput
+}
+
+export type AssessmentUncheckedCreateWithoutAssessorLinksInput = {
+  id?: string
+  activityTypeId: string
+  name: string
+  assessorId: string
+  startDate: Date | string
+  endDate?: Date | string | null
+  loa: $Enums.LOA
+  status?: $Enums.AssessmentStatus
+  companyId?: string | null
+  createdAt?: Date | string
+  controlAssignments?: Prisma.ControlAssignmentUncheckedCreateNestedManyWithoutAssessmentInput
+  samples?: Prisma.SampleUncheckedCreateNestedManyWithoutAssessmentInput
+  findings?: Prisma.FindingUncheckedCreateNestedManyWithoutAssessmentInput
+  aacts?: Prisma.AactUncheckedCreateNestedManyWithoutAssessmentInput
+}
+
+export type AssessmentCreateOrConnectWithoutAssessorLinksInput = {
+  where: Prisma.AssessmentWhereUniqueInput
+  create: Prisma.XOR<Prisma.AssessmentCreateWithoutAssessorLinksInput, Prisma.AssessmentUncheckedCreateWithoutAssessorLinksInput>
+}
+
+export type AssessmentUpsertWithoutAssessorLinksInput = {
+  update: Prisma.XOR<Prisma.AssessmentUpdateWithoutAssessorLinksInput, Prisma.AssessmentUncheckedUpdateWithoutAssessorLinksInput>
+  create: Prisma.XOR<Prisma.AssessmentCreateWithoutAssessorLinksInput, Prisma.AssessmentUncheckedCreateWithoutAssessorLinksInput>
+  where?: Prisma.AssessmentWhereInput
+}
+
+export type AssessmentUpdateToOneWithWhereWithoutAssessorLinksInput = {
+  where?: Prisma.AssessmentWhereInput
+  data: Prisma.XOR<Prisma.AssessmentUpdateWithoutAssessorLinksInput, Prisma.AssessmentUncheckedUpdateWithoutAssessorLinksInput>
+}
+
+export type AssessmentUpdateWithoutAssessorLinksInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  loa?: Prisma.EnumLOAFieldUpdateOperationsInput | $Enums.LOA
+  status?: Prisma.EnumAssessmentStatusFieldUpdateOperationsInput | $Enums.AssessmentStatus
+  companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  assessor?: Prisma.UserUpdateOneRequiredWithoutAssessmentsNestedInput
+  activityType?: Prisma.AssuranceActivityTypeUpdateOneRequiredWithoutAssessmentsNestedInput
+  controlAssignments?: Prisma.ControlAssignmentUpdateManyWithoutAssessmentNestedInput
+  samples?: Prisma.SampleUpdateManyWithoutAssessmentNestedInput
+  findings?: Prisma.FindingUpdateManyWithoutAssessmentNestedInput
+  aacts?: Prisma.AactUpdateManyWithoutAssessmentNestedInput
+}
+
+export type AssessmentUncheckedUpdateWithoutAssessorLinksInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  activityTypeId?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  assessorId?: Prisma.StringFieldUpdateOperationsInput | string
+  startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  loa?: Prisma.EnumLOAFieldUpdateOperationsInput | $Enums.LOA
+  status?: Prisma.EnumAssessmentStatusFieldUpdateOperationsInput | $Enums.AssessmentStatus
+  companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  controlAssignments?: Prisma.ControlAssignmentUncheckedUpdateManyWithoutAssessmentNestedInput
+  samples?: Prisma.SampleUncheckedUpdateManyWithoutAssessmentNestedInput
+  findings?: Prisma.FindingUncheckedUpdateManyWithoutAssessmentNestedInput
+  aacts?: Prisma.AactUncheckedUpdateManyWithoutAssessmentNestedInput
+}
+
 export type AssessmentCreateWithoutControlAssignmentsInput = {
   id?: string
   name: string
@@ -752,6 +861,7 @@ export type AssessmentCreateWithoutControlAssignmentsInput = {
   samples?: Prisma.SampleCreateNestedManyWithoutAssessmentInput
   findings?: Prisma.FindingCreateNestedManyWithoutAssessmentInput
   aacts?: Prisma.AactCreateNestedManyWithoutAssessmentInput
+  assessorLinks?: Prisma.AssessmentAssessorCreateNestedManyWithoutAssessmentInput
 }
 
 export type AssessmentUncheckedCreateWithoutControlAssignmentsInput = {
@@ -768,6 +878,7 @@ export type AssessmentUncheckedCreateWithoutControlAssignmentsInput = {
   samples?: Prisma.SampleUncheckedCreateNestedManyWithoutAssessmentInput
   findings?: Prisma.FindingUncheckedCreateNestedManyWithoutAssessmentInput
   aacts?: Prisma.AactUncheckedCreateNestedManyWithoutAssessmentInput
+  assessorLinks?: Prisma.AssessmentAssessorUncheckedCreateNestedManyWithoutAssessmentInput
 }
 
 export type AssessmentCreateOrConnectWithoutControlAssignmentsInput = {
@@ -800,6 +911,7 @@ export type AssessmentUpdateWithoutControlAssignmentsInput = {
   samples?: Prisma.SampleUpdateManyWithoutAssessmentNestedInput
   findings?: Prisma.FindingUpdateManyWithoutAssessmentNestedInput
   aacts?: Prisma.AactUpdateManyWithoutAssessmentNestedInput
+  assessorLinks?: Prisma.AssessmentAssessorUpdateManyWithoutAssessmentNestedInput
 }
 
 export type AssessmentUncheckedUpdateWithoutControlAssignmentsInput = {
@@ -816,6 +928,7 @@ export type AssessmentUncheckedUpdateWithoutControlAssignmentsInput = {
   samples?: Prisma.SampleUncheckedUpdateManyWithoutAssessmentNestedInput
   findings?: Prisma.FindingUncheckedUpdateManyWithoutAssessmentNestedInput
   aacts?: Prisma.AactUncheckedUpdateManyWithoutAssessmentNestedInput
+  assessorLinks?: Prisma.AssessmentAssessorUncheckedUpdateManyWithoutAssessmentNestedInput
 }
 
 export type AssessmentCreateWithoutSamplesInput = {
@@ -832,6 +945,7 @@ export type AssessmentCreateWithoutSamplesInput = {
   controlAssignments?: Prisma.ControlAssignmentCreateNestedManyWithoutAssessmentInput
   findings?: Prisma.FindingCreateNestedManyWithoutAssessmentInput
   aacts?: Prisma.AactCreateNestedManyWithoutAssessmentInput
+  assessorLinks?: Prisma.AssessmentAssessorCreateNestedManyWithoutAssessmentInput
 }
 
 export type AssessmentUncheckedCreateWithoutSamplesInput = {
@@ -848,6 +962,7 @@ export type AssessmentUncheckedCreateWithoutSamplesInput = {
   controlAssignments?: Prisma.ControlAssignmentUncheckedCreateNestedManyWithoutAssessmentInput
   findings?: Prisma.FindingUncheckedCreateNestedManyWithoutAssessmentInput
   aacts?: Prisma.AactUncheckedCreateNestedManyWithoutAssessmentInput
+  assessorLinks?: Prisma.AssessmentAssessorUncheckedCreateNestedManyWithoutAssessmentInput
 }
 
 export type AssessmentCreateOrConnectWithoutSamplesInput = {
@@ -880,6 +995,7 @@ export type AssessmentUpdateWithoutSamplesInput = {
   controlAssignments?: Prisma.ControlAssignmentUpdateManyWithoutAssessmentNestedInput
   findings?: Prisma.FindingUpdateManyWithoutAssessmentNestedInput
   aacts?: Prisma.AactUpdateManyWithoutAssessmentNestedInput
+  assessorLinks?: Prisma.AssessmentAssessorUpdateManyWithoutAssessmentNestedInput
 }
 
 export type AssessmentUncheckedUpdateWithoutSamplesInput = {
@@ -896,6 +1012,7 @@ export type AssessmentUncheckedUpdateWithoutSamplesInput = {
   controlAssignments?: Prisma.ControlAssignmentUncheckedUpdateManyWithoutAssessmentNestedInput
   findings?: Prisma.FindingUncheckedUpdateManyWithoutAssessmentNestedInput
   aacts?: Prisma.AactUncheckedUpdateManyWithoutAssessmentNestedInput
+  assessorLinks?: Prisma.AssessmentAssessorUncheckedUpdateManyWithoutAssessmentNestedInput
 }
 
 export type AssessmentCreateWithoutFindingsInput = {
@@ -912,6 +1029,7 @@ export type AssessmentCreateWithoutFindingsInput = {
   controlAssignments?: Prisma.ControlAssignmentCreateNestedManyWithoutAssessmentInput
   samples?: Prisma.SampleCreateNestedManyWithoutAssessmentInput
   aacts?: Prisma.AactCreateNestedManyWithoutAssessmentInput
+  assessorLinks?: Prisma.AssessmentAssessorCreateNestedManyWithoutAssessmentInput
 }
 
 export type AssessmentUncheckedCreateWithoutFindingsInput = {
@@ -928,6 +1046,7 @@ export type AssessmentUncheckedCreateWithoutFindingsInput = {
   controlAssignments?: Prisma.ControlAssignmentUncheckedCreateNestedManyWithoutAssessmentInput
   samples?: Prisma.SampleUncheckedCreateNestedManyWithoutAssessmentInput
   aacts?: Prisma.AactUncheckedCreateNestedManyWithoutAssessmentInput
+  assessorLinks?: Prisma.AssessmentAssessorUncheckedCreateNestedManyWithoutAssessmentInput
 }
 
 export type AssessmentCreateOrConnectWithoutFindingsInput = {
@@ -960,6 +1079,7 @@ export type AssessmentUpdateWithoutFindingsInput = {
   controlAssignments?: Prisma.ControlAssignmentUpdateManyWithoutAssessmentNestedInput
   samples?: Prisma.SampleUpdateManyWithoutAssessmentNestedInput
   aacts?: Prisma.AactUpdateManyWithoutAssessmentNestedInput
+  assessorLinks?: Prisma.AssessmentAssessorUpdateManyWithoutAssessmentNestedInput
 }
 
 export type AssessmentUncheckedUpdateWithoutFindingsInput = {
@@ -976,6 +1096,7 @@ export type AssessmentUncheckedUpdateWithoutFindingsInput = {
   controlAssignments?: Prisma.ControlAssignmentUncheckedUpdateManyWithoutAssessmentNestedInput
   samples?: Prisma.SampleUncheckedUpdateManyWithoutAssessmentNestedInput
   aacts?: Prisma.AactUncheckedUpdateManyWithoutAssessmentNestedInput
+  assessorLinks?: Prisma.AssessmentAssessorUncheckedUpdateManyWithoutAssessmentNestedInput
 }
 
 export type AssessmentCreateWithoutAactsInput = {
@@ -992,6 +1113,7 @@ export type AssessmentCreateWithoutAactsInput = {
   controlAssignments?: Prisma.ControlAssignmentCreateNestedManyWithoutAssessmentInput
   samples?: Prisma.SampleCreateNestedManyWithoutAssessmentInput
   findings?: Prisma.FindingCreateNestedManyWithoutAssessmentInput
+  assessorLinks?: Prisma.AssessmentAssessorCreateNestedManyWithoutAssessmentInput
 }
 
 export type AssessmentUncheckedCreateWithoutAactsInput = {
@@ -1008,6 +1130,7 @@ export type AssessmentUncheckedCreateWithoutAactsInput = {
   controlAssignments?: Prisma.ControlAssignmentUncheckedCreateNestedManyWithoutAssessmentInput
   samples?: Prisma.SampleUncheckedCreateNestedManyWithoutAssessmentInput
   findings?: Prisma.FindingUncheckedCreateNestedManyWithoutAssessmentInput
+  assessorLinks?: Prisma.AssessmentAssessorUncheckedCreateNestedManyWithoutAssessmentInput
 }
 
 export type AssessmentCreateOrConnectWithoutAactsInput = {
@@ -1040,6 +1163,7 @@ export type AssessmentUpdateWithoutAactsInput = {
   controlAssignments?: Prisma.ControlAssignmentUpdateManyWithoutAssessmentNestedInput
   samples?: Prisma.SampleUpdateManyWithoutAssessmentNestedInput
   findings?: Prisma.FindingUpdateManyWithoutAssessmentNestedInput
+  assessorLinks?: Prisma.AssessmentAssessorUpdateManyWithoutAssessmentNestedInput
 }
 
 export type AssessmentUncheckedUpdateWithoutAactsInput = {
@@ -1056,6 +1180,7 @@ export type AssessmentUncheckedUpdateWithoutAactsInput = {
   controlAssignments?: Prisma.ControlAssignmentUncheckedUpdateManyWithoutAssessmentNestedInput
   samples?: Prisma.SampleUncheckedUpdateManyWithoutAssessmentNestedInput
   findings?: Prisma.FindingUncheckedUpdateManyWithoutAssessmentNestedInput
+  assessorLinks?: Prisma.AssessmentAssessorUncheckedUpdateManyWithoutAssessmentNestedInput
 }
 
 export type AssessmentCreateManyAssessorInput = {
@@ -1084,6 +1209,7 @@ export type AssessmentUpdateWithoutAssessorInput = {
   samples?: Prisma.SampleUpdateManyWithoutAssessmentNestedInput
   findings?: Prisma.FindingUpdateManyWithoutAssessmentNestedInput
   aacts?: Prisma.AactUpdateManyWithoutAssessmentNestedInput
+  assessorLinks?: Prisma.AssessmentAssessorUpdateManyWithoutAssessmentNestedInput
 }
 
 export type AssessmentUncheckedUpdateWithoutAssessorInput = {
@@ -1100,6 +1226,7 @@ export type AssessmentUncheckedUpdateWithoutAssessorInput = {
   samples?: Prisma.SampleUncheckedUpdateManyWithoutAssessmentNestedInput
   findings?: Prisma.FindingUncheckedUpdateManyWithoutAssessmentNestedInput
   aacts?: Prisma.AactUncheckedUpdateManyWithoutAssessmentNestedInput
+  assessorLinks?: Prisma.AssessmentAssessorUncheckedUpdateManyWithoutAssessmentNestedInput
 }
 
 export type AssessmentUncheckedUpdateManyWithoutAssessorInput = {
@@ -1140,6 +1267,7 @@ export type AssessmentUpdateWithoutActivityTypeInput = {
   samples?: Prisma.SampleUpdateManyWithoutAssessmentNestedInput
   findings?: Prisma.FindingUpdateManyWithoutAssessmentNestedInput
   aacts?: Prisma.AactUpdateManyWithoutAssessmentNestedInput
+  assessorLinks?: Prisma.AssessmentAssessorUpdateManyWithoutAssessmentNestedInput
 }
 
 export type AssessmentUncheckedUpdateWithoutActivityTypeInput = {
@@ -1156,6 +1284,7 @@ export type AssessmentUncheckedUpdateWithoutActivityTypeInput = {
   samples?: Prisma.SampleUncheckedUpdateManyWithoutAssessmentNestedInput
   findings?: Prisma.FindingUncheckedUpdateManyWithoutAssessmentNestedInput
   aacts?: Prisma.AactUncheckedUpdateManyWithoutAssessmentNestedInput
+  assessorLinks?: Prisma.AssessmentAssessorUncheckedUpdateManyWithoutAssessmentNestedInput
 }
 
 export type AssessmentUncheckedUpdateManyWithoutActivityTypeInput = {
@@ -1180,6 +1309,7 @@ export type AssessmentCountOutputType = {
   samples: number
   findings: number
   aacts: number
+  assessorLinks: number
 }
 
 export type AssessmentCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1187,6 +1317,7 @@ export type AssessmentCountOutputTypeSelect<ExtArgs extends runtime.Types.Extens
   samples?: boolean | AssessmentCountOutputTypeCountSamplesArgs
   findings?: boolean | AssessmentCountOutputTypeCountFindingsArgs
   aacts?: boolean | AssessmentCountOutputTypeCountAactsArgs
+  assessorLinks?: boolean | AssessmentCountOutputTypeCountAssessorLinksArgs
 }
 
 /**
@@ -1227,6 +1358,13 @@ export type AssessmentCountOutputTypeCountAactsArgs<ExtArgs extends runtime.Type
   where?: Prisma.AactWhereInput
 }
 
+/**
+ * AssessmentCountOutputType without action
+ */
+export type AssessmentCountOutputTypeCountAssessorLinksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.AssessmentAssessorWhereInput
+}
+
 
 export type AssessmentSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1245,6 +1383,7 @@ export type AssessmentSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   samples?: boolean | Prisma.Assessment$samplesArgs<ExtArgs>
   findings?: boolean | Prisma.Assessment$findingsArgs<ExtArgs>
   aacts?: boolean | Prisma.Assessment$aactsArgs<ExtArgs>
+  assessorLinks?: boolean | Prisma.Assessment$assessorLinksArgs<ExtArgs>
   _count?: boolean | Prisma.AssessmentCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["assessment"]>
 
@@ -1299,6 +1438,7 @@ export type AssessmentInclude<ExtArgs extends runtime.Types.Extensions.InternalA
   samples?: boolean | Prisma.Assessment$samplesArgs<ExtArgs>
   findings?: boolean | Prisma.Assessment$findingsArgs<ExtArgs>
   aacts?: boolean | Prisma.Assessment$aactsArgs<ExtArgs>
+  assessorLinks?: boolean | Prisma.Assessment$assessorLinksArgs<ExtArgs>
   _count?: boolean | Prisma.AssessmentCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type AssessmentIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1319,6 +1459,7 @@ export type $AssessmentPayload<ExtArgs extends runtime.Types.Extensions.Internal
     samples: Prisma.$SamplePayload<ExtArgs>[]
     findings: Prisma.$FindingPayload<ExtArgs>[]
     aacts: Prisma.$AactPayload<ExtArgs>[]
+    assessorLinks: Prisma.$AssessmentAssessorPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1731,6 +1872,7 @@ export interface Prisma__AssessmentClient<T, Null = never, ExtArgs extends runti
   samples<T extends Prisma.Assessment$samplesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Assessment$samplesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SamplePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   findings<T extends Prisma.Assessment$findingsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Assessment$findingsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FindingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   aacts<T extends Prisma.Assessment$aactsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Assessment$aactsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AactPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  assessorLinks<T extends Prisma.Assessment$assessorLinksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Assessment$assessorLinksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AssessmentAssessorPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2264,6 +2406,30 @@ export type Assessment$aactsArgs<ExtArgs extends runtime.Types.Extensions.Intern
   take?: number
   skip?: number
   distinct?: Prisma.AactScalarFieldEnum | Prisma.AactScalarFieldEnum[]
+}
+
+/**
+ * Assessment.assessorLinks
+ */
+export type Assessment$assessorLinksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the AssessmentAssessor
+   */
+  select?: Prisma.AssessmentAssessorSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the AssessmentAssessor
+   */
+  omit?: Prisma.AssessmentAssessorOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AssessmentAssessorInclude<ExtArgs> | null
+  where?: Prisma.AssessmentAssessorWhereInput
+  orderBy?: Prisma.AssessmentAssessorOrderByWithRelationInput | Prisma.AssessmentAssessorOrderByWithRelationInput[]
+  cursor?: Prisma.AssessmentAssessorWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.AssessmentAssessorScalarFieldEnum | Prisma.AssessmentAssessorScalarFieldEnum[]
 }
 
 /**

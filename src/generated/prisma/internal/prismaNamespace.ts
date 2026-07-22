@@ -398,6 +398,7 @@ export const ModelName = {
   AssessmentTemplateControlLinkage: 'AssessmentTemplateControlLinkage',
   AssessmentTemplateActivityType: 'AssessmentTemplateActivityType',
   Assessment: 'Assessment',
+  AssessmentAssessor: 'AssessmentAssessor',
   ControlAssignment: 'ControlAssignment',
   SampleType: 'SampleType',
   RecordSourceType: 'RecordSourceType',
@@ -445,7 +446,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "activityLog" | "activityLogType" | "assuranceActivityType" | "standard" | "processArea" | "subProcess" | "controlSubProcess" | "controlFDSubProcess" | "control" | "assessmentTemplate" | "assessmentTemplateControlLinkage" | "assessmentTemplateActivityType" | "assessment" | "controlAssignment" | "sampleType" | "recordSourceType" | "sample" | "finding" | "action" | "attachment" | "attachmentMapping" | "achievementBadge" | "userAchievement" | "pointTransaction" | "gameAttribute" | "gameAttributeRule" | "emotionalDriveMetric" | "milestone" | "userRole" | "userRoleMapping" | "company" | "userCompany" | "userFavorite" | "assessmentActType" | "aact" | "aActControls" | "aActUsers" | "aActDetails" | "knowledgebase" | "mapArt2Know" | "documentExtract" | "controlFromDocument" | "requirement" | "mapControl2Requirement" | "backlogItem"
+    modelProps: "user" | "activityLog" | "activityLogType" | "assuranceActivityType" | "standard" | "processArea" | "subProcess" | "controlSubProcess" | "controlFDSubProcess" | "control" | "assessmentTemplate" | "assessmentTemplateControlLinkage" | "assessmentTemplateActivityType" | "assessment" | "assessmentAssessor" | "controlAssignment" | "sampleType" | "recordSourceType" | "sample" | "finding" | "action" | "attachment" | "attachmentMapping" | "achievementBadge" | "userAchievement" | "pointTransaction" | "gameAttribute" | "gameAttributeRule" | "emotionalDriveMetric" | "milestone" | "userRole" | "userRoleMapping" | "company" | "userCompany" | "userFavorite" | "assessmentActType" | "aact" | "aActControls" | "aActUsers" | "aActDetails" | "knowledgebase" | "mapArt2Know" | "documentExtract" | "controlFromDocument" | "requirement" | "mapControl2Requirement" | "backlogItem"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1482,6 +1483,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.AssessmentCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.AssessmentCountAggregateOutputType> | number
+        }
+      }
+    }
+    AssessmentAssessor: {
+      payload: Prisma.$AssessmentAssessorPayload<ExtArgs>
+      fields: Prisma.AssessmentAssessorFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.AssessmentAssessorFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AssessmentAssessorPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.AssessmentAssessorFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AssessmentAssessorPayload>
+        }
+        findFirst: {
+          args: Prisma.AssessmentAssessorFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AssessmentAssessorPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.AssessmentAssessorFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AssessmentAssessorPayload>
+        }
+        findMany: {
+          args: Prisma.AssessmentAssessorFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AssessmentAssessorPayload>[]
+        }
+        create: {
+          args: Prisma.AssessmentAssessorCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AssessmentAssessorPayload>
+        }
+        createMany: {
+          args: Prisma.AssessmentAssessorCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.AssessmentAssessorCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AssessmentAssessorPayload>[]
+        }
+        delete: {
+          args: Prisma.AssessmentAssessorDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AssessmentAssessorPayload>
+        }
+        update: {
+          args: Prisma.AssessmentAssessorUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AssessmentAssessorPayload>
+        }
+        deleteMany: {
+          args: Prisma.AssessmentAssessorDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.AssessmentAssessorUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.AssessmentAssessorUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AssessmentAssessorPayload>[]
+        }
+        upsert: {
+          args: Prisma.AssessmentAssessorUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AssessmentAssessorPayload>
+        }
+        aggregate: {
+          args: Prisma.AssessmentAssessorAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateAssessmentAssessor>
+        }
+        groupBy: {
+          args: Prisma.AssessmentAssessorGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AssessmentAssessorGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.AssessmentAssessorCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AssessmentAssessorCountAggregateOutputType> | number
         }
       }
     }
@@ -4093,6 +4168,16 @@ export const AssessmentScalarFieldEnum = {
 export type AssessmentScalarFieldEnum = (typeof AssessmentScalarFieldEnum)[keyof typeof AssessmentScalarFieldEnum]
 
 
+export const AssessmentAssessorScalarFieldEnum = {
+  id: 'id',
+  assessmentId: 'assessmentId',
+  userId: 'userId',
+  createdAt: 'createdAt'
+} as const
+
+export type AssessmentAssessorScalarFieldEnum = (typeof AssessmentAssessorScalarFieldEnum)[keyof typeof AssessmentAssessorScalarFieldEnum]
+
+
 export const ControlAssignmentScalarFieldEnum = {
   id: 'id',
   assessmentId: 'assessmentId',
@@ -4992,6 +5077,7 @@ export type GlobalOmitConfig = {
   assessmentTemplateControlLinkage?: Prisma.AssessmentTemplateControlLinkageOmit
   assessmentTemplateActivityType?: Prisma.AssessmentTemplateActivityTypeOmit
   assessment?: Prisma.AssessmentOmit
+  assessmentAssessor?: Prisma.AssessmentAssessorOmit
   controlAssignment?: Prisma.ControlAssignmentOmit
   sampleType?: Prisma.SampleTypeOmit
   recordSourceType?: Prisma.RecordSourceTypeOmit

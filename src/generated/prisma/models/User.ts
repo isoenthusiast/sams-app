@@ -277,6 +277,7 @@ export type UserWhereInput = {
   lastActivityDate?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   confidenceInfluencer?: Prisma.BoolFilter<"User"> | boolean
   assessments?: Prisma.AssessmentListRelationFilter
+  assessmentRoles?: Prisma.AssessmentAssessorListRelationFilter
   emotionalDrives?: Prisma.EmotionalDriveMetricListRelationFilter
   milestones?: Prisma.MilestoneListRelationFilter
   points?: Prisma.PointTransactionListRelationFilter
@@ -299,6 +300,7 @@ export type UserOrderByWithRelationInput = {
   lastActivityDate?: Prisma.SortOrderInput | Prisma.SortOrder
   confidenceInfluencer?: Prisma.SortOrder
   assessments?: Prisma.AssessmentOrderByRelationAggregateInput
+  assessmentRoles?: Prisma.AssessmentAssessorOrderByRelationAggregateInput
   emotionalDrives?: Prisma.EmotionalDriveMetricOrderByRelationAggregateInput
   milestones?: Prisma.MilestoneOrderByRelationAggregateInput
   points?: Prisma.PointTransactionOrderByRelationAggregateInput
@@ -324,6 +326,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   lastActivityDate?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   confidenceInfluencer?: Prisma.BoolFilter<"User"> | boolean
   assessments?: Prisma.AssessmentListRelationFilter
+  assessmentRoles?: Prisma.AssessmentAssessorListRelationFilter
   emotionalDrives?: Prisma.EmotionalDriveMetricListRelationFilter
   milestones?: Prisma.MilestoneListRelationFilter
   points?: Prisma.PointTransactionListRelationFilter
@@ -384,6 +387,7 @@ export type UserCreateInput = {
   lastActivityDate?: Date | string | null
   confidenceInfluencer?: boolean
   assessments?: Prisma.AssessmentCreateNestedManyWithoutAssessorInput
+  assessmentRoles?: Prisma.AssessmentAssessorCreateNestedManyWithoutUserInput
   emotionalDrives?: Prisma.EmotionalDriveMetricCreateNestedManyWithoutUserInput
   milestones?: Prisma.MilestoneCreateNestedManyWithoutUserInput
   points?: Prisma.PointTransactionCreateNestedManyWithoutUserInput
@@ -406,6 +410,7 @@ export type UserUncheckedCreateInput = {
   lastActivityDate?: Date | string | null
   confidenceInfluencer?: boolean
   assessments?: Prisma.AssessmentUncheckedCreateNestedManyWithoutAssessorInput
+  assessmentRoles?: Prisma.AssessmentAssessorUncheckedCreateNestedManyWithoutUserInput
   emotionalDrives?: Prisma.EmotionalDriveMetricUncheckedCreateNestedManyWithoutUserInput
   milestones?: Prisma.MilestoneUncheckedCreateNestedManyWithoutUserInput
   points?: Prisma.PointTransactionUncheckedCreateNestedManyWithoutUserInput
@@ -428,6 +433,7 @@ export type UserUpdateInput = {
   lastActivityDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   confidenceInfluencer?: Prisma.BoolFieldUpdateOperationsInput | boolean
   assessments?: Prisma.AssessmentUpdateManyWithoutAssessorNestedInput
+  assessmentRoles?: Prisma.AssessmentAssessorUpdateManyWithoutUserNestedInput
   emotionalDrives?: Prisma.EmotionalDriveMetricUpdateManyWithoutUserNestedInput
   milestones?: Prisma.MilestoneUpdateManyWithoutUserNestedInput
   points?: Prisma.PointTransactionUpdateManyWithoutUserNestedInput
@@ -450,6 +456,7 @@ export type UserUncheckedUpdateInput = {
   lastActivityDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   confidenceInfluencer?: Prisma.BoolFieldUpdateOperationsInput | boolean
   assessments?: Prisma.AssessmentUncheckedUpdateManyWithoutAssessorNestedInput
+  assessmentRoles?: Prisma.AssessmentAssessorUncheckedUpdateManyWithoutUserNestedInput
   emotionalDrives?: Prisma.EmotionalDriveMetricUncheckedUpdateManyWithoutUserNestedInput
   milestones?: Prisma.MilestoneUncheckedUpdateManyWithoutUserNestedInput
   points?: Prisma.PointTransactionUncheckedUpdateManyWithoutUserNestedInput
@@ -609,6 +616,20 @@ export type UserUpdateOneRequiredWithoutAssessmentsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutAssessmentsInput, Prisma.UserUpdateWithoutAssessmentsInput>, Prisma.UserUncheckedUpdateWithoutAssessmentsInput>
 }
 
+export type UserCreateNestedOneWithoutAssessmentRolesInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutAssessmentRolesInput, Prisma.UserUncheckedCreateWithoutAssessmentRolesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAssessmentRolesInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutAssessmentRolesNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutAssessmentRolesInput, Prisma.UserUncheckedCreateWithoutAssessmentRolesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAssessmentRolesInput
+  upsert?: Prisma.UserUpsertWithoutAssessmentRolesInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutAssessmentRolesInput, Prisma.UserUpdateWithoutAssessmentRolesInput>, Prisma.UserUncheckedUpdateWithoutAssessmentRolesInput>
+}
+
 export type UserCreateNestedOneWithoutAchievementsInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutAchievementsInput, Prisma.UserUncheckedCreateWithoutAchievementsInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutAchievementsInput
@@ -706,6 +727,7 @@ export type UserCreateWithoutAssessmentsInput = {
   dailyPointStreak?: number
   lastActivityDate?: Date | string | null
   confidenceInfluencer?: boolean
+  assessmentRoles?: Prisma.AssessmentAssessorCreateNestedManyWithoutUserInput
   emotionalDrives?: Prisma.EmotionalDriveMetricCreateNestedManyWithoutUserInput
   milestones?: Prisma.MilestoneCreateNestedManyWithoutUserInput
   points?: Prisma.PointTransactionCreateNestedManyWithoutUserInput
@@ -727,6 +749,7 @@ export type UserUncheckedCreateWithoutAssessmentsInput = {
   dailyPointStreak?: number
   lastActivityDate?: Date | string | null
   confidenceInfluencer?: boolean
+  assessmentRoles?: Prisma.AssessmentAssessorUncheckedCreateNestedManyWithoutUserInput
   emotionalDrives?: Prisma.EmotionalDriveMetricUncheckedCreateNestedManyWithoutUserInput
   milestones?: Prisma.MilestoneUncheckedCreateNestedManyWithoutUserInput
   points?: Prisma.PointTransactionUncheckedCreateNestedManyWithoutUserInput
@@ -764,6 +787,7 @@ export type UserUpdateWithoutAssessmentsInput = {
   dailyPointStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastActivityDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   confidenceInfluencer?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  assessmentRoles?: Prisma.AssessmentAssessorUpdateManyWithoutUserNestedInput
   emotionalDrives?: Prisma.EmotionalDriveMetricUpdateManyWithoutUserNestedInput
   milestones?: Prisma.MilestoneUpdateManyWithoutUserNestedInput
   points?: Prisma.PointTransactionUpdateManyWithoutUserNestedInput
@@ -785,6 +809,111 @@ export type UserUncheckedUpdateWithoutAssessmentsInput = {
   dailyPointStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastActivityDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   confidenceInfluencer?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  assessmentRoles?: Prisma.AssessmentAssessorUncheckedUpdateManyWithoutUserNestedInput
+  emotionalDrives?: Prisma.EmotionalDriveMetricUncheckedUpdateManyWithoutUserNestedInput
+  milestones?: Prisma.MilestoneUncheckedUpdateManyWithoutUserNestedInput
+  points?: Prisma.PointTransactionUncheckedUpdateManyWithoutUserNestedInput
+  achievements?: Prisma.UserAchievementUncheckedUpdateManyWithoutUserNestedInput
+  roleMappings?: Prisma.UserRoleMappingUncheckedUpdateManyWithoutUserNestedInput
+  userCompanies?: Prisma.UserCompanyUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutAssessmentRolesInput = {
+  id?: string
+  name: string
+  username: string
+  passwordHash: string
+  role?: $Enums.Role
+  position?: string | null
+  companyId?: string | null
+  createdAt?: Date | string
+  totalPoints?: number
+  dailyPointStreak?: number
+  lastActivityDate?: Date | string | null
+  confidenceInfluencer?: boolean
+  assessments?: Prisma.AssessmentCreateNestedManyWithoutAssessorInput
+  emotionalDrives?: Prisma.EmotionalDriveMetricCreateNestedManyWithoutUserInput
+  milestones?: Prisma.MilestoneCreateNestedManyWithoutUserInput
+  points?: Prisma.PointTransactionCreateNestedManyWithoutUserInput
+  achievements?: Prisma.UserAchievementCreateNestedManyWithoutUserInput
+  roleMappings?: Prisma.UserRoleMappingCreateNestedManyWithoutUserInput
+  userCompanies?: Prisma.UserCompanyCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutAssessmentRolesInput = {
+  id?: string
+  name: string
+  username: string
+  passwordHash: string
+  role?: $Enums.Role
+  position?: string | null
+  companyId?: string | null
+  createdAt?: Date | string
+  totalPoints?: number
+  dailyPointStreak?: number
+  lastActivityDate?: Date | string | null
+  confidenceInfluencer?: boolean
+  assessments?: Prisma.AssessmentUncheckedCreateNestedManyWithoutAssessorInput
+  emotionalDrives?: Prisma.EmotionalDriveMetricUncheckedCreateNestedManyWithoutUserInput
+  milestones?: Prisma.MilestoneUncheckedCreateNestedManyWithoutUserInput
+  points?: Prisma.PointTransactionUncheckedCreateNestedManyWithoutUserInput
+  achievements?: Prisma.UserAchievementUncheckedCreateNestedManyWithoutUserInput
+  roleMappings?: Prisma.UserRoleMappingUncheckedCreateNestedManyWithoutUserInput
+  userCompanies?: Prisma.UserCompanyUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutAssessmentRolesInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutAssessmentRolesInput, Prisma.UserUncheckedCreateWithoutAssessmentRolesInput>
+}
+
+export type UserUpsertWithoutAssessmentRolesInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutAssessmentRolesInput, Prisma.UserUncheckedUpdateWithoutAssessmentRolesInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutAssessmentRolesInput, Prisma.UserUncheckedCreateWithoutAssessmentRolesInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutAssessmentRolesInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutAssessmentRolesInput, Prisma.UserUncheckedUpdateWithoutAssessmentRolesInput>
+}
+
+export type UserUpdateWithoutAssessmentRolesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  position?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  totalPoints?: Prisma.IntFieldUpdateOperationsInput | number
+  dailyPointStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  lastActivityDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  confidenceInfluencer?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  assessments?: Prisma.AssessmentUpdateManyWithoutAssessorNestedInput
+  emotionalDrives?: Prisma.EmotionalDriveMetricUpdateManyWithoutUserNestedInput
+  milestones?: Prisma.MilestoneUpdateManyWithoutUserNestedInput
+  points?: Prisma.PointTransactionUpdateManyWithoutUserNestedInput
+  achievements?: Prisma.UserAchievementUpdateManyWithoutUserNestedInput
+  roleMappings?: Prisma.UserRoleMappingUpdateManyWithoutUserNestedInput
+  userCompanies?: Prisma.UserCompanyUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutAssessmentRolesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  position?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  totalPoints?: Prisma.IntFieldUpdateOperationsInput | number
+  dailyPointStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  lastActivityDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  confidenceInfluencer?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  assessments?: Prisma.AssessmentUncheckedUpdateManyWithoutAssessorNestedInput
   emotionalDrives?: Prisma.EmotionalDriveMetricUncheckedUpdateManyWithoutUserNestedInput
   milestones?: Prisma.MilestoneUncheckedUpdateManyWithoutUserNestedInput
   points?: Prisma.PointTransactionUncheckedUpdateManyWithoutUserNestedInput
@@ -807,6 +936,7 @@ export type UserCreateWithoutAchievementsInput = {
   lastActivityDate?: Date | string | null
   confidenceInfluencer?: boolean
   assessments?: Prisma.AssessmentCreateNestedManyWithoutAssessorInput
+  assessmentRoles?: Prisma.AssessmentAssessorCreateNestedManyWithoutUserInput
   emotionalDrives?: Prisma.EmotionalDriveMetricCreateNestedManyWithoutUserInput
   milestones?: Prisma.MilestoneCreateNestedManyWithoutUserInput
   points?: Prisma.PointTransactionCreateNestedManyWithoutUserInput
@@ -828,6 +958,7 @@ export type UserUncheckedCreateWithoutAchievementsInput = {
   lastActivityDate?: Date | string | null
   confidenceInfluencer?: boolean
   assessments?: Prisma.AssessmentUncheckedCreateNestedManyWithoutAssessorInput
+  assessmentRoles?: Prisma.AssessmentAssessorUncheckedCreateNestedManyWithoutUserInput
   emotionalDrives?: Prisma.EmotionalDriveMetricUncheckedCreateNestedManyWithoutUserInput
   milestones?: Prisma.MilestoneUncheckedCreateNestedManyWithoutUserInput
   points?: Prisma.PointTransactionUncheckedCreateNestedManyWithoutUserInput
@@ -865,6 +996,7 @@ export type UserUpdateWithoutAchievementsInput = {
   lastActivityDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   confidenceInfluencer?: Prisma.BoolFieldUpdateOperationsInput | boolean
   assessments?: Prisma.AssessmentUpdateManyWithoutAssessorNestedInput
+  assessmentRoles?: Prisma.AssessmentAssessorUpdateManyWithoutUserNestedInput
   emotionalDrives?: Prisma.EmotionalDriveMetricUpdateManyWithoutUserNestedInput
   milestones?: Prisma.MilestoneUpdateManyWithoutUserNestedInput
   points?: Prisma.PointTransactionUpdateManyWithoutUserNestedInput
@@ -886,6 +1018,7 @@ export type UserUncheckedUpdateWithoutAchievementsInput = {
   lastActivityDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   confidenceInfluencer?: Prisma.BoolFieldUpdateOperationsInput | boolean
   assessments?: Prisma.AssessmentUncheckedUpdateManyWithoutAssessorNestedInput
+  assessmentRoles?: Prisma.AssessmentAssessorUncheckedUpdateManyWithoutUserNestedInput
   emotionalDrives?: Prisma.EmotionalDriveMetricUncheckedUpdateManyWithoutUserNestedInput
   milestones?: Prisma.MilestoneUncheckedUpdateManyWithoutUserNestedInput
   points?: Prisma.PointTransactionUncheckedUpdateManyWithoutUserNestedInput
@@ -907,6 +1040,7 @@ export type UserCreateWithoutPointsInput = {
   lastActivityDate?: Date | string | null
   confidenceInfluencer?: boolean
   assessments?: Prisma.AssessmentCreateNestedManyWithoutAssessorInput
+  assessmentRoles?: Prisma.AssessmentAssessorCreateNestedManyWithoutUserInput
   emotionalDrives?: Prisma.EmotionalDriveMetricCreateNestedManyWithoutUserInput
   milestones?: Prisma.MilestoneCreateNestedManyWithoutUserInput
   achievements?: Prisma.UserAchievementCreateNestedManyWithoutUserInput
@@ -928,6 +1062,7 @@ export type UserUncheckedCreateWithoutPointsInput = {
   lastActivityDate?: Date | string | null
   confidenceInfluencer?: boolean
   assessments?: Prisma.AssessmentUncheckedCreateNestedManyWithoutAssessorInput
+  assessmentRoles?: Prisma.AssessmentAssessorUncheckedCreateNestedManyWithoutUserInput
   emotionalDrives?: Prisma.EmotionalDriveMetricUncheckedCreateNestedManyWithoutUserInput
   milestones?: Prisma.MilestoneUncheckedCreateNestedManyWithoutUserInput
   achievements?: Prisma.UserAchievementUncheckedCreateNestedManyWithoutUserInput
@@ -965,6 +1100,7 @@ export type UserUpdateWithoutPointsInput = {
   lastActivityDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   confidenceInfluencer?: Prisma.BoolFieldUpdateOperationsInput | boolean
   assessments?: Prisma.AssessmentUpdateManyWithoutAssessorNestedInput
+  assessmentRoles?: Prisma.AssessmentAssessorUpdateManyWithoutUserNestedInput
   emotionalDrives?: Prisma.EmotionalDriveMetricUpdateManyWithoutUserNestedInput
   milestones?: Prisma.MilestoneUpdateManyWithoutUserNestedInput
   achievements?: Prisma.UserAchievementUpdateManyWithoutUserNestedInput
@@ -986,6 +1122,7 @@ export type UserUncheckedUpdateWithoutPointsInput = {
   lastActivityDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   confidenceInfluencer?: Prisma.BoolFieldUpdateOperationsInput | boolean
   assessments?: Prisma.AssessmentUncheckedUpdateManyWithoutAssessorNestedInput
+  assessmentRoles?: Prisma.AssessmentAssessorUncheckedUpdateManyWithoutUserNestedInput
   emotionalDrives?: Prisma.EmotionalDriveMetricUncheckedUpdateManyWithoutUserNestedInput
   milestones?: Prisma.MilestoneUncheckedUpdateManyWithoutUserNestedInput
   achievements?: Prisma.UserAchievementUncheckedUpdateManyWithoutUserNestedInput
@@ -1007,6 +1144,7 @@ export type UserCreateWithoutEmotionalDrivesInput = {
   lastActivityDate?: Date | string | null
   confidenceInfluencer?: boolean
   assessments?: Prisma.AssessmentCreateNestedManyWithoutAssessorInput
+  assessmentRoles?: Prisma.AssessmentAssessorCreateNestedManyWithoutUserInput
   milestones?: Prisma.MilestoneCreateNestedManyWithoutUserInput
   points?: Prisma.PointTransactionCreateNestedManyWithoutUserInput
   achievements?: Prisma.UserAchievementCreateNestedManyWithoutUserInput
@@ -1028,6 +1166,7 @@ export type UserUncheckedCreateWithoutEmotionalDrivesInput = {
   lastActivityDate?: Date | string | null
   confidenceInfluencer?: boolean
   assessments?: Prisma.AssessmentUncheckedCreateNestedManyWithoutAssessorInput
+  assessmentRoles?: Prisma.AssessmentAssessorUncheckedCreateNestedManyWithoutUserInput
   milestones?: Prisma.MilestoneUncheckedCreateNestedManyWithoutUserInput
   points?: Prisma.PointTransactionUncheckedCreateNestedManyWithoutUserInput
   achievements?: Prisma.UserAchievementUncheckedCreateNestedManyWithoutUserInput
@@ -1065,6 +1204,7 @@ export type UserUpdateWithoutEmotionalDrivesInput = {
   lastActivityDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   confidenceInfluencer?: Prisma.BoolFieldUpdateOperationsInput | boolean
   assessments?: Prisma.AssessmentUpdateManyWithoutAssessorNestedInput
+  assessmentRoles?: Prisma.AssessmentAssessorUpdateManyWithoutUserNestedInput
   milestones?: Prisma.MilestoneUpdateManyWithoutUserNestedInput
   points?: Prisma.PointTransactionUpdateManyWithoutUserNestedInput
   achievements?: Prisma.UserAchievementUpdateManyWithoutUserNestedInput
@@ -1086,6 +1226,7 @@ export type UserUncheckedUpdateWithoutEmotionalDrivesInput = {
   lastActivityDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   confidenceInfluencer?: Prisma.BoolFieldUpdateOperationsInput | boolean
   assessments?: Prisma.AssessmentUncheckedUpdateManyWithoutAssessorNestedInput
+  assessmentRoles?: Prisma.AssessmentAssessorUncheckedUpdateManyWithoutUserNestedInput
   milestones?: Prisma.MilestoneUncheckedUpdateManyWithoutUserNestedInput
   points?: Prisma.PointTransactionUncheckedUpdateManyWithoutUserNestedInput
   achievements?: Prisma.UserAchievementUncheckedUpdateManyWithoutUserNestedInput
@@ -1107,6 +1248,7 @@ export type UserCreateWithoutMilestonesInput = {
   lastActivityDate?: Date | string | null
   confidenceInfluencer?: boolean
   assessments?: Prisma.AssessmentCreateNestedManyWithoutAssessorInput
+  assessmentRoles?: Prisma.AssessmentAssessorCreateNestedManyWithoutUserInput
   emotionalDrives?: Prisma.EmotionalDriveMetricCreateNestedManyWithoutUserInput
   points?: Prisma.PointTransactionCreateNestedManyWithoutUserInput
   achievements?: Prisma.UserAchievementCreateNestedManyWithoutUserInput
@@ -1128,6 +1270,7 @@ export type UserUncheckedCreateWithoutMilestonesInput = {
   lastActivityDate?: Date | string | null
   confidenceInfluencer?: boolean
   assessments?: Prisma.AssessmentUncheckedCreateNestedManyWithoutAssessorInput
+  assessmentRoles?: Prisma.AssessmentAssessorUncheckedCreateNestedManyWithoutUserInput
   emotionalDrives?: Prisma.EmotionalDriveMetricUncheckedCreateNestedManyWithoutUserInput
   points?: Prisma.PointTransactionUncheckedCreateNestedManyWithoutUserInput
   achievements?: Prisma.UserAchievementUncheckedCreateNestedManyWithoutUserInput
@@ -1165,6 +1308,7 @@ export type UserUpdateWithoutMilestonesInput = {
   lastActivityDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   confidenceInfluencer?: Prisma.BoolFieldUpdateOperationsInput | boolean
   assessments?: Prisma.AssessmentUpdateManyWithoutAssessorNestedInput
+  assessmentRoles?: Prisma.AssessmentAssessorUpdateManyWithoutUserNestedInput
   emotionalDrives?: Prisma.EmotionalDriveMetricUpdateManyWithoutUserNestedInput
   points?: Prisma.PointTransactionUpdateManyWithoutUserNestedInput
   achievements?: Prisma.UserAchievementUpdateManyWithoutUserNestedInput
@@ -1186,6 +1330,7 @@ export type UserUncheckedUpdateWithoutMilestonesInput = {
   lastActivityDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   confidenceInfluencer?: Prisma.BoolFieldUpdateOperationsInput | boolean
   assessments?: Prisma.AssessmentUncheckedUpdateManyWithoutAssessorNestedInput
+  assessmentRoles?: Prisma.AssessmentAssessorUncheckedUpdateManyWithoutUserNestedInput
   emotionalDrives?: Prisma.EmotionalDriveMetricUncheckedUpdateManyWithoutUserNestedInput
   points?: Prisma.PointTransactionUncheckedUpdateManyWithoutUserNestedInput
   achievements?: Prisma.UserAchievementUncheckedUpdateManyWithoutUserNestedInput
@@ -1207,6 +1352,7 @@ export type UserCreateWithoutRoleMappingsInput = {
   lastActivityDate?: Date | string | null
   confidenceInfluencer?: boolean
   assessments?: Prisma.AssessmentCreateNestedManyWithoutAssessorInput
+  assessmentRoles?: Prisma.AssessmentAssessorCreateNestedManyWithoutUserInput
   emotionalDrives?: Prisma.EmotionalDriveMetricCreateNestedManyWithoutUserInput
   milestones?: Prisma.MilestoneCreateNestedManyWithoutUserInput
   points?: Prisma.PointTransactionCreateNestedManyWithoutUserInput
@@ -1228,6 +1374,7 @@ export type UserUncheckedCreateWithoutRoleMappingsInput = {
   lastActivityDate?: Date | string | null
   confidenceInfluencer?: boolean
   assessments?: Prisma.AssessmentUncheckedCreateNestedManyWithoutAssessorInput
+  assessmentRoles?: Prisma.AssessmentAssessorUncheckedCreateNestedManyWithoutUserInput
   emotionalDrives?: Prisma.EmotionalDriveMetricUncheckedCreateNestedManyWithoutUserInput
   milestones?: Prisma.MilestoneUncheckedCreateNestedManyWithoutUserInput
   points?: Prisma.PointTransactionUncheckedCreateNestedManyWithoutUserInput
@@ -1265,6 +1412,7 @@ export type UserUpdateWithoutRoleMappingsInput = {
   lastActivityDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   confidenceInfluencer?: Prisma.BoolFieldUpdateOperationsInput | boolean
   assessments?: Prisma.AssessmentUpdateManyWithoutAssessorNestedInput
+  assessmentRoles?: Prisma.AssessmentAssessorUpdateManyWithoutUserNestedInput
   emotionalDrives?: Prisma.EmotionalDriveMetricUpdateManyWithoutUserNestedInput
   milestones?: Prisma.MilestoneUpdateManyWithoutUserNestedInput
   points?: Prisma.PointTransactionUpdateManyWithoutUserNestedInput
@@ -1286,6 +1434,7 @@ export type UserUncheckedUpdateWithoutRoleMappingsInput = {
   lastActivityDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   confidenceInfluencer?: Prisma.BoolFieldUpdateOperationsInput | boolean
   assessments?: Prisma.AssessmentUncheckedUpdateManyWithoutAssessorNestedInput
+  assessmentRoles?: Prisma.AssessmentAssessorUncheckedUpdateManyWithoutUserNestedInput
   emotionalDrives?: Prisma.EmotionalDriveMetricUncheckedUpdateManyWithoutUserNestedInput
   milestones?: Prisma.MilestoneUncheckedUpdateManyWithoutUserNestedInput
   points?: Prisma.PointTransactionUncheckedUpdateManyWithoutUserNestedInput
@@ -1307,6 +1456,7 @@ export type UserCreateWithoutUserCompaniesInput = {
   lastActivityDate?: Date | string | null
   confidenceInfluencer?: boolean
   assessments?: Prisma.AssessmentCreateNestedManyWithoutAssessorInput
+  assessmentRoles?: Prisma.AssessmentAssessorCreateNestedManyWithoutUserInput
   emotionalDrives?: Prisma.EmotionalDriveMetricCreateNestedManyWithoutUserInput
   milestones?: Prisma.MilestoneCreateNestedManyWithoutUserInput
   points?: Prisma.PointTransactionCreateNestedManyWithoutUserInput
@@ -1328,6 +1478,7 @@ export type UserUncheckedCreateWithoutUserCompaniesInput = {
   lastActivityDate?: Date | string | null
   confidenceInfluencer?: boolean
   assessments?: Prisma.AssessmentUncheckedCreateNestedManyWithoutAssessorInput
+  assessmentRoles?: Prisma.AssessmentAssessorUncheckedCreateNestedManyWithoutUserInput
   emotionalDrives?: Prisma.EmotionalDriveMetricUncheckedCreateNestedManyWithoutUserInput
   milestones?: Prisma.MilestoneUncheckedCreateNestedManyWithoutUserInput
   points?: Prisma.PointTransactionUncheckedCreateNestedManyWithoutUserInput
@@ -1365,6 +1516,7 @@ export type UserUpdateWithoutUserCompaniesInput = {
   lastActivityDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   confidenceInfluencer?: Prisma.BoolFieldUpdateOperationsInput | boolean
   assessments?: Prisma.AssessmentUpdateManyWithoutAssessorNestedInput
+  assessmentRoles?: Prisma.AssessmentAssessorUpdateManyWithoutUserNestedInput
   emotionalDrives?: Prisma.EmotionalDriveMetricUpdateManyWithoutUserNestedInput
   milestones?: Prisma.MilestoneUpdateManyWithoutUserNestedInput
   points?: Prisma.PointTransactionUpdateManyWithoutUserNestedInput
@@ -1386,6 +1538,7 @@ export type UserUncheckedUpdateWithoutUserCompaniesInput = {
   lastActivityDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   confidenceInfluencer?: Prisma.BoolFieldUpdateOperationsInput | boolean
   assessments?: Prisma.AssessmentUncheckedUpdateManyWithoutAssessorNestedInput
+  assessmentRoles?: Prisma.AssessmentAssessorUncheckedUpdateManyWithoutUserNestedInput
   emotionalDrives?: Prisma.EmotionalDriveMetricUncheckedUpdateManyWithoutUserNestedInput
   milestones?: Prisma.MilestoneUncheckedUpdateManyWithoutUserNestedInput
   points?: Prisma.PointTransactionUncheckedUpdateManyWithoutUserNestedInput
@@ -1400,6 +1553,7 @@ export type UserUncheckedUpdateWithoutUserCompaniesInput = {
 
 export type UserCountOutputType = {
   assessments: number
+  assessmentRoles: number
   emotionalDrives: number
   milestones: number
   points: number
@@ -1410,6 +1564,7 @@ export type UserCountOutputType = {
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   assessments?: boolean | UserCountOutputTypeCountAssessmentsArgs
+  assessmentRoles?: boolean | UserCountOutputTypeCountAssessmentRolesArgs
   emotionalDrives?: boolean | UserCountOutputTypeCountEmotionalDrivesArgs
   milestones?: boolean | UserCountOutputTypeCountMilestonesArgs
   points?: boolean | UserCountOutputTypeCountPointsArgs
@@ -1433,6 +1588,13 @@ export type UserCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensi
  */
 export type UserCountOutputTypeCountAssessmentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.AssessmentWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountAssessmentRolesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.AssessmentAssessorWhereInput
 }
 
 /**
@@ -1492,6 +1654,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   lastActivityDate?: boolean
   confidenceInfluencer?: boolean
   assessments?: boolean | Prisma.User$assessmentsArgs<ExtArgs>
+  assessmentRoles?: boolean | Prisma.User$assessmentRolesArgs<ExtArgs>
   emotionalDrives?: boolean | Prisma.User$emotionalDrivesArgs<ExtArgs>
   milestones?: boolean | Prisma.User$milestonesArgs<ExtArgs>
   points?: boolean | Prisma.User$pointsArgs<ExtArgs>
@@ -1549,6 +1712,7 @@ export type UserSelectScalar = {
 export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "username" | "passwordHash" | "role" | "position" | "companyId" | "createdAt" | "totalPoints" | "dailyPointStreak" | "lastActivityDate" | "confidenceInfluencer", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   assessments?: boolean | Prisma.User$assessmentsArgs<ExtArgs>
+  assessmentRoles?: boolean | Prisma.User$assessmentRolesArgs<ExtArgs>
   emotionalDrives?: boolean | Prisma.User$emotionalDrivesArgs<ExtArgs>
   milestones?: boolean | Prisma.User$milestonesArgs<ExtArgs>
   points?: boolean | Prisma.User$pointsArgs<ExtArgs>
@@ -1564,6 +1728,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   name: "User"
   objects: {
     assessments: Prisma.$AssessmentPayload<ExtArgs>[]
+    assessmentRoles: Prisma.$AssessmentAssessorPayload<ExtArgs>[]
     emotionalDrives: Prisma.$EmotionalDriveMetricPayload<ExtArgs>[]
     milestones: Prisma.$MilestonePayload<ExtArgs>[]
     points: Prisma.$PointTransactionPayload<ExtArgs>[]
@@ -1979,6 +2144,7 @@ readonly fields: UserFieldRefs;
 export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   assessments<T extends Prisma.User$assessmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$assessmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AssessmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  assessmentRoles<T extends Prisma.User$assessmentRolesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$assessmentRolesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AssessmentAssessorPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   emotionalDrives<T extends Prisma.User$emotionalDrivesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$emotionalDrivesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EmotionalDriveMetricPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   milestones<T extends Prisma.User$milestonesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$milestonesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MilestonePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   points<T extends Prisma.User$pointsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$pointsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PointTransactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -2440,6 +2606,30 @@ export type User$assessmentsArgs<ExtArgs extends runtime.Types.Extensions.Intern
   take?: number
   skip?: number
   distinct?: Prisma.AssessmentScalarFieldEnum | Prisma.AssessmentScalarFieldEnum[]
+}
+
+/**
+ * User.assessmentRoles
+ */
+export type User$assessmentRolesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the AssessmentAssessor
+   */
+  select?: Prisma.AssessmentAssessorSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the AssessmentAssessor
+   */
+  omit?: Prisma.AssessmentAssessorOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AssessmentAssessorInclude<ExtArgs> | null
+  where?: Prisma.AssessmentAssessorWhereInput
+  orderBy?: Prisma.AssessmentAssessorOrderByWithRelationInput | Prisma.AssessmentAssessorOrderByWithRelationInput[]
+  cursor?: Prisma.AssessmentAssessorWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.AssessmentAssessorScalarFieldEnum | Prisma.AssessmentAssessorScalarFieldEnum[]
 }
 
 /**

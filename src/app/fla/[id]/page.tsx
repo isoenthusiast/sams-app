@@ -12,6 +12,9 @@ export default async function AssessmentDetailPage({ params }: { params: Promise
   const companyId = await getSelectedCompanyId();
   if (!session?.user) return null;
 
+  const userId = (session.user as { id?: string; role?: string }).id;
+  const userRole = (session.user as { role?: string }).role;
+
   const assessment = await prisma.assessment.findUnique({
     where: { id, ...(companyId ? { companyId } : {}) },
     include: {
@@ -37,10 +40,24 @@ export default async function AssessmentDetailPage({ params }: { params: Promise
         },
         orderBy: { activityDate: "desc" },
       },
+      assessorLinks: { select: { userId: true } },
     },
   });
 
   if (!assessment) notFound();
+
+  // Access control: Admin, lead assessor, or any assigned assessor
+  const isAdmin = userRole === "Admin";
+  const isLeadAssessor = assessment.assessorId === userId;
+  const isLinkedAssessor = assessment.assessorLinks?.some((l) => l.userId === userId);
+  if (!isAdmin && !isLeadAssessor && !isLinkedAssessor) {
+    // Redirect interviewees to My Interviews
+    if (userRole === "Interviewee") {
+      const { redirect } = await import("next/navigation");
+      redirect("/fla/my-interviews");
+    }
+    notFound();
+  }
 
   // All available controls (company-scoped)
   const allControls = await prisma.control.findMany({
@@ -68,6 +85,8 @@ export default async function AssessmentDetailPage({ params }: { params: Promise
   const sampleTypes = await prisma.sampleType.findMany({ orderBy: { name: "asc" } });
   const recordSources = await prisma.recordSourceType.findMany({ orderBy: { name: "asc" } });
 
+  const linkedAssessorIds = assessment.assessorLinks?.map((l) => l.userId) ?? [];
+
   return (
     <AssessmentClient
       assessment={JSON.parse(JSON.stringify(assessment))}
@@ -78,6 +97,7 @@ export default async function AssessmentDetailPage({ params }: { params: Promise
       sampleTypes={sampleTypes}
       recordSources={recordSources}
       currentUserId={(session.user as any)?.id}
+      linkedAssessorIds={linkedAssessorIds}
     />
   );
 }

@@ -20,9 +20,10 @@ type Props = {
   sampleTypes: Array<{ id: string; name: string }>;
   recordSources: Array<{ id: string; name: string }>;
   currentUserId?: string;
+  linkedAssessorIds?: string[];
 };
 
-export default function AssessmentClient({ assessment, allControls, processAreas, activityTypes, users, sampleTypes, recordSources, currentUserId }: Props) {
+export default function AssessmentClient({ assessment, allControls, processAreas, activityTypes, users, sampleTypes, recordSources, currentUserId, linkedAssessorIds = [] }: Props) {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState<"overview" | "controls" | "samples" | "findings" | "activities">("overview");
   const [saving, setSaving] = useState(false);
@@ -79,6 +80,7 @@ export default function AssessmentClient({ assessment, allControls, processAreas
     activityTypeId: assessment.activityTypeId || "",
     loa: assessment.loa || "FirstLine",
     assessorId: assessment.assessorId || "",
+    assessorIds: linkedAssessorIds || [],
     startDate: assessment.startDate ? new Date(assessment.startDate).toISOString().split("T")[0] : "",
     endDate: assessment.endDate ? new Date(assessment.endDate).toISOString().split("T")[0] : "",
     status: assessment.status || "Planned",
@@ -125,12 +127,21 @@ export default function AssessmentClient({ assessment, allControls, processAreas
   const handleSaveDetails = async () => {
     setSaving(true);
     try {
+      const { assessorIds, ...mainFields } = editForm;
       const res = await fetch(`/api/admin/table/Assessment/${assessment.id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(editForm),
+        body: JSON.stringify(mainFields),
       });
       if (!res.ok) throw new Error("Failed to save");
+
+      // Sync additional assessors: remove all, re-insert selected
+      await fetch(`/api/admin/table/Assessment/${assessment.id}/assessors`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userIds: assessorIds }),
+      });
+
       setEditing(false);
       router.refresh();
     } catch (err) {
@@ -331,12 +342,35 @@ export default function AssessmentClient({ assessment, allControls, processAreas
                   </select>
                 </div>
                 <div>
-                  <label className="text-xs font-medium text-slate-600">Assessor</label>
+                  <label className="text-xs font-medium text-slate-600">Lead Assessor</label>
                   <select value={editForm.assessorId}
                     onChange={(e) => setEditForm({ ...editForm, assessorId: e.target.value })}
                     className="w-full rounded border border-slate-300 px-2 py-1.5 text-sm mt-1">
                     {users.map((u) => <option key={u.id} value={u.id}>{u.name} ({u.role})</option>)}
                   </select>
+                </div>
+                <div>
+                  <label className="text-xs font-medium text-slate-600">Additional Assessors</label>
+                  <div className="mt-1 max-h-32 overflow-y-auto rounded border border-slate-300 p-2">
+                    {users.filter((u) => u.role !== "Interviewee").map((u) => (
+                      <label key={u.id} className="flex items-center gap-1.5 py-0.5 text-xs cursor-pointer hover:bg-slate-50">
+                        <input
+                          type="checkbox"
+                          checked={editForm.assessorIds.includes(u.id)}
+                          onChange={(e) => {
+                            setEditForm((prev) => ({
+                              ...prev,
+                              assessorIds: e.target.checked
+                                ? [...prev.assessorIds, u.id]
+                                : prev.assessorIds.filter((id: string) => id !== u.id),
+                            }));
+                          }}
+                          className="rounded"
+                        />
+                        {u.name} ({u.role})
+                      </label>
+                    ))}
+                  </div>
                 </div>
                 <div>
                   <label className="text-xs font-medium text-slate-600">Start Date</label>
@@ -370,6 +404,7 @@ export default function AssessmentClient({ assessment, allControls, processAreas
                   setEditForm({
                     name: assessment.name || "", activityTypeId: assessment.activityTypeId || "",
                     loa: assessment.loa || "FirstLine", assessorId: assessment.assessorId || "",
+                    assessorIds: linkedAssessorIds || [],
                     startDate: assessment.startDate ? new Date(assessment.startDate).toISOString().split("T")[0] : "",
                     endDate: assessment.endDate ? new Date(assessment.endDate).toISOString().split("T")[0] : "",
                     status: assessment.status || "Planned",
@@ -383,7 +418,10 @@ export default function AssessmentClient({ assessment, allControls, processAreas
               <div className="grid gap-2 sm:grid-cols-2">
                 <div><span className="text-slate-500">Activity Type:</span> <span className="font-medium">{assessment.activityType?.name ?? "—"}</span></div>
                 <div><span className="text-slate-500">LOA:</span> <span className="font-medium">{assessment.loa}</span></div>
-                <div><span className="text-slate-500">Assessor:</span> <span className="font-medium">{assessment.assessor?.name ?? "—"}</span></div>
+                <div><span className="text-slate-500">Lead Assessor:</span> <span className="font-medium">{assessment.assessor?.name ?? "—"}</span></div>
+                {linkedAssessorIds.length > 0 && (
+                  <div><span className="text-slate-500">Additional Assessors:</span> <span className="font-medium">{linkedAssessorIds.map((id: string) => users.find((u) => u.id === id)?.name ?? id).join(", ")}</span></div>
+                )}
                 <div><span className="text-slate-500">Status:</span> <StatusBadge status={assessment.status} /></div>
                 <div><span className="text-slate-500">Start:</span> <span className="font-medium">{assessment.startDate ? new Date(assessment.startDate).toLocaleDateString() : "—"}</span></div>
                 <div><span className="text-slate-500">End:</span> <span className="font-medium">{assessment.endDate ? new Date(assessment.endDate).toLocaleDateString() : "—"}</span></div>

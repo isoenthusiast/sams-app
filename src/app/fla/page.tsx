@@ -62,10 +62,16 @@ export default async function DashboardPage() {
     return { ...pa, total, effective, pct };
   });
 
-  // My assessments
+  // My assessments — via assessor junction (multi-assessor support)
   const myAssessments = userId
     ? await prisma.assessment.findMany({
-        where: { assessorId: userId, ...(companyId ? { companyId } : {}) },
+        where: {
+          OR: [
+            { assessorId: userId },
+            { assessorLinks: { some: { userId } } },
+          ],
+          ...(companyId ? { companyId } : {}),
+        },
         include: { activityType: true, _count: { select: { samples: true, findings: true } } },
         orderBy: { startDate: "desc" },
         take: 10,

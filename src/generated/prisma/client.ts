@@ -112,6 +112,11 @@ export type AssessmentTemplateActivityType = Prisma.AssessmentTemplateActivityTy
  */
 export type Assessment = Prisma.AssessmentModel
 /**
+ * Model AssessmentAssessor
+ * 
+ */
+export type AssessmentAssessor = Prisma.AssessmentAssessorModel
+/**
  * Model ControlAssignment
  * 
  */

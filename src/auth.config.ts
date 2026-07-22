@@ -25,7 +25,7 @@ export const authConfig: NextAuthConfig = {
       if (user) {
         const u = user as { id: string; role: string };
         token.id = u.id;
-        const validRoles = ["Admin", "Assessor"];
+        const validRoles = ["Admin", "Assessor", "Interviewee"];
         token.role = validRoles.includes(u.role) ? u.role : "Assessor";
       }
       return token;

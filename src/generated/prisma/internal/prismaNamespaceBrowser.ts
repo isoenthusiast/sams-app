@@ -65,6 +65,7 @@ export const ModelName = {
   AssessmentTemplateControlLinkage: 'AssessmentTemplateControlLinkage',
   AssessmentTemplateActivityType: 'AssessmentTemplateActivityType',
   Assessment: 'Assessment',
+  AssessmentAssessor: 'AssessmentAssessor',
   ControlAssignment: 'ControlAssignment',
   SampleType: 'SampleType',
   RecordSourceType: 'RecordSourceType',
@@ -314,6 +315,16 @@ export const AssessmentScalarFieldEnum = {
 } as const
 
 export type AssessmentScalarFieldEnum = (typeof AssessmentScalarFieldEnum)[keyof typeof AssessmentScalarFieldEnum]
+
+
+export const AssessmentAssessorScalarFieldEnum = {
+  id: 'id',
+  assessmentId: 'assessmentId',
+  userId: 'userId',
+  createdAt: 'createdAt'
+} as const
+
+export type AssessmentAssessorScalarFieldEnum = (typeof AssessmentAssessorScalarFieldEnum)[keyof typeof AssessmentAssessorScalarFieldEnum]
 
 
 export const ControlAssignmentScalarFieldEnum = {
