@@ -9,6 +9,7 @@ import { Button } from "@/components/Button";
 import { FindingCard } from "@/components/FindingCard";
 import { showToast } from "@/components/Toast";
 import { VoiceInput } from "@/components/VoiceInput";
+import { AttachmentList } from "@/components/AttachmentList";
 import AssessmentActivitiesPanel from "@/components/AssessmentActivitiesPanel";
 
 type Props = {
@@ -682,6 +683,9 @@ export default function AssessmentClient({ assessment, allControls, processAreas
                     </div>
                   </div>
                 </div>
+                <div className="mt-3 pt-3 border-t border-slate-100">
+                  <AttachmentList destTable="Sample" recId={s.id} />
+                </div>
               </Card>
             ))
           )}
@@ -867,6 +871,9 @@ export default function AssessmentClient({ assessment, allControls, processAreas
                   {(!f.actions || f.actions.length === 0) && !actionForms[f.id] && (
                     <p className="text-xs text-slate-400 py-1">No actions yet.</p>
                   )}
+                </div>
+                <div className="mt-3 pt-3 border-t border-slate-100">
+                  <AttachmentList destTable="Finding" recId={f.id} />
                 </div>
               </Card>
             ))
