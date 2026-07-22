@@ -95,7 +95,8 @@ export const ModelName = {
   DocumentExtract: 'DocumentExtract',
   ControlFromDocument: 'ControlFromDocument',
   Requirement: 'Requirement',
-  MapControl2Requirement: 'MapControl2Requirement'
+  MapControl2Requirement: 'MapControl2Requirement',
+  BacklogItem: 'BacklogItem'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -764,6 +765,25 @@ export const MapControl2RequirementScalarFieldEnum = {
 } as const
 
 export type MapControl2RequirementScalarFieldEnum = (typeof MapControl2RequirementScalarFieldEnum)[keyof typeof MapControl2RequirementScalarFieldEnum]
+
+
+export const BacklogItemScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  description: 'description',
+  type: 'type',
+  status: 'status',
+  stage: 'stage',
+  priority: 'priority',
+  justification: 'justification',
+  approach: 'approach',
+  companyId: 'companyId',
+  createdBy: 'createdBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type BacklogItemScalarFieldEnum = (typeof BacklogItemScalarFieldEnum)[keyof typeof BacklogItemScalarFieldEnum]
 
 
 export const SortOrder = {

@@ -392,3 +392,49 @@ Phase 11 (Components) ──┤
 |---------|------|---------|
 | v1.1.0 | 2026-07-21 | Added Phase 10-17 plan for remaining 43 items with dependency graph and effort estimates. |
 | v1.0.0 | 2026-07-21 | Initial development checklist. 100 items across 10 phases derived from all four design consideration documents. |
+
+---
+
+## Phase 11 — Assessment CRUD (Assessment Workflow Completion) ✅ 2026-07-22
+
+The assessment workflow was read-only for creating samples, findings, and actions. This phase makes it fully interactive.
+
+### 11A. Assessment Edit
+- [x] **11.1** Assessment PUT API — support all fields: name, startDate, endDate, loa, assessorId, activityTypeId, companyId
+- [x] **11.2** Overview tab — inline editable fields with Save/Cancel (activity type, LOA, assessor, dates, status)
+- [x] **11.3** Read-only view with "✏️ Edit Details" toggle
+
+### 11B. Sample CRUD
+- [x] **11.4** `POST /api/admin/samples` — create sample with type, record source, reference, notes
+- [x] **11.5** `DELETE /api/admin/samples/[id]` — remove sample
+- [x] **11.6** Sample tab — "+ Add Sample" button with modal form (type dropdown, source dropdown, reference, notes)
+- [x] **11.7** Per-sample delete button (🗑)
+
+### 11C. Finding CRUD
+- [x] **11.8** `POST /api/admin/findings` — create finding with FID auto-generation, severity, risks, control linkage
+- [x] **11.9** `PUT /api/admin/findings/[id]` — update finding fields
+- [x] **11.10** `DELETE /api/admin/findings/[id]` — cascade delete to actions
+- [x] **11.11** Findings tab — "+ Add Finding" modal (description, severity dropdown, risks, linked controls, details)
+- [x] **11.12** Per-finding delete button (🗑)
+
+### 11D. Action CRUD
+- [x] **11.13** `POST /api/admin/actions` — create action linked to finding
+- [x] **11.14** `PUT /api/admin/actions/[id]` — update action fields
+- [x] **11.15** `DELETE /api/admin/actions/[id]` — remove action
+- [x] **11.16** Inline action form under each finding — "+ Add Action" toggle
+- [x] **11.17** Action form fields: description, responsible party, target date, details
+- [x] **11.18** Per-action delete button (🗑)
+
+### 11E. Activity CRUD
+- [x] **11.19** Activities tab — add, edit, delete assessment activities
+- [x] **11.20** `POST /api/admin/activities` — create activity with type, name, date, time, duration, description
+- [x] **11.21** `PUT /api/admin/activities/[id]` — update activity fields
+- [x] **11.22** `DELETE /api/admin/activities/[id]` — cascade delete participants, controls, details
+- [x] **11.23** Activity participants — assign/remove users with roles and remarks
+- [x] **11.24** Activity controls — map/remove controls tested during the activity
+- [x] **11.25** Activity details — checklists, notes, attachments
+
+### 11F. Attachment Integration (deferred)
+- [ ] **11.26** Attach files/evidence to samples and findings via existing AttachmentList component
+
+**New API routes:** `/api/admin/samples`, `/api/admin/samples/[id]`, `/api/admin/findings`, `/api/admin/findings/[id]`, `/api/admin/actions`, `/api/admin/actions/[id]`

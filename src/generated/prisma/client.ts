@@ -266,3 +266,8 @@ export type Requirement = Prisma.RequirementModel
  * 
  */
 export type MapControl2Requirement = Prisma.MapControl2RequirementModel
+/**
+ * Model BacklogItem
+ * 
+ */
+export type BacklogItem = Prisma.BacklogItemModel

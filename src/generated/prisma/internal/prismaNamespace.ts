@@ -428,7 +428,8 @@ export const ModelName = {
   DocumentExtract: 'DocumentExtract',
   ControlFromDocument: 'ControlFromDocument',
   Requirement: 'Requirement',
-  MapControl2Requirement: 'MapControl2Requirement'
+  MapControl2Requirement: 'MapControl2Requirement',
+  BacklogItem: 'BacklogItem'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -444,7 +445,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "activityLog" | "activityLogType" | "assuranceActivityType" | "standard" | "processArea" | "subProcess" | "controlSubProcess" | "controlFDSubProcess" | "control" | "assessmentTemplate" | "assessmentTemplateControlLinkage" | "assessmentTemplateActivityType" | "assessment" | "controlAssignment" | "sampleType" | "recordSourceType" | "sample" | "finding" | "action" | "attachment" | "attachmentMapping" | "achievementBadge" | "userAchievement" | "pointTransaction" | "gameAttribute" | "gameAttributeRule" | "emotionalDriveMetric" | "milestone" | "userRole" | "userRoleMapping" | "company" | "userCompany" | "userFavorite" | "assessmentActType" | "aact" | "aActControls" | "aActUsers" | "aActDetails" | "knowledgebase" | "mapArt2Know" | "documentExtract" | "controlFromDocument" | "requirement" | "mapControl2Requirement"
+    modelProps: "user" | "activityLog" | "activityLogType" | "assuranceActivityType" | "standard" | "processArea" | "subProcess" | "controlSubProcess" | "controlFDSubProcess" | "control" | "assessmentTemplate" | "assessmentTemplateControlLinkage" | "assessmentTemplateActivityType" | "assessment" | "controlAssignment" | "sampleType" | "recordSourceType" | "sample" | "finding" | "action" | "attachment" | "attachmentMapping" | "achievementBadge" | "userAchievement" | "pointTransaction" | "gameAttribute" | "gameAttributeRule" | "emotionalDriveMetric" | "milestone" | "userRole" | "userRoleMapping" | "company" | "userCompany" | "userFavorite" | "assessmentActType" | "aact" | "aActControls" | "aActUsers" | "aActDetails" | "knowledgebase" | "mapArt2Know" | "documentExtract" | "controlFromDocument" | "requirement" | "mapControl2Requirement" | "backlogItem"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -3778,6 +3779,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    BacklogItem: {
+      payload: Prisma.$BacklogItemPayload<ExtArgs>
+      fields: Prisma.BacklogItemFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.BacklogItemFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BacklogItemPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.BacklogItemFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BacklogItemPayload>
+        }
+        findFirst: {
+          args: Prisma.BacklogItemFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BacklogItemPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.BacklogItemFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BacklogItemPayload>
+        }
+        findMany: {
+          args: Prisma.BacklogItemFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BacklogItemPayload>[]
+        }
+        create: {
+          args: Prisma.BacklogItemCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BacklogItemPayload>
+        }
+        createMany: {
+          args: Prisma.BacklogItemCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.BacklogItemCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BacklogItemPayload>[]
+        }
+        delete: {
+          args: Prisma.BacklogItemDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BacklogItemPayload>
+        }
+        update: {
+          args: Prisma.BacklogItemUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BacklogItemPayload>
+        }
+        deleteMany: {
+          args: Prisma.BacklogItemDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.BacklogItemUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.BacklogItemUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BacklogItemPayload>[]
+        }
+        upsert: {
+          args: Prisma.BacklogItemUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BacklogItemPayload>
+        }
+        aggregate: {
+          args: Prisma.BacklogItemAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateBacklogItem>
+        }
+        groupBy: {
+          args: Prisma.BacklogItemGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.BacklogItemGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.BacklogItemCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.BacklogItemCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -4469,6 +4544,25 @@ export const MapControl2RequirementScalarFieldEnum = {
 export type MapControl2RequirementScalarFieldEnum = (typeof MapControl2RequirementScalarFieldEnum)[keyof typeof MapControl2RequirementScalarFieldEnum]
 
 
+export const BacklogItemScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  description: 'description',
+  type: 'type',
+  status: 'status',
+  stage: 'stage',
+  priority: 'priority',
+  justification: 'justification',
+  approach: 'approach',
+  companyId: 'companyId',
+  createdBy: 'createdBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type BacklogItemScalarFieldEnum = (typeof BacklogItemScalarFieldEnum)[keyof typeof BacklogItemScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -4732,6 +4826,48 @@ export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, '
 export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
     
 
+
+/**
+ * Reference to a field of type 'BacklogItemType'
+ */
+export type EnumBacklogItemTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BacklogItemType'>
+    
+
+
+/**
+ * Reference to a field of type 'BacklogItemType[]'
+ */
+export type ListEnumBacklogItemTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BacklogItemType[]'>
+    
+
+
+/**
+ * Reference to a field of type 'BacklogStatus'
+ */
+export type EnumBacklogStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BacklogStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'BacklogStatus[]'
+ */
+export type ListEnumBacklogStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BacklogStatus[]'>
+    
+
+
+/**
+ * Reference to a field of type 'DevelopmentStage'
+ */
+export type EnumDevelopmentStageFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DevelopmentStage'>
+    
+
+
+/**
+ * Reference to a field of type 'DevelopmentStage[]'
+ */
+export type ListEnumDevelopmentStageFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DevelopmentStage[]'>
+    
+
 /**
  * Batch Payload for updateMany & deleteMany & createMany
  */
@@ -4887,6 +5023,7 @@ export type GlobalOmitConfig = {
   controlFromDocument?: Prisma.ControlFromDocumentOmit
   requirement?: Prisma.RequirementOmit
   mapControl2Requirement?: Prisma.MapControl2RequirementOmit
+  backlogItem?: Prisma.BacklogItemOmit
 }
 
 /* Types for Logging */

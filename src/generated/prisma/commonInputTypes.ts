@@ -494,6 +494,57 @@ export type FloatNullableWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedFloatNullableFilter<$PrismaModel>
 }
 
+export type EnumBacklogItemTypeFilter<$PrismaModel = never> = {
+  equals?: $Enums.BacklogItemType | Prisma.EnumBacklogItemTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.BacklogItemType[] | Prisma.ListEnumBacklogItemTypeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.BacklogItemType[] | Prisma.ListEnumBacklogItemTypeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumBacklogItemTypeFilter<$PrismaModel> | $Enums.BacklogItemType
+}
+
+export type EnumBacklogStatusFilter<$PrismaModel = never> = {
+  equals?: $Enums.BacklogStatus | Prisma.EnumBacklogStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.BacklogStatus[] | Prisma.ListEnumBacklogStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.BacklogStatus[] | Prisma.ListEnumBacklogStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumBacklogStatusFilter<$PrismaModel> | $Enums.BacklogStatus
+}
+
+export type EnumDevelopmentStageNullableFilter<$PrismaModel = never> = {
+  equals?: $Enums.DevelopmentStage | Prisma.EnumDevelopmentStageFieldRefInput<$PrismaModel> | null
+  in?: $Enums.DevelopmentStage[] | Prisma.ListEnumDevelopmentStageFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.DevelopmentStage[] | Prisma.ListEnumDevelopmentStageFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumDevelopmentStageNullableFilter<$PrismaModel> | $Enums.DevelopmentStage | null
+}
+
+export type EnumBacklogItemTypeWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.BacklogItemType | Prisma.EnumBacklogItemTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.BacklogItemType[] | Prisma.ListEnumBacklogItemTypeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.BacklogItemType[] | Prisma.ListEnumBacklogItemTypeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumBacklogItemTypeWithAggregatesFilter<$PrismaModel> | $Enums.BacklogItemType
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumBacklogItemTypeFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumBacklogItemTypeFilter<$PrismaModel>
+}
+
+export type EnumBacklogStatusWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.BacklogStatus | Prisma.EnumBacklogStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.BacklogStatus[] | Prisma.ListEnumBacklogStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.BacklogStatus[] | Prisma.ListEnumBacklogStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumBacklogStatusWithAggregatesFilter<$PrismaModel> | $Enums.BacklogStatus
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumBacklogStatusFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumBacklogStatusFilter<$PrismaModel>
+}
+
+export type EnumDevelopmentStageNullableWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.DevelopmentStage | Prisma.EnumDevelopmentStageFieldRefInput<$PrismaModel> | null
+  in?: $Enums.DevelopmentStage[] | Prisma.ListEnumDevelopmentStageFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.DevelopmentStage[] | Prisma.ListEnumDevelopmentStageFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumDevelopmentStageNullableWithAggregatesFilter<$PrismaModel> | $Enums.DevelopmentStage | null
+  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumDevelopmentStageNullableFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumDevelopmentStageNullableFilter<$PrismaModel>
+}
+
 export type NestedStringFilter<$PrismaModel = never> = {
   equals?: string | Prisma.StringFieldRefInput<$PrismaModel>
   in?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
@@ -936,6 +987,57 @@ export type NestedFloatNullableWithAggregatesFilter<$PrismaModel = never> = {
   _sum?: Prisma.NestedFloatNullableFilter<$PrismaModel>
   _min?: Prisma.NestedFloatNullableFilter<$PrismaModel>
   _max?: Prisma.NestedFloatNullableFilter<$PrismaModel>
+}
+
+export type NestedEnumBacklogItemTypeFilter<$PrismaModel = never> = {
+  equals?: $Enums.BacklogItemType | Prisma.EnumBacklogItemTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.BacklogItemType[] | Prisma.ListEnumBacklogItemTypeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.BacklogItemType[] | Prisma.ListEnumBacklogItemTypeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumBacklogItemTypeFilter<$PrismaModel> | $Enums.BacklogItemType
+}
+
+export type NestedEnumBacklogStatusFilter<$PrismaModel = never> = {
+  equals?: $Enums.BacklogStatus | Prisma.EnumBacklogStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.BacklogStatus[] | Prisma.ListEnumBacklogStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.BacklogStatus[] | Prisma.ListEnumBacklogStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumBacklogStatusFilter<$PrismaModel> | $Enums.BacklogStatus
+}
+
+export type NestedEnumDevelopmentStageNullableFilter<$PrismaModel = never> = {
+  equals?: $Enums.DevelopmentStage | Prisma.EnumDevelopmentStageFieldRefInput<$PrismaModel> | null
+  in?: $Enums.DevelopmentStage[] | Prisma.ListEnumDevelopmentStageFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.DevelopmentStage[] | Prisma.ListEnumDevelopmentStageFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumDevelopmentStageNullableFilter<$PrismaModel> | $Enums.DevelopmentStage | null
+}
+
+export type NestedEnumBacklogItemTypeWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.BacklogItemType | Prisma.EnumBacklogItemTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.BacklogItemType[] | Prisma.ListEnumBacklogItemTypeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.BacklogItemType[] | Prisma.ListEnumBacklogItemTypeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumBacklogItemTypeWithAggregatesFilter<$PrismaModel> | $Enums.BacklogItemType
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumBacklogItemTypeFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumBacklogItemTypeFilter<$PrismaModel>
+}
+
+export type NestedEnumBacklogStatusWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.BacklogStatus | Prisma.EnumBacklogStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.BacklogStatus[] | Prisma.ListEnumBacklogStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.BacklogStatus[] | Prisma.ListEnumBacklogStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumBacklogStatusWithAggregatesFilter<$PrismaModel> | $Enums.BacklogStatus
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumBacklogStatusFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumBacklogStatusFilter<$PrismaModel>
+}
+
+export type NestedEnumDevelopmentStageNullableWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.DevelopmentStage | Prisma.EnumDevelopmentStageFieldRefInput<$PrismaModel> | null
+  in?: $Enums.DevelopmentStage[] | Prisma.ListEnumDevelopmentStageFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.DevelopmentStage[] | Prisma.ListEnumDevelopmentStageFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumDevelopmentStageNullableWithAggregatesFilter<$PrismaModel> | $Enums.DevelopmentStage | null
+  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumDevelopmentStageNullableFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumDevelopmentStageNullableFilter<$PrismaModel>
 }
 
 

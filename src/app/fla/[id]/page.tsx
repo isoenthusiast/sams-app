@@ -59,11 +59,24 @@ export default async function AssessmentDetailPage({ params }: { params: Promise
     orderBy: { name: "asc" },
   });
 
+  // Reference data for edit form
+  const activityTypes = await prisma.assuranceActivityType.findMany({ orderBy: { name: "asc" } });
+  const users = await prisma.user.findMany({
+    select: { id: true, name: true, role: true },
+    orderBy: { name: "asc" },
+  });
+  const sampleTypes = await prisma.sampleType.findMany({ orderBy: { name: "asc" } });
+  const recordSources = await prisma.recordSourceType.findMany({ orderBy: { name: "asc" } });
+
   return (
     <AssessmentClient
       assessment={JSON.parse(JSON.stringify(assessment))}
       allControls={JSON.parse(JSON.stringify(allControls))}
       processAreas={processAreas}
+      activityTypes={activityTypes}
+      users={users}
+      sampleTypes={sampleTypes}
+      recordSources={recordSources}
       currentUserId={(session.user as any)?.id}
     />
   );

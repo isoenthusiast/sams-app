@@ -11,6 +11,7 @@ import { ActionRowClient } from "@/components/ActionRowClient";
 import { RequirementsView } from "./RequirementsView";
 import { BadgesView } from "./BadgesView";
 import { KnowledgebaseView } from "./KnowledgebaseView";
+import { KanbanBoard } from "@/components/KanbanBoard";
 
 export const dynamic = "force-dynamic";
 
@@ -115,6 +116,17 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
     ? await prisma.processArea.findMany({ where, orderBy: { name: "asc" }, select: { id: true, name: true } })
     : [];
 
+  // Backlog items (for backlog Kanban view)
+  let backlogItems: any[] = [];
+  if (view === "backlog") {
+    try {
+      backlogItems = await prisma.backlogItem.findMany({
+        where: companyId ? { companyId } : {},
+        orderBy: [{ priority: "desc" }, { createdAt: "asc" }],
+      });
+    } catch (e) { console.error("Backlog fetch error:", e); }
+  }
+
   // Process Health data (for dashboard view)
   let paHealth: any[] = [];
   let paByStandard = new Map<string, any[]>();
@@ -202,7 +214,7 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
       </div>
 
       <div className="mt-6 border-b border-slate-200 flex gap-1">
-        {[{ k: "dashboard", l: "📊 Dashboard" }, { k: "activity", l: "📜 Activity Log" }, { k: "users", l: "👥 Users" }, { k: "templates", l: "📦 Templates" }, { k: "requirements", l: "📋 Requirements" }, { k: "badges", l: "🏅 Badges" }, { k: "knowledgebase", l: "📚 Knowledgebase" }].map((t) => (
+        {[{ k: "dashboard", l: "📊 Dashboard" }, { k: "backlog", l: "📋 Backlog" }, { k: "activity", l: "📜 Activity Log" }, { k: "users", l: "👥 Users" }, { k: "templates", l: "📦 Templates" }, { k: "requirements", l: "📋 Requirements" }, { k: "badges", l: "🏅 Badges" }, { k: "knowledgebase", l: "📚 Knowledgebase" }].map((t) => (
           <Link key={t.k} href={`/admin?view=${t.k}`}
             className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${view === t.k ? "border-slate-900 text-slate-900" : "border-transparent text-slate-500 hover:text-slate-700"}`}>
             {t.l}
@@ -378,6 +390,13 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
 
       {/* ── Knowledgebase ── */}
       {view === "knowledgebase" && <KnowledgebaseView entries={kbEntries} processAreas={processAreas} companyId={companyId} />}
+
+      {/* ── Backlog Kanban ── */}
+      {view === "backlog" && (
+        <div className="mt-6">
+          <KanbanBoard initialItems={backlogItems} />
+        </div>
+      )}
     </div>
   );
 }

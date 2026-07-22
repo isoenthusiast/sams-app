@@ -821,3 +821,46 @@ enum BadgeRarity {
   Epic
   Legendary
 }
+
+// ── Scrum/Kanban Backlog — Project management board ───────────────────
+// Items flow: Backlog → SprintBacklog → InProgress → Completed.
+// While InProgress, they move through stages: PlanDesign → Implement → Testing.
+enum BacklogItemType {
+  Feature
+  Request
+  Bug
+  Task
+}
+
+enum BacklogStatus {
+  Backlog
+  SprintBacklog
+  InProgress
+  Completed
+}
+
+enum DevelopmentStage {
+  PlanDesign
+  Implement
+  Testing
+}
+
+model BacklogItem {
+  id            String             @id @default(cuid())
+  title         String
+  description   String?
+  type          BacklogItemType    @default(Task)
+  status        BacklogStatus      @default(Backlog)
+  stage         DevelopmentStage?  // Only set when status = InProgress
+  priority      Int                @default(0)
+  justification String?            // Why this should be done
+  approach      String?            // How it should be done
+  companyId     String?
+  createdBy     String
+  createdAt     DateTime           @default(now())
+  updatedAt     DateTime           @updatedAt
+
+  @@index([status])
+  @@index([companyId])
+  @@index([priority])
+}

@@ -21,6 +21,12 @@ export async function PUT(
     if (body.status !== undefined) { fields.push(`"status" = $${idx++}`); values.push(body.status); }
     if (body.endDate !== undefined) { fields.push(`"endDate" = $${idx++}`); values.push(body.endDate); }
     if (body.name !== undefined) { fields.push(`"name" = $${idx++}`); values.push(body.name); }
+    if (body.startDate !== undefined) { fields.push(`"startDate" = $${idx++}`); values.push(new Date(body.startDate)); }
+    if (body.endDate !== undefined) { fields.push(`"endDate" = $${idx++}`); values.push(body.endDate ? new Date(body.endDate) : null); }
+    if (body.loa !== undefined) { fields.push(`"loa" = $${idx++}`); values.push(body.loa); }
+    if (body.assessorId !== undefined) { fields.push(`"assessorId" = $${idx++}`); values.push(body.assessorId); }
+    if (body.activityTypeId !== undefined) { fields.push(`"activityTypeId" = $${idx++}`); values.push(body.activityTypeId); }
+    if (body.companyId !== undefined) { fields.push(`"companyId" = $${idx++}`); values.push(body.companyId); }
 
     if (fields.length === 0) {
       return NextResponse.json({ error: "No fields to update" }, { status: 400 });

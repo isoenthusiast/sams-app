@@ -105,3 +105,32 @@ export const BadgeRarity = {
 } as const
 
 export type BadgeRarity = (typeof BadgeRarity)[keyof typeof BadgeRarity]
+
+
+export const BacklogItemType = {
+  Feature: 'Feature',
+  Request: 'Request',
+  Bug: 'Bug',
+  Task: 'Task'
+} as const
+
+export type BacklogItemType = (typeof BacklogItemType)[keyof typeof BacklogItemType]
+
+
+export const BacklogStatus = {
+  Backlog: 'Backlog',
+  SprintBacklog: 'SprintBacklog',
+  InProgress: 'InProgress',
+  Completed: 'Completed'
+} as const
+
+export type BacklogStatus = (typeof BacklogStatus)[keyof typeof BacklogStatus]
+
+
+export const DevelopmentStage = {
+  PlanDesign: 'PlanDesign',
+  Implement: 'Implement',
+  Testing: 'Testing'
+} as const
+
+export type DevelopmentStage = (typeof DevelopmentStage)[keyof typeof DevelopmentStage]
