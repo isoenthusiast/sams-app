@@ -127,10 +127,12 @@ export async function POST(request: Request) {
     let extractedText = "";
     try {
       if (ext === ".pdf") {
-        const pdfParse = (await import("pdf-parse")).default;
+        const { PDFParse } = await import("pdf-parse");
         const pdfBuffer = await readFile(tempPath);
-        const pdfData = await pdfParse(pdfBuffer);
-        extractedText = pdfData.text;
+        const pdfParser = new PDFParse({ data: new Uint8Array(pdfBuffer) });
+        const textResult = await pdfParser.getText();
+        extractedText = textResult.text;
+        await pdfParser.destroy();
       } else if (ext === ".docx") {
         const mammoth = await import("mammoth");
         const result = await mammoth.extractRawText({ path: tempPath });
@@ -472,7 +474,9 @@ export async function PATCH(request: Request) {
           requirementId: "Unmapped Controls",
           standard: standard,
           pId: mergedEdits.pId || "UC",
-          requirements: `Catch-all for controls from ${candidate.documentExtract.documentTitle}`,
+          clauseContent: `Catch-all for controls from ${candidate.documentExtract.documentTitle}`,
+          intentOutcome: "",
+          clauseApplicability: "",
           processAreaId: mergedEdits.processAreaId,
           companyId: companyId || "SAMS001",
         },
@@ -486,7 +490,6 @@ export async function PATCH(request: Request) {
           controlId: control.id,
           requirementRId: requirement.rId,
           processAreaId: mergedEdits.processAreaId,
-          companyId: companyId || "SAMS001",
         },
       });
     }

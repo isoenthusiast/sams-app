@@ -69,7 +69,7 @@ export async function POST(request: Request) {
       const values: string[] = [];
       const params: any[] = [];
       controlIds.forEach((cid: string, i: number) => {
-        const base = i * 2;
+        const base = i * 3;
         values.push(`($${base + 1}, $${base + 2}, $${base + 3})`);
         params.push(`ca_${Date.now()}_${i}`, assessmentId, cid);
       });

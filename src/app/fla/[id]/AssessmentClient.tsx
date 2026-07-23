@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Card } from "@/components/Card";
@@ -36,6 +36,7 @@ export default function AssessmentClient({ assessment, allControls, processAreas
   const [expandedFindings, setExpandedFindings] = useState<Set<string>>(new Set());
   const [actionForms, setActionForms] = useState<Record<string, { description: string; party: string; details: string; targetDate: string }>>({});
   const [expandedGroups, setExpandedGroups] = useState<Set<string>>(new Set());
+  const [controlFilter, setControlFilter] = useState("");
 
   const toggleGroup = (key: string) => {
     setExpandedGroups((prev) => {
@@ -76,6 +77,30 @@ export default function AssessmentClient({ assessment, allControls, processAreas
     }
     return stds;
   })();
+
+  // Filter controls by search term
+  const filteredGroupedControls = useMemo(() => {
+    if (!controlFilter.trim()) return groupedControls;
+    const term = controlFilter.toLowerCase();
+    const result = new Map<string, Map<string, Map<string, any[]>>>();
+    for (const [std, pas] of groupedControls) {
+      for (const [pa, reqs] of pas) {
+        for (const [reqLabel, controls] of reqs) {
+          const filtered = controls.filter((c: any) =>
+            c.name.toLowerCase().includes(term)
+          );
+          if (filtered.length > 0) {
+            if (!result.has(std)) result.set(std, new Map());
+            const rPas = result.get(std)!;
+            if (!rPas.has(pa)) rPas.set(pa, new Map());
+            const rReqs = rPas.get(pa)!;
+            rReqs.set(reqLabel, filtered);
+          }
+        }
+      }
+    }
+    return result;
+  }, [groupedControls, controlFilter]);
   const [editForm, setEditForm] = useState({
     name: assessment.name || "",
     activityTypeId: assessment.activityTypeId || "",
@@ -458,64 +483,87 @@ export default function AssessmentClient({ assessment, allControls, processAreas
       {/* ─── TAB 2: Control Assignment ─── */}
       {activeTab === "controls" && (
         <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
-          <Card title="Select Controls" padding="sm">
+          <Card title={`Select Controls (${allControls.length} total)`} padding="sm">
+            <div className="mb-3">
+              <input
+                type="text"
+                placeholder="Filter controls..."
+                value={controlFilter}
+                onChange={(e) => setControlFilter(e.target.value)}
+                className="w-full rounded-md border border-slate-300 px-3 py-1.5 text-sm"
+              />
+            </div>
             <div className="max-h-[60vh] overflow-y-auto">
-              {[...groupedControls.entries()].map(([std, pas]) => {
+              {[...filteredGroupedControls.entries()].map(([std, pas]) => {
                 const stdKey = `std:${std}`;
                 const stdCollapsed = !expandedGroups.has(stdKey);
                 const stdTotal = [...pas.values()].reduce((s, reqs) => s + [...reqs.values()].reduce((s2, cs) => s2 + cs.length, 0), 0);
+                const stdAssigned = [...pas.values()].reduce((s, reqs) => s + [...reqs.values()].reduce((s2, cs) => s2 + cs.filter((c: any) => assignedControlIds.has(c.id)).length, 0), 0);
                 return (
-                  <div key={stdKey} className="border-b border-slate-100 last:border-0">
+                  <div key={stdKey} className="border border-slate-200 rounded-md mb-2 overflow-hidden">
                     <button
                       onClick={() => toggleGroup(stdKey)}
-                      className="w-full flex items-center justify-between px-2 py-2 text-left hover:bg-slate-50 transition-colors"
+                      className="w-full flex items-center justify-between px-3 py-2 bg-slate-50 hover:bg-slate-100 transition-colors text-left"
                     >
-                      <span className="text-sm font-semibold text-slate-700">{std}</span>
-                      <span className="text-xs text-slate-400">{stdCollapsed ? "▶" : "▼"} {stdTotal}</span>
+                      <span className="text-sm font-semibold text-slate-800">{std}</span>
+                      <span className="flex items-center gap-2 text-xs text-slate-500">
+                        {stdAssigned > 0 && <span className="text-blue-600 font-medium">{stdAssigned} assigned</span>}
+                        <span>{stdCollapsed ? "▶" : "▼"} {stdTotal}</span>
+                      </span>
                     </button>
                     {!stdCollapsed && (
-                      <div className="pl-2">
+                      <div>
                         {[...pas.entries()].map(([pa, reqs]) => {
                           const paKey = `pa:${std}:${pa}`;
                           const paCollapsed = !expandedGroups.has(paKey);
                           const paTotal = [...reqs.values()].reduce((s, cs) => s + cs.length, 0);
+                          const paAssigned = [...reqs.values()].reduce((s, cs) => s + cs.filter((c: any) => assignedControlIds.has(c.id)).length, 0);
                           return (
-                            <div key={paKey} className="ml-2 border-l-2 border-slate-100">
+                            <div key={paKey} className="border-t border-slate-100">
                               <button
                                 onClick={() => toggleGroup(paKey)}
-                                className="w-full flex items-center justify-between px-2 py-1.5 text-left hover:bg-slate-50 transition-colors"
+                                className="w-full flex items-center justify-between px-4 py-1.5 hover:bg-slate-50 transition-colors text-left"
                               >
-                                <span className="text-xs font-medium text-slate-600">{pa}</span>
-                                <span className="text-xs text-slate-400">{paCollapsed ? "▶" : "▼"} {paTotal}</span>
+                                <span className="text-xs font-medium text-slate-700">{pa}</span>
+                                <span className="flex items-center gap-2 text-xs text-slate-400">
+                                  {paAssigned > 0 && <span className="text-blue-600">{paAssigned} assigned</span>}
+                                  <span>{paCollapsed ? "▶" : "▼"} {paTotal}</span>
+                                </span>
                               </button>
                               {!paCollapsed && (
-                                <div className="ml-2">
+                                <div className="border-l-2 border-blue-100 ml-6">
                                   {[...reqs.entries()].map(([reqLabel, controls]) => {
                                     const reqKey = `req:${std}:${pa}:${reqLabel}`;
                                     const reqCollapsed = !expandedGroups.has(reqKey);
                                     const isUnmapped = reqLabel === "__unmapped__";
+                                    const reqAssigned = controls.filter((c: any) => assignedControlIds.has(c.id)).length;
                                     return (
                                       <div key={reqKey}>
                                         {!isUnmapped && (
                                           <button
                                             onClick={() => toggleGroup(reqKey)}
-                                            className="w-full flex items-center justify-between px-2 py-1 text-left hover:bg-slate-50 transition-colors"
+                                            className="w-full flex items-center justify-between px-3 py-1 hover:bg-slate-50 transition-colors text-left"
                                           >
-                                            <span className="text-xs text-slate-500 truncate max-w-70">{reqLabel}</span>
-                                            <span className="text-xs text-slate-400 ml-1 shrink-0">{reqCollapsed ? "▶" : "▼"} {controls.length}</span>
+                                            <span className="text-xs text-slate-500 truncate max-w-[80%]">{reqLabel}</span>
+                                            <span className="flex items-center gap-1 text-xs text-slate-400 ml-1 shrink-0">
+                                              {reqAssigned > 0 && <span className="text-blue-500 text-[10px]">{reqAssigned}</span>}
+                                              <span>{reqCollapsed ? "▶" : "▼"} {controls.length}</span>
+                                            </span>
                                           </button>
                                         )}
                                         {(!isUnmapped && !reqCollapsed || isUnmapped) && (
-                                          <div className={isUnmapped ? "" : "ml-3"}>
+                                          <div className={isUnmapped ? "ml-2" : "ml-4 border-l border-slate-100"}>
+                                            {isUnmapped && <div className="text-[10px] text-slate-400 px-2 py-1 italic">Unmapped</div>}
                                             {controls.map((c: any) => {
                                               const checked = assignedControlIds.has(c.id);
                                               return (
                                                 <label key={c.id}
-                                                  className={`flex items-center gap-2 px-2 py-1 rounded cursor-pointer hover:bg-slate-50 text-xs ${checked ? "bg-blue-50" : ""}`}>
+                                                  className={`flex items-center gap-2 px-3 py-1.5 cursor-pointer hover:bg-blue-50 transition-colors text-xs ${checked ? "bg-blue-50 border-l-2 border-blue-400" : ""}`}>
                                                   <input type="checkbox" checked={checked}
                                                     onChange={() => handleToggleControl(c.id)} disabled={saving}
                                                     className="rounded text-blue-600 shrink-0" />
                                                   <span className="flex-1 truncate">{c.name}</span>
+                                                  <span className="text-[10px] text-slate-400 shrink-0">{c.controlType}</span>
                                                 </label>
                                               );
                                             })}
@@ -534,18 +582,26 @@ export default function AssessmentClient({ assessment, allControls, processAreas
                   </div>
                 );
               })}
+              {filteredGroupedControls.size === 0 && (
+                <p className="text-sm text-slate-400 py-4 text-center">
+                  {controlFilter ? "No controls match your filter." : "No controls available."}
+                </p>
+              )}
             </div>
           </Card>
           <Card title={`Assigned Controls (${assignedControlIds.size})`} padding="sm">
             {assignedControlIds.size === 0 ? (
-              <p className="text-sm text-slate-400">No controls assigned yet.</p>
+              <p className="text-sm text-slate-400">No controls assigned yet. Use the panel on the left to assign controls.</p>
             ) : (
-              <div className="max-h-[60vh] overflow-y-auto space-y-2">
+              <div className="max-h-[60vh] overflow-y-auto space-y-1">
                 {assessment.controlAssignments?.map((ca: any) => (
-                  <div key={ca.id} className="flex items-center justify-between border-b border-slate-100 pb-2">
-                    <div>
-                      <div className="text-sm font-medium text-slate-900">{ca.control?.name}</div>
-                      <div className="text-xs text-slate-500">{ca.control?.processArea?.name}</div>
+                  <div key={ca.id} className="flex items-center justify-between px-2 py-1.5 rounded hover:bg-slate-50 border-b border-slate-50">
+                    <div className="flex-1 min-w-0">
+                      <div className="text-xs font-medium text-slate-800 truncate">{ca.control?.name}</div>
+                      <div className="text-[10px] text-slate-400">
+                        {ca.control?.processArea?.standardRef?.standard && `${ca.control.processArea.standardRef.standard} → `}
+                        {ca.control?.processArea?.name}
+                      </div>
                     </div>
                     <select
                       value={ca.effective ?? ""}
@@ -556,7 +612,7 @@ export default function AssessmentClient({ assessment, allControls, processAreas
                         });
                         router.refresh();
                       }}
-                      className="rounded border border-slate-300 px-2 py-1 text-xs"
+                      className="rounded border border-slate-300 px-2 py-0.5 text-[10px] shrink-0 ml-2"
                     >
                       <option value="">—</option>
                       <option value="Effective">Effective</option>

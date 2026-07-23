@@ -58,11 +58,11 @@ export default async function AssessmentDetailPage({ params }: { params: Promise
     notFound();
   }
 
-  // All available controls (company-scoped)
+  // All available controls (company-scoped), with standard hierarchy
   const allControls = await prisma.control.findMany({
     where: companyId ? { companyId } : {},
     include: {
-      processArea: true,
+      processArea: { include: { standardRef: true } },
       requirementMappings: { include: { requirement: true } },
     },
     orderBy: { name: "asc" },
