@@ -29,6 +29,7 @@ export type FindingSeverity = (typeof FindingSeverity)[keyof typeof FindingSever
 
 export const Role = {
   Admin: 'Admin',
+  Superuser: 'Superuser',
   Assessor: 'Assessor',
   Interviewee: 'Interviewee'
 } as const

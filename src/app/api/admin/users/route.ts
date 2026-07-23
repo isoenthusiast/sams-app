@@ -10,7 +10,7 @@ export async function POST(request: Request) {
     if (response) return response;
 
     const body = await request.json();
-    const { name, username, password, role, companyIds } = body;
+    const { name, username, email, password, role, companyIds } = body;
 
     if (!name || !username || !password) {
       return NextResponse.json({ error: "name, username, and password are required" }, { status: 400 });
@@ -27,11 +27,11 @@ export async function POST(request: Request) {
     const userRole = validRoles.includes(role) ? role : "Assessor";
 
     const user = await prisma.$executeRawUnsafe(
-      `INSERT INTO "User" (id, name, username, "passwordHash", role, "createdAt")
-       VALUES ($1, $2, $3, $4, $5::"Role", NOW())
-       RETURNING id, name, username, role, "totalPoints"`,
+      `INSERT INTO "User" (id, name, username, email, "passwordHash", role, "createdAt")
+       VALUES ($1, $2, $3, $4, $5, $6::"Role", NOW())
+       RETURNING id, name, username, email, role, "totalPoints"`,
       `user_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`,
-      name, username, passwordHash, userRole
+      name, username, email || null, passwordHash, userRole
     );
 
     // Get the created user ID
@@ -55,7 +55,7 @@ export async function POST(request: Request) {
 
     // Fetch the full user to return
     const fullUser = await prisma.$queryRawUnsafe<any[]>(
-      `SELECT id, name, username, role, "totalPoints" FROM "User" WHERE id = $1`, userId
+      `SELECT id, name, username, email, role, "totalPoints" FROM "User" WHERE id = $1`, userId
     );
 
     await logActivity({

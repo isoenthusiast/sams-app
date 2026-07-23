@@ -43,9 +43,11 @@ export type DocumentExtractMinAggregateOutputType = {
   custodian: string | null
   authorizer: string | null
   content: string | null
-  Status: string | null
+  status: string | null
   CompletedOn: Date | null
+  companyId: string | null
   createdAt: Date | null
+  updatedAt: Date | null
 }
 
 export type DocumentExtractMaxAggregateOutputType = {
@@ -57,9 +59,11 @@ export type DocumentExtractMaxAggregateOutputType = {
   custodian: string | null
   authorizer: string | null
   content: string | null
-  Status: string | null
+  status: string | null
   CompletedOn: Date | null
+  companyId: string | null
   createdAt: Date | null
+  updatedAt: Date | null
 }
 
 export type DocumentExtractCountAggregateOutputType = {
@@ -71,9 +75,11 @@ export type DocumentExtractCountAggregateOutputType = {
   custodian: number
   authorizer: number
   content: number
-  Status: number
+  status: number
   CompletedOn: number
+  companyId: number
   createdAt: number
+  updatedAt: number
   _all: number
 }
 
@@ -95,9 +101,11 @@ export type DocumentExtractMinAggregateInputType = {
   custodian?: true
   authorizer?: true
   content?: true
-  Status?: true
+  status?: true
   CompletedOn?: true
+  companyId?: true
   createdAt?: true
+  updatedAt?: true
 }
 
 export type DocumentExtractMaxAggregateInputType = {
@@ -109,9 +117,11 @@ export type DocumentExtractMaxAggregateInputType = {
   custodian?: true
   authorizer?: true
   content?: true
-  Status?: true
+  status?: true
   CompletedOn?: true
+  companyId?: true
   createdAt?: true
+  updatedAt?: true
 }
 
 export type DocumentExtractCountAggregateInputType = {
@@ -123,9 +133,11 @@ export type DocumentExtractCountAggregateInputType = {
   custodian?: true
   authorizer?: true
   content?: true
-  Status?: true
+  status?: true
   CompletedOn?: true
+  companyId?: true
   createdAt?: true
+  updatedAt?: true
   _all?: true
 }
 
@@ -224,9 +236,11 @@ export type DocumentExtractGroupByOutputType = {
   custodian: string | null
   authorizer: string | null
   content: string
-  Status: string
+  status: string
   CompletedOn: Date | null
+  companyId: string | null
   createdAt: Date
+  updatedAt: Date
   _count: DocumentExtractCountAggregateOutputType | null
   _avg: DocumentExtractAvgAggregateOutputType | null
   _sum: DocumentExtractSumAggregateOutputType | null
@@ -261,9 +275,11 @@ export type DocumentExtractWhereInput = {
   custodian?: Prisma.StringNullableFilter<"DocumentExtract"> | string | null
   authorizer?: Prisma.StringNullableFilter<"DocumentExtract"> | string | null
   content?: Prisma.StringFilter<"DocumentExtract"> | string
-  Status?: Prisma.StringFilter<"DocumentExtract"> | string
+  status?: Prisma.StringFilter<"DocumentExtract"> | string
   CompletedOn?: Prisma.DateTimeNullableFilter<"DocumentExtract"> | Date | string | null
+  companyId?: Prisma.StringNullableFilter<"DocumentExtract"> | string | null
   createdAt?: Prisma.DateTimeFilter<"DocumentExtract"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"DocumentExtract"> | Date | string
   controlFromDocuments?: Prisma.ControlFromDocumentListRelationFilter
 }
 
@@ -276,9 +292,11 @@ export type DocumentExtractOrderByWithRelationInput = {
   custodian?: Prisma.SortOrderInput | Prisma.SortOrder
   authorizer?: Prisma.SortOrderInput | Prisma.SortOrder
   content?: Prisma.SortOrder
-  Status?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   CompletedOn?: Prisma.SortOrderInput | Prisma.SortOrder
+  companyId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   controlFromDocuments?: Prisma.ControlFromDocumentOrderByRelationAggregateInput
 }
 
@@ -294,9 +312,11 @@ export type DocumentExtractWhereUniqueInput = Prisma.AtLeast<{
   custodian?: Prisma.StringNullableFilter<"DocumentExtract"> | string | null
   authorizer?: Prisma.StringNullableFilter<"DocumentExtract"> | string | null
   content?: Prisma.StringFilter<"DocumentExtract"> | string
-  Status?: Prisma.StringFilter<"DocumentExtract"> | string
+  status?: Prisma.StringFilter<"DocumentExtract"> | string
   CompletedOn?: Prisma.DateTimeNullableFilter<"DocumentExtract"> | Date | string | null
+  companyId?: Prisma.StringNullableFilter<"DocumentExtract"> | string | null
   createdAt?: Prisma.DateTimeFilter<"DocumentExtract"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"DocumentExtract"> | Date | string
   controlFromDocuments?: Prisma.ControlFromDocumentListRelationFilter
 }, "id">
 
@@ -309,9 +329,11 @@ export type DocumentExtractOrderByWithAggregationInput = {
   custodian?: Prisma.SortOrderInput | Prisma.SortOrder
   authorizer?: Prisma.SortOrderInput | Prisma.SortOrder
   content?: Prisma.SortOrder
-  Status?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   CompletedOn?: Prisma.SortOrderInput | Prisma.SortOrder
+  companyId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   _count?: Prisma.DocumentExtractCountOrderByAggregateInput
   _avg?: Prisma.DocumentExtractAvgOrderByAggregateInput
   _max?: Prisma.DocumentExtractMaxOrderByAggregateInput
@@ -331,9 +353,11 @@ export type DocumentExtractScalarWhereWithAggregatesInput = {
   custodian?: Prisma.StringNullableWithAggregatesFilter<"DocumentExtract"> | string | null
   authorizer?: Prisma.StringNullableWithAggregatesFilter<"DocumentExtract"> | string | null
   content?: Prisma.StringWithAggregatesFilter<"DocumentExtract"> | string
-  Status?: Prisma.StringWithAggregatesFilter<"DocumentExtract"> | string
+  status?: Prisma.StringWithAggregatesFilter<"DocumentExtract"> | string
   CompletedOn?: Prisma.DateTimeNullableWithAggregatesFilter<"DocumentExtract"> | Date | string | null
+  companyId?: Prisma.StringNullableWithAggregatesFilter<"DocumentExtract"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"DocumentExtract"> | Date | string
+  updatedAt?: Prisma.DateTimeWithAggregatesFilter<"DocumentExtract"> | Date | string
 }
 
 export type DocumentExtractCreateInput = {
@@ -345,9 +369,11 @@ export type DocumentExtractCreateInput = {
   custodian?: string | null
   authorizer?: string | null
   content: string
-  Status?: string
+  status?: string
   CompletedOn?: Date | string | null
+  companyId?: string | null
   createdAt?: Date | string
+  updatedAt?: Date | string
   controlFromDocuments?: Prisma.ControlFromDocumentCreateNestedManyWithoutDocumentExtractInput
 }
 
@@ -360,9 +386,11 @@ export type DocumentExtractUncheckedCreateInput = {
   custodian?: string | null
   authorizer?: string | null
   content: string
-  Status?: string
+  status?: string
   CompletedOn?: Date | string | null
+  companyId?: string | null
   createdAt?: Date | string
+  updatedAt?: Date | string
   controlFromDocuments?: Prisma.ControlFromDocumentUncheckedCreateNestedManyWithoutDocumentExtractInput
 }
 
@@ -375,9 +403,11 @@ export type DocumentExtractUpdateInput = {
   custodian?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   authorizer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   content?: Prisma.StringFieldUpdateOperationsInput | string
-  Status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.StringFieldUpdateOperationsInput | string
   CompletedOn?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   controlFromDocuments?: Prisma.ControlFromDocumentUpdateManyWithoutDocumentExtractNestedInput
 }
 
@@ -390,9 +420,11 @@ export type DocumentExtractUncheckedUpdateInput = {
   custodian?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   authorizer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   content?: Prisma.StringFieldUpdateOperationsInput | string
-  Status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.StringFieldUpdateOperationsInput | string
   CompletedOn?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   controlFromDocuments?: Prisma.ControlFromDocumentUncheckedUpdateManyWithoutDocumentExtractNestedInput
 }
 
@@ -405,9 +437,11 @@ export type DocumentExtractCreateManyInput = {
   custodian?: string | null
   authorizer?: string | null
   content: string
-  Status?: string
+  status?: string
   CompletedOn?: Date | string | null
+  companyId?: string | null
   createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type DocumentExtractUpdateManyMutationInput = {
@@ -419,9 +453,11 @@ export type DocumentExtractUpdateManyMutationInput = {
   custodian?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   authorizer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   content?: Prisma.StringFieldUpdateOperationsInput | string
-  Status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.StringFieldUpdateOperationsInput | string
   CompletedOn?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type DocumentExtractUncheckedUpdateManyInput = {
@@ -433,9 +469,11 @@ export type DocumentExtractUncheckedUpdateManyInput = {
   custodian?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   authorizer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   content?: Prisma.StringFieldUpdateOperationsInput | string
-  Status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.StringFieldUpdateOperationsInput | string
   CompletedOn?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type DocumentExtractCountOrderByAggregateInput = {
@@ -447,9 +485,11 @@ export type DocumentExtractCountOrderByAggregateInput = {
   custodian?: Prisma.SortOrder
   authorizer?: Prisma.SortOrder
   content?: Prisma.SortOrder
-  Status?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   CompletedOn?: Prisma.SortOrder
+  companyId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type DocumentExtractAvgOrderByAggregateInput = {
@@ -465,9 +505,11 @@ export type DocumentExtractMaxOrderByAggregateInput = {
   custodian?: Prisma.SortOrder
   authorizer?: Prisma.SortOrder
   content?: Prisma.SortOrder
-  Status?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   CompletedOn?: Prisma.SortOrder
+  companyId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type DocumentExtractMinOrderByAggregateInput = {
@@ -479,9 +521,11 @@ export type DocumentExtractMinOrderByAggregateInput = {
   custodian?: Prisma.SortOrder
   authorizer?: Prisma.SortOrder
   content?: Prisma.SortOrder
-  Status?: Prisma.SortOrder
+  status?: Prisma.SortOrder
   CompletedOn?: Prisma.SortOrder
+  companyId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type DocumentExtractSumOrderByAggregateInput = {
@@ -516,9 +560,11 @@ export type DocumentExtractCreateWithoutControlFromDocumentsInput = {
   custodian?: string | null
   authorizer?: string | null
   content: string
-  Status?: string
+  status?: string
   CompletedOn?: Date | string | null
+  companyId?: string | null
   createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type DocumentExtractUncheckedCreateWithoutControlFromDocumentsInput = {
@@ -530,9 +576,11 @@ export type DocumentExtractUncheckedCreateWithoutControlFromDocumentsInput = {
   custodian?: string | null
   authorizer?: string | null
   content: string
-  Status?: string
+  status?: string
   CompletedOn?: Date | string | null
+  companyId?: string | null
   createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type DocumentExtractCreateOrConnectWithoutControlFromDocumentsInput = {
@@ -560,9 +608,11 @@ export type DocumentExtractUpdateWithoutControlFromDocumentsInput = {
   custodian?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   authorizer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   content?: Prisma.StringFieldUpdateOperationsInput | string
-  Status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.StringFieldUpdateOperationsInput | string
   CompletedOn?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type DocumentExtractUncheckedUpdateWithoutControlFromDocumentsInput = {
@@ -574,9 +624,11 @@ export type DocumentExtractUncheckedUpdateWithoutControlFromDocumentsInput = {
   custodian?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   authorizer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   content?: Prisma.StringFieldUpdateOperationsInput | string
-  Status?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.StringFieldUpdateOperationsInput | string
   CompletedOn?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 
@@ -619,9 +671,11 @@ export type DocumentExtractSelect<ExtArgs extends runtime.Types.Extensions.Inter
   custodian?: boolean
   authorizer?: boolean
   content?: boolean
-  Status?: boolean
+  status?: boolean
   CompletedOn?: boolean
+  companyId?: boolean
   createdAt?: boolean
+  updatedAt?: boolean
   controlFromDocuments?: boolean | Prisma.DocumentExtract$controlFromDocumentsArgs<ExtArgs>
   _count?: boolean | Prisma.DocumentExtractCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["documentExtract"]>
@@ -635,9 +689,11 @@ export type DocumentExtractSelectCreateManyAndReturn<ExtArgs extends runtime.Typ
   custodian?: boolean
   authorizer?: boolean
   content?: boolean
-  Status?: boolean
+  status?: boolean
   CompletedOn?: boolean
+  companyId?: boolean
   createdAt?: boolean
+  updatedAt?: boolean
 }, ExtArgs["result"]["documentExtract"]>
 
 export type DocumentExtractSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -649,9 +705,11 @@ export type DocumentExtractSelectUpdateManyAndReturn<ExtArgs extends runtime.Typ
   custodian?: boolean
   authorizer?: boolean
   content?: boolean
-  Status?: boolean
+  status?: boolean
   CompletedOn?: boolean
+  companyId?: boolean
   createdAt?: boolean
+  updatedAt?: boolean
 }, ExtArgs["result"]["documentExtract"]>
 
 export type DocumentExtractSelectScalar = {
@@ -663,12 +721,14 @@ export type DocumentExtractSelectScalar = {
   custodian?: boolean
   authorizer?: boolean
   content?: boolean
-  Status?: boolean
+  status?: boolean
   CompletedOn?: boolean
+  companyId?: boolean
   createdAt?: boolean
+  updatedAt?: boolean
 }
 
-export type DocumentExtractOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "docNo" | "documentNumber" | "documentType" | "documentTitle" | "custodian" | "authorizer" | "content" | "Status" | "CompletedOn" | "createdAt", ExtArgs["result"]["documentExtract"]>
+export type DocumentExtractOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "docNo" | "documentNumber" | "documentType" | "documentTitle" | "custodian" | "authorizer" | "content" | "status" | "CompletedOn" | "companyId" | "createdAt" | "updatedAt", ExtArgs["result"]["documentExtract"]>
 export type DocumentExtractInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   controlFromDocuments?: boolean | Prisma.DocumentExtract$controlFromDocumentsArgs<ExtArgs>
   _count?: boolean | Prisma.DocumentExtractCountOutputTypeDefaultArgs<ExtArgs>
@@ -690,9 +750,11 @@ export type $DocumentExtractPayload<ExtArgs extends runtime.Types.Extensions.Int
     custodian: string | null
     authorizer: string | null
     content: string
-    Status: string
+    status: string
     CompletedOn: Date | null
+    companyId: string | null
     createdAt: Date
+    updatedAt: Date
   }, ExtArgs["result"]["documentExtract"]>
   composites: {}
 }
@@ -1125,9 +1187,11 @@ export interface DocumentExtractFieldRefs {
   readonly custodian: Prisma.FieldRef<"DocumentExtract", 'String'>
   readonly authorizer: Prisma.FieldRef<"DocumentExtract", 'String'>
   readonly content: Prisma.FieldRef<"DocumentExtract", 'String'>
-  readonly Status: Prisma.FieldRef<"DocumentExtract", 'String'>
+  readonly status: Prisma.FieldRef<"DocumentExtract", 'String'>
   readonly CompletedOn: Prisma.FieldRef<"DocumentExtract", 'DateTime'>
+  readonly companyId: Prisma.FieldRef<"DocumentExtract", 'String'>
   readonly createdAt: Prisma.FieldRef<"DocumentExtract", 'DateTime'>
+  readonly updatedAt: Prisma.FieldRef<"DocumentExtract", 'DateTime'>
 }
     
 

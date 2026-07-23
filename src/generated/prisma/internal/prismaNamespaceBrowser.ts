@@ -84,6 +84,8 @@ export const ModelName = {
   UserRole: 'UserRole',
   UserRoleMapping: 'UserRoleMapping',
   Company: 'Company',
+  Department: 'Department',
+  Position: 'Position',
   UserCompany: 'UserCompany',
   UserFavorite: 'UserFavorite',
   AssessmentActType: 'AssessmentActType',
@@ -120,9 +122,10 @@ export const UserScalarFieldEnum = {
   id: 'id',
   name: 'name',
   username: 'username',
+  email: 'email',
   passwordHash: 'passwordHash',
   role: 'role',
-  position: 'position',
+  positionId: 'positionId',
   companyId: 'companyId',
   createdAt: 'createdAt',
   totalPoints: 'totalPoints',
@@ -584,6 +587,27 @@ export const CompanyScalarFieldEnum = {
 export type CompanyScalarFieldEnum = (typeof CompanyScalarFieldEnum)[keyof typeof CompanyScalarFieldEnum]
 
 
+export const DepartmentScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  companyId: 'companyId',
+  parentDepartmentId: 'parentDepartmentId',
+  createdAt: 'createdAt'
+} as const
+
+export type DepartmentScalarFieldEnum = (typeof DepartmentScalarFieldEnum)[keyof typeof DepartmentScalarFieldEnum]
+
+
+export const PositionScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  departmentId: 'departmentId',
+  createdAt: 'createdAt'
+} as const
+
+export type PositionScalarFieldEnum = (typeof PositionScalarFieldEnum)[keyof typeof PositionScalarFieldEnum]
+
+
 export const UserCompanyScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
@@ -705,9 +729,11 @@ export const DocumentExtractScalarFieldEnum = {
   custodian: 'custodian',
   authorizer: 'authorizer',
   content: 'content',
-  Status: 'Status',
+  status: 'status',
   CompletedOn: 'CompletedOn',
-  createdAt: 'createdAt'
+  companyId: 'companyId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type DocumentExtractScalarFieldEnum = (typeof DocumentExtractScalarFieldEnum)[keyof typeof DocumentExtractScalarFieldEnum]
@@ -727,6 +753,7 @@ export const ControlFromDocumentScalarFieldEnum = {
   lastTestedDate: 'lastTestedDate',
   lastTestResult: 'lastTestResult',
   createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
   controlRef: 'controlRef',
   sourceFile: 'sourceFile',
   practiceDocument: 'practiceDocument',
@@ -745,7 +772,9 @@ export const ControlFromDocumentScalarFieldEnum = {
   uncertainFlags: 'uncertainFlags',
   standard: 'standard',
   pId: 'pId',
-  Requirements: 'Requirements'
+  Requirements: 'Requirements',
+  status: 'status',
+  approvedControlId: 'approvedControlId'
 } as const
 
 export type ControlFromDocumentScalarFieldEnum = (typeof ControlFromDocumentScalarFieldEnum)[keyof typeof ControlFromDocumentScalarFieldEnum]

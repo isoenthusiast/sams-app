@@ -50,6 +50,7 @@ export type ControlFromDocumentMinAggregateOutputType = {
   lastTestedDate: Date | null
   lastTestResult: string | null
   createdAt: Date | null
+  updatedAt: Date | null
   controlRef: string | null
   sourceFile: string | null
   practiceDocument: string | null
@@ -69,6 +70,8 @@ export type ControlFromDocumentMinAggregateOutputType = {
   standard: string | null
   pId: string | null
   Requirements: string | null
+  status: string | null
+  approvedControlId: string | null
 }
 
 export type ControlFromDocumentMaxAggregateOutputType = {
@@ -85,6 +88,7 @@ export type ControlFromDocumentMaxAggregateOutputType = {
   lastTestedDate: Date | null
   lastTestResult: string | null
   createdAt: Date | null
+  updatedAt: Date | null
   controlRef: string | null
   sourceFile: string | null
   practiceDocument: string | null
@@ -104,6 +108,8 @@ export type ControlFromDocumentMaxAggregateOutputType = {
   standard: string | null
   pId: string | null
   Requirements: string | null
+  status: string | null
+  approvedControlId: string | null
 }
 
 export type ControlFromDocumentCountAggregateOutputType = {
@@ -120,6 +126,7 @@ export type ControlFromDocumentCountAggregateOutputType = {
   lastTestedDate: number
   lastTestResult: number
   createdAt: number
+  updatedAt: number
   controlRef: number
   sourceFile: number
   practiceDocument: number
@@ -139,6 +146,8 @@ export type ControlFromDocumentCountAggregateOutputType = {
   standard: number
   pId: number
   Requirements: number
+  status: number
+  approvedControlId: number
   _all: number
 }
 
@@ -167,6 +176,7 @@ export type ControlFromDocumentMinAggregateInputType = {
   lastTestedDate?: true
   lastTestResult?: true
   createdAt?: true
+  updatedAt?: true
   controlRef?: true
   sourceFile?: true
   practiceDocument?: true
@@ -186,6 +196,8 @@ export type ControlFromDocumentMinAggregateInputType = {
   standard?: true
   pId?: true
   Requirements?: true
+  status?: true
+  approvedControlId?: true
 }
 
 export type ControlFromDocumentMaxAggregateInputType = {
@@ -202,6 +214,7 @@ export type ControlFromDocumentMaxAggregateInputType = {
   lastTestedDate?: true
   lastTestResult?: true
   createdAt?: true
+  updatedAt?: true
   controlRef?: true
   sourceFile?: true
   practiceDocument?: true
@@ -221,6 +234,8 @@ export type ControlFromDocumentMaxAggregateInputType = {
   standard?: true
   pId?: true
   Requirements?: true
+  status?: true
+  approvedControlId?: true
 }
 
 export type ControlFromDocumentCountAggregateInputType = {
@@ -237,6 +252,7 @@ export type ControlFromDocumentCountAggregateInputType = {
   lastTestedDate?: true
   lastTestResult?: true
   createdAt?: true
+  updatedAt?: true
   controlRef?: true
   sourceFile?: true
   practiceDocument?: true
@@ -256,6 +272,8 @@ export type ControlFromDocumentCountAggregateInputType = {
   standard?: true
   pId?: true
   Requirements?: true
+  status?: true
+  approvedControlId?: true
   _all?: true
 }
 
@@ -359,6 +377,7 @@ export type ControlFromDocumentGroupByOutputType = {
   lastTestedDate: Date | null
   lastTestResult: string | null
   createdAt: Date
+  updatedAt: Date
   controlRef: string | null
   sourceFile: string | null
   practiceDocument: string | null
@@ -378,6 +397,8 @@ export type ControlFromDocumentGroupByOutputType = {
   standard: string | null
   pId: string | null
   Requirements: string | null
+  status: string | null
+  approvedControlId: string | null
   _count: ControlFromDocumentCountAggregateOutputType | null
   _avg: ControlFromDocumentAvgAggregateOutputType | null
   _sum: ControlFromDocumentSumAggregateOutputType | null
@@ -417,6 +438,7 @@ export type ControlFromDocumentWhereInput = {
   lastTestedDate?: Prisma.DateTimeNullableFilter<"ControlFromDocument"> | Date | string | null
   lastTestResult?: Prisma.StringNullableFilter<"ControlFromDocument"> | string | null
   createdAt?: Prisma.DateTimeFilter<"ControlFromDocument"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"ControlFromDocument"> | Date | string
   controlRef?: Prisma.StringNullableFilter<"ControlFromDocument"> | string | null
   sourceFile?: Prisma.StringNullableFilter<"ControlFromDocument"> | string | null
   practiceDocument?: Prisma.StringNullableFilter<"ControlFromDocument"> | string | null
@@ -436,6 +458,8 @@ export type ControlFromDocumentWhereInput = {
   standard?: Prisma.StringNullableFilter<"ControlFromDocument"> | string | null
   pId?: Prisma.StringNullableFilter<"ControlFromDocument"> | string | null
   Requirements?: Prisma.StringNullableFilter<"ControlFromDocument"> | string | null
+  status?: Prisma.StringNullableFilter<"ControlFromDocument"> | string | null
+  approvedControlId?: Prisma.StringNullableFilter<"ControlFromDocument"> | string | null
   documentExtract?: Prisma.XOR<Prisma.DocumentExtractScalarRelationFilter, Prisma.DocumentExtractWhereInput>
   controlFDSubProcesses?: Prisma.ControlFDSubProcessListRelationFilter
 }
@@ -454,6 +478,7 @@ export type ControlFromDocumentOrderByWithRelationInput = {
   lastTestedDate?: Prisma.SortOrderInput | Prisma.SortOrder
   lastTestResult?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   controlRef?: Prisma.SortOrderInput | Prisma.SortOrder
   sourceFile?: Prisma.SortOrderInput | Prisma.SortOrder
   practiceDocument?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -473,6 +498,8 @@ export type ControlFromDocumentOrderByWithRelationInput = {
   standard?: Prisma.SortOrderInput | Prisma.SortOrder
   pId?: Prisma.SortOrderInput | Prisma.SortOrder
   Requirements?: Prisma.SortOrderInput | Prisma.SortOrder
+  status?: Prisma.SortOrderInput | Prisma.SortOrder
+  approvedControlId?: Prisma.SortOrderInput | Prisma.SortOrder
   documentExtract?: Prisma.DocumentExtractOrderByWithRelationInput
   controlFDSubProcesses?: Prisma.ControlFDSubProcessOrderByRelationAggregateInput
 }
@@ -494,6 +521,7 @@ export type ControlFromDocumentWhereUniqueInput = Prisma.AtLeast<{
   lastTestedDate?: Prisma.DateTimeNullableFilter<"ControlFromDocument"> | Date | string | null
   lastTestResult?: Prisma.StringNullableFilter<"ControlFromDocument"> | string | null
   createdAt?: Prisma.DateTimeFilter<"ControlFromDocument"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"ControlFromDocument"> | Date | string
   controlRef?: Prisma.StringNullableFilter<"ControlFromDocument"> | string | null
   sourceFile?: Prisma.StringNullableFilter<"ControlFromDocument"> | string | null
   practiceDocument?: Prisma.StringNullableFilter<"ControlFromDocument"> | string | null
@@ -513,6 +541,8 @@ export type ControlFromDocumentWhereUniqueInput = Prisma.AtLeast<{
   standard?: Prisma.StringNullableFilter<"ControlFromDocument"> | string | null
   pId?: Prisma.StringNullableFilter<"ControlFromDocument"> | string | null
   Requirements?: Prisma.StringNullableFilter<"ControlFromDocument"> | string | null
+  status?: Prisma.StringNullableFilter<"ControlFromDocument"> | string | null
+  approvedControlId?: Prisma.StringNullableFilter<"ControlFromDocument"> | string | null
   documentExtract?: Prisma.XOR<Prisma.DocumentExtractScalarRelationFilter, Prisma.DocumentExtractWhereInput>
   controlFDSubProcesses?: Prisma.ControlFDSubProcessListRelationFilter
 }, "id">
@@ -531,6 +561,7 @@ export type ControlFromDocumentOrderByWithAggregationInput = {
   lastTestedDate?: Prisma.SortOrderInput | Prisma.SortOrder
   lastTestResult?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   controlRef?: Prisma.SortOrderInput | Prisma.SortOrder
   sourceFile?: Prisma.SortOrderInput | Prisma.SortOrder
   practiceDocument?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -550,6 +581,8 @@ export type ControlFromDocumentOrderByWithAggregationInput = {
   standard?: Prisma.SortOrderInput | Prisma.SortOrder
   pId?: Prisma.SortOrderInput | Prisma.SortOrder
   Requirements?: Prisma.SortOrderInput | Prisma.SortOrder
+  status?: Prisma.SortOrderInput | Prisma.SortOrder
+  approvedControlId?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.ControlFromDocumentCountOrderByAggregateInput
   _avg?: Prisma.ControlFromDocumentAvgOrderByAggregateInput
   _max?: Prisma.ControlFromDocumentMaxOrderByAggregateInput
@@ -574,6 +607,7 @@ export type ControlFromDocumentScalarWhereWithAggregatesInput = {
   lastTestedDate?: Prisma.DateTimeNullableWithAggregatesFilter<"ControlFromDocument"> | Date | string | null
   lastTestResult?: Prisma.StringNullableWithAggregatesFilter<"ControlFromDocument"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"ControlFromDocument"> | Date | string
+  updatedAt?: Prisma.DateTimeWithAggregatesFilter<"ControlFromDocument"> | Date | string
   controlRef?: Prisma.StringNullableWithAggregatesFilter<"ControlFromDocument"> | string | null
   sourceFile?: Prisma.StringNullableWithAggregatesFilter<"ControlFromDocument"> | string | null
   practiceDocument?: Prisma.StringNullableWithAggregatesFilter<"ControlFromDocument"> | string | null
@@ -593,6 +627,8 @@ export type ControlFromDocumentScalarWhereWithAggregatesInput = {
   standard?: Prisma.StringNullableWithAggregatesFilter<"ControlFromDocument"> | string | null
   pId?: Prisma.StringNullableWithAggregatesFilter<"ControlFromDocument"> | string | null
   Requirements?: Prisma.StringNullableWithAggregatesFilter<"ControlFromDocument"> | string | null
+  status?: Prisma.StringNullableWithAggregatesFilter<"ControlFromDocument"> | string | null
+  approvedControlId?: Prisma.StringNullableWithAggregatesFilter<"ControlFromDocument"> | string | null
 }
 
 export type ControlFromDocumentCreateInput = {
@@ -608,6 +644,7 @@ export type ControlFromDocumentCreateInput = {
   lastTestedDate?: Date | string | null
   lastTestResult?: string | null
   createdAt?: Date | string
+  updatedAt?: Date | string
   controlRef?: string | null
   sourceFile?: string | null
   practiceDocument?: string | null
@@ -627,6 +664,8 @@ export type ControlFromDocumentCreateInput = {
   standard?: string | null
   pId?: string | null
   Requirements?: string | null
+  status?: string | null
+  approvedControlId?: string | null
   documentExtract: Prisma.DocumentExtractCreateNestedOneWithoutControlFromDocumentsInput
   controlFDSubProcesses?: Prisma.ControlFDSubProcessCreateNestedManyWithoutControlFromDocumentInput
 }
@@ -645,6 +684,7 @@ export type ControlFromDocumentUncheckedCreateInput = {
   lastTestedDate?: Date | string | null
   lastTestResult?: string | null
   createdAt?: Date | string
+  updatedAt?: Date | string
   controlRef?: string | null
   sourceFile?: string | null
   practiceDocument?: string | null
@@ -664,6 +704,8 @@ export type ControlFromDocumentUncheckedCreateInput = {
   standard?: string | null
   pId?: string | null
   Requirements?: string | null
+  status?: string | null
+  approvedControlId?: string | null
   controlFDSubProcesses?: Prisma.ControlFDSubProcessUncheckedCreateNestedManyWithoutControlFromDocumentInput
 }
 
@@ -680,6 +722,7 @@ export type ControlFromDocumentUpdateInput = {
   lastTestedDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastTestResult?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   controlRef?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sourceFile?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   practiceDocument?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -699,6 +742,8 @@ export type ControlFromDocumentUpdateInput = {
   standard?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   Requirements?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approvedControlId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   documentExtract?: Prisma.DocumentExtractUpdateOneRequiredWithoutControlFromDocumentsNestedInput
   controlFDSubProcesses?: Prisma.ControlFDSubProcessUpdateManyWithoutControlFromDocumentNestedInput
 }
@@ -717,6 +762,7 @@ export type ControlFromDocumentUncheckedUpdateInput = {
   lastTestedDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastTestResult?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   controlRef?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sourceFile?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   practiceDocument?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -736,6 +782,8 @@ export type ControlFromDocumentUncheckedUpdateInput = {
   standard?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   Requirements?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approvedControlId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   controlFDSubProcesses?: Prisma.ControlFDSubProcessUncheckedUpdateManyWithoutControlFromDocumentNestedInput
 }
 
@@ -753,6 +801,7 @@ export type ControlFromDocumentCreateManyInput = {
   lastTestedDate?: Date | string | null
   lastTestResult?: string | null
   createdAt?: Date | string
+  updatedAt?: Date | string
   controlRef?: string | null
   sourceFile?: string | null
   practiceDocument?: string | null
@@ -772,6 +821,8 @@ export type ControlFromDocumentCreateManyInput = {
   standard?: string | null
   pId?: string | null
   Requirements?: string | null
+  status?: string | null
+  approvedControlId?: string | null
 }
 
 export type ControlFromDocumentUpdateManyMutationInput = {
@@ -787,6 +838,7 @@ export type ControlFromDocumentUpdateManyMutationInput = {
   lastTestedDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastTestResult?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   controlRef?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sourceFile?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   practiceDocument?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -806,6 +858,8 @@ export type ControlFromDocumentUpdateManyMutationInput = {
   standard?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   Requirements?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approvedControlId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type ControlFromDocumentUncheckedUpdateManyInput = {
@@ -822,6 +876,7 @@ export type ControlFromDocumentUncheckedUpdateManyInput = {
   lastTestedDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastTestResult?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   controlRef?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sourceFile?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   practiceDocument?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -841,6 +896,8 @@ export type ControlFromDocumentUncheckedUpdateManyInput = {
   standard?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   Requirements?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approvedControlId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type ControlFromDocumentScalarRelationFilter = {
@@ -872,6 +929,7 @@ export type ControlFromDocumentCountOrderByAggregateInput = {
   lastTestedDate?: Prisma.SortOrder
   lastTestResult?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   controlRef?: Prisma.SortOrder
   sourceFile?: Prisma.SortOrder
   practiceDocument?: Prisma.SortOrder
@@ -891,6 +949,8 @@ export type ControlFromDocumentCountOrderByAggregateInput = {
   standard?: Prisma.SortOrder
   pId?: Prisma.SortOrder
   Requirements?: Prisma.SortOrder
+  status?: Prisma.SortOrder
+  approvedControlId?: Prisma.SortOrder
 }
 
 export type ControlFromDocumentAvgOrderByAggregateInput = {
@@ -912,6 +972,7 @@ export type ControlFromDocumentMaxOrderByAggregateInput = {
   lastTestedDate?: Prisma.SortOrder
   lastTestResult?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   controlRef?: Prisma.SortOrder
   sourceFile?: Prisma.SortOrder
   practiceDocument?: Prisma.SortOrder
@@ -931,6 +992,8 @@ export type ControlFromDocumentMaxOrderByAggregateInput = {
   standard?: Prisma.SortOrder
   pId?: Prisma.SortOrder
   Requirements?: Prisma.SortOrder
+  status?: Prisma.SortOrder
+  approvedControlId?: Prisma.SortOrder
 }
 
 export type ControlFromDocumentMinOrderByAggregateInput = {
@@ -947,6 +1010,7 @@ export type ControlFromDocumentMinOrderByAggregateInput = {
   lastTestedDate?: Prisma.SortOrder
   lastTestResult?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   controlRef?: Prisma.SortOrder
   sourceFile?: Prisma.SortOrder
   practiceDocument?: Prisma.SortOrder
@@ -966,6 +1030,8 @@ export type ControlFromDocumentMinOrderByAggregateInput = {
   standard?: Prisma.SortOrder
   pId?: Prisma.SortOrder
   Requirements?: Prisma.SortOrder
+  status?: Prisma.SortOrder
+  approvedControlId?: Prisma.SortOrder
 }
 
 export type ControlFromDocumentSumOrderByAggregateInput = {
@@ -1042,6 +1108,7 @@ export type ControlFromDocumentCreateWithoutControlFDSubProcessesInput = {
   lastTestedDate?: Date | string | null
   lastTestResult?: string | null
   createdAt?: Date | string
+  updatedAt?: Date | string
   controlRef?: string | null
   sourceFile?: string | null
   practiceDocument?: string | null
@@ -1061,6 +1128,8 @@ export type ControlFromDocumentCreateWithoutControlFDSubProcessesInput = {
   standard?: string | null
   pId?: string | null
   Requirements?: string | null
+  status?: string | null
+  approvedControlId?: string | null
   documentExtract: Prisma.DocumentExtractCreateNestedOneWithoutControlFromDocumentsInput
 }
 
@@ -1078,6 +1147,7 @@ export type ControlFromDocumentUncheckedCreateWithoutControlFDSubProcessesInput 
   lastTestedDate?: Date | string | null
   lastTestResult?: string | null
   createdAt?: Date | string
+  updatedAt?: Date | string
   controlRef?: string | null
   sourceFile?: string | null
   practiceDocument?: string | null
@@ -1097,6 +1167,8 @@ export type ControlFromDocumentUncheckedCreateWithoutControlFDSubProcessesInput 
   standard?: string | null
   pId?: string | null
   Requirements?: string | null
+  status?: string | null
+  approvedControlId?: string | null
 }
 
 export type ControlFromDocumentCreateOrConnectWithoutControlFDSubProcessesInput = {
@@ -1128,6 +1200,7 @@ export type ControlFromDocumentUpdateWithoutControlFDSubProcessesInput = {
   lastTestedDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastTestResult?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   controlRef?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sourceFile?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   practiceDocument?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1147,6 +1220,8 @@ export type ControlFromDocumentUpdateWithoutControlFDSubProcessesInput = {
   standard?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   Requirements?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approvedControlId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   documentExtract?: Prisma.DocumentExtractUpdateOneRequiredWithoutControlFromDocumentsNestedInput
 }
 
@@ -1164,6 +1239,7 @@ export type ControlFromDocumentUncheckedUpdateWithoutControlFDSubProcessesInput 
   lastTestedDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastTestResult?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   controlRef?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sourceFile?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   practiceDocument?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1183,6 +1259,8 @@ export type ControlFromDocumentUncheckedUpdateWithoutControlFDSubProcessesInput 
   standard?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   Requirements?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approvedControlId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type ControlFromDocumentCreateWithoutDocumentExtractInput = {
@@ -1198,6 +1276,7 @@ export type ControlFromDocumentCreateWithoutDocumentExtractInput = {
   lastTestedDate?: Date | string | null
   lastTestResult?: string | null
   createdAt?: Date | string
+  updatedAt?: Date | string
   controlRef?: string | null
   sourceFile?: string | null
   practiceDocument?: string | null
@@ -1217,6 +1296,8 @@ export type ControlFromDocumentCreateWithoutDocumentExtractInput = {
   standard?: string | null
   pId?: string | null
   Requirements?: string | null
+  status?: string | null
+  approvedControlId?: string | null
   controlFDSubProcesses?: Prisma.ControlFDSubProcessCreateNestedManyWithoutControlFromDocumentInput
 }
 
@@ -1233,6 +1314,7 @@ export type ControlFromDocumentUncheckedCreateWithoutDocumentExtractInput = {
   lastTestedDate?: Date | string | null
   lastTestResult?: string | null
   createdAt?: Date | string
+  updatedAt?: Date | string
   controlRef?: string | null
   sourceFile?: string | null
   practiceDocument?: string | null
@@ -1252,6 +1334,8 @@ export type ControlFromDocumentUncheckedCreateWithoutDocumentExtractInput = {
   standard?: string | null
   pId?: string | null
   Requirements?: string | null
+  status?: string | null
+  approvedControlId?: string | null
   controlFDSubProcesses?: Prisma.ControlFDSubProcessUncheckedCreateNestedManyWithoutControlFromDocumentInput
 }
 
@@ -1298,6 +1382,7 @@ export type ControlFromDocumentScalarWhereInput = {
   lastTestedDate?: Prisma.DateTimeNullableFilter<"ControlFromDocument"> | Date | string | null
   lastTestResult?: Prisma.StringNullableFilter<"ControlFromDocument"> | string | null
   createdAt?: Prisma.DateTimeFilter<"ControlFromDocument"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"ControlFromDocument"> | Date | string
   controlRef?: Prisma.StringNullableFilter<"ControlFromDocument"> | string | null
   sourceFile?: Prisma.StringNullableFilter<"ControlFromDocument"> | string | null
   practiceDocument?: Prisma.StringNullableFilter<"ControlFromDocument"> | string | null
@@ -1317,6 +1402,8 @@ export type ControlFromDocumentScalarWhereInput = {
   standard?: Prisma.StringNullableFilter<"ControlFromDocument"> | string | null
   pId?: Prisma.StringNullableFilter<"ControlFromDocument"> | string | null
   Requirements?: Prisma.StringNullableFilter<"ControlFromDocument"> | string | null
+  status?: Prisma.StringNullableFilter<"ControlFromDocument"> | string | null
+  approvedControlId?: Prisma.StringNullableFilter<"ControlFromDocument"> | string | null
 }
 
 export type ControlFromDocumentCreateManyDocumentExtractInput = {
@@ -1332,6 +1419,7 @@ export type ControlFromDocumentCreateManyDocumentExtractInput = {
   lastTestedDate?: Date | string | null
   lastTestResult?: string | null
   createdAt?: Date | string
+  updatedAt?: Date | string
   controlRef?: string | null
   sourceFile?: string | null
   practiceDocument?: string | null
@@ -1351,6 +1439,8 @@ export type ControlFromDocumentCreateManyDocumentExtractInput = {
   standard?: string | null
   pId?: string | null
   Requirements?: string | null
+  status?: string | null
+  approvedControlId?: string | null
 }
 
 export type ControlFromDocumentUpdateWithoutDocumentExtractInput = {
@@ -1366,6 +1456,7 @@ export type ControlFromDocumentUpdateWithoutDocumentExtractInput = {
   lastTestedDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastTestResult?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   controlRef?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sourceFile?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   practiceDocument?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1385,6 +1476,8 @@ export type ControlFromDocumentUpdateWithoutDocumentExtractInput = {
   standard?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   Requirements?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approvedControlId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   controlFDSubProcesses?: Prisma.ControlFDSubProcessUpdateManyWithoutControlFromDocumentNestedInput
 }
 
@@ -1401,6 +1494,7 @@ export type ControlFromDocumentUncheckedUpdateWithoutDocumentExtractInput = {
   lastTestedDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastTestResult?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   controlRef?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sourceFile?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   practiceDocument?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1420,6 +1514,8 @@ export type ControlFromDocumentUncheckedUpdateWithoutDocumentExtractInput = {
   standard?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   Requirements?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approvedControlId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   controlFDSubProcesses?: Prisma.ControlFDSubProcessUncheckedUpdateManyWithoutControlFromDocumentNestedInput
 }
 
@@ -1436,6 +1532,7 @@ export type ControlFromDocumentUncheckedUpdateManyWithoutDocumentExtractInput = 
   lastTestedDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastTestResult?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   controlRef?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sourceFile?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   practiceDocument?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1455,6 +1552,8 @@ export type ControlFromDocumentUncheckedUpdateManyWithoutDocumentExtractInput = 
   standard?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   Requirements?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approvedControlId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 
@@ -1502,6 +1601,7 @@ export type ControlFromDocumentSelect<ExtArgs extends runtime.Types.Extensions.I
   lastTestedDate?: boolean
   lastTestResult?: boolean
   createdAt?: boolean
+  updatedAt?: boolean
   controlRef?: boolean
   sourceFile?: boolean
   practiceDocument?: boolean
@@ -1521,6 +1621,8 @@ export type ControlFromDocumentSelect<ExtArgs extends runtime.Types.Extensions.I
   standard?: boolean
   pId?: boolean
   Requirements?: boolean
+  status?: boolean
+  approvedControlId?: boolean
   documentExtract?: boolean | Prisma.DocumentExtractDefaultArgs<ExtArgs>
   controlFDSubProcesses?: boolean | Prisma.ControlFromDocument$controlFDSubProcessesArgs<ExtArgs>
   _count?: boolean | Prisma.ControlFromDocumentCountOutputTypeDefaultArgs<ExtArgs>
@@ -1540,6 +1642,7 @@ export type ControlFromDocumentSelectCreateManyAndReturn<ExtArgs extends runtime
   lastTestedDate?: boolean
   lastTestResult?: boolean
   createdAt?: boolean
+  updatedAt?: boolean
   controlRef?: boolean
   sourceFile?: boolean
   practiceDocument?: boolean
@@ -1559,6 +1662,8 @@ export type ControlFromDocumentSelectCreateManyAndReturn<ExtArgs extends runtime
   standard?: boolean
   pId?: boolean
   Requirements?: boolean
+  status?: boolean
+  approvedControlId?: boolean
   documentExtract?: boolean | Prisma.DocumentExtractDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["controlFromDocument"]>
 
@@ -1576,6 +1681,7 @@ export type ControlFromDocumentSelectUpdateManyAndReturn<ExtArgs extends runtime
   lastTestedDate?: boolean
   lastTestResult?: boolean
   createdAt?: boolean
+  updatedAt?: boolean
   controlRef?: boolean
   sourceFile?: boolean
   practiceDocument?: boolean
@@ -1595,6 +1701,8 @@ export type ControlFromDocumentSelectUpdateManyAndReturn<ExtArgs extends runtime
   standard?: boolean
   pId?: boolean
   Requirements?: boolean
+  status?: boolean
+  approvedControlId?: boolean
   documentExtract?: boolean | Prisma.DocumentExtractDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["controlFromDocument"]>
 
@@ -1612,6 +1720,7 @@ export type ControlFromDocumentSelectScalar = {
   lastTestedDate?: boolean
   lastTestResult?: boolean
   createdAt?: boolean
+  updatedAt?: boolean
   controlRef?: boolean
   sourceFile?: boolean
   practiceDocument?: boolean
@@ -1631,9 +1740,11 @@ export type ControlFromDocumentSelectScalar = {
   standard?: boolean
   pId?: boolean
   Requirements?: boolean
+  status?: boolean
+  approvedControlId?: boolean
 }
 
-export type ControlFromDocumentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "documentExtractId" | "name" | "statement" | "controlType" | "processAreaId" | "isHsseCritical" | "ramRating" | "riskWeight" | "rawHealthScore" | "lastTestedDate" | "lastTestResult" | "createdAt" | "controlRef" | "sourceFile" | "practiceDocument" | "controlTypeDetail" | "csfWho" | "csfWhat" | "csfWhen" | "csfWhere" | "csfWhy" | "csfHow" | "csfEvidence" | "keyActivities" | "riskAddressed" | "testingApproach" | "keyRiskIndicator" | "uncertainFlags" | "standard" | "pId" | "Requirements", ExtArgs["result"]["controlFromDocument"]>
+export type ControlFromDocumentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "documentExtractId" | "name" | "statement" | "controlType" | "processAreaId" | "isHsseCritical" | "ramRating" | "riskWeight" | "rawHealthScore" | "lastTestedDate" | "lastTestResult" | "createdAt" | "updatedAt" | "controlRef" | "sourceFile" | "practiceDocument" | "controlTypeDetail" | "csfWho" | "csfWhat" | "csfWhen" | "csfWhere" | "csfWhy" | "csfHow" | "csfEvidence" | "keyActivities" | "riskAddressed" | "testingApproach" | "keyRiskIndicator" | "uncertainFlags" | "standard" | "pId" | "Requirements" | "status" | "approvedControlId", ExtArgs["result"]["controlFromDocument"]>
 export type ControlFromDocumentInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   documentExtract?: boolean | Prisma.DocumentExtractDefaultArgs<ExtArgs>
   controlFDSubProcesses?: boolean | Prisma.ControlFromDocument$controlFDSubProcessesArgs<ExtArgs>
@@ -1666,6 +1777,7 @@ export type $ControlFromDocumentPayload<ExtArgs extends runtime.Types.Extensions
     lastTestedDate: Date | null
     lastTestResult: string | null
     createdAt: Date
+    updatedAt: Date
     controlRef: string | null
     sourceFile: string | null
     practiceDocument: string | null
@@ -1685,6 +1797,8 @@ export type $ControlFromDocumentPayload<ExtArgs extends runtime.Types.Extensions
     standard: string | null
     pId: string | null
     Requirements: string | null
+    status: string | null
+    approvedControlId: string | null
   }, ExtArgs["result"]["controlFromDocument"]>
   composites: {}
 }
@@ -2123,6 +2237,7 @@ export interface ControlFromDocumentFieldRefs {
   readonly lastTestedDate: Prisma.FieldRef<"ControlFromDocument", 'DateTime'>
   readonly lastTestResult: Prisma.FieldRef<"ControlFromDocument", 'String'>
   readonly createdAt: Prisma.FieldRef<"ControlFromDocument", 'DateTime'>
+  readonly updatedAt: Prisma.FieldRef<"ControlFromDocument", 'DateTime'>
   readonly controlRef: Prisma.FieldRef<"ControlFromDocument", 'String'>
   readonly sourceFile: Prisma.FieldRef<"ControlFromDocument", 'String'>
   readonly practiceDocument: Prisma.FieldRef<"ControlFromDocument", 'String'>
@@ -2142,6 +2257,8 @@ export interface ControlFromDocumentFieldRefs {
   readonly standard: Prisma.FieldRef<"ControlFromDocument", 'String'>
   readonly pId: Prisma.FieldRef<"ControlFromDocument", 'String'>
   readonly Requirements: Prisma.FieldRef<"ControlFromDocument", 'String'>
+  readonly status: Prisma.FieldRef<"ControlFromDocument", 'String'>
+  readonly approvedControlId: Prisma.FieldRef<"ControlFromDocument", 'String'>
 }
     
 

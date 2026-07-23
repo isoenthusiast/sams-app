@@ -11,9 +11,11 @@ model User {
   id                   String                 @id @default(cuid())
   name                 String
   username             String                 @unique
+  email                String?
   passwordHash         String
   role                 Role                   @default(Assessor)
-  position             String?
+  positionId           String?
+  position             Position?              @relation(fields: [positionId], references: [id])
   companyId            String?
   createdAt            DateTime               @default(now())
   totalPoints          Int                    @default(0)
@@ -563,6 +565,38 @@ model Company {
   shortName     String?
   createdAt     DateTime      @default(now())
   userCompanies UserCompany[]
+  departments   Department[]
+}
+
+// ── Organizational Hierarchy — Department → Position → User ─────────
+// Teams compete at the department level in gamification leaderboards.
+// Department hierarchy: parentDepartmentId for GM → DeptHead → TeamLead chains.
+model Department {
+  id                  String       @id @default(cuid())
+  name                String
+  companyId           String
+  parentDepartmentId  String?
+  createdAt           DateTime     @default(now())
+  company             Company      @relation(fields: [companyId], references: [id])
+  parentDepartment    Department?  @relation("DeptHierarchy", fields: [parentDepartmentId], references: [id])
+  childDepartments    Department[] @relation("DeptHierarchy")
+  positions           Position[]
+
+  @@unique([name, companyId])
+  @@index([companyId])
+  @@index([parentDepartmentId])
+}
+
+model Position {
+  id           String      @id @default(cuid())
+  title        String
+  departmentId String
+  createdAt    DateTime    @default(now())
+  department   Department  @relation(fields: [departmentId], references: [id])
+  users        User[]
+
+  @@unique([title, departmentId])
+  @@index([departmentId])
 }
 
 model UserCompany {
@@ -700,14 +734,16 @@ model DocumentExtract {
   custodian            String?
   authorizer           String?
   content              String
-  Status               String                @default("Not Started")
+  status               String                @default("Uploaded") @map("Status")
   CompletedOn          DateTime?
+  companyId            String?
   createdAt            DateTime              @default(now())
+  updatedAt            DateTime              @updatedAt
   controlFromDocuments ControlFromDocument[]
 
   @@index([docNo])
   @@index([documentNumber])
-  @@index([Status])
+  @@index([status])
 }
 
 model ControlFromDocument {
@@ -724,6 +760,7 @@ model ControlFromDocument {
   lastTestedDate        DateTime?
   lastTestResult        String?
   createdAt             DateTime              @default(now())
+  updatedAt             DateTime              @updatedAt
   controlRef            String?
   sourceFile            String?
   practiceDocument      String?
@@ -743,11 +780,14 @@ model ControlFromDocument {
   standard              String?
   pId                   String?
   Requirements          String?
+  status                String?               @default("Pending")
+  approvedControlId     String?
   documentExtract       DocumentExtract       @relation(fields: [documentExtractId], references: [id], onDelete: Cascade)
   controlFDSubProcesses ControlFDSubProcess[]
 
   @@index([documentExtractId])
   @@index([controlRef])
+  @@index([status])
 }
 
 // ── Requirement — SMDS ICOP Statutory Requirements ─────────────────────

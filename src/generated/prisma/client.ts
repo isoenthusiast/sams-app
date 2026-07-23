@@ -207,6 +207,16 @@ export type UserRoleMapping = Prisma.UserRoleMappingModel
  */
 export type Company = Prisma.CompanyModel
 /**
+ * Model Department
+ * 
+ */
+export type Department = Prisma.DepartmentModel
+/**
+ * Model Position
+ * 
+ */
+export type Position = Prisma.PositionModel
+/**
  * Model UserCompany
  * 
  */

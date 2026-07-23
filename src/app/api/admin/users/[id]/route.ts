@@ -14,13 +14,14 @@ export async function PUT(
 
     const { id } = await params;
     const body = await request.json();
-    const { name, username, role, companyIds, password } = body;
+    const { name, username, email, role, companyIds, password } = body;
 
     const fields: string[] = [];
     const values: any[] = [];
     let idx = 1;
 
     if (name !== undefined) { fields.push(`"name" = $${idx++}`); values.push(name); }
+    if (email !== undefined) { fields.push(`"email" = $${idx++}`); values.push(email || null); }
     if (username !== undefined) {
       // Check uniqueness
       const existing = await prisma.$queryRawUnsafe<any[]>(
@@ -65,7 +66,7 @@ export async function PUT(
 
     // Return updated user
     const updated = await prisma.$queryRawUnsafe<any[]>(
-      `SELECT id, name, username, role, "totalPoints" FROM "User" WHERE id = $1`, id
+      `SELECT id, name, username, email, role, "totalPoints" FROM "User" WHERE id = $1`, id
     );
 
     return NextResponse.json({ user: updated[0] });

@@ -9,6 +9,7 @@ type User = {
   id: string;
   name: string;
   username: string;
+  email?: string;
   role: string;
   totalPoints: number;
   companies: string[];
@@ -33,6 +34,7 @@ function parseUser(raw: any): User {
     id: raw.id,
     name: raw.name,
     username: raw.username,
+    email: raw.email ?? "",
     role: raw.role,
     totalPoints: raw.totalPoints ?? 0,
     companies: raw.userCompanies?.map((uc: any) => uc.company?.companyID ?? uc.companyId) ?? [],
@@ -50,6 +52,7 @@ export function UserManager({ initialUsers, companies, currentUserId }: Props) {
   const [form, setForm] = useState({
     name: "",
     username: "",
+    email: "",
     password: "",
     role: "Assessor" as string,
     companyIds: [] as string[],
@@ -57,7 +60,7 @@ export function UserManager({ initialUsers, companies, currentUserId }: Props) {
 
   const openAdd = () => {
     setEditingUser(null);
-    setForm({ name: "", username: "", password: "", role: "Assessor", companyIds: [] });
+    setForm({ name: "", username: "", email: "", password: "", role: "Assessor", companyIds: [] });
     setShowModal(true);
   };
 
@@ -66,6 +69,7 @@ export function UserManager({ initialUsers, companies, currentUserId }: Props) {
     setForm({
       name: u.name,
       username: u.username,
+      email: u.email || "",
       password: "",
       role: u.role,
       companyIds: [...u.companyIds],
@@ -96,6 +100,7 @@ export function UserManager({ initialUsers, companies, currentUserId }: Props) {
         body: JSON.stringify({
           name: form.name.trim(),
           username: form.username.trim(),
+          email: form.email.trim() || undefined,
           role: form.role,
           companyIds: form.companyIds,
           ...(form.password ? { password: form.password } : {}),
@@ -168,6 +173,7 @@ export function UserManager({ initialUsers, companies, currentUserId }: Props) {
                 {u.name}{" "}
                 <span className="text-xs text-slate-400">@{u.username}</span>
               </div>
+              {u.email && <div className="text-xs text-slate-500">{u.email}</div>}
               <div className="text-xs text-slate-500 mt-0.5">
                 Role: {u.role} · Points: {u.totalPoints}
               </div>
@@ -237,6 +243,16 @@ export function UserManager({ initialUsers, companies, currentUserId }: Props) {
                   onChange={(e) => setForm({ ...form, username: e.target.value })}
                   className="w-full rounded border border-slate-300 px-2 py-1.5 text-sm"
                   placeholder="Login username"
+                />
+              </div>
+              <div>
+                <label className="text-xs text-slate-500 block mb-0.5">Email</label>
+                <input
+                  type="email"
+                  value={form.email}
+                  onChange={(e) => setForm({ ...form, email: e.target.value })}
+                  className="w-full rounded border border-slate-300 px-2 py-1.5 text-sm"
+                  placeholder="user@example.com"
                 />
               </div>
               <div>
