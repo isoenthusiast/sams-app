@@ -55,6 +55,7 @@ export const ModelName = {
   ActivityLog: 'ActivityLog',
   ActivityLogType: 'ActivityLogType',
   AssuranceActivityType: 'AssuranceActivityType',
+  AssuranceProtocol: 'AssuranceProtocol',
   Standard: 'Standard',
   ProcessArea: 'ProcessArea',
   SubProcess: 'SubProcess',
@@ -173,6 +174,34 @@ export const AssuranceActivityTypeScalarFieldEnum = {
 } as const
 
 export type AssuranceActivityTypeScalarFieldEnum = (typeof AssuranceActivityTypeScalarFieldEnum)[keyof typeof AssuranceActivityTypeScalarFieldEnum]
+
+
+export const AssuranceProtocolScalarFieldEnum = {
+  id: 'id',
+  requirementId: 'requirementId',
+  rId: 'rId',
+  processAreaName: 'processAreaName',
+  pId: 'pId',
+  reqNo: 'reqNo',
+  standard: 'standard',
+  process: 'process',
+  objective: 'objective',
+  risk: 'risk',
+  intent: 'intent',
+  requirement: 'requirement',
+  keyQuestions: 'keyQuestions',
+  whatGoodLooksLike: 'whatGoodLooksLike',
+  controlPoints: 'controlPoints',
+  linkageToOtherRequirements: 'linkageToOtherRequirements',
+  link: 'link',
+  digitalLibrary: 'digitalLibrary',
+  url: 'url',
+  companyId: 'companyId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type AssuranceProtocolScalarFieldEnum = (typeof AssuranceProtocolScalarFieldEnum)[keyof typeof AssuranceProtocolScalarFieldEnum]
 
 
 export const StandardScalarFieldEnum = {

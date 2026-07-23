@@ -274,6 +274,7 @@ export type RequirementWhereInput = {
   companyId?: Prisma.StringNullableFilter<"Requirement"> | string | null
   processArea?: Prisma.XOR<Prisma.ProcessAreaNullableScalarRelationFilter, Prisma.ProcessAreaWhereInput> | null
   controlMappings?: Prisma.MapControl2RequirementListRelationFilter
+  assuranceProtocols?: Prisma.AssuranceProtocolListRelationFilter
 }
 
 export type RequirementOrderByWithRelationInput = {
@@ -291,6 +292,7 @@ export type RequirementOrderByWithRelationInput = {
   companyId?: Prisma.SortOrderInput | Prisma.SortOrder
   processArea?: Prisma.ProcessAreaOrderByWithRelationInput
   controlMappings?: Prisma.MapControl2RequirementOrderByRelationAggregateInput
+  assuranceProtocols?: Prisma.AssuranceProtocolOrderByRelationAggregateInput
 }
 
 export type RequirementWhereUniqueInput = Prisma.AtLeast<{
@@ -312,6 +314,7 @@ export type RequirementWhereUniqueInput = Prisma.AtLeast<{
   companyId?: Prisma.StringNullableFilter<"Requirement"> | string | null
   processArea?: Prisma.XOR<Prisma.ProcessAreaNullableScalarRelationFilter, Prisma.ProcessAreaWhereInput> | null
   controlMappings?: Prisma.MapControl2RequirementListRelationFilter
+  assuranceProtocols?: Prisma.AssuranceProtocolListRelationFilter
 }, "rId" | "requirementId_processAreaId_companyId">
 
 export type RequirementOrderByWithAggregationInput = {
@@ -366,6 +369,7 @@ export type RequirementCreateInput = {
   companyId?: string | null
   processArea?: Prisma.ProcessAreaCreateNestedOneWithoutRequirementsInput
   controlMappings?: Prisma.MapControl2RequirementCreateNestedManyWithoutRequirementInput
+  assuranceProtocols?: Prisma.AssuranceProtocolCreateNestedManyWithoutRequirementRelInput
 }
 
 export type RequirementUncheckedCreateInput = {
@@ -382,6 +386,7 @@ export type RequirementUncheckedCreateInput = {
   createdAt?: Date | string
   companyId?: string | null
   controlMappings?: Prisma.MapControl2RequirementUncheckedCreateNestedManyWithoutRequirementInput
+  assuranceProtocols?: Prisma.AssuranceProtocolUncheckedCreateNestedManyWithoutRequirementRelInput
 }
 
 export type RequirementUpdateInput = {
@@ -398,6 +403,7 @@ export type RequirementUpdateInput = {
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   processArea?: Prisma.ProcessAreaUpdateOneWithoutRequirementsNestedInput
   controlMappings?: Prisma.MapControl2RequirementUpdateManyWithoutRequirementNestedInput
+  assuranceProtocols?: Prisma.AssuranceProtocolUpdateManyWithoutRequirementRelNestedInput
 }
 
 export type RequirementUncheckedUpdateInput = {
@@ -414,6 +420,7 @@ export type RequirementUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   controlMappings?: Prisma.MapControl2RequirementUncheckedUpdateManyWithoutRequirementNestedInput
+  assuranceProtocols?: Prisma.AssuranceProtocolUncheckedUpdateManyWithoutRequirementRelNestedInput
 }
 
 export type RequirementCreateManyInput = {
@@ -458,6 +465,11 @@ export type RequirementUncheckedUpdateManyInput = {
   applicable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type RequirementScalarRelationFilter = {
+  is?: Prisma.RequirementWhereInput
+  isNot?: Prisma.RequirementWhereInput
 }
 
 export type RequirementListRelationFilter = {
@@ -529,9 +541,18 @@ export type RequirementSumOrderByAggregateInput = {
   rId?: Prisma.SortOrder
 }
 
-export type RequirementScalarRelationFilter = {
-  is?: Prisma.RequirementWhereInput
-  isNot?: Prisma.RequirementWhereInput
+export type RequirementCreateNestedOneWithoutAssuranceProtocolsInput = {
+  create?: Prisma.XOR<Prisma.RequirementCreateWithoutAssuranceProtocolsInput, Prisma.RequirementUncheckedCreateWithoutAssuranceProtocolsInput>
+  connectOrCreate?: Prisma.RequirementCreateOrConnectWithoutAssuranceProtocolsInput
+  connect?: Prisma.RequirementWhereUniqueInput
+}
+
+export type RequirementUpdateOneRequiredWithoutAssuranceProtocolsNestedInput = {
+  create?: Prisma.XOR<Prisma.RequirementCreateWithoutAssuranceProtocolsInput, Prisma.RequirementUncheckedCreateWithoutAssuranceProtocolsInput>
+  connectOrCreate?: Prisma.RequirementCreateOrConnectWithoutAssuranceProtocolsInput
+  upsert?: Prisma.RequirementUpsertWithoutAssuranceProtocolsInput
+  connect?: Prisma.RequirementWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.RequirementUpdateToOneWithWhereWithoutAssuranceProtocolsInput, Prisma.RequirementUpdateWithoutAssuranceProtocolsInput>, Prisma.RequirementUncheckedUpdateWithoutAssuranceProtocolsInput>
 }
 
 export type RequirementCreateNestedManyWithoutProcessAreaInput = {
@@ -590,6 +611,86 @@ export type RequirementUpdateOneRequiredWithoutControlMappingsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.RequirementUpdateToOneWithWhereWithoutControlMappingsInput, Prisma.RequirementUpdateWithoutControlMappingsInput>, Prisma.RequirementUncheckedUpdateWithoutControlMappingsInput>
 }
 
+export type RequirementCreateWithoutAssuranceProtocolsInput = {
+  rId: number
+  standard: string
+  pId: string
+  requirementId: string
+  clauseContent: string
+  intentOutcome: string
+  clauseApplicability: string
+  references?: string | null
+  applicable?: boolean
+  createdAt?: Date | string
+  companyId?: string | null
+  processArea?: Prisma.ProcessAreaCreateNestedOneWithoutRequirementsInput
+  controlMappings?: Prisma.MapControl2RequirementCreateNestedManyWithoutRequirementInput
+}
+
+export type RequirementUncheckedCreateWithoutAssuranceProtocolsInput = {
+  rId: number
+  standard: string
+  pId: string
+  processAreaId?: string | null
+  requirementId: string
+  clauseContent: string
+  intentOutcome: string
+  clauseApplicability: string
+  references?: string | null
+  applicable?: boolean
+  createdAt?: Date | string
+  companyId?: string | null
+  controlMappings?: Prisma.MapControl2RequirementUncheckedCreateNestedManyWithoutRequirementInput
+}
+
+export type RequirementCreateOrConnectWithoutAssuranceProtocolsInput = {
+  where: Prisma.RequirementWhereUniqueInput
+  create: Prisma.XOR<Prisma.RequirementCreateWithoutAssuranceProtocolsInput, Prisma.RequirementUncheckedCreateWithoutAssuranceProtocolsInput>
+}
+
+export type RequirementUpsertWithoutAssuranceProtocolsInput = {
+  update: Prisma.XOR<Prisma.RequirementUpdateWithoutAssuranceProtocolsInput, Prisma.RequirementUncheckedUpdateWithoutAssuranceProtocolsInput>
+  create: Prisma.XOR<Prisma.RequirementCreateWithoutAssuranceProtocolsInput, Prisma.RequirementUncheckedCreateWithoutAssuranceProtocolsInput>
+  where?: Prisma.RequirementWhereInput
+}
+
+export type RequirementUpdateToOneWithWhereWithoutAssuranceProtocolsInput = {
+  where?: Prisma.RequirementWhereInput
+  data: Prisma.XOR<Prisma.RequirementUpdateWithoutAssuranceProtocolsInput, Prisma.RequirementUncheckedUpdateWithoutAssuranceProtocolsInput>
+}
+
+export type RequirementUpdateWithoutAssuranceProtocolsInput = {
+  rId?: Prisma.IntFieldUpdateOperationsInput | number
+  standard?: Prisma.StringFieldUpdateOperationsInput | string
+  pId?: Prisma.StringFieldUpdateOperationsInput | string
+  requirementId?: Prisma.StringFieldUpdateOperationsInput | string
+  clauseContent?: Prisma.StringFieldUpdateOperationsInput | string
+  intentOutcome?: Prisma.StringFieldUpdateOperationsInput | string
+  clauseApplicability?: Prisma.StringFieldUpdateOperationsInput | string
+  references?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  applicable?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  processArea?: Prisma.ProcessAreaUpdateOneWithoutRequirementsNestedInput
+  controlMappings?: Prisma.MapControl2RequirementUpdateManyWithoutRequirementNestedInput
+}
+
+export type RequirementUncheckedUpdateWithoutAssuranceProtocolsInput = {
+  rId?: Prisma.IntFieldUpdateOperationsInput | number
+  standard?: Prisma.StringFieldUpdateOperationsInput | string
+  pId?: Prisma.StringFieldUpdateOperationsInput | string
+  processAreaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  requirementId?: Prisma.StringFieldUpdateOperationsInput | string
+  clauseContent?: Prisma.StringFieldUpdateOperationsInput | string
+  intentOutcome?: Prisma.StringFieldUpdateOperationsInput | string
+  clauseApplicability?: Prisma.StringFieldUpdateOperationsInput | string
+  references?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  applicable?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  controlMappings?: Prisma.MapControl2RequirementUncheckedUpdateManyWithoutRequirementNestedInput
+}
+
 export type RequirementCreateWithoutProcessAreaInput = {
   rId: number
   standard: string
@@ -603,6 +704,7 @@ export type RequirementCreateWithoutProcessAreaInput = {
   createdAt?: Date | string
   companyId?: string | null
   controlMappings?: Prisma.MapControl2RequirementCreateNestedManyWithoutRequirementInput
+  assuranceProtocols?: Prisma.AssuranceProtocolCreateNestedManyWithoutRequirementRelInput
 }
 
 export type RequirementUncheckedCreateWithoutProcessAreaInput = {
@@ -618,6 +720,7 @@ export type RequirementUncheckedCreateWithoutProcessAreaInput = {
   createdAt?: Date | string
   companyId?: string | null
   controlMappings?: Prisma.MapControl2RequirementUncheckedCreateNestedManyWithoutRequirementInput
+  assuranceProtocols?: Prisma.AssuranceProtocolUncheckedCreateNestedManyWithoutRequirementRelInput
 }
 
 export type RequirementCreateOrConnectWithoutProcessAreaInput = {
@@ -677,6 +780,7 @@ export type RequirementCreateWithoutControlMappingsInput = {
   createdAt?: Date | string
   companyId?: string | null
   processArea?: Prisma.ProcessAreaCreateNestedOneWithoutRequirementsInput
+  assuranceProtocols?: Prisma.AssuranceProtocolCreateNestedManyWithoutRequirementRelInput
 }
 
 export type RequirementUncheckedCreateWithoutControlMappingsInput = {
@@ -692,6 +796,7 @@ export type RequirementUncheckedCreateWithoutControlMappingsInput = {
   applicable?: boolean
   createdAt?: Date | string
   companyId?: string | null
+  assuranceProtocols?: Prisma.AssuranceProtocolUncheckedCreateNestedManyWithoutRequirementRelInput
 }
 
 export type RequirementCreateOrConnectWithoutControlMappingsInput = {
@@ -723,6 +828,7 @@ export type RequirementUpdateWithoutControlMappingsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   processArea?: Prisma.ProcessAreaUpdateOneWithoutRequirementsNestedInput
+  assuranceProtocols?: Prisma.AssuranceProtocolUpdateManyWithoutRequirementRelNestedInput
 }
 
 export type RequirementUncheckedUpdateWithoutControlMappingsInput = {
@@ -738,6 +844,7 @@ export type RequirementUncheckedUpdateWithoutControlMappingsInput = {
   applicable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  assuranceProtocols?: Prisma.AssuranceProtocolUncheckedUpdateManyWithoutRequirementRelNestedInput
 }
 
 export type RequirementCreateManyProcessAreaInput = {
@@ -767,6 +874,7 @@ export type RequirementUpdateWithoutProcessAreaInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   controlMappings?: Prisma.MapControl2RequirementUpdateManyWithoutRequirementNestedInput
+  assuranceProtocols?: Prisma.AssuranceProtocolUpdateManyWithoutRequirementRelNestedInput
 }
 
 export type RequirementUncheckedUpdateWithoutProcessAreaInput = {
@@ -782,6 +890,7 @@ export type RequirementUncheckedUpdateWithoutProcessAreaInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   controlMappings?: Prisma.MapControl2RequirementUncheckedUpdateManyWithoutRequirementNestedInput
+  assuranceProtocols?: Prisma.AssuranceProtocolUncheckedUpdateManyWithoutRequirementRelNestedInput
 }
 
 export type RequirementUncheckedUpdateManyWithoutProcessAreaInput = {
@@ -805,10 +914,12 @@ export type RequirementUncheckedUpdateManyWithoutProcessAreaInput = {
 
 export type RequirementCountOutputType = {
   controlMappings: number
+  assuranceProtocols: number
 }
 
 export type RequirementCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   controlMappings?: boolean | RequirementCountOutputTypeCountControlMappingsArgs
+  assuranceProtocols?: boolean | RequirementCountOutputTypeCountAssuranceProtocolsArgs
 }
 
 /**
@@ -828,6 +939,13 @@ export type RequirementCountOutputTypeCountControlMappingsArgs<ExtArgs extends r
   where?: Prisma.MapControl2RequirementWhereInput
 }
 
+/**
+ * RequirementCountOutputType without action
+ */
+export type RequirementCountOutputTypeCountAssuranceProtocolsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.AssuranceProtocolWhereInput
+}
+
 
 export type RequirementSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   rId?: boolean
@@ -844,6 +962,7 @@ export type RequirementSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   companyId?: boolean
   processArea?: boolean | Prisma.Requirement$processAreaArgs<ExtArgs>
   controlMappings?: boolean | Prisma.Requirement$controlMappingsArgs<ExtArgs>
+  assuranceProtocols?: boolean | Prisma.Requirement$assuranceProtocolsArgs<ExtArgs>
   _count?: boolean | Prisma.RequirementCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["requirement"]>
 
@@ -898,6 +1017,7 @@ export type RequirementOmit<ExtArgs extends runtime.Types.Extensions.InternalArg
 export type RequirementInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   processArea?: boolean | Prisma.Requirement$processAreaArgs<ExtArgs>
   controlMappings?: boolean | Prisma.Requirement$controlMappingsArgs<ExtArgs>
+  assuranceProtocols?: boolean | Prisma.Requirement$assuranceProtocolsArgs<ExtArgs>
   _count?: boolean | Prisma.RequirementCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type RequirementIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -912,6 +1032,7 @@ export type $RequirementPayload<ExtArgs extends runtime.Types.Extensions.Interna
   objects: {
     processArea: Prisma.$ProcessAreaPayload<ExtArgs> | null
     controlMappings: Prisma.$MapControl2RequirementPayload<ExtArgs>[]
+    assuranceProtocols: Prisma.$AssuranceProtocolPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     rId: number
@@ -1322,6 +1443,7 @@ export interface Prisma__RequirementClient<T, Null = never, ExtArgs extends runt
   readonly [Symbol.toStringTag]: "PrismaPromise"
   processArea<T extends Prisma.Requirement$processAreaArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Requirement$processAreaArgs<ExtArgs>>): Prisma.Prisma__ProcessAreaClient<runtime.Types.Result.GetResult<Prisma.$ProcessAreaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   controlMappings<T extends Prisma.Requirement$controlMappingsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Requirement$controlMappingsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MapControl2RequirementPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  assuranceProtocols<T extends Prisma.Requirement$assuranceProtocolsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Requirement$assuranceProtocolsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AssuranceProtocolPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1804,6 +1926,30 @@ export type Requirement$controlMappingsArgs<ExtArgs extends runtime.Types.Extens
   take?: number
   skip?: number
   distinct?: Prisma.MapControl2RequirementScalarFieldEnum | Prisma.MapControl2RequirementScalarFieldEnum[]
+}
+
+/**
+ * Requirement.assuranceProtocols
+ */
+export type Requirement$assuranceProtocolsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the AssuranceProtocol
+   */
+  select?: Prisma.AssuranceProtocolSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the AssuranceProtocol
+   */
+  omit?: Prisma.AssuranceProtocolOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AssuranceProtocolInclude<ExtArgs> | null
+  where?: Prisma.AssuranceProtocolWhereInput
+  orderBy?: Prisma.AssuranceProtocolOrderByWithRelationInput | Prisma.AssuranceProtocolOrderByWithRelationInput[]
+  cursor?: Prisma.AssuranceProtocolWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.AssuranceProtocolScalarFieldEnum | Prisma.AssuranceProtocolScalarFieldEnum[]
 }
 
 /**

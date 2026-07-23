@@ -62,6 +62,11 @@ export type ActivityLogType = Prisma.ActivityLogTypeModel
  */
 export type AssuranceActivityType = Prisma.AssuranceActivityTypeModel
 /**
+ * Model AssuranceProtocol
+ * 
+ */
+export type AssuranceProtocol = Prisma.AssuranceProtocolModel
+/**
  * Model Standard
  * 
  */

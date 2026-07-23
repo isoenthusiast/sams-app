@@ -69,6 +69,39 @@ model AssuranceActivityType {
   templateLinkages AssessmentTemplateActivityType[]
 }
 
+// ── AssuranceProtocol — Audit checklist items tied to Requirements ───
+model AssuranceProtocol {
+  id                          String      @id @default(cuid())
+  requirementId               String      // e.g., "Air Quality - 1"
+  rId                         Int         // FK to Requirement.rID
+  processAreaName             String?
+  pId                         String?
+  reqNo                       String
+  standard                    String?
+  process                     String?
+  objective                   String?
+  risk                        String?
+  intent                      String?
+  requirement                 String?
+  keyQuestions                String?
+  whatGoodLooksLike           String?
+  controlPoints               String?
+  linkageToOtherRequirements  String?
+  link                        String?
+  digitalLibrary              String?
+  url                         String?
+  companyId                   String?
+  createdAt                   DateTime    @default(now())
+  updatedAt                   DateTime    @updatedAt
+
+  requirementRel              Requirement @relation(fields: [rId], references: [rId], onDelete: Cascade)
+
+  @@index([rId])
+  @@index([requirementId])
+  @@index([processAreaName])
+  @@map("AssuranceProtocol")
+}
+
 // ── Standard — Management system standards (ISO, ICOP, etc.) ─────────
 model Standard {
   id                  String        @id @default(cuid())
@@ -809,6 +842,7 @@ model Requirement {
   companyId           String?
   processArea         ProcessArea?             @relation(fields: [processAreaId], references: [id])
   controlMappings     MapControl2Requirement[]
+  assuranceProtocols  AssuranceProtocol[]
 
   @@unique([requirementId, processAreaId, companyId])
   @@index([processAreaId])

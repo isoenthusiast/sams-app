@@ -388,6 +388,7 @@ export const ModelName = {
   ActivityLog: 'ActivityLog',
   ActivityLogType: 'ActivityLogType',
   AssuranceActivityType: 'AssuranceActivityType',
+  AssuranceProtocol: 'AssuranceProtocol',
   Standard: 'Standard',
   ProcessArea: 'ProcessArea',
   SubProcess: 'SubProcess',
@@ -448,7 +449,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "activityLog" | "activityLogType" | "assuranceActivityType" | "standard" | "processArea" | "subProcess" | "controlSubProcess" | "controlFDSubProcess" | "control" | "assessmentTemplate" | "assessmentTemplateControlLinkage" | "assessmentTemplateActivityType" | "assessment" | "assessmentAssessor" | "controlAssignment" | "sampleType" | "recordSourceType" | "sample" | "finding" | "action" | "attachment" | "attachmentMapping" | "achievementBadge" | "userAchievement" | "pointTransaction" | "gameAttribute" | "gameAttributeRule" | "emotionalDriveMetric" | "milestone" | "userRole" | "userRoleMapping" | "company" | "department" | "position" | "userCompany" | "userFavorite" | "assessmentActType" | "aact" | "aActControls" | "aActUsers" | "aActDetails" | "knowledgebase" | "mapArt2Know" | "documentExtract" | "controlFromDocument" | "requirement" | "mapControl2Requirement" | "backlogItem"
+    modelProps: "user" | "activityLog" | "activityLogType" | "assuranceActivityType" | "assuranceProtocol" | "standard" | "processArea" | "subProcess" | "controlSubProcess" | "controlFDSubProcess" | "control" | "assessmentTemplate" | "assessmentTemplateControlLinkage" | "assessmentTemplateActivityType" | "assessment" | "assessmentAssessor" | "controlAssignment" | "sampleType" | "recordSourceType" | "sample" | "finding" | "action" | "attachment" | "attachmentMapping" | "achievementBadge" | "userAchievement" | "pointTransaction" | "gameAttribute" | "gameAttributeRule" | "emotionalDriveMetric" | "milestone" | "userRole" | "userRoleMapping" | "company" | "department" | "position" | "userCompany" | "userFavorite" | "assessmentActType" | "aact" | "aActControls" | "aActUsers" | "aActDetails" | "knowledgebase" | "mapArt2Know" | "documentExtract" | "controlFromDocument" | "requirement" | "mapControl2Requirement" | "backlogItem"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -745,6 +746,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.AssuranceActivityTypeCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.AssuranceActivityTypeCountAggregateOutputType> | number
+        }
+      }
+    }
+    AssuranceProtocol: {
+      payload: Prisma.$AssuranceProtocolPayload<ExtArgs>
+      fields: Prisma.AssuranceProtocolFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.AssuranceProtocolFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AssuranceProtocolPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.AssuranceProtocolFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AssuranceProtocolPayload>
+        }
+        findFirst: {
+          args: Prisma.AssuranceProtocolFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AssuranceProtocolPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.AssuranceProtocolFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AssuranceProtocolPayload>
+        }
+        findMany: {
+          args: Prisma.AssuranceProtocolFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AssuranceProtocolPayload>[]
+        }
+        create: {
+          args: Prisma.AssuranceProtocolCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AssuranceProtocolPayload>
+        }
+        createMany: {
+          args: Prisma.AssuranceProtocolCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.AssuranceProtocolCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AssuranceProtocolPayload>[]
+        }
+        delete: {
+          args: Prisma.AssuranceProtocolDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AssuranceProtocolPayload>
+        }
+        update: {
+          args: Prisma.AssuranceProtocolUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AssuranceProtocolPayload>
+        }
+        deleteMany: {
+          args: Prisma.AssuranceProtocolDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.AssuranceProtocolUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.AssuranceProtocolUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AssuranceProtocolPayload>[]
+        }
+        upsert: {
+          args: Prisma.AssuranceProtocolUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AssuranceProtocolPayload>
+        }
+        aggregate: {
+          args: Prisma.AssuranceProtocolAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateAssuranceProtocol>
+        }
+        groupBy: {
+          args: Prisma.AssuranceProtocolGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AssuranceProtocolGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.AssuranceProtocolCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AssuranceProtocolCountAggregateOutputType> | number
         }
       }
     }
@@ -4174,6 +4249,34 @@ export const AssuranceActivityTypeScalarFieldEnum = {
 export type AssuranceActivityTypeScalarFieldEnum = (typeof AssuranceActivityTypeScalarFieldEnum)[keyof typeof AssuranceActivityTypeScalarFieldEnum]
 
 
+export const AssuranceProtocolScalarFieldEnum = {
+  id: 'id',
+  requirementId: 'requirementId',
+  rId: 'rId',
+  processAreaName: 'processAreaName',
+  pId: 'pId',
+  reqNo: 'reqNo',
+  standard: 'standard',
+  process: 'process',
+  objective: 'objective',
+  risk: 'risk',
+  intent: 'intent',
+  requirement: 'requirement',
+  keyQuestions: 'keyQuestions',
+  whatGoodLooksLike: 'whatGoodLooksLike',
+  controlPoints: 'controlPoints',
+  linkageToOtherRequirements: 'linkageToOtherRequirements',
+  link: 'link',
+  digitalLibrary: 'digitalLibrary',
+  url: 'url',
+  companyId: 'companyId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type AssuranceProtocolScalarFieldEnum = (typeof AssuranceProtocolScalarFieldEnum)[keyof typeof AssuranceProtocolScalarFieldEnum]
+
+
 export const StandardScalarFieldEnum = {
   id: 'id',
   standard: 'standard',
@@ -5246,6 +5349,7 @@ export type GlobalOmitConfig = {
   activityLog?: Prisma.ActivityLogOmit
   activityLogType?: Prisma.ActivityLogTypeOmit
   assuranceActivityType?: Prisma.AssuranceActivityTypeOmit
+  assuranceProtocol?: Prisma.AssuranceProtocolOmit
   standard?: Prisma.StandardOmit
   processArea?: Prisma.ProcessAreaOmit
   subProcess?: Prisma.SubProcessOmit
