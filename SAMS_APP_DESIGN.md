@@ -820,6 +820,7 @@ Local Dev (localhost:3100)
 | v1.0.5 | 2026-07-24 | Sprint 2 completed: G10b (health reset status display with last/next dates + ActivityLog), G11/G12 verified already built. Backlog now 33 completed, 9 remaining. |
 | v1.0.6 | 2026-07-24 | Gamification design grilled and resolved: per-PA mastery tracks (Observer→Bronze→Silver→Gold→Platinum→Black), two-track economy (Conduct Assurance role-based + Domain Tracks per-activity), mixed milestone+XP progression, compact gamification widget. Updated CONTEXT.md with full design. |
 | v1.0.7 | 2026-07-24 | Badge system rebuilt: cleared 305 old badges, added `ProcessArea.abbreviatedName` + `AchievementBadge` prompt fields (badgeType, backgroundPrompt, foregroundPrompt, designConfig, imageFormat). New 3-tab BadgesAdminView (Track/Role/Special). Image generation API: SVG via DeepSeek V4, PNG via gpt-image-2. Added G13-G15 backlog for XP engine + widget + dashboard. |
+| v1.0.8 | 2026-07-24 | G13: Rewrote XP engine — two-track economy (Conduct Assurance role-based once per assessment + Domain XP per-PA per-activity), auto-creates GameAttribute per PA, Bronze badge auto-award at 10 XP. G14: Compact GamificationWidget on FLA dashboard + assessment detail (overall XP + latest non-Assurance track + top 3 tracks). Added `GET /api/gamification/stats`. |
 
 ---
 

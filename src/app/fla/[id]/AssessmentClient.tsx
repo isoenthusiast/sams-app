@@ -12,6 +12,7 @@ import { VoiceInput } from "@/components/VoiceInput";
 import { AttachmentList } from "@/components/AttachmentList";
 import AssessmentActivitiesPanel from "@/components/AssessmentActivitiesPanel";
 import { AssignedControlsList } from "@/components/AssignedControlsList";
+import { GamificationWidget } from "@/components/GamificationWidget";
 
 type Props = {
   assessment: any;
@@ -329,6 +330,10 @@ export default function AssessmentClient({ assessment, allControls, processAreas
         <StatusBadge status={assessment.status} />
       </div>
       <p className="text-sm text-slate-500">{assessment.activityType?.name} · Assessor: {assessment.assessor?.name} · LOA: {assessment.loa}</p>
+
+      <div className="mt-3">
+        <GamificationWidget userId={currentUserId} />
+      </div>
 
       <div className="mt-4 flex border-b border-slate-200">
         {tabs.map((t) => (

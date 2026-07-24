@@ -8,6 +8,7 @@ import { HealthIndicator } from "@/components/HealthIndicator";
 import { CollapsibleSection } from "@/components/CollapsibleSection";
 import { StatusBadge } from "@/components/StatusBadge";
 import { GamificationPanel } from "@/components/GamificationPanel";
+import { GamificationWidget } from "@/components/GamificationWidget";
 import { AssessmentCard } from "@/components/AssessmentCard";
 import { ActionRowClient } from "@/components/ActionRowClient";
 
@@ -165,6 +166,11 @@ export default async function DashboardPage() {
           {dailyStreak > 0 && <span className="text-amber-700">🔥 {dailyStreak}</span>}
           {userRank && <span className="text-slate-500">Rank #{userRank}</span>}
         </div>
+      </div>
+
+      {/* Gamification Widget */}
+      <div className="mb-4">
+        <GamificationWidget userId={userId} />
       </div>
 
       {/* Two-column dashboard */}
