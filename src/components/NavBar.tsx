@@ -34,6 +34,7 @@ export async function NavBar() {
               <>
                 <NavLink href="/admin">Dashboard</NavLink>
                 <NavLink href="/setup/process-areas">Process Areas</NavLink>
+                <NavLink href="/gamification">Gamification</NavLink>
                 <NavLink href="/admin">Admin</NavLink>
                 <NavLink href="/help">Help</NavLink>
               </>
