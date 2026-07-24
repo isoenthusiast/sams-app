@@ -324,11 +324,6 @@ export type GameAttributeMinOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
 }
 
-export type GameAttributeScalarRelationFilter = {
-  is?: Prisma.GameAttributeWhereInput
-  isNot?: Prisma.GameAttributeWhereInput
-}
-
 export type GameAttributeCreateNestedOneWithoutPointsInput = {
   create?: Prisma.XOR<Prisma.GameAttributeCreateWithoutPointsInput, Prisma.GameAttributeUncheckedCreateWithoutPointsInput>
   connectOrCreate?: Prisma.GameAttributeCreateOrConnectWithoutPointsInput
@@ -351,10 +346,12 @@ export type GameAttributeCreateNestedOneWithoutRulesInput = {
   connect?: Prisma.GameAttributeWhereUniqueInput
 }
 
-export type GameAttributeUpdateOneRequiredWithoutRulesNestedInput = {
+export type GameAttributeUpdateOneWithoutRulesNestedInput = {
   create?: Prisma.XOR<Prisma.GameAttributeCreateWithoutRulesInput, Prisma.GameAttributeUncheckedCreateWithoutRulesInput>
   connectOrCreate?: Prisma.GameAttributeCreateOrConnectWithoutRulesInput
   upsert?: Prisma.GameAttributeUpsertWithoutRulesInput
+  disconnect?: Prisma.GameAttributeWhereInput | boolean
+  delete?: Prisma.GameAttributeWhereInput | boolean
   connect?: Prisma.GameAttributeWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.GameAttributeUpdateToOneWithWhereWithoutRulesInput, Prisma.GameAttributeUpdateWithoutRulesInput>, Prisma.GameAttributeUncheckedUpdateWithoutRulesInput>
 }

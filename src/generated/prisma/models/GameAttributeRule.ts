@@ -28,31 +28,24 @@ export type AggregateGameAttributeRule = {
 
 export type GameAttributeRuleAvgAggregateOutputType = {
   basePoints: number | null
-  perControlPoints: number | null
-  hsseBonusPoints: number | null
-  qualityThreshold: number | null
-  qualityBonus: number | null
+  perUnitPoints: number | null
   multiplier: number | null
 }
 
 export type GameAttributeRuleSumAggregateOutputType = {
   basePoints: number | null
-  perControlPoints: number | null
-  hsseBonusPoints: number | null
-  qualityThreshold: number | null
-  qualityBonus: number | null
+  perUnitPoints: number | null
   multiplier: number | null
 }
 
 export type GameAttributeRuleMinAggregateOutputType = {
   id: string | null
   gameAttributeId: string | null
-  activityType: string | null
+  source: string | null
+  eventType: string | null
+  role: string | null
   basePoints: number | null
-  perControlPoints: number | null
-  hsseBonusPoints: number | null
-  qualityThreshold: number | null
-  qualityBonus: number | null
+  perUnitPoints: number | null
   multiplier: number | null
   description: string | null
   isActive: boolean | null
@@ -62,12 +55,11 @@ export type GameAttributeRuleMinAggregateOutputType = {
 export type GameAttributeRuleMaxAggregateOutputType = {
   id: string | null
   gameAttributeId: string | null
-  activityType: string | null
+  source: string | null
+  eventType: string | null
+  role: string | null
   basePoints: number | null
-  perControlPoints: number | null
-  hsseBonusPoints: number | null
-  qualityThreshold: number | null
-  qualityBonus: number | null
+  perUnitPoints: number | null
   multiplier: number | null
   description: string | null
   isActive: boolean | null
@@ -77,13 +69,14 @@ export type GameAttributeRuleMaxAggregateOutputType = {
 export type GameAttributeRuleCountAggregateOutputType = {
   id: number
   gameAttributeId: number
-  activityType: number
+  source: number
+  eventType: number
+  role: number
   basePoints: number
-  perControlPoints: number
-  hsseBonusPoints: number
-  qualityThreshold: number
-  qualityBonus: number
+  perUnitPoints: number
   multiplier: number
+  conditions: number
+  dynamicModifiers: number
   description: number
   isActive: number
   createdAt: number
@@ -93,31 +86,24 @@ export type GameAttributeRuleCountAggregateOutputType = {
 
 export type GameAttributeRuleAvgAggregateInputType = {
   basePoints?: true
-  perControlPoints?: true
-  hsseBonusPoints?: true
-  qualityThreshold?: true
-  qualityBonus?: true
+  perUnitPoints?: true
   multiplier?: true
 }
 
 export type GameAttributeRuleSumAggregateInputType = {
   basePoints?: true
-  perControlPoints?: true
-  hsseBonusPoints?: true
-  qualityThreshold?: true
-  qualityBonus?: true
+  perUnitPoints?: true
   multiplier?: true
 }
 
 export type GameAttributeRuleMinAggregateInputType = {
   id?: true
   gameAttributeId?: true
-  activityType?: true
+  source?: true
+  eventType?: true
+  role?: true
   basePoints?: true
-  perControlPoints?: true
-  hsseBonusPoints?: true
-  qualityThreshold?: true
-  qualityBonus?: true
+  perUnitPoints?: true
   multiplier?: true
   description?: true
   isActive?: true
@@ -127,12 +113,11 @@ export type GameAttributeRuleMinAggregateInputType = {
 export type GameAttributeRuleMaxAggregateInputType = {
   id?: true
   gameAttributeId?: true
-  activityType?: true
+  source?: true
+  eventType?: true
+  role?: true
   basePoints?: true
-  perControlPoints?: true
-  hsseBonusPoints?: true
-  qualityThreshold?: true
-  qualityBonus?: true
+  perUnitPoints?: true
   multiplier?: true
   description?: true
   isActive?: true
@@ -142,13 +127,14 @@ export type GameAttributeRuleMaxAggregateInputType = {
 export type GameAttributeRuleCountAggregateInputType = {
   id?: true
   gameAttributeId?: true
-  activityType?: true
+  source?: true
+  eventType?: true
+  role?: true
   basePoints?: true
-  perControlPoints?: true
-  hsseBonusPoints?: true
-  qualityThreshold?: true
-  qualityBonus?: true
+  perUnitPoints?: true
   multiplier?: true
+  conditions?: true
+  dynamicModifiers?: true
   description?: true
   isActive?: true
   createdAt?: true
@@ -243,14 +229,15 @@ export type GameAttributeRuleGroupByArgs<ExtArgs extends runtime.Types.Extension
 
 export type GameAttributeRuleGroupByOutputType = {
   id: string
-  gameAttributeId: string
-  activityType: string
+  gameAttributeId: string | null
+  source: string
+  eventType: string
+  role: string | null
   basePoints: number
-  perControlPoints: number
-  hsseBonusPoints: number
-  qualityThreshold: number | null
-  qualityBonus: number
+  perUnitPoints: number
   multiplier: number
+  conditions: runtime.JsonValue | null
+  dynamicModifiers: runtime.JsonValue | null
   description: string | null
   isActive: boolean
   createdAt: Date
@@ -281,30 +268,32 @@ export type GameAttributeRuleWhereInput = {
   OR?: Prisma.GameAttributeRuleWhereInput[]
   NOT?: Prisma.GameAttributeRuleWhereInput | Prisma.GameAttributeRuleWhereInput[]
   id?: Prisma.StringFilter<"GameAttributeRule"> | string
-  gameAttributeId?: Prisma.StringFilter<"GameAttributeRule"> | string
-  activityType?: Prisma.StringFilter<"GameAttributeRule"> | string
+  gameAttributeId?: Prisma.StringNullableFilter<"GameAttributeRule"> | string | null
+  source?: Prisma.StringFilter<"GameAttributeRule"> | string
+  eventType?: Prisma.StringFilter<"GameAttributeRule"> | string
+  role?: Prisma.StringNullableFilter<"GameAttributeRule"> | string | null
   basePoints?: Prisma.IntFilter<"GameAttributeRule"> | number
-  perControlPoints?: Prisma.IntFilter<"GameAttributeRule"> | number
-  hsseBonusPoints?: Prisma.IntFilter<"GameAttributeRule"> | number
-  qualityThreshold?: Prisma.FloatNullableFilter<"GameAttributeRule"> | number | null
-  qualityBonus?: Prisma.IntFilter<"GameAttributeRule"> | number
+  perUnitPoints?: Prisma.IntFilter<"GameAttributeRule"> | number
   multiplier?: Prisma.FloatFilter<"GameAttributeRule"> | number
+  conditions?: Prisma.JsonNullableFilter<"GameAttributeRule">
+  dynamicModifiers?: Prisma.JsonNullableFilter<"GameAttributeRule">
   description?: Prisma.StringNullableFilter<"GameAttributeRule"> | string | null
   isActive?: Prisma.BoolFilter<"GameAttributeRule"> | boolean
   createdAt?: Prisma.DateTimeFilter<"GameAttributeRule"> | Date | string
-  gameAttribute?: Prisma.XOR<Prisma.GameAttributeScalarRelationFilter, Prisma.GameAttributeWhereInput>
+  gameAttribute?: Prisma.XOR<Prisma.GameAttributeNullableScalarRelationFilter, Prisma.GameAttributeWhereInput> | null
 }
 
 export type GameAttributeRuleOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  gameAttributeId?: Prisma.SortOrder
-  activityType?: Prisma.SortOrder
+  gameAttributeId?: Prisma.SortOrderInput | Prisma.SortOrder
+  source?: Prisma.SortOrder
+  eventType?: Prisma.SortOrder
+  role?: Prisma.SortOrderInput | Prisma.SortOrder
   basePoints?: Prisma.SortOrder
-  perControlPoints?: Prisma.SortOrder
-  hsseBonusPoints?: Prisma.SortOrder
-  qualityThreshold?: Prisma.SortOrderInput | Prisma.SortOrder
-  qualityBonus?: Prisma.SortOrder
+  perUnitPoints?: Prisma.SortOrder
   multiplier?: Prisma.SortOrder
+  conditions?: Prisma.SortOrderInput | Prisma.SortOrder
+  dynamicModifiers?: Prisma.SortOrderInput | Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -313,34 +302,35 @@ export type GameAttributeRuleOrderByWithRelationInput = {
 
 export type GameAttributeRuleWhereUniqueInput = Prisma.AtLeast<{
   id?: string
-  gameAttributeId_activityType?: Prisma.GameAttributeRuleGameAttributeIdActivityTypeCompoundUniqueInput
   AND?: Prisma.GameAttributeRuleWhereInput | Prisma.GameAttributeRuleWhereInput[]
   OR?: Prisma.GameAttributeRuleWhereInput[]
   NOT?: Prisma.GameAttributeRuleWhereInput | Prisma.GameAttributeRuleWhereInput[]
-  gameAttributeId?: Prisma.StringFilter<"GameAttributeRule"> | string
-  activityType?: Prisma.StringFilter<"GameAttributeRule"> | string
+  gameAttributeId?: Prisma.StringNullableFilter<"GameAttributeRule"> | string | null
+  source?: Prisma.StringFilter<"GameAttributeRule"> | string
+  eventType?: Prisma.StringFilter<"GameAttributeRule"> | string
+  role?: Prisma.StringNullableFilter<"GameAttributeRule"> | string | null
   basePoints?: Prisma.IntFilter<"GameAttributeRule"> | number
-  perControlPoints?: Prisma.IntFilter<"GameAttributeRule"> | number
-  hsseBonusPoints?: Prisma.IntFilter<"GameAttributeRule"> | number
-  qualityThreshold?: Prisma.FloatNullableFilter<"GameAttributeRule"> | number | null
-  qualityBonus?: Prisma.IntFilter<"GameAttributeRule"> | number
+  perUnitPoints?: Prisma.IntFilter<"GameAttributeRule"> | number
   multiplier?: Prisma.FloatFilter<"GameAttributeRule"> | number
+  conditions?: Prisma.JsonNullableFilter<"GameAttributeRule">
+  dynamicModifiers?: Prisma.JsonNullableFilter<"GameAttributeRule">
   description?: Prisma.StringNullableFilter<"GameAttributeRule"> | string | null
   isActive?: Prisma.BoolFilter<"GameAttributeRule"> | boolean
   createdAt?: Prisma.DateTimeFilter<"GameAttributeRule"> | Date | string
-  gameAttribute?: Prisma.XOR<Prisma.GameAttributeScalarRelationFilter, Prisma.GameAttributeWhereInput>
-}, "id" | "gameAttributeId_activityType">
+  gameAttribute?: Prisma.XOR<Prisma.GameAttributeNullableScalarRelationFilter, Prisma.GameAttributeWhereInput> | null
+}, "id">
 
 export type GameAttributeRuleOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  gameAttributeId?: Prisma.SortOrder
-  activityType?: Prisma.SortOrder
+  gameAttributeId?: Prisma.SortOrderInput | Prisma.SortOrder
+  source?: Prisma.SortOrder
+  eventType?: Prisma.SortOrder
+  role?: Prisma.SortOrderInput | Prisma.SortOrder
   basePoints?: Prisma.SortOrder
-  perControlPoints?: Prisma.SortOrder
-  hsseBonusPoints?: Prisma.SortOrder
-  qualityThreshold?: Prisma.SortOrderInput | Prisma.SortOrder
-  qualityBonus?: Prisma.SortOrder
+  perUnitPoints?: Prisma.SortOrder
   multiplier?: Prisma.SortOrder
+  conditions?: Prisma.SortOrderInput | Prisma.SortOrder
+  dynamicModifiers?: Prisma.SortOrderInput | Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -356,14 +346,15 @@ export type GameAttributeRuleScalarWhereWithAggregatesInput = {
   OR?: Prisma.GameAttributeRuleScalarWhereWithAggregatesInput[]
   NOT?: Prisma.GameAttributeRuleScalarWhereWithAggregatesInput | Prisma.GameAttributeRuleScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"GameAttributeRule"> | string
-  gameAttributeId?: Prisma.StringWithAggregatesFilter<"GameAttributeRule"> | string
-  activityType?: Prisma.StringWithAggregatesFilter<"GameAttributeRule"> | string
+  gameAttributeId?: Prisma.StringNullableWithAggregatesFilter<"GameAttributeRule"> | string | null
+  source?: Prisma.StringWithAggregatesFilter<"GameAttributeRule"> | string
+  eventType?: Prisma.StringWithAggregatesFilter<"GameAttributeRule"> | string
+  role?: Prisma.StringNullableWithAggregatesFilter<"GameAttributeRule"> | string | null
   basePoints?: Prisma.IntWithAggregatesFilter<"GameAttributeRule"> | number
-  perControlPoints?: Prisma.IntWithAggregatesFilter<"GameAttributeRule"> | number
-  hsseBonusPoints?: Prisma.IntWithAggregatesFilter<"GameAttributeRule"> | number
-  qualityThreshold?: Prisma.FloatNullableWithAggregatesFilter<"GameAttributeRule"> | number | null
-  qualityBonus?: Prisma.IntWithAggregatesFilter<"GameAttributeRule"> | number
+  perUnitPoints?: Prisma.IntWithAggregatesFilter<"GameAttributeRule"> | number
   multiplier?: Prisma.FloatWithAggregatesFilter<"GameAttributeRule"> | number
+  conditions?: Prisma.JsonNullableWithAggregatesFilter<"GameAttributeRule">
+  dynamicModifiers?: Prisma.JsonNullableWithAggregatesFilter<"GameAttributeRule">
   description?: Prisma.StringNullableWithAggregatesFilter<"GameAttributeRule"> | string | null
   isActive?: Prisma.BoolWithAggregatesFilter<"GameAttributeRule"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"GameAttributeRule"> | Date | string
@@ -371,29 +362,31 @@ export type GameAttributeRuleScalarWhereWithAggregatesInput = {
 
 export type GameAttributeRuleCreateInput = {
   id?: string
-  activityType: string
+  source?: string
+  eventType: string
+  role?: string | null
   basePoints?: number
-  perControlPoints?: number
-  hsseBonusPoints?: number
-  qualityThreshold?: number | null
-  qualityBonus?: number
+  perUnitPoints?: number
   multiplier?: number
+  conditions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  dynamicModifiers?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   description?: string | null
   isActive?: boolean
   createdAt?: Date | string
-  gameAttribute: Prisma.GameAttributeCreateNestedOneWithoutRulesInput
+  gameAttribute?: Prisma.GameAttributeCreateNestedOneWithoutRulesInput
 }
 
 export type GameAttributeRuleUncheckedCreateInput = {
   id?: string
-  gameAttributeId: string
-  activityType: string
+  gameAttributeId?: string | null
+  source?: string
+  eventType: string
+  role?: string | null
   basePoints?: number
-  perControlPoints?: number
-  hsseBonusPoints?: number
-  qualityThreshold?: number | null
-  qualityBonus?: number
+  perUnitPoints?: number
   multiplier?: number
+  conditions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  dynamicModifiers?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   description?: string | null
   isActive?: boolean
   createdAt?: Date | string
@@ -401,29 +394,31 @@ export type GameAttributeRuleUncheckedCreateInput = {
 
 export type GameAttributeRuleUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  activityType?: Prisma.StringFieldUpdateOperationsInput | string
+  source?: Prisma.StringFieldUpdateOperationsInput | string
+  eventType?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   basePoints?: Prisma.IntFieldUpdateOperationsInput | number
-  perControlPoints?: Prisma.IntFieldUpdateOperationsInput | number
-  hsseBonusPoints?: Prisma.IntFieldUpdateOperationsInput | number
-  qualityThreshold?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  qualityBonus?: Prisma.IntFieldUpdateOperationsInput | number
+  perUnitPoints?: Prisma.IntFieldUpdateOperationsInput | number
   multiplier?: Prisma.FloatFieldUpdateOperationsInput | number
+  conditions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  dynamicModifiers?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  gameAttribute?: Prisma.GameAttributeUpdateOneRequiredWithoutRulesNestedInput
+  gameAttribute?: Prisma.GameAttributeUpdateOneWithoutRulesNestedInput
 }
 
 export type GameAttributeRuleUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  gameAttributeId?: Prisma.StringFieldUpdateOperationsInput | string
-  activityType?: Prisma.StringFieldUpdateOperationsInput | string
+  gameAttributeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  source?: Prisma.StringFieldUpdateOperationsInput | string
+  eventType?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   basePoints?: Prisma.IntFieldUpdateOperationsInput | number
-  perControlPoints?: Prisma.IntFieldUpdateOperationsInput | number
-  hsseBonusPoints?: Prisma.IntFieldUpdateOperationsInput | number
-  qualityThreshold?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  qualityBonus?: Prisma.IntFieldUpdateOperationsInput | number
+  perUnitPoints?: Prisma.IntFieldUpdateOperationsInput | number
   multiplier?: Prisma.FloatFieldUpdateOperationsInput | number
+  conditions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  dynamicModifiers?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -431,14 +426,15 @@ export type GameAttributeRuleUncheckedUpdateInput = {
 
 export type GameAttributeRuleCreateManyInput = {
   id?: string
-  gameAttributeId: string
-  activityType: string
+  gameAttributeId?: string | null
+  source?: string
+  eventType: string
+  role?: string | null
   basePoints?: number
-  perControlPoints?: number
-  hsseBonusPoints?: number
-  qualityThreshold?: number | null
-  qualityBonus?: number
+  perUnitPoints?: number
   multiplier?: number
+  conditions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  dynamicModifiers?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   description?: string | null
   isActive?: boolean
   createdAt?: Date | string
@@ -446,13 +442,14 @@ export type GameAttributeRuleCreateManyInput = {
 
 export type GameAttributeRuleUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  activityType?: Prisma.StringFieldUpdateOperationsInput | string
+  source?: Prisma.StringFieldUpdateOperationsInput | string
+  eventType?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   basePoints?: Prisma.IntFieldUpdateOperationsInput | number
-  perControlPoints?: Prisma.IntFieldUpdateOperationsInput | number
-  hsseBonusPoints?: Prisma.IntFieldUpdateOperationsInput | number
-  qualityThreshold?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  qualityBonus?: Prisma.IntFieldUpdateOperationsInput | number
+  perUnitPoints?: Prisma.IntFieldUpdateOperationsInput | number
   multiplier?: Prisma.FloatFieldUpdateOperationsInput | number
+  conditions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  dynamicModifiers?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -460,14 +457,15 @@ export type GameAttributeRuleUpdateManyMutationInput = {
 
 export type GameAttributeRuleUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  gameAttributeId?: Prisma.StringFieldUpdateOperationsInput | string
-  activityType?: Prisma.StringFieldUpdateOperationsInput | string
+  gameAttributeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  source?: Prisma.StringFieldUpdateOperationsInput | string
+  eventType?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   basePoints?: Prisma.IntFieldUpdateOperationsInput | number
-  perControlPoints?: Prisma.IntFieldUpdateOperationsInput | number
-  hsseBonusPoints?: Prisma.IntFieldUpdateOperationsInput | number
-  qualityThreshold?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  qualityBonus?: Prisma.IntFieldUpdateOperationsInput | number
+  perUnitPoints?: Prisma.IntFieldUpdateOperationsInput | number
   multiplier?: Prisma.FloatFieldUpdateOperationsInput | number
+  conditions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  dynamicModifiers?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -483,21 +481,17 @@ export type GameAttributeRuleOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
-export type GameAttributeRuleGameAttributeIdActivityTypeCompoundUniqueInput = {
-  gameAttributeId: string
-  activityType: string
-}
-
 export type GameAttributeRuleCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   gameAttributeId?: Prisma.SortOrder
-  activityType?: Prisma.SortOrder
+  source?: Prisma.SortOrder
+  eventType?: Prisma.SortOrder
+  role?: Prisma.SortOrder
   basePoints?: Prisma.SortOrder
-  perControlPoints?: Prisma.SortOrder
-  hsseBonusPoints?: Prisma.SortOrder
-  qualityThreshold?: Prisma.SortOrder
-  qualityBonus?: Prisma.SortOrder
+  perUnitPoints?: Prisma.SortOrder
   multiplier?: Prisma.SortOrder
+  conditions?: Prisma.SortOrder
+  dynamicModifiers?: Prisma.SortOrder
   description?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -505,22 +499,18 @@ export type GameAttributeRuleCountOrderByAggregateInput = {
 
 export type GameAttributeRuleAvgOrderByAggregateInput = {
   basePoints?: Prisma.SortOrder
-  perControlPoints?: Prisma.SortOrder
-  hsseBonusPoints?: Prisma.SortOrder
-  qualityThreshold?: Prisma.SortOrder
-  qualityBonus?: Prisma.SortOrder
+  perUnitPoints?: Prisma.SortOrder
   multiplier?: Prisma.SortOrder
 }
 
 export type GameAttributeRuleMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   gameAttributeId?: Prisma.SortOrder
-  activityType?: Prisma.SortOrder
+  source?: Prisma.SortOrder
+  eventType?: Prisma.SortOrder
+  role?: Prisma.SortOrder
   basePoints?: Prisma.SortOrder
-  perControlPoints?: Prisma.SortOrder
-  hsseBonusPoints?: Prisma.SortOrder
-  qualityThreshold?: Prisma.SortOrder
-  qualityBonus?: Prisma.SortOrder
+  perUnitPoints?: Prisma.SortOrder
   multiplier?: Prisma.SortOrder
   description?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
@@ -530,12 +520,11 @@ export type GameAttributeRuleMaxOrderByAggregateInput = {
 export type GameAttributeRuleMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   gameAttributeId?: Prisma.SortOrder
-  activityType?: Prisma.SortOrder
+  source?: Prisma.SortOrder
+  eventType?: Prisma.SortOrder
+  role?: Prisma.SortOrder
   basePoints?: Prisma.SortOrder
-  perControlPoints?: Prisma.SortOrder
-  hsseBonusPoints?: Prisma.SortOrder
-  qualityThreshold?: Prisma.SortOrder
-  qualityBonus?: Prisma.SortOrder
+  perUnitPoints?: Prisma.SortOrder
   multiplier?: Prisma.SortOrder
   description?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
@@ -544,10 +533,7 @@ export type GameAttributeRuleMinOrderByAggregateInput = {
 
 export type GameAttributeRuleSumOrderByAggregateInput = {
   basePoints?: Prisma.SortOrder
-  perControlPoints?: Prisma.SortOrder
-  hsseBonusPoints?: Prisma.SortOrder
-  qualityThreshold?: Prisma.SortOrder
-  qualityBonus?: Prisma.SortOrder
+  perUnitPoints?: Prisma.SortOrder
   multiplier?: Prisma.SortOrder
 }
 
@@ -593,23 +579,16 @@ export type GameAttributeRuleUncheckedUpdateManyWithoutGameAttributeNestedInput 
   deleteMany?: Prisma.GameAttributeRuleScalarWhereInput | Prisma.GameAttributeRuleScalarWhereInput[]
 }
 
-export type NullableFloatFieldUpdateOperationsInput = {
-  set?: number | null
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
-}
-
 export type GameAttributeRuleCreateWithoutGameAttributeInput = {
   id?: string
-  activityType: string
+  source?: string
+  eventType: string
+  role?: string | null
   basePoints?: number
-  perControlPoints?: number
-  hsseBonusPoints?: number
-  qualityThreshold?: number | null
-  qualityBonus?: number
+  perUnitPoints?: number
   multiplier?: number
+  conditions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  dynamicModifiers?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   description?: string | null
   isActive?: boolean
   createdAt?: Date | string
@@ -617,13 +596,14 @@ export type GameAttributeRuleCreateWithoutGameAttributeInput = {
 
 export type GameAttributeRuleUncheckedCreateWithoutGameAttributeInput = {
   id?: string
-  activityType: string
+  source?: string
+  eventType: string
+  role?: string | null
   basePoints?: number
-  perControlPoints?: number
-  hsseBonusPoints?: number
-  qualityThreshold?: number | null
-  qualityBonus?: number
+  perUnitPoints?: number
   multiplier?: number
+  conditions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  dynamicModifiers?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   description?: string | null
   isActive?: boolean
   createdAt?: Date | string
@@ -660,14 +640,15 @@ export type GameAttributeRuleScalarWhereInput = {
   OR?: Prisma.GameAttributeRuleScalarWhereInput[]
   NOT?: Prisma.GameAttributeRuleScalarWhereInput | Prisma.GameAttributeRuleScalarWhereInput[]
   id?: Prisma.StringFilter<"GameAttributeRule"> | string
-  gameAttributeId?: Prisma.StringFilter<"GameAttributeRule"> | string
-  activityType?: Prisma.StringFilter<"GameAttributeRule"> | string
+  gameAttributeId?: Prisma.StringNullableFilter<"GameAttributeRule"> | string | null
+  source?: Prisma.StringFilter<"GameAttributeRule"> | string
+  eventType?: Prisma.StringFilter<"GameAttributeRule"> | string
+  role?: Prisma.StringNullableFilter<"GameAttributeRule"> | string | null
   basePoints?: Prisma.IntFilter<"GameAttributeRule"> | number
-  perControlPoints?: Prisma.IntFilter<"GameAttributeRule"> | number
-  hsseBonusPoints?: Prisma.IntFilter<"GameAttributeRule"> | number
-  qualityThreshold?: Prisma.FloatNullableFilter<"GameAttributeRule"> | number | null
-  qualityBonus?: Prisma.IntFilter<"GameAttributeRule"> | number
+  perUnitPoints?: Prisma.IntFilter<"GameAttributeRule"> | number
   multiplier?: Prisma.FloatFilter<"GameAttributeRule"> | number
+  conditions?: Prisma.JsonNullableFilter<"GameAttributeRule">
+  dynamicModifiers?: Prisma.JsonNullableFilter<"GameAttributeRule">
   description?: Prisma.StringNullableFilter<"GameAttributeRule"> | string | null
   isActive?: Prisma.BoolFilter<"GameAttributeRule"> | boolean
   createdAt?: Prisma.DateTimeFilter<"GameAttributeRule"> | Date | string
@@ -675,13 +656,14 @@ export type GameAttributeRuleScalarWhereInput = {
 
 export type GameAttributeRuleCreateManyGameAttributeInput = {
   id?: string
-  activityType: string
+  source?: string
+  eventType: string
+  role?: string | null
   basePoints?: number
-  perControlPoints?: number
-  hsseBonusPoints?: number
-  qualityThreshold?: number | null
-  qualityBonus?: number
+  perUnitPoints?: number
   multiplier?: number
+  conditions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  dynamicModifiers?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   description?: string | null
   isActive?: boolean
   createdAt?: Date | string
@@ -689,13 +671,14 @@ export type GameAttributeRuleCreateManyGameAttributeInput = {
 
 export type GameAttributeRuleUpdateWithoutGameAttributeInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  activityType?: Prisma.StringFieldUpdateOperationsInput | string
+  source?: Prisma.StringFieldUpdateOperationsInput | string
+  eventType?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   basePoints?: Prisma.IntFieldUpdateOperationsInput | number
-  perControlPoints?: Prisma.IntFieldUpdateOperationsInput | number
-  hsseBonusPoints?: Prisma.IntFieldUpdateOperationsInput | number
-  qualityThreshold?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  qualityBonus?: Prisma.IntFieldUpdateOperationsInput | number
+  perUnitPoints?: Prisma.IntFieldUpdateOperationsInput | number
   multiplier?: Prisma.FloatFieldUpdateOperationsInput | number
+  conditions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  dynamicModifiers?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -703,13 +686,14 @@ export type GameAttributeRuleUpdateWithoutGameAttributeInput = {
 
 export type GameAttributeRuleUncheckedUpdateWithoutGameAttributeInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  activityType?: Prisma.StringFieldUpdateOperationsInput | string
+  source?: Prisma.StringFieldUpdateOperationsInput | string
+  eventType?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   basePoints?: Prisma.IntFieldUpdateOperationsInput | number
-  perControlPoints?: Prisma.IntFieldUpdateOperationsInput | number
-  hsseBonusPoints?: Prisma.IntFieldUpdateOperationsInput | number
-  qualityThreshold?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  qualityBonus?: Prisma.IntFieldUpdateOperationsInput | number
+  perUnitPoints?: Prisma.IntFieldUpdateOperationsInput | number
   multiplier?: Prisma.FloatFieldUpdateOperationsInput | number
+  conditions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  dynamicModifiers?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -717,13 +701,14 @@ export type GameAttributeRuleUncheckedUpdateWithoutGameAttributeInput = {
 
 export type GameAttributeRuleUncheckedUpdateManyWithoutGameAttributeInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  activityType?: Prisma.StringFieldUpdateOperationsInput | string
+  source?: Prisma.StringFieldUpdateOperationsInput | string
+  eventType?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   basePoints?: Prisma.IntFieldUpdateOperationsInput | number
-  perControlPoints?: Prisma.IntFieldUpdateOperationsInput | number
-  hsseBonusPoints?: Prisma.IntFieldUpdateOperationsInput | number
-  qualityThreshold?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  qualityBonus?: Prisma.IntFieldUpdateOperationsInput | number
+  perUnitPoints?: Prisma.IntFieldUpdateOperationsInput | number
   multiplier?: Prisma.FloatFieldUpdateOperationsInput | number
+  conditions?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  dynamicModifiers?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -734,92 +719,97 @@ export type GameAttributeRuleUncheckedUpdateManyWithoutGameAttributeInput = {
 export type GameAttributeRuleSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   gameAttributeId?: boolean
-  activityType?: boolean
+  source?: boolean
+  eventType?: boolean
+  role?: boolean
   basePoints?: boolean
-  perControlPoints?: boolean
-  hsseBonusPoints?: boolean
-  qualityThreshold?: boolean
-  qualityBonus?: boolean
+  perUnitPoints?: boolean
   multiplier?: boolean
+  conditions?: boolean
+  dynamicModifiers?: boolean
   description?: boolean
   isActive?: boolean
   createdAt?: boolean
-  gameAttribute?: boolean | Prisma.GameAttributeDefaultArgs<ExtArgs>
+  gameAttribute?: boolean | Prisma.GameAttributeRule$gameAttributeArgs<ExtArgs>
 }, ExtArgs["result"]["gameAttributeRule"]>
 
 export type GameAttributeRuleSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   gameAttributeId?: boolean
-  activityType?: boolean
+  source?: boolean
+  eventType?: boolean
+  role?: boolean
   basePoints?: boolean
-  perControlPoints?: boolean
-  hsseBonusPoints?: boolean
-  qualityThreshold?: boolean
-  qualityBonus?: boolean
+  perUnitPoints?: boolean
   multiplier?: boolean
+  conditions?: boolean
+  dynamicModifiers?: boolean
   description?: boolean
   isActive?: boolean
   createdAt?: boolean
-  gameAttribute?: boolean | Prisma.GameAttributeDefaultArgs<ExtArgs>
+  gameAttribute?: boolean | Prisma.GameAttributeRule$gameAttributeArgs<ExtArgs>
 }, ExtArgs["result"]["gameAttributeRule"]>
 
 export type GameAttributeRuleSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   gameAttributeId?: boolean
-  activityType?: boolean
+  source?: boolean
+  eventType?: boolean
+  role?: boolean
   basePoints?: boolean
-  perControlPoints?: boolean
-  hsseBonusPoints?: boolean
-  qualityThreshold?: boolean
-  qualityBonus?: boolean
+  perUnitPoints?: boolean
   multiplier?: boolean
+  conditions?: boolean
+  dynamicModifiers?: boolean
   description?: boolean
   isActive?: boolean
   createdAt?: boolean
-  gameAttribute?: boolean | Prisma.GameAttributeDefaultArgs<ExtArgs>
+  gameAttribute?: boolean | Prisma.GameAttributeRule$gameAttributeArgs<ExtArgs>
 }, ExtArgs["result"]["gameAttributeRule"]>
 
 export type GameAttributeRuleSelectScalar = {
   id?: boolean
   gameAttributeId?: boolean
-  activityType?: boolean
+  source?: boolean
+  eventType?: boolean
+  role?: boolean
   basePoints?: boolean
-  perControlPoints?: boolean
-  hsseBonusPoints?: boolean
-  qualityThreshold?: boolean
-  qualityBonus?: boolean
+  perUnitPoints?: boolean
   multiplier?: boolean
+  conditions?: boolean
+  dynamicModifiers?: boolean
   description?: boolean
   isActive?: boolean
   createdAt?: boolean
 }
 
-export type GameAttributeRuleOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "gameAttributeId" | "activityType" | "basePoints" | "perControlPoints" | "hsseBonusPoints" | "qualityThreshold" | "qualityBonus" | "multiplier" | "description" | "isActive" | "createdAt", ExtArgs["result"]["gameAttributeRule"]>
+export type GameAttributeRuleOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "gameAttributeId" | "source" | "eventType" | "role" | "basePoints" | "perUnitPoints" | "multiplier" | "conditions" | "dynamicModifiers" | "description" | "isActive" | "createdAt", ExtArgs["result"]["gameAttributeRule"]>
 export type GameAttributeRuleInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  gameAttribute?: boolean | Prisma.GameAttributeDefaultArgs<ExtArgs>
+  gameAttribute?: boolean | Prisma.GameAttributeRule$gameAttributeArgs<ExtArgs>
 }
 export type GameAttributeRuleIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  gameAttribute?: boolean | Prisma.GameAttributeDefaultArgs<ExtArgs>
+  gameAttribute?: boolean | Prisma.GameAttributeRule$gameAttributeArgs<ExtArgs>
 }
 export type GameAttributeRuleIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  gameAttribute?: boolean | Prisma.GameAttributeDefaultArgs<ExtArgs>
+  gameAttribute?: boolean | Prisma.GameAttributeRule$gameAttributeArgs<ExtArgs>
 }
 
 export type $GameAttributeRulePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "GameAttributeRule"
   objects: {
-    gameAttribute: Prisma.$GameAttributePayload<ExtArgs>
+    gameAttribute: Prisma.$GameAttributePayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
-    gameAttributeId: string
-    activityType: string
+    gameAttributeId: string | null
+    source: string
+    eventType: string
+    role: string | null
     basePoints: number
-    perControlPoints: number
-    hsseBonusPoints: number
-    qualityThreshold: number | null
-    qualityBonus: number
+    perUnitPoints: number
     multiplier: number
+    conditions: runtime.JsonValue | null
+    dynamicModifiers: runtime.JsonValue | null
     description: string | null
     isActive: boolean
     createdAt: Date
@@ -1217,7 +1207,7 @@ readonly fields: GameAttributeRuleFieldRefs;
  */
 export interface Prisma__GameAttributeRuleClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  gameAttribute<T extends Prisma.GameAttributeDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.GameAttributeDefaultArgs<ExtArgs>>): Prisma.Prisma__GameAttributeClient<runtime.Types.Result.GetResult<Prisma.$GameAttributePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  gameAttribute<T extends Prisma.GameAttributeRule$gameAttributeArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.GameAttributeRule$gameAttributeArgs<ExtArgs>>): Prisma.Prisma__GameAttributeClient<runtime.Types.Result.GetResult<Prisma.$GameAttributePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1249,13 +1239,14 @@ export interface Prisma__GameAttributeRuleClient<T, Null = never, ExtArgs extend
 export interface GameAttributeRuleFieldRefs {
   readonly id: Prisma.FieldRef<"GameAttributeRule", 'String'>
   readonly gameAttributeId: Prisma.FieldRef<"GameAttributeRule", 'String'>
-  readonly activityType: Prisma.FieldRef<"GameAttributeRule", 'String'>
+  readonly source: Prisma.FieldRef<"GameAttributeRule", 'String'>
+  readonly eventType: Prisma.FieldRef<"GameAttributeRule", 'String'>
+  readonly role: Prisma.FieldRef<"GameAttributeRule", 'String'>
   readonly basePoints: Prisma.FieldRef<"GameAttributeRule", 'Int'>
-  readonly perControlPoints: Prisma.FieldRef<"GameAttributeRule", 'Int'>
-  readonly hsseBonusPoints: Prisma.FieldRef<"GameAttributeRule", 'Int'>
-  readonly qualityThreshold: Prisma.FieldRef<"GameAttributeRule", 'Float'>
-  readonly qualityBonus: Prisma.FieldRef<"GameAttributeRule", 'Int'>
+  readonly perUnitPoints: Prisma.FieldRef<"GameAttributeRule", 'Int'>
   readonly multiplier: Prisma.FieldRef<"GameAttributeRule", 'Float'>
+  readonly conditions: Prisma.FieldRef<"GameAttributeRule", 'Json'>
+  readonly dynamicModifiers: Prisma.FieldRef<"GameAttributeRule", 'Json'>
   readonly description: Prisma.FieldRef<"GameAttributeRule", 'String'>
   readonly isActive: Prisma.FieldRef<"GameAttributeRule", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"GameAttributeRule", 'DateTime'>
@@ -1657,6 +1648,25 @@ export type GameAttributeRuleDeleteManyArgs<ExtArgs extends runtime.Types.Extens
    * Limit how many GameAttributeRules to delete.
    */
   limit?: number
+}
+
+/**
+ * GameAttributeRule.gameAttribute
+ */
+export type GameAttributeRule$gameAttributeArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the GameAttribute
+   */
+  select?: Prisma.GameAttributeSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the GameAttribute
+   */
+  omit?: Prisma.GameAttributeOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.GameAttributeInclude<ExtArgs> | null
+  where?: Prisma.GameAttributeWhereInput
 }
 
 /**

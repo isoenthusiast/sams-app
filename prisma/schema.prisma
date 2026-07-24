@@ -507,23 +507,25 @@ model GameAttribute {
 }
 
 model GameAttributeRule {
-  id               String        @id @default(cuid())
-  gameAttributeId  String
-  activityType     String
-  basePoints       Int           @default(0)
-  perControlPoints Int           @default(0)
-  hsseBonusPoints  Int           @default(0)
-  qualityThreshold Float?
-  qualityBonus     Int           @default(0)
-  multiplier       Float         @default(1.0)
+  id               String         @id @default(cuid())
+  gameAttributeId  String?
+  source           String         @default("SAMS")
+  eventType        String
+  role             String?
+  basePoints       Int            @default(0)
+  perUnitPoints    Int            @default(0)
+  multiplier       Float          @default(1.0)
+  conditions       Json?
+  dynamicModifiers Json?
   description      String?
-  isActive         Boolean       @default(true)
-  createdAt        DateTime      @default(now())
-  gameAttribute    GameAttribute @relation(fields: [gameAttributeId], references: [id], onDelete: Cascade)
+  isActive         Boolean        @default(true)
+  createdAt        DateTime       @default(now())
+  gameAttribute    GameAttribute? @relation(fields: [gameAttributeId], references: [id], onDelete: Cascade)
 
-  @@unique([gameAttributeId, activityType])
+  @@index([source])
+  @@index([eventType])
   @@index([gameAttributeId])
-  @@index([activityType])
+  @@index([role])
 }
 
 model EmotionalDriveMetric {
