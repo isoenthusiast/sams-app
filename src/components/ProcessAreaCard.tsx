@@ -12,7 +12,7 @@ type ProcessAreaCardProps = {
 
 export function ProcessAreaCard({ id, name, standard, description, requirementsCount, controlsCount }: ProcessAreaCardProps) {
   return (
-    <Link href={`/setup/processdetails/${id}`}>
+    <Link href={`/setup/processdetails/${id}`} target="_blank">
       <Card className="hover:border-blue-300 transition-colors" padding="sm">
         <div className="flex items-center justify-between">
           <div>

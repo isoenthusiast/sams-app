@@ -186,6 +186,7 @@ export default async function DashboardPage() {
                     <Link
                       key={pa.id}
                       href={`/setup/processdetails/${pa.id}`}
+                      target="_blank"
                       className="flex items-center justify-between rounded-md border border-slate-100 px-3 py-2 hover:bg-slate-50"
                     >
                       <span className="text-sm text-slate-800">{pa.name}</span>
