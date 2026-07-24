@@ -36,9 +36,12 @@ type Props = {
   badges: Array<{ badge: { badgeName: string; badgeImage?: string | null; level?: string | null; badgeType: string; icon: string }; earnedAt: string }>;
   recent: Array<{ reason: string; points: number; createdAt: string }>;
   processAreas: Array<{ id: string; name: string; abbreviatedName?: string | null }>;
+  xpSources: Array<{ source: string; total: number }>;
+  recommendations: Array<{ paName: string; xp: number; level: string; nextLevel: { name: string; needed: number }; pa?: { id: string; name: string; abbreviatedName?: string | null } }>;
+  levelCounts: Record<string, number>;
 };
 
-export function CompetencyDashboard({ userName, overallXP, tracks, badges, recent, processAreas }: Props) {
+export function CompetencyDashboard({ userName, overallXP, tracks, badges, recent, processAreas, xpSources, recommendations, levelCounts }: Props) {
   const trackMap = new Map(processAreas.map(p => [p.name, p]));
 
   return (
@@ -50,6 +53,65 @@ export function CompetencyDashboard({ userName, overallXP, tracks, badges, recen
         </div>
         <Link href="/fla" className="text-sm text-blue-600 hover:underline">← Back</Link>
       </div>
+
+      {/* ── XP Source Breakdown ── */}
+      {xpSources.length > 0 && (
+        <div className="mb-6">
+          <h2 className="text-sm font-semibold text-slate-700 mb-3">XP Sources</h2>
+          <div className="flex flex-wrap gap-2">
+            {xpSources.map(s => (
+              <div key={s.source} className="flex items-center gap-2 px-3 py-1.5 bg-slate-50 rounded-lg text-xs">
+                <span className="text-slate-500">{s.source}</span>
+                <span className="font-semibold text-emerald-600">{s.total} XP</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* ── Level Distribution ── */}
+      {tracks.length > 0 && (
+        <div className="mb-6">
+          <h2 className="text-sm font-semibold text-slate-700 mb-3">
+            Track Levels ({tracks.length} track{tracks.length !== 1 ? "s" : ""})
+          </h2>
+          <div className="flex flex-wrap gap-2">
+            {LEVELS.map(lvl => {
+              const count = levelCounts[lvl] || 0;
+              if (count === 0 && lvl !== "Observer") return null;
+              return (
+                <div key={lvl} className={`px-3 py-1 rounded-full text-xs font-bold text-white ${LEVEL_COLORS[lvl]} ${count === 0 ? "opacity-30" : ""}`}>
+                  {lvl}: {count}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
+      {/* ── Recommendations ── */}
+      {recommendations.length > 0 && (
+        <div className="mb-6">
+          <h2 className="text-sm font-semibold text-slate-700 mb-3">🎯 Next Level — Recommendations</h2>
+          <div className="space-y-2">
+            {recommendations.map(r => (
+              <div key={r.paName} className="flex items-center justify-between px-3 py-2 bg-amber-50 border border-amber-200 rounded-lg text-xs">
+                <div>
+                  <span className="font-semibold text-slate-700">
+                    {r.pa?.abbreviatedName || r.paName}
+                  </span>
+                  <span className="text-slate-400 ml-2">
+                    {r.level} → {r.nextLevel.name}
+                  </span>
+                </div>
+                <span className="font-medium text-amber-700">
+                  {r.nextLevel.needed} XP needed
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* ── Track Cards ── */}
       <div className="mb-6">
