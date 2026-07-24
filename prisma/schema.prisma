@@ -877,6 +877,18 @@ model MapControl2Requirement {
   @@map("MapControl2Requirement")
 }
 
+// ── Gamification Maturity Stages ─────────────────────────────────────
+// Tracks which stage each company is at in the gamification journey.
+// 0=Compliance, 1=Recognition, 2=Growth, 3=Play.
+model GamificationStage {
+  id          String    @id @default(cuid())
+  companyId   String    @unique
+  stage       Int       @default(0)
+  activatedAt DateTime  @default(now())
+  advancedAt  DateTime?
+  advancedBy  String?
+}
+
 enum LOA {
   FirstLine
   SecondLine

@@ -287,6 +287,11 @@ export type Requirement = Prisma.RequirementModel
  */
 export type MapControl2Requirement = Prisma.MapControl2RequirementModel
 /**
+ * Model GamificationStage
+ * 
+ */
+export type GamificationStage = Prisma.GamificationStageModel
+/**
  * Model BacklogItem
  * 
  */

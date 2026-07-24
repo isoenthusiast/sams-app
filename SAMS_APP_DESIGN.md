@@ -447,7 +447,9 @@ All company-scoped tables use `@@unique([businessKey, companyId])` rather than s
 
 | Route | Method | Auth | Description |
 |-------|--------|------|-------------|
-| `/api/gamification/award` | POST | Auth | Award points + check badge criteria |
+| `/api/gamification/award` | POST | Auth | Award points via rule engine + evaluate badges |
+| `/api/gamification/events` | POST | Auth | Generic event ingestion — single entry point for all gamification events (internal + external) |
+| `/api/gamification/stats` | GET | Auth | User gamification stats (overallXP, tracks, levels) |
 
 #### Auth API
 
@@ -556,18 +558,24 @@ Company → Department → Position → User
 
 ### 7.6 Current Implementation Status
 
-**Wired up:**
-- `POST /api/gamification/award` — basic point award (50 for assessment_complete, 10 for other)
-- "First Assessment" badge check
-- `PointTransaction` records created
+**Wired up (v1.1.0):**
+- `POST /api/gamification/award` — full rule-engine-driven point award (Conduct Assurance + Domain XP)
+- `POST /api/gamification/events` — generic event ingestion API for internal + external events
+- `GET /api/gamification/stats` — overallXP, latestTrack, tracks with levels
+- `src/lib/gamification/ruleEngine.ts` — declarative rule lookup (`findApplicableRules`), point calculation (`calculatePoints` with conditions + dynamic modifiers), point awarding (`awardPoints`), seed data (`seedStandardRules`)
+- `src/lib/gamification/badgeEngine.ts` — badge evaluation after every event (`evaluateBadges`), supports Track (XP thresholds per PA), Role (total XP + assessment count), Special (first_assessment, first_badge)
+- `GameAttributeRule` generalized: `(source, eventType, gameAttributeId?, role?, basePoints, perUnitPoints, conditions?, dynamicModifiers?)` — replaces hardcoded `activityType`
+- `PointTransaction` records created with rule-driven points
 - Schema fully defined (GameAttribute, GameAttributeRule, AchievementBadge, UserAchievement, EmotionalDriveMetric, Milestone)
+- GamificationWidget on FLA dashboard + assessment detail
+- CompetencyDashboard at `/gamification`
 
 **Not yet wired:**
-- `GameAttributeRule` engine — rules defined but not triggered by any workflow
 - Team leaderboard UI — schema exists (Department/Position), UI not built
-- Individual competency tracks — data collected, visualization not built
-- Badge catalogue beyond "First Assessment"
-- Emotional drive calculation + display
+- Emotional drive calculation + display (Core Drive Calculator — P4)
+- Maturity stage readiness detection + feature toggles (P3)
+- CSV import adapter for external data (P5)
+- External system webhooks (P6)
 - Quarterly point/health reset automation
 
 ### 7.7 Control Health Mechanics
@@ -821,6 +829,8 @@ Local Dev (localhost:3100)
 | v1.0.6 | 2026-07-24 | Gamification design grilled and resolved: per-PA mastery tracks (Observer→Bronze→Silver→Gold→Platinum→Black), two-track economy (Conduct Assurance role-based + Domain Tracks per-activity), mixed milestone+XP progression, compact gamification widget. Updated CONTEXT.md with full design. |
 | v1.0.7 | 2026-07-24 | Badge system rebuilt: cleared 305 old badges, added `ProcessArea.abbreviatedName` + `AchievementBadge` prompt fields (badgeType, backgroundPrompt, foregroundPrompt, designConfig, imageFormat). New 3-tab BadgesAdminView (Track/Role/Special). Image generation API: SVG via DeepSeek V4, PNG via gpt-image-2. Added G13-G15 backlog for XP engine + widget + dashboard. |
 | v1.0.8 | 2026-07-24 | G13: Rewrote XP engine — two-track economy (Conduct Assurance role-based once per assessment + Domain XP per-PA per-activity), auto-creates GameAttribute per PA, Bronze badge auto-award at 10 XP. G14: Compact GamificationWidget on FLA dashboard + assessment detail (overall XP + latest non-Assurance track + top 3 tracks). Added `GET /api/gamification/stats`. |
+| v1.0.9 | 2026-07-24 | Gamification Philosophy grilled & captured: 3-Layer Model (Playground/Game/Sport), Assessor-as-Coach paradigm, 5-dimension Mature Feedback Culture, 4-stage Maturity Model (Compliance→Recognition→Growth→Play), Unified Player Profile architecture. Created `Gamification of Work Processes.md` + ADR-0003 (Dynamic Badge Types). |
+| v1.1.0 | 2026-07-24 | **P0-P2: Gamification Engine v2.** Generalized `GameAttributeRule` from activityType-only to `(source, eventType, gameAttributeId?, role?, basePoints, perUnitPoints, conditions?, dynamicModifiers?)`. Created rule engine (`src/lib/gamification/ruleEngine.ts`), event ingestion API (`POST /api/gamification/events`), badge evaluation engine (`src/lib/gamification/badgeEngine.ts`). Award route refactored to use declarative DB rules instead of hardcoded constants. Badge engine evaluates after every event. |
 
 ---
 

@@ -433,6 +433,7 @@ export const ModelName = {
   ControlFromDocument: 'ControlFromDocument',
   Requirement: 'Requirement',
   MapControl2Requirement: 'MapControl2Requirement',
+  GamificationStage: 'GamificationStage',
   BacklogItem: 'BacklogItem'
 } as const
 
@@ -449,7 +450,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "activityLog" | "activityLogType" | "assuranceActivityType" | "assuranceProtocol" | "standard" | "processArea" | "subProcess" | "controlSubProcess" | "controlFDSubProcess" | "control" | "assessmentTemplate" | "assessmentTemplateControlLinkage" | "assessmentTemplateActivityType" | "assessment" | "assessmentAssessor" | "controlAssignment" | "sampleType" | "recordSourceType" | "sample" | "finding" | "action" | "attachment" | "attachmentMapping" | "achievementBadge" | "userAchievement" | "pointTransaction" | "gameAttribute" | "gameAttributeRule" | "emotionalDriveMetric" | "milestone" | "userRole" | "userRoleMapping" | "company" | "department" | "position" | "userCompany" | "userFavorite" | "assessmentActType" | "aact" | "aActControls" | "aActUsers" | "aActDetails" | "knowledgebase" | "mapArt2Know" | "documentExtract" | "controlFromDocument" | "requirement" | "mapControl2Requirement" | "backlogItem"
+    modelProps: "user" | "activityLog" | "activityLogType" | "assuranceActivityType" | "assuranceProtocol" | "standard" | "processArea" | "subProcess" | "controlSubProcess" | "controlFDSubProcess" | "control" | "assessmentTemplate" | "assessmentTemplateControlLinkage" | "assessmentTemplateActivityType" | "assessment" | "assessmentAssessor" | "controlAssignment" | "sampleType" | "recordSourceType" | "sample" | "finding" | "action" | "attachment" | "attachmentMapping" | "achievementBadge" | "userAchievement" | "pointTransaction" | "gameAttribute" | "gameAttributeRule" | "emotionalDriveMetric" | "milestone" | "userRole" | "userRoleMapping" | "company" | "department" | "position" | "userCompany" | "userFavorite" | "assessmentActType" | "aact" | "aActControls" | "aActUsers" | "aActDetails" | "knowledgebase" | "mapArt2Know" | "documentExtract" | "controlFromDocument" | "requirement" | "mapControl2Requirement" | "gamificationStage" | "backlogItem"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -4079,6 +4080,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    GamificationStage: {
+      payload: Prisma.$GamificationStagePayload<ExtArgs>
+      fields: Prisma.GamificationStageFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.GamificationStageFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GamificationStagePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.GamificationStageFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GamificationStagePayload>
+        }
+        findFirst: {
+          args: Prisma.GamificationStageFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GamificationStagePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.GamificationStageFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GamificationStagePayload>
+        }
+        findMany: {
+          args: Prisma.GamificationStageFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GamificationStagePayload>[]
+        }
+        create: {
+          args: Prisma.GamificationStageCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GamificationStagePayload>
+        }
+        createMany: {
+          args: Prisma.GamificationStageCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.GamificationStageCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GamificationStagePayload>[]
+        }
+        delete: {
+          args: Prisma.GamificationStageDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GamificationStagePayload>
+        }
+        update: {
+          args: Prisma.GamificationStageUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GamificationStagePayload>
+        }
+        deleteMany: {
+          args: Prisma.GamificationStageDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.GamificationStageUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.GamificationStageUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GamificationStagePayload>[]
+        }
+        upsert: {
+          args: Prisma.GamificationStageUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GamificationStagePayload>
+        }
+        aggregate: {
+          args: Prisma.GamificationStageAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateGamificationStage>
+        }
+        groupBy: {
+          args: Prisma.GamificationStageGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.GamificationStageGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.GamificationStageCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.GamificationStageCountAggregateOutputType> | number
+        }
+      }
+    }
     BacklogItem: {
       payload: Prisma.$BacklogItemPayload<ExtArgs>
       fields: Prisma.BacklogItemFieldRefs
@@ -4918,6 +4993,18 @@ export const MapControl2RequirementScalarFieldEnum = {
 export type MapControl2RequirementScalarFieldEnum = (typeof MapControl2RequirementScalarFieldEnum)[keyof typeof MapControl2RequirementScalarFieldEnum]
 
 
+export const GamificationStageScalarFieldEnum = {
+  id: 'id',
+  companyId: 'companyId',
+  stage: 'stage',
+  activatedAt: 'activatedAt',
+  advancedAt: 'advancedAt',
+  advancedBy: 'advancedBy'
+} as const
+
+export type GamificationStageScalarFieldEnum = (typeof GamificationStageScalarFieldEnum)[keyof typeof GamificationStageScalarFieldEnum]
+
+
 export const BacklogItemScalarFieldEnum = {
   id: 'id',
   title: 'title',
@@ -5401,6 +5488,7 @@ export type GlobalOmitConfig = {
   controlFromDocument?: Prisma.ControlFromDocumentOmit
   requirement?: Prisma.RequirementOmit
   mapControl2Requirement?: Prisma.MapControl2RequirementOmit
+  gamificationStage?: Prisma.GamificationStageOmit
   backlogItem?: Prisma.BacklogItemOmit
 }
 

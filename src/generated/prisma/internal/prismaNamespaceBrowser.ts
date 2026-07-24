@@ -100,6 +100,7 @@ export const ModelName = {
   ControlFromDocument: 'ControlFromDocument',
   Requirement: 'Requirement',
   MapControl2Requirement: 'MapControl2Requirement',
+  GamificationStage: 'GamificationStage',
   BacklogItem: 'BacklogItem'
 } as const
 
@@ -843,6 +844,18 @@ export const MapControl2RequirementScalarFieldEnum = {
 } as const
 
 export type MapControl2RequirementScalarFieldEnum = (typeof MapControl2RequirementScalarFieldEnum)[keyof typeof MapControl2RequirementScalarFieldEnum]
+
+
+export const GamificationStageScalarFieldEnum = {
+  id: 'id',
+  companyId: 'companyId',
+  stage: 'stage',
+  activatedAt: 'activatedAt',
+  advancedAt: 'advancedAt',
+  advancedBy: 'advancedBy'
+} as const
+
+export type GamificationStageScalarFieldEnum = (typeof GamificationStageScalarFieldEnum)[keyof typeof GamificationStageScalarFieldEnum]
 
 
 export const BacklogItemScalarFieldEnum = {
