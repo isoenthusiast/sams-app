@@ -24,7 +24,7 @@ export function GamificationWidget({ userId }: Props) {
     <div className="flex items-center gap-3 px-3 py-2 bg-gradient-to-r from-slate-800 to-slate-700 rounded-lg text-white text-sm">
       <div className="shrink-0">
         <div className="text-lg font-bold">{data.overallXP}</div>
-        <div className="text-[10px] text-slate-400">XP</div>
+        <div className="text-[10px] text-slate-400">Total XP</div>
       </div>
       {data.latestTrack && (
         <div className="flex-1 min-w-0 border-l border-slate-600 pl-3">
