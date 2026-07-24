@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { Card } from "@/components/Card";
 import { Badge } from "@/components/Badge";
 import Link from "next/link";
@@ -43,6 +44,17 @@ type Props = {
 
 export function CompetencyDashboard({ userName, overallXP, tracks, badges, recent, processAreas, xpSources, recommendations, levelCounts }: Props) {
   const trackMap = new Map(processAreas.map(p => [p.name, p]));
+  const [exporting, setExporting] = useState(false);
+
+  const handleExportCertificate = async () => {
+    setExporting(true);
+    try {
+      const res = await fetch("/api/gamification/certificate", { method: "POST" });
+      const data = await res.json();
+      if (data.url) window.open(data.url, "_blank");
+    } catch { /* ignore */ }
+    setExporting(false);
+  };
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-6">
@@ -51,7 +63,16 @@ export function CompetencyDashboard({ userName, overallXP, tracks, badges, recen
           <h1 className="text-2xl font-bold text-slate-900">Competency Dashboard</h1>
           <p className="text-sm text-slate-500">{userName} · {overallXP} Total XP</p>
         </div>
-        <Link href="/fla" className="text-sm text-blue-600 hover:underline">← Back</Link>
+        <div className="flex items-center gap-3">
+          <button
+            onClick={handleExportCertificate}
+            disabled={exporting}
+            className="px-4 py-2 bg-blue-700 text-white text-sm font-medium rounded-lg hover:bg-blue-800 disabled:opacity-50 transition-colors"
+          >
+            {exporting ? "Generating…" : "📜 Export Certificate"}
+          </button>
+          <Link href="/fla" className="text-sm text-blue-600 hover:underline">← Back</Link>
+        </div>
       </div>
 
       {/* ── XP Source Breakdown ── */}
