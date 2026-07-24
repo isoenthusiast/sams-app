@@ -558,25 +558,40 @@ Company → Department → Position → User
 
 ### 7.6 Current Implementation Status
 
-**Wired up (v1.1.0):**
-- `POST /api/gamification/award` — full rule-engine-driven point award (Conduct Assurance + Domain XP)
-- `POST /api/gamification/events` — generic event ingestion API for internal + external events
-- `GET /api/gamification/stats` — overallXP, latestTrack, tracks with levels
-- `src/lib/gamification/ruleEngine.ts` — declarative rule lookup (`findApplicableRules`), point calculation (`calculatePoints` with conditions + dynamic modifiers), point awarding (`awardPoints`), seed data (`seedStandardRules`)
-- `src/lib/gamification/badgeEngine.ts` — badge evaluation after every event (`evaluateBadges`), supports Track (XP thresholds per PA), Role (total XP + assessment count), Special (first_assessment, first_badge)
-- `GameAttributeRule` generalized: `(source, eventType, gameAttributeId?, role?, basePoints, perUnitPoints, conditions?, dynamicModifiers?)` — replaces hardcoded `activityType`
-- `PointTransaction` records created with rule-driven points
-- Schema fully defined (GameAttribute, GameAttributeRule, AchievementBadge, UserAchievement, EmotionalDriveMetric, Milestone)
-- GamificationWidget on FLA dashboard + assessment detail
-- CompetencyDashboard at `/gamification`
+**All core gamification modules deployed (v1.5.0):**
 
-**Not yet wired:**
-- Team leaderboard UI — schema exists (Department/Position), UI not built
-- Emotional drive calculation + display (Core Drive Calculator — P4)
-- Maturity stage readiness detection + feature toggles (P3)
-- CSV import adapter for external data (P5)
-- External system webhooks (P6)
-- Quarterly point/health reset automation
+| Module | File | Status |
+|--------|------|--------|
+| Rule Engine | `src/lib/gamification/ruleEngine.ts` | ✅ Deployed |
+| Badge Engine | `src/lib/gamification/badgeEngine.ts` | ✅ Deployed |
+| Stage Manager | `src/lib/gamification/stageManager.ts` | ✅ Deployed |
+| Drive Calculator | `src/lib/gamification/driveCalculator.ts` | ✅ Deployed |
+| Event Ingestion API | `POST /api/gamification/events` | ✅ Deployed |
+| CSV Import API | `POST /api/admin/gamification/import-csv` | ✅ Deployed |
+| Webhook Receiver | `POST /api/webhooks/[source]` | ✅ Deployed |
+| Readiness API | `GET /api/admin/gamification/readiness` | ✅ Deployed |
+| Advancement API | `POST /api/admin/gamification/advance` | ✅ Deployed |
+| Core Drives API | `GET /api/admin/gamification/core-drives` | ✅ Deployed |
+| Certificate API | `POST /api/gamification/certificate` | ✅ Deployed |
+| Certificate Page | `/gamification/certificate/[certId]` | ✅ Deployed |
+| Verification Page | `/verify/[certId]` | ✅ Deployed |
+| GamificationWidget | FLA dashboard + assessment detail | ✅ Deployed |
+| CompetencyDashboard | `/gamification` with XP breakdown + recommendations | ✅ Deployed |
+| OfflineBanner | PWA + offline mutation queue + auto-sync | ✅ Deployed |
+| GamificationStage | 4-stage maturity model (seeded for all 3 companies) | ✅ Deployed |
+| WebhookLog | External webhook call logging | ✅ Deployed |
+| Certificate | Competency certificate records | ✅ Deployed |
+| EmotionalDriveMetric | Octalysis 8-drive scores | ✅ Deployed |
+| GameAttributeRule | Generalized (source, eventType, role, conditions, dynamicModifiers) | ✅ Deployed |
+| PointTransaction | Rule-driven point awards with emotionalDrive tagging | ✅ Deployed |
+| AchievementBadge | 3-type badge catalog (Track/Role/Special) | ✅ Deployed |
+| UserAchievement | Badge earning records | ✅ Deployed |
+| Company.certSignatoryName | Certificate signatory name | ✅ Deployed |
+| Company.certSignatoryPosition | Certificate signatory position | ✅ Deployed |
+
+**Remaining work (2 items):**
+- P7: Notification Quality Scoring — Assessment Template
+- P6: Manager-Led Quality Audit — Assessment Template
 
 ### 7.7 Control Health Mechanics
 
