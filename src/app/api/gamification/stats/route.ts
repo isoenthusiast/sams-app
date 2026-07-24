@@ -37,6 +37,7 @@ export async function GET(request: Request) {
     return NextResponse.json({
       overallXP,
       latestTrack: latestDomain?.gameAttribute?.attributeName || null,
+      latestTrackXP: latestDomain?.points || 0,
       tracks: trackData,
     });
   } catch (err: any) {
