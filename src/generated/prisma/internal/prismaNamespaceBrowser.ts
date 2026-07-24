@@ -101,6 +101,7 @@ export const ModelName = {
   Requirement: 'Requirement',
   MapControl2Requirement: 'MapControl2Requirement',
   GamificationStage: 'GamificationStage',
+  WebhookLog: 'WebhookLog',
   BacklogItem: 'BacklogItem'
 } as const
 
@@ -856,6 +857,19 @@ export const GamificationStageScalarFieldEnum = {
 } as const
 
 export type GamificationStageScalarFieldEnum = (typeof GamificationStageScalarFieldEnum)[keyof typeof GamificationStageScalarFieldEnum]
+
+
+export const WebhookLogScalarFieldEnum = {
+  id: 'id',
+  source: 'source',
+  eventType: 'eventType',
+  payload: 'payload',
+  status: 'status',
+  response: 'response',
+  createdAt: 'createdAt'
+} as const
+
+export type WebhookLogScalarFieldEnum = (typeof WebhookLogScalarFieldEnum)[keyof typeof WebhookLogScalarFieldEnum]
 
 
 export const BacklogItemScalarFieldEnum = {

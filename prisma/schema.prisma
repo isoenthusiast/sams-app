@@ -889,6 +889,17 @@ model GamificationStage {
   advancedBy  String?
 }
 
+// ── Webhook Log ──────────────────────────────────────────────────────
+model WebhookLog {
+  id          String   @id @default(cuid())
+  source      String
+  eventType   String
+  payload     Json?
+  status      String   @default("received") // received, processed, error
+  response    String?
+  createdAt   DateTime @default(now())
+}
+
 enum LOA {
   FirstLine
   SecondLine

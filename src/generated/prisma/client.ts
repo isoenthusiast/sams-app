@@ -292,6 +292,11 @@ export type MapControl2Requirement = Prisma.MapControl2RequirementModel
  */
 export type GamificationStage = Prisma.GamificationStageModel
 /**
+ * Model WebhookLog
+ * 
+ */
+export type WebhookLog = Prisma.WebhookLogModel
+/**
  * Model BacklogItem
  * 
  */
