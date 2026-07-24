@@ -32,7 +32,7 @@ export async function NavBar() {
           <nav aria-label="Main navigation" className="flex items-center gap-1">
             {isAdmin ? (
               <>
-                <NavLink href="/admin">Dashboard</NavLink>
+                <NavLink href="/fla">Dashboard</NavLink>
                 <NavLink href="/setup/process-areas">Process Areas</NavLink>
                 <NavLink href="/gamification">Gamification</NavLink>
                 <NavLink href="/admin">Admin</NavLink>
