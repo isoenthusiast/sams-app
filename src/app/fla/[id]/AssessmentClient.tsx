@@ -495,7 +495,9 @@ export default function AssessmentClient({ assessment, allControls, processAreas
               />
             </div>
             <div className="max-h-[60vh] overflow-y-auto">
-              {[...filteredGroupedControls.entries()].map(([std, pas]) => {
+              {[...filteredGroupedControls.entries()]
+                .sort(([a], [b]) => a.localeCompare(b))
+                .map(([std, pas]) => {
                 const stdKey = `std:${std}`;
                 const stdCollapsed = !expandedGroups.has(stdKey);
                 const stdTotal = [...pas.values()].reduce((s, reqs) => s + [...reqs.values()].reduce((s2, cs) => s2 + cs.length, 0), 0);
@@ -514,7 +516,9 @@ export default function AssessmentClient({ assessment, allControls, processAreas
                     </button>
                     {!stdCollapsed && (
                       <div>
-                        {[...pas.entries()].map(([pa, reqs]) => {
+                        {[...pas.entries()]
+                          .sort(([a], [b]) => a.localeCompare(b))
+                          .map(([pa, reqs]) => {
                           const paKey = `pa:${std}:${pa}`;
                           const paCollapsed = !expandedGroups.has(paKey);
                           const paTotal = [...reqs.values()].reduce((s, cs) => s + cs.length, 0);
@@ -533,7 +537,24 @@ export default function AssessmentClient({ assessment, allControls, processAreas
                               </button>
                               {!paCollapsed && (
                                 <div className="border-l-2 border-blue-100 ml-6">
-                                  {[...reqs.entries()].map(([reqLabel, controls]) => {
+                                  {[...reqs.entries()]
+                                  .sort(([aLbl], [bLbl]) => {
+                                    // Unmapped always last
+                                    if (aLbl === "__unmapped__") return 1;
+                                    if (bLbl === "__unmapped__") return -1;
+                                    // Extract numeric suffix from requirementId (e.g. "Air Quality - 3" → 3)
+                                    const num = (lbl: string) => {
+                                      const idPart = lbl.split(":")[0].trim();
+                                      const m = idPart.match(/-?\s*(\d+)$/);
+                                      return m ? parseInt(m[1], 10) : -1;
+                                    };
+                                    const aN = num(aLbl), bN = num(bLbl);
+                                    if (aN >= 0 && bN >= 0) return aN - bN;
+                                    if (aN >= 0) return -1;
+                                    if (bN >= 0) return 1;
+                                    return aLbl.localeCompare(bLbl);
+                                  })
+                                  .map(([reqLabel, controls]) => {
                                     const reqKey = `req:${std}:${pa}:${reqLabel}`;
                                     const reqCollapsed = !expandedGroups.has(reqKey);
                                     const isUnmapped = reqLabel === "__unmapped__";

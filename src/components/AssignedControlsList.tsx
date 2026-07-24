@@ -152,7 +152,18 @@ export function AssignedControlsList({ assignments, totalCount }: Props) {
 
             {isOpen && (
               <div className="divide-y divide-slate-100">
-                {reqs.map((req) => {
+                {reqs
+                  .sort((a, b) => {
+                    if (a.reqId === "__unmapped__") return 1;
+                    if (b.reqId === "__unmapped__") return -1;
+                    const num = (id: string) => { const m = id.match(/-?\s*(\d+)$/); return m ? parseInt(m[1], 10) : -1; };
+                    const aN = num(a.reqId), bN = num(b.reqId);
+                    if (aN >= 0 && bN >= 0) return aN - bN;
+                    if (aN >= 0) return -1;
+                    if (bN >= 0) return 1;
+                    return a.reqId.localeCompare(b.reqId);
+                  })
+                  .map((req) => {
                   const reqKey = `${pa.paId}:${req.reqId}`;
                   const reqOpen = expandedReqs.has(reqKey);
                   return (
