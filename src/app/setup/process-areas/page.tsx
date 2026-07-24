@@ -2,7 +2,7 @@ import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { getSelectedCompanyId } from "@/lib/authz";
 import { redirect } from "next/navigation";
-import { ProcessAreaCard } from "@/components/ProcessAreaCard";
+import { ProcessAreaList } from "@/components/ProcessAreaList";
 
 export const dynamic = "force-dynamic";
 
@@ -26,21 +26,11 @@ export default async function ProcessAreasPage() {
         <h1 className="text-2xl font-bold text-slate-900">Process Areas</h1>
         <p className="text-sm text-slate-500">{processAreas.length} process area(s)</p>
       </div>
-      <div className="grid gap-3">
-        {processAreas.map((pa) => (
-          <ProcessAreaCard
-            key={pa.id}
-            id={pa.id}
-            name={pa.name}
-            standard={pa.standardRef?.standard ?? pa.standard ?? undefined}
-            requirementsCount={pa._count.requirements}
-            controlsCount={pa._count.controls}
-          />
-        ))}
-        {processAreas.length === 0 && (
-          <p className="py-12 text-center text-sm text-slate-400">No process areas found for the selected company.</p>
-        )}
-      </div>
+      {processAreas.length === 0 ? (
+        <p className="py-12 text-center text-sm text-slate-400">No process areas found for the selected company.</p>
+      ) : (
+        <ProcessAreaList processAreas={processAreas} />
+      )}
     </div>
   );
 }
