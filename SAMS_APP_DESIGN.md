@@ -815,6 +815,7 @@ Local Dev (localhost:3100)
 | v1.0.0 | 2026-07-24 | Initial SAMS_APP_DESIGN.md created — comprehensive documentation of all design aspects |
 | v1.0.1 | 2026-07-24 | Added `ProcessAreaList` component — groups PAs by Standard with collapsible sections on `/setup/process-areas` |
 | v1.0.2 | 2026-07-24 | Added `AssignedControlsList` component — 2-level PA→Req→Ctrl hierarchy for assessment assigned controls with inline effectiveness dropdowns, remove button, color-coded status, and mouseover tooltip showing full control statement |
+| v1.0.3 | 2026-07-24 | Sorting: Standards and ProcessAreas sorted alphabetically; Requirement IDs sorted by natural numeric order (1, 2, 3… not 1, 10, 11) with Unmapped Controls always last. Applied to both Select Controls and Assigned Controls panels. |
 
 ---
 
