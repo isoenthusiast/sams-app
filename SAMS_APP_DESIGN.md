@@ -861,8 +861,8 @@ Local Dev (localhost:3100)
 
 | Document | Location | Purpose |
 |----------|----------|---------|
-| APP_DESIGN.md | `seam-assurance-app/APP_DESIGN.md` | Original SEAM Assurance App design (companion app) |
-| APP_DESIGN_PowerPlatform.md | `seam-assurance-app/APP_DESIGN_PowerPlatform.md` | Power Platform companion design |
+| APP_DESIGN.md | `seam-assurance-app/APP_DESIGN.md` (archived: `01 Context and References/archive/seam-assurance-app/APP_DESIGN.md`) | Original SEAM Assurance App design (archived) |
+| APP_DESIGN_PowerPlatform.md | `01 Context and References/archive/seam-assurance-app/APP_DESIGN_PowerPlatform.md` | Power Platform companion design (archived) |
 | CONTEXT.md | `CONTEXT.md` (project root) | Sharpened domain glossary + design decisions |
 | ADRs | `sams-app/docs/adr/` | Architecture Decision Records |
 | Schema | `sams-app/prisma/schema.prisma` | Prisma schema (source of truth for DB) |
