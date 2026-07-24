@@ -13,6 +13,11 @@ import { BadgesView } from "./BadgesView";
 import { KnowledgebaseView } from "./KnowledgebaseView";
 import { ExtractionView } from "./ExtractionView";
 import { AssuranceProtocolView } from "./AssuranceProtocolView";
+import { ProcessAreasAdminView } from "./ProcessAreasAdminView";
+import { ControlsAdminView } from "./ControlsAdminView";
+import { CompanyAdminView } from "./CompanyAdminView";
+import { TemplateActivityTypesView } from "./TemplateActivityTypesView";
+import { HealthResetButton } from "./HealthResetButton";
 import { KanbanBoard } from "@/components/KanbanBoard";
 import { UserManager } from "@/components/UserManager";
 
@@ -221,7 +226,7 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
       </div>
 
       <div className="mt-6 border-b border-slate-200 flex gap-1">
-        {[{ k: "dashboard", l: "📊 Dashboard" }, { k: "backlog", l: "📋 Backlog" }, { k: "activity", l: "📜 Activity Log" }, { k: "users", l: "👥 Users" }, { k: "templates", l: "📦 Templates" }, { k: "requirements", l: "📋 Requirements" }, { k: "badges", l: "🏅 Badges" }, { k: "knowledgebase", l: "📚 Knowledgebase" }, { k: "extraction", l: "🤖 Extraction" }, { k: "assurance", l: "📝 Protocols" }].map((t) => (
+        {[{ k: "dashboard", l: "📊 Dashboard" }, { k: "backlog", l: "📋 Backlog" }, { k: "activity", l: "📜 Activity Log" }, { k: "users", l: "👥 Users" }, { k: "companies", l: "🏢 Companies" }, { k: "templates", l: "📦 Templates" }, { k: "template-activities", l: "🔗 Template Activities" }, { k: "processareas", l: "🔄 Process Areas" }, { k: "controls", l: "🎛 Controls" }, { k: "requirements", l: "📋 Requirements" }, { k: "badges", l: "🏅 Badges" }, { k: "knowledgebase", l: "📚 Knowledgebase" }, { k: "extraction", l: "🤖 Extraction" }, { k: "assurance", l: "📝 Protocols" }].map((t) => (
           <Link key={t.k} href={`/admin?view=${t.k}`}
             className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${view === t.k ? "border-slate-900 text-slate-900" : "border-transparent text-slate-500 hover:text-slate-700"}`}>
             {t.l}
@@ -249,6 +254,7 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
               </div>
             </Card>
           </div>
+          <HealthResetButton />
 
           {/* Two-column dashboard */}
           <div className="grid gap-6 lg:grid-cols-2">
@@ -392,6 +398,18 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
 
       {/* ── Assurance Protocols ── */}
       {view === "assurance" && <AssuranceProtocolView />}
+
+      {/* ── Companies ── */}
+      {view === "companies" && <CompanyAdminView />}
+
+      {/* ── Template Activity Types ── */}
+      {view === "template-activities" && <TemplateActivityTypesView />}
+
+      {/* ── Process Areas Admin ── */}
+      {view === "processareas" && <ProcessAreasAdminView />}
+
+      {/* ── Controls Admin ── */}
+      {view === "controls" && <ControlsAdminView />}
 
       {/* ── Backlog Kanban ── */}
       {view === "backlog" && (
