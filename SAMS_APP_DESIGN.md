@@ -189,7 +189,7 @@ Client Component → fetch('/api/...', { method: 'POST', body })
 
 **Card-Based Layouts:** Process Areas, Assessments, Controls, and Requirements all use card components with consistent metadata (counts, status badges, links).
 
-**Collapsible Sections:** Standards group Process Areas; Assessment templates group controls; Requirements group mapped controls. Used extensively for progressive disclosure.
+**Collapsible Sections:** Standards group Process Areas; Assessment templates group controls; Requirements group mapped controls. Used extensively for progressive disclosure. Assessment assigned controls use a 2-level hierarchy (ProcessArea → Requirement) with both levels independently collapsible.
 
 **Modal Forms:** Add/Edit operations use modal overlays (UserManager, ControlForm, ActionModal) to keep context visible.
 
@@ -500,6 +500,7 @@ All company-scoped tables use `@@unique([businessKey, companyId])` rather than s
 | **UserManager** | Client | User CRUD with modal forms |
 | **UserSearchSelect** | Client | Typeahead user search |
 | **MyInterviewsClient** | Client | Interviewee interview list |
+| **AssignedControlsList** | Client | 2-level hierarchy (PA→Req→Ctrl) for assigned controls with inline effectiveness, tooltips, and remove |
 
 ### 6.3 Admin View Components (`src/app/admin/`)
 
@@ -701,7 +702,7 @@ getCompanyWhere(companyId)  // Prisma where clause
 | 3 | **Process Detail** | `/setup/processdetails/[id]` | 3-tab layout: Knowledgebase, Requirements (with mapped controls), Controls |
 | 4 | **Control Library** | `/setup/controls` | Filterable grid of all controls |
 | 5 | **Assessment Dashboard** | `/fla` | List of assessments (cards) + "New Assessment" button |
-| 6 | **Assessment Detail** | `/fla/[id]` | 4-tab layout with Control Assignment, Samples, Findings+Actions, Activities |
+| 6 | **Assessment Detail** | `/fla/[id]` | 4-tab layout: Control Assignment (2-panel: select + assigned hierarchy), Samples, Findings+Actions, Activities |
 | 7 | **My Interviews** | `/fla/my-interviews` | Interviewee's assigned interviews with activity detail |
 | 8 | **Admin Dashboard** | `/admin` | View switcher: Users, Backlog, Database, Extraction, Protocols, KB, Requirements, Badges |
 | 9 | **User Management** | `/admin?view=users` | User cards + Add/Edit/Delete modal |
@@ -812,6 +813,8 @@ Local Dev (localhost:3100)
 | Version | Date | Changes |
 |---------|------|---------|
 | v1.0.0 | 2026-07-24 | Initial SAMS_APP_DESIGN.md created — comprehensive documentation of all design aspects |
+| v1.0.1 | 2026-07-24 | Added `ProcessAreaList` component — groups PAs by Standard with collapsible sections on `/setup/process-areas` |
+| v1.0.2 | 2026-07-24 | Added `AssignedControlsList` component — 2-level PA→Req→Ctrl hierarchy for assessment assigned controls with inline effectiveness dropdowns, remove button, color-coded status, and mouseover tooltip showing full control statement |
 
 ---
 

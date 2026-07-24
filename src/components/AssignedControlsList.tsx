@@ -12,6 +12,7 @@ type ControlAssignment = {
   control: {
     id: string;
     name: string;
+    statement: string;
     controlType: string;
     processArea: {
       id: string;
@@ -37,11 +38,20 @@ export function AssignedControlsList({ assignments, totalCount }: Props) {
   const router = useRouter();
   const [updating, setUpdating] = useState<string | null>(null);
   const [expandedPAs, setExpandedPAs] = useState<Set<string>>(new Set());
+  const [expandedReqs, setExpandedReqs] = useState<Set<string>>(new Set());
 
   const togglePA = (paId: string) => {
     setExpandedPAs((prev) => {
       const next = new Set(prev);
       if (next.has(paId)) next.delete(paId); else next.add(paId);
+      return next;
+    });
+  };
+
+  const toggleReq = (reqKey: string) => {
+    setExpandedReqs((prev) => {
+      const next = new Set(prev);
+      if (next.has(reqKey)) next.delete(reqKey); else next.add(reqKey);
       return next;
     });
   };
@@ -142,22 +152,34 @@ export function AssignedControlsList({ assignments, totalCount }: Props) {
 
             {isOpen && (
               <div className="divide-y divide-slate-100">
-                {reqs.map((req) => (
+                {reqs.map((req) => {
+                  const reqKey = `${pa.paId}:${req.reqId}`;
+                  const reqOpen = expandedReqs.has(reqKey);
+                  return (
                   <div key={req.reqId}>
-                    {/* ── Requirement label ── */}
-                    <div className="px-4 py-1.5 bg-slate-100/50 border-b border-slate-100">
-                      <span className="text-xs font-medium text-slate-500">
+                    {/* ── Requirement header (clickable) ── */}
+                    <button
+                      onClick={() => toggleReq(reqKey)}
+                      className="w-full flex items-center justify-between px-4 py-1.5 bg-slate-100/50 border-b border-slate-100 hover:bg-slate-100 transition-colors text-left"
+                    >
+                      <span className="text-xs font-medium text-slate-600">
                         {req.reqId === "__unmapped__" ? "Unmapped" : req.reqId}
                       </span>
-                      {req.reqId !== "__unmapped__" && (
-                        <span className="text-xs text-slate-400 ml-1">
-                          — {req.label.length > 100 ? req.label.substring(0, 100) + "…" : req.label}
+                      <div className="flex items-center gap-2 text-xs text-slate-400 shrink-0 ml-2">
+                        {req.reqId !== "__unmapped__" && (
+                          <span className="truncate max-w-[240px] hidden sm:inline">
+                            {req.label.length > 60 ? req.label.substring(0, 60) + "…" : req.label}
+                          </span>
+                        )}
+                        <span className="bg-slate-200 text-slate-500 px-1.5 py-0.5 rounded-full text-[10px] font-medium">
+                          {req.controls.length}
                         </span>
-                      )}
-                    </div>
+                        <span>{reqOpen ? "▲" : "▼"}</span>
+                      </div>
+                    </button>
 
-                    {/* ── Controls ── */}
-                    {req.controls.map((ca) => (
+                    {/* ── Controls (shown when requirement is open) ── */}
+                    {reqOpen && req.controls.map((ca) => (
                       <div
                         key={ca.id}
                         className={`flex items-center gap-2 px-4 py-2 ${
@@ -168,7 +190,11 @@ export function AssignedControlsList({ assignments, totalCount }: Props) {
                             : "border-l-2 border-l-transparent"
                         }`}
                       >
-                        <span className="flex-1 min-w-0 text-sm text-slate-700 truncate">
+                        {/* Control name with tooltip */}
+                        <span
+                          className="flex-1 min-w-0 text-sm text-slate-700 truncate cursor-help"
+                          title={ca.control?.statement || ca.control?.name}
+                        >
                           {ca.control?.name}
                         </span>
                         <select
@@ -198,7 +224,8 @@ export function AssignedControlsList({ assignments, totalCount }: Props) {
                       </div>
                     ))}
                   </div>
-                ))}
+                  );
+                })}
               </div>
             )}
           </div>
