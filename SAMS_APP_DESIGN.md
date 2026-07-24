@@ -816,7 +816,8 @@ Local Dev (localhost:3100)
 | v1.0.1 | 2026-07-24 | Added `ProcessAreaList` component — groups PAs by Standard with collapsible sections on `/setup/process-areas` |
 | v1.0.2 | 2026-07-24 | Added `AssignedControlsList` component — 2-level PA→Req→Ctrl hierarchy for assessment assigned controls with inline effectiveness dropdowns, remove button, color-coded status, and mouseover tooltip showing full control statement |
 | v1.0.3 | 2026-07-24 | Sorting: Standards and ProcessAreas sorted alphabetically; Requirement IDs sorted by natural numeric order (1, 2, 3… not 1, 10, 11) with Unmapped Controls always last. Applied to both Select Controls and Assigned Controls panels. |
-| v1.0.4 | 2026-07-24 | Sprint completed: G6 (ProcessAreas & Controls admin tabs), G8 (Company management), G9 (Template activity type linkages), G10 (Health reset button + API). Added `ProcessAreasAdminView`, `ControlsAdminView`, `CompanyAdminView`, `TemplateActivityTypesView`, `HealthResetButton`, and `POST /api/admin/reset-health`. |
+| v1.0.4 | 2026-07-24 | Sprint 1 completed: G6 (ProcessAreas & Controls admin tabs), G8 (Company management), G9 (Template activity type linkages), G10 (Health reset button + API). Added `ProcessAreasAdminView`, `ControlsAdminView`, `CompanyAdminView`, `TemplateActivityTypesView`, `HealthResetButton`, and `POST /api/admin/reset-health`. |
+| v1.0.5 | 2026-07-24 | Sprint 2 completed: G10b (health reset status display with last/next dates + ActivityLog), G11/G12 verified already built. Backlog now 33 completed, 9 remaining. |
 
 ---
 
