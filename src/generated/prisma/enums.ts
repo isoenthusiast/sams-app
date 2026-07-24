@@ -85,14 +85,14 @@ export type SampleConclusion = (typeof SampleConclusion)[keyof typeof SampleConc
 
 
 export const EmotionalDrive = {
-  Diversity: 'Diversity',
-  Belonging: 'Belonging',
-  Recognition: 'Recognition',
-  Achievement: 'Achievement',
-  Excellence: 'Excellence',
-  Growth: 'Growth',
-  Contribution: 'Contribution',
-  Security: 'Security'
+  EpicMeaning: 'EpicMeaning',
+  Development: 'Development',
+  Empowerment: 'Empowerment',
+  Ownership: 'Ownership',
+  SocialInfluence: 'SocialInfluence',
+  Scarcity: 'Scarcity',
+  Curiosity: 'Curiosity',
+  LossAvoidance: 'LossAvoidance'
 } as const
 
 export type EmotionalDrive = (typeof EmotionalDrive)[keyof typeof EmotionalDrive]

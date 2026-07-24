@@ -532,14 +532,14 @@ model EmotionalDriveMetric {
   id                String   @id @default(cuid())
   userId            String
   period            DateTime
-  diversity         Int      @default(0)
-  belonging         Int      @default(0)
-  recognition       Int      @default(0)
-  achievement       Int      @default(0)
-  excellence        Int      @default(0)
-  growth            Int      @default(0)
-  contribution      Int      @default(0)
-  security          Int      @default(0)
+  epicMeaning       Int      @default(0)
+  development       Int      @default(0)
+  empowerment       Int      @default(0)
+  ownership         Int      @default(0)
+  socialInfluence   Int      @default(0)
+  scarcity          Int      @default(0)
+  curiosity         Int      @default(0)
+  lossAvoidance     Int      @default(0)
   overallEngagement Float    @default(0)
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
@@ -922,14 +922,14 @@ enum SampleConclusion {
 }
 
 enum EmotionalDrive {
-  Diversity
-  Belonging
-  Recognition
-  Achievement
-  Excellence
-  Growth
-  Contribution
-  Security
+  EpicMeaning
+  Development
+  Empowerment
+  Ownership
+  SocialInfluence
+  Scarcity
+  Curiosity
+  LossAvoidance
 }
 
 enum BadgeRarity {

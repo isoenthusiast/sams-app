@@ -27,26 +27,26 @@ export type AggregateEmotionalDriveMetric = {
 }
 
 export type EmotionalDriveMetricAvgAggregateOutputType = {
-  diversity: number | null
-  belonging: number | null
-  recognition: number | null
-  achievement: number | null
-  excellence: number | null
-  growth: number | null
-  contribution: number | null
-  security: number | null
+  epicMeaning: number | null
+  development: number | null
+  empowerment: number | null
+  ownership: number | null
+  socialInfluence: number | null
+  scarcity: number | null
+  curiosity: number | null
+  lossAvoidance: number | null
   overallEngagement: number | null
 }
 
 export type EmotionalDriveMetricSumAggregateOutputType = {
-  diversity: number | null
-  belonging: number | null
-  recognition: number | null
-  achievement: number | null
-  excellence: number | null
-  growth: number | null
-  contribution: number | null
-  security: number | null
+  epicMeaning: number | null
+  development: number | null
+  empowerment: number | null
+  ownership: number | null
+  socialInfluence: number | null
+  scarcity: number | null
+  curiosity: number | null
+  lossAvoidance: number | null
   overallEngagement: number | null
 }
 
@@ -54,14 +54,14 @@ export type EmotionalDriveMetricMinAggregateOutputType = {
   id: string | null
   userId: string | null
   period: Date | null
-  diversity: number | null
-  belonging: number | null
-  recognition: number | null
-  achievement: number | null
-  excellence: number | null
-  growth: number | null
-  contribution: number | null
-  security: number | null
+  epicMeaning: number | null
+  development: number | null
+  empowerment: number | null
+  ownership: number | null
+  socialInfluence: number | null
+  scarcity: number | null
+  curiosity: number | null
+  lossAvoidance: number | null
   overallEngagement: number | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -71,14 +71,14 @@ export type EmotionalDriveMetricMaxAggregateOutputType = {
   id: string | null
   userId: string | null
   period: Date | null
-  diversity: number | null
-  belonging: number | null
-  recognition: number | null
-  achievement: number | null
-  excellence: number | null
-  growth: number | null
-  contribution: number | null
-  security: number | null
+  epicMeaning: number | null
+  development: number | null
+  empowerment: number | null
+  ownership: number | null
+  socialInfluence: number | null
+  scarcity: number | null
+  curiosity: number | null
+  lossAvoidance: number | null
   overallEngagement: number | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -88,14 +88,14 @@ export type EmotionalDriveMetricCountAggregateOutputType = {
   id: number
   userId: number
   period: number
-  diversity: number
-  belonging: number
-  recognition: number
-  achievement: number
-  excellence: number
-  growth: number
-  contribution: number
-  security: number
+  epicMeaning: number
+  development: number
+  empowerment: number
+  ownership: number
+  socialInfluence: number
+  scarcity: number
+  curiosity: number
+  lossAvoidance: number
   overallEngagement: number
   createdAt: number
   updatedAt: number
@@ -104,26 +104,26 @@ export type EmotionalDriveMetricCountAggregateOutputType = {
 
 
 export type EmotionalDriveMetricAvgAggregateInputType = {
-  diversity?: true
-  belonging?: true
-  recognition?: true
-  achievement?: true
-  excellence?: true
-  growth?: true
-  contribution?: true
-  security?: true
+  epicMeaning?: true
+  development?: true
+  empowerment?: true
+  ownership?: true
+  socialInfluence?: true
+  scarcity?: true
+  curiosity?: true
+  lossAvoidance?: true
   overallEngagement?: true
 }
 
 export type EmotionalDriveMetricSumAggregateInputType = {
-  diversity?: true
-  belonging?: true
-  recognition?: true
-  achievement?: true
-  excellence?: true
-  growth?: true
-  contribution?: true
-  security?: true
+  epicMeaning?: true
+  development?: true
+  empowerment?: true
+  ownership?: true
+  socialInfluence?: true
+  scarcity?: true
+  curiosity?: true
+  lossAvoidance?: true
   overallEngagement?: true
 }
 
@@ -131,14 +131,14 @@ export type EmotionalDriveMetricMinAggregateInputType = {
   id?: true
   userId?: true
   period?: true
-  diversity?: true
-  belonging?: true
-  recognition?: true
-  achievement?: true
-  excellence?: true
-  growth?: true
-  contribution?: true
-  security?: true
+  epicMeaning?: true
+  development?: true
+  empowerment?: true
+  ownership?: true
+  socialInfluence?: true
+  scarcity?: true
+  curiosity?: true
+  lossAvoidance?: true
   overallEngagement?: true
   createdAt?: true
   updatedAt?: true
@@ -148,14 +148,14 @@ export type EmotionalDriveMetricMaxAggregateInputType = {
   id?: true
   userId?: true
   period?: true
-  diversity?: true
-  belonging?: true
-  recognition?: true
-  achievement?: true
-  excellence?: true
-  growth?: true
-  contribution?: true
-  security?: true
+  epicMeaning?: true
+  development?: true
+  empowerment?: true
+  ownership?: true
+  socialInfluence?: true
+  scarcity?: true
+  curiosity?: true
+  lossAvoidance?: true
   overallEngagement?: true
   createdAt?: true
   updatedAt?: true
@@ -165,14 +165,14 @@ export type EmotionalDriveMetricCountAggregateInputType = {
   id?: true
   userId?: true
   period?: true
-  diversity?: true
-  belonging?: true
-  recognition?: true
-  achievement?: true
-  excellence?: true
-  growth?: true
-  contribution?: true
-  security?: true
+  epicMeaning?: true
+  development?: true
+  empowerment?: true
+  ownership?: true
+  socialInfluence?: true
+  scarcity?: true
+  curiosity?: true
+  lossAvoidance?: true
   overallEngagement?: true
   createdAt?: true
   updatedAt?: true
@@ -269,14 +269,14 @@ export type EmotionalDriveMetricGroupByOutputType = {
   id: string
   userId: string
   period: Date
-  diversity: number
-  belonging: number
-  recognition: number
-  achievement: number
-  excellence: number
-  growth: number
-  contribution: number
-  security: number
+  epicMeaning: number
+  development: number
+  empowerment: number
+  ownership: number
+  socialInfluence: number
+  scarcity: number
+  curiosity: number
+  lossAvoidance: number
   overallEngagement: number
   createdAt: Date
   updatedAt: Date
@@ -309,14 +309,14 @@ export type EmotionalDriveMetricWhereInput = {
   id?: Prisma.StringFilter<"EmotionalDriveMetric"> | string
   userId?: Prisma.StringFilter<"EmotionalDriveMetric"> | string
   period?: Prisma.DateTimeFilter<"EmotionalDriveMetric"> | Date | string
-  diversity?: Prisma.IntFilter<"EmotionalDriveMetric"> | number
-  belonging?: Prisma.IntFilter<"EmotionalDriveMetric"> | number
-  recognition?: Prisma.IntFilter<"EmotionalDriveMetric"> | number
-  achievement?: Prisma.IntFilter<"EmotionalDriveMetric"> | number
-  excellence?: Prisma.IntFilter<"EmotionalDriveMetric"> | number
-  growth?: Prisma.IntFilter<"EmotionalDriveMetric"> | number
-  contribution?: Prisma.IntFilter<"EmotionalDriveMetric"> | number
-  security?: Prisma.IntFilter<"EmotionalDriveMetric"> | number
+  epicMeaning?: Prisma.IntFilter<"EmotionalDriveMetric"> | number
+  development?: Prisma.IntFilter<"EmotionalDriveMetric"> | number
+  empowerment?: Prisma.IntFilter<"EmotionalDriveMetric"> | number
+  ownership?: Prisma.IntFilter<"EmotionalDriveMetric"> | number
+  socialInfluence?: Prisma.IntFilter<"EmotionalDriveMetric"> | number
+  scarcity?: Prisma.IntFilter<"EmotionalDriveMetric"> | number
+  curiosity?: Prisma.IntFilter<"EmotionalDriveMetric"> | number
+  lossAvoidance?: Prisma.IntFilter<"EmotionalDriveMetric"> | number
   overallEngagement?: Prisma.FloatFilter<"EmotionalDriveMetric"> | number
   createdAt?: Prisma.DateTimeFilter<"EmotionalDriveMetric"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"EmotionalDriveMetric"> | Date | string
@@ -327,14 +327,14 @@ export type EmotionalDriveMetricOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   period?: Prisma.SortOrder
-  diversity?: Prisma.SortOrder
-  belonging?: Prisma.SortOrder
-  recognition?: Prisma.SortOrder
-  achievement?: Prisma.SortOrder
-  excellence?: Prisma.SortOrder
-  growth?: Prisma.SortOrder
-  contribution?: Prisma.SortOrder
-  security?: Prisma.SortOrder
+  epicMeaning?: Prisma.SortOrder
+  development?: Prisma.SortOrder
+  empowerment?: Prisma.SortOrder
+  ownership?: Prisma.SortOrder
+  socialInfluence?: Prisma.SortOrder
+  scarcity?: Prisma.SortOrder
+  curiosity?: Prisma.SortOrder
+  lossAvoidance?: Prisma.SortOrder
   overallEngagement?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -349,14 +349,14 @@ export type EmotionalDriveMetricWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.EmotionalDriveMetricWhereInput | Prisma.EmotionalDriveMetricWhereInput[]
   userId?: Prisma.StringFilter<"EmotionalDriveMetric"> | string
   period?: Prisma.DateTimeFilter<"EmotionalDriveMetric"> | Date | string
-  diversity?: Prisma.IntFilter<"EmotionalDriveMetric"> | number
-  belonging?: Prisma.IntFilter<"EmotionalDriveMetric"> | number
-  recognition?: Prisma.IntFilter<"EmotionalDriveMetric"> | number
-  achievement?: Prisma.IntFilter<"EmotionalDriveMetric"> | number
-  excellence?: Prisma.IntFilter<"EmotionalDriveMetric"> | number
-  growth?: Prisma.IntFilter<"EmotionalDriveMetric"> | number
-  contribution?: Prisma.IntFilter<"EmotionalDriveMetric"> | number
-  security?: Prisma.IntFilter<"EmotionalDriveMetric"> | number
+  epicMeaning?: Prisma.IntFilter<"EmotionalDriveMetric"> | number
+  development?: Prisma.IntFilter<"EmotionalDriveMetric"> | number
+  empowerment?: Prisma.IntFilter<"EmotionalDriveMetric"> | number
+  ownership?: Prisma.IntFilter<"EmotionalDriveMetric"> | number
+  socialInfluence?: Prisma.IntFilter<"EmotionalDriveMetric"> | number
+  scarcity?: Prisma.IntFilter<"EmotionalDriveMetric"> | number
+  curiosity?: Prisma.IntFilter<"EmotionalDriveMetric"> | number
+  lossAvoidance?: Prisma.IntFilter<"EmotionalDriveMetric"> | number
   overallEngagement?: Prisma.FloatFilter<"EmotionalDriveMetric"> | number
   createdAt?: Prisma.DateTimeFilter<"EmotionalDriveMetric"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"EmotionalDriveMetric"> | Date | string
@@ -367,14 +367,14 @@ export type EmotionalDriveMetricOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   period?: Prisma.SortOrder
-  diversity?: Prisma.SortOrder
-  belonging?: Prisma.SortOrder
-  recognition?: Prisma.SortOrder
-  achievement?: Prisma.SortOrder
-  excellence?: Prisma.SortOrder
-  growth?: Prisma.SortOrder
-  contribution?: Prisma.SortOrder
-  security?: Prisma.SortOrder
+  epicMeaning?: Prisma.SortOrder
+  development?: Prisma.SortOrder
+  empowerment?: Prisma.SortOrder
+  ownership?: Prisma.SortOrder
+  socialInfluence?: Prisma.SortOrder
+  scarcity?: Prisma.SortOrder
+  curiosity?: Prisma.SortOrder
+  lossAvoidance?: Prisma.SortOrder
   overallEngagement?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -392,14 +392,14 @@ export type EmotionalDriveMetricScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"EmotionalDriveMetric"> | string
   userId?: Prisma.StringWithAggregatesFilter<"EmotionalDriveMetric"> | string
   period?: Prisma.DateTimeWithAggregatesFilter<"EmotionalDriveMetric"> | Date | string
-  diversity?: Prisma.IntWithAggregatesFilter<"EmotionalDriveMetric"> | number
-  belonging?: Prisma.IntWithAggregatesFilter<"EmotionalDriveMetric"> | number
-  recognition?: Prisma.IntWithAggregatesFilter<"EmotionalDriveMetric"> | number
-  achievement?: Prisma.IntWithAggregatesFilter<"EmotionalDriveMetric"> | number
-  excellence?: Prisma.IntWithAggregatesFilter<"EmotionalDriveMetric"> | number
-  growth?: Prisma.IntWithAggregatesFilter<"EmotionalDriveMetric"> | number
-  contribution?: Prisma.IntWithAggregatesFilter<"EmotionalDriveMetric"> | number
-  security?: Prisma.IntWithAggregatesFilter<"EmotionalDriveMetric"> | number
+  epicMeaning?: Prisma.IntWithAggregatesFilter<"EmotionalDriveMetric"> | number
+  development?: Prisma.IntWithAggregatesFilter<"EmotionalDriveMetric"> | number
+  empowerment?: Prisma.IntWithAggregatesFilter<"EmotionalDriveMetric"> | number
+  ownership?: Prisma.IntWithAggregatesFilter<"EmotionalDriveMetric"> | number
+  socialInfluence?: Prisma.IntWithAggregatesFilter<"EmotionalDriveMetric"> | number
+  scarcity?: Prisma.IntWithAggregatesFilter<"EmotionalDriveMetric"> | number
+  curiosity?: Prisma.IntWithAggregatesFilter<"EmotionalDriveMetric"> | number
+  lossAvoidance?: Prisma.IntWithAggregatesFilter<"EmotionalDriveMetric"> | number
   overallEngagement?: Prisma.FloatWithAggregatesFilter<"EmotionalDriveMetric"> | number
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"EmotionalDriveMetric"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"EmotionalDriveMetric"> | Date | string
@@ -408,14 +408,14 @@ export type EmotionalDriveMetricScalarWhereWithAggregatesInput = {
 export type EmotionalDriveMetricCreateInput = {
   id?: string
   period: Date | string
-  diversity?: number
-  belonging?: number
-  recognition?: number
-  achievement?: number
-  excellence?: number
-  growth?: number
-  contribution?: number
-  security?: number
+  epicMeaning?: number
+  development?: number
+  empowerment?: number
+  ownership?: number
+  socialInfluence?: number
+  scarcity?: number
+  curiosity?: number
+  lossAvoidance?: number
   overallEngagement?: number
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -426,14 +426,14 @@ export type EmotionalDriveMetricUncheckedCreateInput = {
   id?: string
   userId: string
   period: Date | string
-  diversity?: number
-  belonging?: number
-  recognition?: number
-  achievement?: number
-  excellence?: number
-  growth?: number
-  contribution?: number
-  security?: number
+  epicMeaning?: number
+  development?: number
+  empowerment?: number
+  ownership?: number
+  socialInfluence?: number
+  scarcity?: number
+  curiosity?: number
+  lossAvoidance?: number
   overallEngagement?: number
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -442,14 +442,14 @@ export type EmotionalDriveMetricUncheckedCreateInput = {
 export type EmotionalDriveMetricUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   period?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  diversity?: Prisma.IntFieldUpdateOperationsInput | number
-  belonging?: Prisma.IntFieldUpdateOperationsInput | number
-  recognition?: Prisma.IntFieldUpdateOperationsInput | number
-  achievement?: Prisma.IntFieldUpdateOperationsInput | number
-  excellence?: Prisma.IntFieldUpdateOperationsInput | number
-  growth?: Prisma.IntFieldUpdateOperationsInput | number
-  contribution?: Prisma.IntFieldUpdateOperationsInput | number
-  security?: Prisma.IntFieldUpdateOperationsInput | number
+  epicMeaning?: Prisma.IntFieldUpdateOperationsInput | number
+  development?: Prisma.IntFieldUpdateOperationsInput | number
+  empowerment?: Prisma.IntFieldUpdateOperationsInput | number
+  ownership?: Prisma.IntFieldUpdateOperationsInput | number
+  socialInfluence?: Prisma.IntFieldUpdateOperationsInput | number
+  scarcity?: Prisma.IntFieldUpdateOperationsInput | number
+  curiosity?: Prisma.IntFieldUpdateOperationsInput | number
+  lossAvoidance?: Prisma.IntFieldUpdateOperationsInput | number
   overallEngagement?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -460,14 +460,14 @@ export type EmotionalDriveMetricUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   period?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  diversity?: Prisma.IntFieldUpdateOperationsInput | number
-  belonging?: Prisma.IntFieldUpdateOperationsInput | number
-  recognition?: Prisma.IntFieldUpdateOperationsInput | number
-  achievement?: Prisma.IntFieldUpdateOperationsInput | number
-  excellence?: Prisma.IntFieldUpdateOperationsInput | number
-  growth?: Prisma.IntFieldUpdateOperationsInput | number
-  contribution?: Prisma.IntFieldUpdateOperationsInput | number
-  security?: Prisma.IntFieldUpdateOperationsInput | number
+  epicMeaning?: Prisma.IntFieldUpdateOperationsInput | number
+  development?: Prisma.IntFieldUpdateOperationsInput | number
+  empowerment?: Prisma.IntFieldUpdateOperationsInput | number
+  ownership?: Prisma.IntFieldUpdateOperationsInput | number
+  socialInfluence?: Prisma.IntFieldUpdateOperationsInput | number
+  scarcity?: Prisma.IntFieldUpdateOperationsInput | number
+  curiosity?: Prisma.IntFieldUpdateOperationsInput | number
+  lossAvoidance?: Prisma.IntFieldUpdateOperationsInput | number
   overallEngagement?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -477,14 +477,14 @@ export type EmotionalDriveMetricCreateManyInput = {
   id?: string
   userId: string
   period: Date | string
-  diversity?: number
-  belonging?: number
-  recognition?: number
-  achievement?: number
-  excellence?: number
-  growth?: number
-  contribution?: number
-  security?: number
+  epicMeaning?: number
+  development?: number
+  empowerment?: number
+  ownership?: number
+  socialInfluence?: number
+  scarcity?: number
+  curiosity?: number
+  lossAvoidance?: number
   overallEngagement?: number
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -493,14 +493,14 @@ export type EmotionalDriveMetricCreateManyInput = {
 export type EmotionalDriveMetricUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   period?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  diversity?: Prisma.IntFieldUpdateOperationsInput | number
-  belonging?: Prisma.IntFieldUpdateOperationsInput | number
-  recognition?: Prisma.IntFieldUpdateOperationsInput | number
-  achievement?: Prisma.IntFieldUpdateOperationsInput | number
-  excellence?: Prisma.IntFieldUpdateOperationsInput | number
-  growth?: Prisma.IntFieldUpdateOperationsInput | number
-  contribution?: Prisma.IntFieldUpdateOperationsInput | number
-  security?: Prisma.IntFieldUpdateOperationsInput | number
+  epicMeaning?: Prisma.IntFieldUpdateOperationsInput | number
+  development?: Prisma.IntFieldUpdateOperationsInput | number
+  empowerment?: Prisma.IntFieldUpdateOperationsInput | number
+  ownership?: Prisma.IntFieldUpdateOperationsInput | number
+  socialInfluence?: Prisma.IntFieldUpdateOperationsInput | number
+  scarcity?: Prisma.IntFieldUpdateOperationsInput | number
+  curiosity?: Prisma.IntFieldUpdateOperationsInput | number
+  lossAvoidance?: Prisma.IntFieldUpdateOperationsInput | number
   overallEngagement?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -510,14 +510,14 @@ export type EmotionalDriveMetricUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   period?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  diversity?: Prisma.IntFieldUpdateOperationsInput | number
-  belonging?: Prisma.IntFieldUpdateOperationsInput | number
-  recognition?: Prisma.IntFieldUpdateOperationsInput | number
-  achievement?: Prisma.IntFieldUpdateOperationsInput | number
-  excellence?: Prisma.IntFieldUpdateOperationsInput | number
-  growth?: Prisma.IntFieldUpdateOperationsInput | number
-  contribution?: Prisma.IntFieldUpdateOperationsInput | number
-  security?: Prisma.IntFieldUpdateOperationsInput | number
+  epicMeaning?: Prisma.IntFieldUpdateOperationsInput | number
+  development?: Prisma.IntFieldUpdateOperationsInput | number
+  empowerment?: Prisma.IntFieldUpdateOperationsInput | number
+  ownership?: Prisma.IntFieldUpdateOperationsInput | number
+  socialInfluence?: Prisma.IntFieldUpdateOperationsInput | number
+  scarcity?: Prisma.IntFieldUpdateOperationsInput | number
+  curiosity?: Prisma.IntFieldUpdateOperationsInput | number
+  lossAvoidance?: Prisma.IntFieldUpdateOperationsInput | number
   overallEngagement?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -542,28 +542,28 @@ export type EmotionalDriveMetricCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   period?: Prisma.SortOrder
-  diversity?: Prisma.SortOrder
-  belonging?: Prisma.SortOrder
-  recognition?: Prisma.SortOrder
-  achievement?: Prisma.SortOrder
-  excellence?: Prisma.SortOrder
-  growth?: Prisma.SortOrder
-  contribution?: Prisma.SortOrder
-  security?: Prisma.SortOrder
+  epicMeaning?: Prisma.SortOrder
+  development?: Prisma.SortOrder
+  empowerment?: Prisma.SortOrder
+  ownership?: Prisma.SortOrder
+  socialInfluence?: Prisma.SortOrder
+  scarcity?: Prisma.SortOrder
+  curiosity?: Prisma.SortOrder
+  lossAvoidance?: Prisma.SortOrder
   overallEngagement?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
 export type EmotionalDriveMetricAvgOrderByAggregateInput = {
-  diversity?: Prisma.SortOrder
-  belonging?: Prisma.SortOrder
-  recognition?: Prisma.SortOrder
-  achievement?: Prisma.SortOrder
-  excellence?: Prisma.SortOrder
-  growth?: Prisma.SortOrder
-  contribution?: Prisma.SortOrder
-  security?: Prisma.SortOrder
+  epicMeaning?: Prisma.SortOrder
+  development?: Prisma.SortOrder
+  empowerment?: Prisma.SortOrder
+  ownership?: Prisma.SortOrder
+  socialInfluence?: Prisma.SortOrder
+  scarcity?: Prisma.SortOrder
+  curiosity?: Prisma.SortOrder
+  lossAvoidance?: Prisma.SortOrder
   overallEngagement?: Prisma.SortOrder
 }
 
@@ -571,14 +571,14 @@ export type EmotionalDriveMetricMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   period?: Prisma.SortOrder
-  diversity?: Prisma.SortOrder
-  belonging?: Prisma.SortOrder
-  recognition?: Prisma.SortOrder
-  achievement?: Prisma.SortOrder
-  excellence?: Prisma.SortOrder
-  growth?: Prisma.SortOrder
-  contribution?: Prisma.SortOrder
-  security?: Prisma.SortOrder
+  epicMeaning?: Prisma.SortOrder
+  development?: Prisma.SortOrder
+  empowerment?: Prisma.SortOrder
+  ownership?: Prisma.SortOrder
+  socialInfluence?: Prisma.SortOrder
+  scarcity?: Prisma.SortOrder
+  curiosity?: Prisma.SortOrder
+  lossAvoidance?: Prisma.SortOrder
   overallEngagement?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -588,28 +588,28 @@ export type EmotionalDriveMetricMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   period?: Prisma.SortOrder
-  diversity?: Prisma.SortOrder
-  belonging?: Prisma.SortOrder
-  recognition?: Prisma.SortOrder
-  achievement?: Prisma.SortOrder
-  excellence?: Prisma.SortOrder
-  growth?: Prisma.SortOrder
-  contribution?: Prisma.SortOrder
-  security?: Prisma.SortOrder
+  epicMeaning?: Prisma.SortOrder
+  development?: Prisma.SortOrder
+  empowerment?: Prisma.SortOrder
+  ownership?: Prisma.SortOrder
+  socialInfluence?: Prisma.SortOrder
+  scarcity?: Prisma.SortOrder
+  curiosity?: Prisma.SortOrder
+  lossAvoidance?: Prisma.SortOrder
   overallEngagement?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
 export type EmotionalDriveMetricSumOrderByAggregateInput = {
-  diversity?: Prisma.SortOrder
-  belonging?: Prisma.SortOrder
-  recognition?: Prisma.SortOrder
-  achievement?: Prisma.SortOrder
-  excellence?: Prisma.SortOrder
-  growth?: Prisma.SortOrder
-  contribution?: Prisma.SortOrder
-  security?: Prisma.SortOrder
+  epicMeaning?: Prisma.SortOrder
+  development?: Prisma.SortOrder
+  empowerment?: Prisma.SortOrder
+  ownership?: Prisma.SortOrder
+  socialInfluence?: Prisma.SortOrder
+  scarcity?: Prisma.SortOrder
+  curiosity?: Prisma.SortOrder
+  lossAvoidance?: Prisma.SortOrder
   overallEngagement?: Prisma.SortOrder
 }
 
@@ -658,14 +658,14 @@ export type EmotionalDriveMetricUncheckedUpdateManyWithoutUserNestedInput = {
 export type EmotionalDriveMetricCreateWithoutUserInput = {
   id?: string
   period: Date | string
-  diversity?: number
-  belonging?: number
-  recognition?: number
-  achievement?: number
-  excellence?: number
-  growth?: number
-  contribution?: number
-  security?: number
+  epicMeaning?: number
+  development?: number
+  empowerment?: number
+  ownership?: number
+  socialInfluence?: number
+  scarcity?: number
+  curiosity?: number
+  lossAvoidance?: number
   overallEngagement?: number
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -674,14 +674,14 @@ export type EmotionalDriveMetricCreateWithoutUserInput = {
 export type EmotionalDriveMetricUncheckedCreateWithoutUserInput = {
   id?: string
   period: Date | string
-  diversity?: number
-  belonging?: number
-  recognition?: number
-  achievement?: number
-  excellence?: number
-  growth?: number
-  contribution?: number
-  security?: number
+  epicMeaning?: number
+  development?: number
+  empowerment?: number
+  ownership?: number
+  socialInfluence?: number
+  scarcity?: number
+  curiosity?: number
+  lossAvoidance?: number
   overallEngagement?: number
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -720,14 +720,14 @@ export type EmotionalDriveMetricScalarWhereInput = {
   id?: Prisma.StringFilter<"EmotionalDriveMetric"> | string
   userId?: Prisma.StringFilter<"EmotionalDriveMetric"> | string
   period?: Prisma.DateTimeFilter<"EmotionalDriveMetric"> | Date | string
-  diversity?: Prisma.IntFilter<"EmotionalDriveMetric"> | number
-  belonging?: Prisma.IntFilter<"EmotionalDriveMetric"> | number
-  recognition?: Prisma.IntFilter<"EmotionalDriveMetric"> | number
-  achievement?: Prisma.IntFilter<"EmotionalDriveMetric"> | number
-  excellence?: Prisma.IntFilter<"EmotionalDriveMetric"> | number
-  growth?: Prisma.IntFilter<"EmotionalDriveMetric"> | number
-  contribution?: Prisma.IntFilter<"EmotionalDriveMetric"> | number
-  security?: Prisma.IntFilter<"EmotionalDriveMetric"> | number
+  epicMeaning?: Prisma.IntFilter<"EmotionalDriveMetric"> | number
+  development?: Prisma.IntFilter<"EmotionalDriveMetric"> | number
+  empowerment?: Prisma.IntFilter<"EmotionalDriveMetric"> | number
+  ownership?: Prisma.IntFilter<"EmotionalDriveMetric"> | number
+  socialInfluence?: Prisma.IntFilter<"EmotionalDriveMetric"> | number
+  scarcity?: Prisma.IntFilter<"EmotionalDriveMetric"> | number
+  curiosity?: Prisma.IntFilter<"EmotionalDriveMetric"> | number
+  lossAvoidance?: Prisma.IntFilter<"EmotionalDriveMetric"> | number
   overallEngagement?: Prisma.FloatFilter<"EmotionalDriveMetric"> | number
   createdAt?: Prisma.DateTimeFilter<"EmotionalDriveMetric"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"EmotionalDriveMetric"> | Date | string
@@ -736,14 +736,14 @@ export type EmotionalDriveMetricScalarWhereInput = {
 export type EmotionalDriveMetricCreateManyUserInput = {
   id?: string
   period: Date | string
-  diversity?: number
-  belonging?: number
-  recognition?: number
-  achievement?: number
-  excellence?: number
-  growth?: number
-  contribution?: number
-  security?: number
+  epicMeaning?: number
+  development?: number
+  empowerment?: number
+  ownership?: number
+  socialInfluence?: number
+  scarcity?: number
+  curiosity?: number
+  lossAvoidance?: number
   overallEngagement?: number
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -752,14 +752,14 @@ export type EmotionalDriveMetricCreateManyUserInput = {
 export type EmotionalDriveMetricUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   period?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  diversity?: Prisma.IntFieldUpdateOperationsInput | number
-  belonging?: Prisma.IntFieldUpdateOperationsInput | number
-  recognition?: Prisma.IntFieldUpdateOperationsInput | number
-  achievement?: Prisma.IntFieldUpdateOperationsInput | number
-  excellence?: Prisma.IntFieldUpdateOperationsInput | number
-  growth?: Prisma.IntFieldUpdateOperationsInput | number
-  contribution?: Prisma.IntFieldUpdateOperationsInput | number
-  security?: Prisma.IntFieldUpdateOperationsInput | number
+  epicMeaning?: Prisma.IntFieldUpdateOperationsInput | number
+  development?: Prisma.IntFieldUpdateOperationsInput | number
+  empowerment?: Prisma.IntFieldUpdateOperationsInput | number
+  ownership?: Prisma.IntFieldUpdateOperationsInput | number
+  socialInfluence?: Prisma.IntFieldUpdateOperationsInput | number
+  scarcity?: Prisma.IntFieldUpdateOperationsInput | number
+  curiosity?: Prisma.IntFieldUpdateOperationsInput | number
+  lossAvoidance?: Prisma.IntFieldUpdateOperationsInput | number
   overallEngagement?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -768,14 +768,14 @@ export type EmotionalDriveMetricUpdateWithoutUserInput = {
 export type EmotionalDriveMetricUncheckedUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   period?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  diversity?: Prisma.IntFieldUpdateOperationsInput | number
-  belonging?: Prisma.IntFieldUpdateOperationsInput | number
-  recognition?: Prisma.IntFieldUpdateOperationsInput | number
-  achievement?: Prisma.IntFieldUpdateOperationsInput | number
-  excellence?: Prisma.IntFieldUpdateOperationsInput | number
-  growth?: Prisma.IntFieldUpdateOperationsInput | number
-  contribution?: Prisma.IntFieldUpdateOperationsInput | number
-  security?: Prisma.IntFieldUpdateOperationsInput | number
+  epicMeaning?: Prisma.IntFieldUpdateOperationsInput | number
+  development?: Prisma.IntFieldUpdateOperationsInput | number
+  empowerment?: Prisma.IntFieldUpdateOperationsInput | number
+  ownership?: Prisma.IntFieldUpdateOperationsInput | number
+  socialInfluence?: Prisma.IntFieldUpdateOperationsInput | number
+  scarcity?: Prisma.IntFieldUpdateOperationsInput | number
+  curiosity?: Prisma.IntFieldUpdateOperationsInput | number
+  lossAvoidance?: Prisma.IntFieldUpdateOperationsInput | number
   overallEngagement?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -784,14 +784,14 @@ export type EmotionalDriveMetricUncheckedUpdateWithoutUserInput = {
 export type EmotionalDriveMetricUncheckedUpdateManyWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   period?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  diversity?: Prisma.IntFieldUpdateOperationsInput | number
-  belonging?: Prisma.IntFieldUpdateOperationsInput | number
-  recognition?: Prisma.IntFieldUpdateOperationsInput | number
-  achievement?: Prisma.IntFieldUpdateOperationsInput | number
-  excellence?: Prisma.IntFieldUpdateOperationsInput | number
-  growth?: Prisma.IntFieldUpdateOperationsInput | number
-  contribution?: Prisma.IntFieldUpdateOperationsInput | number
-  security?: Prisma.IntFieldUpdateOperationsInput | number
+  epicMeaning?: Prisma.IntFieldUpdateOperationsInput | number
+  development?: Prisma.IntFieldUpdateOperationsInput | number
+  empowerment?: Prisma.IntFieldUpdateOperationsInput | number
+  ownership?: Prisma.IntFieldUpdateOperationsInput | number
+  socialInfluence?: Prisma.IntFieldUpdateOperationsInput | number
+  scarcity?: Prisma.IntFieldUpdateOperationsInput | number
+  curiosity?: Prisma.IntFieldUpdateOperationsInput | number
+  lossAvoidance?: Prisma.IntFieldUpdateOperationsInput | number
   overallEngagement?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -803,14 +803,14 @@ export type EmotionalDriveMetricSelect<ExtArgs extends runtime.Types.Extensions.
   id?: boolean
   userId?: boolean
   period?: boolean
-  diversity?: boolean
-  belonging?: boolean
-  recognition?: boolean
-  achievement?: boolean
-  excellence?: boolean
-  growth?: boolean
-  contribution?: boolean
-  security?: boolean
+  epicMeaning?: boolean
+  development?: boolean
+  empowerment?: boolean
+  ownership?: boolean
+  socialInfluence?: boolean
+  scarcity?: boolean
+  curiosity?: boolean
+  lossAvoidance?: boolean
   overallEngagement?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -821,14 +821,14 @@ export type EmotionalDriveMetricSelectCreateManyAndReturn<ExtArgs extends runtim
   id?: boolean
   userId?: boolean
   period?: boolean
-  diversity?: boolean
-  belonging?: boolean
-  recognition?: boolean
-  achievement?: boolean
-  excellence?: boolean
-  growth?: boolean
-  contribution?: boolean
-  security?: boolean
+  epicMeaning?: boolean
+  development?: boolean
+  empowerment?: boolean
+  ownership?: boolean
+  socialInfluence?: boolean
+  scarcity?: boolean
+  curiosity?: boolean
+  lossAvoidance?: boolean
   overallEngagement?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -839,14 +839,14 @@ export type EmotionalDriveMetricSelectUpdateManyAndReturn<ExtArgs extends runtim
   id?: boolean
   userId?: boolean
   period?: boolean
-  diversity?: boolean
-  belonging?: boolean
-  recognition?: boolean
-  achievement?: boolean
-  excellence?: boolean
-  growth?: boolean
-  contribution?: boolean
-  security?: boolean
+  epicMeaning?: boolean
+  development?: boolean
+  empowerment?: boolean
+  ownership?: boolean
+  socialInfluence?: boolean
+  scarcity?: boolean
+  curiosity?: boolean
+  lossAvoidance?: boolean
   overallEngagement?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -857,20 +857,20 @@ export type EmotionalDriveMetricSelectScalar = {
   id?: boolean
   userId?: boolean
   period?: boolean
-  diversity?: boolean
-  belonging?: boolean
-  recognition?: boolean
-  achievement?: boolean
-  excellence?: boolean
-  growth?: boolean
-  contribution?: boolean
-  security?: boolean
+  epicMeaning?: boolean
+  development?: boolean
+  empowerment?: boolean
+  ownership?: boolean
+  socialInfluence?: boolean
+  scarcity?: boolean
+  curiosity?: boolean
+  lossAvoidance?: boolean
   overallEngagement?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type EmotionalDriveMetricOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "period" | "diversity" | "belonging" | "recognition" | "achievement" | "excellence" | "growth" | "contribution" | "security" | "overallEngagement" | "createdAt" | "updatedAt", ExtArgs["result"]["emotionalDriveMetric"]>
+export type EmotionalDriveMetricOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "period" | "epicMeaning" | "development" | "empowerment" | "ownership" | "socialInfluence" | "scarcity" | "curiosity" | "lossAvoidance" | "overallEngagement" | "createdAt" | "updatedAt", ExtArgs["result"]["emotionalDriveMetric"]>
 export type EmotionalDriveMetricInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
@@ -890,14 +890,14 @@ export type $EmotionalDriveMetricPayload<ExtArgs extends runtime.Types.Extension
     id: string
     userId: string
     period: Date
-    diversity: number
-    belonging: number
-    recognition: number
-    achievement: number
-    excellence: number
-    growth: number
-    contribution: number
-    security: number
+    epicMeaning: number
+    development: number
+    empowerment: number
+    ownership: number
+    socialInfluence: number
+    scarcity: number
+    curiosity: number
+    lossAvoidance: number
     overallEngagement: number
     createdAt: Date
     updatedAt: Date
@@ -1328,14 +1328,14 @@ export interface EmotionalDriveMetricFieldRefs {
   readonly id: Prisma.FieldRef<"EmotionalDriveMetric", 'String'>
   readonly userId: Prisma.FieldRef<"EmotionalDriveMetric", 'String'>
   readonly period: Prisma.FieldRef<"EmotionalDriveMetric", 'DateTime'>
-  readonly diversity: Prisma.FieldRef<"EmotionalDriveMetric", 'Int'>
-  readonly belonging: Prisma.FieldRef<"EmotionalDriveMetric", 'Int'>
-  readonly recognition: Prisma.FieldRef<"EmotionalDriveMetric", 'Int'>
-  readonly achievement: Prisma.FieldRef<"EmotionalDriveMetric", 'Int'>
-  readonly excellence: Prisma.FieldRef<"EmotionalDriveMetric", 'Int'>
-  readonly growth: Prisma.FieldRef<"EmotionalDriveMetric", 'Int'>
-  readonly contribution: Prisma.FieldRef<"EmotionalDriveMetric", 'Int'>
-  readonly security: Prisma.FieldRef<"EmotionalDriveMetric", 'Int'>
+  readonly epicMeaning: Prisma.FieldRef<"EmotionalDriveMetric", 'Int'>
+  readonly development: Prisma.FieldRef<"EmotionalDriveMetric", 'Int'>
+  readonly empowerment: Prisma.FieldRef<"EmotionalDriveMetric", 'Int'>
+  readonly ownership: Prisma.FieldRef<"EmotionalDriveMetric", 'Int'>
+  readonly socialInfluence: Prisma.FieldRef<"EmotionalDriveMetric", 'Int'>
+  readonly scarcity: Prisma.FieldRef<"EmotionalDriveMetric", 'Int'>
+  readonly curiosity: Prisma.FieldRef<"EmotionalDriveMetric", 'Int'>
+  readonly lossAvoidance: Prisma.FieldRef<"EmotionalDriveMetric", 'Int'>
   readonly overallEngagement: Prisma.FieldRef<"EmotionalDriveMetric", 'Float'>
   readonly createdAt: Prisma.FieldRef<"EmotionalDriveMetric", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"EmotionalDriveMetric", 'DateTime'>
