@@ -34,7 +34,7 @@ export function GamificationWidget({ userId }: Props) {
           </div>
         </div>
       )}
-      {data.tracks.length > 0 && (
+      {data.tracks?.length > 0 && (
         <div className="hidden sm:flex gap-1.5">
           {data.tracks.slice(0, 3).map(t => (
             <div key={t.name} className="text-center px-2 py-1 bg-slate-600/50 rounded">
