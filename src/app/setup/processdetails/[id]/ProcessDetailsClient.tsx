@@ -8,6 +8,7 @@ import { StatusBadge } from "@/components/StatusBadge";
 import { Button } from "@/components/Button";
 import { RequirementCard } from "@/components/RequirementCard";
 import { KnowledgebasePanel } from "@/components/KnowledgebasePanel";
+import { formatMarkdown } from "@/lib/formatMarkdown";
 
 type Props = {
   processArea: any;
@@ -325,7 +326,14 @@ export default function ProcessDetailsClient(props: Props) {
                       ? "bg-blue-800 text-white"
                       : "bg-slate-100 text-slate-800"
                   }`}>
-                    <p className="whitespace-pre-wrap">{msg.content}</p>
+                    {msg.role === "assistant" ? (
+                      <div
+                        className="text-sm [&_p]:mb-1 [&_ul]:my-1 [&_li]:ml-3 [&_strong]:font-semibold [&_code]:text-xs [&_pre]:my-2"
+                        dangerouslySetInnerHTML={{ __html: formatMarkdown(msg.content) }}
+                      />
+                    ) : (
+                      <p className="whitespace-pre-wrap">{msg.content}</p>
+                    )}
                     {msg.controls && msg.controls.length > 0 && (
                       <div className="mt-2 border-t border-slate-300 pt-2">
                         <p className="text-xs font-medium mb-1">💡 Suggested Controls:</p>
