@@ -48,6 +48,70 @@ export async function POST(request: Request) {
       processAreaId, companyId || "SAMS001"
     );
 
+    // ── Fetch LIVE server data for this process area ─────────────────
+    // Controls linked to this process area
+    const paControls = await prisma.$queryRawUnsafe<any[]>(
+      `SELECT c.name, c.statement, c."controlType", c."ramRating", c."rawHealthScore"
+       FROM "Control" c
+       WHERE c."processAreaId" = $1
+       ORDER BY c.name
+       LIMIT 50`,
+      processAreaId
+    );
+    const requirements = await prisma.$queryRawUnsafe<any[]>(
+      `SELECT "requirementId", "clauseContent"
+       FROM "Requirement"
+       WHERE "processAreaId" = $1
+       ORDER BY "requirementId"
+       LIMIT 30`,
+      processAreaId
+    );
+
+    // Assessment stats
+    const assessmentStats = await prisma.$queryRawUnsafe<any[]>(
+      `SELECT COUNT(*)::int as total,
+              COUNT(*) FILTER (WHERE status = 'Completed')::int as completed,
+              COUNT(*) FILTER (WHERE status = 'InProgress')::int as in_progress
+       FROM "Assessment" a
+       JOIN "ControlAssignment" ca ON ca."assessmentId" = a.id
+       JOIN "Control" c ON c.id = ca."controlId"
+       WHERE c."processAreaId" = $1`,
+      processAreaId
+    );
+
+    // Assurance protocol count
+    const apCount = await prisma.assuranceProtocol.count({
+      where: { processAreaName: paName },
+    });
+
+    // ── Build live data context ──────────────────────────────────────
+    let liveContext = "";
+
+    if (paControls.length > 0) {
+      liveContext += `\n## Current Controls (${paControls.length} in system)\n`;
+      for (const c of paControls) {
+        liveContext += `- **${c.name}** [${c.controlType}, RAM: ${c.ramRating || "N/A"}, Health: ${c.rawHealthScore ?? "N/A"}%]\n`;
+        if (c.statement) liveContext += `  ${c.statement.substring(0, 200)}\n`;
+      }
+    }
+
+    if (requirements.length > 0) {
+      liveContext += `\n## Requirements (${requirements.length} in system)\n`;
+      for (const r of requirements) {
+        liveContext += `- **${r.requirementId}**: ${(r.clauseContent || "").substring(0, 150)}\n`;
+      }
+    }
+
+    const stats = assessmentStats?.[0] || {};
+    liveContext += `\n## Assessment Activity\n`;
+    liveContext += `- Total assessments touching this PA: ${stats.total || 0}\n`;
+    liveContext += `- Completed: ${stats.completed || 0} | In Progress: ${stats.in_progress || 0}\n`;
+
+    if (apCount > 0) {
+      liveContext += `\n## Assurance Protocols\n`;
+      liveContext += `- ${apCount} assurance protocol(s) available for this process area.\n`;
+    }
+
     // Build knowledge context
     let kbContext = "";
     for (const entry of kbEntries || []) {
@@ -67,13 +131,18 @@ You are helping a user understand and manage controls for the process area "${pa
 
 ${paDesc ? `Process Area Description: ${paDesc}` : ""}
 
-You have access to the following Knowledgebase documents relevant to this process area:
+You have READ-ONLY access to the LIVE system data for this process area:
+${liveContext || "(No live data available for this process area.)"}
+
+You also have access to the following Knowledgebase documents:
 ${kbContext || "(No knowledgebase documents found for this process area.)"}
 
 Your capabilities:
-1. Answer questions about the process area, its controls, requirements, and the knowledgebase content.
-2. Suggest new controls that should be added based on gaps you identify in the knowledgebase.
-3. When you identify a control that should be added, output it in this exact format:
+1. Answer questions about the process area using BOTH live system data and knowledgebase content.
+2. Reference specific controls by name, their health scores, RAM ratings, and types.
+3. Reference requirements by their clause ID and content.
+4. Suggest new controls that should be added based on gaps you identify.
+5. When you identify a control that should be added, output it in this exact format:
 
 ___CONTROL___
 {
@@ -83,9 +152,9 @@ ___CONTROL___
 }
 ___END_CONTROL___
 
-4. You can suggest multiple controls. Each one must be wrapped in ___CONTROL___ ... ___END_CONTROL___ markers.
-5. Be concise and professional. Focus on actionable insights.
-6. If the user asks about something not in the knowledgebase, be honest about what you don't know.`;
+6. You can suggest multiple controls. Each one must be wrapped in ___CONTROL___ ... ___END_CONTROL___ markers.
+7. Be concise and professional. Focus on actionable insights.
+8. Use the live data to give specific, accurate answers about what controls exist and their current health.`;
 
     // Build messages array
     const messages: ChatMessage[] = [
