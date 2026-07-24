@@ -11,6 +11,7 @@ import { showToast } from "@/components/Toast";
 import { VoiceInput } from "@/components/VoiceInput";
 import { AttachmentList } from "@/components/AttachmentList";
 import AssessmentActivitiesPanel from "@/components/AssessmentActivitiesPanel";
+import { AssignedControlsList } from "@/components/AssignedControlsList";
 
 type Props = {
   assessment: any;
@@ -593,33 +594,11 @@ export default function AssessmentClient({ assessment, allControls, processAreas
             {assignedControlIds.size === 0 ? (
               <p className="text-sm text-slate-400">No controls assigned yet. Use the panel on the left to assign controls.</p>
             ) : (
-              <div className="max-h-[60vh] overflow-y-auto space-y-1">
-                {assessment.controlAssignments?.map((ca: any) => (
-                  <div key={ca.id} className="flex items-center justify-between px-2 py-1.5 rounded hover:bg-slate-50 border-b border-slate-50">
-                    <div className="flex-1 min-w-0">
-                      <div className="text-xs font-medium text-slate-800 truncate">{ca.control?.name}</div>
-                      <div className="text-[10px] text-slate-400">
-                        {ca.control?.processArea?.standardRef?.standard && `${ca.control.processArea.standardRef.standard} → `}
-                        {ca.control?.processArea?.name}
-                      </div>
-                    </div>
-                    <select
-                      value={ca.effective ?? ""}
-                      onChange={async (e) => {
-                        await fetch(`/api/admin/control-assignments/${ca.id}`, {
-                          method: "PUT", headers: { "Content-Type": "application/json" },
-                          body: JSON.stringify({ effective: e.target.value || null }),
-                        });
-                        router.refresh();
-                      }}
-                      className="rounded border border-slate-300 px-2 py-0.5 text-[10px] shrink-0 ml-2"
-                    >
-                      <option value="">—</option>
-                      <option value="Effective">Effective</option>
-                      <option value="NotEffective">Not Effective</option>
-                    </select>
-                  </div>
-                ))}
+              <div className="max-h-[60vh] overflow-y-auto">
+                <AssignedControlsList
+                  assignments={assessment.controlAssignments ?? []}
+                  totalCount={assignedControlIds.size}
+                />
               </div>
             )}
           </Card>
