@@ -10,6 +10,13 @@ interface ChatMessage {
   content: string;
 }
 
+// Keywords that trigger deep data loading
+const DEEP_TRIGGERS: Record<string, string[]> = {
+  controls: ["control statement", "control detail", "describe control", "tell me about control", "control description", "csf"],
+  requirements: ["requirement detail", "clause content", "requirement description", "clause says", "intent", "applicability"],
+  assessments: ["assessment detail", "audit detail", "who assessed", "assessment date"],
+};
+
 export async function POST(request: Request) {
   try {
     const session = await auth();
@@ -19,17 +26,27 @@ export async function POST(request: Request) {
 
     const body = await request.json();
     const { message, processAreaId, companyId, history } = body as {
-      message: string;
-      processAreaId: string;
-      companyId: string;
-      history?: ChatMessage[];
+      message: string; processAreaId: string; companyId: string; history?: ChatMessage[];
     };
 
     if (!message) {
       return NextResponse.json({ error: "Message is required" }, { status: 400 });
     }
 
-    // Fetch process area info
+    const msgLower = message.toLowerCase();
+
+    // Detect ___FETCH___ marker from AI requests
+    const fetchMatch = msgLower.match(/___fetch___\s*(\w+)/);
+    const requestedFetch = fetchMatch ? fetchMatch[1] : null;
+
+    // Determine deep load based on keywords
+    const deepLoad = {
+      controls: requestedFetch === "controls" || DEEP_TRIGGERS.controls.some(k => msgLower.includes(k)),
+      requirements: requestedFetch === "requirements" || DEEP_TRIGGERS.requirements.some(k => msgLower.includes(k)),
+      assessments: requestedFetch === "assessments" || DEEP_TRIGGERS.assessments.some(k => msgLower.includes(k)),
+    };
+
+    // ── LIGHTWEIGHT: Always fetch summary data ───────────────────────
     const pa = await prisma.$queryRawUnsafe<any[]>(
       `SELECT "name", "description", "pId", "standard" FROM "ProcessArea" WHERE "id" = $1 LIMIT 1`,
       processAreaId
@@ -37,133 +54,127 @@ export async function POST(request: Request) {
     const paName = pa?.[0]?.name || "Unknown Process Area";
     const paDesc = pa?.[0]?.description || "";
 
-    // Fetch Knowledgebase entries for this process area AND for SAMS001 (global knowledge)
+    const controlNames = await prisma.$queryRawUnsafe<any[]>(
+      `SELECT name, "controlType", "ramRating", "rawHealthScore"
+       FROM "Control" WHERE "processAreaId" = $1 ORDER BY name LIMIT 50`,
+      processAreaId
+    );
+
+    const reqHeaders = await prisma.$queryRawUnsafe<any[]>(
+      `SELECT "requirementId" FROM "Requirement"
+       WHERE "processAreaId" = $1 ORDER BY "requirementId" LIMIT 30`,
+      processAreaId
+    );
+
+    const [apCount, kbCount] = await Promise.all([
+      prisma.assuranceProtocol.count({ where: { processAreaName: paName } }),
+      prisma.$queryRawUnsafe<Array<{ count: bigint }>>(
+        `SELECT COUNT(*)::int as count FROM "Knowledgebase"
+         WHERE ("processAreaId" = $1 OR "processAreaId" IS NULL)
+         AND ("companyId" = $2 OR "companyId" = 'SAMS001')`,
+        processAreaId, companyId || "SAMS001"
+      ).then(r => Number(r[0]?.count ?? 0)),
+    ]);
+
+    // ── BUILD: Lightweight context ───────────────────────────────────
+    let context = `You are an AI assistant for the CONAN PROJECT assurance management system.
+Process Area: "${paName}"${paDesc ? ` — ${paDesc}` : ""}
+
+## Live Summary
+- **Controls** (${controlNames.length}): ${controlNames.map(c => `${c.name} [${c.controlType}, RAM:${c.ramRating||"?"}, Health:${c.rawHealthScore??"?"}%]`).join("; ")}
+- **Requirements** (${reqHeaders.length}): ${reqHeaders.map(r => r.requirementId).join(", ")}
+- **Knowledgebase**: ${kbCount} document(s) | **Protocols**: ${apCount}
+`;
+
+    // ── ON-DEMAND: Deep control data ─────────────────────────────────
+    if (deepLoad.controls) {
+      const controls = await prisma.$queryRawUnsafe<any[]>(
+        `SELECT name, statement, "controlType", "ramRating", "rawHealthScore",
+                "csfWho", "csfWhat", "csfWhen", "csfWhere", "csfWhy", "csfHow"
+         FROM "Control" WHERE "processAreaId" = $1 ORDER BY name LIMIT 50`,
+        processAreaId
+      );
+      context += `\n## Control Details\n`;
+      for (const c of controls) {
+        context += `### ${c.name} [${c.controlType}, RAM:${c.ramRating||"N/A"}, Health:${c.rawHealthScore??"N/A"}%]\n`;
+        if (c.statement) context += `Statement: ${c.statement.substring(0, 300)}\n`;
+        if (c.csfWho) context += `Who: ${c.csfWho}\n`;
+        if (c.csfWhat) context += `What: ${c.csfWhat}\n`;
+        if (c.csfWhen) context += `When: ${c.csfWhen}\n`;
+        if (c.csfWhy) context += `Why: ${c.csfWhy}\n`;
+        if (c.csfHow) context += `How: ${c.csfHow}\n`;
+        context += "\n";
+      }
+    }
+
+    // ── ON-DEMAND: Deep requirement data ─────────────────────────────
+    if (deepLoad.requirements) {
+      const reqs = await prisma.$queryRawUnsafe<any[]>(
+        `SELECT "requirementId", "clauseContent", "intentOutcome", "clauseApplicability"
+         FROM "Requirement" WHERE "processAreaId" = $1 ORDER BY "requirementId" LIMIT 30`,
+        processAreaId
+      );
+      context += `\n## Requirement Details\n`;
+      for (const r of reqs) {
+        context += `### ${r.requirementId}\n`;
+        if (r.clauseContent) context += `Content: ${r.clauseContent}\n`;
+        if (r.intentOutcome) context += `Intent: ${r.intentOutcome}\n`;
+        if (r.clauseApplicability) context += `Applicability: ${r.clauseApplicability}\n`;
+        context += "\n";
+      }
+    }
+
+    // ── ON-DEMAND: Assessment data ───────────────────────────────────
+    if (deepLoad.assessments) {
+      const assessments = await prisma.$queryRawUnsafe<any[]>(
+        `SELECT a.name, a.status, a."startDate", a."endDate", u.name as assessor
+         FROM "Assessment" a
+         JOIN "ControlAssignment" ca ON ca."assessmentId" = a.id
+         JOIN "Control" c ON c.id = ca."controlId"
+         LEFT JOIN "User" u ON u.id = a."assessorId"
+         WHERE c."processAreaId" = $1
+         ORDER BY a."startDate" DESC LIMIT 20`,
+        processAreaId
+      );
+      context += `\n## Assessment Details\n`;
+      for (const a of assessments) {
+        context += `- ${a.name} [${a.status}] — ${a.assessor||"?"} — ${a.startDate ? new Date(a.startDate).toLocaleDateString() : "N/A"}\n`;
+      }
+    }
+
+    // ── KB context (truncated, always included) ──────────────────────
     const kbEntries = await prisma.$queryRawUnsafe<any[]>(
-      `SELECT "knowledgeName", "knowledgeContent", "remarks", "companyId"
+      `SELECT "knowledgeName", "knowledgeContent", "remarks"
        FROM "Knowledgebase"
        WHERE ("processAreaId" = $1 OR "processAreaId" IS NULL)
-         AND ("companyId" = $2 OR "companyId" = 'SAMS001')
-       ORDER BY "createdDate" DESC
-       LIMIT 30`,
+       AND ("companyId" = $2 OR "companyId" = 'SAMS001')
+       ORDER BY "createdDate" DESC LIMIT 10`,
       processAreaId, companyId || "SAMS001"
     );
 
-    // ── Fetch LIVE server data for this process area ─────────────────
-    // Controls linked to this process area
-    const paControls = await prisma.$queryRawUnsafe<any[]>(
-      `SELECT c.name, c.statement, c."controlType", c."ramRating", c."rawHealthScore"
-       FROM "Control" c
-       WHERE c."processAreaId" = $1
-       ORDER BY c.name
-       LIMIT 50`,
-      processAreaId
-    );
-    const requirements = await prisma.$queryRawUnsafe<any[]>(
-      `SELECT "requirementId", "clauseContent"
-       FROM "Requirement"
-       WHERE "processAreaId" = $1
-       ORDER BY "requirementId"
-       LIMIT 30`,
-      processAreaId
-    );
-
-    // Assessment stats
-    const assessmentStats = await prisma.$queryRawUnsafe<any[]>(
-      `SELECT COUNT(*)::int as total,
-              COUNT(*) FILTER (WHERE status = 'Completed')::int as completed,
-              COUNT(*) FILTER (WHERE status = 'InProgress')::int as in_progress
-       FROM "Assessment" a
-       JOIN "ControlAssignment" ca ON ca."assessmentId" = a.id
-       JOIN "Control" c ON c.id = ca."controlId"
-       WHERE c."processAreaId" = $1`,
-      processAreaId
-    );
-
-    // Assurance protocol count
-    const apCount = await prisma.assuranceProtocol.count({
-      where: { processAreaName: paName },
-    });
-
-    // ── Build live data context ──────────────────────────────────────
-    let liveContext = "";
-
-    if (paControls.length > 0) {
-      liveContext += `\n## Current Controls (${paControls.length} in system)\n`;
-      for (const c of paControls) {
-        liveContext += `- **${c.name}** [${c.controlType}, RAM: ${c.ramRating || "N/A"}, Health: ${c.rawHealthScore ?? "N/A"}%]\n`;
-        if (c.statement) liveContext += `  ${c.statement.substring(0, 200)}\n`;
+    if (kbEntries.length > 0) {
+      context += `\n## Knowledgebase\n`;
+      for (const e of kbEntries) {
+        context += `### ${e.knowledgeName}\n`;
+        if (e.remarks) context += `> ${e.remarks}\n`;
+        const c = e.knowledgeContent || "";
+        context += (c.length > 3000 ? c.slice(0, 3000) + "\n...(truncated)" : c) + "\n---\n";
       }
     }
 
-    if (requirements.length > 0) {
-      liveContext += `\n## Requirements (${requirements.length} in system)\n`;
-      for (const r of requirements) {
-        liveContext += `- **${r.requirementId}**: ${(r.clauseContent || "").substring(0, 150)}\n`;
-      }
-    }
-
-    const stats = assessmentStats?.[0] || {};
-    liveContext += `\n## Assessment Activity\n`;
-    liveContext += `- Total assessments touching this PA: ${stats.total || 0}\n`;
-    liveContext += `- Completed: ${stats.completed || 0} | In Progress: ${stats.in_progress || 0}\n`;
-
-    if (apCount > 0) {
-      liveContext += `\n## Assurance Protocols\n`;
-      liveContext += `- ${apCount} assurance protocol(s) available for this process area.\n`;
-    }
-
-    // Build knowledge context
-    let kbContext = "";
-    for (const entry of kbEntries || []) {
-      const coLabel = entry.companyId === "SAMS001" ? "[SAMS - Global]" : `[${entry.companyId}]`;
-      kbContext += `\n### ${coLabel} ${entry.knowledgeName}\n`;
-      if (entry.remarks) kbContext += `> Remarks: ${entry.remarks}\n`;
-      const content = entry.knowledgeContent || "";
-      kbContext += content.length > 8000
-        ? content.slice(0, 8000) + "\n... (truncated)"
-        : content;
-      kbContext += "\n---\n";
-    }
-
-    // System prompt
-    const systemPrompt = `You are an AI assistant for the CONAN PROJECT assurance management system.
-You are helping a user understand and manage controls for the process area "${paName}".
-
-${paDesc ? `Process Area Description: ${paDesc}` : ""}
-
-You have READ-ONLY access to the LIVE system data for this process area:
-${liveContext || "(No live data available for this process area.)"}
-
-You also have access to the following Knowledgebase documents:
-${kbContext || "(No knowledgebase documents found for this process area.)"}
-
-Your capabilities:
-1. Answer questions about the process area using BOTH live system data and knowledgebase content.
-2. Reference specific controls by name, their health scores, RAM ratings, and types.
-3. Reference requirements by their clause ID and content.
-4. Suggest new controls that should be added based on gaps you identify.
-5. When you identify a control that should be added, output it in this exact format:
-
+    // ── Instructions ─────────────────────────────────────────────────
+    context += `
+## Instructions
+1. Answer using live data above. Reference control names, health scores, and RAM ratings.
+2. If user needs deeper details not shown, tell them to ask specifically (e.g., "show me control statements").
+3. You can request deep data reload by including ___FETCH___ controls, ___FETCH___ requirements, or ___FETCH___ assessments.
+4. Suggest new controls when you identify gaps. Format:
 ___CONTROL___
-{
-  "name": "Control Name (short, descriptive)",
-  "statement": "Detailed control statement describing what should be done",
-  "controlType": "Procedural|Administrative|Analytical|Behavioral|Informational|Engineering"
-}
+{"name":"Name","statement":"Description","controlType":"Procedural|Administrative|Analytical|Behavioral|Informational|Engineering"}
 ___END_CONTROL___
+5. Be concise and actionable.`;
 
-6. You can suggest multiple controls. Each one must be wrapped in ___CONTROL___ ... ___END_CONTROL___ markers.
-7. Be concise and professional. Focus on actionable insights.
-8. Use the live data to give specific, accurate answers about what controls exist and their current health.`;
-
-    // Build messages array
-    const messages: ChatMessage[] = [
-      { role: "system", content: systemPrompt },
-      ...(history || []).slice(-20),
-      { role: "user", content: message },
-    ];
-
-    // Call DeepSeek API
+    // ── Call DeepSeek ────────────────────────────────────────────────
     const apiKey = process.env.DEEPSEEK_API_KEY;
     if (!apiKey || apiKey.includes("placeholder")) {
       return NextResponse.json({
@@ -172,61 +183,43 @@ ___END_CONTROL___
       });
     }
 
+    const messages: ChatMessage[] = [
+      { role: "system", content: context },
+      ...(history || []).slice(-20),
+      { role: "user", content: message },
+    ];
+
     const dsResponse = await fetch(DEEPSEEK_URL, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${apiKey}`,
-      },
-      body: JSON.stringify({
-        model: MODEL,
-        messages,
-        temperature: 0.7,
-        max_tokens: 4096,
-      }),
+      headers: { "Content-Type": "application/json", "Authorization": `Bearer ${apiKey}` },
+      body: JSON.stringify({ model: MODEL, messages, temperature: 0.7, max_tokens: 4096 }),
     });
 
     if (!dsResponse.ok) {
       const err = await dsResponse.text();
       console.error("DeepSeek API error:", err);
-      return NextResponse.json({
-        reply: `DeepSeek API error (${dsResponse.status}). Please try again later.`,
-        controls: [],
-      });
+      return NextResponse.json({ reply: `DeepSeek API error (${dsResponse.status}).`, controls: [] });
     }
 
     const dsData = await dsResponse.json();
-    const replyText = dsData.choices?.[0]?.message?.content || "No response from DeepSeek.";
+    const replyText = dsData.choices?.[0]?.message?.content || "No response.";
 
-    // Parse control suggestions from reply
+    // Parse control suggestions
     const controls: Array<{ name: string; statement: string; controlType: string }> = [];
-    const controlRegex = /___CONTROL___\s*([\s\S]*?)\s*___END_CONTROL___/g;
-    let match;
-    while ((match = controlRegex.exec(replyText)) !== null) {
+    const re = /___CONTROL___\s*([\s\S]*?)\s*___END_CONTROL___/g;
+    let m;
+    while ((m = re.exec(replyText)) !== null) {
       try {
-        const ctrl = JSON.parse(match[1]);
-        if (ctrl.name && ctrl.statement) {
-          controls.push({
-            name: ctrl.name,
-            statement: ctrl.statement,
-            controlType: ctrl.controlType || "Procedural",
-          });
-        }
-      } catch (_e) {
-        // Skip malformed control blocks
-      }
+        const c = JSON.parse(m[1]);
+        if (c.name && c.statement) controls.push(c);
+      } catch { /* skip */ }
     }
 
-    // Clean reply: remove control blocks from display text
-    const cleanReply = replyText.replace(controlRegex, "").trim();
+    const cleanReply = replyText.replace(/___CONTROL___[\s\S]*?___END_CONTROL___/g, "").trim();
 
-    return NextResponse.json({
-      reply: cleanReply,
-      controls,
-      rawReply: replyText,
-    });
-  } catch (error: any) {
-    console.error("Chat knowledge error:", error);
+    return NextResponse.json({ reply: cleanReply || replyText, controls });
+  } catch (error) {
+    console.error("POST /api/chat/knowledge error:", error);
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
 }
