@@ -117,19 +117,20 @@ model Standard {
 }
 
 model ProcessArea {
-  id           String             @id @default(cuid())
-  name         String
-  description  String?
-  createdAt    DateTime           @default(now())
-  pId          String?
-  standard     String?
-  standardId   String?            @map("StandardID")
-  companyId    String?
-  standardRef  Standard?          @relation(fields: [standardId], references: [id])
-  controls     Control[]
-  subProcesses SubProcess[]
-  badges       AchievementBadge[]
-  requirements Requirement[]
+  id              String             @id @default(cuid())
+  name            String
+  abbreviatedName String?
+  description     String?
+  createdAt       DateTime           @default(now())
+  pId             String?
+  standard        String?
+  standardId      String?            @map("StandardID")
+  companyId       String?
+  standardRef     Standard?          @relation(fields: [standardId], references: [id])
+  controls        Control[]
+  subProcesses    SubProcess[]
+  badges          AchievementBadge[]
+  requirements    Requirement[]
 
   @@unique([name, companyId])
   @@index([standardId])
@@ -432,27 +433,33 @@ enum FindingSeverity {
 }
 
 model AchievementBadge {
-  id               String            @id @default(cuid())
-  badgeName        String
-  description      String
-  icon             String
-  badgeImage       String?
-  emotionalDrive   EmotionalDrive
-  rarity           BadgeRarity       @default(Uncommon)
-  level            String?
-  processAreaId    String?
-  processArea      ProcessArea?      @relation(fields: [processAreaId], references: [id])
-  pointsRequired   Int?
-  controlsChecked  Int?
-  streakDays       Int?
-  achievementType  String
-  createdAt        DateTime          @default(now())
-  userAchievements UserAchievement[]
+  id                String            @id @default(cuid())
+  badgeName         String
+  description       String
+  badgeType         String            @default("track") // "track" | "role" | "special"
+  icon              String
+  badgeImage        String?
+  backgroundPrompt  String?
+  foregroundPrompt  String?
+  designConfig      Json?
+  imageFormat       String?           // "svg" | "png"
+  emotionalDrive    EmotionalDrive
+  rarity            BadgeRarity       @default(Uncommon)
+  level             String?
+  processAreaId     String?
+  processArea       ProcessArea?      @relation(fields: [processAreaId], references: [id])
+  pointsRequired    Int?
+  controlsChecked   Int?
+  streakDays        Int?
+  achievementType   String
+  createdAt         DateTime          @default(now())
+  userAchievements  UserAchievement[]
 
   @@unique([badgeName, level])
   @@index([emotionalDrive])
   @@index([processAreaId])
   @@index([level])
+  @@index([badgeType])
 }
 
 model UserAchievement {

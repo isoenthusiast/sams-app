@@ -9,7 +9,7 @@ import { HealthIndicator } from "@/components/HealthIndicator";
 import { CollapsibleSection } from "@/components/CollapsibleSection";
 import { ActionRowClient } from "@/components/ActionRowClient";
 import { RequirementsView } from "./RequirementsView";
-import { BadgesView } from "./BadgesView";
+import { BadgesAdminView } from "./BadgesAdminView";
 import { KnowledgebaseView } from "./KnowledgebaseView";
 import { ExtractionView } from "./ExtractionView";
 import { AssuranceProtocolView } from "./AssuranceProtocolView";
@@ -388,7 +388,7 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
       {view === "requirements" && <RequirementsView requirements={requirements} standards={standards} />}
 
       {/* ── Badges ── */}
-      {view === "badges" && <BadgesView badges={badges} />}
+      {view === "badges" && <BadgesAdminView />}
 
       {/* ── Knowledgebase ── */}
       {view === "knowledgebase" && <KnowledgebaseView entries={kbEntries} processAreas={processAreas} companyId={companyId} />}

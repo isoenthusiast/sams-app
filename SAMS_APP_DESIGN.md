@@ -819,6 +819,7 @@ Local Dev (localhost:3100)
 | v1.0.4 | 2026-07-24 | Sprint 1 completed: G6 (ProcessAreas & Controls admin tabs), G8 (Company management), G9 (Template activity type linkages), G10 (Health reset button + API). Added `ProcessAreasAdminView`, `ControlsAdminView`, `CompanyAdminView`, `TemplateActivityTypesView`, `HealthResetButton`, and `POST /api/admin/reset-health`. |
 | v1.0.5 | 2026-07-24 | Sprint 2 completed: G10b (health reset status display with last/next dates + ActivityLog), G11/G12 verified already built. Backlog now 33 completed, 9 remaining. |
 | v1.0.6 | 2026-07-24 | Gamification design grilled and resolved: per-PA mastery tracks (Observer→Bronze→Silver→Gold→Platinum→Black), two-track economy (Conduct Assurance role-based + Domain Tracks per-activity), mixed milestone+XP progression, compact gamification widget. Updated CONTEXT.md with full design. |
+| v1.0.7 | 2026-07-24 | Badge system rebuilt: cleared 305 old badges, added `ProcessArea.abbreviatedName` + `AchievementBadge` prompt fields (badgeType, backgroundPrompt, foregroundPrompt, designConfig, imageFormat). New 3-tab BadgesAdminView (Track/Role/Special). Image generation API: SVG via DeepSeek V4, PNG via gpt-image-2. Added G13-G15 backlog for XP engine + widget + dashboard. |
 
 ---
 

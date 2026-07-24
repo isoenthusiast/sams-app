@@ -27,6 +27,7 @@ export type AggregateProcessArea = {
 export type ProcessAreaMinAggregateOutputType = {
   id: string | null
   name: string | null
+  abbreviatedName: string | null
   description: string | null
   createdAt: Date | null
   pId: string | null
@@ -38,6 +39,7 @@ export type ProcessAreaMinAggregateOutputType = {
 export type ProcessAreaMaxAggregateOutputType = {
   id: string | null
   name: string | null
+  abbreviatedName: string | null
   description: string | null
   createdAt: Date | null
   pId: string | null
@@ -49,6 +51,7 @@ export type ProcessAreaMaxAggregateOutputType = {
 export type ProcessAreaCountAggregateOutputType = {
   id: number
   name: number
+  abbreviatedName: number
   description: number
   createdAt: number
   pId: number
@@ -62,6 +65,7 @@ export type ProcessAreaCountAggregateOutputType = {
 export type ProcessAreaMinAggregateInputType = {
   id?: true
   name?: true
+  abbreviatedName?: true
   description?: true
   createdAt?: true
   pId?: true
@@ -73,6 +77,7 @@ export type ProcessAreaMinAggregateInputType = {
 export type ProcessAreaMaxAggregateInputType = {
   id?: true
   name?: true
+  abbreviatedName?: true
   description?: true
   createdAt?: true
   pId?: true
@@ -84,6 +89,7 @@ export type ProcessAreaMaxAggregateInputType = {
 export type ProcessAreaCountAggregateInputType = {
   id?: true
   name?: true
+  abbreviatedName?: true
   description?: true
   createdAt?: true
   pId?: true
@@ -168,6 +174,7 @@ export type ProcessAreaGroupByArgs<ExtArgs extends runtime.Types.Extensions.Inte
 export type ProcessAreaGroupByOutputType = {
   id: string
   name: string
+  abbreviatedName: string | null
   description: string | null
   createdAt: Date
   pId: string | null
@@ -200,6 +207,7 @@ export type ProcessAreaWhereInput = {
   NOT?: Prisma.ProcessAreaWhereInput | Prisma.ProcessAreaWhereInput[]
   id?: Prisma.StringFilter<"ProcessArea"> | string
   name?: Prisma.StringFilter<"ProcessArea"> | string
+  abbreviatedName?: Prisma.StringNullableFilter<"ProcessArea"> | string | null
   description?: Prisma.StringNullableFilter<"ProcessArea"> | string | null
   createdAt?: Prisma.DateTimeFilter<"ProcessArea"> | Date | string
   pId?: Prisma.StringNullableFilter<"ProcessArea"> | string | null
@@ -216,6 +224,7 @@ export type ProcessAreaWhereInput = {
 export type ProcessAreaOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  abbreviatedName?: Prisma.SortOrderInput | Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   pId?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -236,6 +245,7 @@ export type ProcessAreaWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.ProcessAreaWhereInput[]
   NOT?: Prisma.ProcessAreaWhereInput | Prisma.ProcessAreaWhereInput[]
   name?: Prisma.StringFilter<"ProcessArea"> | string
+  abbreviatedName?: Prisma.StringNullableFilter<"ProcessArea"> | string | null
   description?: Prisma.StringNullableFilter<"ProcessArea"> | string | null
   createdAt?: Prisma.DateTimeFilter<"ProcessArea"> | Date | string
   pId?: Prisma.StringNullableFilter<"ProcessArea"> | string | null
@@ -252,6 +262,7 @@ export type ProcessAreaWhereUniqueInput = Prisma.AtLeast<{
 export type ProcessAreaOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  abbreviatedName?: Prisma.SortOrderInput | Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   pId?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -269,6 +280,7 @@ export type ProcessAreaScalarWhereWithAggregatesInput = {
   NOT?: Prisma.ProcessAreaScalarWhereWithAggregatesInput | Prisma.ProcessAreaScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"ProcessArea"> | string
   name?: Prisma.StringWithAggregatesFilter<"ProcessArea"> | string
+  abbreviatedName?: Prisma.StringNullableWithAggregatesFilter<"ProcessArea"> | string | null
   description?: Prisma.StringNullableWithAggregatesFilter<"ProcessArea"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"ProcessArea"> | Date | string
   pId?: Prisma.StringNullableWithAggregatesFilter<"ProcessArea"> | string | null
@@ -280,6 +292,7 @@ export type ProcessAreaScalarWhereWithAggregatesInput = {
 export type ProcessAreaCreateInput = {
   id?: string
   name: string
+  abbreviatedName?: string | null
   description?: string | null
   createdAt?: Date | string
   pId?: string | null
@@ -295,6 +308,7 @@ export type ProcessAreaCreateInput = {
 export type ProcessAreaUncheckedCreateInput = {
   id?: string
   name: string
+  abbreviatedName?: string | null
   description?: string | null
   createdAt?: Date | string
   pId?: string | null
@@ -310,6 +324,7 @@ export type ProcessAreaUncheckedCreateInput = {
 export type ProcessAreaUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  abbreviatedName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   pId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -325,6 +340,7 @@ export type ProcessAreaUpdateInput = {
 export type ProcessAreaUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  abbreviatedName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   pId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -340,6 +356,7 @@ export type ProcessAreaUncheckedUpdateInput = {
 export type ProcessAreaCreateManyInput = {
   id?: string
   name: string
+  abbreviatedName?: string | null
   description?: string | null
   createdAt?: Date | string
   pId?: string | null
@@ -351,6 +368,7 @@ export type ProcessAreaCreateManyInput = {
 export type ProcessAreaUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  abbreviatedName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   pId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -361,6 +379,7 @@ export type ProcessAreaUpdateManyMutationInput = {
 export type ProcessAreaUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  abbreviatedName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   pId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -387,6 +406,7 @@ export type ProcessAreaNameCompanyIdCompoundUniqueInput = {
 export type ProcessAreaCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  abbreviatedName?: Prisma.SortOrder
   description?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   pId?: Prisma.SortOrder
@@ -398,6 +418,7 @@ export type ProcessAreaCountOrderByAggregateInput = {
 export type ProcessAreaMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  abbreviatedName?: Prisma.SortOrder
   description?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   pId?: Prisma.SortOrder
@@ -409,6 +430,7 @@ export type ProcessAreaMaxOrderByAggregateInput = {
 export type ProcessAreaMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  abbreviatedName?: Prisma.SortOrder
   description?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   pId?: Prisma.SortOrder
@@ -532,6 +554,7 @@ export type ProcessAreaUpdateOneWithoutRequirementsNestedInput = {
 export type ProcessAreaCreateWithoutStandardRefInput = {
   id?: string
   name: string
+  abbreviatedName?: string | null
   description?: string | null
   createdAt?: Date | string
   pId?: string | null
@@ -546,6 +569,7 @@ export type ProcessAreaCreateWithoutStandardRefInput = {
 export type ProcessAreaUncheckedCreateWithoutStandardRefInput = {
   id?: string
   name: string
+  abbreviatedName?: string | null
   description?: string | null
   createdAt?: Date | string
   pId?: string | null
@@ -589,6 +613,7 @@ export type ProcessAreaScalarWhereInput = {
   NOT?: Prisma.ProcessAreaScalarWhereInput | Prisma.ProcessAreaScalarWhereInput[]
   id?: Prisma.StringFilter<"ProcessArea"> | string
   name?: Prisma.StringFilter<"ProcessArea"> | string
+  abbreviatedName?: Prisma.StringNullableFilter<"ProcessArea"> | string | null
   description?: Prisma.StringNullableFilter<"ProcessArea"> | string | null
   createdAt?: Prisma.DateTimeFilter<"ProcessArea"> | Date | string
   pId?: Prisma.StringNullableFilter<"ProcessArea"> | string | null
@@ -600,6 +625,7 @@ export type ProcessAreaScalarWhereInput = {
 export type ProcessAreaCreateWithoutSubProcessesInput = {
   id?: string
   name: string
+  abbreviatedName?: string | null
   description?: string | null
   createdAt?: Date | string
   pId?: string | null
@@ -614,6 +640,7 @@ export type ProcessAreaCreateWithoutSubProcessesInput = {
 export type ProcessAreaUncheckedCreateWithoutSubProcessesInput = {
   id?: string
   name: string
+  abbreviatedName?: string | null
   description?: string | null
   createdAt?: Date | string
   pId?: string | null
@@ -644,6 +671,7 @@ export type ProcessAreaUpdateToOneWithWhereWithoutSubProcessesInput = {
 export type ProcessAreaUpdateWithoutSubProcessesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  abbreviatedName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   pId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -658,6 +686,7 @@ export type ProcessAreaUpdateWithoutSubProcessesInput = {
 export type ProcessAreaUncheckedUpdateWithoutSubProcessesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  abbreviatedName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   pId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -672,6 +701,7 @@ export type ProcessAreaUncheckedUpdateWithoutSubProcessesInput = {
 export type ProcessAreaCreateWithoutControlsInput = {
   id?: string
   name: string
+  abbreviatedName?: string | null
   description?: string | null
   createdAt?: Date | string
   pId?: string | null
@@ -686,6 +716,7 @@ export type ProcessAreaCreateWithoutControlsInput = {
 export type ProcessAreaUncheckedCreateWithoutControlsInput = {
   id?: string
   name: string
+  abbreviatedName?: string | null
   description?: string | null
   createdAt?: Date | string
   pId?: string | null
@@ -716,6 +747,7 @@ export type ProcessAreaUpdateToOneWithWhereWithoutControlsInput = {
 export type ProcessAreaUpdateWithoutControlsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  abbreviatedName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   pId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -730,6 +762,7 @@ export type ProcessAreaUpdateWithoutControlsInput = {
 export type ProcessAreaUncheckedUpdateWithoutControlsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  abbreviatedName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   pId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -744,6 +777,7 @@ export type ProcessAreaUncheckedUpdateWithoutControlsInput = {
 export type ProcessAreaCreateWithoutBadgesInput = {
   id?: string
   name: string
+  abbreviatedName?: string | null
   description?: string | null
   createdAt?: Date | string
   pId?: string | null
@@ -758,6 +792,7 @@ export type ProcessAreaCreateWithoutBadgesInput = {
 export type ProcessAreaUncheckedCreateWithoutBadgesInput = {
   id?: string
   name: string
+  abbreviatedName?: string | null
   description?: string | null
   createdAt?: Date | string
   pId?: string | null
@@ -788,6 +823,7 @@ export type ProcessAreaUpdateToOneWithWhereWithoutBadgesInput = {
 export type ProcessAreaUpdateWithoutBadgesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  abbreviatedName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   pId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -802,6 +838,7 @@ export type ProcessAreaUpdateWithoutBadgesInput = {
 export type ProcessAreaUncheckedUpdateWithoutBadgesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  abbreviatedName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   pId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -816,6 +853,7 @@ export type ProcessAreaUncheckedUpdateWithoutBadgesInput = {
 export type ProcessAreaCreateWithoutRequirementsInput = {
   id?: string
   name: string
+  abbreviatedName?: string | null
   description?: string | null
   createdAt?: Date | string
   pId?: string | null
@@ -830,6 +868,7 @@ export type ProcessAreaCreateWithoutRequirementsInput = {
 export type ProcessAreaUncheckedCreateWithoutRequirementsInput = {
   id?: string
   name: string
+  abbreviatedName?: string | null
   description?: string | null
   createdAt?: Date | string
   pId?: string | null
@@ -860,6 +899,7 @@ export type ProcessAreaUpdateToOneWithWhereWithoutRequirementsInput = {
 export type ProcessAreaUpdateWithoutRequirementsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  abbreviatedName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   pId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -874,6 +914,7 @@ export type ProcessAreaUpdateWithoutRequirementsInput = {
 export type ProcessAreaUncheckedUpdateWithoutRequirementsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  abbreviatedName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   pId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -888,6 +929,7 @@ export type ProcessAreaUncheckedUpdateWithoutRequirementsInput = {
 export type ProcessAreaCreateManyStandardRefInput = {
   id?: string
   name: string
+  abbreviatedName?: string | null
   description?: string | null
   createdAt?: Date | string
   pId?: string | null
@@ -898,6 +940,7 @@ export type ProcessAreaCreateManyStandardRefInput = {
 export type ProcessAreaUpdateWithoutStandardRefInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  abbreviatedName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   pId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -912,6 +955,7 @@ export type ProcessAreaUpdateWithoutStandardRefInput = {
 export type ProcessAreaUncheckedUpdateWithoutStandardRefInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  abbreviatedName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   pId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -926,6 +970,7 @@ export type ProcessAreaUncheckedUpdateWithoutStandardRefInput = {
 export type ProcessAreaUncheckedUpdateManyWithoutStandardRefInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  abbreviatedName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   pId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -994,6 +1039,7 @@ export type ProcessAreaCountOutputTypeCountRequirementsArgs<ExtArgs extends runt
 export type ProcessAreaSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   name?: boolean
+  abbreviatedName?: boolean
   description?: boolean
   createdAt?: boolean
   pId?: boolean
@@ -1011,6 +1057,7 @@ export type ProcessAreaSelect<ExtArgs extends runtime.Types.Extensions.InternalA
 export type ProcessAreaSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   name?: boolean
+  abbreviatedName?: boolean
   description?: boolean
   createdAt?: boolean
   pId?: boolean
@@ -1023,6 +1070,7 @@ export type ProcessAreaSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
 export type ProcessAreaSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   name?: boolean
+  abbreviatedName?: boolean
   description?: boolean
   createdAt?: boolean
   pId?: boolean
@@ -1035,6 +1083,7 @@ export type ProcessAreaSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
 export type ProcessAreaSelectScalar = {
   id?: boolean
   name?: boolean
+  abbreviatedName?: boolean
   description?: boolean
   createdAt?: boolean
   pId?: boolean
@@ -1043,7 +1092,7 @@ export type ProcessAreaSelectScalar = {
   companyId?: boolean
 }
 
-export type ProcessAreaOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "description" | "createdAt" | "pId" | "standard" | "standardId" | "companyId", ExtArgs["result"]["processArea"]>
+export type ProcessAreaOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "abbreviatedName" | "description" | "createdAt" | "pId" | "standard" | "standardId" | "companyId", ExtArgs["result"]["processArea"]>
 export type ProcessAreaInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   standardRef?: boolean | Prisma.ProcessArea$standardRefArgs<ExtArgs>
   controls?: boolean | Prisma.ProcessArea$controlsArgs<ExtArgs>
@@ -1071,6 +1120,7 @@ export type $ProcessAreaPayload<ExtArgs extends runtime.Types.Extensions.Interna
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     name: string
+    abbreviatedName: string | null
     description: string | null
     createdAt: Date
     pId: string | null
@@ -1507,6 +1557,7 @@ export interface Prisma__ProcessAreaClient<T, Null = never, ExtArgs extends runt
 export interface ProcessAreaFieldRefs {
   readonly id: Prisma.FieldRef<"ProcessArea", 'String'>
   readonly name: Prisma.FieldRef<"ProcessArea", 'String'>
+  readonly abbreviatedName: Prisma.FieldRef<"ProcessArea", 'String'>
   readonly description: Prisma.FieldRef<"ProcessArea", 'String'>
   readonly createdAt: Prisma.FieldRef<"ProcessArea", 'DateTime'>
   readonly pId: Prisma.FieldRef<"ProcessArea", 'String'>

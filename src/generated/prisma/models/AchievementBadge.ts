@@ -42,8 +42,12 @@ export type AchievementBadgeMinAggregateOutputType = {
   id: string | null
   badgeName: string | null
   description: string | null
+  badgeType: string | null
   icon: string | null
   badgeImage: string | null
+  backgroundPrompt: string | null
+  foregroundPrompt: string | null
+  imageFormat: string | null
   emotionalDrive: $Enums.EmotionalDrive | null
   rarity: $Enums.BadgeRarity | null
   level: string | null
@@ -59,8 +63,12 @@ export type AchievementBadgeMaxAggregateOutputType = {
   id: string | null
   badgeName: string | null
   description: string | null
+  badgeType: string | null
   icon: string | null
   badgeImage: string | null
+  backgroundPrompt: string | null
+  foregroundPrompt: string | null
+  imageFormat: string | null
   emotionalDrive: $Enums.EmotionalDrive | null
   rarity: $Enums.BadgeRarity | null
   level: string | null
@@ -76,8 +84,13 @@ export type AchievementBadgeCountAggregateOutputType = {
   id: number
   badgeName: number
   description: number
+  badgeType: number
   icon: number
   badgeImage: number
+  backgroundPrompt: number
+  foregroundPrompt: number
+  designConfig: number
+  imageFormat: number
   emotionalDrive: number
   rarity: number
   level: number
@@ -107,8 +120,12 @@ export type AchievementBadgeMinAggregateInputType = {
   id?: true
   badgeName?: true
   description?: true
+  badgeType?: true
   icon?: true
   badgeImage?: true
+  backgroundPrompt?: true
+  foregroundPrompt?: true
+  imageFormat?: true
   emotionalDrive?: true
   rarity?: true
   level?: true
@@ -124,8 +141,12 @@ export type AchievementBadgeMaxAggregateInputType = {
   id?: true
   badgeName?: true
   description?: true
+  badgeType?: true
   icon?: true
   badgeImage?: true
+  backgroundPrompt?: true
+  foregroundPrompt?: true
+  imageFormat?: true
   emotionalDrive?: true
   rarity?: true
   level?: true
@@ -141,8 +162,13 @@ export type AchievementBadgeCountAggregateInputType = {
   id?: true
   badgeName?: true
   description?: true
+  badgeType?: true
   icon?: true
   badgeImage?: true
+  backgroundPrompt?: true
+  foregroundPrompt?: true
+  designConfig?: true
+  imageFormat?: true
   emotionalDrive?: true
   rarity?: true
   level?: true
@@ -245,8 +271,13 @@ export type AchievementBadgeGroupByOutputType = {
   id: string
   badgeName: string
   description: string
+  badgeType: string
   icon: string
   badgeImage: string | null
+  backgroundPrompt: string | null
+  foregroundPrompt: string | null
+  designConfig: runtime.JsonValue | null
+  imageFormat: string | null
   emotionalDrive: $Enums.EmotionalDrive
   rarity: $Enums.BadgeRarity
   level: string | null
@@ -285,8 +316,13 @@ export type AchievementBadgeWhereInput = {
   id?: Prisma.StringFilter<"AchievementBadge"> | string
   badgeName?: Prisma.StringFilter<"AchievementBadge"> | string
   description?: Prisma.StringFilter<"AchievementBadge"> | string
+  badgeType?: Prisma.StringFilter<"AchievementBadge"> | string
   icon?: Prisma.StringFilter<"AchievementBadge"> | string
   badgeImage?: Prisma.StringNullableFilter<"AchievementBadge"> | string | null
+  backgroundPrompt?: Prisma.StringNullableFilter<"AchievementBadge"> | string | null
+  foregroundPrompt?: Prisma.StringNullableFilter<"AchievementBadge"> | string | null
+  designConfig?: Prisma.JsonNullableFilter<"AchievementBadge">
+  imageFormat?: Prisma.StringNullableFilter<"AchievementBadge"> | string | null
   emotionalDrive?: Prisma.EnumEmotionalDriveFilter<"AchievementBadge"> | $Enums.EmotionalDrive
   rarity?: Prisma.EnumBadgeRarityFilter<"AchievementBadge"> | $Enums.BadgeRarity
   level?: Prisma.StringNullableFilter<"AchievementBadge"> | string | null
@@ -304,8 +340,13 @@ export type AchievementBadgeOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   badgeName?: Prisma.SortOrder
   description?: Prisma.SortOrder
+  badgeType?: Prisma.SortOrder
   icon?: Prisma.SortOrder
   badgeImage?: Prisma.SortOrderInput | Prisma.SortOrder
+  backgroundPrompt?: Prisma.SortOrderInput | Prisma.SortOrder
+  foregroundPrompt?: Prisma.SortOrderInput | Prisma.SortOrder
+  designConfig?: Prisma.SortOrderInput | Prisma.SortOrder
+  imageFormat?: Prisma.SortOrderInput | Prisma.SortOrder
   emotionalDrive?: Prisma.SortOrder
   rarity?: Prisma.SortOrder
   level?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -327,8 +368,13 @@ export type AchievementBadgeWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.AchievementBadgeWhereInput | Prisma.AchievementBadgeWhereInput[]
   badgeName?: Prisma.StringFilter<"AchievementBadge"> | string
   description?: Prisma.StringFilter<"AchievementBadge"> | string
+  badgeType?: Prisma.StringFilter<"AchievementBadge"> | string
   icon?: Prisma.StringFilter<"AchievementBadge"> | string
   badgeImage?: Prisma.StringNullableFilter<"AchievementBadge"> | string | null
+  backgroundPrompt?: Prisma.StringNullableFilter<"AchievementBadge"> | string | null
+  foregroundPrompt?: Prisma.StringNullableFilter<"AchievementBadge"> | string | null
+  designConfig?: Prisma.JsonNullableFilter<"AchievementBadge">
+  imageFormat?: Prisma.StringNullableFilter<"AchievementBadge"> | string | null
   emotionalDrive?: Prisma.EnumEmotionalDriveFilter<"AchievementBadge"> | $Enums.EmotionalDrive
   rarity?: Prisma.EnumBadgeRarityFilter<"AchievementBadge"> | $Enums.BadgeRarity
   level?: Prisma.StringNullableFilter<"AchievementBadge"> | string | null
@@ -346,8 +392,13 @@ export type AchievementBadgeOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   badgeName?: Prisma.SortOrder
   description?: Prisma.SortOrder
+  badgeType?: Prisma.SortOrder
   icon?: Prisma.SortOrder
   badgeImage?: Prisma.SortOrderInput | Prisma.SortOrder
+  backgroundPrompt?: Prisma.SortOrderInput | Prisma.SortOrder
+  foregroundPrompt?: Prisma.SortOrderInput | Prisma.SortOrder
+  designConfig?: Prisma.SortOrderInput | Prisma.SortOrder
+  imageFormat?: Prisma.SortOrderInput | Prisma.SortOrder
   emotionalDrive?: Prisma.SortOrder
   rarity?: Prisma.SortOrder
   level?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -371,8 +422,13 @@ export type AchievementBadgeScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"AchievementBadge"> | string
   badgeName?: Prisma.StringWithAggregatesFilter<"AchievementBadge"> | string
   description?: Prisma.StringWithAggregatesFilter<"AchievementBadge"> | string
+  badgeType?: Prisma.StringWithAggregatesFilter<"AchievementBadge"> | string
   icon?: Prisma.StringWithAggregatesFilter<"AchievementBadge"> | string
   badgeImage?: Prisma.StringNullableWithAggregatesFilter<"AchievementBadge"> | string | null
+  backgroundPrompt?: Prisma.StringNullableWithAggregatesFilter<"AchievementBadge"> | string | null
+  foregroundPrompt?: Prisma.StringNullableWithAggregatesFilter<"AchievementBadge"> | string | null
+  designConfig?: Prisma.JsonNullableWithAggregatesFilter<"AchievementBadge">
+  imageFormat?: Prisma.StringNullableWithAggregatesFilter<"AchievementBadge"> | string | null
   emotionalDrive?: Prisma.EnumEmotionalDriveWithAggregatesFilter<"AchievementBadge"> | $Enums.EmotionalDrive
   rarity?: Prisma.EnumBadgeRarityWithAggregatesFilter<"AchievementBadge"> | $Enums.BadgeRarity
   level?: Prisma.StringNullableWithAggregatesFilter<"AchievementBadge"> | string | null
@@ -388,8 +444,13 @@ export type AchievementBadgeCreateInput = {
   id?: string
   badgeName: string
   description: string
+  badgeType?: string
   icon: string
   badgeImage?: string | null
+  backgroundPrompt?: string | null
+  foregroundPrompt?: string | null
+  designConfig?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  imageFormat?: string | null
   emotionalDrive: $Enums.EmotionalDrive
   rarity?: $Enums.BadgeRarity
   level?: string | null
@@ -406,8 +467,13 @@ export type AchievementBadgeUncheckedCreateInput = {
   id?: string
   badgeName: string
   description: string
+  badgeType?: string
   icon: string
   badgeImage?: string | null
+  backgroundPrompt?: string | null
+  foregroundPrompt?: string | null
+  designConfig?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  imageFormat?: string | null
   emotionalDrive: $Enums.EmotionalDrive
   rarity?: $Enums.BadgeRarity
   level?: string | null
@@ -424,8 +490,13 @@ export type AchievementBadgeUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   badgeName?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
+  badgeType?: Prisma.StringFieldUpdateOperationsInput | string
   icon?: Prisma.StringFieldUpdateOperationsInput | string
   badgeImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  backgroundPrompt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  foregroundPrompt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  designConfig?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  imageFormat?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   emotionalDrive?: Prisma.EnumEmotionalDriveFieldUpdateOperationsInput | $Enums.EmotionalDrive
   rarity?: Prisma.EnumBadgeRarityFieldUpdateOperationsInput | $Enums.BadgeRarity
   level?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -442,8 +513,13 @@ export type AchievementBadgeUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   badgeName?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
+  badgeType?: Prisma.StringFieldUpdateOperationsInput | string
   icon?: Prisma.StringFieldUpdateOperationsInput | string
   badgeImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  backgroundPrompt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  foregroundPrompt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  designConfig?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  imageFormat?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   emotionalDrive?: Prisma.EnumEmotionalDriveFieldUpdateOperationsInput | $Enums.EmotionalDrive
   rarity?: Prisma.EnumBadgeRarityFieldUpdateOperationsInput | $Enums.BadgeRarity
   level?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -460,8 +536,13 @@ export type AchievementBadgeCreateManyInput = {
   id?: string
   badgeName: string
   description: string
+  badgeType?: string
   icon: string
   badgeImage?: string | null
+  backgroundPrompt?: string | null
+  foregroundPrompt?: string | null
+  designConfig?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  imageFormat?: string | null
   emotionalDrive: $Enums.EmotionalDrive
   rarity?: $Enums.BadgeRarity
   level?: string | null
@@ -477,8 +558,13 @@ export type AchievementBadgeUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   badgeName?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
+  badgeType?: Prisma.StringFieldUpdateOperationsInput | string
   icon?: Prisma.StringFieldUpdateOperationsInput | string
   badgeImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  backgroundPrompt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  foregroundPrompt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  designConfig?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  imageFormat?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   emotionalDrive?: Prisma.EnumEmotionalDriveFieldUpdateOperationsInput | $Enums.EmotionalDrive
   rarity?: Prisma.EnumBadgeRarityFieldUpdateOperationsInput | $Enums.BadgeRarity
   level?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -493,8 +579,13 @@ export type AchievementBadgeUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   badgeName?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
+  badgeType?: Prisma.StringFieldUpdateOperationsInput | string
   icon?: Prisma.StringFieldUpdateOperationsInput | string
   badgeImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  backgroundPrompt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  foregroundPrompt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  designConfig?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  imageFormat?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   emotionalDrive?: Prisma.EnumEmotionalDriveFieldUpdateOperationsInput | $Enums.EmotionalDrive
   rarity?: Prisma.EnumBadgeRarityFieldUpdateOperationsInput | $Enums.BadgeRarity
   level?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -525,8 +616,13 @@ export type AchievementBadgeCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   badgeName?: Prisma.SortOrder
   description?: Prisma.SortOrder
+  badgeType?: Prisma.SortOrder
   icon?: Prisma.SortOrder
   badgeImage?: Prisma.SortOrder
+  backgroundPrompt?: Prisma.SortOrder
+  foregroundPrompt?: Prisma.SortOrder
+  designConfig?: Prisma.SortOrder
+  imageFormat?: Prisma.SortOrder
   emotionalDrive?: Prisma.SortOrder
   rarity?: Prisma.SortOrder
   level?: Prisma.SortOrder
@@ -548,8 +644,12 @@ export type AchievementBadgeMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   badgeName?: Prisma.SortOrder
   description?: Prisma.SortOrder
+  badgeType?: Prisma.SortOrder
   icon?: Prisma.SortOrder
   badgeImage?: Prisma.SortOrder
+  backgroundPrompt?: Prisma.SortOrder
+  foregroundPrompt?: Prisma.SortOrder
+  imageFormat?: Prisma.SortOrder
   emotionalDrive?: Prisma.SortOrder
   rarity?: Prisma.SortOrder
   level?: Prisma.SortOrder
@@ -565,8 +665,12 @@ export type AchievementBadgeMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   badgeName?: Prisma.SortOrder
   description?: Prisma.SortOrder
+  badgeType?: Prisma.SortOrder
   icon?: Prisma.SortOrder
   badgeImage?: Prisma.SortOrder
+  backgroundPrompt?: Prisma.SortOrder
+  foregroundPrompt?: Prisma.SortOrder
+  imageFormat?: Prisma.SortOrder
   emotionalDrive?: Prisma.SortOrder
   rarity?: Prisma.SortOrder
   level?: Prisma.SortOrder
@@ -657,8 +761,13 @@ export type AchievementBadgeCreateWithoutProcessAreaInput = {
   id?: string
   badgeName: string
   description: string
+  badgeType?: string
   icon: string
   badgeImage?: string | null
+  backgroundPrompt?: string | null
+  foregroundPrompt?: string | null
+  designConfig?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  imageFormat?: string | null
   emotionalDrive: $Enums.EmotionalDrive
   rarity?: $Enums.BadgeRarity
   level?: string | null
@@ -674,8 +783,13 @@ export type AchievementBadgeUncheckedCreateWithoutProcessAreaInput = {
   id?: string
   badgeName: string
   description: string
+  badgeType?: string
   icon: string
   badgeImage?: string | null
+  backgroundPrompt?: string | null
+  foregroundPrompt?: string | null
+  designConfig?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  imageFormat?: string | null
   emotionalDrive: $Enums.EmotionalDrive
   rarity?: $Enums.BadgeRarity
   level?: string | null
@@ -720,8 +834,13 @@ export type AchievementBadgeScalarWhereInput = {
   id?: Prisma.StringFilter<"AchievementBadge"> | string
   badgeName?: Prisma.StringFilter<"AchievementBadge"> | string
   description?: Prisma.StringFilter<"AchievementBadge"> | string
+  badgeType?: Prisma.StringFilter<"AchievementBadge"> | string
   icon?: Prisma.StringFilter<"AchievementBadge"> | string
   badgeImage?: Prisma.StringNullableFilter<"AchievementBadge"> | string | null
+  backgroundPrompt?: Prisma.StringNullableFilter<"AchievementBadge"> | string | null
+  foregroundPrompt?: Prisma.StringNullableFilter<"AchievementBadge"> | string | null
+  designConfig?: Prisma.JsonNullableFilter<"AchievementBadge">
+  imageFormat?: Prisma.StringNullableFilter<"AchievementBadge"> | string | null
   emotionalDrive?: Prisma.EnumEmotionalDriveFilter<"AchievementBadge"> | $Enums.EmotionalDrive
   rarity?: Prisma.EnumBadgeRarityFilter<"AchievementBadge"> | $Enums.BadgeRarity
   level?: Prisma.StringNullableFilter<"AchievementBadge"> | string | null
@@ -737,8 +856,13 @@ export type AchievementBadgeCreateWithoutUserAchievementsInput = {
   id?: string
   badgeName: string
   description: string
+  badgeType?: string
   icon: string
   badgeImage?: string | null
+  backgroundPrompt?: string | null
+  foregroundPrompt?: string | null
+  designConfig?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  imageFormat?: string | null
   emotionalDrive: $Enums.EmotionalDrive
   rarity?: $Enums.BadgeRarity
   level?: string | null
@@ -754,8 +878,13 @@ export type AchievementBadgeUncheckedCreateWithoutUserAchievementsInput = {
   id?: string
   badgeName: string
   description: string
+  badgeType?: string
   icon: string
   badgeImage?: string | null
+  backgroundPrompt?: string | null
+  foregroundPrompt?: string | null
+  designConfig?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  imageFormat?: string | null
   emotionalDrive: $Enums.EmotionalDrive
   rarity?: $Enums.BadgeRarity
   level?: string | null
@@ -787,8 +916,13 @@ export type AchievementBadgeUpdateWithoutUserAchievementsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   badgeName?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
+  badgeType?: Prisma.StringFieldUpdateOperationsInput | string
   icon?: Prisma.StringFieldUpdateOperationsInput | string
   badgeImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  backgroundPrompt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  foregroundPrompt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  designConfig?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  imageFormat?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   emotionalDrive?: Prisma.EnumEmotionalDriveFieldUpdateOperationsInput | $Enums.EmotionalDrive
   rarity?: Prisma.EnumBadgeRarityFieldUpdateOperationsInput | $Enums.BadgeRarity
   level?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -804,8 +938,13 @@ export type AchievementBadgeUncheckedUpdateWithoutUserAchievementsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   badgeName?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
+  badgeType?: Prisma.StringFieldUpdateOperationsInput | string
   icon?: Prisma.StringFieldUpdateOperationsInput | string
   badgeImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  backgroundPrompt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  foregroundPrompt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  designConfig?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  imageFormat?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   emotionalDrive?: Prisma.EnumEmotionalDriveFieldUpdateOperationsInput | $Enums.EmotionalDrive
   rarity?: Prisma.EnumBadgeRarityFieldUpdateOperationsInput | $Enums.BadgeRarity
   level?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -821,8 +960,13 @@ export type AchievementBadgeCreateManyProcessAreaInput = {
   id?: string
   badgeName: string
   description: string
+  badgeType?: string
   icon: string
   badgeImage?: string | null
+  backgroundPrompt?: string | null
+  foregroundPrompt?: string | null
+  designConfig?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  imageFormat?: string | null
   emotionalDrive: $Enums.EmotionalDrive
   rarity?: $Enums.BadgeRarity
   level?: string | null
@@ -837,8 +981,13 @@ export type AchievementBadgeUpdateWithoutProcessAreaInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   badgeName?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
+  badgeType?: Prisma.StringFieldUpdateOperationsInput | string
   icon?: Prisma.StringFieldUpdateOperationsInput | string
   badgeImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  backgroundPrompt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  foregroundPrompt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  designConfig?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  imageFormat?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   emotionalDrive?: Prisma.EnumEmotionalDriveFieldUpdateOperationsInput | $Enums.EmotionalDrive
   rarity?: Prisma.EnumBadgeRarityFieldUpdateOperationsInput | $Enums.BadgeRarity
   level?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -854,8 +1003,13 @@ export type AchievementBadgeUncheckedUpdateWithoutProcessAreaInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   badgeName?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
+  badgeType?: Prisma.StringFieldUpdateOperationsInput | string
   icon?: Prisma.StringFieldUpdateOperationsInput | string
   badgeImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  backgroundPrompt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  foregroundPrompt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  designConfig?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  imageFormat?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   emotionalDrive?: Prisma.EnumEmotionalDriveFieldUpdateOperationsInput | $Enums.EmotionalDrive
   rarity?: Prisma.EnumBadgeRarityFieldUpdateOperationsInput | $Enums.BadgeRarity
   level?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -871,8 +1025,13 @@ export type AchievementBadgeUncheckedUpdateManyWithoutProcessAreaInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   badgeName?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
+  badgeType?: Prisma.StringFieldUpdateOperationsInput | string
   icon?: Prisma.StringFieldUpdateOperationsInput | string
   badgeImage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  backgroundPrompt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  foregroundPrompt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  designConfig?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  imageFormat?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   emotionalDrive?: Prisma.EnumEmotionalDriveFieldUpdateOperationsInput | $Enums.EmotionalDrive
   rarity?: Prisma.EnumBadgeRarityFieldUpdateOperationsInput | $Enums.BadgeRarity
   level?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -918,8 +1077,13 @@ export type AchievementBadgeSelect<ExtArgs extends runtime.Types.Extensions.Inte
   id?: boolean
   badgeName?: boolean
   description?: boolean
+  badgeType?: boolean
   icon?: boolean
   badgeImage?: boolean
+  backgroundPrompt?: boolean
+  foregroundPrompt?: boolean
+  designConfig?: boolean
+  imageFormat?: boolean
   emotionalDrive?: boolean
   rarity?: boolean
   level?: boolean
@@ -938,8 +1102,13 @@ export type AchievementBadgeSelectCreateManyAndReturn<ExtArgs extends runtime.Ty
   id?: boolean
   badgeName?: boolean
   description?: boolean
+  badgeType?: boolean
   icon?: boolean
   badgeImage?: boolean
+  backgroundPrompt?: boolean
+  foregroundPrompt?: boolean
+  designConfig?: boolean
+  imageFormat?: boolean
   emotionalDrive?: boolean
   rarity?: boolean
   level?: boolean
@@ -956,8 +1125,13 @@ export type AchievementBadgeSelectUpdateManyAndReturn<ExtArgs extends runtime.Ty
   id?: boolean
   badgeName?: boolean
   description?: boolean
+  badgeType?: boolean
   icon?: boolean
   badgeImage?: boolean
+  backgroundPrompt?: boolean
+  foregroundPrompt?: boolean
+  designConfig?: boolean
+  imageFormat?: boolean
   emotionalDrive?: boolean
   rarity?: boolean
   level?: boolean
@@ -974,8 +1148,13 @@ export type AchievementBadgeSelectScalar = {
   id?: boolean
   badgeName?: boolean
   description?: boolean
+  badgeType?: boolean
   icon?: boolean
   badgeImage?: boolean
+  backgroundPrompt?: boolean
+  foregroundPrompt?: boolean
+  designConfig?: boolean
+  imageFormat?: boolean
   emotionalDrive?: boolean
   rarity?: boolean
   level?: boolean
@@ -987,7 +1166,7 @@ export type AchievementBadgeSelectScalar = {
   createdAt?: boolean
 }
 
-export type AchievementBadgeOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "badgeName" | "description" | "icon" | "badgeImage" | "emotionalDrive" | "rarity" | "level" | "processAreaId" | "pointsRequired" | "controlsChecked" | "streakDays" | "achievementType" | "createdAt", ExtArgs["result"]["achievementBadge"]>
+export type AchievementBadgeOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "badgeName" | "description" | "badgeType" | "icon" | "badgeImage" | "backgroundPrompt" | "foregroundPrompt" | "designConfig" | "imageFormat" | "emotionalDrive" | "rarity" | "level" | "processAreaId" | "pointsRequired" | "controlsChecked" | "streakDays" | "achievementType" | "createdAt", ExtArgs["result"]["achievementBadge"]>
 export type AchievementBadgeInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   processArea?: boolean | Prisma.AchievementBadge$processAreaArgs<ExtArgs>
   userAchievements?: boolean | Prisma.AchievementBadge$userAchievementsArgs<ExtArgs>
@@ -1010,8 +1189,13 @@ export type $AchievementBadgePayload<ExtArgs extends runtime.Types.Extensions.In
     id: string
     badgeName: string
     description: string
+    badgeType: string
     icon: string
     badgeImage: string | null
+    backgroundPrompt: string | null
+    foregroundPrompt: string | null
+    designConfig: runtime.JsonValue | null
+    imageFormat: string | null
     emotionalDrive: $Enums.EmotionalDrive
     rarity: $Enums.BadgeRarity
     level: string | null
@@ -1449,8 +1633,13 @@ export interface AchievementBadgeFieldRefs {
   readonly id: Prisma.FieldRef<"AchievementBadge", 'String'>
   readonly badgeName: Prisma.FieldRef<"AchievementBadge", 'String'>
   readonly description: Prisma.FieldRef<"AchievementBadge", 'String'>
+  readonly badgeType: Prisma.FieldRef<"AchievementBadge", 'String'>
   readonly icon: Prisma.FieldRef<"AchievementBadge", 'String'>
   readonly badgeImage: Prisma.FieldRef<"AchievementBadge", 'String'>
+  readonly backgroundPrompt: Prisma.FieldRef<"AchievementBadge", 'String'>
+  readonly foregroundPrompt: Prisma.FieldRef<"AchievementBadge", 'String'>
+  readonly designConfig: Prisma.FieldRef<"AchievementBadge", 'Json'>
+  readonly imageFormat: Prisma.FieldRef<"AchievementBadge", 'String'>
   readonly emotionalDrive: Prisma.FieldRef<"AchievementBadge", 'EmotionalDrive'>
   readonly rarity: Prisma.FieldRef<"AchievementBadge", 'BadgeRarity'>
   readonly level: Prisma.FieldRef<"AchievementBadge", 'String'>
