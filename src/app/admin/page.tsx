@@ -124,12 +124,11 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
     ? await prisma.processArea.findMany({ where, orderBy: { name: "asc" }, select: { id: true, name: true } })
     : [];
 
-  // Backlog items (for backlog Kanban view)
+  // Backlog items (for backlog Kanban view) — NOT company-scoped
   let backlogItems: any[] = [];
   if (view === "backlog") {
     try {
       backlogItems = await prisma.backlogItem.findMany({
-        where: companyId ? { companyId } : {},
         orderBy: [{ priority: "desc" }, { createdAt: "asc" }],
       });
     } catch (e) { console.error("Backlog fetch error:", e); }
