@@ -129,6 +129,17 @@ export const BacklogStatus = {
 export type BacklogStatus = (typeof BacklogStatus)[keyof typeof BacklogStatus]
 
 
+export const PIPStatus = {
+  Proposed: 'Proposed',
+  Approved: 'Approved',
+  InProgress: 'InProgress',
+  Implemented: 'Implemented',
+  Closed: 'Closed'
+} as const
+
+export type PIPStatus = (typeof PIPStatus)[keyof typeof PIPStatus]
+
+
 export const DevelopmentStage = {
   PlanDesign: 'PlanDesign',
   Implement: 'Implement',

@@ -8,6 +8,7 @@ import { StatusBadge } from "@/components/StatusBadge";
 import { Button } from "@/components/Button";
 import { RequirementCard } from "@/components/RequirementCard";
 import { KnowledgebasePanel } from "@/components/KnowledgebasePanel";
+import { ImprovementKanban } from "@/components/ImprovementKanban";
 import { formatMarkdown } from "@/lib/formatMarkdown";
 
 type Props = {
@@ -16,6 +17,17 @@ type Props = {
   assessments: any[];
   reqWithControls: any[];
   allControls: any[];
+  healthMetrics: {
+    totalControls: number;
+    healthDistribution: { effective: number; partiallyEffective: number; ineffective: number; neverTested: number };
+    avgHealth: number | null;
+    openFindings: number;
+    overdueActions: number;
+    totalAssessments: number;
+    lastAssessment: { id: string; startDate: string; assessorName: string | null; name: string | null } | null;
+  };
+  pipItems: any[];
+  assessmentActions: any[];
   currentUserName: string | null;
   currentUserRole: string | null;
   companyId: string | null;
@@ -25,9 +37,14 @@ type Props = {
 type ChatMsg = { role: "user" | "assistant"; content: string; controls?: Array<{ name: string; statement: string; controlType: string }> };
 
 export default function ProcessDetailsClient(props: Props) {
-  const { processArea, subProcesses, assessments, reqWithControls, allControls, currentUserName, currentUserRole, companyId, kbEntries } = props;
+  const { processArea, subProcesses, assessments, reqWithControls, allControls, healthMetrics, pipItems, assessmentActions, currentUserName, currentUserRole, companyId, kbEntries } = props;
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState<"overview" | "requirements" | "assessments" | "knowledgebase">("overview");
+  const [activeTab, setActiveTab] = useState<"overview" | "requirements" | "assessments" | "knowledgebase" | "improvement">("overview");
+  const [pipData, setPipData] = useState(pipItems);
+  const [showHowToRead, setShowHowToRead] = useState(false);
+  const [editingMic, setEditingMic] = useState(false);
+  const [micStatement, setMicStatement] = useState(processArea.micStatement || "");
+  const [micSaving, setMicSaving] = useState(false);
   const [reqData, setReqData] = useState(reqWithControls);
   const [expandedReqs, setExpandedReqs] = useState<Set<number>>(new Set());
   const [mapMode, setMapMode] = useState(false);
@@ -41,8 +58,27 @@ export default function ProcessDetailsClient(props: Props) {
   const [chatMessages, setChatMessages] = useState<ChatMsg[]>([]);
   const [chatInput, setChatInput] = useState("");
 
-  // Stats
-  const totalControls = allControls.length;
+  const { healthDistribution, avgHealth, openFindings, overdueActions, totalAssessments, lastAssessment } = healthMetrics;
+  const totalControls = healthMetrics.totalControls;
+  const { effective, partiallyEffective, ineffective, neverTested } = healthDistribution;
+  const testedTotal = effective + partiallyEffective + ineffective;
+  const effectivePct = testedTotal > 0 ? Math.round((effective / testedTotal) * 100) : null;
+  const isSpoOrAdmin = currentUserRole === "Admin" || currentUserRole === "Superuser";
+
+  // ── PIP helpers ──
+  const refreshPips = async () => {
+    const res = await fetch(`/api/admin/pip?processAreaId=${processArea.id}`);
+    if (res.ok) setPipData(await res.json());
+  };
+  const movePip = async (pipId: string, newStatus: string) => {
+    await fetch(`/api/admin/pip/${pipId}`, { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ pipStatus: newStatus }) });
+    await refreshPips();
+  };
+  const saveMic = async () => {
+    setMicSaving(true);
+    await fetch(`/api/admin/pip/mic`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ micStatement, processAreaId: processArea.id }) });
+    setMicSaving(false); setEditingMic(false); router.refresh();
+  };
 
   useEffect(() => { setReqData(reqWithControls); }, [reqWithControls]);
 
@@ -148,13 +184,13 @@ export default function ProcessDetailsClient(props: Props) {
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-6">
-      <Link href="/setup/process-areas" className="text-sm text-blue-600 hover:underline">← Process Areas</Link>
+      <Link href="/fla" className="text-sm text-blue-600 hover:underline">← Dashboard</Link>
       <h1 className="mt-2 text-2xl font-bold text-slate-900">{processArea.name}</h1>
       <p className="text-sm text-slate-500">{(processArea as any).standard ?? (processArea as any).standardRef?.standard ?? ""}</p>
 
       {/* Tabs */}
       <div className="mt-4 flex border-b border-slate-200">
-        {(["overview", "requirements", "assessments", "knowledgebase"] as const).map((t) => (
+        {(["overview", "requirements", "assessments", "knowledgebase", "improvement"] as const).map((t) => (
           <button
             key={t}
             onClick={() => { setActiveTab(t); setMapMode(false); }}
@@ -162,18 +198,151 @@ export default function ProcessDetailsClient(props: Props) {
               activeTab === t ? "border-slate-900 text-slate-900 bg-white" : "border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300"
             }`}
           >
-            {t === "overview" ? "Process Overview" : t === "requirements" ? "Requirements & Controls" : t === "assessments" ? "Assessments" : "Knowledgebase"}
+            {t === "overview" ? "Process Overview" : t === "requirements" ? "Requirements & Controls" : t === "assessments" ? "Assessments" : t === "knowledgebase" ? "Knowledgebase" : "📈 Improvement"}
           </button>
         ))}
       </div>
 
-      {/* ─── TAB 1: Overview ─── */}
+      {/* ─── TAB 1: Overview (ORCA) ─── */}
       {activeTab === "overview" && (
-        <div className="mt-6 grid gap-4 sm:grid-cols-4">
-          <Card padding="sm"><div className="text-2xl font-bold">{totalControls}</div><div className="text-xs text-slate-500">Controls</div></Card>
-          <Card padding="sm"><div className="text-2xl font-bold">{reqData.length}</div><div className="text-xs text-slate-500">Requirements</div></Card>
-          <Card padding="sm"><div className="text-2xl font-bold">{assessments.length}</div><div className="text-xs text-slate-500">Assessments</div></Card>
-          <Card padding="sm"><div className="text-2xl font-bold">{kbEntries.length}</div><div className="text-xs text-slate-500">KB Entries</div></Card>
+        <div className="mt-6 space-y-6">
+          {/* O + R: Objectives & Risk row */}
+          <div className="grid gap-4 sm:grid-cols-2">
+            <Card padding="md">
+              <h3 className="text-sm font-semibold text-slate-700 mb-1">🎯 Objectives</h3>
+              <p className="text-sm text-slate-600">{processArea.description || "No description provided."}</p>
+              <p className="text-xs text-slate-400 mt-1">Standard: {(processArea as any).standard ?? "—"}</p>
+            </Card>
+            <Card padding="md">
+              <h3 className="text-sm font-semibold text-slate-700 mb-1">⚠️ Risk</h3>
+              <div className="grid grid-cols-3 gap-2 text-center">
+                <div><div className="text-xl font-bold text-slate-900">{totalControls}</div><div className="text-xs text-slate-500">Total Controls</div></div>
+                <div><div className="text-xl font-bold text-red-600">{ineffective}</div><div className="text-xs text-slate-500">Ineffective</div></div>
+                <div><div className="text-xl font-bold text-amber-600">{allControls.filter((c: any) => (c as any).isHsseCritical).length}</div><div className="text-xs text-slate-500">HSSE Critical</div></div>
+              </div>
+            </Card>
+          </div>
+
+          {/* C: Controls Health Donut */}
+          <Card padding="md">
+            <h3 className="text-sm font-semibold text-slate-700 mb-4">🛡 Controls Health</h3>
+            <div className="flex flex-col sm:flex-row items-center gap-6">
+              {/* Donut */}
+              <div className="relative w-40 h-40 flex-shrink-0">
+                <svg viewBox="0 0 120 120" className="w-full h-full -rotate-90">
+                  <circle cx="60" cy="60" r="48" fill="none" stroke="#e2e8f0" strokeWidth="12" />
+                  {testedTotal > 0 && (() => {
+                    const circumference = 2 * Math.PI * 48;
+                    const effLen = (effective / testedTotal) * circumference;
+                    const partLen = (partiallyEffective / testedTotal) * circumference;
+                    const ineffLen = (ineffective / testedTotal) * circumference;
+                    let offset = 0;
+                    const segments = [];
+                    if (effective > 0) { segments.push({ len: effLen, color: "#16a34a", offset }); offset += effLen; }
+                    if (partiallyEffective > 0) { segments.push({ len: partLen, color: "#d97706", offset }); offset += partLen; }
+                    if (ineffective > 0) { segments.push({ len: ineffLen, color: "#dc2626", offset }); }
+                    return segments.map((s, i) => (
+                      <circle key={i} cx="60" cy="60" r="48" fill="none" stroke={s.color} strokeWidth="12"
+                        strokeDasharray={`${s.len} ${circumference - s.len}`} strokeDashoffset={-s.offset} strokeLinecap="round" />
+                    ));
+                  })()}
+                </svg>
+                <div className="absolute inset-0 flex flex-col items-center justify-center">
+                  <span className="text-2xl font-bold text-slate-900">{effectivePct !== null ? `${effectivePct}%` : "—"}</span>
+                  <span className="text-xs text-slate-400">Effective</span>
+                </div>
+              </div>
+              {/* Legend */}
+              <div className="flex-1 space-y-2 text-sm">
+                <div className="flex items-center gap-2"><span className="w-3 h-3 rounded-full bg-green-600 inline-block"></span> Effective (≥80): <strong>{effective}</strong> controls</div>
+                <div className="flex items-center gap-2"><span className="w-3 h-3 rounded-full bg-amber-500 inline-block"></span> Partially Effective (50–79): <strong>{partiallyEffective}</strong> controls</div>
+                <div className="flex items-center gap-2"><span className="w-3 h-3 rounded-full bg-red-600 inline-block"></span> Ineffective (&lt;50): <strong>{ineffective}</strong> controls</div>
+                <div className="flex items-center gap-2"><span className="w-3 h-3 rounded-full bg-slate-300 inline-block"></span> Never Tested: <strong>{neverTested}</strong> controls</div>
+                {avgHealth !== null && <p className="text-xs text-slate-400 mt-1">Average health score: <strong>{avgHealth}%</strong> (tested controls only)</p>}
+              </div>
+            </div>
+          </Card>
+
+          {/* A: Assurance */}
+          <Card padding="md">
+            <h3 className="text-sm font-semibold text-slate-700 mb-2">🔍 Assurance</h3>
+            <div className="grid gap-3 sm:grid-cols-3">
+              <div>
+                <div className="text-xs text-slate-500">Last Assessment</div>
+                <div className="text-sm font-medium text-slate-900">
+                  {lastAssessment ? new Date(lastAssessment.startDate).toLocaleDateString() : "Never"}
+                </div>
+                {lastAssessment?.assessorName && <div className="text-xs text-slate-400">by {lastAssessment.assessorName}</div>}
+              </div>
+              <div>
+                <div className="text-xs text-slate-500">Assessments</div>
+                <div className="text-sm font-medium text-slate-900">{totalAssessments} completed</div>
+                <div className="text-xs text-slate-400">{reqWithControls.length} requirements · {totalControls} controls</div>
+              </div>
+              <div>
+                <div className="text-xs text-slate-500">Findings & Actions</div>
+                <div className="text-sm font-medium text-slate-900">{openFindings} open findings</div>
+                {overdueActions > 0 && <div className="text-xs text-red-600 font-medium">{overdueActions} actions overdue</div>}
+              </div>
+            </div>
+          </Card>
+
+          {/* Improvement */}
+          <Card padding="md">
+            <h3 className="text-sm font-semibold text-slate-700 mb-2">📈 Improvement</h3>
+            <div className="grid gap-3 sm:grid-cols-2">
+              <div>
+                <div className="text-xs text-slate-500">Open Findings</div>
+                <div className="text-sm font-medium text-slate-900">{openFindings} finding{openFindings !== 1 ? "s" : ""} requiring action</div>
+                {overdueActions > 0 && <div className="text-xs text-red-600 mt-1">{overdueActions} action{overdueActions !== 1 ? "s" : ""} overdue</div>}
+              </div>
+              <div>
+                <div className="text-xs text-slate-500">Process Improvement Plan</div>
+                <div className="text-sm text-slate-400">Coming soon — 0 improvement items</div>
+              </div>
+            </div>
+          </Card>
+
+          {/* MIC Statement */}
+          <Card padding="md">
+            <div className="flex items-center justify-between mb-2">
+              <h3 className="text-sm font-semibold text-slate-700">📝 Management in Control Statement</h3>
+              {isSpoOrAdmin && !editingMic && (
+                <button onClick={() => setEditingMic(true)} className="text-xs text-blue-600 hover:underline">✏️ Edit</button>
+              )}
+            </div>
+            {editingMic ? (
+              <div className="space-y-2">
+                <textarea className="w-full border rounded px-3 py-2 text-sm" rows={4} value={micStatement}
+                  onChange={e => setMicStatement(e.target.value)}
+                  placeholder="Assess the overall state of management in control for this process. Reference ORCA: Are objectives clear? Are risks identified? Are controls healthy? Has assurance been conducted? What improvements are underway?" />
+                <div className="flex gap-2 justify-end">
+                  <Button size="sm" variant="secondary" onClick={() => { setEditingMic(false); setMicStatement(processArea.micStatement || ""); }}>Cancel</Button>
+                  <Button size="sm" variant="primary" onClick={saveMic} disabled={micSaving}>{micSaving ? "Saving…" : "Save"}</Button>
+                </div>
+              </div>
+            ) : (
+              <p className="text-sm text-slate-600 whitespace-pre-wrap">{micStatement || "No MIC statement recorded yet. Site Process Owners should document their assessment of management in control for this process area."}</p>
+            )}
+            {processArea.micStatementUpdatedAt && <p className="text-xs text-slate-400 mt-1">Last updated: {new Date(processArea.micStatementUpdatedAt).toLocaleDateString()}</p>}
+          </Card>
+
+          {/* How to Read */}
+          <div className="border border-slate-200 rounded-lg overflow-hidden">
+            <button onClick={() => setShowHowToRead(!showHowToRead)} className="w-full text-left px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-50 flex items-center justify-between">
+              📋 How to Read This Overview
+              <span className="text-xs text-slate-400">{showHowToRead ? "▲" : "▼"}</span>
+            </button>
+            {showHowToRead && (
+              <div className="px-4 py-3 text-xs text-slate-500 space-y-1 border-t border-slate-100">
+                <p><strong>ORCA Framework:</strong> This page follows the Objectives → Risk → Controls → Assurance cycle used by Site Process Owners to demonstrate Management in Control.</p>
+                <p><strong>Controls Health Donut:</strong> Shows the proportion of tested controls that are Effective (≥80%), Partially Effective (50–79%), or Ineffective (&lt;50%). Controls that have never been tested appear in grey.</p>
+                <p><strong>Never Tested:</strong> Controls with a health score of 0 or null. The health reset mechanism resets untested controls to 0 — these need assessment coverage.</p>
+                <p><strong>Assurance:</strong> Tracks when this process area was last formally assessed and whether findings are being closed. Overdue actions indicate gaps in the improvement cycle.</p>
+                <p><strong>Improvement:</strong> The CI principle: "If the process is not performing, it is either because the standard is not being followed, or needs improving." This section will track planned improvements.</p>
+              </div>
+            )}
+          </div>
         </div>
       )}
 
@@ -368,6 +537,11 @@ export default function ProcessDetailsClient(props: Props) {
             </form>
           </Card>
         </div>
+      )}
+
+      {/* ─── TAB 5: Improvement (PIP Kanban) ─── */}
+      {activeTab === "improvement" && (
+        <ImprovementKanban pipItems={pipData} assessmentActions={assessmentActions} processAreaId={processArea.id} isSpoOrAdmin={isSpoOrAdmin} />
       )}
     </div>
   );

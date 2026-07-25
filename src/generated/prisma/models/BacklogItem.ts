@@ -48,6 +48,13 @@ export type BacklogItemMinAggregateOutputType = {
   createdBy: string | null
   createdAt: Date | null
   updatedAt: Date | null
+  isPIP: boolean | null
+  pipStatus: $Enums.PIPStatus | null
+  processAreaId: string | null
+  targetDate: Date | null
+  source: string | null
+  riskAcceptance: boolean | null
+  alarpRationale: string | null
 }
 
 export type BacklogItemMaxAggregateOutputType = {
@@ -64,6 +71,13 @@ export type BacklogItemMaxAggregateOutputType = {
   createdBy: string | null
   createdAt: Date | null
   updatedAt: Date | null
+  isPIP: boolean | null
+  pipStatus: $Enums.PIPStatus | null
+  processAreaId: string | null
+  targetDate: Date | null
+  source: string | null
+  riskAcceptance: boolean | null
+  alarpRationale: string | null
 }
 
 export type BacklogItemCountAggregateOutputType = {
@@ -80,6 +94,13 @@ export type BacklogItemCountAggregateOutputType = {
   createdBy: number
   createdAt: number
   updatedAt: number
+  isPIP: number
+  pipStatus: number
+  processAreaId: number
+  targetDate: number
+  source: number
+  riskAcceptance: number
+  alarpRationale: number
   _all: number
 }
 
@@ -106,6 +127,13 @@ export type BacklogItemMinAggregateInputType = {
   createdBy?: true
   createdAt?: true
   updatedAt?: true
+  isPIP?: true
+  pipStatus?: true
+  processAreaId?: true
+  targetDate?: true
+  source?: true
+  riskAcceptance?: true
+  alarpRationale?: true
 }
 
 export type BacklogItemMaxAggregateInputType = {
@@ -122,6 +150,13 @@ export type BacklogItemMaxAggregateInputType = {
   createdBy?: true
   createdAt?: true
   updatedAt?: true
+  isPIP?: true
+  pipStatus?: true
+  processAreaId?: true
+  targetDate?: true
+  source?: true
+  riskAcceptance?: true
+  alarpRationale?: true
 }
 
 export type BacklogItemCountAggregateInputType = {
@@ -138,6 +173,13 @@ export type BacklogItemCountAggregateInputType = {
   createdBy?: true
   createdAt?: true
   updatedAt?: true
+  isPIP?: true
+  pipStatus?: true
+  processAreaId?: true
+  targetDate?: true
+  source?: true
+  riskAcceptance?: true
+  alarpRationale?: true
   _all?: true
 }
 
@@ -241,6 +283,13 @@ export type BacklogItemGroupByOutputType = {
   createdBy: string
   createdAt: Date
   updatedAt: Date
+  isPIP: boolean | null
+  pipStatus: $Enums.PIPStatus | null
+  processAreaId: string | null
+  targetDate: Date | null
+  source: string | null
+  riskAcceptance: boolean
+  alarpRationale: string | null
   _count: BacklogItemCountAggregateOutputType | null
   _avg: BacklogItemAvgAggregateOutputType | null
   _sum: BacklogItemSumAggregateOutputType | null
@@ -280,6 +329,15 @@ export type BacklogItemWhereInput = {
   createdBy?: Prisma.StringFilter<"BacklogItem"> | string
   createdAt?: Prisma.DateTimeFilter<"BacklogItem"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"BacklogItem"> | Date | string
+  isPIP?: Prisma.BoolNullableFilter<"BacklogItem"> | boolean | null
+  pipStatus?: Prisma.EnumPIPStatusNullableFilter<"BacklogItem"> | $Enums.PIPStatus | null
+  processAreaId?: Prisma.StringNullableFilter<"BacklogItem"> | string | null
+  targetDate?: Prisma.DateTimeNullableFilter<"BacklogItem"> | Date | string | null
+  source?: Prisma.StringNullableFilter<"BacklogItem"> | string | null
+  riskAcceptance?: Prisma.BoolFilter<"BacklogItem"> | boolean
+  alarpRationale?: Prisma.StringNullableFilter<"BacklogItem"> | string | null
+  processArea?: Prisma.XOR<Prisma.ProcessAreaNullableScalarRelationFilter, Prisma.ProcessAreaWhereInput> | null
+  controlLinks?: Prisma.BacklogItemControlListRelationFilter
 }
 
 export type BacklogItemOrderByWithRelationInput = {
@@ -296,6 +354,15 @@ export type BacklogItemOrderByWithRelationInput = {
   createdBy?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  isPIP?: Prisma.SortOrderInput | Prisma.SortOrder
+  pipStatus?: Prisma.SortOrderInput | Prisma.SortOrder
+  processAreaId?: Prisma.SortOrderInput | Prisma.SortOrder
+  targetDate?: Prisma.SortOrderInput | Prisma.SortOrder
+  source?: Prisma.SortOrderInput | Prisma.SortOrder
+  riskAcceptance?: Prisma.SortOrder
+  alarpRationale?: Prisma.SortOrderInput | Prisma.SortOrder
+  processArea?: Prisma.ProcessAreaOrderByWithRelationInput
+  controlLinks?: Prisma.BacklogItemControlOrderByRelationAggregateInput
 }
 
 export type BacklogItemWhereUniqueInput = Prisma.AtLeast<{
@@ -315,6 +382,15 @@ export type BacklogItemWhereUniqueInput = Prisma.AtLeast<{
   createdBy?: Prisma.StringFilter<"BacklogItem"> | string
   createdAt?: Prisma.DateTimeFilter<"BacklogItem"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"BacklogItem"> | Date | string
+  isPIP?: Prisma.BoolNullableFilter<"BacklogItem"> | boolean | null
+  pipStatus?: Prisma.EnumPIPStatusNullableFilter<"BacklogItem"> | $Enums.PIPStatus | null
+  processAreaId?: Prisma.StringNullableFilter<"BacklogItem"> | string | null
+  targetDate?: Prisma.DateTimeNullableFilter<"BacklogItem"> | Date | string | null
+  source?: Prisma.StringNullableFilter<"BacklogItem"> | string | null
+  riskAcceptance?: Prisma.BoolFilter<"BacklogItem"> | boolean
+  alarpRationale?: Prisma.StringNullableFilter<"BacklogItem"> | string | null
+  processArea?: Prisma.XOR<Prisma.ProcessAreaNullableScalarRelationFilter, Prisma.ProcessAreaWhereInput> | null
+  controlLinks?: Prisma.BacklogItemControlListRelationFilter
 }, "id">
 
 export type BacklogItemOrderByWithAggregationInput = {
@@ -331,6 +407,13 @@ export type BacklogItemOrderByWithAggregationInput = {
   createdBy?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  isPIP?: Prisma.SortOrderInput | Prisma.SortOrder
+  pipStatus?: Prisma.SortOrderInput | Prisma.SortOrder
+  processAreaId?: Prisma.SortOrderInput | Prisma.SortOrder
+  targetDate?: Prisma.SortOrderInput | Prisma.SortOrder
+  source?: Prisma.SortOrderInput | Prisma.SortOrder
+  riskAcceptance?: Prisma.SortOrder
+  alarpRationale?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.BacklogItemCountOrderByAggregateInput
   _avg?: Prisma.BacklogItemAvgOrderByAggregateInput
   _max?: Prisma.BacklogItemMaxOrderByAggregateInput
@@ -355,6 +438,13 @@ export type BacklogItemScalarWhereWithAggregatesInput = {
   createdBy?: Prisma.StringWithAggregatesFilter<"BacklogItem"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"BacklogItem"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"BacklogItem"> | Date | string
+  isPIP?: Prisma.BoolNullableWithAggregatesFilter<"BacklogItem"> | boolean | null
+  pipStatus?: Prisma.EnumPIPStatusNullableWithAggregatesFilter<"BacklogItem"> | $Enums.PIPStatus | null
+  processAreaId?: Prisma.StringNullableWithAggregatesFilter<"BacklogItem"> | string | null
+  targetDate?: Prisma.DateTimeNullableWithAggregatesFilter<"BacklogItem"> | Date | string | null
+  source?: Prisma.StringNullableWithAggregatesFilter<"BacklogItem"> | string | null
+  riskAcceptance?: Prisma.BoolWithAggregatesFilter<"BacklogItem"> | boolean
+  alarpRationale?: Prisma.StringNullableWithAggregatesFilter<"BacklogItem"> | string | null
 }
 
 export type BacklogItemCreateInput = {
@@ -371,6 +461,14 @@ export type BacklogItemCreateInput = {
   createdBy: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  isPIP?: boolean | null
+  pipStatus?: $Enums.PIPStatus | null
+  targetDate?: Date | string | null
+  source?: string | null
+  riskAcceptance?: boolean
+  alarpRationale?: string | null
+  processArea?: Prisma.ProcessAreaCreateNestedOneWithoutPipItemsInput
+  controlLinks?: Prisma.BacklogItemControlCreateNestedManyWithoutBacklogItemInput
 }
 
 export type BacklogItemUncheckedCreateInput = {
@@ -387,6 +485,14 @@ export type BacklogItemUncheckedCreateInput = {
   createdBy: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  isPIP?: boolean | null
+  pipStatus?: $Enums.PIPStatus | null
+  processAreaId?: string | null
+  targetDate?: Date | string | null
+  source?: string | null
+  riskAcceptance?: boolean
+  alarpRationale?: string | null
+  controlLinks?: Prisma.BacklogItemControlUncheckedCreateNestedManyWithoutBacklogItemInput
 }
 
 export type BacklogItemUpdateInput = {
@@ -403,6 +509,14 @@ export type BacklogItemUpdateInput = {
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isPIP?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  pipStatus?: Prisma.NullableEnumPIPStatusFieldUpdateOperationsInput | $Enums.PIPStatus | null
+  targetDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  source?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  riskAcceptance?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  alarpRationale?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  processArea?: Prisma.ProcessAreaUpdateOneWithoutPipItemsNestedInput
+  controlLinks?: Prisma.BacklogItemControlUpdateManyWithoutBacklogItemNestedInput
 }
 
 export type BacklogItemUncheckedUpdateInput = {
@@ -419,6 +533,14 @@ export type BacklogItemUncheckedUpdateInput = {
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isPIP?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  pipStatus?: Prisma.NullableEnumPIPStatusFieldUpdateOperationsInput | $Enums.PIPStatus | null
+  processAreaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  targetDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  source?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  riskAcceptance?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  alarpRationale?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  controlLinks?: Prisma.BacklogItemControlUncheckedUpdateManyWithoutBacklogItemNestedInput
 }
 
 export type BacklogItemCreateManyInput = {
@@ -435,6 +557,13 @@ export type BacklogItemCreateManyInput = {
   createdBy: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  isPIP?: boolean | null
+  pipStatus?: $Enums.PIPStatus | null
+  processAreaId?: string | null
+  targetDate?: Date | string | null
+  source?: string | null
+  riskAcceptance?: boolean
+  alarpRationale?: string | null
 }
 
 export type BacklogItemUpdateManyMutationInput = {
@@ -451,6 +580,12 @@ export type BacklogItemUpdateManyMutationInput = {
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isPIP?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  pipStatus?: Prisma.NullableEnumPIPStatusFieldUpdateOperationsInput | $Enums.PIPStatus | null
+  targetDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  source?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  riskAcceptance?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  alarpRationale?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type BacklogItemUncheckedUpdateManyInput = {
@@ -467,6 +602,23 @@ export type BacklogItemUncheckedUpdateManyInput = {
   createdBy?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isPIP?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  pipStatus?: Prisma.NullableEnumPIPStatusFieldUpdateOperationsInput | $Enums.PIPStatus | null
+  processAreaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  targetDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  source?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  riskAcceptance?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  alarpRationale?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type BacklogItemListRelationFilter = {
+  every?: Prisma.BacklogItemWhereInput
+  some?: Prisma.BacklogItemWhereInput
+  none?: Prisma.BacklogItemWhereInput
+}
+
+export type BacklogItemOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
 }
 
 export type BacklogItemCountOrderByAggregateInput = {
@@ -483,6 +635,13 @@ export type BacklogItemCountOrderByAggregateInput = {
   createdBy?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  isPIP?: Prisma.SortOrder
+  pipStatus?: Prisma.SortOrder
+  processAreaId?: Prisma.SortOrder
+  targetDate?: Prisma.SortOrder
+  source?: Prisma.SortOrder
+  riskAcceptance?: Prisma.SortOrder
+  alarpRationale?: Prisma.SortOrder
 }
 
 export type BacklogItemAvgOrderByAggregateInput = {
@@ -503,6 +662,13 @@ export type BacklogItemMaxOrderByAggregateInput = {
   createdBy?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  isPIP?: Prisma.SortOrder
+  pipStatus?: Prisma.SortOrder
+  processAreaId?: Prisma.SortOrder
+  targetDate?: Prisma.SortOrder
+  source?: Prisma.SortOrder
+  riskAcceptance?: Prisma.SortOrder
+  alarpRationale?: Prisma.SortOrder
 }
 
 export type BacklogItemMinOrderByAggregateInput = {
@@ -519,10 +685,64 @@ export type BacklogItemMinOrderByAggregateInput = {
   createdBy?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  isPIP?: Prisma.SortOrder
+  pipStatus?: Prisma.SortOrder
+  processAreaId?: Prisma.SortOrder
+  targetDate?: Prisma.SortOrder
+  source?: Prisma.SortOrder
+  riskAcceptance?: Prisma.SortOrder
+  alarpRationale?: Prisma.SortOrder
 }
 
 export type BacklogItemSumOrderByAggregateInput = {
   priority?: Prisma.SortOrder
+}
+
+export type BacklogItemScalarRelationFilter = {
+  is?: Prisma.BacklogItemWhereInput
+  isNot?: Prisma.BacklogItemWhereInput
+}
+
+export type BacklogItemCreateNestedManyWithoutProcessAreaInput = {
+  create?: Prisma.XOR<Prisma.BacklogItemCreateWithoutProcessAreaInput, Prisma.BacklogItemUncheckedCreateWithoutProcessAreaInput> | Prisma.BacklogItemCreateWithoutProcessAreaInput[] | Prisma.BacklogItemUncheckedCreateWithoutProcessAreaInput[]
+  connectOrCreate?: Prisma.BacklogItemCreateOrConnectWithoutProcessAreaInput | Prisma.BacklogItemCreateOrConnectWithoutProcessAreaInput[]
+  createMany?: Prisma.BacklogItemCreateManyProcessAreaInputEnvelope
+  connect?: Prisma.BacklogItemWhereUniqueInput | Prisma.BacklogItemWhereUniqueInput[]
+}
+
+export type BacklogItemUncheckedCreateNestedManyWithoutProcessAreaInput = {
+  create?: Prisma.XOR<Prisma.BacklogItemCreateWithoutProcessAreaInput, Prisma.BacklogItemUncheckedCreateWithoutProcessAreaInput> | Prisma.BacklogItemCreateWithoutProcessAreaInput[] | Prisma.BacklogItemUncheckedCreateWithoutProcessAreaInput[]
+  connectOrCreate?: Prisma.BacklogItemCreateOrConnectWithoutProcessAreaInput | Prisma.BacklogItemCreateOrConnectWithoutProcessAreaInput[]
+  createMany?: Prisma.BacklogItemCreateManyProcessAreaInputEnvelope
+  connect?: Prisma.BacklogItemWhereUniqueInput | Prisma.BacklogItemWhereUniqueInput[]
+}
+
+export type BacklogItemUpdateManyWithoutProcessAreaNestedInput = {
+  create?: Prisma.XOR<Prisma.BacklogItemCreateWithoutProcessAreaInput, Prisma.BacklogItemUncheckedCreateWithoutProcessAreaInput> | Prisma.BacklogItemCreateWithoutProcessAreaInput[] | Prisma.BacklogItemUncheckedCreateWithoutProcessAreaInput[]
+  connectOrCreate?: Prisma.BacklogItemCreateOrConnectWithoutProcessAreaInput | Prisma.BacklogItemCreateOrConnectWithoutProcessAreaInput[]
+  upsert?: Prisma.BacklogItemUpsertWithWhereUniqueWithoutProcessAreaInput | Prisma.BacklogItemUpsertWithWhereUniqueWithoutProcessAreaInput[]
+  createMany?: Prisma.BacklogItemCreateManyProcessAreaInputEnvelope
+  set?: Prisma.BacklogItemWhereUniqueInput | Prisma.BacklogItemWhereUniqueInput[]
+  disconnect?: Prisma.BacklogItemWhereUniqueInput | Prisma.BacklogItemWhereUniqueInput[]
+  delete?: Prisma.BacklogItemWhereUniqueInput | Prisma.BacklogItemWhereUniqueInput[]
+  connect?: Prisma.BacklogItemWhereUniqueInput | Prisma.BacklogItemWhereUniqueInput[]
+  update?: Prisma.BacklogItemUpdateWithWhereUniqueWithoutProcessAreaInput | Prisma.BacklogItemUpdateWithWhereUniqueWithoutProcessAreaInput[]
+  updateMany?: Prisma.BacklogItemUpdateManyWithWhereWithoutProcessAreaInput | Prisma.BacklogItemUpdateManyWithWhereWithoutProcessAreaInput[]
+  deleteMany?: Prisma.BacklogItemScalarWhereInput | Prisma.BacklogItemScalarWhereInput[]
+}
+
+export type BacklogItemUncheckedUpdateManyWithoutProcessAreaNestedInput = {
+  create?: Prisma.XOR<Prisma.BacklogItemCreateWithoutProcessAreaInput, Prisma.BacklogItemUncheckedCreateWithoutProcessAreaInput> | Prisma.BacklogItemCreateWithoutProcessAreaInput[] | Prisma.BacklogItemUncheckedCreateWithoutProcessAreaInput[]
+  connectOrCreate?: Prisma.BacklogItemCreateOrConnectWithoutProcessAreaInput | Prisma.BacklogItemCreateOrConnectWithoutProcessAreaInput[]
+  upsert?: Prisma.BacklogItemUpsertWithWhereUniqueWithoutProcessAreaInput | Prisma.BacklogItemUpsertWithWhereUniqueWithoutProcessAreaInput[]
+  createMany?: Prisma.BacklogItemCreateManyProcessAreaInputEnvelope
+  set?: Prisma.BacklogItemWhereUniqueInput | Prisma.BacklogItemWhereUniqueInput[]
+  disconnect?: Prisma.BacklogItemWhereUniqueInput | Prisma.BacklogItemWhereUniqueInput[]
+  delete?: Prisma.BacklogItemWhereUniqueInput | Prisma.BacklogItemWhereUniqueInput[]
+  connect?: Prisma.BacklogItemWhereUniqueInput | Prisma.BacklogItemWhereUniqueInput[]
+  update?: Prisma.BacklogItemUpdateWithWhereUniqueWithoutProcessAreaInput | Prisma.BacklogItemUpdateWithWhereUniqueWithoutProcessAreaInput[]
+  updateMany?: Prisma.BacklogItemUpdateManyWithWhereWithoutProcessAreaInput | Prisma.BacklogItemUpdateManyWithWhereWithoutProcessAreaInput[]
+  deleteMany?: Prisma.BacklogItemScalarWhereInput | Prisma.BacklogItemScalarWhereInput[]
 }
 
 export type EnumBacklogItemTypeFieldUpdateOperationsInput = {
@@ -537,6 +757,353 @@ export type NullableEnumDevelopmentStageFieldUpdateOperationsInput = {
   set?: $Enums.DevelopmentStage | null
 }
 
+export type NullableBoolFieldUpdateOperationsInput = {
+  set?: boolean | null
+}
+
+export type NullableEnumPIPStatusFieldUpdateOperationsInput = {
+  set?: $Enums.PIPStatus | null
+}
+
+export type BacklogItemCreateNestedOneWithoutControlLinksInput = {
+  create?: Prisma.XOR<Prisma.BacklogItemCreateWithoutControlLinksInput, Prisma.BacklogItemUncheckedCreateWithoutControlLinksInput>
+  connectOrCreate?: Prisma.BacklogItemCreateOrConnectWithoutControlLinksInput
+  connect?: Prisma.BacklogItemWhereUniqueInput
+}
+
+export type BacklogItemUpdateOneRequiredWithoutControlLinksNestedInput = {
+  create?: Prisma.XOR<Prisma.BacklogItemCreateWithoutControlLinksInput, Prisma.BacklogItemUncheckedCreateWithoutControlLinksInput>
+  connectOrCreate?: Prisma.BacklogItemCreateOrConnectWithoutControlLinksInput
+  upsert?: Prisma.BacklogItemUpsertWithoutControlLinksInput
+  connect?: Prisma.BacklogItemWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.BacklogItemUpdateToOneWithWhereWithoutControlLinksInput, Prisma.BacklogItemUpdateWithoutControlLinksInput>, Prisma.BacklogItemUncheckedUpdateWithoutControlLinksInput>
+}
+
+export type BacklogItemCreateWithoutProcessAreaInput = {
+  id?: string
+  title: string
+  description?: string | null
+  type?: $Enums.BacklogItemType
+  status?: $Enums.BacklogStatus
+  stage?: $Enums.DevelopmentStage | null
+  priority?: number
+  justification?: string | null
+  approach?: string | null
+  companyId?: string | null
+  createdBy: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  isPIP?: boolean | null
+  pipStatus?: $Enums.PIPStatus | null
+  targetDate?: Date | string | null
+  source?: string | null
+  riskAcceptance?: boolean
+  alarpRationale?: string | null
+  controlLinks?: Prisma.BacklogItemControlCreateNestedManyWithoutBacklogItemInput
+}
+
+export type BacklogItemUncheckedCreateWithoutProcessAreaInput = {
+  id?: string
+  title: string
+  description?: string | null
+  type?: $Enums.BacklogItemType
+  status?: $Enums.BacklogStatus
+  stage?: $Enums.DevelopmentStage | null
+  priority?: number
+  justification?: string | null
+  approach?: string | null
+  companyId?: string | null
+  createdBy: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  isPIP?: boolean | null
+  pipStatus?: $Enums.PIPStatus | null
+  targetDate?: Date | string | null
+  source?: string | null
+  riskAcceptance?: boolean
+  alarpRationale?: string | null
+  controlLinks?: Prisma.BacklogItemControlUncheckedCreateNestedManyWithoutBacklogItemInput
+}
+
+export type BacklogItemCreateOrConnectWithoutProcessAreaInput = {
+  where: Prisma.BacklogItemWhereUniqueInput
+  create: Prisma.XOR<Prisma.BacklogItemCreateWithoutProcessAreaInput, Prisma.BacklogItemUncheckedCreateWithoutProcessAreaInput>
+}
+
+export type BacklogItemCreateManyProcessAreaInputEnvelope = {
+  data: Prisma.BacklogItemCreateManyProcessAreaInput | Prisma.BacklogItemCreateManyProcessAreaInput[]
+  skipDuplicates?: boolean
+}
+
+export type BacklogItemUpsertWithWhereUniqueWithoutProcessAreaInput = {
+  where: Prisma.BacklogItemWhereUniqueInput
+  update: Prisma.XOR<Prisma.BacklogItemUpdateWithoutProcessAreaInput, Prisma.BacklogItemUncheckedUpdateWithoutProcessAreaInput>
+  create: Prisma.XOR<Prisma.BacklogItemCreateWithoutProcessAreaInput, Prisma.BacklogItemUncheckedCreateWithoutProcessAreaInput>
+}
+
+export type BacklogItemUpdateWithWhereUniqueWithoutProcessAreaInput = {
+  where: Prisma.BacklogItemWhereUniqueInput
+  data: Prisma.XOR<Prisma.BacklogItemUpdateWithoutProcessAreaInput, Prisma.BacklogItemUncheckedUpdateWithoutProcessAreaInput>
+}
+
+export type BacklogItemUpdateManyWithWhereWithoutProcessAreaInput = {
+  where: Prisma.BacklogItemScalarWhereInput
+  data: Prisma.XOR<Prisma.BacklogItemUpdateManyMutationInput, Prisma.BacklogItemUncheckedUpdateManyWithoutProcessAreaInput>
+}
+
+export type BacklogItemScalarWhereInput = {
+  AND?: Prisma.BacklogItemScalarWhereInput | Prisma.BacklogItemScalarWhereInput[]
+  OR?: Prisma.BacklogItemScalarWhereInput[]
+  NOT?: Prisma.BacklogItemScalarWhereInput | Prisma.BacklogItemScalarWhereInput[]
+  id?: Prisma.StringFilter<"BacklogItem"> | string
+  title?: Prisma.StringFilter<"BacklogItem"> | string
+  description?: Prisma.StringNullableFilter<"BacklogItem"> | string | null
+  type?: Prisma.EnumBacklogItemTypeFilter<"BacklogItem"> | $Enums.BacklogItemType
+  status?: Prisma.EnumBacklogStatusFilter<"BacklogItem"> | $Enums.BacklogStatus
+  stage?: Prisma.EnumDevelopmentStageNullableFilter<"BacklogItem"> | $Enums.DevelopmentStage | null
+  priority?: Prisma.IntFilter<"BacklogItem"> | number
+  justification?: Prisma.StringNullableFilter<"BacklogItem"> | string | null
+  approach?: Prisma.StringNullableFilter<"BacklogItem"> | string | null
+  companyId?: Prisma.StringNullableFilter<"BacklogItem"> | string | null
+  createdBy?: Prisma.StringFilter<"BacklogItem"> | string
+  createdAt?: Prisma.DateTimeFilter<"BacklogItem"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"BacklogItem"> | Date | string
+  isPIP?: Prisma.BoolNullableFilter<"BacklogItem"> | boolean | null
+  pipStatus?: Prisma.EnumPIPStatusNullableFilter<"BacklogItem"> | $Enums.PIPStatus | null
+  processAreaId?: Prisma.StringNullableFilter<"BacklogItem"> | string | null
+  targetDate?: Prisma.DateTimeNullableFilter<"BacklogItem"> | Date | string | null
+  source?: Prisma.StringNullableFilter<"BacklogItem"> | string | null
+  riskAcceptance?: Prisma.BoolFilter<"BacklogItem"> | boolean
+  alarpRationale?: Prisma.StringNullableFilter<"BacklogItem"> | string | null
+}
+
+export type BacklogItemCreateWithoutControlLinksInput = {
+  id?: string
+  title: string
+  description?: string | null
+  type?: $Enums.BacklogItemType
+  status?: $Enums.BacklogStatus
+  stage?: $Enums.DevelopmentStage | null
+  priority?: number
+  justification?: string | null
+  approach?: string | null
+  companyId?: string | null
+  createdBy: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  isPIP?: boolean | null
+  pipStatus?: $Enums.PIPStatus | null
+  targetDate?: Date | string | null
+  source?: string | null
+  riskAcceptance?: boolean
+  alarpRationale?: string | null
+  processArea?: Prisma.ProcessAreaCreateNestedOneWithoutPipItemsInput
+}
+
+export type BacklogItemUncheckedCreateWithoutControlLinksInput = {
+  id?: string
+  title: string
+  description?: string | null
+  type?: $Enums.BacklogItemType
+  status?: $Enums.BacklogStatus
+  stage?: $Enums.DevelopmentStage | null
+  priority?: number
+  justification?: string | null
+  approach?: string | null
+  companyId?: string | null
+  createdBy: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  isPIP?: boolean | null
+  pipStatus?: $Enums.PIPStatus | null
+  processAreaId?: string | null
+  targetDate?: Date | string | null
+  source?: string | null
+  riskAcceptance?: boolean
+  alarpRationale?: string | null
+}
+
+export type BacklogItemCreateOrConnectWithoutControlLinksInput = {
+  where: Prisma.BacklogItemWhereUniqueInput
+  create: Prisma.XOR<Prisma.BacklogItemCreateWithoutControlLinksInput, Prisma.BacklogItemUncheckedCreateWithoutControlLinksInput>
+}
+
+export type BacklogItemUpsertWithoutControlLinksInput = {
+  update: Prisma.XOR<Prisma.BacklogItemUpdateWithoutControlLinksInput, Prisma.BacklogItemUncheckedUpdateWithoutControlLinksInput>
+  create: Prisma.XOR<Prisma.BacklogItemCreateWithoutControlLinksInput, Prisma.BacklogItemUncheckedCreateWithoutControlLinksInput>
+  where?: Prisma.BacklogItemWhereInput
+}
+
+export type BacklogItemUpdateToOneWithWhereWithoutControlLinksInput = {
+  where?: Prisma.BacklogItemWhereInput
+  data: Prisma.XOR<Prisma.BacklogItemUpdateWithoutControlLinksInput, Prisma.BacklogItemUncheckedUpdateWithoutControlLinksInput>
+}
+
+export type BacklogItemUpdateWithoutControlLinksInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.EnumBacklogItemTypeFieldUpdateOperationsInput | $Enums.BacklogItemType
+  status?: Prisma.EnumBacklogStatusFieldUpdateOperationsInput | $Enums.BacklogStatus
+  stage?: Prisma.NullableEnumDevelopmentStageFieldUpdateOperationsInput | $Enums.DevelopmentStage | null
+  priority?: Prisma.IntFieldUpdateOperationsInput | number
+  justification?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approach?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isPIP?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  pipStatus?: Prisma.NullableEnumPIPStatusFieldUpdateOperationsInput | $Enums.PIPStatus | null
+  targetDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  source?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  riskAcceptance?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  alarpRationale?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  processArea?: Prisma.ProcessAreaUpdateOneWithoutPipItemsNestedInput
+}
+
+export type BacklogItemUncheckedUpdateWithoutControlLinksInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.EnumBacklogItemTypeFieldUpdateOperationsInput | $Enums.BacklogItemType
+  status?: Prisma.EnumBacklogStatusFieldUpdateOperationsInput | $Enums.BacklogStatus
+  stage?: Prisma.NullableEnumDevelopmentStageFieldUpdateOperationsInput | $Enums.DevelopmentStage | null
+  priority?: Prisma.IntFieldUpdateOperationsInput | number
+  justification?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approach?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isPIP?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  pipStatus?: Prisma.NullableEnumPIPStatusFieldUpdateOperationsInput | $Enums.PIPStatus | null
+  processAreaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  targetDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  source?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  riskAcceptance?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  alarpRationale?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type BacklogItemCreateManyProcessAreaInput = {
+  id?: string
+  title: string
+  description?: string | null
+  type?: $Enums.BacklogItemType
+  status?: $Enums.BacklogStatus
+  stage?: $Enums.DevelopmentStage | null
+  priority?: number
+  justification?: string | null
+  approach?: string | null
+  companyId?: string | null
+  createdBy: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  isPIP?: boolean | null
+  pipStatus?: $Enums.PIPStatus | null
+  targetDate?: Date | string | null
+  source?: string | null
+  riskAcceptance?: boolean
+  alarpRationale?: string | null
+}
+
+export type BacklogItemUpdateWithoutProcessAreaInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.EnumBacklogItemTypeFieldUpdateOperationsInput | $Enums.BacklogItemType
+  status?: Prisma.EnumBacklogStatusFieldUpdateOperationsInput | $Enums.BacklogStatus
+  stage?: Prisma.NullableEnumDevelopmentStageFieldUpdateOperationsInput | $Enums.DevelopmentStage | null
+  priority?: Prisma.IntFieldUpdateOperationsInput | number
+  justification?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approach?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isPIP?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  pipStatus?: Prisma.NullableEnumPIPStatusFieldUpdateOperationsInput | $Enums.PIPStatus | null
+  targetDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  source?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  riskAcceptance?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  alarpRationale?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  controlLinks?: Prisma.BacklogItemControlUpdateManyWithoutBacklogItemNestedInput
+}
+
+export type BacklogItemUncheckedUpdateWithoutProcessAreaInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.EnumBacklogItemTypeFieldUpdateOperationsInput | $Enums.BacklogItemType
+  status?: Prisma.EnumBacklogStatusFieldUpdateOperationsInput | $Enums.BacklogStatus
+  stage?: Prisma.NullableEnumDevelopmentStageFieldUpdateOperationsInput | $Enums.DevelopmentStage | null
+  priority?: Prisma.IntFieldUpdateOperationsInput | number
+  justification?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approach?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isPIP?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  pipStatus?: Prisma.NullableEnumPIPStatusFieldUpdateOperationsInput | $Enums.PIPStatus | null
+  targetDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  source?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  riskAcceptance?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  alarpRationale?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  controlLinks?: Prisma.BacklogItemControlUncheckedUpdateManyWithoutBacklogItemNestedInput
+}
+
+export type BacklogItemUncheckedUpdateManyWithoutProcessAreaInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  type?: Prisma.EnumBacklogItemTypeFieldUpdateOperationsInput | $Enums.BacklogItemType
+  status?: Prisma.EnumBacklogStatusFieldUpdateOperationsInput | $Enums.BacklogStatus
+  stage?: Prisma.NullableEnumDevelopmentStageFieldUpdateOperationsInput | $Enums.DevelopmentStage | null
+  priority?: Prisma.IntFieldUpdateOperationsInput | number
+  justification?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approach?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdBy?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isPIP?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
+  pipStatus?: Prisma.NullableEnumPIPStatusFieldUpdateOperationsInput | $Enums.PIPStatus | null
+  targetDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  source?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  riskAcceptance?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  alarpRationale?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+
+/**
+ * Count Type BacklogItemCountOutputType
+ */
+
+export type BacklogItemCountOutputType = {
+  controlLinks: number
+}
+
+export type BacklogItemCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  controlLinks?: boolean | BacklogItemCountOutputTypeCountControlLinksArgs
+}
+
+/**
+ * BacklogItemCountOutputType without action
+ */
+export type BacklogItemCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the BacklogItemCountOutputType
+   */
+  select?: Prisma.BacklogItemCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * BacklogItemCountOutputType without action
+ */
+export type BacklogItemCountOutputTypeCountControlLinksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.BacklogItemControlWhereInput
+}
 
 
 export type BacklogItemSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -553,6 +1120,16 @@ export type BacklogItemSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   createdBy?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  isPIP?: boolean
+  pipStatus?: boolean
+  processAreaId?: boolean
+  targetDate?: boolean
+  source?: boolean
+  riskAcceptance?: boolean
+  alarpRationale?: boolean
+  processArea?: boolean | Prisma.BacklogItem$processAreaArgs<ExtArgs>
+  controlLinks?: boolean | Prisma.BacklogItem$controlLinksArgs<ExtArgs>
+  _count?: boolean | Prisma.BacklogItemCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["backlogItem"]>
 
 export type BacklogItemSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -569,6 +1146,14 @@ export type BacklogItemSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
   createdBy?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  isPIP?: boolean
+  pipStatus?: boolean
+  processAreaId?: boolean
+  targetDate?: boolean
+  source?: boolean
+  riskAcceptance?: boolean
+  alarpRationale?: boolean
+  processArea?: boolean | Prisma.BacklogItem$processAreaArgs<ExtArgs>
 }, ExtArgs["result"]["backlogItem"]>
 
 export type BacklogItemSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -585,6 +1170,14 @@ export type BacklogItemSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
   createdBy?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  isPIP?: boolean
+  pipStatus?: boolean
+  processAreaId?: boolean
+  targetDate?: boolean
+  source?: boolean
+  riskAcceptance?: boolean
+  alarpRationale?: boolean
+  processArea?: boolean | Prisma.BacklogItem$processAreaArgs<ExtArgs>
 }, ExtArgs["result"]["backlogItem"]>
 
 export type BacklogItemSelectScalar = {
@@ -601,13 +1194,34 @@ export type BacklogItemSelectScalar = {
   createdBy?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  isPIP?: boolean
+  pipStatus?: boolean
+  processAreaId?: boolean
+  targetDate?: boolean
+  source?: boolean
+  riskAcceptance?: boolean
+  alarpRationale?: boolean
 }
 
-export type BacklogItemOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "description" | "type" | "status" | "stage" | "priority" | "justification" | "approach" | "companyId" | "createdBy" | "createdAt" | "updatedAt", ExtArgs["result"]["backlogItem"]>
+export type BacklogItemOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "description" | "type" | "status" | "stage" | "priority" | "justification" | "approach" | "companyId" | "createdBy" | "createdAt" | "updatedAt" | "isPIP" | "pipStatus" | "processAreaId" | "targetDate" | "source" | "riskAcceptance" | "alarpRationale", ExtArgs["result"]["backlogItem"]>
+export type BacklogItemInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  processArea?: boolean | Prisma.BacklogItem$processAreaArgs<ExtArgs>
+  controlLinks?: boolean | Prisma.BacklogItem$controlLinksArgs<ExtArgs>
+  _count?: boolean | Prisma.BacklogItemCountOutputTypeDefaultArgs<ExtArgs>
+}
+export type BacklogItemIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  processArea?: boolean | Prisma.BacklogItem$processAreaArgs<ExtArgs>
+}
+export type BacklogItemIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  processArea?: boolean | Prisma.BacklogItem$processAreaArgs<ExtArgs>
+}
 
 export type $BacklogItemPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "BacklogItem"
-  objects: {}
+  objects: {
+    processArea: Prisma.$ProcessAreaPayload<ExtArgs> | null
+    controlLinks: Prisma.$BacklogItemControlPayload<ExtArgs>[]
+  }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     title: string
@@ -622,6 +1236,13 @@ export type $BacklogItemPayload<ExtArgs extends runtime.Types.Extensions.Interna
     createdBy: string
     createdAt: Date
     updatedAt: Date
+    isPIP: boolean | null
+    pipStatus: $Enums.PIPStatus | null
+    processAreaId: string | null
+    targetDate: Date | null
+    source: string | null
+    riskAcceptance: boolean
+    alarpRationale: string | null
   }, ExtArgs["result"]["backlogItem"]>
   composites: {}
 }
@@ -1016,6 +1637,8 @@ readonly fields: BacklogItemFieldRefs;
  */
 export interface Prisma__BacklogItemClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  processArea<T extends Prisma.BacklogItem$processAreaArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.BacklogItem$processAreaArgs<ExtArgs>>): Prisma.Prisma__ProcessAreaClient<runtime.Types.Result.GetResult<Prisma.$ProcessAreaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  controlLinks<T extends Prisma.BacklogItem$controlLinksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.BacklogItem$controlLinksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BacklogItemControlPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1058,6 +1681,13 @@ export interface BacklogItemFieldRefs {
   readonly createdBy: Prisma.FieldRef<"BacklogItem", 'String'>
   readonly createdAt: Prisma.FieldRef<"BacklogItem", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"BacklogItem", 'DateTime'>
+  readonly isPIP: Prisma.FieldRef<"BacklogItem", 'Boolean'>
+  readonly pipStatus: Prisma.FieldRef<"BacklogItem", 'PIPStatus'>
+  readonly processAreaId: Prisma.FieldRef<"BacklogItem", 'String'>
+  readonly targetDate: Prisma.FieldRef<"BacklogItem", 'DateTime'>
+  readonly source: Prisma.FieldRef<"BacklogItem", 'String'>
+  readonly riskAcceptance: Prisma.FieldRef<"BacklogItem", 'Boolean'>
+  readonly alarpRationale: Prisma.FieldRef<"BacklogItem", 'String'>
 }
     
 
@@ -1074,6 +1704,10 @@ export type BacklogItemFindUniqueArgs<ExtArgs extends runtime.Types.Extensions.I
    * Omit specific fields from the BacklogItem
    */
   omit?: Prisma.BacklogItemOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BacklogItemInclude<ExtArgs> | null
   /**
    * Filter, which BacklogItem to fetch.
    */
@@ -1093,6 +1727,10 @@ export type BacklogItemFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Exten
    */
   omit?: Prisma.BacklogItemOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BacklogItemInclude<ExtArgs> | null
+  /**
    * Filter, which BacklogItem to fetch.
    */
   where: Prisma.BacklogItemWhereUniqueInput
@@ -1110,6 +1748,10 @@ export type BacklogItemFindFirstArgs<ExtArgs extends runtime.Types.Extensions.In
    * Omit specific fields from the BacklogItem
    */
   omit?: Prisma.BacklogItemOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BacklogItemInclude<ExtArgs> | null
   /**
    * Filter, which BacklogItem to fetch.
    */
@@ -1159,6 +1801,10 @@ export type BacklogItemFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Extens
    */
   omit?: Prisma.BacklogItemOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BacklogItemInclude<ExtArgs> | null
+  /**
    * Filter, which BacklogItem to fetch.
    */
   where?: Prisma.BacklogItemWhereInput
@@ -1206,6 +1852,10 @@ export type BacklogItemFindManyArgs<ExtArgs extends runtime.Types.Extensions.Int
    * Omit specific fields from the BacklogItem
    */
   omit?: Prisma.BacklogItemOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BacklogItemInclude<ExtArgs> | null
   /**
    * Filter, which BacklogItems to fetch.
    */
@@ -1255,6 +1905,10 @@ export type BacklogItemCreateArgs<ExtArgs extends runtime.Types.Extensions.Inter
    */
   omit?: Prisma.BacklogItemOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BacklogItemInclude<ExtArgs> | null
+  /**
    * The data needed to create a BacklogItem.
    */
   data: Prisma.XOR<Prisma.BacklogItemCreateInput, Prisma.BacklogItemUncheckedCreateInput>
@@ -1288,6 +1942,10 @@ export type BacklogItemCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Ext
    */
   data: Prisma.BacklogItemCreateManyInput | Prisma.BacklogItemCreateManyInput[]
   skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BacklogItemIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1302,6 +1960,10 @@ export type BacklogItemUpdateArgs<ExtArgs extends runtime.Types.Extensions.Inter
    * Omit specific fields from the BacklogItem
    */
   omit?: Prisma.BacklogItemOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BacklogItemInclude<ExtArgs> | null
   /**
    * The data needed to update a BacklogItem.
    */
@@ -1354,6 +2016,10 @@ export type BacklogItemUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Ext
    * Limit how many BacklogItems to update.
    */
   limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BacklogItemIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1368,6 +2034,10 @@ export type BacklogItemUpsertArgs<ExtArgs extends runtime.Types.Extensions.Inter
    * Omit specific fields from the BacklogItem
    */
   omit?: Prisma.BacklogItemOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BacklogItemInclude<ExtArgs> | null
   /**
    * The filter to search for the BacklogItem to update in case it exists.
    */
@@ -1395,6 +2065,10 @@ export type BacklogItemDeleteArgs<ExtArgs extends runtime.Types.Extensions.Inter
    */
   omit?: Prisma.BacklogItemOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BacklogItemInclude<ExtArgs> | null
+  /**
    * Filter which BacklogItem to delete.
    */
   where: Prisma.BacklogItemWhereUniqueInput
@@ -1415,6 +2089,49 @@ export type BacklogItemDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.I
 }
 
 /**
+ * BacklogItem.processArea
+ */
+export type BacklogItem$processAreaArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ProcessArea
+   */
+  select?: Prisma.ProcessAreaSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ProcessArea
+   */
+  omit?: Prisma.ProcessAreaOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ProcessAreaInclude<ExtArgs> | null
+  where?: Prisma.ProcessAreaWhereInput
+}
+
+/**
+ * BacklogItem.controlLinks
+ */
+export type BacklogItem$controlLinksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the BacklogItemControl
+   */
+  select?: Prisma.BacklogItemControlSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the BacklogItemControl
+   */
+  omit?: Prisma.BacklogItemControlOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BacklogItemControlInclude<ExtArgs> | null
+  where?: Prisma.BacklogItemControlWhereInput
+  orderBy?: Prisma.BacklogItemControlOrderByWithRelationInput | Prisma.BacklogItemControlOrderByWithRelationInput[]
+  cursor?: Prisma.BacklogItemControlWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.BacklogItemControlScalarFieldEnum | Prisma.BacklogItemControlScalarFieldEnum[]
+}
+
+/**
  * BacklogItem without action
  */
 export type BacklogItemDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1426,4 +2143,8 @@ export type BacklogItemDefaultArgs<ExtArgs extends runtime.Types.Extensions.Inte
    * Omit specific fields from the BacklogItem
    */
   omit?: Prisma.BacklogItemOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BacklogItemInclude<ExtArgs> | null
 }

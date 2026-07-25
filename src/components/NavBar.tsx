@@ -33,7 +33,6 @@ export async function NavBar() {
             {isAdmin ? (
               <>
                 <NavLink href="/fla">Dashboard</NavLink>
-                <NavLink href="/setup/process-areas">Process Areas</NavLink>
                 <NavLink href="/gamification">Gamification</NavLink>
                 <NavLink href="/admin">Admin</NavLink>
                 <NavLink href="/help">Help</NavLink>
@@ -42,7 +41,6 @@ export async function NavBar() {
               <>
                 <NavLink href="/fla">Dashboard</NavLink>
                 <NavLink href="/fla">My Work</NavLink>
-                <NavLink href="/setup/process-areas">Process Areas</NavLink>
                 <NavLink href="/help">Help</NavLink>
               </>
             )}

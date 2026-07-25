@@ -433,7 +433,8 @@ export const ModelName = {
   GamificationStage: 'GamificationStage',
   WebhookLog: 'WebhookLog',
   Document: 'Document',
-  BacklogItem: 'BacklogItem'
+  BacklogItem: 'BacklogItem',
+  BacklogItemControl: 'BacklogItemControl'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -449,7 +450,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "activityLog" | "activityLogType" | "assuranceActivityType" | "assuranceProtocol" | "standard" | "processArea" | "subProcess" | "controlSubProcess" | "control" | "assessmentTemplate" | "assessmentTemplateControlLinkage" | "assessmentTemplateActivityType" | "assessment" | "assessmentAssessor" | "controlAssignment" | "sampleType" | "recordSourceType" | "sample" | "finding" | "action" | "attachment" | "attachmentMapping" | "achievementBadge" | "userAchievement" | "pointTransaction" | "gameAttribute" | "gameAttributeRule" | "emotionalDriveMetric" | "milestone" | "userRole" | "userRoleMapping" | "company" | "department" | "position" | "userCompany" | "userFavorite" | "assessmentActType" | "aact" | "aActControls" | "aActUsers" | "aActDetails" | "knowledgebase" | "mapArt2Know" | "requirement" | "mapControl2Requirement" | "gamificationStage" | "webhookLog" | "document" | "backlogItem"
+    modelProps: "user" | "activityLog" | "activityLogType" | "assuranceActivityType" | "assuranceProtocol" | "standard" | "processArea" | "subProcess" | "controlSubProcess" | "control" | "assessmentTemplate" | "assessmentTemplateControlLinkage" | "assessmentTemplateActivityType" | "assessment" | "assessmentAssessor" | "controlAssignment" | "sampleType" | "recordSourceType" | "sample" | "finding" | "action" | "attachment" | "attachmentMapping" | "achievementBadge" | "userAchievement" | "pointTransaction" | "gameAttribute" | "gameAttributeRule" | "emotionalDriveMetric" | "milestone" | "userRole" | "userRoleMapping" | "company" | "department" | "position" | "userCompany" | "userFavorite" | "assessmentActType" | "aact" | "aActControls" | "aActUsers" | "aActDetails" | "knowledgebase" | "mapArt2Know" | "requirement" | "mapControl2Requirement" | "gamificationStage" | "webhookLog" | "document" | "backlogItem" | "backlogItemControl"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -4153,6 +4154,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    BacklogItemControl: {
+      payload: Prisma.$BacklogItemControlPayload<ExtArgs>
+      fields: Prisma.BacklogItemControlFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.BacklogItemControlFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BacklogItemControlPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.BacklogItemControlFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BacklogItemControlPayload>
+        }
+        findFirst: {
+          args: Prisma.BacklogItemControlFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BacklogItemControlPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.BacklogItemControlFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BacklogItemControlPayload>
+        }
+        findMany: {
+          args: Prisma.BacklogItemControlFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BacklogItemControlPayload>[]
+        }
+        create: {
+          args: Prisma.BacklogItemControlCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BacklogItemControlPayload>
+        }
+        createMany: {
+          args: Prisma.BacklogItemControlCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.BacklogItemControlCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BacklogItemControlPayload>[]
+        }
+        delete: {
+          args: Prisma.BacklogItemControlDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BacklogItemControlPayload>
+        }
+        update: {
+          args: Prisma.BacklogItemControlUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BacklogItemControlPayload>
+        }
+        deleteMany: {
+          args: Prisma.BacklogItemControlDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.BacklogItemControlUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.BacklogItemControlUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BacklogItemControlPayload>[]
+        }
+        upsert: {
+          args: Prisma.BacklogItemControlUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BacklogItemControlPayload>
+        }
+        aggregate: {
+          args: Prisma.BacklogItemControlAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateBacklogItemControl>
+        }
+        groupBy: {
+          args: Prisma.BacklogItemControlGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.BacklogItemControlGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.BacklogItemControlCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.BacklogItemControlCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -4298,7 +4373,9 @@ export const ProcessAreaScalarFieldEnum = {
   pId: 'pId',
   standard: 'standard',
   standardId: 'standardId',
-  companyId: 'companyId'
+  companyId: 'companyId',
+  micStatement: 'micStatement',
+  micStatementUpdatedAt: 'micStatementUpdatedAt'
 } as const
 
 export type ProcessAreaScalarFieldEnum = (typeof ProcessAreaScalarFieldEnum)[keyof typeof ProcessAreaScalarFieldEnum]
@@ -4907,10 +4984,27 @@ export const BacklogItemScalarFieldEnum = {
   companyId: 'companyId',
   createdBy: 'createdBy',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  isPIP: 'isPIP',
+  pipStatus: 'pipStatus',
+  processAreaId: 'processAreaId',
+  targetDate: 'targetDate',
+  source: 'source',
+  riskAcceptance: 'riskAcceptance',
+  alarpRationale: 'alarpRationale'
 } as const
 
 export type BacklogItemScalarFieldEnum = (typeof BacklogItemScalarFieldEnum)[keyof typeof BacklogItemScalarFieldEnum]
+
+
+export const BacklogItemControlScalarFieldEnum = {
+  id: 'id',
+  backlogItemId: 'backlogItemId',
+  controlId: 'controlId',
+  createdAt: 'createdAt'
+} as const
+
+export type BacklogItemControlScalarFieldEnum = (typeof BacklogItemControlScalarFieldEnum)[keyof typeof BacklogItemControlScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -5218,6 +5312,20 @@ export type EnumDevelopmentStageFieldRefInput<$PrismaModel> = FieldRefInputType<
 export type ListEnumDevelopmentStageFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DevelopmentStage[]'>
     
 
+
+/**
+ * Reference to a field of type 'PIPStatus'
+ */
+export type EnumPIPStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PIPStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'PIPStatus[]'
+ */
+export type ListEnumPIPStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PIPStatus[]'>
+    
+
 /**
  * Batch Payload for updateMany & deleteMany & createMany
  */
@@ -5378,6 +5486,7 @@ export type GlobalOmitConfig = {
   webhookLog?: Prisma.WebhookLogOmit
   document?: Prisma.DocumentOmit
   backlogItem?: Prisma.BacklogItemOmit
+  backlogItemControl?: Prisma.BacklogItemControlOmit
 }
 
 /* Types for Logging */

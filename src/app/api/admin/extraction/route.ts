@@ -39,6 +39,21 @@ export async function GET(request: Request) {
         orderBy: { name: "asc" },
       });
 
+      // Fetch available Requirements for mapping dropdown (company-scoped)
+      // Order: company standards first, ISO/international standards last
+      const requirements = await prisma.$queryRawUnsafe<Array<{
+        rId: number; requirementId: string; standard: string; processAreaId: string | null; clauseContent: string;
+      }>>(
+        `SELECT "rID" as "rId", "requirementId", "standard", "processAreaId", "clauseContent"
+         FROM "Requirement"
+         WHERE "companyId" = $1
+         ORDER BY
+           CASE WHEN "standard" LIKE 'ISO%' THEN 1 ELSE 0 END,
+           "standard" ASC,
+           "requirementId" ASC`,
+        companyId || "SAMS001"
+      );
+
       return NextResponse.json({
         document: {
           id: doc.id,
@@ -50,6 +65,7 @@ export async function GET(request: Request) {
         },
         candidates,
         processAreas,
+        requirements,
       });
     }
 

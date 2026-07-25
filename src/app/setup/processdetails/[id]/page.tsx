@@ -95,6 +95,79 @@ export default async function ProcessDetailsPage({ params }: { params: Promise<{
     id
   );
 
+  // PIP items for this PA
+  const pipItems = await prisma.backlogItem.findMany({
+    where: { isPIP: true, processAreaId: id },
+    orderBy: { createdAt: "desc" },
+    include: {
+      controlLinks: { include: { control: { select: { id: true, name: true } } } },
+    },
+  });
+
+  // ── Assessment Actions (auto-synced to Kanban) ──
+  // Find actions linked to this PA via Finding → Assessment → ControlAssignment → Control
+  const assessmentActions = spControlIds.length > 0 ? await prisma.$queryRawUnsafe<Array<{
+    id: string; actionId: string; "actionDescription": string; "actionParty": string;
+    "targetDate": string; "apAgreed": boolean; "closureDate": string | null;
+    findingId: string; "findingDescription": string;
+    assessmentId: string; "assessmentName": string;
+    controlId: string; "controlName": string;
+  }>>(
+    `SELECT
+       a.id, a."actionId", a."actionDescription", a."actionParty",
+       a."targetDate"::text, a."apAgreed", a."closureDate"::text,
+       f.id as "findingId", f.description as "findingDescription",
+       ass.id as "assessmentId", ass.name as "assessmentName",
+       c.id as "controlId", c.name as "controlName"
+     FROM "Action" a
+     JOIN "Finding" f ON f.id = a."findingId"
+     JOIN "Assessment" ass ON ass.id = f."assessmentId"
+     JOIN "ControlAssignment" ca ON ca."assessmentId" = ass.id
+     JOIN "Control" c ON c.id = ca."controlId"
+     WHERE c."processAreaId" = $1
+       AND a."apAgreed" = true
+     ORDER BY a."closureDate" NULLS FIRST, a."targetDate" ASC`,
+    id
+  ) : [];
+
+  // ── Health Metrics for ORCA Overview ──
+  const allControlsFlat = mergedSubProcesses.flatMap((sp) => sp.controls);
+  const healthDistribution = { effective: 0, partiallyEffective: 0, ineffective: 0, neverTested: 0 };
+  for (const c of allControlsFlat) {
+    const score = (c as any).rawHealthScore;
+    if (score == null || score === 0) healthDistribution.neverTested++;
+    else if (score >= 80) healthDistribution.effective++;
+    else if (score >= 50) healthDistribution.partiallyEffective++;
+    else healthDistribution.ineffective++;
+  }
+  const testedCount = allControlsFlat.length - healthDistribution.neverTested;
+  const avgHealth = testedCount > 0
+    ? Math.round(allControlsFlat.reduce((s, c) => s + ((c as any).rawHealthScore || 0), 0) / testedCount)
+    : null;
+
+  // Findings & actions summary
+  const openFindings = assessments.flatMap(a => a.findings || []).filter((f: any) => f.status !== 'Closed');
+  const allActions = openFindings.flatMap((f: any) => f.actions || []);
+  const overdueActions = allActions.filter((a: any) => a.dueDate && new Date(a.dueDate) < new Date() && a.status !== 'Closed');
+
+  // Last assessment
+  const lastAssessment = assessments.length > 0 ? assessments[0] : null;
+
+  const healthMetrics = {
+    totalControls: allControlsFlat.length,
+    healthDistribution,
+    avgHealth,
+    openFindings: openFindings.length,
+    overdueActions: overdueActions.length,
+    totalAssessments: assessments.length,
+    lastAssessment: lastAssessment ? {
+      id: lastAssessment.id,
+      startDate: lastAssessment.startDate.toISOString(),
+      assessorName: (lastAssessment as any).assessor?.name || null,
+      name: (lastAssessment as any).name || (lastAssessment as any).assessmentName || null,
+    } : null,
+  };
+
   return (
     <ProcessDetailsClient
       processArea={processArea}
@@ -102,6 +175,9 @@ export default async function ProcessDetailsPage({ params }: { params: Promise<{
       assessments={assessments}
       reqWithControls={reqWithControls}
       allControls={mergedSubProcesses.flatMap((sp) => sp.controls)}
+      healthMetrics={healthMetrics}
+      pipItems={JSON.parse(JSON.stringify(pipItems))}
+      assessmentActions={JSON.parse(JSON.stringify(assessmentActions))}
       currentUserName={currentUserName}
       currentUserRole={currentUserRole}
       companyId={companyId}

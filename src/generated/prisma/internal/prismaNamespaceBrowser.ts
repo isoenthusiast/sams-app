@@ -100,7 +100,8 @@ export const ModelName = {
   GamificationStage: 'GamificationStage',
   WebhookLog: 'WebhookLog',
   Document: 'Document',
-  BacklogItem: 'BacklogItem'
+  BacklogItem: 'BacklogItem',
+  BacklogItemControl: 'BacklogItemControl'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -225,7 +226,9 @@ export const ProcessAreaScalarFieldEnum = {
   pId: 'pId',
   standard: 'standard',
   standardId: 'standardId',
-  companyId: 'companyId'
+  companyId: 'companyId',
+  micStatement: 'micStatement',
+  micStatementUpdatedAt: 'micStatementUpdatedAt'
 } as const
 
 export type ProcessAreaScalarFieldEnum = (typeof ProcessAreaScalarFieldEnum)[keyof typeof ProcessAreaScalarFieldEnum]
@@ -834,10 +837,27 @@ export const BacklogItemScalarFieldEnum = {
   companyId: 'companyId',
   createdBy: 'createdBy',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  isPIP: 'isPIP',
+  pipStatus: 'pipStatus',
+  processAreaId: 'processAreaId',
+  targetDate: 'targetDate',
+  source: 'source',
+  riskAcceptance: 'riskAcceptance',
+  alarpRationale: 'alarpRationale'
 } as const
 
 export type BacklogItemScalarFieldEnum = (typeof BacklogItemScalarFieldEnum)[keyof typeof BacklogItemScalarFieldEnum]
+
+
+export const BacklogItemControlScalarFieldEnum = {
+  id: 'id',
+  backlogItemId: 'backlogItemId',
+  controlId: 'controlId',
+  createdAt: 'createdAt'
+} as const
+
+export type BacklogItemControlScalarFieldEnum = (typeof BacklogItemControlScalarFieldEnum)[keyof typeof BacklogItemControlScalarFieldEnum]
 
 
 export const SortOrder = {

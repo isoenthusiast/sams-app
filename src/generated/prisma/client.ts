@@ -291,3 +291,8 @@ export type Document = Prisma.DocumentModel
  * 
  */
 export type BacklogItem = Prisma.BacklogItemModel
+/**
+ * Model BacklogItemControl
+ * 
+ */
+export type BacklogItemControl = Prisma.BacklogItemControlModel

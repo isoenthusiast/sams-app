@@ -52,6 +52,14 @@ interface ProcessArea {
   standard: string | null;
 }
 
+interface RequirementOption {
+  rId: number;
+  requirementId: string;
+  standard: string;
+  processAreaId: string | null;
+  clauseContent: string;
+}
+
 export function ExtractionView() {
   const [docs, setDocs] = useState<DocItem[]>([]);
   const [loading, setLoading] = useState(true);
@@ -60,10 +68,13 @@ export function ExtractionView() {
   const [selectedDocId, setSelectedDocId] = useState<string | null>(null);
   const [candidates, setCandidates] = useState<Candidate[]>([]);
   const [processAreas, setProcessAreas] = useState<ProcessArea[]>([]);
+  const [requirements, setRequirements] = useState<RequirementOption[]>([]);
   const [selectedDoc, setSelectedDoc] = useState<any>(null);
   const [processingAction, setProcessingAction] = useState<string | null>(null);
   const [uploadFile, setUploadFile] = useState<File | null>(null);
   const [uploadPA, setUploadPA] = useState<string>("");
+  const [editingCandidate, setEditingCandidate] = useState<string | null>(null);
+  const [editForm, setEditForm] = useState<Partial<Candidate>>({});
 
   const fetchDocs = useCallback(async () => {
     try {
@@ -87,6 +98,7 @@ export function ExtractionView() {
       setSelectedDoc(data.document);
       setCandidates(data.candidates || []);
       setProcessAreas(data.processAreas || []);
+      setRequirements(data.requirements || []);
     } catch {
       setError("Failed to load candidates");
     }
@@ -116,16 +128,17 @@ export function ExtractionView() {
     }
   };
 
-  const handleReview = async (candidateId: string, action: "approve" | "reject") => {
+  const handleReview = async (candidateId: string, action: "approve" | "reject", edits?: Partial<Candidate>) => {
     setProcessingAction(candidateId);
     try {
       const res = await fetch("/api/admin/extraction", {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ id: candidateId, action }),
+        body: JSON.stringify({ id: candidateId, action, edits }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Review failed");
+      setEditingCandidate(null);
       // Refresh candidates
       if (selectedDocId) fetchCandidates(selectedDocId);
       await fetchDocs();
@@ -135,6 +148,22 @@ export function ExtractionView() {
       setProcessingAction(null);
     }
   };
+
+  const startEditing = (c: Candidate) => {
+    setEditingCandidate(c.id);
+    setEditForm({ ...c });
+  };
+
+  // ── Derived: unique standards from company's process areas ──
+  const availableStandards = [...new Set(processAreas.map(pa => pa.standard).filter((s): s is string => !!s))].sort();
+
+  // Filter PAs by selected standard, requirements by selected PA
+  const filteredPAs = editForm.standard
+    ? processAreas.filter(pa => pa.standard === editForm.standard)
+    : processAreas;
+  const filteredReqs = editForm.processAreaId
+    ? requirements.filter(r => r.processAreaId === editForm.processAreaId)
+    : requirements;
 
   const statusBadge = (status: string) => {
     const colors: Record<string, string> = {
@@ -257,50 +286,147 @@ export function ExtractionView() {
                     ) : (
                       candidates.map((c) => (
                         <div key={c.id} className="rounded-md border border-slate-200 p-3 bg-white">
-                          <div className="flex items-start justify-between gap-3">
-                            <div className="flex-1 min-w-0">
-                              <div className="flex items-center gap-2 flex-wrap">
-                                <span className="text-sm font-medium text-slate-900">{c.name}</span>
-                                <Badge variant="default">{c.controlType}</Badge>
-                                {candidateStatusBadge(c.status)}
+                          {editingCandidate === c.id ? (
+                            /* ── Edit Form ── */
+                            <div className="space-y-3">
+                              <div className="flex items-center justify-between">
+                                <span className="text-sm font-medium text-slate-700">✏️ Editing Candidate</span>
+                                <button onClick={() => setEditingCandidate(null)} className="text-xs text-slate-400 hover:text-slate-600">Cancel</button>
                               </div>
-                              <p className="text-xs text-slate-600 mt-1 line-clamp-2">{c.statement}</p>
-                              {/* CSF Summary */}
-                              <div className="mt-2 grid grid-cols-2 sm:grid-cols-4 gap-1">
-                                {c.csfWho && <span className="text-xs text-slate-500">👤 {c.csfWho}</span>}
-                                {c.csfWhen && <span className="text-xs text-slate-500">⏰ {c.csfWhen}</span>}
-                                {c.csfWhere && <span className="text-xs text-slate-500">📍 {c.csfWhere}</span>}
-                                {c.Requirements && <span className="text-xs text-slate-500">📋 {c.Requirements}</span>}
+                              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                                <div>
+                                  <label className="text-xs text-slate-500">Name</label>
+                                  <input className="w-full border rounded px-2 py-1 text-sm" value={editForm.name || ""} onChange={e => setEditForm({...editForm, name: e.target.value})} />
+                                </div>
+                                <div>
+                                  <label className="text-xs text-slate-500">Control Type</label>
+                                  <select className="w-full border rounded px-2 py-1 text-sm" value={editForm.controlType || "Procedural"} onChange={e => setEditForm({...editForm, controlType: e.target.value})}>
+                                    {["Administrative","Procedural","Analytical","Behavioral","Informational","Engineering"].map(t => <option key={t} value={t}>{t}</option>)}
+                                  </select>
+                                </div>
+                                <div>
+                                  <label className="text-xs text-slate-500">Who (Role)</label>
+                                  <input className="w-full border rounded px-2 py-1 text-sm" value={editForm.csfWho || ""} onChange={e => setEditForm({...editForm, csfWho: e.target.value})} />
+                                </div>
+                                <div>
+                                  <label className="text-xs text-slate-500">When (Frequency)</label>
+                                  <select className="w-full border rounded px-2 py-1 text-sm" value={editForm.csfWhen || ""} onChange={e => setEditForm({...editForm, csfWhen: e.target.value})}>
+                                    <option value="">—</option>
+                                    {["Daily","Weekly","Monthly","Quarterly","Annually","As Needed","Continuous","Per Shift","Before Each Use","After Each Use"].map(t => <option key={t} value={t}>{t}</option>)}
+                                  </select>
+                                </div>
+                                <div>
+                                  <label className="text-xs text-slate-500">Where</label>
+                                  <input className="w-full border rounded px-2 py-1 text-sm" value={editForm.csfWhere || ""} onChange={e => setEditForm({...editForm, csfWhere: e.target.value})} />
+                                </div>
+                                <div>
+                                  <label className="text-xs text-slate-500">What</label>
+                                  <input className="w-full border rounded px-2 py-1 text-sm" value={editForm.csfWhat || ""} onChange={e => setEditForm({...editForm, csfWhat: e.target.value})} />
+                                </div>
+                                <div>
+                                  <label className="text-xs text-slate-500">Why (Risk Addressed)</label>
+                                  <input className="w-full border rounded px-2 py-1 text-sm" value={editForm.csfWhy || ""} onChange={e => setEditForm({...editForm, csfWhy: e.target.value})} />
+                                </div>
+                                <div>
+                                  <label className="text-xs text-slate-500">Evidence</label>
+                                  <input className="w-full border rounded px-2 py-1 text-sm" value={editForm.csfEvidence || ""} onChange={e => setEditForm({...editForm, csfEvidence: e.target.value})} />
+                                </div>
+                                <div>
+                                  <label className="text-xs text-slate-500">Standard</label>
+                                  <select
+                                    className="w-full border rounded px-2 py-1 text-sm"
+                                    value={editForm.standard || ""}
+                                    onChange={e => setEditForm({...editForm, standard: e.target.value || null, processAreaId: "", Requirements: "Unmapped Controls"})}
+                                  >
+                                    <option value="">— Select Standard —</option>
+                                    {availableStandards.map(s => <option key={s} value={s}>{s}</option>)}
+                                  </select>
+                                </div>
+                                <div>
+                                  <label className="text-xs text-slate-500">Process Area</label>
+                                  <select
+                                    className="w-full border rounded px-2 py-1 text-sm"
+                                    value={editForm.processAreaId || ""}
+                                    onChange={e => setEditForm({...editForm, processAreaId: e.target.value || "", Requirements: "Unmapped Controls"})}
+                                  >
+                                    <option value="">— Select PA —</option>
+                                    {filteredPAs.map(pa => <option key={pa.id} value={pa.id}>{pa.name}</option>)}
+                                  </select>
+                                </div>
+                                <div>
+                                  <label className="text-xs text-slate-500">Map to Requirement</label>
+                                  <select
+                                    className="w-full border rounded px-2 py-1 text-sm"
+                                    value={editForm.Requirements || "Unmapped Controls"}
+                                    onChange={e => setEditForm({...editForm, Requirements: e.target.value})}
+                                  >
+                                    <option value="Unmapped Controls">Unmapped Controls</option>
+                                    {filteredReqs.map(r => (
+                                      <option key={r.rId} value={r.requirementId}>
+                                        {r.requirementId} — {(r.clauseContent || "").substring(0, 80)}
+                                      </option>
+                                    ))}
+                                  </select>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                  <input type="checkbox" id={`hsse-${c.id}`} checked={editForm.isHsseCritical || false} onChange={e => setEditForm({...editForm, isHsseCritical: e.target.checked})} />
+                                  <label htmlFor={`hsse-${c.id}`} className="text-xs text-slate-500">HSSE Critical</label>
+                                </div>
+                              </div>
+                              <div>
+                                <label className="text-xs text-slate-500">Statement</label>
+                                <textarea className="w-full border rounded px-2 py-1 text-sm" rows={3} value={editForm.statement || ""} onChange={e => setEditForm({...editForm, statement: e.target.value})} />
+                              </div>
+                              <div>
+                                <label className="text-xs text-slate-500">How (Method)</label>
+                                <textarea className="w-full border rounded px-2 py-1 text-sm" rows={2} value={editForm.csfHow || ""} onChange={e => setEditForm({...editForm, csfHow: e.target.value})} />
+                              </div>
+                              <div className="flex items-center gap-2 justify-end">
+                                <Button size="sm" variant="secondary" onClick={() => setEditingCandidate(null)}>Cancel</Button>
+                                <Button size="sm" variant="primary" onClick={() => handleReview(c.id, "approve", editForm)} disabled={processingAction === c.id}>
+                                  {processingAction === c.id ? "Saving…" : "✓ Save & Approve"}
+                                </Button>
                               </div>
                             </div>
-
-                            {c.status === "Pending" && (
-                              <div className="flex items-center gap-1 flex-shrink-0">
-                                <Button
-                                  size="sm"
-                                  variant="primary"
-                                  onClick={() => handleReview(c.id, "approve")}
-                                  disabled={processingAction === c.id}
-                                >
-                                  ✓ Approve
-                                </Button>
-                                <Button
-                                  size="sm"
-                                  variant="secondary"
-                                  onClick={() => handleReview(c.id, "reject")}
-                                  disabled={processingAction === c.id}
-                                >
-                                  ✗ Reject
-                                </Button>
+                          ) : (
+                            /* ── Display View ── */
+                            <div className="flex items-start justify-between gap-3">
+                              <div className="flex-1 min-w-0">
+                                <div className="flex items-center gap-2 flex-wrap">
+                                  <span className="text-sm font-medium text-slate-900">{c.name}</span>
+                                  <Badge variant="default">{c.controlType}</Badge>
+                                  {candidateStatusBadge(c.status)}
+                                </div>
+                                <p className="text-xs text-slate-600 mt-1 line-clamp-2">{c.statement}</p>
+                                <div className="mt-2 grid grid-cols-2 sm:grid-cols-4 gap-1">
+                                  {c.csfWho && <span className="text-xs text-slate-500">👤 {c.csfWho}</span>}
+                                  {c.csfWhen && <span className="text-xs text-slate-500">⏰ {c.csfWhen}</span>}
+                                  {c.csfWhere && <span className="text-xs text-slate-500">📍 {c.csfWhere}</span>}
+                                  {c.Requirements && <span className="text-xs text-slate-500">📋 {c.Requirements}</span>}
+                                </div>
                               </div>
-                            )}
-                            {c.status === "Approved" && (
-                              <span className="text-xs text-green-600 flex-shrink-0">✅ In Library</span>
-                            )}
-                            {c.status === "Rejected" && (
-                              <span className="text-xs text-red-500 flex-shrink-0">❌ Rejected</span>
-                            )}
-                          </div>
+
+                              {c.status === "Pending" && (
+                                <div className="flex items-center gap-1 flex-shrink-0">
+                                  <Button size="sm" variant="secondary" onClick={() => startEditing(c)}>
+                                    ✏️ Edit
+                                  </Button>
+                                  <Button size="sm" variant="primary" onClick={() => handleReview(c.id, "approve")} disabled={processingAction === c.id}>
+                                    ✓ Approve
+                                  </Button>
+                                  <Button size="sm" variant="secondary" onClick={() => handleReview(c.id, "reject")} disabled={processingAction === c.id}>
+                                    ✗ Reject
+                                  </Button>
+                                </div>
+                              )}
+                              {c.status === "Approved" && (
+                                <span className="text-xs text-green-600 flex-shrink-0">✅ In Library</span>
+                              )}
+                              {c.status === "Rejected" && (
+                                <span className="text-xs text-red-500 flex-shrink-0">❌ Rejected</span>
+                              )}
+                            </div>
+                          )}
                         </div>
                       ))
                     )}

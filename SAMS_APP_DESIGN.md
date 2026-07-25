@@ -1,6 +1,6 @@
 # SAMS App — Complete Design & Architecture Documentation
 
-**Last Updated:** July 24, 2026 (v1.0.0 — Initial)
+**Last Updated:** July 25, 2026 (v1.6.2)
 **Code Name:** "SAMS" — Seam Assurance Management System
 **Repository:** `sams-app/` (Next.js 16 + Prisma + PostgreSQL)
 
@@ -641,7 +641,7 @@ Three companies in production:
 
 ### 9.1 Knowledgebase Chat (`/api/chat/knowledge`)
 
-**Model:** DeepSeek V4 (`deepseek-chat`)
+**Model:** DeepSeek V4 Pro (`deepseek-v4-pro`)
 **Context Strategy:** Smart loading — lightweight default context + deep data on-demand via keyword triggers
 
 **Default context (always loaded):**
@@ -660,16 +660,15 @@ Three companies in production:
 ### 9.2 Document Extraction (`/api/admin/extraction`)
 
 **File Pipeline:**
-1. Upload via Attachment system (`destTable=DocumentExtract`)
+1. Upload via multipart form → stored in `Document` table (Prisma-managed)
 2. Text extraction: `pdf-parse` (PDF), `mammoth` (DOCX→markdown), direct read (MD/TXT/CSV)
-3. AI extracts structured controls → `ControlFromDocument` records
+3. AI extracts structured controls → `ControlFromDocument` records (raw SQL table, `documentId` FK)
 4. Human reviews candidates → Approve (creates Control + MapControl2Requirement) or Reject
 
-**Status Flow:**
-
-| DocumentExtract | ControlFromDocument |
-|-----------------|---------------------|
-| Uploaded → Extracted → Completed | Pending → Approved / Rejected |
+**Data Model:**
+- `Document` — Prisma-managed. Fields: id, documentNo (@unique), version, isLatest, replacedById, archivedAt, companyId, source, folder, filename, processAreaId, summary, documentContent, srcFileDeleted, createdAt, updatedAt. Supports version control via isLatest/replacedById.
+- `ControlFromDocument` — Raw SQL table. FK: documentId → Document(id). Status: Pending/Approved/Rejected.
+- `DocumentControl` — Raw SQL junction table. Links approved Documents to Controls. FK: documentId → Document(id), controlId → Control(id).
 
 ---
 
@@ -854,6 +853,11 @@ Local Dev (localhost:3100)
 | v1.4.0 | 2026-07-25 | **P5: Mobile Offline-First.** Enhanced `OfflineBanner` with service worker registration (`sw.js`), offline mutation queue (`queueOfflineMutation` in localStorage), and auto-sync on reconnect. Added `manifest.json` for PWA installability. Service worker caches core assets, intercepts API calls with graceful offline fallback. Users can queue findings/actions while offline — changes sync automatically when back online. |
 | v1.4.1 | 2026-07-25 | **P6: Enhanced Gamification Dashboard.** Added XP Source Breakdown (Assessments vs Domain XP vs Interviews), Track Level Distribution (count per level: Observer/Bronze/Silver/Gold/Platinum/Black), and Next-Level Recommendations (top 3 tracks closest to level-up with XP needed). Enhanced `/gamification` page with server-side aggregation queries and updated `CompetencyDashboard` component. |
 | v1.5.0 | 2026-07-25 | **P8: Competency Certificate (CV Export).** Added `Company.certSignatoryName` + `Company.certSignatoryPosition` columns. Created `POST /api/gamification/certificate`, `/gamification/certificate/[certId]` (printable A4: certificate page 1 + transcript page 2), `/verify/[certId]` (public verification). Self-service: any user clicks "📜 Export Certificate" from `/gamification`. Certificate shows top tracks, badges, XP, assessment count, closure rate, and company signatory block. Auto-opens print dialog. |
+| v1.5.1 | 2026-07-25 | **Document Management Migration.** Replaced `DocumentExtract` model with new `Document` model (version control: version, isLatest, replacedById, archivedAt, documentNo). `ControlFromDocument` and `DocumentControl` moved to raw SQL tables with `documentId` FK (no longer Prisma-managed). Dropped `ControlFDSubProcess` (unused). Updated all extraction API routes (upload, extract, documents, parent route GET/POST/PATCH) to use new Document model + raw SQL for ControlFromDocument. Fixed DeepSeek model name: `deepseek-chat` → `deepseek-v4-pro`. Restored `certSignatory` columns on Company table after Prisma push dropped them. |
+| v1.5.2 | 2026-07-25 | **Candidate Edit with Cascading Dropdowns.** Added inline edit form for AI-extracted control candidates with 14 editable fields. Standard → Process Area → Requirement cascading dropdowns populated from company data. Requirement ordering prioritizes company standards (non-ISO) before ISO international standards. Added `requirements` field to GET /api/admin/extraction?docId=X response. |
+| v1.6.0 | 2026-07-25 | **ORCA Process Overview Tab.** Rebuilt Process Detail Overview tab around ORCA framework (Objectives → Risk → Controls → Assurance) with Improvement section. Added server-side health metrics computation (control health distribution, finding/action summaries, assessment cadence). SVG donut chart showing Effective/Partially/Ineffective/Never Tested controls. Collapsible "How to Read" guide. Added `Management in Control` design philosophy to CONTEXT.md. Removed Process Areas from navbar and dashboard quick-actions. Back arrow on detail page now returns to Dashboard. Activity Log converted from flex layout to proper HTML table with text wrapping. |
+| v1.6.1 | 2026-07-25 | **Process Improvement Plan (PIP) Module.** Extended `BacklogItem` with PIP fields (isPIP, pipStatus, processAreaId, targetDate, source, riskAcceptance, alarpRationale). Added `PIPStatus` enum (Proposed→Approved→InProgress→Implemented→Closed). Created `BacklogItemControl` M2M junction linking PIP items to Controls. Extended `ProcessArea` with `micStatement` and `micStatementUpdatedAt`. New API routes: GET/POST `/api/admin/pip`, PATCH/DELETE `/api/admin/pip/[id]`, POST `/api/admin/pip/mic`. New Improvement tab with 5-column Kanban board. MIC Statement with edit mode (SPO/Admin) in ORCA Overview. |
+| v1.6.2 | 2026-07-25 | **PIP Kanban: Assessment Action Auto-Sync.** Assessment actions (`apAgreed=true`) automatically appear in the PIP Kanban as amber cards linking back to their assessment. Accepted actions enter the Approved column. When closed (`closureDate` set), auto-advance to Closed with strikethrough styling. Server query joins Action→Finding→Assessment→ControlAssignment→Control→ProcessArea. Card shows assessment name, finding, control, and target date. Manual PIP items and auto-synced actions coexist in the same board with visual distinction. Added closable help popup modal explaining PIP workflow, columns, and ORCA context. Header shows breakdown: "5 items (3 from assessments)". |
 
 ---
 

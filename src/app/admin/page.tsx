@@ -263,23 +263,26 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
         <div className="mt-6">
           <p className="text-sm text-slate-500 mb-4">Last 50 activity log entries</p>
           <div className="overflow-x-auto">
-            <div className="min-w-[600px]">
-              {/* Header */}
-              <div className="flex items-center gap-3 border-b border-slate-200 pb-2 mb-1 text-xs font-medium text-slate-500">
-                <span className="w-36 flex-shrink-0">Timestamp</span>
-                <span className="w-28 flex-shrink-0">Type</span>
-                <span className="flex-1 min-w-0">Description</span>
-                <span className="w-24 flex-shrink-0 text-right">User</span>
-              </div>
-              {activityLog.map((log) => (
-                <div key={log.id} className="flex items-start gap-3 border-b border-slate-50 py-2 text-sm">
-                  <span className="w-36 flex-shrink-0 text-xs text-slate-400">{new Date(log.timestamp).toLocaleString()}</span>
-                  <span className="w-28 flex-shrink-0 text-xs font-medium text-slate-600">{log.activityType}</span>
-                  <span className="flex-1 min-w-0 text-slate-700 truncate" title={log.description}>{log.description}</span>
-                  <span className="w-24 flex-shrink-0 text-xs text-slate-400 text-right">{log.username}</span>
-                </div>
-              ))}
-            </div>
+            <table className="w-full text-sm border-collapse">
+              <thead>
+                <tr className="border-b border-slate-200 text-xs font-medium text-slate-500 text-left">
+                  <th className="py-2 pr-3 w-36 whitespace-nowrap">Timestamp</th>
+                  <th className="py-2 pr-3 w-24 whitespace-nowrap">Type</th>
+                  <th className="py-2 pr-3">Description</th>
+                  <th className="py-2 w-20 text-right whitespace-nowrap">User</th>
+                </tr>
+              </thead>
+              <tbody>
+                {activityLog.map((log) => (
+                  <tr key={log.id} className="border-b border-slate-50 align-top">
+                    <td className="py-2 pr-3 text-xs text-slate-400 whitespace-nowrap">{new Date(log.timestamp).toLocaleString()}</td>
+                    <td className="py-2 pr-3 text-xs font-medium text-slate-600 whitespace-nowrap">{log.activityType}</td>
+                    <td className="py-2 pr-3 text-slate-700 break-words whitespace-normal" title={log.description}>{log.description}</td>
+                    <td className="py-2 text-xs text-slate-400 text-right whitespace-nowrap">{log.username}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
           {activityLog.length === 0 && <p className="py-8 text-center text-sm text-slate-400">No activity recorded yet.</p>}
         </div>

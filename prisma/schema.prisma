@@ -132,6 +132,12 @@ model ProcessArea {
   badges          AchievementBadge[]
   requirements    Requirement[]
 
+  // ── MIC (Management in Control) ──
+  micStatement         String?
+  micStatementUpdatedAt DateTime?
+
+  pipItems         BacklogItem[]     // PIP items for this PA
+
   @@unique([name, companyId])
   @@index([standardId])
 }
@@ -201,6 +207,7 @@ model Control {
   controlSubProcesses ControlSubProcess[]
   templateLinkages    AssessmentTemplateControlLinkage[]
   requirementMappings MapControl2Requirement[]
+  pipLinks            BacklogItemControl[]
   processArea         ProcessArea                        @relation(fields: [processAreaId], references: [id])
 
   @@unique([name, companyId])
@@ -899,6 +906,7 @@ enum BadgeRarity {
 // ── Scrum/Kanban Backlog — Project management board ───────────────────
 // Items flow: Backlog → SprintBacklog → InProgress → Completed.
 // While InProgress, they move through stages: PlanDesign → Implement → Testing.
+// PIP items use a separate workflow: Proposed → Approved → InProgress → Implemented → Closed.
 enum BacklogItemType {
   Feature
   Request
@@ -913,6 +921,14 @@ enum BacklogStatus {
   Completed
 }
 
+enum PIPStatus {
+  Proposed
+  Approved
+  InProgress
+  Implemented
+  Closed
+}
+
 enum DevelopmentStage {
   PlanDesign
   Implement
@@ -920,21 +936,52 @@ enum DevelopmentStage {
 }
 
 model BacklogItem {
-  id            String            @id @default(cuid())
-  title         String
-  description   String?
-  type          BacklogItemType   @default(Task)
-  status        BacklogStatus     @default(Backlog)
-  stage         DevelopmentStage? // Only set when status = InProgress
-  priority      Int               @default(0)
-  justification String? // Why this should be done
-  approach      String? // How it should be done
-  companyId     String?
-  createdBy     String
-  createdAt     DateTime          @default(now())
-  updatedAt     DateTime          @updatedAt
+  id              String            @id @default(cuid())
+  title           String
+  description     String?
+  type            BacklogItemType   @default(Task)
+  status          BacklogStatus     @default(Backlog)
+  stage           DevelopmentStage? // Only set when status = InProgress
+  priority        Int               @default(0)
+  justification   String?           // Why this should be done
+  approach        String?           // How it should be done
+  companyId       String?
+  createdBy       String
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+
+  // ── PIP fields (null for dev backlog items) ──
+  isPIP            Boolean?          @default(false)
+  pipStatus        PIPStatus?        // PIP-specific workflow
+  processAreaId    String?           // PA this improvement belongs to
+  targetDate       DateTime?         // When should this be done
+  source           String?           // What triggered this (finding, assessment, SPO observation)
+  riskAcceptance   Boolean           @default(false) // Deliberate acceptance of sub-ALARP risk
+  alarpRationale   String?           // Why further reduction is not reasonably practicable
+
+  processArea      ProcessArea?      @relation(fields: [processAreaId], references: [id])
+  controlLinks     BacklogItemControl[]
 
   @@index([status])
   @@index([companyId])
   @@index([priority])
+  @@index([isPIP])
+  @@index([pipStatus])
+  @@index([processAreaId])
+}
+
+// ── BacklogItemControl — M2M: PIP Item ⟷ Control ────────────────────
+// Links improvement items to the controls they address.
+// One control can spawn multiple PIPs; one PIP can address multiple controls.
+model BacklogItemControl {
+  id            String      @id @default(cuid())
+  backlogItemId String
+  controlId     String
+  createdAt     DateTime    @default(now())
+  backlogItem   BacklogItem @relation(fields: [backlogItemId], references: [id], onDelete: Cascade)
+  control       Control     @relation(fields: [controlId], references: [id], onDelete: Cascade)
+
+  @@unique([backlogItemId, controlId])
+  @@index([backlogItemId])
+  @@index([controlId])
 }

@@ -11,12 +11,10 @@ export function MobileNav() {
     ? [
         { href: "/fla", label: "📊", title: "Dashboard" },
         { href: "/fla/new", label: "➕", title: "New" },
-        { href: "/setup/process-areas", label: "📋", title: "Areas" },
         { href: "/help", label: "❓", title: "Help" },
       ]
     : [
         { href: "/admin", label: "📊", title: "Admin" },
-        { href: "/setup/process-areas", label: "📋", title: "Areas" },
         { href: "/admin?view=users", label: "👥", title: "Users" },
         { href: "/help", label: "❓", title: "Help" },
       ];
