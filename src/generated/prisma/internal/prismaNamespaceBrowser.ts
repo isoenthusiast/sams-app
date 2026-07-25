@@ -60,7 +60,6 @@ export const ModelName = {
   ProcessArea: 'ProcessArea',
   SubProcess: 'SubProcess',
   ControlSubProcess: 'ControlSubProcess',
-  ControlFDSubProcess: 'ControlFDSubProcess',
   Control: 'Control',
   AssessmentTemplate: 'AssessmentTemplate',
   AssessmentTemplateControlLinkage: 'AssessmentTemplateControlLinkage',
@@ -96,12 +95,11 @@ export const ModelName = {
   AActDetails: 'AActDetails',
   Knowledgebase: 'Knowledgebase',
   MapArt2Know: 'MapArt2Know',
-  DocumentExtract: 'DocumentExtract',
-  ControlFromDocument: 'ControlFromDocument',
   Requirement: 'Requirement',
   MapControl2Requirement: 'MapControl2Requirement',
   GamificationStage: 'GamificationStage',
   WebhookLog: 'WebhookLog',
+  Document: 'Document',
   BacklogItem: 'BacklogItem'
 } as const
 
@@ -254,17 +252,6 @@ export const ControlSubProcessScalarFieldEnum = {
 } as const
 
 export type ControlSubProcessScalarFieldEnum = (typeof ControlSubProcessScalarFieldEnum)[keyof typeof ControlSubProcessScalarFieldEnum]
-
-
-export const ControlFDSubProcessScalarFieldEnum = {
-  id: 'id',
-  controlFromDocumentId: 'controlFromDocumentId',
-  subProcessId: 'subProcessId',
-  isPrimary: 'isPrimary',
-  createdAt: 'createdAt'
-} as const
-
-export type ControlFDSubProcessScalarFieldEnum = (typeof ControlFDSubProcessScalarFieldEnum)[keyof typeof ControlFDSubProcessScalarFieldEnum]
 
 
 export const ControlScalarFieldEnum = {
@@ -758,66 +745,6 @@ export const MapArt2KnowScalarFieldEnum = {
 export type MapArt2KnowScalarFieldEnum = (typeof MapArt2KnowScalarFieldEnum)[keyof typeof MapArt2KnowScalarFieldEnum]
 
 
-export const DocumentExtractScalarFieldEnum = {
-  id: 'id',
-  docNo: 'docNo',
-  documentNumber: 'documentNumber',
-  documentType: 'documentType',
-  documentTitle: 'documentTitle',
-  custodian: 'custodian',
-  authorizer: 'authorizer',
-  content: 'content',
-  status: 'status',
-  CompletedOn: 'CompletedOn',
-  companyId: 'companyId',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type DocumentExtractScalarFieldEnum = (typeof DocumentExtractScalarFieldEnum)[keyof typeof DocumentExtractScalarFieldEnum]
-
-
-export const ControlFromDocumentScalarFieldEnum = {
-  id: 'id',
-  documentExtractId: 'documentExtractId',
-  name: 'name',
-  statement: 'statement',
-  controlType: 'controlType',
-  processAreaId: 'processAreaId',
-  isHsseCritical: 'isHsseCritical',
-  ramRating: 'ramRating',
-  riskWeight: 'riskWeight',
-  rawHealthScore: 'rawHealthScore',
-  lastTestedDate: 'lastTestedDate',
-  lastTestResult: 'lastTestResult',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  controlRef: 'controlRef',
-  sourceFile: 'sourceFile',
-  practiceDocument: 'practiceDocument',
-  controlTypeDetail: 'controlTypeDetail',
-  csfWho: 'csfWho',
-  csfWhat: 'csfWhat',
-  csfWhen: 'csfWhen',
-  csfWhere: 'csfWhere',
-  csfWhy: 'csfWhy',
-  csfHow: 'csfHow',
-  csfEvidence: 'csfEvidence',
-  keyActivities: 'keyActivities',
-  riskAddressed: 'riskAddressed',
-  testingApproach: 'testingApproach',
-  keyRiskIndicator: 'keyRiskIndicator',
-  uncertainFlags: 'uncertainFlags',
-  standard: 'standard',
-  pId: 'pId',
-  Requirements: 'Requirements',
-  status: 'status',
-  approvedControlId: 'approvedControlId'
-} as const
-
-export type ControlFromDocumentScalarFieldEnum = (typeof ControlFromDocumentScalarFieldEnum)[keyof typeof ControlFromDocumentScalarFieldEnum]
-
-
 export const RequirementScalarFieldEnum = {
   rId: 'rId',
   standard: 'standard',
@@ -870,6 +797,28 @@ export const WebhookLogScalarFieldEnum = {
 } as const
 
 export type WebhookLogScalarFieldEnum = (typeof WebhookLogScalarFieldEnum)[keyof typeof WebhookLogScalarFieldEnum]
+
+
+export const DocumentScalarFieldEnum = {
+  id: 'id',
+  documentNo: 'documentNo',
+  version: 'version',
+  isLatest: 'isLatest',
+  replacedById: 'replacedById',
+  archivedAt: 'archivedAt',
+  companyId: 'companyId',
+  source: 'source',
+  folder: 'folder',
+  filename: 'filename',
+  processAreaId: 'processAreaId',
+  summary: 'summary',
+  documentContent: 'documentContent',
+  srcFileDeleted: 'srcFileDeleted',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type DocumentScalarFieldEnum = (typeof DocumentScalarFieldEnum)[keyof typeof DocumentScalarFieldEnum]
 
 
 export const BacklogItemScalarFieldEnum = {

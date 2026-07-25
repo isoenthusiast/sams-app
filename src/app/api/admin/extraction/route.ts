@@ -6,7 +6,7 @@ import { join } from "path";
 import { randomUUID } from "crypto";
 
 const DEEPSEEK_URL = "https://api.deepseek.com/v1/chat/completions";
-const MODEL = "deepseek-chat";
+const MODEL = "deepseek-v4-pro";
 
 // ── GET — list documents or fetch candidates for a specific document ──
 export async function GET(request: Request) {
@@ -19,18 +19,18 @@ export async function GET(request: Request) {
 
     // If docId provided, return candidates for that document
     if (docId) {
-      const doc = await prisma.documentExtract.findUnique({
+      const doc = await prisma.document.findUnique({
         where: { id: docId },
-        include: {
-          controlFromDocuments: {
-            orderBy: { createdAt: "asc" },
-          },
-        },
       });
 
       if (!doc) {
         return NextResponse.json({ error: "Document not found" }, { status: 404 });
       }
+
+      // Fetch candidates via raw SQL
+      const candidates = await prisma.$queryRawUnsafe<Array<Record<string, unknown>>>(
+        `SELECT * FROM "ControlFromDocument" WHERE "documentId" = $1 ORDER BY "createdAt" ASC`, docId
+      );
 
       // Fetch available Process Areas for the mapping dropdown
       const processAreas = await prisma.processArea.findMany({
@@ -42,38 +42,46 @@ export async function GET(request: Request) {
       return NextResponse.json({
         document: {
           id: doc.id,
-          docNo: doc.docNo,
-          documentTitle: doc.documentTitle,
-          documentType: doc.documentType,
-          status: doc.status,
-          content: doc.content?.substring(0, 5000),
+          docNo: doc.documentNo,
+          documentTitle: doc.filename,
+          documentType: doc.source || "upload",
+          status: "Extracted", // backward compat
+          content: doc.documentContent?.substring(0, 5000),
         },
-        candidates: doc.controlFromDocuments,
+        candidates,
         processAreas,
       });
     }
 
-    const docs = await prisma.documentExtract.findMany({
+    // List documents
+    const docs = await prisma.document.findMany({
       where: companyId ? { companyId } : {},
       orderBy: { createdAt: "desc" },
-      include: {
-        controlFromDocuments: {
-          select: { id: true, status: true },
-        },
-      },
     });
 
-    const items = docs.map((d) => ({
-      id: d.id,
-      docNo: d.docNo,
-      documentTitle: d.documentTitle,
-      documentType: d.documentType,
-      status: d.status,
-      createdAt: d.createdAt,
-      totalCandidates: d.controlFromDocuments.length,
-      pendingCandidates: d.controlFromDocuments.filter((c) => c.status === "Pending").length,
-      approvedCandidates: d.controlFromDocuments.filter((c) => c.status === "Approved").length,
-      rejectedCandidates: d.controlFromDocuments.filter((c) => c.status === "Rejected").length,
+    // Get candidate counts per document
+    const items = await Promise.all(docs.map(async (d) => {
+      const counts = await prisma.$queryRawUnsafe<Array<{ total: number; pending: number; approved: number; rejected: number }>>(
+        `SELECT
+          COUNT(*)::int as "total",
+          COUNT(*) FILTER (WHERE "status" = 'Pending')::int as "pending",
+          COUNT(*) FILTER (WHERE "status" = 'Approved')::int as "approved",
+          COUNT(*) FILTER (WHERE "status" = 'Rejected')::int as "rejected"
+         FROM "ControlFromDocument" WHERE "documentId" = $1`, d.id
+      );
+      const c = counts[0];
+      return {
+        id: d.id,
+        docNo: d.documentNo,
+        documentTitle: d.filename,
+        documentType: d.source || "upload",
+        status: c.total > 0 ? "Extracted" : "Uploaded",
+        createdAt: d.createdAt,
+        totalCandidates: c.total,
+        pendingCandidates: c.pending,
+        approvedCandidates: c.approved,
+        rejectedCandidates: c.rejected,
+      };
     }));
 
     return NextResponse.json({ items });
@@ -171,21 +179,19 @@ export async function POST(request: Request) {
       ? extractedText.substring(0, maxChars) + "\n\n... (document truncated for extraction)"
       : extractedText;
 
-    // Get the next docNo
-    const maxDoc = await prisma.documentExtract.findFirst({
-      orderBy: { docNo: "desc" },
-      select: { docNo: true },
+    // Get the next docNo (as string for backward compat with ExtractionView)
+    const maxDoc = await prisma.document.findFirst({
+      orderBy: { createdAt: "desc" },
+      select: { id: true },
     });
-    const nextDocNo = (maxDoc?.docNo || 0) + 1;
 
-    // Create DocumentExtract record
-    const doc = await prisma.documentExtract.create({
+    // Create Document record
+    const doc = await prisma.document.create({
       data: {
-        docNo: nextDocNo,
-        documentTitle: file.name.replace(ext, ""),
-        documentType: ext.replace(".", "").toUpperCase(),
-        content: extractedText,
-        status: "Extracting",
+        filename: file.name.replace(ext, ""),
+        source: ext.replace(".", "").toUpperCase(),
+        documentContent: extractedText,
+        folder: "Uploaded",
         companyId,
       },
     });
@@ -258,11 +264,6 @@ Guidelines:
     // Call DeepSeek
     const apiKey = process.env.DEEPSEEK_API_KEY;
     if (!apiKey || apiKey.includes("placeholder")) {
-      // Update doc status to indicate failure
-      await prisma.documentExtract.update({
-        where: { id: doc.id },
-        data: { status: "Uploaded" },
-      });
       return NextResponse.json(
         { error: "DeepSeek API key is not configured." },
         { status: 500 }
@@ -289,10 +290,6 @@ Guidelines:
     if (!dsResponse.ok) {
       const errText = await dsResponse.text();
       console.error("DeepSeek API error:", dsResponse.status, errText);
-      await prisma.documentExtract.update({
-        where: { id: doc.id },
-        data: { status: "Uploaded" },
-      });
       return NextResponse.json(
         { error: `AI extraction failed (${dsResponse.status}). Please try again.` },
         { status: 502 }
@@ -332,7 +329,7 @@ Guidelines:
             keyActivities: ctrl.keyActivities || null,
             riskAddressed: ctrl.riskAddressed || null,
             keyRiskIndicator: ctrl.keyRiskIndicator || null,
-            documentExtractId: doc.id,
+            documentId: doc.id,
             status: "Pending",
           });
         }
@@ -343,30 +340,38 @@ Guidelines:
 
     // If no candidates found with regex, try treating whole response as controls
     if (candidates.length === 0) {
-      // Return the raw reply for debugging
-      await prisma.documentExtract.update({
-        where: { id: doc.id },
-        data: { status: "Uploaded" },
-      });
       return NextResponse.json({
         error: "No controls could be extracted. The AI response did not contain valid control blocks.",
         rawReply: replyText.substring(0, 2000),
       }, { status: 422 });
     }
 
-    // Bulk insert candidates
-    await prisma.controlFromDocument.createMany({
-      data: candidates,
-    });
-
-    // Update doc status
-    await prisma.documentExtract.update({
-      where: { id: doc.id },
-      data: { status: "Extracted" },
-    });
+    // Bulk insert candidates via raw SQL
+    for (const c of candidates) {
+      await prisma.$executeRawUnsafe(
+        `INSERT INTO "ControlFromDocument" (
+          id, "documentId", name, statement, "controlType", "controlTypeDetail",
+          "processAreaId", "isHsseCritical", "riskWeight",
+          "csfWho", "csfWhat", "csfWhen", "csfWhere", "csfWhy", "csfHow", "csfEvidence",
+          "keyActivities", "riskAddressed", "keyRiskIndicator",
+          "standard", "pId", "Requirements", "status", "createdAt", "updatedAt"
+        ) VALUES (
+          gen_random_uuid()::text, $1, $2, $3, $4, $5,
+          $6, $7, $8,
+          $9, $10, $11, $12, $13, $14, $15,
+          $16, $17, $18,
+          $19, $20, $21, 'Pending', NOW(), NOW()
+        )`,
+        c.documentId, c.name, c.statement, c.controlType, c.controlTypeDetail,
+        c.processAreaId, c.isHsseCritical, c.riskWeight,
+        c.csfWho, c.csfWhat, c.csfWhen, c.csfWhere, c.csfWhy, c.csfHow, c.csfEvidence,
+        c.keyActivities, c.riskAddressed, c.keyRiskIndicator,
+        c.standard, c.pId, c.Requirements
+      );
+    }
 
     return NextResponse.json({
-      document: { id: doc.id, title: doc.documentTitle, docNo: doc.docNo },
+      document: { id: doc.id, title: doc.filename, docNo: doc.documentNo },
       candidatesFound: candidates.length,
       candidates: candidates.map((c) => ({
         name: c.name,
@@ -400,10 +405,11 @@ export async function PATCH(request: Request) {
       return NextResponse.json({ error: "action must be 'approve' or 'reject'" }, { status: 400 });
     }
 
-    const candidate = await prisma.controlFromDocument.findUnique({
-      where: { id },
-      include: { documentExtract: true },
-    });
+    // Fetch candidate via raw SQL
+    const candidates = await prisma.$queryRawUnsafe<Array<Record<string, unknown>>>(
+      `SELECT * FROM "ControlFromDocument" WHERE id = $1 LIMIT 1`, id
+    );
+    const candidate = candidates[0] as Record<string, any> | undefined;
 
     if (!candidate) {
       return NextResponse.json({ error: "Candidate not found" }, { status: 404 });
@@ -417,10 +423,9 @@ export async function PATCH(request: Request) {
     }
 
     if (action === "reject") {
-      await prisma.controlFromDocument.update({
-        where: { id },
-        data: { status: "Rejected" },
-      });
+      await prisma.$executeRawUnsafe(
+        `UPDATE "ControlFromDocument" SET "status" = 'Rejected' WHERE id = $1`, id
+      );
       return NextResponse.json({ status: "Rejected" });
     }
 
@@ -474,7 +479,7 @@ export async function PATCH(request: Request) {
           requirementId: "Unmapped Controls",
           standard: standard,
           pId: mergedEdits.pId || "UC",
-          clauseContent: `Catch-all for controls from ${candidate.documentExtract.documentTitle}`,
+          clauseContent: `Catch-all for controls from document extraction`,
           intentOutcome: "",
           clauseApplicability: "",
           processAreaId: mergedEdits.processAreaId,
@@ -494,26 +499,18 @@ export async function PATCH(request: Request) {
       });
     }
 
-    // Update candidate
-    await prisma.controlFromDocument.update({
-      where: { id },
-      data: {
-        status: "Approved",
-        approvedControlId: control.id,
-      },
-    });
+    // Update candidate status
+    await prisma.$executeRawUnsafe(
+      `UPDATE "ControlFromDocument" SET "status" = 'Approved', "approvedControlId" = $1 WHERE id = $2`,
+      control.id, id
+    );
 
     // Check if all candidates for this document are resolved
-    const docId = candidate.documentExtractId;
-    const pendingCount = await prisma.controlFromDocument.count({
-      where: { documentExtractId: docId, status: "Pending" },
-    });
-    if (pendingCount === 0) {
-      await prisma.documentExtract.update({
-        where: { id: docId },
-        data: { status: "Completed" },
-      });
-    }
+    const docId = candidate.documentId;
+    const pendingCount = await prisma.$queryRawUnsafe<Array<{ cnt: number }>>(
+      `SELECT COUNT(*)::int as cnt FROM "ControlFromDocument" WHERE "documentId" = $1 AND "status" = 'Pending'`, docId
+    );
+    // No status update needed — Document has no status field
 
     return NextResponse.json({
       status: "Approved",

@@ -40,12 +40,12 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Unsupported file type. Use .md, .txt, .csv, .pdf, or .docx." }, { status: 400 });
     }
 
-    // Insert via raw SQL (tables managed outside Prisma)
+    // Insert into Document table
     const result = await prisma.$queryRawUnsafe<Array<{ id: string }>>(
-      `INSERT INTO "DocumentExtract" (id, "documentTitle", "documentType", content, "Status", "companyId", "createdAt", "updatedAt")
-       VALUES (gen_random_uuid()::text, $1, $2, $3, 'Uploaded', $4, NOW(), NOW())
+      `INSERT INTO "Document" (id, filename, "documentContent", "source", "companyId", "folder", "createdAt", "updatedAt")
+       VALUES (gen_random_uuid()::text, $1, $2, 'upload', $3, 'Uploaded', NOW(), NOW())
        RETURNING id`,
-      documentTitle, documentType, content, companyId
+      documentTitle, content, companyId
     );
 
     return NextResponse.json({

@@ -393,7 +393,6 @@ export const ModelName = {
   ProcessArea: 'ProcessArea',
   SubProcess: 'SubProcess',
   ControlSubProcess: 'ControlSubProcess',
-  ControlFDSubProcess: 'ControlFDSubProcess',
   Control: 'Control',
   AssessmentTemplate: 'AssessmentTemplate',
   AssessmentTemplateControlLinkage: 'AssessmentTemplateControlLinkage',
@@ -429,12 +428,11 @@ export const ModelName = {
   AActDetails: 'AActDetails',
   Knowledgebase: 'Knowledgebase',
   MapArt2Know: 'MapArt2Know',
-  DocumentExtract: 'DocumentExtract',
-  ControlFromDocument: 'ControlFromDocument',
   Requirement: 'Requirement',
   MapControl2Requirement: 'MapControl2Requirement',
   GamificationStage: 'GamificationStage',
   WebhookLog: 'WebhookLog',
+  Document: 'Document',
   BacklogItem: 'BacklogItem'
 } as const
 
@@ -451,7 +449,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "activityLog" | "activityLogType" | "assuranceActivityType" | "assuranceProtocol" | "standard" | "processArea" | "subProcess" | "controlSubProcess" | "controlFDSubProcess" | "control" | "assessmentTemplate" | "assessmentTemplateControlLinkage" | "assessmentTemplateActivityType" | "assessment" | "assessmentAssessor" | "controlAssignment" | "sampleType" | "recordSourceType" | "sample" | "finding" | "action" | "attachment" | "attachmentMapping" | "achievementBadge" | "userAchievement" | "pointTransaction" | "gameAttribute" | "gameAttributeRule" | "emotionalDriveMetric" | "milestone" | "userRole" | "userRoleMapping" | "company" | "department" | "position" | "userCompany" | "userFavorite" | "assessmentActType" | "aact" | "aActControls" | "aActUsers" | "aActDetails" | "knowledgebase" | "mapArt2Know" | "documentExtract" | "controlFromDocument" | "requirement" | "mapControl2Requirement" | "gamificationStage" | "webhookLog" | "backlogItem"
+    modelProps: "user" | "activityLog" | "activityLogType" | "assuranceActivityType" | "assuranceProtocol" | "standard" | "processArea" | "subProcess" | "controlSubProcess" | "control" | "assessmentTemplate" | "assessmentTemplateControlLinkage" | "assessmentTemplateActivityType" | "assessment" | "assessmentAssessor" | "controlAssignment" | "sampleType" | "recordSourceType" | "sample" | "finding" | "action" | "attachment" | "attachmentMapping" | "achievementBadge" | "userAchievement" | "pointTransaction" | "gameAttribute" | "gameAttributeRule" | "emotionalDriveMetric" | "milestone" | "userRole" | "userRoleMapping" | "company" | "department" | "position" | "userCompany" | "userFavorite" | "assessmentActType" | "aact" | "aActControls" | "aActUsers" | "aActDetails" | "knowledgebase" | "mapArt2Know" | "requirement" | "mapControl2Requirement" | "gamificationStage" | "webhookLog" | "document" | "backlogItem"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1118,80 +1116,6 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.ControlSubProcessCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.ControlSubProcessCountAggregateOutputType> | number
-        }
-      }
-    }
-    ControlFDSubProcess: {
-      payload: Prisma.$ControlFDSubProcessPayload<ExtArgs>
-      fields: Prisma.ControlFDSubProcessFieldRefs
-      operations: {
-        findUnique: {
-          args: Prisma.ControlFDSubProcessFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ControlFDSubProcessPayload> | null
-        }
-        findUniqueOrThrow: {
-          args: Prisma.ControlFDSubProcessFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ControlFDSubProcessPayload>
-        }
-        findFirst: {
-          args: Prisma.ControlFDSubProcessFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ControlFDSubProcessPayload> | null
-        }
-        findFirstOrThrow: {
-          args: Prisma.ControlFDSubProcessFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ControlFDSubProcessPayload>
-        }
-        findMany: {
-          args: Prisma.ControlFDSubProcessFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ControlFDSubProcessPayload>[]
-        }
-        create: {
-          args: Prisma.ControlFDSubProcessCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ControlFDSubProcessPayload>
-        }
-        createMany: {
-          args: Prisma.ControlFDSubProcessCreateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        createManyAndReturn: {
-          args: Prisma.ControlFDSubProcessCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ControlFDSubProcessPayload>[]
-        }
-        delete: {
-          args: Prisma.ControlFDSubProcessDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ControlFDSubProcessPayload>
-        }
-        update: {
-          args: Prisma.ControlFDSubProcessUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ControlFDSubProcessPayload>
-        }
-        deleteMany: {
-          args: Prisma.ControlFDSubProcessDeleteManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateMany: {
-          args: Prisma.ControlFDSubProcessUpdateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateManyAndReturn: {
-          args: Prisma.ControlFDSubProcessUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ControlFDSubProcessPayload>[]
-        }
-        upsert: {
-          args: Prisma.ControlFDSubProcessUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ControlFDSubProcessPayload>
-        }
-        aggregate: {
-          args: Prisma.ControlFDSubProcessAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateControlFDSubProcess>
-        }
-        groupBy: {
-          args: Prisma.ControlFDSubProcessGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.ControlFDSubProcessGroupByOutputType>[]
-        }
-        count: {
-          args: Prisma.ControlFDSubProcessCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.ControlFDSubProcessCountAggregateOutputType> | number
         }
       }
     }
@@ -3785,154 +3709,6 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
-    DocumentExtract: {
-      payload: Prisma.$DocumentExtractPayload<ExtArgs>
-      fields: Prisma.DocumentExtractFieldRefs
-      operations: {
-        findUnique: {
-          args: Prisma.DocumentExtractFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$DocumentExtractPayload> | null
-        }
-        findUniqueOrThrow: {
-          args: Prisma.DocumentExtractFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$DocumentExtractPayload>
-        }
-        findFirst: {
-          args: Prisma.DocumentExtractFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$DocumentExtractPayload> | null
-        }
-        findFirstOrThrow: {
-          args: Prisma.DocumentExtractFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$DocumentExtractPayload>
-        }
-        findMany: {
-          args: Prisma.DocumentExtractFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$DocumentExtractPayload>[]
-        }
-        create: {
-          args: Prisma.DocumentExtractCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$DocumentExtractPayload>
-        }
-        createMany: {
-          args: Prisma.DocumentExtractCreateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        createManyAndReturn: {
-          args: Prisma.DocumentExtractCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$DocumentExtractPayload>[]
-        }
-        delete: {
-          args: Prisma.DocumentExtractDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$DocumentExtractPayload>
-        }
-        update: {
-          args: Prisma.DocumentExtractUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$DocumentExtractPayload>
-        }
-        deleteMany: {
-          args: Prisma.DocumentExtractDeleteManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateMany: {
-          args: Prisma.DocumentExtractUpdateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateManyAndReturn: {
-          args: Prisma.DocumentExtractUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$DocumentExtractPayload>[]
-        }
-        upsert: {
-          args: Prisma.DocumentExtractUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$DocumentExtractPayload>
-        }
-        aggregate: {
-          args: Prisma.DocumentExtractAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateDocumentExtract>
-        }
-        groupBy: {
-          args: Prisma.DocumentExtractGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.DocumentExtractGroupByOutputType>[]
-        }
-        count: {
-          args: Prisma.DocumentExtractCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.DocumentExtractCountAggregateOutputType> | number
-        }
-      }
-    }
-    ControlFromDocument: {
-      payload: Prisma.$ControlFromDocumentPayload<ExtArgs>
-      fields: Prisma.ControlFromDocumentFieldRefs
-      operations: {
-        findUnique: {
-          args: Prisma.ControlFromDocumentFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ControlFromDocumentPayload> | null
-        }
-        findUniqueOrThrow: {
-          args: Prisma.ControlFromDocumentFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ControlFromDocumentPayload>
-        }
-        findFirst: {
-          args: Prisma.ControlFromDocumentFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ControlFromDocumentPayload> | null
-        }
-        findFirstOrThrow: {
-          args: Prisma.ControlFromDocumentFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ControlFromDocumentPayload>
-        }
-        findMany: {
-          args: Prisma.ControlFromDocumentFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ControlFromDocumentPayload>[]
-        }
-        create: {
-          args: Prisma.ControlFromDocumentCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ControlFromDocumentPayload>
-        }
-        createMany: {
-          args: Prisma.ControlFromDocumentCreateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        createManyAndReturn: {
-          args: Prisma.ControlFromDocumentCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ControlFromDocumentPayload>[]
-        }
-        delete: {
-          args: Prisma.ControlFromDocumentDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ControlFromDocumentPayload>
-        }
-        update: {
-          args: Prisma.ControlFromDocumentUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ControlFromDocumentPayload>
-        }
-        deleteMany: {
-          args: Prisma.ControlFromDocumentDeleteManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateMany: {
-          args: Prisma.ControlFromDocumentUpdateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateManyAndReturn: {
-          args: Prisma.ControlFromDocumentUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ControlFromDocumentPayload>[]
-        }
-        upsert: {
-          args: Prisma.ControlFromDocumentUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ControlFromDocumentPayload>
-        }
-        aggregate: {
-          args: Prisma.ControlFromDocumentAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateControlFromDocument>
-        }
-        groupBy: {
-          args: Prisma.ControlFromDocumentGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.ControlFromDocumentGroupByOutputType>[]
-        }
-        count: {
-          args: Prisma.ControlFromDocumentCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.ControlFromDocumentCountAggregateOutputType> | number
-        }
-      }
-    }
     Requirement: {
       payload: Prisma.$RequirementPayload<ExtArgs>
       fields: Prisma.RequirementFieldRefs
@@ -4229,6 +4005,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    Document: {
+      payload: Prisma.$DocumentPayload<ExtArgs>
+      fields: Prisma.DocumentFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.DocumentFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DocumentPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.DocumentFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DocumentPayload>
+        }
+        findFirst: {
+          args: Prisma.DocumentFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DocumentPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.DocumentFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DocumentPayload>
+        }
+        findMany: {
+          args: Prisma.DocumentFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DocumentPayload>[]
+        }
+        create: {
+          args: Prisma.DocumentCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DocumentPayload>
+        }
+        createMany: {
+          args: Prisma.DocumentCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.DocumentCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DocumentPayload>[]
+        }
+        delete: {
+          args: Prisma.DocumentDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DocumentPayload>
+        }
+        update: {
+          args: Prisma.DocumentUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DocumentPayload>
+        }
+        deleteMany: {
+          args: Prisma.DocumentDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.DocumentUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.DocumentUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DocumentPayload>[]
+        }
+        upsert: {
+          args: Prisma.DocumentUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DocumentPayload>
+        }
+        aggregate: {
+          args: Prisma.DocumentAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateDocument>
+        }
+        groupBy: {
+          args: Prisma.DocumentGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.DocumentGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.DocumentCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.DocumentCountAggregateOutputType> | number
+        }
+      }
+    }
     BacklogItem: {
       payload: Prisma.$BacklogItemPayload<ExtArgs>
       fields: Prisma.BacklogItemFieldRefs
@@ -4475,17 +4325,6 @@ export const ControlSubProcessScalarFieldEnum = {
 } as const
 
 export type ControlSubProcessScalarFieldEnum = (typeof ControlSubProcessScalarFieldEnum)[keyof typeof ControlSubProcessScalarFieldEnum]
-
-
-export const ControlFDSubProcessScalarFieldEnum = {
-  id: 'id',
-  controlFromDocumentId: 'controlFromDocumentId',
-  subProcessId: 'subProcessId',
-  isPrimary: 'isPrimary',
-  createdAt: 'createdAt'
-} as const
-
-export type ControlFDSubProcessScalarFieldEnum = (typeof ControlFDSubProcessScalarFieldEnum)[keyof typeof ControlFDSubProcessScalarFieldEnum]
 
 
 export const ControlScalarFieldEnum = {
@@ -4979,66 +4818,6 @@ export const MapArt2KnowScalarFieldEnum = {
 export type MapArt2KnowScalarFieldEnum = (typeof MapArt2KnowScalarFieldEnum)[keyof typeof MapArt2KnowScalarFieldEnum]
 
 
-export const DocumentExtractScalarFieldEnum = {
-  id: 'id',
-  docNo: 'docNo',
-  documentNumber: 'documentNumber',
-  documentType: 'documentType',
-  documentTitle: 'documentTitle',
-  custodian: 'custodian',
-  authorizer: 'authorizer',
-  content: 'content',
-  status: 'status',
-  CompletedOn: 'CompletedOn',
-  companyId: 'companyId',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type DocumentExtractScalarFieldEnum = (typeof DocumentExtractScalarFieldEnum)[keyof typeof DocumentExtractScalarFieldEnum]
-
-
-export const ControlFromDocumentScalarFieldEnum = {
-  id: 'id',
-  documentExtractId: 'documentExtractId',
-  name: 'name',
-  statement: 'statement',
-  controlType: 'controlType',
-  processAreaId: 'processAreaId',
-  isHsseCritical: 'isHsseCritical',
-  ramRating: 'ramRating',
-  riskWeight: 'riskWeight',
-  rawHealthScore: 'rawHealthScore',
-  lastTestedDate: 'lastTestedDate',
-  lastTestResult: 'lastTestResult',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  controlRef: 'controlRef',
-  sourceFile: 'sourceFile',
-  practiceDocument: 'practiceDocument',
-  controlTypeDetail: 'controlTypeDetail',
-  csfWho: 'csfWho',
-  csfWhat: 'csfWhat',
-  csfWhen: 'csfWhen',
-  csfWhere: 'csfWhere',
-  csfWhy: 'csfWhy',
-  csfHow: 'csfHow',
-  csfEvidence: 'csfEvidence',
-  keyActivities: 'keyActivities',
-  riskAddressed: 'riskAddressed',
-  testingApproach: 'testingApproach',
-  keyRiskIndicator: 'keyRiskIndicator',
-  uncertainFlags: 'uncertainFlags',
-  standard: 'standard',
-  pId: 'pId',
-  Requirements: 'Requirements',
-  status: 'status',
-  approvedControlId: 'approvedControlId'
-} as const
-
-export type ControlFromDocumentScalarFieldEnum = (typeof ControlFromDocumentScalarFieldEnum)[keyof typeof ControlFromDocumentScalarFieldEnum]
-
-
 export const RequirementScalarFieldEnum = {
   rId: 'rId',
   standard: 'standard',
@@ -5091,6 +4870,28 @@ export const WebhookLogScalarFieldEnum = {
 } as const
 
 export type WebhookLogScalarFieldEnum = (typeof WebhookLogScalarFieldEnum)[keyof typeof WebhookLogScalarFieldEnum]
+
+
+export const DocumentScalarFieldEnum = {
+  id: 'id',
+  documentNo: 'documentNo',
+  version: 'version',
+  isLatest: 'isLatest',
+  replacedById: 'replacedById',
+  archivedAt: 'archivedAt',
+  companyId: 'companyId',
+  source: 'source',
+  folder: 'folder',
+  filename: 'filename',
+  processAreaId: 'processAreaId',
+  summary: 'summary',
+  documentContent: 'documentContent',
+  srcFileDeleted: 'srcFileDeleted',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type DocumentScalarFieldEnum = (typeof DocumentScalarFieldEnum)[keyof typeof DocumentScalarFieldEnum]
 
 
 export const BacklogItemScalarFieldEnum = {
@@ -5536,7 +5337,6 @@ export type GlobalOmitConfig = {
   processArea?: Prisma.ProcessAreaOmit
   subProcess?: Prisma.SubProcessOmit
   controlSubProcess?: Prisma.ControlSubProcessOmit
-  controlFDSubProcess?: Prisma.ControlFDSubProcessOmit
   control?: Prisma.ControlOmit
   assessmentTemplate?: Prisma.AssessmentTemplateOmit
   assessmentTemplateControlLinkage?: Prisma.AssessmentTemplateControlLinkageOmit
@@ -5572,12 +5372,11 @@ export type GlobalOmitConfig = {
   aActDetails?: Prisma.AActDetailsOmit
   knowledgebase?: Prisma.KnowledgebaseOmit
   mapArt2Know?: Prisma.MapArt2KnowOmit
-  documentExtract?: Prisma.DocumentExtractOmit
-  controlFromDocument?: Prisma.ControlFromDocumentOmit
   requirement?: Prisma.RequirementOmit
   mapControl2Requirement?: Prisma.MapControl2RequirementOmit
   gamificationStage?: Prisma.GamificationStageOmit
   webhookLog?: Prisma.WebhookLogOmit
+  document?: Prisma.DocumentOmit
   backlogItem?: Prisma.BacklogItemOmit
 }
 

@@ -3,18 +3,18 @@ import { prisma } from "@/lib/prisma";
 
 /**
  * GET /api/admin/extraction/documents
- * List all uploaded documents with status and candidate counts.
+ * List all uploaded documents with candidate counts.
  */
 export async function GET() {
   try {
     const docs = await prisma.$queryRawUnsafe<Array<{
-      id: string; "documentTitle": string; "documentType": string;
-      "Status": string; "createdAt": string; candidateCount: number;
+      id: string; filename: string; "documentType": string;
+      "createdAt": string; candidateCount: number;
     }>>(
-      `SELECT d.id, d."documentTitle", d."documentType", d."Status", d."createdAt",
+      `SELECT d.id, d.filename, d."documentType", d."createdAt",
               COUNT(c.id)::int as "candidateCount"
-       FROM "DocumentExtract" d
-       LEFT JOIN "ControlFromDocument" c ON c."documentExtractId" = d.id
+       FROM "Document" d
+       LEFT JOIN "ControlFromDocument" c ON c."documentId" = d.id
        GROUP BY d.id
        ORDER BY d."createdAt" DESC`
     );

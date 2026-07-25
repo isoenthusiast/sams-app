@@ -87,11 +87,6 @@ export type SubProcess = Prisma.SubProcessModel
  */
 export type ControlSubProcess = Prisma.ControlSubProcessModel
 /**
- * Model ControlFDSubProcess
- * 
- */
-export type ControlFDSubProcess = Prisma.ControlFDSubProcessModel
-/**
  * Model Control
  * 
  */
@@ -267,16 +262,6 @@ export type Knowledgebase = Prisma.KnowledgebaseModel
  */
 export type MapArt2Know = Prisma.MapArt2KnowModel
 /**
- * Model DocumentExtract
- * 
- */
-export type DocumentExtract = Prisma.DocumentExtractModel
-/**
- * Model ControlFromDocument
- * 
- */
-export type ControlFromDocument = Prisma.ControlFromDocumentModel
-/**
  * Model Requirement
  * 
  */
@@ -296,6 +281,11 @@ export type GamificationStage = Prisma.GamificationStageModel
  * 
  */
 export type WebhookLog = Prisma.WebhookLogModel
+/**
+ * Model Document
+ * 
+ */
+export type Document = Prisma.DocumentModel
 /**
  * Model BacklogItem
  * 

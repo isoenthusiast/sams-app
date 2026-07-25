@@ -145,7 +145,6 @@ model SubProcess {
   companyId             String?
   processArea           ProcessArea           @relation(fields: [processAreaId], references: [id])
   controlSubProcesses   ControlSubProcess[]
-  controlFDSubProcesses ControlFDSubProcess[]
 }
 
 // Many-to-many: a Control can belong to multiple SubProcesses (e.g. the same
@@ -163,22 +162,6 @@ model ControlSubProcess {
 
   @@unique([controlId, subProcessId])
   @@index([controlId])
-  @@index([subProcessId])
-}
-
-// Many-to-many: a ControlFromDocument can belong to multiple SubProcesses.
-// Mirrors ControlSubProcess but for document-extracted controls.
-model ControlFDSubProcess {
-  id                    String              @id @default(cuid())
-  controlFromDocumentId String
-  subProcessId          String
-  isPrimary             Boolean             @default(false)
-  createdAt             DateTime            @default(now())
-  controlFromDocument   ControlFromDocument @relation(fields: [controlFromDocumentId], references: [id], onDelete: Cascade)
-  subProcess            SubProcess          @relation(fields: [subProcessId], references: [id], onDelete: Cascade)
-
-  @@unique([controlFromDocumentId, subProcessId])
-  @@index([controlFromDocumentId])
   @@index([subProcessId])
 }
 
@@ -767,71 +750,6 @@ model MapArt2Know {
   @@index([artID])
 }
 
-model DocumentExtract {
-  id                   String                @id @default(cuid())
-  docNo                Int
-  documentNumber       String?
-  documentType         String?
-  documentTitle        String
-  custodian            String?
-  authorizer           String?
-  content              String
-  status               String                @default("Uploaded") @map("Status")
-  CompletedOn          DateTime?
-  companyId            String?
-  createdAt            DateTime              @default(now())
-  updatedAt            DateTime              @updatedAt
-  controlFromDocuments ControlFromDocument[]
-
-  @@index([docNo])
-  @@index([documentNumber])
-  @@index([status])
-}
-
-model ControlFromDocument {
-  id                    String                @id @default(cuid())
-  documentExtractId     String
-  name                  String
-  statement             String
-  controlType           String
-  processAreaId         String
-  isHsseCritical        Boolean               @default(false)
-  ramRating             String?
-  riskWeight            Int                   @default(1)
-  rawHealthScore        Int                   @default(80)
-  lastTestedDate        DateTime?
-  lastTestResult        String?
-  createdAt             DateTime              @default(now())
-  updatedAt             DateTime              @updatedAt
-  controlRef            String?
-  sourceFile            String?
-  practiceDocument      String?
-  controlTypeDetail     String?
-  csfWho                String?
-  csfWhat               String?
-  csfWhen               String?
-  csfWhere              String?
-  csfWhy                String?
-  csfHow                String?
-  csfEvidence           String?
-  keyActivities         String?
-  riskAddressed         String?
-  testingApproach       String?
-  keyRiskIndicator      String?
-  uncertainFlags        String?
-  standard              String?
-  pId                   String?
-  Requirements          String?
-  status                String?               @default("Pending")
-  approvedControlId     String?
-  documentExtract       DocumentExtract       @relation(fields: [documentExtractId], references: [id], onDelete: Cascade)
-  controlFDSubProcesses ControlFDSubProcess[]
-
-  @@index([documentExtractId])
-  @@index([controlRef])
-  @@index([status])
-}
-
 // ── Requirement — SMDS ICOP Statutory Requirements ─────────────────────
 // Imported from frontline library/mRequirement.csv.
 // rID is the canonical requirement identifier (from source data, not auto-generated).
@@ -898,6 +816,33 @@ model WebhookLog {
   status      String   @default("received") // received, processed, error
   response    String?
   createdAt   DateTime @default(now())
+}
+
+// ── Document Management ─────────────────────────────────────────────
+model Document {
+  id              String    @id @default(cuid())
+  documentNo      String?   @unique
+  version         Int       @default(1)
+  isLatest        Boolean   @default(true)
+  replacedById    String?
+  archivedAt      DateTime?
+  companyId       String?
+  source          String?
+  folder          String?
+  filename        String
+  processAreaId   String?
+  summary         String?
+  documentContent String
+  srcFileDeleted  Boolean   @default(false)
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@index([documentNo])
+  @@index([isLatest])
+  @@index([companyId])
+  @@index([processAreaId])
+  @@index([folder])
+  @@map("Document")
 }
 
 enum LOA {

@@ -192,7 +192,6 @@ export type SubProcessWhereInput = {
   companyId?: Prisma.StringNullableFilter<"SubProcess"> | string | null
   processArea?: Prisma.XOR<Prisma.ProcessAreaScalarRelationFilter, Prisma.ProcessAreaWhereInput>
   controlSubProcesses?: Prisma.ControlSubProcessListRelationFilter
-  controlFDSubProcesses?: Prisma.ControlFDSubProcessListRelationFilter
 }
 
 export type SubProcessOrderByWithRelationInput = {
@@ -204,7 +203,6 @@ export type SubProcessOrderByWithRelationInput = {
   companyId?: Prisma.SortOrderInput | Prisma.SortOrder
   processArea?: Prisma.ProcessAreaOrderByWithRelationInput
   controlSubProcesses?: Prisma.ControlSubProcessOrderByRelationAggregateInput
-  controlFDSubProcesses?: Prisma.ControlFDSubProcessOrderByRelationAggregateInput
 }
 
 export type SubProcessWhereUniqueInput = Prisma.AtLeast<{
@@ -219,7 +217,6 @@ export type SubProcessWhereUniqueInput = Prisma.AtLeast<{
   companyId?: Prisma.StringNullableFilter<"SubProcess"> | string | null
   processArea?: Prisma.XOR<Prisma.ProcessAreaScalarRelationFilter, Prisma.ProcessAreaWhereInput>
   controlSubProcesses?: Prisma.ControlSubProcessListRelationFilter
-  controlFDSubProcesses?: Prisma.ControlFDSubProcessListRelationFilter
 }, "id">
 
 export type SubProcessOrderByWithAggregationInput = {
@@ -254,7 +251,6 @@ export type SubProcessCreateInput = {
   companyId?: string | null
   processArea: Prisma.ProcessAreaCreateNestedOneWithoutSubProcessesInput
   controlSubProcesses?: Prisma.ControlSubProcessCreateNestedManyWithoutSubProcessInput
-  controlFDSubProcesses?: Prisma.ControlFDSubProcessCreateNestedManyWithoutSubProcessInput
 }
 
 export type SubProcessUncheckedCreateInput = {
@@ -265,7 +261,6 @@ export type SubProcessUncheckedCreateInput = {
   createdAt?: Date | string
   companyId?: string | null
   controlSubProcesses?: Prisma.ControlSubProcessUncheckedCreateNestedManyWithoutSubProcessInput
-  controlFDSubProcesses?: Prisma.ControlFDSubProcessUncheckedCreateNestedManyWithoutSubProcessInput
 }
 
 export type SubProcessUpdateInput = {
@@ -276,7 +271,6 @@ export type SubProcessUpdateInput = {
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   processArea?: Prisma.ProcessAreaUpdateOneRequiredWithoutSubProcessesNestedInput
   controlSubProcesses?: Prisma.ControlSubProcessUpdateManyWithoutSubProcessNestedInput
-  controlFDSubProcesses?: Prisma.ControlFDSubProcessUpdateManyWithoutSubProcessNestedInput
 }
 
 export type SubProcessUncheckedUpdateInput = {
@@ -287,7 +281,6 @@ export type SubProcessUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   controlSubProcesses?: Prisma.ControlSubProcessUncheckedUpdateManyWithoutSubProcessNestedInput
-  controlFDSubProcesses?: Prisma.ControlFDSubProcessUncheckedUpdateManyWithoutSubProcessNestedInput
 }
 
 export type SubProcessCreateManyInput = {
@@ -414,20 +407,6 @@ export type SubProcessUpdateOneRequiredWithoutControlSubProcessesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.SubProcessUpdateToOneWithWhereWithoutControlSubProcessesInput, Prisma.SubProcessUpdateWithoutControlSubProcessesInput>, Prisma.SubProcessUncheckedUpdateWithoutControlSubProcessesInput>
 }
 
-export type SubProcessCreateNestedOneWithoutControlFDSubProcessesInput = {
-  create?: Prisma.XOR<Prisma.SubProcessCreateWithoutControlFDSubProcessesInput, Prisma.SubProcessUncheckedCreateWithoutControlFDSubProcessesInput>
-  connectOrCreate?: Prisma.SubProcessCreateOrConnectWithoutControlFDSubProcessesInput
-  connect?: Prisma.SubProcessWhereUniqueInput
-}
-
-export type SubProcessUpdateOneRequiredWithoutControlFDSubProcessesNestedInput = {
-  create?: Prisma.XOR<Prisma.SubProcessCreateWithoutControlFDSubProcessesInput, Prisma.SubProcessUncheckedCreateWithoutControlFDSubProcessesInput>
-  connectOrCreate?: Prisma.SubProcessCreateOrConnectWithoutControlFDSubProcessesInput
-  upsert?: Prisma.SubProcessUpsertWithoutControlFDSubProcessesInput
-  connect?: Prisma.SubProcessWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.SubProcessUpdateToOneWithWhereWithoutControlFDSubProcessesInput, Prisma.SubProcessUpdateWithoutControlFDSubProcessesInput>, Prisma.SubProcessUncheckedUpdateWithoutControlFDSubProcessesInput>
-}
-
 export type SubProcessCreateWithoutProcessAreaInput = {
   id?: string
   name: string
@@ -435,7 +414,6 @@ export type SubProcessCreateWithoutProcessAreaInput = {
   createdAt?: Date | string
   companyId?: string | null
   controlSubProcesses?: Prisma.ControlSubProcessCreateNestedManyWithoutSubProcessInput
-  controlFDSubProcesses?: Prisma.ControlFDSubProcessCreateNestedManyWithoutSubProcessInput
 }
 
 export type SubProcessUncheckedCreateWithoutProcessAreaInput = {
@@ -445,7 +423,6 @@ export type SubProcessUncheckedCreateWithoutProcessAreaInput = {
   createdAt?: Date | string
   companyId?: string | null
   controlSubProcesses?: Prisma.ControlSubProcessUncheckedCreateNestedManyWithoutSubProcessInput
-  controlFDSubProcesses?: Prisma.ControlFDSubProcessUncheckedCreateNestedManyWithoutSubProcessInput
 }
 
 export type SubProcessCreateOrConnectWithoutProcessAreaInput = {
@@ -493,7 +470,6 @@ export type SubProcessCreateWithoutControlSubProcessesInput = {
   createdAt?: Date | string
   companyId?: string | null
   processArea: Prisma.ProcessAreaCreateNestedOneWithoutSubProcessesInput
-  controlFDSubProcesses?: Prisma.ControlFDSubProcessCreateNestedManyWithoutSubProcessInput
 }
 
 export type SubProcessUncheckedCreateWithoutControlSubProcessesInput = {
@@ -503,7 +479,6 @@ export type SubProcessUncheckedCreateWithoutControlSubProcessesInput = {
   processAreaId: string
   createdAt?: Date | string
   companyId?: string | null
-  controlFDSubProcesses?: Prisma.ControlFDSubProcessUncheckedCreateNestedManyWithoutSubProcessInput
 }
 
 export type SubProcessCreateOrConnectWithoutControlSubProcessesInput = {
@@ -529,7 +504,6 @@ export type SubProcessUpdateWithoutControlSubProcessesInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   processArea?: Prisma.ProcessAreaUpdateOneRequiredWithoutSubProcessesNestedInput
-  controlFDSubProcesses?: Prisma.ControlFDSubProcessUpdateManyWithoutSubProcessNestedInput
 }
 
 export type SubProcessUncheckedUpdateWithoutControlSubProcessesInput = {
@@ -539,63 +513,6 @@ export type SubProcessUncheckedUpdateWithoutControlSubProcessesInput = {
   processAreaId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  controlFDSubProcesses?: Prisma.ControlFDSubProcessUncheckedUpdateManyWithoutSubProcessNestedInput
-}
-
-export type SubProcessCreateWithoutControlFDSubProcessesInput = {
-  id?: string
-  name: string
-  description?: string | null
-  createdAt?: Date | string
-  companyId?: string | null
-  processArea: Prisma.ProcessAreaCreateNestedOneWithoutSubProcessesInput
-  controlSubProcesses?: Prisma.ControlSubProcessCreateNestedManyWithoutSubProcessInput
-}
-
-export type SubProcessUncheckedCreateWithoutControlFDSubProcessesInput = {
-  id?: string
-  name: string
-  description?: string | null
-  processAreaId: string
-  createdAt?: Date | string
-  companyId?: string | null
-  controlSubProcesses?: Prisma.ControlSubProcessUncheckedCreateNestedManyWithoutSubProcessInput
-}
-
-export type SubProcessCreateOrConnectWithoutControlFDSubProcessesInput = {
-  where: Prisma.SubProcessWhereUniqueInput
-  create: Prisma.XOR<Prisma.SubProcessCreateWithoutControlFDSubProcessesInput, Prisma.SubProcessUncheckedCreateWithoutControlFDSubProcessesInput>
-}
-
-export type SubProcessUpsertWithoutControlFDSubProcessesInput = {
-  update: Prisma.XOR<Prisma.SubProcessUpdateWithoutControlFDSubProcessesInput, Prisma.SubProcessUncheckedUpdateWithoutControlFDSubProcessesInput>
-  create: Prisma.XOR<Prisma.SubProcessCreateWithoutControlFDSubProcessesInput, Prisma.SubProcessUncheckedCreateWithoutControlFDSubProcessesInput>
-  where?: Prisma.SubProcessWhereInput
-}
-
-export type SubProcessUpdateToOneWithWhereWithoutControlFDSubProcessesInput = {
-  where?: Prisma.SubProcessWhereInput
-  data: Prisma.XOR<Prisma.SubProcessUpdateWithoutControlFDSubProcessesInput, Prisma.SubProcessUncheckedUpdateWithoutControlFDSubProcessesInput>
-}
-
-export type SubProcessUpdateWithoutControlFDSubProcessesInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  processArea?: Prisma.ProcessAreaUpdateOneRequiredWithoutSubProcessesNestedInput
-  controlSubProcesses?: Prisma.ControlSubProcessUpdateManyWithoutSubProcessNestedInput
-}
-
-export type SubProcessUncheckedUpdateWithoutControlFDSubProcessesInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  processAreaId?: Prisma.StringFieldUpdateOperationsInput | string
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  controlSubProcesses?: Prisma.ControlSubProcessUncheckedUpdateManyWithoutSubProcessNestedInput
 }
 
 export type SubProcessCreateManyProcessAreaInput = {
@@ -613,7 +530,6 @@ export type SubProcessUpdateWithoutProcessAreaInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   controlSubProcesses?: Prisma.ControlSubProcessUpdateManyWithoutSubProcessNestedInput
-  controlFDSubProcesses?: Prisma.ControlFDSubProcessUpdateManyWithoutSubProcessNestedInput
 }
 
 export type SubProcessUncheckedUpdateWithoutProcessAreaInput = {
@@ -623,7 +539,6 @@ export type SubProcessUncheckedUpdateWithoutProcessAreaInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   controlSubProcesses?: Prisma.ControlSubProcessUncheckedUpdateManyWithoutSubProcessNestedInput
-  controlFDSubProcesses?: Prisma.ControlFDSubProcessUncheckedUpdateManyWithoutSubProcessNestedInput
 }
 
 export type SubProcessUncheckedUpdateManyWithoutProcessAreaInput = {
@@ -641,12 +556,10 @@ export type SubProcessUncheckedUpdateManyWithoutProcessAreaInput = {
 
 export type SubProcessCountOutputType = {
   controlSubProcesses: number
-  controlFDSubProcesses: number
 }
 
 export type SubProcessCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   controlSubProcesses?: boolean | SubProcessCountOutputTypeCountControlSubProcessesArgs
-  controlFDSubProcesses?: boolean | SubProcessCountOutputTypeCountControlFDSubProcessesArgs
 }
 
 /**
@@ -666,13 +579,6 @@ export type SubProcessCountOutputTypeCountControlSubProcessesArgs<ExtArgs extend
   where?: Prisma.ControlSubProcessWhereInput
 }
 
-/**
- * SubProcessCountOutputType without action
- */
-export type SubProcessCountOutputTypeCountControlFDSubProcessesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.ControlFDSubProcessWhereInput
-}
-
 
 export type SubProcessSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -683,7 +589,6 @@ export type SubProcessSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   companyId?: boolean
   processArea?: boolean | Prisma.ProcessAreaDefaultArgs<ExtArgs>
   controlSubProcesses?: boolean | Prisma.SubProcess$controlSubProcessesArgs<ExtArgs>
-  controlFDSubProcesses?: boolean | Prisma.SubProcess$controlFDSubProcessesArgs<ExtArgs>
   _count?: boolean | Prisma.SubProcessCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["subProcess"]>
 
@@ -720,7 +625,6 @@ export type SubProcessOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs
 export type SubProcessInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   processArea?: boolean | Prisma.ProcessAreaDefaultArgs<ExtArgs>
   controlSubProcesses?: boolean | Prisma.SubProcess$controlSubProcessesArgs<ExtArgs>
-  controlFDSubProcesses?: boolean | Prisma.SubProcess$controlFDSubProcessesArgs<ExtArgs>
   _count?: boolean | Prisma.SubProcessCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type SubProcessIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -735,7 +639,6 @@ export type $SubProcessPayload<ExtArgs extends runtime.Types.Extensions.Internal
   objects: {
     processArea: Prisma.$ProcessAreaPayload<ExtArgs>
     controlSubProcesses: Prisma.$ControlSubProcessPayload<ExtArgs>[]
-    controlFDSubProcesses: Prisma.$ControlFDSubProcessPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1140,7 +1043,6 @@ export interface Prisma__SubProcessClient<T, Null = never, ExtArgs extends runti
   readonly [Symbol.toStringTag]: "PrismaPromise"
   processArea<T extends Prisma.ProcessAreaDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ProcessAreaDefaultArgs<ExtArgs>>): Prisma.Prisma__ProcessAreaClient<runtime.Types.Result.GetResult<Prisma.$ProcessAreaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   controlSubProcesses<T extends Prisma.SubProcess$controlSubProcessesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.SubProcess$controlSubProcessesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ControlSubProcessPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  controlFDSubProcesses<T extends Prisma.SubProcess$controlFDSubProcessesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.SubProcess$controlFDSubProcessesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ControlFDSubProcessPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1598,30 +1500,6 @@ export type SubProcess$controlSubProcessesArgs<ExtArgs extends runtime.Types.Ext
   take?: number
   skip?: number
   distinct?: Prisma.ControlSubProcessScalarFieldEnum | Prisma.ControlSubProcessScalarFieldEnum[]
-}
-
-/**
- * SubProcess.controlFDSubProcesses
- */
-export type SubProcess$controlFDSubProcessesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the ControlFDSubProcess
-   */
-  select?: Prisma.ControlFDSubProcessSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the ControlFDSubProcess
-   */
-  omit?: Prisma.ControlFDSubProcessOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.ControlFDSubProcessInclude<ExtArgs> | null
-  where?: Prisma.ControlFDSubProcessWhereInput
-  orderBy?: Prisma.ControlFDSubProcessOrderByWithRelationInput | Prisma.ControlFDSubProcessOrderByWithRelationInput[]
-  cursor?: Prisma.ControlFDSubProcessWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.ControlFDSubProcessScalarFieldEnum | Prisma.ControlFDSubProcessScalarFieldEnum[]
 }
 
 /**

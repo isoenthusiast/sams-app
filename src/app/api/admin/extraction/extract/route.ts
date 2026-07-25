@@ -60,30 +60,25 @@ export async function POST(request: Request) {
     }
 
     // Get document
-    const docs = await prisma.$queryRawUnsafe<Array<{ id: string; content: string; "documentTitle": string; "Status": string }>>(
-      `SELECT id, content, "documentTitle", "Status" FROM "DocumentExtract" WHERE id = $1`, documentId
+    const docs = await prisma.$queryRawUnsafe<Array<{ id: string; "documentContent": string; filename: string }>>(
+      `SELECT id, "documentContent", filename FROM "Document" WHERE id = $1`, documentId
     );
     if (!docs.length) {
       return NextResponse.json({ error: "Document not found" }, { status: 404 });
     }
     const doc = docs[0];
 
-    if (!doc.content || doc.content.length < 10) {
+    if (!doc.documentContent || doc.documentContent.length < 10) {
       return NextResponse.json({ error: "Document has insufficient content for extraction" }, { status: 400 });
     }
 
     // Delete previous candidates (idempotent)
     await prisma.$executeRawUnsafe(
-      `DELETE FROM "ControlFromDocument" WHERE "documentExtractId" = $1`, documentId
-    );
-
-    // Update document status
-    await prisma.$executeRawUnsafe(
-      `UPDATE "DocumentExtract" SET "Status" = 'Extracting' WHERE id = $1`, documentId
+      `DELETE FROM "ControlFromDocument" WHERE "documentId" = $1`, documentId
     );
 
     // Call DeepSeek
-    const truncated = doc.content.substring(0, 12000); // Limit context
+    const truncated = doc.documentContent.substring(0, 12000);
     const response = await fetch(DEEPSEEK_URL, {
       method: "POST",
       headers: {
@@ -91,7 +86,7 @@ export async function POST(request: Request) {
         "Authorization": `Bearer ${DEEPSEEK_API_KEY}`,
       },
       body: JSON.stringify({
-        model: "deepseek-chat",
+        model: "deepseek-v4-pro",
         messages: [
           { role: "system", content: "You are a control extraction expert. Return ONLY valid JSON arrays. No markdown." },
           { role: "user", content: EXTRACTION_PROMPT + truncated },
@@ -103,9 +98,6 @@ export async function POST(request: Request) {
 
     if (!response.ok) {
       const errText = await response.text();
-      await prisma.$executeRawUnsafe(
-        `UPDATE "DocumentExtract" SET "Status" = 'Uploaded' WHERE id = $1`, documentId
-      );
       return NextResponse.json({ error: `DeepSeek API error: ${response.status} — ${errText.substring(0, 200)}` }, { status: 500 });
     }
 
@@ -136,7 +128,7 @@ export async function POST(request: Request) {
       if (!ctrl.name) continue;
       await prisma.$executeRawUnsafe(
         `INSERT INTO "ControlFromDocument" (
-          id, "documentExtractId", name, statement, "controlType", "controlTypeDetail",
+          id, "documentId", name, statement, "controlType", "controlTypeDetail",
           "csfWho", "csfWhat", "csfWhen", "csfWhere", "csfWhy", "csfHow", "csfEvidence",
           "keyActivities", "riskAddressed", "keyRiskIndicator",
           "isHsseCritical", standard, "Requirements", "createdAt", "updatedAt", status
@@ -167,11 +159,6 @@ export async function POST(request: Request) {
       );
       inserted++;
     }
-
-    // Update document status
-    await prisma.$executeRawUnsafe(
-      `UPDATE "DocumentExtract" SET "Status" = 'Extracted', "CompletedOn" = NOW() WHERE id = $1`, documentId
-    );
 
     return NextResponse.json({
       success: true,
