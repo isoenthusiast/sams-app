@@ -33,7 +33,6 @@ export async function NavBar() {
             {isAdmin ? (
               <>
                 <NavLink href="/fla">Dashboard</NavLink>
-                <NavLink href="/gamification">Gamification</NavLink>
                 <NavLink href="/admin">Admin</NavLink>
                 <NavLink href="/help">Help</NavLink>
               </>
@@ -47,9 +46,9 @@ export async function NavBar() {
           </nav>
         </div>
         <div className="flex items-center gap-3">
-          <span className="text-sm text-slate-600">
+          <Link href="/profile" className="text-sm text-slate-600 hover:text-slate-900 hover:underline transition-colors">
             {(session.user as { name?: string }).name} ({role})
-          </span>
+          </Link>
           <SignOutButton />
         </div>
       </div>

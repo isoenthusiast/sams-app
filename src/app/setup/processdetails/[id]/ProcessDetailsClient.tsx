@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Card } from "@/components/Card";
@@ -9,6 +9,7 @@ import { Button } from "@/components/Button";
 import { RequirementCard } from "@/components/RequirementCard";
 import { KnowledgebasePanel } from "@/components/KnowledgebasePanel";
 import { ImprovementKanban } from "@/components/ImprovementKanban";
+import DocumentsPanel, { type PaDocument } from "@/components/DocumentsPanel";
 import { formatMarkdown } from "@/lib/formatMarkdown";
 
 type Props = {
@@ -31,15 +32,18 @@ type Props = {
   currentUserName: string | null;
   currentUserRole: string | null;
   companyId: string | null;
+  masterCompanyId: string;
   kbEntries: Array<{ kID: string; knowledgeName: string; knowledgeContent: string; remarks: string | null; createdDate: string; addedBy: string }>;
+  documents: PaDocument[];
 };
 
-type ChatMsg = { role: "user" | "assistant"; content: string; controls?: Array<{ name: string; statement: string; controlType: string }> };
+type PipProposal = { title: string; description: string; priority: string };
+type ChatMsg = { role: "user" | "assistant"; content: string; controls?: Array<{ name: string; statement: string; controlType: string }>; proposedPips?: PipProposal[] };
 
 export default function ProcessDetailsClient(props: Props) {
-  const { processArea, subProcesses, assessments, reqWithControls, allControls, healthMetrics, pipItems, assessmentActions, currentUserName, currentUserRole, companyId, kbEntries } = props;
+  const { processArea, subProcesses, assessments, reqWithControls, allControls, healthMetrics, pipItems, assessmentActions, currentUserName, currentUserRole, companyId, masterCompanyId, kbEntries, documents } = props;
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState<"overview" | "requirements" | "assessments" | "knowledgebase" | "improvement">("overview");
+  const [activeTab, setActiveTab] = useState<"overview" | "requirements" | "assessments" | "knowledgebase" | "improvement" | "documents">("overview");
   const [pipData, setPipData] = useState(pipItems);
   const [showHowToRead, setShowHowToRead] = useState(false);
   const [editingMic, setEditingMic] = useState(false);
@@ -57,6 +61,11 @@ export default function ProcessDetailsClient(props: Props) {
   const [dragOverReqId, setDragOverReqId] = useState<number | null>(null);
   const [chatMessages, setChatMessages] = useState<ChatMsg[]>([]);
   const [chatInput, setChatInput] = useState("");
+  const [uploadingFile, setUploadingFile] = useState(false);
+  const [attachedFile, setAttachedFile] = useState<File | null>(null);
+  const [speakingIndex, setSpeakingIndex] = useState<number | null>(null);
+  const [listening, setListening] = useState(false);
+  const recognitionRef = useRef<any>(null);
 
   const { healthDistribution, avgHealth, openFindings, overdueActions, totalAssessments, lastAssessment } = healthMetrics;
   const totalControls = healthMetrics.totalControls;
@@ -78,6 +87,52 @@ export default function ProcessDetailsClient(props: Props) {
     setMicSaving(true);
     await fetch(`/api/admin/pip/mic`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ micStatement, processAreaId: processArea.id }) });
     setMicSaving(false); setEditingMic(false); router.refresh();
+  };
+
+  const speakMessage = (text: string, index: number) => {
+    if (!window.speechSynthesis) return;
+    window.speechSynthesis.cancel();
+    if (speakingIndex === index) { setSpeakingIndex(null); return; }
+    const utterance = new SpeechSynthesisUtterance(text.replace(/<[^>]*>/g, "").replace(/[*_#`~>|]/g, "").replace(/\n+/g, ". "));
+    utterance.rate = 0.95;
+    utterance.onend = () => setSpeakingIndex(null);
+    utterance.onerror = () => setSpeakingIndex(null);
+    setSpeakingIndex(index);
+    window.speechSynthesis.speak(utterance);
+  };
+
+  const toggleListening = () => {
+    const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+    if (!SpeechRecognition) { alert("Speech recognition not supported in this browser. Use Chrome or Edge."); return; }
+
+    if (listening) {
+      try { recognitionRef.current?.stop(); } catch {}
+      setListening(false);
+      return;
+    }
+
+    try {
+      const recognition = new SpeechRecognition();
+      recognition.continuous = false;
+      recognition.interimResults = false;
+      recognition.lang = "en-US";
+
+      recognition.onresult = (event: any) => {
+        const transcript = event.results[0][0].transcript;
+        setChatInput(prev => (prev + " " + transcript).trim());
+      };
+      recognition.onend = () => setListening(false);
+      recognition.onerror = (e: any) => {
+        console.log("Speech recognition error:", e.error);
+        setListening(false);
+      };
+      recognitionRef.current = recognition;
+      recognition.start();
+      setListening(true);
+    } catch (e: any) {
+      console.log("Speech recognition start error:", e);
+      setListening(false);
+    }
   };
 
   useEffect(() => { setReqData(reqWithControls); }, [reqWithControls]);
@@ -154,17 +209,35 @@ export default function ProcessDetailsClient(props: Props) {
 
   const handleSendChat = async () => {
     const msg = chatInput.trim();
-    if (!msg) return;
-    const userMsg: ChatMsg = { role: "user", content: msg };
+    if (!msg && !attachedFile) return;
+    setChatInput("");
+    setUploadingFile(true);
+
+    let uploadedDoc: { documentId: string; filename: string; summary: string } | null = null;
+
+    // Upload file first if attached
+    if (attachedFile) {
+      const formData = new FormData();
+      formData.append("file", attachedFile);
+      formData.append("processAreaId", processArea.id);
+      if (companyId) formData.append("companyId", companyId);
+      try {
+        const uploadRes = await fetch("/api/chat/knowledge/upload", { method: "POST", body: formData });
+        if (uploadRes.ok) uploadedDoc = await uploadRes.json();
+      } catch { /* continue without file */ }
+      setAttachedFile(null);
+    }
+    setUploadingFile(false);
+
+    const userContent = msg || (uploadedDoc ? `I uploaded: ${uploadedDoc.filename}` : "");
+    const userMsg: ChatMsg = { role: "user", content: userContent };
     const newHistory = [...chatMessages, userMsg];
     setChatMessages(newHistory);
-    setChatInput("");
     try {
       const res = await fetch("/api/chat/knowledge", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+        method: "POST", headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          message: msg,
+          message: msg || `Analyze the uploaded document: ${uploadedDoc?.filename || ""}`,
           processAreaId: processArea.id,
           companyId,
           history: newHistory.map((m) => ({ role: m.role, content: m.content })),
@@ -175,7 +248,9 @@ export default function ProcessDetailsClient(props: Props) {
         role: "assistant",
         content: data.reply || "No response.",
         controls: data.controls || [],
-      };
+        proposedPips: data.proposedPips || [],
+        _rawContent: data.reply || "",
+      } as any;
       setChatMessages([...newHistory, assistantMsg]);
     } catch {
       setChatMessages([...newHistory, { role: "assistant", content: "Error: Could not reach AI. Please try again." }]);
@@ -190,7 +265,7 @@ export default function ProcessDetailsClient(props: Props) {
 
       {/* Tabs */}
       <div className="mt-4 flex border-b border-slate-200">
-        {(["overview", "requirements", "assessments", "knowledgebase", "improvement"] as const).map((t) => (
+        {(["overview", "requirements", "assessments", "knowledgebase", "documents", "improvement"] as const).map((t) => (
           <button
             key={t}
             onClick={() => { setActiveTab(t); setMapMode(false); }}
@@ -198,7 +273,7 @@ export default function ProcessDetailsClient(props: Props) {
               activeTab === t ? "border-slate-900 text-slate-900 bg-white" : "border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300"
             }`}
           >
-            {t === "overview" ? "Process Overview" : t === "requirements" ? "Requirements & Controls" : t === "assessments" ? "Assessments" : t === "knowledgebase" ? "Knowledgebase" : "📈 Improvement"}
+            {t === "overview" ? "Process Overview" : t === "requirements" ? "Requirements & Controls" : t === "assessments" ? "Assessments" : t === "knowledgebase" ? "Knowledgebase" : t === "documents" ? "📄 Documents" : "📈 Improvement"}
           </button>
         ))}
       </div>
@@ -496,10 +571,22 @@ export default function ProcessDetailsClient(props: Props) {
                       : "bg-slate-100 text-slate-800"
                   }`}>
                     {msg.role === "assistant" ? (
-                      <div
-                        className="text-sm [&_p]:mb-1 [&_ul]:my-1 [&_li]:ml-3 [&_strong]:font-semibold [&_code]:text-xs [&_pre]:my-2"
-                        dangerouslySetInnerHTML={{ __html: formatMarkdown(msg.content) }}
-                      />
+                      <div>
+                        <div className="flex items-center justify-between mb-1">
+                          <span className="text-xs text-slate-400">AI</span>
+                          <button
+                            onClick={() => speakMessage((msg as any)._rawContent || msg.content, i)}
+                            className={`text-xs px-1.5 py-0.5 rounded ${speakingIndex === i ? "bg-blue-200 text-blue-700" : "text-slate-400 hover:text-slate-600"}`}
+                            title={speakingIndex === i ? "Stop" : "Read aloud"}
+                          >
+                            {speakingIndex === i ? "🔊" : "🔈"}
+                          </button>
+                        </div>
+                        <div
+                          className="text-sm [&_p]:mb-1 [&_ul]:my-1 [&_li]:ml-3 [&_strong]:font-semibold [&_code]:text-xs [&_pre]:my-2"
+                          dangerouslySetInnerHTML={{ __html: formatMarkdown(msg.content) }}
+                        />
+                      </div>
                     ) : (
                       <p className="whitespace-pre-wrap">{msg.content}</p>
                     )}
@@ -515,6 +602,26 @@ export default function ProcessDetailsClient(props: Props) {
                         ))}
                       </div>
                     )}
+                    {msg.proposedPips && msg.proposedPips.length > 0 && (
+                      <div className="mt-2 border-t border-slate-300 pt-2">
+                        <p className="text-xs font-medium mb-1">📈 Proposed PIP Items:</p>
+                        {msg.proposedPips.map((p, pi) => (
+                          <div key={pi} className="text-xs mt-1 p-2 bg-amber-50 rounded border border-amber-200">
+                            <div className="font-medium">{p.title}</div>
+                            <div className="text-slate-500 mt-0.5">{p.description}</div>
+                            <div className="flex items-center gap-2 mt-1">
+                              <span className="text-xs text-slate-400">Priority: {p.priority}</span>
+                              {isSpoOrAdmin && (
+                                <button onClick={async () => {
+                                  await fetch("/api/admin/pip", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ title: p.title, description: p.description, processAreaId: processArea.id, priority: p.priority === "High" ? 10 : p.priority === "Medium" ? 5 : 1 }) });
+                                  refreshPips();
+                                }} className="text-xs text-blue-600 hover:underline">＋ Add to PIP</button>
+                              )}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
                   </div>
                 </div>
               ))}
@@ -523,6 +630,13 @@ export default function ProcessDetailsClient(props: Props) {
               onSubmit={(e) => { e.preventDefault(); handleSendChat(); }}
               className="flex gap-2"
             >
+              <input type="file" id="chat-file-upload" className="hidden"
+                accept=".pdf,.md,.csv,.txt,.docx,.png,.jpg,.jpeg,.webp,.gif,.bmp"
+                onChange={e => setAttachedFile(e.target.files?.[0] || null)} />
+              <label htmlFor="chat-file-upload" className={`flex items-center justify-center w-9 h-9 rounded border border-slate-300 cursor-pointer hover:bg-slate-50 ${attachedFile ? "bg-blue-50 border-blue-400" : ""}`} title="Attach a file">
+                📎
+              </label>
+              {attachedFile && <span className="text-xs text-slate-500 self-center truncate max-w-[120px]">{attachedFile.name}</span>}
               <input
                 type="text"
                 value={chatInput}
@@ -531,8 +645,13 @@ export default function ProcessDetailsClient(props: Props) {
                 className="flex-1 rounded border border-slate-300 px-3 py-2 text-sm focus:border-slate-500 focus:outline-none"
                 aria-label="Chat message"
               />
-              <Button variant="primary" size="sm" type="submit" disabled={!chatInput.trim()}>
-                Send
+              <button type="button" onClick={toggleListening}
+                className={`flex items-center justify-center w-9 h-9 rounded border text-sm ${listening ? "bg-red-100 border-red-400 text-red-600 animate-pulse" : "border-slate-300 text-slate-500 hover:bg-slate-50"}`}
+                title={listening ? "Stop listening" : "Speak your question"}>
+                🎤
+              </button>
+              <Button variant="primary" size="sm" type="submit" disabled={!chatInput.trim() && !attachedFile || uploadingFile}>
+                {uploadingFile ? "Uploading…" : "Send"}
               </Button>
             </form>
           </Card>
@@ -542,6 +661,17 @@ export default function ProcessDetailsClient(props: Props) {
       {/* ─── TAB 5: Improvement (PIP Kanban) ─── */}
       {activeTab === "improvement" && (
         <ImprovementKanban pipItems={pipData} assessmentActions={assessmentActions} processAreaId={processArea.id} isSpoOrAdmin={isSpoOrAdmin} />
+      )}
+
+      {/* ─── TAB 6: Documents ─── */}
+      {activeTab === "documents" && (
+        <DocumentsPanel
+          documents={documents}
+          processAreaId={processArea.id}
+          companyId={companyId}
+          masterCompanyId={masterCompanyId}
+          currentUserRole={currentUserRole}
+        />
       )}
     </div>
   );

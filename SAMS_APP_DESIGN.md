@@ -1,6 +1,6 @@
 # SAMS App — Complete Design & Architecture Documentation
 
-**Last Updated:** July 25, 2026 (v1.6.2)
+**Last Updated:** July 28, 2026 (v1.9.0)
 **Code Name:** "SAMS" — Seam Assurance Management System
 **Repository:** `sams-app/` (Next.js 16 + Prisma + PostgreSQL)
 
@@ -41,6 +41,10 @@ SAMS is an **assurance management system** — not an audit tool, not a checklis
 | **Abundance, Not Scarcity** | Team leaderboards compete on aggregate points — everyone can win by doing their own work well |
 | **Traceability to Risk** | Every point, badge, and metric traces to a specific control protecting against a specific risk |
 | **Company Isolation** | Multi-tenant from day one. Companies never see each other's data |
+| **Uncontrolled Inputs for Bulk Edits** | When many rows share a single save trigger, inputs use `defaultValue` + `data-` attributes (not `value` + `onChange`). This avoids React re-renders on every keystroke. Values are read directly from the DOM via `document.querySelector`. Save triggers: blur, Enter key, or an explicit Save button |
+| **Optimistic Local Updates** | After a successful API call, update local React state immediately rather than reloading the page. Pattern: `setLocalUsers(prev => prev.map(u => condition ? { ...u, field: newValue } : u))`. Shows a brief success toast. Preserves scroll position, filter state, and expanded sections — no disruption to admin workflow |
+| **Mandatory Field Guarding** | Required fields (Name, Username, Email, Role) are marked with red `*` in forms. Save is blocked with a toast if any mandatory field is empty. System/API-added users bypass the guard but are flagged in the "Incomplete Profiles" section for admin review |
+| **Email-Based Identity Resolution** | When free-text name fields (e.g., manager names from Active Directory) don't match DB `User.name` (official vs calling names), resolve identity via Shell email addresses. Pattern: parse `GivenName.LastName@shell.com` from the email, match against the manager's `<last>, <first>` CSV format. This bridges ethnic/calling-name differences (e.g., "Ho, Alvin" → "Ho, Wei Seng" via `Alvin.Ho@shell.com`). Batch-verify matches before bulk-updating |
 
 ### 1.3 Paradigm Shifts the App Drives
 
@@ -297,7 +301,10 @@ Client Component → fetch('/api/...', { method: 'POST', body })
 
 | Model | Purpose | Key Fields |
 |-------|---------|------------|
-| **Assessment** | Frontline assurance check | status (Planned→InProgress→Completed/Cancelled), loa, assessorId (lead), activityTypeId |
+| **User** | System user | name, username (unique), email, role (Admin/Superuser/Assessor/Interviewee), positionId (FK→Position), companyId, managerName, managerUsername, organisationIndicator. **v1.8.0:** Added managerName, organisationIdentifier fields. **v1.8.2:** Added managerUsername (resolved FK-like reference to User.username) |
+| **Department** | Org unit within a company | name, companyId, parentDepartmentId (self-referencing hierarchy, NULL = top-level) |
+| **Position** | Job title scoped to Department | title, departmentId (FK→Department). @@unique([title, departmentId]) |
+| **Assessment** | Frontline assurance check | status (Planned→InProgress→Completed/Cancelled), loa, assessorId (lead), activityTypeId. **TOR fields (v1.6.5):** objective, scope, sponsor, methodology, keyFocus, reportIssueDate |
 | **ControlAssignment** | Controls assigned to assessment | effectiveness (Effective/NotEffective/null), effectiveUpdatedAt |
 | **Sample** | Record sample tested | status (Tested/NotTested), conclusion (Pass/Fail), controlEffective |
 | **Finding** | Finding raised during assessment | severity (Low/Medium/High/Serious), repeat, FID-xxxxxx ID |
@@ -323,7 +330,7 @@ Client Component → fetch('/api/...', { method: 'POST', body })
 
 | Model | Purpose | Key Fields |
 |-------|---------|------------|
-| **User** | System user | username (unique), role (Admin/Superuser/Assessor/Interviewee), positionId, companyId |
+| **User** | System user | username (unique), role (Admin/Superuser/Assessor/Interviewee), positionId, companyId, managerName, managerUsername, organisationIndicator |
 | **Department** | Organizational unit | name, companyId, parentDepartmentId (self-ref hierarchy) |
 | **Position** | Job position | title, departmentId |
 | **UserCompany** | User ↔ Company (M:N) | `@@unique([userId, companyId])` |
@@ -382,7 +389,8 @@ All company-scoped tables use `@@unique([businessKey, companyId])` rather than s
 | `/` | RSC (redirect) | Auth | Redirects Admin→/admin, Assessor→/fla |
 | `/login` | Client | Public | Username + password form |
 | `/setup/process-areas` | RSC | Auth | Process Areas grouped by Standard (collapsible) |
-| `/setup/processdetails/[id]` | RSC + Client | Auth | PA detail: Knowledgebase, Requirements, Controls tabs |
+| `/profile` | RSC + Client | Auth | User profile: Overview (gamification dashboard) + User Details (read-only with edit, now includes Department, Position, Manager, Org Indicator) tabs |
+| `/setup/processdetails/[id]` | RSC + Client | Auth | PA detail: Overview, Requirements & Controls, Assessments, Knowledgebase, Documents, Improvement tabs |
 | `/setup/controls` | RSC | Auth | Full control library (filterable) |
 | `/fla` | RSC | Assessor+ | Assessment list + create button |
 | `/fla/[id]` | Client | Assessor+ | Assessment detail with tabs |
@@ -394,6 +402,7 @@ All company-scoped tables use `@@unique([businessKey, companyId])` rather than s
 | `/admin?view=backlog` | Client | Admin | Kanban backlog board |
 | `/admin?view=database` | Client | Admin | DB management (backup/restore/execute SQL) |
 | `/admin?view=extraction` | Client | Admin | Document upload & AI extraction |
+| `/admin?view=manager-assignment` | Client | Admin | Manager assignment — three sections: (1) Distinct Managers with inline auto-save on blur + status filter (All/✓/✗/tbc), (2) Not in User Table collapsible, (3) User-by-User filterable table (All/Resolved/TBC) |
 | `/admin?view=protocols` | Client | Admin | Assurance protocols table |
 | `/admin?view=knowledgebase` | Client | Admin | Knowledgebase entries editor |
 | `/admin?view=requirements` | Client | Admin | Requirements viewer |
@@ -406,6 +415,7 @@ All company-scoped tables use `@@unique([businessKey, companyId])` rather than s
 | Route | Method | Auth | Description |
 |-------|--------|------|-------------|
 | `/api/admin/users` | GET/POST | Admin | List all users / Create user |
+| `/api/admin/users/quick-add` | POST | Admin | Quick-add a user with minimal fields (name, username only) — used by ManagerAssignmentView to onboard managers not in the system |
 | `/api/admin/users/[id]` | PUT/DELETE | Admin | Update/Delete user |
 | `/api/admin/assessments` | POST | Admin | Create assessment + spawn template activities |
 | `/api/admin/assessments/[id]` | PUT/DELETE | Assessor | Update assessment fields / Delete with cascade |
@@ -418,6 +428,7 @@ All company-scoped tables use `@@unique([businessKey, companyId])` rather than s
 | `/api/admin/database/restore` | POST | Admin | Restore from SQL file upload |
 | `/api/admin/database/execute-sql` | POST | Admin | Execute raw SQL (diagnostics) |
 | `/api/admin/database/diagnose` | GET | Admin | DB health checks |
+| `/api/admin/manager-assignment` | POST | Admin | Bulk-update `managerUsername` for all users with given `managerName` |
 | `/api/admin/extraction` | POST | Admin | Upload + AI-extract controls from document |
 | `/api/admin/assurance-protocols` | GET | Auth | Search/filter/paginate assurance protocols |
 | `/api/admin/table/[table]/data` | GET | Auth | Generic table data API (company-scoped) |
@@ -441,6 +452,9 @@ All company-scoped tables use `@@unique([businessKey, companyId])` rather than s
 | Route | Method | Auth | Description |
 |-------|--------|------|-------------|
 | `/api/chat/knowledge` | POST | Auth | DeepSeek chat with knowledgebase context |
+| `/api/chat/knowledge/upload` | POST | Auth | Upload doc/image → text extraction or vision → Document row (optional `folder` field: `Uploaded` from Documents tab, default `AI Chat`) |
+| `/api/documents/[id]` | PATCH | Assessor+ | Edit document summary |
+| `/api/documents/[id]` | DELETE | Admin | Soft-delete (archive) document; shared (SAMS001) docs only while SAMS001 selected |
 | `/api/chat/update-control` | POST | Admin | Create Control from AI-suggested `___CONTROL___` block |
 
 #### Gamification APIs
@@ -503,6 +517,10 @@ All company-scoped tables use `@@unique([businessKey, companyId])` rather than s
 | **UserSearchSelect** | Client | Typeahead user search |
 | **MyInterviewsClient** | Client | Interviewee interview list |
 | **AssignedControlsList** | Client | 2-level hierarchy (PA→Req→Ctrl) for assigned controls with inline effectiveness, tooltips, and remove |
+| **DocumentsPanel** | Client | PA document library: Shared (SAMS001) + Company collapsible sections, multi-file upload (shared checkbox when SAMS001 selected), expandable content viewer, inline summary edit, admin soft-delete with master-company guard |
+| **ProfileTabs** | Client | Profile page with Overview (gamification dashboard) and User Details (read-only with edit toggle) tabs |
+| **UserDetailsTab** | Client | User info card (name, username, email, role, position, department, manager, org indicator, member since, points) + company memberships; edit mode with inline form |
+| **UserManager** | Client | Two-panel admin view: left (search + company-grouped user list with expand/collapse, compact Name+Role rows) + right (edit form with Department/Position dropdowns, Manager, Organisation Indicator, Role, Companies, Delete) |
 
 ### 6.3 Admin View Components (`src/app/admin/`)
 
@@ -512,6 +530,7 @@ All company-scoped tables use `@@unique([businessKey, companyId])` rather than s
 | **BadgesView** | Badge catalogue viewer |
 | **ExtractionView** | Document upload + AI extraction UI |
 | **KnowledgebaseView** | Knowledgebase entry editor |
+| **ManagerAssignmentView** | Three-section manager→username resolution: (1) Distinct Managers with uncontrolled inputs (auto-save on blur via POST /api/admin/manager-assignment) + Status column filter buttons (All/✓ in table/✗ not found/tbc), (2) "Not in User Table" collapsible details, (3) User-by-User filterable table (All/Resolved/TBC) with inline dropdown edit |
 | **RequirementsView** | Requirements browser |
 
 ---
@@ -634,6 +653,18 @@ Three companies in production:
 | UserCompany | AssuranceProtocol |
 
 **Rule:** `COMPANY_SCOPED_TABLES` in the generic table API only contains production data tables — not reference/lookup tables.
+
+### 8.4 Shared Documents (SAMS001-as-Shared Convention)
+
+`Document` rows owned by the SAMS001 company apply to **all** companies. Everywhere documents are read (Documents tab, AI chat context), the query is `companyId = <master> OR companyId = <selected>`.
+
+⚠️ **cuid vs code:** `companyId` columns store `Company.id` (cuid, e.g. `comp_1783989395315`), not the `companyID` business code (`SAMS001`). Code must resolve the master company's id first: `prisma.company.findUnique({ where: { companyID: "SAMS001" } })`. The `selectedCompanyId` cookie also holds the cuid.
+
+**Rules:**
+- Upload as shared: only while SAMS001 is the selected company (checkbox in Documents tab)
+- Archive shared doc: Admin only, and only while SAMS001 is selected (`DELETE /api/documents/[id]` → 403 otherwise)
+- Delete is soft (`archivedAt` timestamp); archived docs are excluded from the tab and the AI chat context
+- Versioning fields (`documentNo`, `version`, `isLatest`, `replacedById`) exist but are dormant — reserved for a future versioning feature
 
 ---
 
@@ -858,6 +889,19 @@ Local Dev (localhost:3100)
 | v1.6.0 | 2026-07-25 | **ORCA Process Overview Tab.** Rebuilt Process Detail Overview tab around ORCA framework (Objectives → Risk → Controls → Assurance) with Improvement section. Added server-side health metrics computation (control health distribution, finding/action summaries, assessment cadence). SVG donut chart showing Effective/Partially/Ineffective/Never Tested controls. Collapsible "How to Read" guide. Added `Management in Control` design philosophy to CONTEXT.md. Removed Process Areas from navbar and dashboard quick-actions. Back arrow on detail page now returns to Dashboard. Activity Log converted from flex layout to proper HTML table with text wrapping. |
 | v1.6.1 | 2026-07-25 | **Process Improvement Plan (PIP) Module.** Extended `BacklogItem` with PIP fields (isPIP, pipStatus, processAreaId, targetDate, source, riskAcceptance, alarpRationale). Added `PIPStatus` enum (Proposed→Approved→InProgress→Implemented→Closed). Created `BacklogItemControl` M2M junction linking PIP items to Controls. Extended `ProcessArea` with `micStatement` and `micStatementUpdatedAt`. New API routes: GET/POST `/api/admin/pip`, PATCH/DELETE `/api/admin/pip/[id]`, POST `/api/admin/pip/mic`. New Improvement tab with 5-column Kanban board. MIC Statement with edit mode (SPO/Admin) in ORCA Overview. |
 | v1.6.2 | 2026-07-25 | **PIP Kanban: Assessment Action Auto-Sync.** Assessment actions (`apAgreed=true`) automatically appear in the PIP Kanban as amber cards linking back to their assessment. Accepted actions enter the Approved column. When closed (`closureDate` set), auto-advance to Closed with strikethrough styling. Server query joins Action→Finding→Assessment→ControlAssignment→Control→ProcessArea. Card shows assessment name, finding, control, and target date. Manual PIP items and auto-synced actions coexist in the same board with visual distinction. Added closable help popup modal explaining PIP workflow, columns, and ORCA context. Header shows breakdown: "5 items (3 from assessments)". |
+| v1.6.3 | 2026-07-25 | **AI PIP Proposals.** Knowledge chat AI can now propose Process Improvement Plan items using `___PIP___` block format. AI is prompted to identify gaps, low-health controls, and improvement opportunities. Chat UI shows amber PIP proposal cards with "＋ Add to PIP" button (Admin/SPO only). Clicking adds the item to the Kanban's Proposed column. Fixed knowledge chat model name: `deepseek-chat` → `deepseek-v4-pro` (was missed in v1.5.1 fix). |
+| v1.6.4 | 2026-07-25 | **Document Upload to AI Chat.** Added 📎 button to Knowledgebase tab chat allowing upload of documents (.pdf, .md, .csv, .docx, .txt) and images (.png, .jpg, etc.). Documents are markdown-converted and stored in `Document` table with `processAreaId` + `companyId`. Images processed via GPT-4o-mini vision API (OpenAI). New endpoint `POST /api/chat/knowledge/upload`. PA documents appear in AI context as summary list with on-demand full-content loading via `___FETCH___ documents`. Smart context: file summaries always included, full text loaded when user mentions a document by name. |
+| v1.6.5 | 2026-07-26 | **Assessment Terms of Reference (TOR).** Added 6 TOR fields to Assessment model: `objective` (audit purpose), `scope` (what's assessed + references), `sponsor` (who commissioned), `methodology` (how audit conducted), `keyFocus` (attention areas & comments), `reportIssueDate` (expected report date). TOR fields editable in Assessment Detail → Overview tab alongside existing details (name, activity type, LOA, assessors, dates, status). Read-only TOR card appears when any TOR field is populated. All fields optional — assessments without TOR remain fully functional. |
+| v1.8.2 | 2026-07-27 | **Manager Assignment, SMDS Import & Admin UX.** Added managerUsername column to User. Imported 541 SMDS users from Active Directory CSV to 532 new + 9 updated, 90 Departments, 320 Positions. Added managerName + organisationIndicator to User. Admin dashboard restructured, User Manager two-panel layout with company-grouped left panel. /admin?view=manager-assignment with filterable table. PUT /api/admin/users/[id] extended for managerUsername. |
+| v1.8.3 | 2026-07-27 | **Manager Assignment — Distinct Managers, Save Button & Filter Persistence.** Rebuilt ManagerAssignmentView with three sections: (1) Distinct Managers with uncontrolled inputs (blur/Enter/Save button triggers), Status column filter buttons (All/✓/✗/tbc) persisted to URL via `?mgrFilter=` param (survives page reload), (2) Not in User Table collapsible, (3) User-by-User filterable table. Input values read from DOM via `data-mgr-name` attributes + `document.querySelector` to avoid stale refs. Fixed SSR hydration race condition between URL→state and state→URL effects. |
+| v1.8.4 | 2026-07-27 | **Email-Based Manager Resolution.** Resolved 29 of 42 remaining TBC managers by matching Shell email patterns (`GivenName.LastName@shell.com`) against manager CSV names. Pattern bridges calling-name vs official-name gap (e.g., "Ho, Alvin" → "Ho, Wei Seng" via `Alvin.Ho@shell.com`). 28 verified by last-name + email match, 1 found via fuzzy name search ("Fakhruddin" → "Mohammad Fakhruddin"). 167 staff linked in first pass; additional 49 via pattern analysis. One manager ("Surang, Mujan") unresolvable — not in imported user list. |
+| v1.8.5 | 2026-07-27 | **Not-in-User-Table: Remap & Add User.** Added two action controls per row: (1) "Remap to…" dropdown — reassigns staff to any existing user via alphabetically-sorted combobox showing "Name (username)" format, (2) "Add User" button — creates a new User record via `POST /api/admin/users/quick-add` with the manager's name and typed username. New API endpoint creates user with minimal fields. Imported 3 DSP users (MYJABU, MYMSVW, MYFMU1) completing the manager hierarchy — zero TBC managers remaining. |
+| v1.8.6 | 2026-07-27 | **Optimistic Updates & No-Reload Saves.** All manager assignment actions (Save, Remap, Add User) now update the UI in-place via `localUsers` state — no `window.location.reload()`. Green success toast appears top-right for 2.5s. Filter, scroll position, and expanded sections preserved across saves. Manager hierarchy terminated at TOP: "Sulaiman, Siti, H" → TOP (Khajavi/Sheida is SMDS apex). Username confirmed as primary login identifier and cross-reference key. |
+| v1.8.7 | 2026-07-27 | **Incomplete Profiles & Mandatory Fields.** Added "⚠️ Incomplete Profiles" collapsible section at top of User Manager left panel — flags users missing mandatory fields (currently email). Edit form labels for Name, Username, Email, Role marked with red `*`. Save blocked with toast if mandatory email is empty. Department and Position deliberately non-mandatory. |
+| v1.8.8 | 2026-07-27 | **Org Chart, preferredName & Department Backfill.** Built `🏢 Org Chart` admin view with recursive CTE tree — 536 users, 6 levels, indented expandable list with search. Added `preferredName` column to User (86 backfilled from CSV). Backfilled 74 user positions from `SMDS_Whosewho.csv` (83 had Position but empty Department — placed under "SMDS — Unassigned"). Manager remap now also updates `managerName` to resolved user's name (296 rows backfilled). New API: `GET /api/admin/org-chart`. |
+| v1.9.0 | 2026-07-28 | **Manager Resolution Complete.** 540 of 550 users have resolved `managerUsername`. Zero TBC, zero invalid usernames. 8 external manager names absorbed by 3 SMDS users (NLSKH6 Khajavi: 5 names; MYTFU2 Fung Wei Li: 3 names; MYDRA7 Ratnagopal: 1 name). TOP sentinel marks hierarchy apex (Khajavi/Sheida). Display shows `↳ USERNAME — Name` below Manager field. Preferred names shown in Org Chart as `Name (Preferred)`. Manager assignment: uncontrolled inputs with Save button + blur/Enter triggers, status filter persisted to URL, optimistic local state updates (no page reload). |
+| v1.7.1 | 2026-07-27 | **User Profile Page.** New `/profile` page accessible by clicking the username in the navbar ("Admin (Admin)" → link). Two tabs: **📊 Overview** (gamification dashboard — XP sources, track levels, recommendations, mastery tracks, badges, recent activity — moved here from the navbar's "Gamification" link, which was removed) and **👤 User Details** (read-only profile card with Name, Username, Email, Role badge, Position, Department, Member since, Total Points, Company Memberships; "✏️ Edit" opens inline form for name/username/email, saves via `PUT /api/admin/users/[id]`). Gamification nav link removed; `/gamification` route now redirects to `/profile`. New components: `ProfileTabs.tsx`, `UserDetailsTab.tsx`. |
+| v1.7.0 | 2026-07-26 | **Process Documents Tab.** New 📄 Documents tab on Process Detail page — per-PA document library with two collapsible sections: 🌐 Shared (SAMS001, visible to all companies) and 🏢 Company (selected company only). New `DocumentsPanel` component: multi-file upload (PDF/DOCX/MD/CSV/TXT/images), "Shared with all companies" checkbox (SAMS001 sessions only), expandable content viewer, inline summary editing, admin soft-delete. New routes: `PATCH /api/documents/[id]` (summary, Assessor+), `DELETE /api/documents/[id]` (archive, Admin; shared docs blocked unless SAMS001 selected → 403). Upload reuses `/api/chat/knowledge/upload` with new optional `folder` param (`Uploaded` vs `AI Chat`). **SAMS001-as-shared convention established:** documents owned by SAMS001 company apply to all companies, superseding the `companyId IS NULL` pattern (verified 0 NULL rows existed). Chat context queries aligned: `companyId = master OR selected` + `archivedAt IS NULL`. Key discovery documented: `companyId` columns store `Company.id` cuid, not the `companyID` code — master id must be resolved via `Company.companyID` lookup (new Section 8.4). Design aligned via grill-with-docs session; glossary captured in CONTEXT.md "Process Documents". **Bug fixes:** Gamification page BigInt error (raw SQL `SUM` returned BigInt, added `::int` cast) and variable ordering (`pas` used before initialization). |
 
 ---
 

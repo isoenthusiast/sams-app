@@ -45,6 +45,10 @@ export type UserMinAggregateOutputType = {
   role: $Enums.Role | null
   positionId: string | null
   companyId: string | null
+  managerName: string | null
+  managerUsername: string | null
+  organisationIndicator: string | null
+  preferredName: string | null
   createdAt: Date | null
   totalPoints: number | null
   dailyPointStreak: number | null
@@ -61,6 +65,10 @@ export type UserMaxAggregateOutputType = {
   role: $Enums.Role | null
   positionId: string | null
   companyId: string | null
+  managerName: string | null
+  managerUsername: string | null
+  organisationIndicator: string | null
+  preferredName: string | null
   createdAt: Date | null
   totalPoints: number | null
   dailyPointStreak: number | null
@@ -77,6 +85,10 @@ export type UserCountAggregateOutputType = {
   role: number
   positionId: number
   companyId: number
+  managerName: number
+  managerUsername: number
+  organisationIndicator: number
+  preferredName: number
   createdAt: number
   totalPoints: number
   dailyPointStreak: number
@@ -105,6 +117,10 @@ export type UserMinAggregateInputType = {
   role?: true
   positionId?: true
   companyId?: true
+  managerName?: true
+  managerUsername?: true
+  organisationIndicator?: true
+  preferredName?: true
   createdAt?: true
   totalPoints?: true
   dailyPointStreak?: true
@@ -121,6 +137,10 @@ export type UserMaxAggregateInputType = {
   role?: true
   positionId?: true
   companyId?: true
+  managerName?: true
+  managerUsername?: true
+  organisationIndicator?: true
+  preferredName?: true
   createdAt?: true
   totalPoints?: true
   dailyPointStreak?: true
@@ -137,6 +157,10 @@ export type UserCountAggregateInputType = {
   role?: true
   positionId?: true
   companyId?: true
+  managerName?: true
+  managerUsername?: true
+  organisationIndicator?: true
+  preferredName?: true
   createdAt?: true
   totalPoints?: true
   dailyPointStreak?: true
@@ -240,6 +264,10 @@ export type UserGroupByOutputType = {
   role: $Enums.Role
   positionId: string | null
   companyId: string | null
+  managerName: string | null
+  managerUsername: string | null
+  organisationIndicator: string | null
+  preferredName: string | null
   createdAt: Date
   totalPoints: number
   dailyPointStreak: number
@@ -279,6 +307,10 @@ export type UserWhereInput = {
   role?: Prisma.EnumRoleFilter<"User"> | $Enums.Role
   positionId?: Prisma.StringNullableFilter<"User"> | string | null
   companyId?: Prisma.StringNullableFilter<"User"> | string | null
+  managerName?: Prisma.StringNullableFilter<"User"> | string | null
+  managerUsername?: Prisma.StringNullableFilter<"User"> | string | null
+  organisationIndicator?: Prisma.StringNullableFilter<"User"> | string | null
+  preferredName?: Prisma.StringNullableFilter<"User"> | string | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   totalPoints?: Prisma.IntFilter<"User"> | number
   dailyPointStreak?: Prisma.IntFilter<"User"> | number
@@ -304,6 +336,10 @@ export type UserOrderByWithRelationInput = {
   role?: Prisma.SortOrder
   positionId?: Prisma.SortOrderInput | Prisma.SortOrder
   companyId?: Prisma.SortOrderInput | Prisma.SortOrder
+  managerName?: Prisma.SortOrderInput | Prisma.SortOrder
+  managerUsername?: Prisma.SortOrderInput | Prisma.SortOrder
+  organisationIndicator?: Prisma.SortOrderInput | Prisma.SortOrder
+  preferredName?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   totalPoints?: Prisma.SortOrder
   dailyPointStreak?: Prisma.SortOrder
@@ -332,6 +368,10 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   role?: Prisma.EnumRoleFilter<"User"> | $Enums.Role
   positionId?: Prisma.StringNullableFilter<"User"> | string | null
   companyId?: Prisma.StringNullableFilter<"User"> | string | null
+  managerName?: Prisma.StringNullableFilter<"User"> | string | null
+  managerUsername?: Prisma.StringNullableFilter<"User"> | string | null
+  organisationIndicator?: Prisma.StringNullableFilter<"User"> | string | null
+  preferredName?: Prisma.StringNullableFilter<"User"> | string | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   totalPoints?: Prisma.IntFilter<"User"> | number
   dailyPointStreak?: Prisma.IntFilter<"User"> | number
@@ -357,6 +397,10 @@ export type UserOrderByWithAggregationInput = {
   role?: Prisma.SortOrder
   positionId?: Prisma.SortOrderInput | Prisma.SortOrder
   companyId?: Prisma.SortOrderInput | Prisma.SortOrder
+  managerName?: Prisma.SortOrderInput | Prisma.SortOrder
+  managerUsername?: Prisma.SortOrderInput | Prisma.SortOrder
+  organisationIndicator?: Prisma.SortOrderInput | Prisma.SortOrder
+  preferredName?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   totalPoints?: Prisma.SortOrder
   dailyPointStreak?: Prisma.SortOrder
@@ -381,6 +425,10 @@ export type UserScalarWhereWithAggregatesInput = {
   role?: Prisma.EnumRoleWithAggregatesFilter<"User"> | $Enums.Role
   positionId?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   companyId?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  managerName?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  managerUsername?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  organisationIndicator?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  preferredName?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
   totalPoints?: Prisma.IntWithAggregatesFilter<"User"> | number
   dailyPointStreak?: Prisma.IntWithAggregatesFilter<"User"> | number
@@ -396,6 +444,10 @@ export type UserCreateInput = {
   passwordHash: string
   role?: $Enums.Role
   companyId?: string | null
+  managerName?: string | null
+  managerUsername?: string | null
+  organisationIndicator?: string | null
+  preferredName?: string | null
   createdAt?: Date | string
   totalPoints?: number
   dailyPointStreak?: number
@@ -421,6 +473,10 @@ export type UserUncheckedCreateInput = {
   role?: $Enums.Role
   positionId?: string | null
   companyId?: string | null
+  managerName?: string | null
+  managerUsername?: string | null
+  organisationIndicator?: string | null
+  preferredName?: string | null
   createdAt?: Date | string
   totalPoints?: number
   dailyPointStreak?: number
@@ -444,6 +500,10 @@ export type UserUpdateInput = {
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  managerName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  managerUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  organisationIndicator?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  preferredName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalPoints?: Prisma.IntFieldUpdateOperationsInput | number
   dailyPointStreak?: Prisma.IntFieldUpdateOperationsInput | number
@@ -469,6 +529,10 @@ export type UserUncheckedUpdateInput = {
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   positionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  managerName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  managerUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  organisationIndicator?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  preferredName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalPoints?: Prisma.IntFieldUpdateOperationsInput | number
   dailyPointStreak?: Prisma.IntFieldUpdateOperationsInput | number
@@ -493,6 +557,10 @@ export type UserCreateManyInput = {
   role?: $Enums.Role
   positionId?: string | null
   companyId?: string | null
+  managerName?: string | null
+  managerUsername?: string | null
+  organisationIndicator?: string | null
+  preferredName?: string | null
   createdAt?: Date | string
   totalPoints?: number
   dailyPointStreak?: number
@@ -508,6 +576,10 @@ export type UserUpdateManyMutationInput = {
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  managerName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  managerUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  organisationIndicator?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  preferredName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalPoints?: Prisma.IntFieldUpdateOperationsInput | number
   dailyPointStreak?: Prisma.IntFieldUpdateOperationsInput | number
@@ -524,6 +596,10 @@ export type UserUncheckedUpdateManyInput = {
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   positionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  managerName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  managerUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  organisationIndicator?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  preferredName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalPoints?: Prisma.IntFieldUpdateOperationsInput | number
   dailyPointStreak?: Prisma.IntFieldUpdateOperationsInput | number
@@ -540,6 +616,10 @@ export type UserCountOrderByAggregateInput = {
   role?: Prisma.SortOrder
   positionId?: Prisma.SortOrder
   companyId?: Prisma.SortOrder
+  managerName?: Prisma.SortOrder
+  managerUsername?: Prisma.SortOrder
+  organisationIndicator?: Prisma.SortOrder
+  preferredName?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   totalPoints?: Prisma.SortOrder
   dailyPointStreak?: Prisma.SortOrder
@@ -561,6 +641,10 @@ export type UserMaxOrderByAggregateInput = {
   role?: Prisma.SortOrder
   positionId?: Prisma.SortOrder
   companyId?: Prisma.SortOrder
+  managerName?: Prisma.SortOrder
+  managerUsername?: Prisma.SortOrder
+  organisationIndicator?: Prisma.SortOrder
+  preferredName?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   totalPoints?: Prisma.SortOrder
   dailyPointStreak?: Prisma.SortOrder
@@ -577,6 +661,10 @@ export type UserMinOrderByAggregateInput = {
   role?: Prisma.SortOrder
   positionId?: Prisma.SortOrder
   companyId?: Prisma.SortOrder
+  managerName?: Prisma.SortOrder
+  managerUsername?: Prisma.SortOrder
+  organisationIndicator?: Prisma.SortOrder
+  preferredName?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   totalPoints?: Prisma.SortOrder
   dailyPointStreak?: Prisma.SortOrder
@@ -798,6 +886,10 @@ export type UserCreateWithoutAssessmentsInput = {
   passwordHash: string
   role?: $Enums.Role
   companyId?: string | null
+  managerName?: string | null
+  managerUsername?: string | null
+  organisationIndicator?: string | null
+  preferredName?: string | null
   createdAt?: Date | string
   totalPoints?: number
   dailyPointStreak?: number
@@ -822,6 +914,10 @@ export type UserUncheckedCreateWithoutAssessmentsInput = {
   role?: $Enums.Role
   positionId?: string | null
   companyId?: string | null
+  managerName?: string | null
+  managerUsername?: string | null
+  organisationIndicator?: string | null
+  preferredName?: string | null
   createdAt?: Date | string
   totalPoints?: number
   dailyPointStreak?: number
@@ -860,6 +956,10 @@ export type UserUpdateWithoutAssessmentsInput = {
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  managerName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  managerUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  organisationIndicator?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  preferredName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalPoints?: Prisma.IntFieldUpdateOperationsInput | number
   dailyPointStreak?: Prisma.IntFieldUpdateOperationsInput | number
@@ -884,6 +984,10 @@ export type UserUncheckedUpdateWithoutAssessmentsInput = {
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   positionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  managerName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  managerUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  organisationIndicator?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  preferredName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalPoints?: Prisma.IntFieldUpdateOperationsInput | number
   dailyPointStreak?: Prisma.IntFieldUpdateOperationsInput | number
@@ -906,6 +1010,10 @@ export type UserCreateWithoutAssessmentRolesInput = {
   passwordHash: string
   role?: $Enums.Role
   companyId?: string | null
+  managerName?: string | null
+  managerUsername?: string | null
+  organisationIndicator?: string | null
+  preferredName?: string | null
   createdAt?: Date | string
   totalPoints?: number
   dailyPointStreak?: number
@@ -930,6 +1038,10 @@ export type UserUncheckedCreateWithoutAssessmentRolesInput = {
   role?: $Enums.Role
   positionId?: string | null
   companyId?: string | null
+  managerName?: string | null
+  managerUsername?: string | null
+  organisationIndicator?: string | null
+  preferredName?: string | null
   createdAt?: Date | string
   totalPoints?: number
   dailyPointStreak?: number
@@ -968,6 +1080,10 @@ export type UserUpdateWithoutAssessmentRolesInput = {
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  managerName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  managerUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  organisationIndicator?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  preferredName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalPoints?: Prisma.IntFieldUpdateOperationsInput | number
   dailyPointStreak?: Prisma.IntFieldUpdateOperationsInput | number
@@ -992,6 +1108,10 @@ export type UserUncheckedUpdateWithoutAssessmentRolesInput = {
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   positionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  managerName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  managerUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  organisationIndicator?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  preferredName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalPoints?: Prisma.IntFieldUpdateOperationsInput | number
   dailyPointStreak?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1014,6 +1134,10 @@ export type UserCreateWithoutAchievementsInput = {
   passwordHash: string
   role?: $Enums.Role
   companyId?: string | null
+  managerName?: string | null
+  managerUsername?: string | null
+  organisationIndicator?: string | null
+  preferredName?: string | null
   createdAt?: Date | string
   totalPoints?: number
   dailyPointStreak?: number
@@ -1038,6 +1162,10 @@ export type UserUncheckedCreateWithoutAchievementsInput = {
   role?: $Enums.Role
   positionId?: string | null
   companyId?: string | null
+  managerName?: string | null
+  managerUsername?: string | null
+  organisationIndicator?: string | null
+  preferredName?: string | null
   createdAt?: Date | string
   totalPoints?: number
   dailyPointStreak?: number
@@ -1076,6 +1204,10 @@ export type UserUpdateWithoutAchievementsInput = {
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  managerName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  managerUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  organisationIndicator?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  preferredName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalPoints?: Prisma.IntFieldUpdateOperationsInput | number
   dailyPointStreak?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1100,6 +1232,10 @@ export type UserUncheckedUpdateWithoutAchievementsInput = {
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   positionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  managerName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  managerUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  organisationIndicator?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  preferredName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalPoints?: Prisma.IntFieldUpdateOperationsInput | number
   dailyPointStreak?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1122,6 +1258,10 @@ export type UserCreateWithoutPointsInput = {
   passwordHash: string
   role?: $Enums.Role
   companyId?: string | null
+  managerName?: string | null
+  managerUsername?: string | null
+  organisationIndicator?: string | null
+  preferredName?: string | null
   createdAt?: Date | string
   totalPoints?: number
   dailyPointStreak?: number
@@ -1146,6 +1286,10 @@ export type UserUncheckedCreateWithoutPointsInput = {
   role?: $Enums.Role
   positionId?: string | null
   companyId?: string | null
+  managerName?: string | null
+  managerUsername?: string | null
+  organisationIndicator?: string | null
+  preferredName?: string | null
   createdAt?: Date | string
   totalPoints?: number
   dailyPointStreak?: number
@@ -1184,6 +1328,10 @@ export type UserUpdateWithoutPointsInput = {
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  managerName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  managerUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  organisationIndicator?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  preferredName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalPoints?: Prisma.IntFieldUpdateOperationsInput | number
   dailyPointStreak?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1208,6 +1356,10 @@ export type UserUncheckedUpdateWithoutPointsInput = {
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   positionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  managerName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  managerUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  organisationIndicator?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  preferredName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalPoints?: Prisma.IntFieldUpdateOperationsInput | number
   dailyPointStreak?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1230,6 +1382,10 @@ export type UserCreateWithoutEmotionalDrivesInput = {
   passwordHash: string
   role?: $Enums.Role
   companyId?: string | null
+  managerName?: string | null
+  managerUsername?: string | null
+  organisationIndicator?: string | null
+  preferredName?: string | null
   createdAt?: Date | string
   totalPoints?: number
   dailyPointStreak?: number
@@ -1254,6 +1410,10 @@ export type UserUncheckedCreateWithoutEmotionalDrivesInput = {
   role?: $Enums.Role
   positionId?: string | null
   companyId?: string | null
+  managerName?: string | null
+  managerUsername?: string | null
+  organisationIndicator?: string | null
+  preferredName?: string | null
   createdAt?: Date | string
   totalPoints?: number
   dailyPointStreak?: number
@@ -1292,6 +1452,10 @@ export type UserUpdateWithoutEmotionalDrivesInput = {
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  managerName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  managerUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  organisationIndicator?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  preferredName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalPoints?: Prisma.IntFieldUpdateOperationsInput | number
   dailyPointStreak?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1316,6 +1480,10 @@ export type UserUncheckedUpdateWithoutEmotionalDrivesInput = {
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   positionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  managerName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  managerUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  organisationIndicator?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  preferredName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalPoints?: Prisma.IntFieldUpdateOperationsInput | number
   dailyPointStreak?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1338,6 +1506,10 @@ export type UserCreateWithoutMilestonesInput = {
   passwordHash: string
   role?: $Enums.Role
   companyId?: string | null
+  managerName?: string | null
+  managerUsername?: string | null
+  organisationIndicator?: string | null
+  preferredName?: string | null
   createdAt?: Date | string
   totalPoints?: number
   dailyPointStreak?: number
@@ -1362,6 +1534,10 @@ export type UserUncheckedCreateWithoutMilestonesInput = {
   role?: $Enums.Role
   positionId?: string | null
   companyId?: string | null
+  managerName?: string | null
+  managerUsername?: string | null
+  organisationIndicator?: string | null
+  preferredName?: string | null
   createdAt?: Date | string
   totalPoints?: number
   dailyPointStreak?: number
@@ -1400,6 +1576,10 @@ export type UserUpdateWithoutMilestonesInput = {
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  managerName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  managerUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  organisationIndicator?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  preferredName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalPoints?: Prisma.IntFieldUpdateOperationsInput | number
   dailyPointStreak?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1424,6 +1604,10 @@ export type UserUncheckedUpdateWithoutMilestonesInput = {
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   positionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  managerName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  managerUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  organisationIndicator?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  preferredName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalPoints?: Prisma.IntFieldUpdateOperationsInput | number
   dailyPointStreak?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1446,6 +1630,10 @@ export type UserCreateWithoutRoleMappingsInput = {
   passwordHash: string
   role?: $Enums.Role
   companyId?: string | null
+  managerName?: string | null
+  managerUsername?: string | null
+  organisationIndicator?: string | null
+  preferredName?: string | null
   createdAt?: Date | string
   totalPoints?: number
   dailyPointStreak?: number
@@ -1470,6 +1658,10 @@ export type UserUncheckedCreateWithoutRoleMappingsInput = {
   role?: $Enums.Role
   positionId?: string | null
   companyId?: string | null
+  managerName?: string | null
+  managerUsername?: string | null
+  organisationIndicator?: string | null
+  preferredName?: string | null
   createdAt?: Date | string
   totalPoints?: number
   dailyPointStreak?: number
@@ -1508,6 +1700,10 @@ export type UserUpdateWithoutRoleMappingsInput = {
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  managerName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  managerUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  organisationIndicator?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  preferredName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalPoints?: Prisma.IntFieldUpdateOperationsInput | number
   dailyPointStreak?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1532,6 +1728,10 @@ export type UserUncheckedUpdateWithoutRoleMappingsInput = {
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   positionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  managerName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  managerUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  organisationIndicator?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  preferredName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalPoints?: Prisma.IntFieldUpdateOperationsInput | number
   dailyPointStreak?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1554,6 +1754,10 @@ export type UserCreateWithoutPositionInput = {
   passwordHash: string
   role?: $Enums.Role
   companyId?: string | null
+  managerName?: string | null
+  managerUsername?: string | null
+  organisationIndicator?: string | null
+  preferredName?: string | null
   createdAt?: Date | string
   totalPoints?: number
   dailyPointStreak?: number
@@ -1577,6 +1781,10 @@ export type UserUncheckedCreateWithoutPositionInput = {
   passwordHash: string
   role?: $Enums.Role
   companyId?: string | null
+  managerName?: string | null
+  managerUsername?: string | null
+  organisationIndicator?: string | null
+  preferredName?: string | null
   createdAt?: Date | string
   totalPoints?: number
   dailyPointStreak?: number
@@ -1630,6 +1838,10 @@ export type UserScalarWhereInput = {
   role?: Prisma.EnumRoleFilter<"User"> | $Enums.Role
   positionId?: Prisma.StringNullableFilter<"User"> | string | null
   companyId?: Prisma.StringNullableFilter<"User"> | string | null
+  managerName?: Prisma.StringNullableFilter<"User"> | string | null
+  managerUsername?: Prisma.StringNullableFilter<"User"> | string | null
+  organisationIndicator?: Prisma.StringNullableFilter<"User"> | string | null
+  preferredName?: Prisma.StringNullableFilter<"User"> | string | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   totalPoints?: Prisma.IntFilter<"User"> | number
   dailyPointStreak?: Prisma.IntFilter<"User"> | number
@@ -1645,6 +1857,10 @@ export type UserCreateWithoutUserCompaniesInput = {
   passwordHash: string
   role?: $Enums.Role
   companyId?: string | null
+  managerName?: string | null
+  managerUsername?: string | null
+  organisationIndicator?: string | null
+  preferredName?: string | null
   createdAt?: Date | string
   totalPoints?: number
   dailyPointStreak?: number
@@ -1669,6 +1885,10 @@ export type UserUncheckedCreateWithoutUserCompaniesInput = {
   role?: $Enums.Role
   positionId?: string | null
   companyId?: string | null
+  managerName?: string | null
+  managerUsername?: string | null
+  organisationIndicator?: string | null
+  preferredName?: string | null
   createdAt?: Date | string
   totalPoints?: number
   dailyPointStreak?: number
@@ -1707,6 +1927,10 @@ export type UserUpdateWithoutUserCompaniesInput = {
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  managerName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  managerUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  organisationIndicator?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  preferredName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalPoints?: Prisma.IntFieldUpdateOperationsInput | number
   dailyPointStreak?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1731,6 +1955,10 @@ export type UserUncheckedUpdateWithoutUserCompaniesInput = {
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   positionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  managerName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  managerUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  organisationIndicator?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  preferredName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalPoints?: Prisma.IntFieldUpdateOperationsInput | number
   dailyPointStreak?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1753,6 +1981,10 @@ export type UserCreateManyPositionInput = {
   passwordHash: string
   role?: $Enums.Role
   companyId?: string | null
+  managerName?: string | null
+  managerUsername?: string | null
+  organisationIndicator?: string | null
+  preferredName?: string | null
   createdAt?: Date | string
   totalPoints?: number
   dailyPointStreak?: number
@@ -1768,6 +2000,10 @@ export type UserUpdateWithoutPositionInput = {
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  managerName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  managerUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  organisationIndicator?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  preferredName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalPoints?: Prisma.IntFieldUpdateOperationsInput | number
   dailyPointStreak?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1791,6 +2027,10 @@ export type UserUncheckedUpdateWithoutPositionInput = {
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  managerName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  managerUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  organisationIndicator?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  preferredName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalPoints?: Prisma.IntFieldUpdateOperationsInput | number
   dailyPointStreak?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1814,6 +2054,10 @@ export type UserUncheckedUpdateManyWithoutPositionInput = {
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  managerName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  managerUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  organisationIndicator?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  preferredName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalPoints?: Prisma.IntFieldUpdateOperationsInput | number
   dailyPointStreak?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1924,6 +2168,10 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   role?: boolean
   positionId?: boolean
   companyId?: boolean
+  managerName?: boolean
+  managerUsername?: boolean
+  organisationIndicator?: boolean
+  preferredName?: boolean
   createdAt?: boolean
   totalPoints?: boolean
   dailyPointStreak?: boolean
@@ -1950,6 +2198,10 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   role?: boolean
   positionId?: boolean
   companyId?: boolean
+  managerName?: boolean
+  managerUsername?: boolean
+  organisationIndicator?: boolean
+  preferredName?: boolean
   createdAt?: boolean
   totalPoints?: boolean
   dailyPointStreak?: boolean
@@ -1967,6 +2219,10 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   role?: boolean
   positionId?: boolean
   companyId?: boolean
+  managerName?: boolean
+  managerUsername?: boolean
+  organisationIndicator?: boolean
+  preferredName?: boolean
   createdAt?: boolean
   totalPoints?: boolean
   dailyPointStreak?: boolean
@@ -1984,6 +2240,10 @@ export type UserSelectScalar = {
   role?: boolean
   positionId?: boolean
   companyId?: boolean
+  managerName?: boolean
+  managerUsername?: boolean
+  organisationIndicator?: boolean
+  preferredName?: boolean
   createdAt?: boolean
   totalPoints?: boolean
   dailyPointStreak?: boolean
@@ -1991,7 +2251,7 @@ export type UserSelectScalar = {
   confidenceInfluencer?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "username" | "email" | "passwordHash" | "role" | "positionId" | "companyId" | "createdAt" | "totalPoints" | "dailyPointStreak" | "lastActivityDate" | "confidenceInfluencer", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "username" | "email" | "passwordHash" | "role" | "positionId" | "companyId" | "managerName" | "managerUsername" | "organisationIndicator" | "preferredName" | "createdAt" | "totalPoints" | "dailyPointStreak" | "lastActivityDate" | "confidenceInfluencer", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   position?: boolean | Prisma.User$positionArgs<ExtArgs>
   assessments?: boolean | Prisma.User$assessmentsArgs<ExtArgs>
@@ -2033,6 +2293,10 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     role: $Enums.Role
     positionId: string | null
     companyId: string | null
+    managerName: string | null
+    managerUsername: string | null
+    organisationIndicator: string | null
+    preferredName: string | null
     createdAt: Date
     totalPoints: number
     dailyPointStreak: number
@@ -2478,6 +2742,10 @@ export interface UserFieldRefs {
   readonly role: Prisma.FieldRef<"User", 'Role'>
   readonly positionId: Prisma.FieldRef<"User", 'String'>
   readonly companyId: Prisma.FieldRef<"User", 'String'>
+  readonly managerName: Prisma.FieldRef<"User", 'String'>
+  readonly managerUsername: Prisma.FieldRef<"User", 'String'>
+  readonly organisationIndicator: Prisma.FieldRef<"User", 'String'>
+  readonly preferredName: Prisma.FieldRef<"User", 'String'>
   readonly createdAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly totalPoints: Prisma.FieldRef<"User", 'Int'>
   readonly dailyPointStreak: Prisma.FieldRef<"User", 'Int'>

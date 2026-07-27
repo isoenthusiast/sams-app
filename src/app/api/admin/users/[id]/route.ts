@@ -14,7 +14,7 @@ export async function PUT(
 
     const { id } = await params;
     const body = await request.json();
-    const { name, username, email, role, companyIds, password } = body;
+    const { name, username, email, role, companyIds, password, managerName, managerUsername, organisationIndicator, positionId } = body;
 
     const fields: string[] = [];
     const values: any[] = [];
@@ -36,6 +36,10 @@ export async function PUT(
       const validRoles = ["Admin", "Superuser", "Assessor", "Interviewee"];
       fields.push(`"role" = $${idx++}::"Role"`); values.push(validRoles.includes(role) ? role : "Assessor");
     }
+    if (managerName !== undefined) { fields.push(`"managerName" = $${idx++}`); values.push(managerName || null); }
+    if (managerUsername !== undefined) { fields.push(`"managerUsername" = $${idx++}`); values.push(managerUsername || null); }
+    if (organisationIndicator !== undefined) { fields.push(`"organisationIndicator" = $${idx++}`); values.push(organisationIndicator || null); }
+    if (positionId !== undefined) { fields.push(`"positionId" = $${idx++}`); values.push(positionId || null); }
     if (password !== undefined && password !== "") {
       const hash = await bcrypt.hash(password, 10);
       fields.push(`"passwordHash" = $${idx++}`); values.push(hash);

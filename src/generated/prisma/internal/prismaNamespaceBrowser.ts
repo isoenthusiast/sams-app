@@ -129,6 +129,10 @@ export const UserScalarFieldEnum = {
   role: 'role',
   positionId: 'positionId',
   companyId: 'companyId',
+  managerName: 'managerName',
+  managerUsername: 'managerUsername',
+  organisationIndicator: 'organisationIndicator',
+  preferredName: 'preferredName',
   createdAt: 'createdAt',
   totalPoints: 'totalPoints',
   dailyPointStreak: 'dailyPointStreak',
@@ -336,7 +340,13 @@ export const AssessmentScalarFieldEnum = {
   loa: 'loa',
   status: 'status',
   companyId: 'companyId',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  objective: 'objective',
+  scope: 'scope',
+  sponsor: 'sponsor',
+  methodology: 'methodology',
+  keyFocus: 'keyFocus',
+  reportIssueDate: 'reportIssueDate'
 } as const
 
 export type AssessmentScalarFieldEnum = (typeof AssessmentScalarFieldEnum)[keyof typeof AssessmentScalarFieldEnum]

@@ -153,6 +153,31 @@ export default async function ProcessDetailsPage({ params }: { params: Promise<{
   // Last assessment
   const lastAssessment = assessments.length > 0 ? assessments[0] : null;
 
+  // ── Process Documents (Documents tab) ──
+  // Shared = SAMS001 company's documents (applies to all companies).
+  // companyId columns store Company.id (cuid), so resolve the master company's id first.
+  const masterCompany = await prisma.company.findUnique({
+    where: { companyID: "SAMS001" },
+    select: { id: true },
+  });
+  const masterId = masterCompany?.id ?? "SAMS001";
+  const paDocuments = await prisma.document.findMany({
+    where: {
+      processAreaId: id,
+      archivedAt: null,
+      OR: [
+        { companyId: masterId },
+        ...(companyId && companyId !== masterId ? [{ companyId }] : []),
+      ],
+    },
+    select: {
+      id: true, filename: true, summary: true, source: true, folder: true,
+      companyId: true, processAreaId: true, createdAt: true,
+      documentContent: true,
+    },
+    orderBy: { createdAt: "desc" },
+  });
+
   const healthMetrics = {
     totalControls: allControlsFlat.length,
     healthDistribution,
@@ -181,6 +206,8 @@ export default async function ProcessDetailsPage({ params }: { params: Promise<{
       currentUserName={currentUserName}
       currentUserRole={currentUserRole}
       companyId={companyId}
+      masterCompanyId={masterId}
+      documents={JSON.parse(JSON.stringify(paDocuments))}
       kbEntries={kbEntries.map((e) => ({
         kID: e.kID,
         knowledgeName: e.knowledgeName,

@@ -18,6 +18,8 @@ import { ControlsAdminView } from "./ControlsAdminView";
 import { CompanyAdminView } from "./CompanyAdminView";
 import { TemplateActivityTypesView } from "./TemplateActivityTypesView";
 import { HealthResetButton } from "./HealthResetButton";
+import { ManagerAssignmentView } from "./ManagerAssignmentView";
+import { OrgChartView } from "./OrgChartView";
 import { KanbanBoard } from "@/components/KanbanBoard";
 import { UserManager } from "@/components/UserManager";
 
@@ -67,6 +69,23 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
   // Companies (for user management)
   const companies = view === "users"
     ? await prisma.company.findMany({ orderBy: { companyID: "asc" } })
+    : [];
+
+  // Departments & Positions (for user management)
+  const departments = view === "users"
+    ? await prisma.department.findMany({ select: { id: true, name: true, companyId: true }, orderBy: { name: "asc" } })
+    : [];
+  const positions = view === "users"
+    ? await prisma.position.findMany({ select: { id: true, title: true, departmentId: true }, orderBy: { title: "asc" } })
+    : [];
+
+  // Manager assignment data
+  const mgrUsers = view === "manager-assignment"
+    ? await prisma.$queryRawUnsafe<Array<{ id: string; name: string; username: string; managerName: string | null; managerUsername: string | null }>>(
+        `SELECT id, name, username, "managerName", "managerUsername" FROM "User" ORDER BY name`)
+    : [];
+  const allUsernames = view === "manager-assignment"
+    ? (await prisma.$queryRawUnsafe<Array<{ username: string }>>(`SELECT username FROM "User" ORDER BY username`)).map(r => r.username)
     : [];
 
   // Templates (for templates view)
@@ -214,19 +233,8 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
         </div>
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <StatCard label="Database Tables" value={Number(tableCount[0]?.count ?? 0)} />
-        <StatCard label="Users" value={userCount} />
-        <StatCard label="Controls" value={controlCount} />
-        <StatCard label="Requirements" value={reqCount} />
-        <StatCard label="Assessments" value={assessmentCount} />
-        <StatCard label="Findings" value={findingCount} />
-        <StatCard label="Actions" value={actionCount} />
-        <StatCard label="KB Entries" value={kbCount} />
-      </div>
-
-      <div className="mt-6 border-b border-slate-200 flex gap-1">
-        {[{ k: "dashboard", l: "📊 Dashboard" }, { k: "backlog", l: "📋 Backlog" }, { k: "activity", l: "📜 Activity Log" }, { k: "users", l: "👥 Users" }, { k: "companies", l: "🏢 Companies" }, { k: "templates", l: "📦 Templates" }, { k: "template-activities", l: "🔗 Template Activities" }, { k: "processareas", l: "🔄 Process Areas" }, { k: "controls", l: "🎛 Controls" }, { k: "requirements", l: "📋 Requirements" }, { k: "badges", l: "🏅 Badges" }, { k: "knowledgebase", l: "📚 Knowledgebase" }, { k: "extraction", l: "🤖 Extraction" }, { k: "assurance", l: "📝 Protocols" }].map((t) => (
+      <div className="border-b border-slate-200 flex flex-wrap gap-x-1">
+        {[{ k: "dashboard", l: "📊 Dashboard" }, { k: "backlog", l: "📋 Backlog" }, { k: "activity", l: "📜 Activity Log" }, { k: "users", l: "👥 Users" }, { k: "manager-assignment", l: "👔 Managers" }, { k: "org-chart", l: "🏢 Org Chart" }, { k: "companies", l: "🏢 Companies" }, { k: "templates", l: "📦 Templates" }, { k: "template-activities", l: "🔗 Template Activities" }, { k: "processareas", l: "🔄 Process Areas" }, { k: "controls", l: "🎛 Controls" }, { k: "requirements", l: "📋 Requirements" }, { k: "badges", l: "🏅 Badges" }, { k: "knowledgebase", l: "📚 Knowledgebase" }, { k: "extraction", l: "🤖 Extraction" }, { k: "assurance", l: "📝 Protocols" }].map((t) => (
           <Link key={t.k} href={`/admin?view=${t.k}`}
             className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${view === t.k ? "border-slate-900 text-slate-900" : "border-transparent text-slate-500 hover:text-slate-700"}`}>
             {t.l}
@@ -234,29 +242,45 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
         ))}
       </div>
 
-      {/* ── Dashboard ── */}
       {view === "dashboard" && (
-        <div className="mt-6 space-y-6">
-          <div className="grid gap-4 sm:grid-cols-2">
-            <Card title="⚡ Quick Actions" padding="sm">
-              <div className="flex flex-wrap gap-2">
-                <Link href="/setup/process-areas"><Button variant="secondary" size="sm">Process Areas</Button></Link>
-                <Link href="/admin/database"><Button variant="secondary" size="sm">Database</Button></Link>
-                <Link href="/admin?view=users"><Button variant="secondary" size="sm">Users</Button></Link>
-                <Link href="/admin?view=templates"><Button variant="secondary" size="sm">Templates</Button></Link>
-                <Link href="/admin?view=activity"><Button variant="secondary" size="sm">Activity Log</Button></Link>
-              </div>
-            </Card>
-            <Card title="📊 System Status" padding="sm">
-              <div className="space-y-2 text-sm">
-                <div className="flex justify-between"><span className="text-slate-500">Connected as</span><span className="font-medium">{session.user.name} (Admin)</span></div>
-                <div className="flex justify-between"><span className="text-slate-500">Company</span><span className="font-medium">{companyId ?? "All"}</span></div>
-              </div>
-            </Card>
-          </div>
+      <details open className="mt-6">
+        <summary className="cursor-pointer text-sm font-semibold text-slate-700 hover:text-slate-900 select-none">
+          📊 System Overview — click to collapse
+        </summary>
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 mt-3">
+          <StatCard label="Database Tables" value={Number(tableCount[0]?.count ?? 0)} />
+          <StatCard label="Users" value={userCount} />
+          <StatCard label="Controls" value={controlCount} />
+          <StatCard label="Requirements" value={reqCount} />
+          <StatCard label="Assessments" value={assessmentCount} />
+          <StatCard label="Findings" value={findingCount} />
+          <StatCard label="Actions" value={actionCount} />
+          <StatCard label="KB Entries" value={kbCount} />
+        </div>
+        <div className="grid gap-4 sm:grid-cols-2 mt-4">
+          <Card title="⚡ Quick Actions" padding="sm">
+            <div className="flex flex-wrap gap-2">
+              <Link href="/setup/process-areas"><Button variant="secondary" size="sm">Process Areas</Button></Link>
+              <Link href="/admin/database"><Button variant="secondary" size="sm">Database</Button></Link>
+              <Link href="/admin?view=users"><Button variant="secondary" size="sm">Users</Button></Link>
+              <Link href="/admin?view=templates"><Button variant="secondary" size="sm">Templates</Button></Link>
+              <Link href="/admin?view=activity"><Button variant="secondary" size="sm">Activity Log</Button></Link>
+            </div>
+          </Card>
+          <Card title="📊 System Status" padding="sm">
+            <div className="space-y-2 text-sm">
+              <div className="flex justify-between"><span className="text-slate-500">Connected as</span><span className="font-medium">{session.user.name} (Admin)</span></div>
+              <div className="flex justify-between"><span className="text-slate-500">Company</span><span className="font-medium">{companyId ?? "All"}</span></div>
+            </div>
+          </Card>
+        </div>
+        <div className="mt-4">
           <HealthResetButton />
         </div>
+      </details>
       )}
+
+      {/* ── Dashboard ── (stats, quick actions, system status, and control health are now in the collapsible System Statistics above) */}
 
       {/* ── Activity Log ── */}
       {view === "activity" && (
@@ -294,8 +318,21 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
           initialUsers={users}
           companies={companies}
           currentUserId={(session.user as any)?.id}
+          departments={JSON.parse(JSON.stringify(departments))}
+          positions={JSON.parse(JSON.stringify(positions))}
         />
       )}
+
+      {/* ── Manager Assignment ── */}
+      {view === "manager-assignment" && (
+        <ManagerAssignmentView
+          users={JSON.parse(JSON.stringify(mgrUsers))}
+          allUsernames={allUsernames}
+        />
+      )}
+
+      {/* ── Org Chart ── */}
+      {view === "org-chart" && <OrgChartView />}
 
       {/* ── Templates ── */}
       {view === "templates" && (

@@ -17,6 +17,10 @@ model User {
   positionId           String?
   position             Position?              @relation(fields: [positionId], references: [id])
   companyId            String?
+  managerName          String?
+  managerUsername      String?
+  organisationIndicator String?
+  preferredName        String?
   createdAt            DateTime               @default(now())
   totalPoints          Int                    @default(0)
   dailyPointStreak     Int                    @default(0)
@@ -264,6 +268,15 @@ model Assessment {
   status             AssessmentStatus      @default(Planned)
   companyId          String?
   createdAt          DateTime              @default(now())
+
+  // ── Terms of Reference (TOR) ──
+  objective        String?   // Audit objective — why we're doing this
+  scope            String?   // Scope and references — what's being assessed
+  sponsor          String?   // Report sponsor — who commissioned the audit
+  methodology      String?   // Audit methodology — how we'll assess
+  keyFocus         String?   // Key focus areas & comments
+  reportIssueDate  DateTime? // When the report will be issued
+
   assessor           User                  @relation("AssessmentLeadAssessor", fields: [assessorId], references: [id])
   activityType       AssuranceActivityType @relation(fields: [activityTypeId], references: [id])
   controlAssignments ControlAssignment[]

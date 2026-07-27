@@ -112,6 +112,13 @@ export default function AssessmentClient({ assessment, allControls, processAreas
     startDate: assessment.startDate ? new Date(assessment.startDate).toISOString().split("T")[0] : "",
     endDate: assessment.endDate ? new Date(assessment.endDate).toISOString().split("T")[0] : "",
     status: assessment.status || "Planned",
+    // ── Terms of Reference ──
+    objective: assessment.objective || "",
+    scope: assessment.scope || "",
+    sponsor: assessment.sponsor || "",
+    methodology: assessment.methodology || "",
+    keyFocus: assessment.keyFocus || "",
+    reportIssueDate: assessment.reportIssueDate ? new Date(assessment.reportIssueDate).toISOString().split("T")[0] : "",
   });
 
   const tabs = [
@@ -438,6 +445,57 @@ export default function AssessmentClient({ assessment, allControls, processAreas
                   </select>
                 </div>
               </div>
+              {/* ── Terms of Reference ── */}
+              <div className="border-t border-slate-200 pt-4 mt-2">
+                <h3 className="text-sm font-semibold text-slate-700 mb-3">📋 Terms of Reference</h3>
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <div className="sm:col-span-2">
+                    <label className="text-xs font-medium text-slate-600">Audit Objective</label>
+                    <textarea value={editForm.objective}
+                      onChange={(e) => setEditForm({ ...editForm, objective: e.target.value })}
+                      rows={2}
+                      className="w-full rounded border border-slate-300 px-2 py-1.5 text-sm mt-1"
+                      placeholder="Why this assessment is being conducted…" />
+                  </div>
+                  <div className="sm:col-span-2">
+                    <label className="text-xs font-medium text-slate-600">Scope &amp; References</label>
+                    <textarea value={editForm.scope}
+                      onChange={(e) => setEditForm({ ...editForm, scope: e.target.value })}
+                      rows={2}
+                      className="w-full rounded border border-slate-300 px-2 py-1.5 text-sm mt-1"
+                      placeholder="What is being assessed, relevant standards, documents…" />
+                  </div>
+                  <div>
+                    <label className="text-xs font-medium text-slate-600">Report Sponsor</label>
+                    <input type="text" value={editForm.sponsor}
+                      onChange={(e) => setEditForm({ ...editForm, sponsor: e.target.value })}
+                      className="w-full rounded border border-slate-300 px-2 py-1.5 text-sm mt-1"
+                      placeholder="Who commissioned this audit" />
+                  </div>
+                  <div>
+                    <label className="text-xs font-medium text-slate-600">Report Issue Date</label>
+                    <input type="date" value={editForm.reportIssueDate}
+                      onChange={(e) => setEditForm({ ...editForm, reportIssueDate: e.target.value })}
+                      className="w-full rounded border border-slate-300 px-2 py-1.5 text-sm mt-1" />
+                  </div>
+                  <div className="sm:col-span-2">
+                    <label className="text-xs font-medium text-slate-600">Methodology</label>
+                    <textarea value={editForm.methodology}
+                      onChange={(e) => setEditForm({ ...editForm, methodology: e.target.value })}
+                      rows={2}
+                      className="w-full rounded border border-slate-300 px-2 py-1.5 text-sm mt-1"
+                      placeholder="How the audit will be conducted (sampling, interviews, document review)…" />
+                  </div>
+                  <div className="sm:col-span-2">
+                    <label className="text-xs font-medium text-slate-600">Key Focus Areas &amp; Comments</label>
+                    <textarea value={editForm.keyFocus}
+                      onChange={(e) => setEditForm({ ...editForm, keyFocus: e.target.value })}
+                      rows={3}
+                      className="w-full rounded border border-slate-300 px-2 py-1.5 text-sm mt-1"
+                      placeholder="Areas of particular attention, notes, constraints…" />
+                  </div>
+                </div>
+              </div>
               <div className="flex gap-2">
                 <Button variant="primary" size="sm" disabled={saving} onClick={handleSaveDetails}>
                   {saving ? "Saving…" : "Save Changes"}
@@ -450,6 +508,12 @@ export default function AssessmentClient({ assessment, allControls, processAreas
                     startDate: assessment.startDate ? new Date(assessment.startDate).toISOString().split("T")[0] : "",
                     endDate: assessment.endDate ? new Date(assessment.endDate).toISOString().split("T")[0] : "",
                     status: assessment.status || "Planned",
+                    objective: assessment.objective || "",
+                    scope: assessment.scope || "",
+                    sponsor: assessment.sponsor || "",
+                    methodology: assessment.methodology || "",
+                    keyFocus: assessment.keyFocus || "",
+                    reportIssueDate: assessment.reportIssueDate ? new Date(assessment.reportIssueDate).toISOString().split("T")[0] : "",
                   });
                   setEditing(false);
                 }}>Cancel</Button>
@@ -474,6 +538,52 @@ export default function AssessmentClient({ assessment, allControls, processAreas
             </div>
           )}
         </Card>
+
+        {/* ── Terms of Reference (read-only) ── */}
+        {(assessment.objective || assessment.scope || assessment.sponsor || assessment.methodology || assessment.keyFocus || assessment.reportIssueDate) && (
+          <Card title="📋 Terms of Reference" padding="sm" className="mt-6">
+            <div className="space-y-3 text-sm">
+              {assessment.objective && (
+                <div>
+                  <div className="text-xs font-medium text-slate-500 uppercase tracking-wide">Objective</div>
+                  <div className="mt-0.5 text-slate-800 whitespace-pre-wrap">{assessment.objective}</div>
+                </div>
+              )}
+              {assessment.scope && (
+                <div>
+                  <div className="text-xs font-medium text-slate-500 uppercase tracking-wide">Scope &amp; References</div>
+                  <div className="mt-0.5 text-slate-800 whitespace-pre-wrap">{assessment.scope}</div>
+                </div>
+              )}
+              <div className="grid gap-3 sm:grid-cols-2">
+                {assessment.sponsor && (
+                  <div>
+                    <div className="text-xs font-medium text-slate-500 uppercase tracking-wide">Report Sponsor</div>
+                    <div className="mt-0.5 text-slate-800">{assessment.sponsor}</div>
+                  </div>
+                )}
+                {assessment.reportIssueDate && (
+                  <div>
+                    <div className="text-xs font-medium text-slate-500 uppercase tracking-wide">Report Issue Date</div>
+                    <div className="mt-0.5 text-slate-800">{new Date(assessment.reportIssueDate).toLocaleDateString()}</div>
+                  </div>
+                )}
+              </div>
+              {assessment.methodology && (
+                <div>
+                  <div className="text-xs font-medium text-slate-500 uppercase tracking-wide">Methodology</div>
+                  <div className="mt-0.5 text-slate-800 whitespace-pre-wrap">{assessment.methodology}</div>
+                </div>
+              )}
+              {assessment.keyFocus && (
+                <div>
+                  <div className="text-xs font-medium text-slate-500 uppercase tracking-wide">Key Focus Areas &amp; Comments</div>
+                  <div className="mt-0.5 text-slate-800 whitespace-pre-wrap">{assessment.keyFocus}</div>
+                </div>
+              )}
+            </div>
+          </Card>
+        )}
 
         {assessment.status !== "Completed" && (
           <div className="mt-6">

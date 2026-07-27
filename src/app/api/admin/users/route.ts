@@ -10,7 +10,7 @@ export async function POST(request: Request) {
     if (response) return response;
 
     const body = await request.json();
-    const { name, username, email, password, role, companyIds } = body;
+    const { name, username, email, password, role, companyIds, managerName, organisationIndicator, positionId } = body;
 
     if (!name || !username || !password) {
       return NextResponse.json({ error: "name, username, and password are required" }, { status: 400 });
@@ -26,12 +26,12 @@ export async function POST(request: Request) {
     const validRoles = ["Admin", "Superuser", "Assessor", "Interviewee"];
     const userRole = validRoles.includes(role) ? role : "Assessor";
 
-    const user = await prisma.$executeRawUnsafe(
-      `INSERT INTO "User" (id, name, username, email, "passwordHash", role, "createdAt")
-       VALUES ($1, $2, $3, $4, $5, $6::"Role", NOW())
-       RETURNING id, name, username, email, role, "totalPoints"`,
+    await prisma.$executeRawUnsafe(
+      `INSERT INTO "User" (id, name, username, email, "passwordHash", role, "managerName", "organisationIndicator", "positionId", "createdAt")
+       VALUES ($1, $2, $3, $4, $5, $6::"Role", $7, $8, $9, NOW())`,
       `user_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`,
-      name, username, email || null, passwordHash, userRole
+      name, username, email || null, passwordHash, userRole,
+      managerName || null, organisationIndicator || null, positionId || null
     );
 
     // Get the created user ID

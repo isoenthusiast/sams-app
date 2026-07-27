@@ -35,6 +35,12 @@ export type AssessmentMinAggregateOutputType = {
   status: $Enums.AssessmentStatus | null
   companyId: string | null
   createdAt: Date | null
+  objective: string | null
+  scope: string | null
+  sponsor: string | null
+  methodology: string | null
+  keyFocus: string | null
+  reportIssueDate: Date | null
 }
 
 export type AssessmentMaxAggregateOutputType = {
@@ -48,6 +54,12 @@ export type AssessmentMaxAggregateOutputType = {
   status: $Enums.AssessmentStatus | null
   companyId: string | null
   createdAt: Date | null
+  objective: string | null
+  scope: string | null
+  sponsor: string | null
+  methodology: string | null
+  keyFocus: string | null
+  reportIssueDate: Date | null
 }
 
 export type AssessmentCountAggregateOutputType = {
@@ -61,6 +73,12 @@ export type AssessmentCountAggregateOutputType = {
   status: number
   companyId: number
   createdAt: number
+  objective: number
+  scope: number
+  sponsor: number
+  methodology: number
+  keyFocus: number
+  reportIssueDate: number
   _all: number
 }
 
@@ -76,6 +94,12 @@ export type AssessmentMinAggregateInputType = {
   status?: true
   companyId?: true
   createdAt?: true
+  objective?: true
+  scope?: true
+  sponsor?: true
+  methodology?: true
+  keyFocus?: true
+  reportIssueDate?: true
 }
 
 export type AssessmentMaxAggregateInputType = {
@@ -89,6 +113,12 @@ export type AssessmentMaxAggregateInputType = {
   status?: true
   companyId?: true
   createdAt?: true
+  objective?: true
+  scope?: true
+  sponsor?: true
+  methodology?: true
+  keyFocus?: true
+  reportIssueDate?: true
 }
 
 export type AssessmentCountAggregateInputType = {
@@ -102,6 +132,12 @@ export type AssessmentCountAggregateInputType = {
   status?: true
   companyId?: true
   createdAt?: true
+  objective?: true
+  scope?: true
+  sponsor?: true
+  methodology?: true
+  keyFocus?: true
+  reportIssueDate?: true
   _all?: true
 }
 
@@ -188,6 +224,12 @@ export type AssessmentGroupByOutputType = {
   status: $Enums.AssessmentStatus
   companyId: string | null
   createdAt: Date
+  objective: string | null
+  scope: string | null
+  sponsor: string | null
+  methodology: string | null
+  keyFocus: string | null
+  reportIssueDate: Date | null
   _count: AssessmentCountAggregateOutputType | null
   _min: AssessmentMinAggregateOutputType | null
   _max: AssessmentMaxAggregateOutputType | null
@@ -222,6 +264,12 @@ export type AssessmentWhereInput = {
   status?: Prisma.EnumAssessmentStatusFilter<"Assessment"> | $Enums.AssessmentStatus
   companyId?: Prisma.StringNullableFilter<"Assessment"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Assessment"> | Date | string
+  objective?: Prisma.StringNullableFilter<"Assessment"> | string | null
+  scope?: Prisma.StringNullableFilter<"Assessment"> | string | null
+  sponsor?: Prisma.StringNullableFilter<"Assessment"> | string | null
+  methodology?: Prisma.StringNullableFilter<"Assessment"> | string | null
+  keyFocus?: Prisma.StringNullableFilter<"Assessment"> | string | null
+  reportIssueDate?: Prisma.DateTimeNullableFilter<"Assessment"> | Date | string | null
   assessor?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   activityType?: Prisma.XOR<Prisma.AssuranceActivityTypeScalarRelationFilter, Prisma.AssuranceActivityTypeWhereInput>
   controlAssignments?: Prisma.ControlAssignmentListRelationFilter
@@ -242,6 +290,12 @@ export type AssessmentOrderByWithRelationInput = {
   status?: Prisma.SortOrder
   companyId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  objective?: Prisma.SortOrderInput | Prisma.SortOrder
+  scope?: Prisma.SortOrderInput | Prisma.SortOrder
+  sponsor?: Prisma.SortOrderInput | Prisma.SortOrder
+  methodology?: Prisma.SortOrderInput | Prisma.SortOrder
+  keyFocus?: Prisma.SortOrderInput | Prisma.SortOrder
+  reportIssueDate?: Prisma.SortOrderInput | Prisma.SortOrder
   assessor?: Prisma.UserOrderByWithRelationInput
   activityType?: Prisma.AssuranceActivityTypeOrderByWithRelationInput
   controlAssignments?: Prisma.ControlAssignmentOrderByRelationAggregateInput
@@ -265,6 +319,12 @@ export type AssessmentWhereUniqueInput = Prisma.AtLeast<{
   status?: Prisma.EnumAssessmentStatusFilter<"Assessment"> | $Enums.AssessmentStatus
   companyId?: Prisma.StringNullableFilter<"Assessment"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Assessment"> | Date | string
+  objective?: Prisma.StringNullableFilter<"Assessment"> | string | null
+  scope?: Prisma.StringNullableFilter<"Assessment"> | string | null
+  sponsor?: Prisma.StringNullableFilter<"Assessment"> | string | null
+  methodology?: Prisma.StringNullableFilter<"Assessment"> | string | null
+  keyFocus?: Prisma.StringNullableFilter<"Assessment"> | string | null
+  reportIssueDate?: Prisma.DateTimeNullableFilter<"Assessment"> | Date | string | null
   assessor?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   activityType?: Prisma.XOR<Prisma.AssuranceActivityTypeScalarRelationFilter, Prisma.AssuranceActivityTypeWhereInput>
   controlAssignments?: Prisma.ControlAssignmentListRelationFilter
@@ -285,6 +345,12 @@ export type AssessmentOrderByWithAggregationInput = {
   status?: Prisma.SortOrder
   companyId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  objective?: Prisma.SortOrderInput | Prisma.SortOrder
+  scope?: Prisma.SortOrderInput | Prisma.SortOrder
+  sponsor?: Prisma.SortOrderInput | Prisma.SortOrder
+  methodology?: Prisma.SortOrderInput | Prisma.SortOrder
+  keyFocus?: Prisma.SortOrderInput | Prisma.SortOrder
+  reportIssueDate?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.AssessmentCountOrderByAggregateInput
   _max?: Prisma.AssessmentMaxOrderByAggregateInput
   _min?: Prisma.AssessmentMinOrderByAggregateInput
@@ -304,6 +370,12 @@ export type AssessmentScalarWhereWithAggregatesInput = {
   status?: Prisma.EnumAssessmentStatusWithAggregatesFilter<"Assessment"> | $Enums.AssessmentStatus
   companyId?: Prisma.StringNullableWithAggregatesFilter<"Assessment"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Assessment"> | Date | string
+  objective?: Prisma.StringNullableWithAggregatesFilter<"Assessment"> | string | null
+  scope?: Prisma.StringNullableWithAggregatesFilter<"Assessment"> | string | null
+  sponsor?: Prisma.StringNullableWithAggregatesFilter<"Assessment"> | string | null
+  methodology?: Prisma.StringNullableWithAggregatesFilter<"Assessment"> | string | null
+  keyFocus?: Prisma.StringNullableWithAggregatesFilter<"Assessment"> | string | null
+  reportIssueDate?: Prisma.DateTimeNullableWithAggregatesFilter<"Assessment"> | Date | string | null
 }
 
 export type AssessmentCreateInput = {
@@ -315,6 +387,12 @@ export type AssessmentCreateInput = {
   status?: $Enums.AssessmentStatus
   companyId?: string | null
   createdAt?: Date | string
+  objective?: string | null
+  scope?: string | null
+  sponsor?: string | null
+  methodology?: string | null
+  keyFocus?: string | null
+  reportIssueDate?: Date | string | null
   assessor: Prisma.UserCreateNestedOneWithoutAssessmentsInput
   activityType: Prisma.AssuranceActivityTypeCreateNestedOneWithoutAssessmentsInput
   controlAssignments?: Prisma.ControlAssignmentCreateNestedManyWithoutAssessmentInput
@@ -335,6 +413,12 @@ export type AssessmentUncheckedCreateInput = {
   status?: $Enums.AssessmentStatus
   companyId?: string | null
   createdAt?: Date | string
+  objective?: string | null
+  scope?: string | null
+  sponsor?: string | null
+  methodology?: string | null
+  keyFocus?: string | null
+  reportIssueDate?: Date | string | null
   controlAssignments?: Prisma.ControlAssignmentUncheckedCreateNestedManyWithoutAssessmentInput
   samples?: Prisma.SampleUncheckedCreateNestedManyWithoutAssessmentInput
   findings?: Prisma.FindingUncheckedCreateNestedManyWithoutAssessmentInput
@@ -351,6 +435,12 @@ export type AssessmentUpdateInput = {
   status?: Prisma.EnumAssessmentStatusFieldUpdateOperationsInput | $Enums.AssessmentStatus
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  objective?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  scope?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sponsor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  methodology?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  keyFocus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reportIssueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   assessor?: Prisma.UserUpdateOneRequiredWithoutAssessmentsNestedInput
   activityType?: Prisma.AssuranceActivityTypeUpdateOneRequiredWithoutAssessmentsNestedInput
   controlAssignments?: Prisma.ControlAssignmentUpdateManyWithoutAssessmentNestedInput
@@ -371,6 +461,12 @@ export type AssessmentUncheckedUpdateInput = {
   status?: Prisma.EnumAssessmentStatusFieldUpdateOperationsInput | $Enums.AssessmentStatus
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  objective?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  scope?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sponsor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  methodology?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  keyFocus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reportIssueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   controlAssignments?: Prisma.ControlAssignmentUncheckedUpdateManyWithoutAssessmentNestedInput
   samples?: Prisma.SampleUncheckedUpdateManyWithoutAssessmentNestedInput
   findings?: Prisma.FindingUncheckedUpdateManyWithoutAssessmentNestedInput
@@ -389,6 +485,12 @@ export type AssessmentCreateManyInput = {
   status?: $Enums.AssessmentStatus
   companyId?: string | null
   createdAt?: Date | string
+  objective?: string | null
+  scope?: string | null
+  sponsor?: string | null
+  methodology?: string | null
+  keyFocus?: string | null
+  reportIssueDate?: Date | string | null
 }
 
 export type AssessmentUpdateManyMutationInput = {
@@ -400,6 +502,12 @@ export type AssessmentUpdateManyMutationInput = {
   status?: Prisma.EnumAssessmentStatusFieldUpdateOperationsInput | $Enums.AssessmentStatus
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  objective?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  scope?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sponsor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  methodology?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  keyFocus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reportIssueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type AssessmentUncheckedUpdateManyInput = {
@@ -413,6 +521,12 @@ export type AssessmentUncheckedUpdateManyInput = {
   status?: Prisma.EnumAssessmentStatusFieldUpdateOperationsInput | $Enums.AssessmentStatus
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  objective?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  scope?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sponsor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  methodology?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  keyFocus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reportIssueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type AssessmentListRelationFilter = {
@@ -436,6 +550,12 @@ export type AssessmentCountOrderByAggregateInput = {
   status?: Prisma.SortOrder
   companyId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  objective?: Prisma.SortOrder
+  scope?: Prisma.SortOrder
+  sponsor?: Prisma.SortOrder
+  methodology?: Prisma.SortOrder
+  keyFocus?: Prisma.SortOrder
+  reportIssueDate?: Prisma.SortOrder
 }
 
 export type AssessmentMaxOrderByAggregateInput = {
@@ -449,6 +569,12 @@ export type AssessmentMaxOrderByAggregateInput = {
   status?: Prisma.SortOrder
   companyId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  objective?: Prisma.SortOrder
+  scope?: Prisma.SortOrder
+  sponsor?: Prisma.SortOrder
+  methodology?: Prisma.SortOrder
+  keyFocus?: Prisma.SortOrder
+  reportIssueDate?: Prisma.SortOrder
 }
 
 export type AssessmentMinOrderByAggregateInput = {
@@ -462,6 +588,12 @@ export type AssessmentMinOrderByAggregateInput = {
   status?: Prisma.SortOrder
   companyId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  objective?: Prisma.SortOrder
+  scope?: Prisma.SortOrder
+  sponsor?: Prisma.SortOrder
+  methodology?: Prisma.SortOrder
+  keyFocus?: Prisma.SortOrder
+  reportIssueDate?: Prisma.SortOrder
 }
 
 export type AssessmentScalarRelationFilter = {
@@ -636,6 +768,12 @@ export type AssessmentCreateWithoutAssessorInput = {
   status?: $Enums.AssessmentStatus
   companyId?: string | null
   createdAt?: Date | string
+  objective?: string | null
+  scope?: string | null
+  sponsor?: string | null
+  methodology?: string | null
+  keyFocus?: string | null
+  reportIssueDate?: Date | string | null
   activityType: Prisma.AssuranceActivityTypeCreateNestedOneWithoutAssessmentsInput
   controlAssignments?: Prisma.ControlAssignmentCreateNestedManyWithoutAssessmentInput
   samples?: Prisma.SampleCreateNestedManyWithoutAssessmentInput
@@ -654,6 +792,12 @@ export type AssessmentUncheckedCreateWithoutAssessorInput = {
   status?: $Enums.AssessmentStatus
   companyId?: string | null
   createdAt?: Date | string
+  objective?: string | null
+  scope?: string | null
+  sponsor?: string | null
+  methodology?: string | null
+  keyFocus?: string | null
+  reportIssueDate?: Date | string | null
   controlAssignments?: Prisma.ControlAssignmentUncheckedCreateNestedManyWithoutAssessmentInput
   samples?: Prisma.SampleUncheckedCreateNestedManyWithoutAssessmentInput
   findings?: Prisma.FindingUncheckedCreateNestedManyWithoutAssessmentInput
@@ -701,6 +845,12 @@ export type AssessmentScalarWhereInput = {
   status?: Prisma.EnumAssessmentStatusFilter<"Assessment"> | $Enums.AssessmentStatus
   companyId?: Prisma.StringNullableFilter<"Assessment"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Assessment"> | Date | string
+  objective?: Prisma.StringNullableFilter<"Assessment"> | string | null
+  scope?: Prisma.StringNullableFilter<"Assessment"> | string | null
+  sponsor?: Prisma.StringNullableFilter<"Assessment"> | string | null
+  methodology?: Prisma.StringNullableFilter<"Assessment"> | string | null
+  keyFocus?: Prisma.StringNullableFilter<"Assessment"> | string | null
+  reportIssueDate?: Prisma.DateTimeNullableFilter<"Assessment"> | Date | string | null
 }
 
 export type AssessmentCreateWithoutActivityTypeInput = {
@@ -712,6 +862,12 @@ export type AssessmentCreateWithoutActivityTypeInput = {
   status?: $Enums.AssessmentStatus
   companyId?: string | null
   createdAt?: Date | string
+  objective?: string | null
+  scope?: string | null
+  sponsor?: string | null
+  methodology?: string | null
+  keyFocus?: string | null
+  reportIssueDate?: Date | string | null
   assessor: Prisma.UserCreateNestedOneWithoutAssessmentsInput
   controlAssignments?: Prisma.ControlAssignmentCreateNestedManyWithoutAssessmentInput
   samples?: Prisma.SampleCreateNestedManyWithoutAssessmentInput
@@ -730,6 +886,12 @@ export type AssessmentUncheckedCreateWithoutActivityTypeInput = {
   status?: $Enums.AssessmentStatus
   companyId?: string | null
   createdAt?: Date | string
+  objective?: string | null
+  scope?: string | null
+  sponsor?: string | null
+  methodology?: string | null
+  keyFocus?: string | null
+  reportIssueDate?: Date | string | null
   controlAssignments?: Prisma.ControlAssignmentUncheckedCreateNestedManyWithoutAssessmentInput
   samples?: Prisma.SampleUncheckedCreateNestedManyWithoutAssessmentInput
   findings?: Prisma.FindingUncheckedCreateNestedManyWithoutAssessmentInput
@@ -772,6 +934,12 @@ export type AssessmentCreateWithoutAssessorLinksInput = {
   status?: $Enums.AssessmentStatus
   companyId?: string | null
   createdAt?: Date | string
+  objective?: string | null
+  scope?: string | null
+  sponsor?: string | null
+  methodology?: string | null
+  keyFocus?: string | null
+  reportIssueDate?: Date | string | null
   assessor: Prisma.UserCreateNestedOneWithoutAssessmentsInput
   activityType: Prisma.AssuranceActivityTypeCreateNestedOneWithoutAssessmentsInput
   controlAssignments?: Prisma.ControlAssignmentCreateNestedManyWithoutAssessmentInput
@@ -791,6 +959,12 @@ export type AssessmentUncheckedCreateWithoutAssessorLinksInput = {
   status?: $Enums.AssessmentStatus
   companyId?: string | null
   createdAt?: Date | string
+  objective?: string | null
+  scope?: string | null
+  sponsor?: string | null
+  methodology?: string | null
+  keyFocus?: string | null
+  reportIssueDate?: Date | string | null
   controlAssignments?: Prisma.ControlAssignmentUncheckedCreateNestedManyWithoutAssessmentInput
   samples?: Prisma.SampleUncheckedCreateNestedManyWithoutAssessmentInput
   findings?: Prisma.FindingUncheckedCreateNestedManyWithoutAssessmentInput
@@ -822,6 +996,12 @@ export type AssessmentUpdateWithoutAssessorLinksInput = {
   status?: Prisma.EnumAssessmentStatusFieldUpdateOperationsInput | $Enums.AssessmentStatus
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  objective?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  scope?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sponsor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  methodology?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  keyFocus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reportIssueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   assessor?: Prisma.UserUpdateOneRequiredWithoutAssessmentsNestedInput
   activityType?: Prisma.AssuranceActivityTypeUpdateOneRequiredWithoutAssessmentsNestedInput
   controlAssignments?: Prisma.ControlAssignmentUpdateManyWithoutAssessmentNestedInput
@@ -841,6 +1021,12 @@ export type AssessmentUncheckedUpdateWithoutAssessorLinksInput = {
   status?: Prisma.EnumAssessmentStatusFieldUpdateOperationsInput | $Enums.AssessmentStatus
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  objective?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  scope?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sponsor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  methodology?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  keyFocus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reportIssueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   controlAssignments?: Prisma.ControlAssignmentUncheckedUpdateManyWithoutAssessmentNestedInput
   samples?: Prisma.SampleUncheckedUpdateManyWithoutAssessmentNestedInput
   findings?: Prisma.FindingUncheckedUpdateManyWithoutAssessmentNestedInput
@@ -856,6 +1042,12 @@ export type AssessmentCreateWithoutControlAssignmentsInput = {
   status?: $Enums.AssessmentStatus
   companyId?: string | null
   createdAt?: Date | string
+  objective?: string | null
+  scope?: string | null
+  sponsor?: string | null
+  methodology?: string | null
+  keyFocus?: string | null
+  reportIssueDate?: Date | string | null
   assessor: Prisma.UserCreateNestedOneWithoutAssessmentsInput
   activityType: Prisma.AssuranceActivityTypeCreateNestedOneWithoutAssessmentsInput
   samples?: Prisma.SampleCreateNestedManyWithoutAssessmentInput
@@ -875,6 +1067,12 @@ export type AssessmentUncheckedCreateWithoutControlAssignmentsInput = {
   status?: $Enums.AssessmentStatus
   companyId?: string | null
   createdAt?: Date | string
+  objective?: string | null
+  scope?: string | null
+  sponsor?: string | null
+  methodology?: string | null
+  keyFocus?: string | null
+  reportIssueDate?: Date | string | null
   samples?: Prisma.SampleUncheckedCreateNestedManyWithoutAssessmentInput
   findings?: Prisma.FindingUncheckedCreateNestedManyWithoutAssessmentInput
   aacts?: Prisma.AactUncheckedCreateNestedManyWithoutAssessmentInput
@@ -906,6 +1104,12 @@ export type AssessmentUpdateWithoutControlAssignmentsInput = {
   status?: Prisma.EnumAssessmentStatusFieldUpdateOperationsInput | $Enums.AssessmentStatus
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  objective?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  scope?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sponsor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  methodology?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  keyFocus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reportIssueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   assessor?: Prisma.UserUpdateOneRequiredWithoutAssessmentsNestedInput
   activityType?: Prisma.AssuranceActivityTypeUpdateOneRequiredWithoutAssessmentsNestedInput
   samples?: Prisma.SampleUpdateManyWithoutAssessmentNestedInput
@@ -925,6 +1129,12 @@ export type AssessmentUncheckedUpdateWithoutControlAssignmentsInput = {
   status?: Prisma.EnumAssessmentStatusFieldUpdateOperationsInput | $Enums.AssessmentStatus
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  objective?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  scope?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sponsor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  methodology?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  keyFocus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reportIssueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   samples?: Prisma.SampleUncheckedUpdateManyWithoutAssessmentNestedInput
   findings?: Prisma.FindingUncheckedUpdateManyWithoutAssessmentNestedInput
   aacts?: Prisma.AactUncheckedUpdateManyWithoutAssessmentNestedInput
@@ -940,6 +1150,12 @@ export type AssessmentCreateWithoutSamplesInput = {
   status?: $Enums.AssessmentStatus
   companyId?: string | null
   createdAt?: Date | string
+  objective?: string | null
+  scope?: string | null
+  sponsor?: string | null
+  methodology?: string | null
+  keyFocus?: string | null
+  reportIssueDate?: Date | string | null
   assessor: Prisma.UserCreateNestedOneWithoutAssessmentsInput
   activityType: Prisma.AssuranceActivityTypeCreateNestedOneWithoutAssessmentsInput
   controlAssignments?: Prisma.ControlAssignmentCreateNestedManyWithoutAssessmentInput
@@ -959,6 +1175,12 @@ export type AssessmentUncheckedCreateWithoutSamplesInput = {
   status?: $Enums.AssessmentStatus
   companyId?: string | null
   createdAt?: Date | string
+  objective?: string | null
+  scope?: string | null
+  sponsor?: string | null
+  methodology?: string | null
+  keyFocus?: string | null
+  reportIssueDate?: Date | string | null
   controlAssignments?: Prisma.ControlAssignmentUncheckedCreateNestedManyWithoutAssessmentInput
   findings?: Prisma.FindingUncheckedCreateNestedManyWithoutAssessmentInput
   aacts?: Prisma.AactUncheckedCreateNestedManyWithoutAssessmentInput
@@ -990,6 +1212,12 @@ export type AssessmentUpdateWithoutSamplesInput = {
   status?: Prisma.EnumAssessmentStatusFieldUpdateOperationsInput | $Enums.AssessmentStatus
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  objective?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  scope?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sponsor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  methodology?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  keyFocus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reportIssueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   assessor?: Prisma.UserUpdateOneRequiredWithoutAssessmentsNestedInput
   activityType?: Prisma.AssuranceActivityTypeUpdateOneRequiredWithoutAssessmentsNestedInput
   controlAssignments?: Prisma.ControlAssignmentUpdateManyWithoutAssessmentNestedInput
@@ -1009,6 +1237,12 @@ export type AssessmentUncheckedUpdateWithoutSamplesInput = {
   status?: Prisma.EnumAssessmentStatusFieldUpdateOperationsInput | $Enums.AssessmentStatus
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  objective?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  scope?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sponsor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  methodology?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  keyFocus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reportIssueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   controlAssignments?: Prisma.ControlAssignmentUncheckedUpdateManyWithoutAssessmentNestedInput
   findings?: Prisma.FindingUncheckedUpdateManyWithoutAssessmentNestedInput
   aacts?: Prisma.AactUncheckedUpdateManyWithoutAssessmentNestedInput
@@ -1024,6 +1258,12 @@ export type AssessmentCreateWithoutFindingsInput = {
   status?: $Enums.AssessmentStatus
   companyId?: string | null
   createdAt?: Date | string
+  objective?: string | null
+  scope?: string | null
+  sponsor?: string | null
+  methodology?: string | null
+  keyFocus?: string | null
+  reportIssueDate?: Date | string | null
   assessor: Prisma.UserCreateNestedOneWithoutAssessmentsInput
   activityType: Prisma.AssuranceActivityTypeCreateNestedOneWithoutAssessmentsInput
   controlAssignments?: Prisma.ControlAssignmentCreateNestedManyWithoutAssessmentInput
@@ -1043,6 +1283,12 @@ export type AssessmentUncheckedCreateWithoutFindingsInput = {
   status?: $Enums.AssessmentStatus
   companyId?: string | null
   createdAt?: Date | string
+  objective?: string | null
+  scope?: string | null
+  sponsor?: string | null
+  methodology?: string | null
+  keyFocus?: string | null
+  reportIssueDate?: Date | string | null
   controlAssignments?: Prisma.ControlAssignmentUncheckedCreateNestedManyWithoutAssessmentInput
   samples?: Prisma.SampleUncheckedCreateNestedManyWithoutAssessmentInput
   aacts?: Prisma.AactUncheckedCreateNestedManyWithoutAssessmentInput
@@ -1074,6 +1320,12 @@ export type AssessmentUpdateWithoutFindingsInput = {
   status?: Prisma.EnumAssessmentStatusFieldUpdateOperationsInput | $Enums.AssessmentStatus
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  objective?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  scope?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sponsor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  methodology?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  keyFocus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reportIssueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   assessor?: Prisma.UserUpdateOneRequiredWithoutAssessmentsNestedInput
   activityType?: Prisma.AssuranceActivityTypeUpdateOneRequiredWithoutAssessmentsNestedInput
   controlAssignments?: Prisma.ControlAssignmentUpdateManyWithoutAssessmentNestedInput
@@ -1093,6 +1345,12 @@ export type AssessmentUncheckedUpdateWithoutFindingsInput = {
   status?: Prisma.EnumAssessmentStatusFieldUpdateOperationsInput | $Enums.AssessmentStatus
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  objective?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  scope?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sponsor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  methodology?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  keyFocus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reportIssueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   controlAssignments?: Prisma.ControlAssignmentUncheckedUpdateManyWithoutAssessmentNestedInput
   samples?: Prisma.SampleUncheckedUpdateManyWithoutAssessmentNestedInput
   aacts?: Prisma.AactUncheckedUpdateManyWithoutAssessmentNestedInput
@@ -1108,6 +1366,12 @@ export type AssessmentCreateWithoutAactsInput = {
   status?: $Enums.AssessmentStatus
   companyId?: string | null
   createdAt?: Date | string
+  objective?: string | null
+  scope?: string | null
+  sponsor?: string | null
+  methodology?: string | null
+  keyFocus?: string | null
+  reportIssueDate?: Date | string | null
   assessor: Prisma.UserCreateNestedOneWithoutAssessmentsInput
   activityType: Prisma.AssuranceActivityTypeCreateNestedOneWithoutAssessmentsInput
   controlAssignments?: Prisma.ControlAssignmentCreateNestedManyWithoutAssessmentInput
@@ -1127,6 +1391,12 @@ export type AssessmentUncheckedCreateWithoutAactsInput = {
   status?: $Enums.AssessmentStatus
   companyId?: string | null
   createdAt?: Date | string
+  objective?: string | null
+  scope?: string | null
+  sponsor?: string | null
+  methodology?: string | null
+  keyFocus?: string | null
+  reportIssueDate?: Date | string | null
   controlAssignments?: Prisma.ControlAssignmentUncheckedCreateNestedManyWithoutAssessmentInput
   samples?: Prisma.SampleUncheckedCreateNestedManyWithoutAssessmentInput
   findings?: Prisma.FindingUncheckedCreateNestedManyWithoutAssessmentInput
@@ -1158,6 +1428,12 @@ export type AssessmentUpdateWithoutAactsInput = {
   status?: Prisma.EnumAssessmentStatusFieldUpdateOperationsInput | $Enums.AssessmentStatus
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  objective?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  scope?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sponsor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  methodology?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  keyFocus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reportIssueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   assessor?: Prisma.UserUpdateOneRequiredWithoutAssessmentsNestedInput
   activityType?: Prisma.AssuranceActivityTypeUpdateOneRequiredWithoutAssessmentsNestedInput
   controlAssignments?: Prisma.ControlAssignmentUpdateManyWithoutAssessmentNestedInput
@@ -1177,6 +1453,12 @@ export type AssessmentUncheckedUpdateWithoutAactsInput = {
   status?: Prisma.EnumAssessmentStatusFieldUpdateOperationsInput | $Enums.AssessmentStatus
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  objective?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  scope?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sponsor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  methodology?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  keyFocus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reportIssueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   controlAssignments?: Prisma.ControlAssignmentUncheckedUpdateManyWithoutAssessmentNestedInput
   samples?: Prisma.SampleUncheckedUpdateManyWithoutAssessmentNestedInput
   findings?: Prisma.FindingUncheckedUpdateManyWithoutAssessmentNestedInput
@@ -1193,6 +1475,12 @@ export type AssessmentCreateManyAssessorInput = {
   status?: $Enums.AssessmentStatus
   companyId?: string | null
   createdAt?: Date | string
+  objective?: string | null
+  scope?: string | null
+  sponsor?: string | null
+  methodology?: string | null
+  keyFocus?: string | null
+  reportIssueDate?: Date | string | null
 }
 
 export type AssessmentUpdateWithoutAssessorInput = {
@@ -1204,6 +1492,12 @@ export type AssessmentUpdateWithoutAssessorInput = {
   status?: Prisma.EnumAssessmentStatusFieldUpdateOperationsInput | $Enums.AssessmentStatus
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  objective?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  scope?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sponsor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  methodology?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  keyFocus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reportIssueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   activityType?: Prisma.AssuranceActivityTypeUpdateOneRequiredWithoutAssessmentsNestedInput
   controlAssignments?: Prisma.ControlAssignmentUpdateManyWithoutAssessmentNestedInput
   samples?: Prisma.SampleUpdateManyWithoutAssessmentNestedInput
@@ -1222,6 +1516,12 @@ export type AssessmentUncheckedUpdateWithoutAssessorInput = {
   status?: Prisma.EnumAssessmentStatusFieldUpdateOperationsInput | $Enums.AssessmentStatus
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  objective?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  scope?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sponsor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  methodology?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  keyFocus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reportIssueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   controlAssignments?: Prisma.ControlAssignmentUncheckedUpdateManyWithoutAssessmentNestedInput
   samples?: Prisma.SampleUncheckedUpdateManyWithoutAssessmentNestedInput
   findings?: Prisma.FindingUncheckedUpdateManyWithoutAssessmentNestedInput
@@ -1239,6 +1539,12 @@ export type AssessmentUncheckedUpdateManyWithoutAssessorInput = {
   status?: Prisma.EnumAssessmentStatusFieldUpdateOperationsInput | $Enums.AssessmentStatus
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  objective?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  scope?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sponsor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  methodology?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  keyFocus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reportIssueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type AssessmentCreateManyActivityTypeInput = {
@@ -1251,6 +1557,12 @@ export type AssessmentCreateManyActivityTypeInput = {
   status?: $Enums.AssessmentStatus
   companyId?: string | null
   createdAt?: Date | string
+  objective?: string | null
+  scope?: string | null
+  sponsor?: string | null
+  methodology?: string | null
+  keyFocus?: string | null
+  reportIssueDate?: Date | string | null
 }
 
 export type AssessmentUpdateWithoutActivityTypeInput = {
@@ -1262,6 +1574,12 @@ export type AssessmentUpdateWithoutActivityTypeInput = {
   status?: Prisma.EnumAssessmentStatusFieldUpdateOperationsInput | $Enums.AssessmentStatus
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  objective?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  scope?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sponsor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  methodology?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  keyFocus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reportIssueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   assessor?: Prisma.UserUpdateOneRequiredWithoutAssessmentsNestedInput
   controlAssignments?: Prisma.ControlAssignmentUpdateManyWithoutAssessmentNestedInput
   samples?: Prisma.SampleUpdateManyWithoutAssessmentNestedInput
@@ -1280,6 +1598,12 @@ export type AssessmentUncheckedUpdateWithoutActivityTypeInput = {
   status?: Prisma.EnumAssessmentStatusFieldUpdateOperationsInput | $Enums.AssessmentStatus
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  objective?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  scope?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sponsor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  methodology?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  keyFocus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reportIssueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   controlAssignments?: Prisma.ControlAssignmentUncheckedUpdateManyWithoutAssessmentNestedInput
   samples?: Prisma.SampleUncheckedUpdateManyWithoutAssessmentNestedInput
   findings?: Prisma.FindingUncheckedUpdateManyWithoutAssessmentNestedInput
@@ -1297,6 +1621,12 @@ export type AssessmentUncheckedUpdateManyWithoutActivityTypeInput = {
   status?: Prisma.EnumAssessmentStatusFieldUpdateOperationsInput | $Enums.AssessmentStatus
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  objective?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  scope?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sponsor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  methodology?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  keyFocus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reportIssueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 
@@ -1377,6 +1707,12 @@ export type AssessmentSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   status?: boolean
   companyId?: boolean
   createdAt?: boolean
+  objective?: boolean
+  scope?: boolean
+  sponsor?: boolean
+  methodology?: boolean
+  keyFocus?: boolean
+  reportIssueDate?: boolean
   assessor?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   activityType?: boolean | Prisma.AssuranceActivityTypeDefaultArgs<ExtArgs>
   controlAssignments?: boolean | Prisma.Assessment$controlAssignmentsArgs<ExtArgs>
@@ -1398,6 +1734,12 @@ export type AssessmentSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   status?: boolean
   companyId?: boolean
   createdAt?: boolean
+  objective?: boolean
+  scope?: boolean
+  sponsor?: boolean
+  methodology?: boolean
+  keyFocus?: boolean
+  reportIssueDate?: boolean
   assessor?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   activityType?: boolean | Prisma.AssuranceActivityTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["assessment"]>
@@ -1413,6 +1755,12 @@ export type AssessmentSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   status?: boolean
   companyId?: boolean
   createdAt?: boolean
+  objective?: boolean
+  scope?: boolean
+  sponsor?: boolean
+  methodology?: boolean
+  keyFocus?: boolean
+  reportIssueDate?: boolean
   assessor?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   activityType?: boolean | Prisma.AssuranceActivityTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["assessment"]>
@@ -1428,9 +1776,15 @@ export type AssessmentSelectScalar = {
   status?: boolean
   companyId?: boolean
   createdAt?: boolean
+  objective?: boolean
+  scope?: boolean
+  sponsor?: boolean
+  methodology?: boolean
+  keyFocus?: boolean
+  reportIssueDate?: boolean
 }
 
-export type AssessmentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "activityTypeId" | "name" | "assessorId" | "startDate" | "endDate" | "loa" | "status" | "companyId" | "createdAt", ExtArgs["result"]["assessment"]>
+export type AssessmentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "activityTypeId" | "name" | "assessorId" | "startDate" | "endDate" | "loa" | "status" | "companyId" | "createdAt" | "objective" | "scope" | "sponsor" | "methodology" | "keyFocus" | "reportIssueDate", ExtArgs["result"]["assessment"]>
 export type AssessmentInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   assessor?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   activityType?: boolean | Prisma.AssuranceActivityTypeDefaultArgs<ExtArgs>
@@ -1472,6 +1826,12 @@ export type $AssessmentPayload<ExtArgs extends runtime.Types.Extensions.Internal
     status: $Enums.AssessmentStatus
     companyId: string | null
     createdAt: Date
+    objective: string | null
+    scope: string | null
+    sponsor: string | null
+    methodology: string | null
+    keyFocus: string | null
+    reportIssueDate: Date | null
   }, ExtArgs["result"]["assessment"]>
   composites: {}
 }
@@ -1912,6 +2272,12 @@ export interface AssessmentFieldRefs {
   readonly status: Prisma.FieldRef<"Assessment", 'AssessmentStatus'>
   readonly companyId: Prisma.FieldRef<"Assessment", 'String'>
   readonly createdAt: Prisma.FieldRef<"Assessment", 'DateTime'>
+  readonly objective: Prisma.FieldRef<"Assessment", 'String'>
+  readonly scope: Prisma.FieldRef<"Assessment", 'String'>
+  readonly sponsor: Prisma.FieldRef<"Assessment", 'String'>
+  readonly methodology: Prisma.FieldRef<"Assessment", 'String'>
+  readonly keyFocus: Prisma.FieldRef<"Assessment", 'String'>
+  readonly reportIssueDate: Prisma.FieldRef<"Assessment", 'DateTime'>
 }
     
 
