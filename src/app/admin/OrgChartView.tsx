@@ -23,7 +23,8 @@ function TreeNode({ node, searchTerm }: { node: OrgNode; searchTerm: string }) {
   const hasChildren = node.children.length > 0;
 
   const matchesSearch = searchTerm
-    ? node.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    ? (node.preferredName || "").toLowerCase().includes(searchTerm.toLowerCase()) ||
+      node.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       node.username.toLowerCase().includes(searchTerm.toLowerCase()) ||
       (node.department || "").toLowerCase().includes(searchTerm.toLowerCase()) ||
       (node.position || "").toLowerCase().includes(searchTerm.toLowerCase())
@@ -51,8 +52,7 @@ function TreeNode({ node, searchTerm }: { node: OrgNode; searchTerm: string }) {
           {hasChildren ? (effectiveCollapsed ? "▶" : "▼") : ""}
         </span>
         <span className={`truncate ${node.depth === 0 ? "text-slate-900 text-xs" : "text-slate-700 text-xs"}`}>
-          {node.name}
-          {node.preferredName && <span className="text-slate-400 font-normal ml-1">({node.preferredName})</span>}
+          {node.preferredName || node.name}
         </span>
         {node.position && (
           <span className="text-[10px] text-slate-400 truncate hidden sm:inline max-w-[180px]">{node.position}</span>

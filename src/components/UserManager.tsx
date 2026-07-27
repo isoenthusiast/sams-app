@@ -57,7 +57,7 @@ function LeftUserPanel({
               <button key={u.id} onClick={() => onSelect(u)}
                 className={`w-full flex items-center justify-between px-3 py-1.5 text-sm border-b border-amber-50 hover:bg-amber-50/50 transition-colors ${
                   selectedUserId === u.id ? "bg-amber-100 border-l-2 border-l-amber-500" : ""}`}>
-                <span className="text-slate-700 truncate flex-1 text-left">{u.name}</span>
+                <span className="text-slate-700 truncate flex-1 text-left">{u.preferredName || u.name}</span>
                 <span className="text-[10px] text-amber-500 shrink-0 ml-1">incomplete</span>
               </button>
             ))}
@@ -78,7 +78,7 @@ function LeftUserPanel({
               <button key={u.id} onClick={() => onSelect(u)}
                 className={`w-full flex items-center justify-between px-3 py-1.5 text-sm border-b border-slate-50 hover:bg-white transition-colors ${
                   selectedUserId === u.id ? "bg-blue-50 border-l-2 border-l-blue-500" : ""}`}>
-                <span className="text-slate-800 truncate flex-1 text-left">{u.name}</span>
+                <span className="text-slate-800 truncate flex-1 text-left">{u.preferredName || u.name}</span>
                 <span className="text-[11px] text-slate-400 shrink-0 ml-2">{u.role}</span>
               </button>
             ))}
@@ -155,6 +155,7 @@ export function UserManager({ initialUsers, companies, currentUserId, department
     if (!term) return users;
     return users.filter((u) =>
       u.name.toLowerCase().includes(term) ||
+      (u.preferredName || "").toLowerCase().includes(term) ||
       u.username.toLowerCase().includes(term) ||
       u.role.toLowerCase().includes(term)
     );
