@@ -83,11 +83,103 @@ function TreeNode({ node, searchTerm, onUserNameClick }: { node: OrgNode; search
   );
 }
 
+/** Visual chart node — card-based with CSS connecting lines */
+function ChartTree({ node, searchTerm, depth, onUserNameClick }: { node: OrgNode; searchTerm: string; depth?: number; onUserNameClick: (node: OrgNode) => void }) {
+  const d = depth ?? 0;
+  const hasChildren = node.children.length > 0;
+
+  const matchesSearch = searchTerm
+    ? (node.preferredName || "").toLowerCase().includes(searchTerm.toLowerCase()) ||
+      node.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      node.username.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (node.department || "").toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (node.position || "").toLowerCase().includes(searchTerm.toLowerCase())
+    : true;
+
+  const childHasMatch = hasChildren && node.children.some(c => {
+    const cm = (c.preferredName || "").toLowerCase().includes(searchTerm.toLowerCase()) ||
+      c.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      c.username.toLowerCase().includes(searchTerm.toLowerCase());
+    return cm || c.children.some(gc =>
+      gc.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      gc.username.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  });
+
+  if (searchTerm && !matchesSearch && !childHasMatch) return null;
+
+  const visibleChildren = node.children.filter(c => {
+    if (!searchTerm) return true;
+    const cm = (c.preferredName || "").toLowerCase().includes(searchTerm.toLowerCase()) ||
+      c.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      c.username.toLowerCase().includes(searchTerm.toLowerCase());
+    return cm || c.children.some(gc =>
+      gc.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      gc.username.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  });
+
+  // Card color based on depth
+  const cardColors = [
+    "border-amber-400 bg-amber-50",      // level 0 - CEO/GM
+    "border-blue-400 bg-blue-50",         // level 1
+    "border-emerald-400 bg-emerald-50",   // level 2
+    "border-violet-400 bg-violet-50",     // level 3
+    "border-slate-300 bg-slate-50",       // level 4+
+  ];
+  const cardColor = cardColors[Math.min(d, cardColors.length - 1)];
+
+  return (
+    <div className="flex flex-col items-center">
+      {/* Node card */}
+      <div className={`relative z-10 flex flex-col items-center rounded-lg border-2 px-3 py-2 shadow-sm min-w-[140px] max-w-[200px] ${cardColor} ${matchesSearch ? "ring-2 ring-yellow-400 ring-offset-1" : ""}`}>
+        <button
+          onClick={() => onUserNameClick(node)}
+          className="text-xs font-semibold text-slate-800 hover:text-blue-600 hover:underline text-center leading-tight"
+        >
+          {node.preferredName || node.name}
+        </button>
+        {node.position && (
+          <span className="text-[10px] text-slate-500 text-center leading-tight mt-0.5">{node.position}</span>
+        )}
+        {node.department && (
+          <span className="text-[9px] text-slate-400 text-center leading-tight mt-0.5 bg-white/60 rounded px-1">{node.department}</span>
+        )}
+        {hasChildren && (
+          <span className="mt-1 text-[10px] font-bold text-slate-400">{node.staffCount} reports</span>
+        )}
+      </div>
+
+      {/* Children row with connecting lines */}
+      {hasChildren && (
+        <div className="flex flex-col items-center">
+          {/* Vertical line down from card */}
+          <div className="w-px h-4 bg-slate-300"></div>
+          {/* Horizontal line across */}
+          <div className="relative flex items-start">
+            <div className="border-t border-slate-300" style={{
+              width: `${Math.max(visibleChildren.length * 170, 20)}px`,
+              maxWidth: "100%",
+            }}></div>
+          </div>
+          {/* Children */}
+          <div className="flex flex-wrap justify-center gap-3 pt-2">
+            {visibleChildren.map(child => (
+              <ChartTree key={child.username} node={child} searchTerm={searchTerm} depth={d + 1} onUserNameClick={onUserNameClick} />
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
 export function OrgChartView() {
   const [tree, setTree] = useState<OrgNode[]>([]);
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [viewMode, setViewMode] = useState<"chart" | "list">("chart");
 
   // Edit user modal state
   const [editUser, setEditUser] = useState<{
@@ -173,35 +265,56 @@ export function OrgChartView() {
         <div>
           <h2 className="text-sm font-semibold text-slate-700">🏢 SMDS Organisation Chart</h2>
           <p className="text-[11px] text-slate-400 mt-0.5">
-            {totalUsers} users · 6 levels · Click ▶ to expand
+            {totalUsers} users · 6 levels · Click a name to edit
           </p>
         </div>
-        <input
-          type="text"
-          value={search}
-          onChange={e => setSearch(e.target.value)}
-          placeholder="Search by name, position, or department…"
-          className="rounded border border-slate-300 px-3 py-1.5 text-sm w-64 focus:border-blue-400 focus:outline-none"
-        />
-      </div>
-
-      <div className="border border-slate-200 rounded-lg bg-white overflow-auto max-h-[75vh]">
-        <div className="sticky top-0 z-10 flex items-center gap-2 px-2 py-1.5 bg-slate-100 border-b border-slate-200 text-[10px] font-semibold text-slate-500 uppercase tracking-wide">
-          <span className="w-4 shrink-0"></span>
-          <span className="flex-1">Name</span>
-          <span className="hidden sm:inline w-52">Position</span>
-          <span className="hidden lg:inline w-44">Department</span>
-          <span className="w-14 text-right">Reports</span>
+        <div className="flex items-center gap-2">
+          <div className="flex rounded-md border border-slate-300 overflow-hidden">
+            <button
+              onClick={() => setViewMode("chart")}
+              className={`px-2.5 py-1 text-xs font-medium transition-colors ${viewMode === "chart" ? "bg-blue-800 text-white" : "bg-white text-slate-600 hover:bg-slate-50"}`}
+            >📊 Chart</button>
+            <button
+              onClick={() => setViewMode("list")}
+              className={`px-2.5 py-1 text-xs font-medium transition-colors ${viewMode === "list" ? "bg-blue-800 text-white" : "bg-white text-slate-600 hover:bg-slate-50"}`}
+            >📋 List</button>
+          </div>
+          <input
+            type="text"
+            value={search}
+            onChange={e => setSearch(e.target.value)}
+            placeholder="Search by name, position, or department…"
+            className="rounded border border-slate-300 px-3 py-1.5 text-sm w-64 focus:border-blue-400 focus:outline-none"
+          />
         </div>
-
-        {tree.map(root => (
-          <TreeNode key={root.username} node={root} searchTerm={search} onUserNameClick={handleUserNameClick} />
-        ))}
-
-        {tree.length === 0 && !loading && (
-          <p className="p-8 text-center text-slate-400">No org chart data.</p>
-        )}
       </div>
+
+      {viewMode === "list" ? (
+        <div className="border border-slate-200 rounded-lg bg-white overflow-auto max-h-[75vh]">
+          <div className="sticky top-0 z-10 flex items-center gap-2 px-2 py-1.5 bg-slate-100 border-b border-slate-200 text-[10px] font-semibold text-slate-500 uppercase tracking-wide">
+            <span className="w-4 shrink-0"></span>
+            <span className="flex-1">Name</span>
+            <span className="hidden sm:inline w-52">Position</span>
+            <span className="hidden lg:inline w-44">Department</span>
+            <span className="w-14 text-right">Reports</span>
+          </div>
+          {tree.map(root => (
+            <TreeNode key={root.username} node={root} searchTerm={search} onUserNameClick={handleUserNameClick} />
+          ))}
+          {tree.length === 0 && !loading && (
+            <p className="p-8 text-center text-slate-400">No org chart data.</p>
+          )}
+        </div>
+      ) : (
+        <div className="border border-slate-200 rounded-lg bg-white overflow-auto max-h-[75vh] p-6">
+          {tree.map(root => (
+            <ChartTree key={root.username} node={root} searchTerm={search} onUserNameClick={handleUserNameClick} />
+          ))}
+          {tree.length === 0 && (
+            <p className="p-8 text-center text-slate-400">No org chart data.</p>
+          )}
+        </div>
+      )}
 
       {/* Edit User Modal */}
       {editUser && (
