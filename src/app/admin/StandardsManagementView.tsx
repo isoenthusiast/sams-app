@@ -14,10 +14,10 @@ const MENU_ITEMS = [
 ] as const;
 
 export function StandardsManagementView({
-  standards, processAreas, requirements, allStandards, controls, controlPas,
+  standards, processAreas, requirements, allStandards, controls, controlPas, companies,
 }: {
   standards: any[]; processAreas: any[]; requirements: any[]; allStandards: any[];
-  controls: any[]; controlPas: any[];
+  controls: any[]; controlPas: any[]; companies: any[];
 }) {
   const [activeTab, setActiveTab] = useState<string>("standards");
 
@@ -40,7 +40,7 @@ export function StandardsManagementView({
       </div>
 
       <div className="flex-1 overflow-y-auto p-5 min-w-0">
-        {activeTab === "standards" && <StandardAdminView initialStandards={standards} />}
+        {activeTab === "standards" && <StandardAdminView initialStandards={standards} companies={companies} />}
         {activeTab === "processareas" && <ProcessAreasAdminView initialProcessAreas={processAreas} initialStandards={allStandards} />}
         {activeTab === "requirements" && <RequirementsView requirements={requirements} standards={allStandards} />}
         {activeTab === "controls" && <ControlsAdminView initialControls={controls} initialProcessAreas={controlPas} />}

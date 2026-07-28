@@ -66,8 +66,8 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
     ? await prisma.user.findMany({ orderBy: { name: "asc" }, include: { userCompanies: { include: { company: true } } } })
     : [];
 
-  // Companies (for user management + companies view)
-  const companies = (view === "users" || view === "companies")
+  // Companies (for user management + companies view + standards filter)
+  const companies = (view === "users" || view === "companies" || view === "standards")
     ? await prisma.company.findMany({ orderBy: { companyID: "asc" } })
     : [];
 
@@ -355,6 +355,7 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
           allStandards={allStandards}
           controls={JSON.parse(JSON.stringify(allControls))}
           controlPas={JSON.parse(JSON.stringify(paList))}
+          companies={JSON.parse(JSON.stringify(companies))}
         />
       )}
 
