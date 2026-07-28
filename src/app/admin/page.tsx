@@ -18,6 +18,7 @@ import { ControlsAdminView } from "./ControlsAdminView";
 import { StandardsManagementView } from "./StandardsManagementView";
 import { CompanyManagementView } from "./CompanyManagementView";
 import { TemplatesManagementView } from "./TemplatesManagementView";
+import { GamificationManagementView } from "./GamificationManagementView";
 import { TemplateActivityTypesView } from "./TemplateActivityTypesView";
 import { HealthResetButton } from "./HealthResetButton";
 import { ManagerAssignmentView } from "./ManagerAssignmentView";
@@ -255,7 +256,7 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
       </div>
 
       <div className="border-b border-slate-200 flex flex-wrap gap-x-1">
-        {[{ k: "dashboard", l: "📊 Dashboard" }, { k: "backlog", l: "📋 Backlog" }, { k: "activity", l: "📜 Activity Log" }, { k: "users", l: "👥 Users" }, { k: "standards", l: "📐 Standards" }, { k: "companies", l: "🏢 Companies" }, { k: "templates", l: "📦 Templates" }, { k: "badges", l: "🏅 Badges" }, { k: "knowledgebase", l: "📚 Knowledgebase" }, { k: "extraction", l: "🤖 Extraction" }, { k: "assurance", l: "📝 Protocols" }].map((t) => (
+        {[{ k: "dashboard", l: "📊 Dashboard" }, { k: "backlog", l: "📋 Backlog" }, { k: "activity", l: "📜 Activity Log" }, { k: "users", l: "👥 Users" }, { k: "standards", l: "📐 Standards" }, { k: "companies", l: "🏢 Companies" }, { k: "templates", l: "📦 Templates" }, { k: "gamification", l: "🎮 Gamification" }, { k: "knowledgebase", l: "📚 Knowledgebase" }, { k: "extraction", l: "🤖 Extraction" }, { k: "assurance", l: "📝 Protocols" }].map((t) => (
           <Link key={t.k} href={`/admin?view=${t.k}`}
             className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${view === t.k ? "border-slate-900 text-slate-900" : "border-transparent text-slate-500 hover:text-slate-700"}`}>
             {t.l}
@@ -373,8 +374,8 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
         />
       )}
 
-      {/* ── Badges ── */}
-      {view === "badges" && <BadgesAdminView />}
+      {/* ── Gamification ── */}
+      {view === "gamification" && <GamificationManagementView />}
 
       {/* ── Knowledgebase ── */}
       {view === "knowledgebase" && <KnowledgebaseView entries={kbEntries} processAreas={processAreas} companyId={companyId} />}
