@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/Button";
 import { Card } from "@/components/Card";
@@ -15,22 +15,13 @@ type Company = {
   referenceID?: string | null;
 };
 
-export function CompanyAdminView() {
+export function CompanyAdminView({ initialCompanies }: { initialCompanies: Company[] }) {
   const router = useRouter();
-  const [companies, setCompanies] = useState<Company[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [companies, setCompanies] = useState<Company[]>(initialCompanies);
   const [editing, setEditing] = useState<Company | null>(null);
   const [adding, setAdding] = useState(false);
   const [form, setForm] = useState({ companyID: "", companyName: "", shortName: "", referenceID: "" });
   const [saving, setSaving] = useState(false);
-
-  useEffect(() => {
-    fetch("/api/admin/table/Company/data")
-      .then(r => r.json())
-      .then(data => setCompanies(data.rows ?? data.data ?? []))
-      .catch(() => showToast("Failed to load", "error"))
-      .finally(() => setLoading(false));
-  }, []);
 
   const openEdit = (c: Company) => {
     setEditing(c);
@@ -47,19 +38,36 @@ export function CompanyAdminView() {
     setSaving(true);
     try {
       const url = editing
-        ? `/api/admin/table/Company/${editing.id}`
-        : "/api/admin/table/Company/data";
+        ? `/api/admin/companies/${editing.id}`
+        : "/api/admin/companies";
       const method = editing ? "PUT" : "POST";
       const res = await fetch(url, { method, headers: { "Content-Type": "application/json" }, body: JSON.stringify(form) });
-      if (!res.ok) throw new Error("Failed");
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.error || "Failed");
+      }
+      const data = await res.json();
+      if (editing) {
+        setCompanies(prev => prev.map(c => c.id === editing.id ? data.company : c));
+      } else {
+        setCompanies(prev => [...prev, data.company]);
+      }
       showToast(editing ? "Updated" : "Created", "success");
       setEditing(null); setAdding(false);
       router.refresh();
-    } catch { showToast("Failed to save", "error"); }
+    } catch (e: any) { showToast(e.message || "Failed to save", "error"); }
     finally { setSaving(false); }
   };
 
-  if (loading) return <p className="text-sm text-slate-400 py-8 text-center">Loading…</p>;
+  const handleDelete = async (c: Company) => {
+    if (!confirm(`Delete company "${c.companyName}"?\n\nThis cannot be undone.`)) return;
+    try {
+      const res = await fetch(`/api/admin/companies/${c.id}`, { method: "DELETE" });
+      if (!res.ok) throw new Error("Failed");
+      setCompanies(prev => prev.filter(x => x.id !== c.id));
+      showToast("Deleted", "success");
+    } catch { showToast("Failed to delete", "error"); }
+  };
 
   return (
     <div className="mt-6">
@@ -78,7 +86,10 @@ export function CompanyAdminView() {
                 {c.shortName && <div className="text-xs text-slate-500">Short: {c.shortName}</div>}
                 {c.referenceID && <div className="text-xs text-slate-400">Ref: {c.referenceID}</div>}
               </div>
-              <button onClick={() => openEdit(c)} className="text-xs text-blue-600 hover:text-blue-800 shrink-0">Edit</button>
+              <div className="flex gap-1.5 shrink-0">
+                <button onClick={() => openEdit(c)} className="text-xs text-blue-600 hover:text-blue-800">Edit</button>
+                <button onClick={() => handleDelete(c)} className="text-xs text-red-500 hover:text-red-700">Del</button>
+              </div>
             </div>
           </Card>
         ))}
