@@ -20,6 +20,7 @@ export async function GET(request: Request) {
   }>>(
     `WITH RECURSIVE org AS (
       SELECT u.username, u.name, u.email, u.role::text, u."preferredName", u.id,
+             u."sortOrder",
              p.title as "positionTitle", d.name as "departmentName",
              u."organisationIndicator", u."managerUsername",
              0 as depth
@@ -30,6 +31,7 @@ export async function GET(request: Request) {
         AND (${companyId ? `EXISTS (SELECT 1 FROM "UserCompany" uc WHERE uc."userId" = u.id AND uc."companyId" = '${companyId}')` : "TRUE"})
       UNION ALL
       SELECT u.username, u.name, u.email, u.role::text, u."preferredName", u.id,
+             u."sortOrder",
              p.title as "positionTitle", d.name as "departmentName",
              u."organisationIndicator", u."managerUsername",
              o.depth + 1
@@ -41,8 +43,8 @@ export async function GET(request: Request) {
     SELECT o.*, COUNT(ch.username)::int as "staffCount"
     FROM org o
     LEFT JOIN "User" ch ON ch."managerUsername" = o.username
-    GROUP BY o.username, o.name, o.email, o.role, o."preferredName", o.id, o."positionTitle", o."departmentName", o."organisationIndicator", o."managerUsername", o.depth
-    ORDER BY o.depth, o.name`
+    GROUP BY o.username, o.name, o.email, o.role, o."preferredName", o.id, o."sortOrder", o."positionTitle", o."departmentName", o."organisationIndicator", o."managerUsername", o.depth
+    ORDER BY o.depth, o."sortOrder", o.name`
   );
 
   // Nest into tree structure
