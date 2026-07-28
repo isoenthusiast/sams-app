@@ -106,6 +106,7 @@ type User = {
   positionId?: string;
   positionTitle?: string;
   departmentName?: string;
+  active?: boolean;
 };
 
 type Props = {
@@ -140,6 +141,7 @@ function parseUser(raw: any): User {
     positionId: raw.positionId ?? "",
     positionTitle: raw.position?.title ?? "",
     departmentName: raw.position?.department?.name ?? "",
+    active: raw.active ?? true,
   };
 }
 
@@ -173,11 +175,12 @@ export function UserManager({ initialUsers, companies, currentUserId, department
     organisationIndicator: "",
     preferredName: "",
     positionId: "",
+    active: true,
   });
 
   const openAdd = () => {
     setEditingUser(null);
-    setForm({ name: "", username: "", email: "", password: "", role: "Assessor", companyIds: [], managerName: "", organisationIndicator: "", preferredName: "", positionId: "" });
+    setForm({ name: "", username: "", email: "", password: "", role: "Assessor", companyIds: [], managerName: "", organisationIndicator: "", preferredName: "", positionId: "", active: true });
     setShowModal(true);
   };
 
@@ -194,6 +197,7 @@ export function UserManager({ initialUsers, companies, currentUserId, department
       organisationIndicator: u.organisationIndicator || "",
       preferredName: u.preferredName || "",
       positionId: u.positionId || "",
+      active: u.active ?? true,
     });
     setShowModal(true);
   };
@@ -233,6 +237,7 @@ export function UserManager({ initialUsers, companies, currentUserId, department
           organisationIndicator: form.organisationIndicator.trim() || undefined,
           preferredName: form.preferredName.trim() || undefined,
           positionId: form.positionId || undefined,
+          active: form.active,
           ...(form.password ? { password: form.password } : {}),
         }),
       });
@@ -439,6 +444,18 @@ export function UserManager({ initialUsers, companies, currentUserId, department
                   className="w-full rounded border border-slate-300 px-2 py-1.5 text-sm"
                   placeholder="e.g. UPC/L/HMSA"
                 />
+              </div>
+              <div>
+                <label className="flex items-center gap-2 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={form.active}
+                    onChange={(e) => setForm({ ...form, active: e.target.checked })}
+                    className="rounded"
+                  />
+                  <span className="text-xs text-slate-700 font-medium">Active</span>
+                  <span className="text-[11px] text-slate-400">(User can log in)</span>
+                </label>
               </div>
               <div>
                 <label className="text-xs text-slate-500 block mb-1">Companies</label>
