@@ -17,6 +17,7 @@ import { ProcessAreasAdminView } from "./ProcessAreasAdminView";
 import { ControlsAdminView } from "./ControlsAdminView";
 import { StandardsManagementView } from "./StandardsManagementView";
 import { CompanyManagementView } from "./CompanyManagementView";
+import { TemplatesManagementView } from "./TemplatesManagementView";
 import { TemplateActivityTypesView } from "./TemplateActivityTypesView";
 import { HealthResetButton } from "./HealthResetButton";
 import { ManagerAssignmentView } from "./ManagerAssignmentView";
@@ -91,6 +92,11 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
   // Templates (for templates view)
   const templates = view === "templates"
     ? await prisma.assessmentTemplate.findMany({ where, orderBy: { name: "asc" }, include: { _count: { select: { controlLinkages: true } } } })
+    : [];
+
+  // Activity types (for templates view)
+  const activityTypes = view === "templates"
+    ? await prisma.assuranceActivityType.findMany({ orderBy: { name: "asc" } })
     : [];
 
   // Requirements (for requirements view + standards management)
@@ -249,7 +255,7 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
       </div>
 
       <div className="border-b border-slate-200 flex flex-wrap gap-x-1">
-        {[{ k: "dashboard", l: "📊 Dashboard" }, { k: "backlog", l: "📋 Backlog" }, { k: "activity", l: "📜 Activity Log" }, { k: "users", l: "👥 Users" }, { k: "standards", l: "📐 Standards" }, { k: "companies", l: "🏢 Companies" }, { k: "templates", l: "📦 Templates" }, { k: "template-activities", l: "🔗 Template Activities" }, { k: "badges", l: "🏅 Badges" }, { k: "knowledgebase", l: "📚 Knowledgebase" }, { k: "extraction", l: "🤖 Extraction" }, { k: "assurance", l: "📝 Protocols" }].map((t) => (
+        {[{ k: "dashboard", l: "📊 Dashboard" }, { k: "backlog", l: "📋 Backlog" }, { k: "activity", l: "📜 Activity Log" }, { k: "users", l: "👥 Users" }, { k: "standards", l: "📐 Standards" }, { k: "companies", l: "🏢 Companies" }, { k: "templates", l: "📦 Templates" }, { k: "badges", l: "🏅 Badges" }, { k: "knowledgebase", l: "📚 Knowledgebase" }, { k: "extraction", l: "🤖 Extraction" }, { k: "assurance", l: "📝 Protocols" }].map((t) => (
           <Link key={t.k} href={`/admin?view=${t.k}`}
             className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${view === t.k ? "border-slate-900 text-slate-900" : "border-transparent text-slate-500 hover:text-slate-700"}`}>
             {t.l}
@@ -361,21 +367,10 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
 
       {/* ── Templates ── */}
       {view === "templates" && (
-        <div className="mt-6 space-y-3">
-          <p className="text-sm text-slate-500 mb-2">{templates.length} template(s)</p>
-          {templates.map((t) => (
-            <Card key={t.id} padding="sm">
-              <div className="flex items-center justify-between">
-                <div>
-                  <div className="font-medium text-slate-900">{t.name}</div>
-                  {t.description && <div className="text-xs text-slate-500">{t.description}</div>}
-                </div>
-                <div className="text-xs text-slate-400">{t._count.controlLinkages} controls</div>
-              </div>
-            </Card>
-          ))}
-          {templates.length === 0 && <p className="py-8 text-center text-sm text-slate-400">No templates found.</p>}
-        </div>
+        <TemplatesManagementView
+          templates={JSON.parse(JSON.stringify(templates))}
+          activityTypes={JSON.parse(JSON.stringify(activityTypes))}
+        />
       )}
 
       {/* ── Badges ── */}
@@ -392,9 +387,6 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
 
       {/* ── Companies ── */}
       {view === "companies" && <CompanyManagementView companies={JSON.parse(JSON.stringify(companies))} />}
-
-      {/* ── Template Activity Types ── */}
-      {view === "template-activities" && <TemplateActivityTypesView />}
 
       {/* ── Backlog Kanban ── */}
       {view === "backlog" && (

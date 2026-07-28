@@ -1,7 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { Button } from "@/components/Button";
 import { Modal } from "@/components/Modal";
 import { showToast } from "@/components/Toast";
@@ -16,76 +15,39 @@ type Template = {
 
 type ActivityType = { id: string; name: string };
 
-export function TemplateActivityTypesView() {
-  const router = useRouter();
-  const [templates, setTemplates] = useState<Template[]>([]);
-  const [activityTypes, setActivityTypes] = useState<ActivityType[]>([]);
-  const [loading, setLoading] = useState(true);
+export function TemplateActivityTypesView({ templates: initialTemplates, activityTypes: initialActivityTypes }: { templates: Template[]; activityTypes: ActivityType[] }) {
+  const [templates] = useState<Template[]>(initialTemplates);
+  const [activityTypes] = useState<ActivityType[]>(initialActivityTypes);
   const [selectedTemplate, setSelectedTemplate] = useState<Template | null>(null);
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
   const [saving, setSaving] = useState(false);
 
-  useEffect(() => {
-    Promise.all([
-      fetch("/api/admin/table/AssessmentTemplate/data").then(r => r.json()),
-      fetch("/api/admin/table/AssuranceActivityType/data").then(r => r.json()),
-    ]).then(([tData, aData]) => {
-      setTemplates(tData.rows ?? tData.data ?? []);
-      setActivityTypes(aData.rows ?? aData.data ?? []);
-    }).catch(() => showToast("Failed to load", "error"))
-      .finally(() => setLoading(false));
-  }, []);
-
-  const openModal = async (template: Template) => {
-    // Fetch current linkages for this template
-    try {
-      const res = await fetch(`/api/admin/table/AssessmentTemplateActivityType/data?templateId=${template.id}`);
-      const data = await res.json();
-      const rows = data.rows ?? data.data ?? [];
-      setSelectedIds(new Set(rows.map((r: any) => r.activityTypeId)));
-    } catch {
-      setSelectedIds(new Set());
-    }
+  const openModal = (template: Template) => {
+    const existing = (template.activityTypes ?? []).map((a: any) => a.activityTypeId);
+    setSelectedIds(new Set(existing));
     setSelectedTemplate(template);
   };
 
   const toggleType = (id: string) => {
-    setSelectedIds(prev => {
-      const next = new Set(prev);
-      if (next.has(id)) next.delete(id); else next.add(id);
-      return next;
-    });
+    setSelectedIds(prev => { const next = new Set(prev); if (next.has(id)) next.delete(id); else next.add(id); return next; });
   };
 
   const handleSave = async () => {
     if (!selectedTemplate) return;
     setSaving(true);
     try {
-      // Delete all existing linkages, then re-insert selected
-      const existingRes = await fetch(`/api/admin/table/AssessmentTemplateActivityType/data?templateId=${selectedTemplate.id}`);
-      const existingData = await existingRes.json();
-      const existing = existingData.rows ?? existingData.data ?? [];
-      for (const row of existing) {
-        await fetch(`/api/admin/table/AssessmentTemplateActivityType/${row.id}`, { method: "DELETE" });
-      }
-      for (const atId of selectedIds) {
-        await fetch("/api/admin/table/AssessmentTemplateActivityType/data", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ templateId: selectedTemplate.id, activityTypeId: atId }),
-        });
-      }
+      // Save via dedicated API
+      const res = await fetch(`/api/admin/template-activities/${selectedTemplate.id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ activityTypeIds: [...selectedIds] }),
+      });
+      if (!res.ok) throw new Error("Failed");
       showToast("Linkages updated", "success");
       setSelectedTemplate(null);
-      router.refresh();
-    } catch {
-      showToast("Failed to update linkages", "error");
-    } finally {
-      setSaving(false);
-    }
+    } catch { showToast("Failed to update linkages", "error"); }
+    finally { setSaving(false); }
   };
-
-  if (loading) return <p className="text-sm text-slate-400 py-8 text-center">Loading…</p>;
 
   return (
     <div className="mt-6">
