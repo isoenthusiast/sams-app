@@ -101,26 +101,16 @@ export function OrgChartView() {
       .catch(e => { setError(e.message); setLoading(false); });
   }, []);
 
-  const handleUserNameClick = async (node: OrgNode) => {
-    // Fetch full user details for editing
-    try {
-      const res = await fetch(`/api/admin/table/User/data?username=${encodeURIComponent(node.username)}`);
-      if (!res.ok) throw new Error("Failed to fetch user");
-      const data = await res.json();
-      const user = data.data?.[0];
-      if (!user) throw new Error("User not found");
-      setEditUser({
-        id: node.id,
-        username: user.username,
-        name: user.name,
-        email: user.email || "",
-        role: user.role,
-        preferredName: user.preferredName || "",
-      });
-      setSaveMsg(null);
-    } catch (e: any) {
-      setSaveMsg({ type: "error", text: e.message || "Failed to load user" });
-    }
+  const handleUserNameClick = (node: OrgNode) => {
+    setEditUser({
+      id: node.id,
+      username: node.username,
+      name: node.name,
+      email: node.email || "",
+      role: node.role,
+      preferredName: node.preferredName || "",
+    });
+    setSaveMsg(null);
   };
 
   const handleSave = async () => {
