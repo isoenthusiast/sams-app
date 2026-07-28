@@ -15,12 +15,10 @@ import { ExtractionView } from "./ExtractionView";
 import { AssuranceProtocolView } from "./AssuranceProtocolView";
 import { ProcessAreasAdminView } from "./ProcessAreasAdminView";
 import { ControlsAdminView } from "./ControlsAdminView";
-import { CompanyAdminView } from "./CompanyAdminView";
 import { CompanyManagementView } from "./CompanyManagementView";
 import { TemplateActivityTypesView } from "./TemplateActivityTypesView";
 import { HealthResetButton } from "./HealthResetButton";
 import { ManagerAssignmentView } from "./ManagerAssignmentView";
-import { OrgChartView } from "./OrgChartView";
 import { KanbanBoard } from "@/components/KanbanBoard";
 import { UserManager } from "@/components/UserManager";
 
@@ -235,7 +233,7 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
       </div>
 
       <div className="border-b border-slate-200 flex flex-wrap gap-x-1">
-        {[{ k: "dashboard", l: "📊 Dashboard" }, { k: "backlog", l: "📋 Backlog" }, { k: "activity", l: "📜 Activity Log" }, { k: "users", l: "👥 Users" }, { k: "manager-assignment", l: "👔 Managers" }, { k: "org-chart", l: "🏢 Org Chart" }, { k: "companies", l: "🏢 Companies" }, { k: "templates", l: "📦 Templates" }, { k: "template-activities", l: "🔗 Template Activities" }, { k: "processareas", l: "🔄 Process Areas" }, { k: "controls", l: "🎛 Controls" }, { k: "requirements", l: "📋 Requirements" }, { k: "badges", l: "🏅 Badges" }, { k: "knowledgebase", l: "📚 Knowledgebase" }, { k: "extraction", l: "🤖 Extraction" }, { k: "assurance", l: "📝 Protocols" }].map((t) => (
+        {[{ k: "dashboard", l: "📊 Dashboard" }, { k: "backlog", l: "📋 Backlog" }, { k: "activity", l: "📜 Activity Log" }, { k: "users", l: "👥 Users" }, { k: "manager-assignment", l: "👔 Managers" }, { k: "companies", l: "🏢 Companies" }, { k: "templates", l: "📦 Templates" }, { k: "template-activities", l: "🔗 Template Activities" }, { k: "processareas", l: "🔄 Process Areas" }, { k: "controls", l: "🎛 Controls" }, { k: "requirements", l: "📋 Requirements" }, { k: "badges", l: "🏅 Badges" }, { k: "knowledgebase", l: "📚 Knowledgebase" }, { k: "extraction", l: "🤖 Extraction" }, { k: "assurance", l: "📝 Protocols" }].map((t) => (
           <Link key={t.k} href={`/admin?view=${t.k}`}
             className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${view === t.k ? "border-slate-900 text-slate-900" : "border-transparent text-slate-500 hover:text-slate-700"}`}>
             {t.l}
@@ -331,9 +329,6 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
           allUsernames={allUsernames}
         />
       )}
-
-      {/* ── Org Chart ── */}
-      {view === "org-chart" && <OrgChartView />}
 
       {/* ── Templates ── */}
       {view === "templates" && (
