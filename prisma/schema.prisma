@@ -21,6 +21,7 @@ model User {
   managerUsername      String?
   organisationIndicator String?
   preferredName        String?
+  active               Boolean                @default(false)
   createdAt            DateTime               @default(now())
   totalPoints          Int                    @default(0)
   dailyPointStreak     Int                    @default(0)

@@ -133,6 +133,7 @@ export const UserScalarFieldEnum = {
   managerUsername: 'managerUsername',
   organisationIndicator: 'organisationIndicator',
   preferredName: 'preferredName',
+  active: 'active',
   createdAt: 'createdAt',
   totalPoints: 'totalPoints',
   dailyPointStreak: 'dailyPointStreak',

@@ -25,6 +25,9 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         const valid = await bcrypt.compare(password, user.passwordHash);
         if (!valid) return null;
 
+        // Only active users can log in
+        if (!user.active) return null;
+
         return { id: user.id, name: user.name, role: user.role };
       },
     }),
