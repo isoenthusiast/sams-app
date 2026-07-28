@@ -16,7 +16,7 @@ export function CollapsibleSection({ title, count, defaultOpen = false, children
     <div className="mb-3">
       <button
         onClick={() => setOpen(!open)}
-        className="w-full flex items-center justify-between mb-2 text-sm font-semibold text-slate-700 hover:text-slate-900 transition-colors focus:outline-2 focus:outline-blue-500 rounded"
+        className="w-full flex items-center justify-between mb-2 text-sm font-semibold text-slate-700 hover:text-slate-900 transition-colors focus:outline-2 focus:outline-blue-500 rounded text-left"
         aria-expanded={open}
       >
         <span>{title} ({count})</span>
