@@ -3,6 +3,7 @@
 import { useState, useMemo } from "react";
 import { Button } from "@/components/Button";
 import { showToast } from "@/components/Toast";
+import Link from "next/link";
 
 // ── Left Panel: Company-grouped user list ──
 function LeftUserPanel({
@@ -43,6 +44,10 @@ function LeftUserPanel({
           placeholder="Search users…"
           className="w-full rounded border border-slate-300 px-2 py-1.5 text-sm focus:border-blue-400 focus:outline-none" />
         <Button variant="primary" size="sm" className="w-full" onClick={onAdd}>+ Add User</Button>
+        <Link href="/admin?view=manager-assignment"
+          className="block text-center text-xs text-slate-500 hover:text-blue-600 hover:underline mt-1.5">
+          👔 Manager Assignment
+        </Link>
       </div>
       <div className="flex-1 overflow-y-auto">
         {/* ── Incomplete Profiles Section ── */}
