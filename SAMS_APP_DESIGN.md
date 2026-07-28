@@ -1,15 +1,18 @@
-# SAMS App — Complete Design & Architecture Documentation
+# SAMS App — Design Reference (Superseded)
 
-**Last Updated:** July 28, 2026 (v1.9.1)
-**Code Name:** "SAMS" — Seam Assurance Management System
-**Repository:** `sams-app/` (Next.js 16 + Prisma + PostgreSQL)
+> **⚠️ This document has been consolidated into `CONAN_Design Philosophy.md` and `CONAN_App Design.md` in the project root. Those are now the single source of truth. This file is retained for reference only — do not update it.**
+
+**Last Updated:** July 28, 2026 (v1.9.1) — final update before consolidation
 
 ---
 
-## Table of Contents
+## 1. Design Philosophy → See `CONAN_Design Philosophy.md`
 
-1. [Design Philosophy](#1-design-philosophy)
-2. [Architecture Overview](#2-architecture-overview)
+All design philosophy, guiding principles, paradigm shifts, gamification philosophy, domain language, and architecture decisions have been consolidated into `CONAN_Design Philosophy.md` in the project root.
+
+---
+
+## 2. Architecture Overview
 3. [UI / UX Design](#3-ui--ux-design)
 4. [Data Model & Entity Relationships](#4-data-model--entity-relationships)
 5. [Route Map — Pages & API](#5-route-map--pages--api)
@@ -922,12 +925,4 @@ Local Dev (localhost:3100)
 
 ---
 
-> **📝 Auto-Update Instruction:** After completing any feature, bug fix, or significant change to the SAMS app, update this document:
-> 1. Add a version entry in Appendix A with date + summary of changes
-> 2. If schema changed, update Section 4 (Data Model) — verify all models, fields, and relationships are accurate
-> 3. If routes changed, update Section 5 (Route Map)
-> 4. If components changed, update Section 6 (Component Library)
-> 5. If new design decisions were made, update the relevant section
-> 6. Run `python backup.py` from project root to back up this document
->
-> **Schema sync rule:** When `prisma/schema.prisma` is modified, also update Section 4 of this document before committing.
+> **⚠️ CONSOLIDATED:** This document's design philosophy (§1) has moved to `CONAN_Design Philosophy.md`. The full app design has been consolidated into `CONAN_App Design.md` in the project root. Those files are now the single source of truth. This file is retained for reference only — do not update it.
