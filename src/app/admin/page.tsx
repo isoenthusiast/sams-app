@@ -16,6 +16,7 @@ import { AssuranceProtocolView } from "./AssuranceProtocolView";
 import { ProcessAreasAdminView } from "./ProcessAreasAdminView";
 import { ControlsAdminView } from "./ControlsAdminView";
 import { CompanyAdminView } from "./CompanyAdminView";
+import { CompanyManagementView } from "./CompanyManagementView";
 import { TemplateActivityTypesView } from "./TemplateActivityTypesView";
 import { HealthResetButton } from "./HealthResetButton";
 import { ManagerAssignmentView } from "./ManagerAssignmentView";
@@ -369,7 +370,7 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
       {view === "assurance" && <AssuranceProtocolView />}
 
       {/* ── Companies ── */}
-      {view === "companies" && <CompanyAdminView initialCompanies={JSON.parse(JSON.stringify(companies))} />}
+      {view === "companies" && <CompanyManagementView companies={JSON.parse(JSON.stringify(companies))} />}
 
       {/* ── Template Activity Types ── */}
       {view === "template-activities" && <TemplateActivityTypesView />}
