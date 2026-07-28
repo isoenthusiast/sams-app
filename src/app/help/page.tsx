@@ -42,6 +42,10 @@ function HelpContent() {
         <Card title="Dashboard" padding="sm">
           <p className="text-sm text-slate-600">The dashboard shows Process Health grouped by standard. Click any process area to view its details.</p>
         </Card>
+        <Card title="🎬 Demo — Leadership Walkthrough" padding="sm">
+          <p className="text-sm text-slate-600">A presentation-style walkthrough of SAMS: the business problem we solve, how frontline assurance flows into Management in Control, and what the journey looks like.</p>
+          <a href="/demo" className="text-sm text-blue-600 hover:underline mt-2 inline-block">🎬 View Demo →</a>
+        </Card>
         <Card title="Process Improvement Plan (PIP)" padding="sm">
           <p className="text-sm text-slate-600">The <strong>Improvement</strong> tab in Process Details provides a Kanban board for tracking improvement actions per process area.</p>
           <a href="/help?topic=pip" className="text-sm text-blue-600 hover:underline mt-2 inline-block">📈 PIP Help →</a>
