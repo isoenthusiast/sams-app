@@ -90,7 +90,11 @@ export function OrgChartView() {
   const [error, setError] = useState<string | null>(null);
 
   // Edit user modal state
-  const [editUser, setEditUser] = useState<{ id: string; username: string; name: string; email: string; role: string; preferredName: string } | null>(null);
+  const [editUser, setEditUser] = useState<{
+    id: string; username: string; name: string; email: string; role: string;
+    preferredName: string; department: string; position: string;
+    orgIndicator: string; managerName: string;
+  } | null>(null);
   const [saving, setSaving] = useState(false);
   const [saveMsg, setSaveMsg] = useState<{ type: "success" | "error"; text: string } | null>(null);
 
@@ -109,6 +113,10 @@ export function OrgChartView() {
       email: node.email || "",
       role: node.role,
       preferredName: node.preferredName || "",
+      department: node.department || "",
+      position: node.position || "",
+      orgIndicator: node.orgIndicator || "",
+      managerName: node.managerUsername || "",
     });
     setSaveMsg(null);
   };
@@ -126,6 +134,8 @@ export function OrgChartView() {
           email: editUser.email.trim() || undefined,
           preferredName: editUser.preferredName.trim() || undefined,
           role: editUser.role,
+          organisationIndicator: editUser.orgIndicator.trim() || undefined,
+          managerName: editUser.managerName.trim() || undefined,
         }),
       });
       if (!res.ok) {
@@ -232,6 +242,30 @@ export function OrgChartView() {
                   <option value="Assessor">Assessor</option>
                   <option value="Interviewee">Interviewee</option>
                 </select>
+              </div>
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="text-xs text-slate-400 block mb-0.5">Department</label>
+                  <p className="text-sm text-slate-600 bg-slate-50 rounded border border-slate-200 px-2 py-1.5">{editUser.department || "—"}</p>
+                </div>
+                <div>
+                  <label className="text-xs text-slate-400 block mb-0.5">Position</label>
+                  <p className="text-sm text-slate-600 bg-slate-50 rounded border border-slate-200 px-2 py-1.5">{editUser.position || "—"}</p>
+                </div>
+              </div>
+              <div>
+                <label className="text-xs text-slate-500 block mb-0.5">Organisation Indicator</label>
+                <input type="text" value={editUser.orgIndicator}
+                  onChange={e => setEditUser({ ...editUser, orgIndicator: e.target.value })}
+                  className="w-full rounded border border-slate-300 px-2 py-1.5 text-sm"
+                  placeholder="e.g. UPC/L/HMSA" />
+              </div>
+              <div>
+                <label className="text-xs text-slate-500 block mb-0.5">Manager Username</label>
+                <input type="text" value={editUser.managerName}
+                  onChange={e => setEditUser({ ...editUser, managerName: e.target.value })}
+                  className="w-full rounded border border-slate-300 px-2 py-1.5 text-sm font-mono"
+                  placeholder="e.g. NLSKH6 or TOP" />
               </div>
 
               {saveMsg && (
