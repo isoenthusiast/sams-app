@@ -1,7 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { Button } from "@/components/Button";
 import { Modal } from "@/components/Modal";
 import { showToast } from "@/components/Toast";
@@ -17,26 +16,13 @@ type ProcessArea = {
 
 type Standard = { id: string; standard: string };
 
-export function ProcessAreasAdminView() {
-  const router = useRouter();
-  const [pas, setPas] = useState<ProcessArea[]>([]);
-  const [standards, setStandards] = useState<Standard[]>([]);
-  const [loading, setLoading] = useState(true);
+export function ProcessAreasAdminView({ initialProcessAreas, initialStandards }: { initialProcessAreas: ProcessArea[]; initialStandards: Standard[] }) {
+  const [pas, setPas] = useState<ProcessArea[]>(initialProcessAreas);
+  const [standards] = useState<Standard[]>(initialStandards);
   const [editing, setEditing] = useState<ProcessArea | null>(null);
   const [adding, setAdding] = useState(false);
   const [form, setForm] = useState({ name: "", description: "", standardId: "", companyId: "" });
   const [saving, setSaving] = useState(false);
-
-  useEffect(() => {
-    Promise.all([
-      fetch("/api/admin/table/ProcessArea/data").then(r => r.json()),
-      fetch("/api/admin/table/Standard/data").then(r => r.json()),
-    ]).then(([paData, stdData]) => {
-      setPas(paData.rows ?? paData.data ?? []);
-      setStandards(stdData.rows ?? stdData.data ?? []);
-    }).catch(() => showToast("Failed to load data", "error"))
-      .finally(() => setLoading(false));
-  }, []);
 
   const openEdit = (pa: ProcessArea) => {
     setEditing(pa);
@@ -53,23 +39,19 @@ export function ProcessAreasAdminView() {
     setSaving(true);
     try {
       const url = editing
-        ? `/api/admin/table/ProcessArea/${editing.id}`
-        : "/api/admin/table/ProcessArea/data";
+        ? `/api/admin/processareas/${editing.id}`
+        : "/api/admin/processareas";
       const method = editing ? "PUT" : "POST";
-      const res = await fetch(url, {
-        method,
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(editing ? form : { ...form }),
-      });
+      const res = await fetch(url, { method, headers: { "Content-Type": "application/json" }, body: JSON.stringify(form) });
       if (!res.ok) throw new Error("Failed to save");
+      const data = await res.json();
+      if (editing) setPas(prev => prev.map(p => p.id === editing.id ? data.processArea : p));
+      else setPas(prev => [...prev, data.processArea]);
       showToast(editing ? "Updated" : "Created", "success");
       setEditing(null); setAdding(false);
-      router.refresh();
     } catch { showToast("Failed to save", "error"); }
     finally { setSaving(false); }
   };
-
-  if (loading) return <p className="text-sm text-slate-400 py-8 text-center">Loading…</p>;
 
   return (
     <div className="mt-6">

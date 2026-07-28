@@ -15,6 +15,7 @@ import { ExtractionView } from "./ExtractionView";
 import { AssuranceProtocolView } from "./AssuranceProtocolView";
 import { ProcessAreasAdminView } from "./ProcessAreasAdminView";
 import { ControlsAdminView } from "./ControlsAdminView";
+import { StandardsManagementView } from "./StandardsManagementView";
 import { CompanyManagementView } from "./CompanyManagementView";
 import { TemplateActivityTypesView } from "./TemplateActivityTypesView";
 import { HealthResetButton } from "./HealthResetButton";
@@ -92,8 +93,8 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
     ? await prisma.assessmentTemplate.findMany({ where, orderBy: { name: "asc" }, include: { _count: { select: { controlLinkages: true } } } })
     : [];
 
-  // Requirements (for requirements view)
-  const requirements = view === "requirements"
+  // Requirements (for requirements view + standards management)
+  const requirements = (view === "requirements" || view === "standards")
     ? (await prisma.requirement.findMany({
         where,
         include: {
@@ -112,9 +113,24 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
       }))
     : [];
 
-  // Standards list (for requirements filter)
-  const standards = view === "requirements"
+  // Standards list (for requirements filter + standards management)
+  const allStandards = (view === "requirements" || view === "standards")
     ? await prisma.standard.findMany({ orderBy: { standard: "asc" } })
+    : [];
+
+  // Process areas with standard info (for standards management)
+  const allProcessAreas = view === "standards"
+    ? await prisma.processArea.findMany({ include: { standardRef: true }, orderBy: { name: "asc" } })
+    : [];
+
+  // Controls with PA info (for standards management)
+  const allControls = view === "standards"
+    ? await prisma.control.findMany({ include: { processArea: { select: { name: true } } }, orderBy: { name: "asc" } })
+    : [];
+
+  // Simple PA list for control form dropdown
+  const paList = view === "standards"
+    ? await prisma.processArea.findMany({ select: { id: true, name: true }, orderBy: { name: "asc" } })
     : [];
 
   // Badges (for badges view)
@@ -233,7 +249,7 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
       </div>
 
       <div className="border-b border-slate-200 flex flex-wrap gap-x-1">
-        {[{ k: "dashboard", l: "📊 Dashboard" }, { k: "backlog", l: "📋 Backlog" }, { k: "activity", l: "📜 Activity Log" }, { k: "users", l: "👥 Users" }, { k: "companies", l: "🏢 Companies" }, { k: "templates", l: "📦 Templates" }, { k: "template-activities", l: "🔗 Template Activities" }, { k: "processareas", l: "🔄 Process Areas" }, { k: "controls", l: "🎛 Controls" }, { k: "requirements", l: "📋 Requirements" }, { k: "badges", l: "🏅 Badges" }, { k: "knowledgebase", l: "📚 Knowledgebase" }, { k: "extraction", l: "🤖 Extraction" }, { k: "assurance", l: "📝 Protocols" }].map((t) => (
+        {[{ k: "dashboard", l: "📊 Dashboard" }, { k: "backlog", l: "📋 Backlog" }, { k: "activity", l: "📜 Activity Log" }, { k: "users", l: "👥 Users" }, { k: "standards", l: "📐 Standards" }, { k: "companies", l: "🏢 Companies" }, { k: "templates", l: "📦 Templates" }, { k: "template-activities", l: "🔗 Template Activities" }, { k: "badges", l: "🏅 Badges" }, { k: "knowledgebase", l: "📚 Knowledgebase" }, { k: "extraction", l: "🤖 Extraction" }, { k: "assurance", l: "📝 Protocols" }].map((t) => (
           <Link key={t.k} href={`/admin?view=${t.k}`}
             className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${view === t.k ? "border-slate-900 text-slate-900" : "border-transparent text-slate-500 hover:text-slate-700"}`}>
             {t.l}
@@ -330,6 +346,18 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
         />
       )}
 
+      {/* ── Standards ── */}
+      {view === "standards" && (
+        <StandardsManagementView
+          standards={allStandards}
+          processAreas={JSON.parse(JSON.stringify(allProcessAreas))}
+          requirements={JSON.parse(JSON.stringify(requirements))}
+          allStandards={allStandards}
+          controls={JSON.parse(JSON.stringify(allControls))}
+          controlPas={JSON.parse(JSON.stringify(paList))}
+        />
+      )}
+
       {/* ── Templates ── */}
       {view === "templates" && (
         <div className="mt-6 space-y-3">
@@ -349,9 +377,6 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
         </div>
       )}
 
-      {/* ── Requirements ── */}
-      {view === "requirements" && <RequirementsView requirements={requirements} standards={standards} />}
-
       {/* ── Badges ── */}
       {view === "badges" && <BadgesAdminView />}
 
@@ -369,12 +394,6 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
 
       {/* ── Template Activity Types ── */}
       {view === "template-activities" && <TemplateActivityTypesView />}
-
-      {/* ── Process Areas Admin ── */}
-      {view === "processareas" && <ProcessAreasAdminView />}
-
-      {/* ── Controls Admin ── */}
-      {view === "controls" && <ControlsAdminView />}
 
       {/* ── Backlog Kanban ── */}
       {view === "backlog" && (

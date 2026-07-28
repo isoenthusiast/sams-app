@@ -1,45 +1,26 @@
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
-import { useRouter } from "next/navigation";
+import { useState, useMemo } from "react";
 import { Button } from "@/components/Button";
 import { Modal } from "@/components/Modal";
 import { showToast } from "@/components/Toast";
 
 type Control = {
-  id: string;
-  name: string;
-  statement: string;
-  controlType: string;
-  processAreaId: string;
-  processArea?: { name: string } | null;
-  companyId?: string | null;
-  standard?: string | null;
+  id: string; name: string; statement: string; controlType: string;
+  processAreaId: string; processArea?: { name: string } | null;
+  companyId?: string | null; standard?: string | null;
 };
 
 type ProcessArea = { id: string; name: string };
 
-export function ControlsAdminView() {
-  const router = useRouter();
-  const [controls, setControls] = useState<Control[]>([]);
-  const [pas, setPas] = useState<ProcessArea[]>([]);
-  const [loading, setLoading] = useState(true);
+export function ControlsAdminView({ initialControls, initialProcessAreas }: { initialControls: Control[]; initialProcessAreas: ProcessArea[] }) {
+  const [controls, setControls] = useState<Control[]>(initialControls);
+  const [pas] = useState<ProcessArea[]>(initialProcessAreas);
   const [editing, setEditing] = useState<Control | null>(null);
   const [adding, setAdding] = useState(false);
   const [search, setSearch] = useState("");
   const [form, setForm] = useState({ name: "", statement: "", controlType: "Administrative", processAreaId: "", companyId: "" });
   const [saving, setSaving] = useState(false);
-
-  useEffect(() => {
-    Promise.all([
-      fetch("/api/admin/table/Control/data").then(r => r.json()),
-      fetch("/api/admin/table/ProcessArea/data").then(r => r.json()),
-    ]).then(([ctrlData, paData]) => {
-      setControls(ctrlData.rows ?? ctrlData.data ?? []);
-      setPas(paData.rows ?? paData.data ?? []);
-    }).catch(() => showToast("Failed to load", "error"))
-      .finally(() => setLoading(false));
-  }, []);
 
   const filtered = useMemo(() => {
     if (!search.trim()) return controls;
@@ -62,21 +43,21 @@ export function ControlsAdminView() {
     setSaving(true);
     try {
       const url = editing
-        ? `/api/admin/table/Control/${editing.id}`
-        : "/api/admin/table/Control/data";
+        ? `/api/admin/controls/${editing.id}`
+        : "/api/admin/controls";
       const method = editing ? "PUT" : "POST";
       const res = await fetch(url, { method, headers: { "Content-Type": "application/json" }, body: JSON.stringify(form) });
       if (!res.ok) throw new Error("Failed");
+      const data = await res.json();
+      if (editing) setControls(prev => prev.map(c => c.id === editing.id ? data.control : c));
+      else setControls(prev => [...prev, data.control]);
       showToast(editing ? "Updated" : "Created", "success");
       setEditing(null); setAdding(false);
-      router.refresh();
     } catch { showToast("Failed to save", "error"); }
     finally { setSaving(false); }
   };
 
   const controlTypes = ["Administrative", "Procedural", "Analytical", "Behavioral", "Informational", "Engineering"];
-
-  if (loading) return <p className="text-sm text-slate-400 py-8 text-center">Loading…</p>;
 
   return (
     <div className="mt-6">
