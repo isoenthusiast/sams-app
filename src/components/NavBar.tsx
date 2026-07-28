@@ -34,14 +34,14 @@ export async function NavBar() {
               <>
                 <NavLink href="/fla">Dashboard</NavLink>
                 <NavLink href="/admin">Admin</NavLink>
-                <NavLink href="/demo">Demo</NavLink>
+                <NavLink href="/help?topic=demo">Demo</NavLink>
                 <NavLink href="/help">Help</NavLink>
               </>
             ) : (
               <>
                 <NavLink href="/fla">Dashboard</NavLink>
                 <NavLink href="/fla">My Work</NavLink>
-                <NavLink href="/demo">Demo</NavLink>
+                <NavLink href="/help?topic=demo">Demo</NavLink>
                 <NavLink href="/help">Help</NavLink>
               </>
             )}
