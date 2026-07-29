@@ -41,6 +41,7 @@ export function TemplatesManagementView({
   const [filterStandardId, setFilterStandardId] = useState<string>("");
   const [filterPAId, setFilterPAId] = useState<string>("");
   const [saving, setSaving] = useState(false);
+  const [sharing, setSharing] = useState(false);
 
   // Controls grouped by PA, respecting filters
   const filteredControlsByPA = useMemo(() => {
@@ -108,6 +109,20 @@ export function TemplatesManagementView({
       next.delete(id);
       return next;
     });
+  };
+
+  const handleShareWithGlobal = async () => {
+    if (!editing) return;
+    if (!confirm(`Share "${editing.name}" to SAMS001? This creates an independent copy visible to all companies.`)) return;
+    setSharing(true);
+    try {
+      const res = await fetch(`/api/admin/assessment-templates/${editing.id}/share`, { method: "POST" });
+      if (!res.ok) throw new Error("Failed");
+      const cloned = await res.json();
+      setTemplates(prev => [...prev, { ...cloned, _count: { controlLinkages: cloned.controlLinkages?.length ?? 0 } }]);
+      showToast("Shared to SAMS001 — independent copy created", "success");
+    } catch { showToast("Failed to share template", "error"); }
+    finally { setSharing(false); }
   };
 
   const handleSave = async () => {
@@ -272,6 +287,14 @@ export function TemplatesManagementView({
           <div className="rounded-md bg-blue-50 border border-blue-200 p-3 text-xs text-blue-800">
             <strong>📋 Template Scoping:</strong> Templates created under <strong>SAMS001</strong> are available across all companies.
             Templates under other companies are visible only to that company.
+            {editing?.companyId && editing.companyId !== "comp_1783989395315" && (
+              <div className="mt-2 pt-2 border-t border-blue-200">
+                <Button variant="secondary" size="sm" disabled={sharing} onClick={handleShareWithGlobal}>
+                  {sharing ? "Sharing…" : "📤 Share with Global"}
+                </Button>
+                <span className="ml-2 text-blue-600">Creates an independent copy under SAMS001</span>
+              </div>
+            )}
           </div>
 
           <div className="flex gap-2 justify-end">
