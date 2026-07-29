@@ -32,10 +32,13 @@ export async function POST(
       include: { processArea: { select: { name: true } } },
     });
 
-    // Build lookup: "PA-name::Control-name" → controlId
+    // Helper: strip company prefix like "[SMDS]" or "[OGP]" from PA names
+    const stripPrefix = (name: string) => name.replace(/^\[.*?\]\s*/, "").trim();
+
+    // Build lookup: "stripped-PA-name::Control-name" → controlId
     const targetMap = new Map<string, string>();
     for (const tc of targetControls) {
-      const paName = tc.processArea?.name ?? "";
+      const paName = stripPrefix(tc.processArea?.name ?? "");
       const key = `${paName}::${tc.name}`.toLowerCase();
       targetMap.set(key, tc.id);
     }
@@ -44,7 +47,7 @@ export async function POST(
     const mappedIds: string[] = [];
     let skipped = 0;
     for (const linkage of original.controlLinkages) {
-      const srcPA = linkage.control.processArea?.name ?? "";
+      const srcPA = stripPrefix(linkage.control.processArea?.name ?? "");
       const key = `${srcPA}::${linkage.control.name}`.toLowerCase();
       const targetId = targetMap.get(key);
       if (targetId) {
