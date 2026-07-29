@@ -65,21 +65,21 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
     ? await prisma.activityLog.findMany({ orderBy: { timestamp: "desc" }, take: 50 })
     : [];
 
-  // Users (for users view)
-  const users = view === "users"
+  // Users (for sysadmin view)
+  const users = view === "sysadmin"
     ? await prisma.user.findMany({ orderBy: { name: "asc" }, include: { userCompanies: { include: { company: true } } } })
     : [];
 
-  // Companies (for user management + companies view + standards filter + knowledgebase)
-  const companies = (view === "users" || view === "companies" || view === "standards" || view === "knowledgebase")
+  // Companies (for sysadmin + companies view + standards filter + knowledgebase)
+  const companies = (view === "sysadmin" || view === "companies" || view === "standards" || view === "knowledgebase")
     ? await prisma.company.findMany({ orderBy: { companyID: "asc" } })
     : [];
 
-  // Departments & Positions (for user management)
-  const departments = view === "users"
+  // Departments & Positions (for sysadmin view)
+  const departments = view === "sysadmin"
     ? await prisma.department.findMany({ select: { id: true, name: true, companyId: true }, orderBy: { name: "asc" } })
     : [];
-  const positions = view === "users"
+  const positions = view === "sysadmin"
     ? await prisma.position.findMany({ select: { id: true, title: true, departmentId: true }, orderBy: { title: "asc" } })
     : [];
 
@@ -258,7 +258,7 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
       </div>
 
       <div className="border-b border-slate-200 flex flex-wrap gap-x-1">
-        {[{ k: "dashboard", l: "📊 Dashboard" }, { k: "users", l: "👥 Users" }, { k: "standards", l: "📐 Standards" }, { k: "companies", l: "🏢 Companies" }, { k: "templates", l: "📦 Templates" }, { k: "gamification", l: "🎮 Gamification" }, { k: "knowledgebase", l: "📚 Knowledgebase" }, { k: "sysadmin", l: "⚙️ SysAdmin" }].map((t) => (
+        {[{ k: "dashboard", l: "📊 Dashboard" }, { k: "standards", l: "📐 Standards" }, { k: "companies", l: "🏢 Companies" }, { k: "templates", l: "📦 Templates" }, { k: "gamification", l: "🎮 Gamification" }, { k: "knowledgebase", l: "📚 Knowledgebase" }, { k: "sysadmin", l: "⚙️ SysAdmin" }].map((t) => (
           <Link key={t.k} href={`/admin?view=${t.k}`}
             className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${view === t.k ? "border-slate-900 text-slate-900" : "border-transparent text-slate-500 hover:text-slate-700"}`}>
             {t.l}
@@ -320,13 +320,9 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
 
       {/* ── SysAdmin ── */}
       {view === "sysadmin" && (
-        <SysAdminManagementView activityLog={activityLog} />
-      )}
-
-      {/* ── Users ── */}
-      {view === "users" && (
-        <UserManager
-          initialUsers={users}
+        <SysAdminManagementView
+          activityLog={activityLog}
+          users={users}
           companies={companies}
           currentUserId={(session.user as any)?.id}
           departments={JSON.parse(JSON.stringify(departments))}

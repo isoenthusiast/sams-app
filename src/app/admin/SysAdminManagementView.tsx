@@ -1,17 +1,29 @@
 "use client";
 
 import { useState } from "react";
+import { UserManager } from "@/components/UserManager";
 
 const MENU_ITEMS = [
+  { key: "users", label: "👥 Users" },
   { key: "activity", label: "📜 Activity Log" },
 ] as const;
 
 export function SysAdminManagementView({
   activityLog,
+  users,
+  companies,
+  currentUserId,
+  departments,
+  positions,
 }: {
   activityLog: any[];
+  users: any[];
+  companies: any[];
+  currentUserId: string;
+  departments: any[];
+  positions: any[];
 }) {
-  const [activeTab, setActiveTab] = useState<string>("activity");
+  const [activeTab, setActiveTab] = useState<string>("users");
 
   return (
     <div className="mt-6 flex gap-0 border border-slate-200 rounded-lg overflow-hidden bg-white min-h-[65vh]">
@@ -32,6 +44,15 @@ export function SysAdminManagementView({
       </div>
 
       <div className="flex-1 overflow-y-auto p-5 min-w-0">
+        {activeTab === "users" && (
+          <UserManager
+            initialUsers={users}
+            companies={companies}
+            currentUserId={currentUserId}
+            departments={departments}
+            positions={positions}
+          />
+        )}
         {activeTab === "activity" && (
           <div>
             <p className="text-sm text-slate-500 mb-4">Last 50 activity log entries</p>
