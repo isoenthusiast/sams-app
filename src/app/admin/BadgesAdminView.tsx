@@ -39,11 +39,11 @@ export function BadgesAdminView() {
 
   useEffect(() => {
     Promise.all([
-      fetch("/api/admin/table/AchievementBadge/data").then(r => r.json()),
-      fetch("/api/admin/table/ProcessArea/data").then(r => r.json()),
+      fetch("/api/admin/badges").then(r => r.json()),
+      fetch("/api/admin/processareas").then(r => r.json()),
     ]).then(([b, p]) => {
-      setBadges(b.rows ?? b.data ?? []);
-      setPas(p.rows ?? p.data ?? []);
+      setBadges(Array.isArray(b) ? b : []);
+      setPas(p?.processAreas ?? (Array.isArray(p) ? p : []));
     }).catch(() => showToast("Failed to load", "error"))
       .finally(() => setLoading(false));
   }, []);
@@ -72,7 +72,7 @@ export function BadgesAdminView() {
     if (!form.badgeName.trim()) { showToast("Name required", "error"); return; }
     setSaving(true);
     try {
-      const url = editing ? `/api/admin/table/AchievementBadge/${editing.id}` : "/api/admin/table/AchievementBadge/data";
+      const url = editing ? `/api/admin/badges/${editing.id}` : "/api/admin/badges";
       const method = editing ? "PUT" : "POST";
       const res = await fetch(url, { method, headers: { "Content-Type": "application/json" }, body: JSON.stringify(form) });
       if (!res.ok) throw new Error("Failed");
