@@ -258,7 +258,7 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
       </div>
 
       <div className="border-b border-slate-200 flex flex-wrap gap-x-1">
-        {[{ k: "dashboard", l: "📊 Dashboard" }, { k: "standards", l: "📐 Standards" }, { k: "templates", l: "📦 Templates" }, { k: "gamification", l: "🎮 Gamification" }, { k: "knowledgebase", l: "📚 Knowledgebase" }, { k: "sysadmin", l: "⚙️ SysAdmin" }].map((t) => (
+        {[{ k: "dashboard", l: "📊 Dashboard" }, { k: "standards", l: "📐 Standards" }, { k: "templates", l: "📦 Templates" }, { k: "knowledgebase", l: "📚 Knowledgebase" }, { k: "sysadmin", l: "⚙️ SysAdmin" }].map((t) => (
           <Link key={t.k} href={`/admin?view=${t.k}`}
             className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${view === t.k ? "border-slate-900 text-slate-900" : "border-transparent text-slate-500 hover:text-slate-700"}`}>
             {t.l}
@@ -289,7 +289,7 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
               <Link href="/admin/database"><Button variant="secondary" size="sm">Database</Button></Link>
               <Link href="/admin?view=sysadmin"><Button variant="secondary" size="sm">Users</Button></Link>
               <Link href="/admin?view=templates"><Button variant="secondary" size="sm">Templates</Button></Link>
-              <Link href="/admin?view=activity"><Button variant="secondary" size="sm">Activity Log</Button></Link>
+              <Link href="/admin?view=sysadmin"><Button variant="secondary" size="sm">SysAdmin</Button></Link>
             </div>
           </Card>
           <Card title="📊 System Status" padding="sm">
@@ -358,9 +358,6 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
           activityTypes={JSON.parse(JSON.stringify(activityTypes))}
         />
       )}
-
-      {/* ── Gamification ── */}
-      {view === "gamification" && <GamificationManagementView />}
 
       {/* ── Knowledgebase ── */}
       {view === "knowledgebase" && (
