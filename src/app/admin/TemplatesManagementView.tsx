@@ -12,7 +12,7 @@ const MENU_ITEMS = [
 ] as const;
 
 type Control = {
-  id: string; name: string; controlType: string;
+  id: string; name: string; controlType: string; companyId?: string | null;
   processArea?: { id: string; name: string; standardRef?: { id: string; standard: string } | null } | null;
 };
 type Standard = { id: string; standard: string };
@@ -25,11 +25,16 @@ type Template = {
   controlLinkages?: Array<{ controlId: string; control: Control }>;
 };
 
+type Company = { id: string; companyID: string; companyName: string };
+const SAMS_CUID = "comp_1783989395315";
+
 export function TemplatesManagementView({
   templates: initialTemplates, activityTypes, allControls, allStandards, allProcessAreas,
+  companies, selectedCompanyId, isAdmin,
 }: {
   templates: any[]; activityTypes: any[]; allControls: Control[];
   allStandards: Standard[]; allProcessAreas: ProcessArea[];
+  companies: Company[]; selectedCompanyId: string; isAdmin: boolean;
 }) {
   const [templates, setTemplates] = useState<Template[]>(initialTemplates);
   const [activeTab, setActiveTab] = useState<string>("assessment");
@@ -42,6 +47,21 @@ export function TemplatesManagementView({
   const [filterPAId, setFilterPAId] = useState<string>("");
   const [saving, setSaving] = useState(false);
   const [sharing, setSharing] = useState(false);
+  const [adoptingId, setAdoptingId] = useState<string | null>(null);
+
+  // Company lookup
+  const companyById = useMemo(() => {
+    const m = new Map<string, Company>();
+    for (const c of companies) m.set(c.id, c);
+    return m;
+  }, [companies]);
+  const getScopeLabel = (cid: string | null | undefined) => {
+    if (!cid || cid === SAMS_CUID) return { label: "🌐 SAMS", cls: "text-blue-600" };
+    const co = companyById.get(cid);
+    return { label: co ? `🏢 ${co.companyID}` : "🏢", cls: "text-amber-600" };
+  };
+  // Can current user edit this template?
+  const canEdit = (t: Template) => isAdmin || (!!t.companyId && t.companyId === selectedCompanyId);
 
   // Controls grouped by PA, respecting filters
   const filteredControlsByPA = useMemo(() => {
@@ -113,16 +133,44 @@ export function TemplatesManagementView({
 
   const handleShareWithGlobal = async () => {
     if (!editing) return;
-    if (!confirm(`Share "${editing.name}" to SAMS001? This creates an independent copy visible to all companies.`)) return;
+    const nonSamsCount = [...selectedControlIds].filter(cid => {
+      const c = allControls.find(x => x.id === cid);
+      return c?.companyId && c.companyId !== SAMS_CUID;
+    }).length;
+    const msg = nonSamsCount > 0
+      ? `Share "${editing.name}" to SAMS001? ${nonSamsCount} company-specific control(s) will be skipped. Only SAMS001 controls can be shared.`
+      : `Share "${editing.name}" to SAMS001? This creates an independent copy visible to all companies.`;
+    if (!confirm(msg)) return;
     setSharing(true);
     try {
       const res = await fetch(`/api/admin/assessment-templates/${editing.id}/share`, { method: "POST" });
       if (!res.ok) throw new Error("Failed");
       const cloned = await res.json();
-      setTemplates(prev => [...prev, { ...cloned, _count: { controlLinkages: cloned.controlLinkages?.length ?? 0 } }]);
-      showToast("Shared to SAMS001 — independent copy created", "success");
+      const skipped = cloned.skippedControls ?? 0;
+      setTemplates(prev => [...prev, { ...cloned.template, _count: { controlLinkages: cloned.template.controlLinkages?.length ?? 0 } }]);
+      showToast(skipped > 0
+        ? `Shared to SAMS001 — ${skipped} company-specific control(s) skipped`
+        : "Shared to SAMS001 — independent copy created", "success");
     } catch { showToast("Failed to share template", "error"); }
     finally { setSharing(false); }
+  };
+
+  const handleAdopt = async (templateId: string) => {
+    if (!selectedCompanyId || selectedCompanyId === SAMS_CUID) {
+      showToast("Switch to a non-SAMS company to adopt templates", "error"); return;
+    }
+    setAdoptingId(templateId);
+    try {
+      const res = await fetch(`/api/admin/assessment-templates/${templateId}/adopt`, {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ targetCompanyId: selectedCompanyId }),
+      });
+      if (!res.ok) throw new Error("Failed");
+      const cloned = await res.json();
+      setTemplates(prev => [...prev, { ...cloned, _count: { controlLinkages: cloned.controlLinkages?.length ?? 0 } }]);
+      showToast("Template adopted to your company", "success");
+    } catch { showToast("Failed to adopt template", "error"); }
+    finally { setAdoptingId(null); }
   };
 
   const handleSave = async () => {
@@ -187,7 +235,14 @@ export function TemplatesManagementView({
                       {t.companyId && <span className="text-xs text-slate-400">Company: {t.companyId}</span>}
                     </div>
                   </div>
-                  <Button variant="secondary" size="sm" onClick={() => openEdit(t)}>✏️ Edit</Button>
+                  <div className="flex items-center gap-1 shrink-0">
+                    {t.companyId === SAMS_CUID && !isAdmin && selectedCompanyId !== SAMS_CUID && (
+                      <Button variant="secondary" size="sm" disabled={adoptingId === t.id} onClick={() => handleAdopt(t.id)}>
+                        {adoptingId === t.id ? "…" : "📥 Adopt"}
+                      </Button>
+                    )}
+                    {canEdit(t) && <Button variant="secondary" size="sm" onClick={() => openEdit(t)}>✏️ Edit</Button>}
+                  </div>
                 </div>
               </div>
             ))}
@@ -250,6 +305,7 @@ export function TemplatesManagementView({
                     <label key={c.id} className="flex items-center gap-2 py-1 px-1 rounded hover:bg-slate-50 cursor-pointer text-sm">
                       <input type="checkbox" checked={selectedControlIds.has(c.id)} onChange={() => toggleControl(c.id)} className="rounded" />
                       <span className="flex-1 text-xs">{c.name}</span>
+                      <span className={`text-xs ${getScopeLabel(c.companyId).cls}`}>{getScopeLabel(c.companyId).label}</span>
                       <span className="text-xs text-slate-400">{c.controlType}</span>
                     </label>
                   ))}
@@ -272,6 +328,7 @@ export function TemplatesManagementView({
                     {group.controls.map(c => (
                       <div key={c.id} className="flex items-center gap-2 py-0.5 px-1 text-xs text-slate-700 group">
                         <span className="flex-1">{c.name}</span>
+                        <span className={`text-xs ${getScopeLabel(c.companyId).cls}`}>{getScopeLabel(c.companyId).label}</span>
                         <span className="text-slate-400">{c.controlType}</span>
                         <button onClick={() => removeControl(c.id)}
                           className="text-red-400 hover:text-red-600 opacity-0 group-hover:opacity-100 transition-opacity text-xs">✕</button>
@@ -285,14 +342,14 @@ export function TemplatesManagementView({
 
           {/* Scoping note */}
           <div className="rounded-md bg-blue-50 border border-blue-200 p-3 text-xs text-blue-800">
-            <strong>📋 Template Scoping:</strong> Templates created under <strong>SAMS001</strong> are available across all companies.
-            Templates under other companies are visible only to that company.
-            {editing?.companyId && editing.companyId !== "comp_1783989395315" && (
+            <strong>📋 Template Scoping:</strong> SAMS001 templates are shared across all companies. Company-specific templates are visible only to that company.
+            <strong> Only SAMS001 controls can be shared</strong> — company-specific controls are skipped when cloning.
+            {editing?.companyId && editing.companyId !== SAMS_CUID && (
               <div className="mt-2 pt-2 border-t border-blue-200">
                 <Button variant="secondary" size="sm" disabled={sharing} onClick={handleShareWithGlobal}>
                   {sharing ? "Sharing…" : "📤 Share with Global"}
                 </Button>
-                <span className="ml-2 text-blue-600">Creates an independent copy under SAMS001</span>
+                <span className="ml-2 text-blue-600">Creates an independent SAMS001 copy</span>
               </div>
             )}
           </div>
