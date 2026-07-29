@@ -94,7 +94,22 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
 
   // Templates (for templates view)
   const templates = view === "templates"
-    ? await prisma.assessmentTemplate.findMany({ where, orderBy: { name: "asc" }, include: { _count: { select: { controlLinkages: true } } } })
+    ? await prisma.assessmentTemplate.findMany({
+        where,
+        orderBy: { name: "asc" },
+        include: {
+          _count: { select: { controlLinkages: true } },
+          controlLinkages: { include: { control: true } },
+        },
+      })
+    : [];
+
+  // All controls with PA info (for template control selection)
+  const allControlsForTemplates = view === "templates"
+    ? await prisma.control.findMany({
+        include: { processArea: { select: { id: true, name: true } } },
+        orderBy: { name: "asc" },
+      })
     : [];
 
   // Activity types (for templates view)
@@ -356,6 +371,7 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
         <TemplatesManagementView
           templates={JSON.parse(JSON.stringify(templates))}
           activityTypes={JSON.parse(JSON.stringify(activityTypes))}
+          allControls={JSON.parse(JSON.stringify(allControlsForTemplates))}
         />
       )}
 
