@@ -22,6 +22,7 @@ export function CompanyAdminView({ initialCompanies }: { initialCompanies: Compa
   const [adding, setAdding] = useState(false);
   const [form, setForm] = useState({ companyID: "", companyName: "", shortName: "", referenceID: "" });
   const [saving, setSaving] = useState(false);
+  const [bootstrapping, setBootstrapping] = useState<string | null>(null);
 
   const openEdit = (c: Company) => {
     setEditing(c);
@@ -69,6 +70,19 @@ export function CompanyAdminView({ initialCompanies }: { initialCompanies: Compa
     } catch { showToast("Failed to delete", "error"); }
   };
 
+  const handleBootstrap = async (c: Company) => {
+    if (!confirm(`Bootstrap "${c.companyName}" from SAMS001?\n\nThis will replace ALL master data (Standards, ProcessAreas, Requirements, Controls).\nOnly available for new companies with no assessments.`)) return;
+    setBootstrapping(c.id);
+    try {
+      const res = await fetch(`/api/admin/company/${c.id}/bootstrap`, { method: "POST" });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Failed");
+      const r = data.results;
+      showToast(`Bootstrapped: ${r.standards} standards, ${r.processAreas} PAs, ${r.requirements} reqs, ${r.controls} controls, ${r.mapControl2Requirement} mappings`, "success");
+    } catch (e: any) { showToast(e.message || "Bootstrap failed", "error"); }
+    finally { setBootstrapping(null); }
+  };
+
   return (
     <div className="mt-6">
       <div className="flex items-center justify-between mb-4">
@@ -91,6 +105,18 @@ export function CompanyAdminView({ initialCompanies }: { initialCompanies: Compa
                 <button onClick={() => handleDelete(c)} className="text-xs text-red-500 hover:text-red-700">Del</button>
               </div>
             </div>
+            {c.companyID !== "SAMS001" && (
+              <div className="mt-2 pt-2 border-t border-slate-100">
+                <button
+                  onClick={() => handleBootstrap(c)}
+                  disabled={bootstrapping === c.id}
+                  className="w-full text-xs text-center py-1 rounded border border-purple-200 bg-purple-50 text-purple-700 hover:bg-purple-100 disabled:opacity-50 transition-colors"
+                  title="Replace all master data with fresh copy from SAMS001. Only for new companies."
+                >
+                  {bootstrapping === c.id ? "🔄 Bootstrapping…" : "🔄 Bootstrap from SAMS"}
+                </button>
+              </div>
+            )}
           </Card>
         ))}
         {companies.length === 0 && <p className="text-sm text-slate-400 col-span-full py-8 text-center">No companies found.</p>}
