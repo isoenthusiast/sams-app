@@ -171,9 +171,9 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
     ? await prisma.processArea.findMany({ where, orderBy: { name: "asc" }, select: { id: true, name: true } })
     : [];
 
-  // Backlog items (for backlog Kanban view) — NOT company-scoped
+  // Backlog items (for backlog Kanban view + dashboard widget) — NOT company-scoped
   let backlogItems: any[] = [];
-  if (view === "backlog") {
+  if (view === "dashboard" || view === "backlog") {
     try {
       backlogItems = await prisma.backlogItem.findMany({
         orderBy: [{ priority: "desc" }, { createdAt: "asc" }],
@@ -266,6 +266,7 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
       </div>
 
       {view === "dashboard" && (
+      <>
       <details open className="mt-6">
         <summary className="cursor-pointer text-sm font-semibold text-slate-700 hover:text-slate-900 select-none">
           📊 System Overview — click to collapse
@@ -301,6 +302,17 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
           <HealthResetButton />
         </div>
       </details>
+
+      {/* ── Backlog Widget (on Dashboard) ── */}
+      <details open className="mt-6">
+        <summary className="cursor-pointer text-sm font-semibold text-slate-700 hover:text-slate-900 select-none">
+          📋 Backlog — click to collapse
+        </summary>
+        <div className="mt-3">
+          <KanbanBoard initialItems={backlogItems} />
+        </div>
+      </details>
+      </>
       )}
 
       {/* ── Dashboard ── (stats, quick actions, system status, and control health are now in the collapsible System Statistics above) */}
