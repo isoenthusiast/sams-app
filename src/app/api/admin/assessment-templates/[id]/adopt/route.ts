@@ -2,7 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
 // POST /api/admin/assessment-templates/[id]/adopt
-// Clones a SAMS001 template into a target company
+// Clones a SAMS001 template into a target company, mapping controls
+// by ProcessArea name + Control name equivalence
 export async function POST(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
@@ -15,34 +16,69 @@ export async function POST(
 
     const original = await prisma.assessmentTemplate.findUnique({
       where: { id },
-      include: { controlLinkages: true, activityTypes: true },
+      include: {
+        controlLinkages: { include: { control: { include: { processArea: { select: { name: true } } } } } },
+        activityTypes: true,
+      },
     });
     if (!original) return NextResponse.json({ error: "Template not found" }, { status: 404 });
 
     const targetCompany = await prisma.company.findUnique({ where: { id: targetCompanyId } });
     if (!targetCompany) return NextResponse.json({ error: "Target company not found" }, { status: 404 });
 
-    // Create independent copy under target company
+    // Fetch all controls at target company with their process areas for mapping
+    const targetControls = await prisma.control.findMany({
+      where: { companyId: targetCompanyId },
+      include: { processArea: { select: { name: true } } },
+    });
+
+    // Build lookup: "PA-name::Control-name" → controlId
+    const targetMap = new Map<string, string>();
+    for (const tc of targetControls) {
+      const paName = tc.processArea?.name ?? "";
+      const key = `${paName}::${tc.name}`.toLowerCase();
+      targetMap.set(key, tc.id);
+    }
+
+    // Map each source control to its target equivalent
+    const mappedIds: string[] = [];
+    let skipped = 0;
+    for (const linkage of original.controlLinkages) {
+      const srcPA = linkage.control.processArea?.name ?? "";
+      const key = `${srcPA}::${linkage.control.name}`.toLowerCase();
+      const targetId = targetMap.get(key);
+      if (targetId) {
+        mappedIds.push(targetId);
+      } else {
+        skipped++;
+      }
+    }
+
+    // Create independent copy under target company with mapped controls
     const cloned = await prisma.assessmentTemplate.create({
       data: {
-        name: `${original.name}`,
+        name: original.name,
         description: original.description,
         companyId: targetCompany.id,
-        controlLinkages: {
-          create: original.controlLinkages.map(l => ({ controlId: l.controlId })),
-        },
+        controlLinkages: mappedIds.length > 0
+          ? { create: mappedIds.map(controlId => ({ controlId })) }
+          : undefined,
         activityTypes: {
           create: original.activityTypes.map(a => ({ activityTypeId: a.activityTypeId })),
         },
       },
       include: {
-        controlLinkages: { include: { control: true } },
+        controlLinkages: { include: { control: { include: { processArea: { select: { name: true } } } } } },
         activityTypes: true,
         _count: { select: { controlLinkages: true } },
       },
     });
 
-    return NextResponse.json(cloned, { status: 201 });
+    return NextResponse.json({
+      ...cloned,
+      mappedControls: mappedIds.length,
+      skippedControls: skipped,
+    }, { status: 201 });
   } catch (e: any) {
     return NextResponse.json({ error: e.message || "Adopt failed" }, { status: 500 });
   }

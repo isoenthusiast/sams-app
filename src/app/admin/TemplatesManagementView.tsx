@@ -167,8 +167,12 @@ export function TemplatesManagementView({
       });
       if (!res.ok) throw new Error("Failed");
       const cloned = await res.json();
-      setTemplates(prev => [...prev, { ...cloned, _count: { controlLinkages: cloned.controlLinkages?.length ?? 0 } }]);
-      showToast("Template adopted to your company", "success");
+      const mapped = cloned.mappedControls ?? (cloned.controlLinkages?.length ?? 0);
+      const skipped = cloned.skippedControls ?? 0;
+      setTemplates(prev => [...prev, { ...cloned, _count: { controlLinkages: mapped } }]);
+      showToast(skipped > 0
+        ? `Adopted — ${mapped} controls mapped, ${skipped} skipped (no equivalent found)`
+        : `Adopted — ${mapped} controls mapped`, "success");
     } catch { showToast("Failed to adopt template", "error"); }
     finally { setAdoptingId(null); }
   };
