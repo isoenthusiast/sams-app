@@ -13,8 +13,10 @@ const MENU_ITEMS = [
 
 type Control = {
   id: string; name: string; controlType: string;
-  processArea?: { id: string; name: string } | null;
+  processArea?: { id: string; name: string; standardRef?: { id: string; standard: string } | null } | null;
 };
+type Standard = { id: string; standard: string };
+type ProcessArea = { id: string; name: string; standardRef?: { id: string; standard: string } | null };
 
 type Template = {
   id: string; name: string; description?: string | null;
@@ -24,9 +26,10 @@ type Template = {
 };
 
 export function TemplatesManagementView({
-  templates: initialTemplates, activityTypes, allControls,
+  templates: initialTemplates, activityTypes, allControls, allStandards, allProcessAreas,
 }: {
-  templates: any[]; activityTypes: any[]; allControls: any[];
+  templates: any[]; activityTypes: any[]; allControls: Control[];
+  allStandards: Standard[]; allProcessAreas: ProcessArea[];
 }) {
   const [templates, setTemplates] = useState<Template[]>(initialTemplates);
   const [activeTab, setActiveTab] = useState<string>("assessment");
@@ -35,19 +38,50 @@ export function TemplatesManagementView({
   const [editDesc, setEditDesc] = useState("");
   const [selectedControlIds, setSelectedControlIds] = useState<Set<string>>(new Set());
   const [controlSearch, setControlSearch] = useState("");
+  const [filterStandardId, setFilterStandardId] = useState<string>("");
+  const [filterPAId, setFilterPAId] = useState<string>("");
   const [saving, setSaving] = useState(false);
 
-  // Group controls by process area for the selector
-  const controlsByPA = useMemo(() => {
+  // Controls grouped by PA, respecting filters
+  const filteredControlsByPA = useMemo(() => {
     const map = new Map<string, { paName: string; controls: Control[] }>();
     for (const c of allControls) {
-      const paId = c.processArea?.id ?? "unmapped";
-      const paName = c.processArea?.name ?? "Unmapped";
-      if (!map.has(paId)) map.set(paId, { paName, controls: [] });
+      const pa = c.processArea;
+      if (!pa) continue;
+      // Standard filter
+      if (filterStandardId && pa.standardRef?.id !== filterStandardId) continue;
+      // PA filter
+      if (filterPAId && pa.id !== filterPAId) continue;
+      // Search filter
+      if (controlSearch && !c.name.toLowerCase().includes(controlSearch.toLowerCase())) continue;
+      const paId = pa.id;
+      if (!map.has(paId)) map.set(paId, { paName: pa.name, controls: [] });
       map.get(paId)!.controls.push(c);
     }
     return [...map.entries()].sort((a, b) => a[1].paName.localeCompare(b[1].paName));
-  }, [allControls]);
+  }, [allControls, filterStandardId, filterPAId, controlSearch]);
+
+  // PAs filtered by selected standard
+  const filteredPAs = useMemo(() => {
+    if (!filterStandardId) return allProcessAreas;
+    return allProcessAreas.filter(pa => pa.standardRef?.id === filterStandardId);
+  }, [allProcessAreas, filterStandardId]);
+
+  // Selected controls for listing
+  const selectedControls = useMemo(() => {
+    return allControls.filter(c => selectedControlIds.has(c.id));
+  }, [allControls, selectedControlIds]);
+
+  // Group selected controls by PA
+  const selectedByPA = useMemo(() => {
+    const map = new Map<string, { paName: string; controls: Control[] }>();
+    for (const c of selectedControls) {
+      const paName = c.processArea?.name ?? "Unmapped";
+      if (!map.has(paName)) map.set(paName, { paName, controls: [] });
+      map.get(paName)!.controls.push(c);
+    }
+    return [...map.entries()].sort((a, b) => a[1].paName.localeCompare(b[1].paName));
+  }, [selectedControls]);
 
   const openEdit = (t: Template) => {
     setEditing(t);
@@ -56,12 +90,22 @@ export function TemplatesManagementView({
     const existingIds = (t.controlLinkages ?? []).map((l: any) => l.controlId);
     setSelectedControlIds(new Set(existingIds));
     setControlSearch("");
+    setFilterStandardId("");
+    setFilterPAId("");
   };
 
   const toggleControl = (id: string) => {
     setSelectedControlIds(prev => {
       const next = new Set(prev);
       if (next.has(id)) next.delete(id); else next.add(id);
+      return next;
+    });
+  };
+
+  const removeControl = (id: string) => {
+    setSelectedControlIds(prev => {
+      const next = new Set(prev);
+      next.delete(id);
       return next;
     });
   };
@@ -142,7 +186,7 @@ export function TemplatesManagementView({
 
       {/* Edit Template Modal */}
       <Modal isOpen={!!editing} onClose={() => setEditing(null)} title={`Edit Template — ${editing?.name ?? ""}`}>
-        <div className="space-y-4 max-h-[70vh] overflow-y-auto">
+        <div className="space-y-4 max-h-[75vh] overflow-y-auto">
           <div>
             <label className="block text-xs font-medium text-slate-700 mb-1">Name <span className="text-red-500">*</span></label>
             <input type="text" value={editName} onChange={(e) => setEditName(e.target.value)}
@@ -156,35 +200,73 @@ export function TemplatesManagementView({
               placeholder="Optional description" />
           </div>
 
-          {/* Control Selection */}
-          <div>
-            <label className="block text-xs font-medium text-slate-700 mb-1">
-              Controls ({selectedControlIds.size} selected)
-            </label>
+          {/* ── Control Selection Container ── */}
+          <div className="border border-slate-200 rounded-lg p-4 bg-slate-50/50">
+            <div className="flex items-center justify-between mb-3">
+              <h4 className="text-sm font-semibold text-slate-800">🎛 Control Selection</h4>
+              <span className="text-xs text-slate-500">{selectedControlIds.size} selected</span>
+            </div>
+
+            {/* Filter row */}
+            <div className="flex gap-2 mb-3">
+              <select value={filterStandardId} onChange={(e) => { setFilterStandardId(e.target.value); setFilterPAId(""); }}
+                className="flex-1 rounded-md border border-slate-300 px-2 py-1.5 text-xs bg-white focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500">
+                <option value="">All Standards</option>
+                {allStandards.map(s => <option key={s.id} value={s.id}>{s.standard}</option>)}
+              </select>
+              <select value={filterPAId} onChange={(e) => setFilterPAId(e.target.value)}
+                className="flex-1 rounded-md border border-slate-300 px-2 py-1.5 text-xs bg-white focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500">
+                <option value="">All Process Areas</option>
+                {filteredPAs.map(pa => <option key={pa.id} value={pa.id}>{pa.name}</option>)}
+              </select>
+            </div>
+
+            {/* Search */}
             <input type="text" value={controlSearch} onChange={(e) => setControlSearch(e.target.value)}
               placeholder="Search controls…"
-              className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm mb-2 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500" />
-            <div className="border border-slate-200 rounded-md max-h-[40vh] overflow-y-auto divide-y divide-slate-100">
-              {controlsByPA.map(([paId, { paName, controls }]) => {
-                const filtered = controlSearch
-                  ? controls.filter(c => c.name.toLowerCase().includes(controlSearch.toLowerCase()))
-                  : controls;
-                if (filtered.length === 0) return null;
-                return (
-                  <div key={paId} className="px-2 py-1">
-                    <div className="text-xs font-semibold text-slate-500 uppercase py-1 px-1">{paName}</div>
-                    {filtered.map(c => (
-                      <label key={c.id} className="flex items-center gap-2 py-1 px-1 rounded hover:bg-slate-50 cursor-pointer text-sm">
-                        <input type="checkbox" checked={selectedControlIds.has(c.id)} onChange={() => toggleControl(c.id)} className="rounded" />
-                        <span className="flex-1">{c.name}</span>
-                        <span className="text-xs text-slate-400">{c.controlType}</span>
-                      </label>
-                    ))}
-                  </div>
-                );
-              })}
+              className="w-full rounded-md border border-slate-300 px-3 py-1.5 text-xs mb-2 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500" />
+
+            {/* Control checkboxes */}
+            <div className="border border-slate-200 rounded-md bg-white max-h-[30vh] overflow-y-auto divide-y divide-slate-100">
+              {filteredControlsByPA.map(([paId, { paName, controls }]) => (
+                <div key={paId} className="px-2 py-1">
+                  <div className="text-xs font-semibold text-slate-500 uppercase py-1 px-1">{paName}</div>
+                  {controls.map(c => (
+                    <label key={c.id} className="flex items-center gap-2 py-1 px-1 rounded hover:bg-slate-50 cursor-pointer text-sm">
+                      <input type="checkbox" checked={selectedControlIds.has(c.id)} onChange={() => toggleControl(c.id)} className="rounded" />
+                      <span className="flex-1 text-xs">{c.name}</span>
+                      <span className="text-xs text-slate-400">{c.controlType}</span>
+                    </label>
+                  ))}
+                </div>
+              ))}
+              {filteredControlsByPA.length === 0 && (
+                <p className="py-6 text-center text-xs text-slate-400">No controls match the current filters.</p>
+              )}
             </div>
           </div>
+
+          {/* ── Selected Controls Listing ── */}
+          {selectedControls.length > 0 && (
+            <div className="border border-emerald-200 rounded-lg p-4 bg-emerald-50/50">
+              <h4 className="text-sm font-semibold text-emerald-800 mb-2">✅ Selected Controls ({selectedControls.length})</h4>
+              <div className="space-y-1 max-h-[25vh] overflow-y-auto">
+                {selectedByPA.map(([paName, group]) => (
+                  <div key={paName}>
+                    <div className="text-xs font-medium text-emerald-700 mt-2 mb-1">{paName}</div>
+                    {group.controls.map(c => (
+                      <div key={c.id} className="flex items-center gap-2 py-0.5 px-1 text-xs text-slate-700 group">
+                        <span className="flex-1">{c.name}</span>
+                        <span className="text-slate-400">{c.controlType}</span>
+                        <button onClick={() => removeControl(c.id)}
+                          className="text-red-400 hover:text-red-600 opacity-0 group-hover:opacity-100 transition-opacity text-xs">✕</button>
+                      </div>
+                    ))}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
 
           {/* Scoping note */}
           <div className="rounded-md bg-blue-50 border border-blue-200 p-3 text-xs text-blue-800">
