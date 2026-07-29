@@ -2,9 +2,11 @@
 
 import { useState } from "react";
 import { UserManager } from "@/components/UserManager";
+import { CompanyManagementView } from "./CompanyManagementView";
 
 const MENU_ITEMS = [
   { key: "users", label: "👥 Users" },
+  { key: "companies", label: "🏢 Companies" },
   { key: "activity", label: "📜 Activity Log" },
 ] as const;
 
@@ -52,6 +54,9 @@ export function SysAdminManagementView({
             departments={departments}
             positions={positions}
           />
+        )}
+        {activeTab === "companies" && (
+          <CompanyManagementView companies={companies} />
         )}
         {activeTab === "activity" && (
           <div>

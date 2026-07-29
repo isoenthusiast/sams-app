@@ -70,8 +70,8 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
     ? await prisma.user.findMany({ orderBy: { name: "asc" }, include: { userCompanies: { include: { company: true } } } })
     : [];
 
-  // Companies (for sysadmin + companies view + standards filter + knowledgebase)
-  const companies = (view === "sysadmin" || view === "companies" || view === "standards" || view === "knowledgebase")
+  // Companies (for sysadmin + standards filter + knowledgebase)
+  const companies = (view === "sysadmin" || view === "standards" || view === "knowledgebase")
     ? await prisma.company.findMany({ orderBy: { companyID: "asc" } })
     : [];
 
@@ -258,7 +258,7 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
       </div>
 
       <div className="border-b border-slate-200 flex flex-wrap gap-x-1">
-        {[{ k: "dashboard", l: "📊 Dashboard" }, { k: "standards", l: "📐 Standards" }, { k: "companies", l: "🏢 Companies" }, { k: "templates", l: "📦 Templates" }, { k: "gamification", l: "🎮 Gamification" }, { k: "knowledgebase", l: "📚 Knowledgebase" }, { k: "sysadmin", l: "⚙️ SysAdmin" }].map((t) => (
+        {[{ k: "dashboard", l: "📊 Dashboard" }, { k: "standards", l: "📐 Standards" }, { k: "templates", l: "📦 Templates" }, { k: "gamification", l: "🎮 Gamification" }, { k: "knowledgebase", l: "📚 Knowledgebase" }, { k: "sysadmin", l: "⚙️ SysAdmin" }].map((t) => (
           <Link key={t.k} href={`/admin?view=${t.k}`}
             className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${view === t.k ? "border-slate-900 text-slate-900" : "border-transparent text-slate-500 hover:text-slate-700"}`}>
             {t.l}
@@ -287,7 +287,7 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
             <div className="flex flex-wrap gap-2">
               <Link href="/setup/process-areas"><Button variant="secondary" size="sm">Process Areas</Button></Link>
               <Link href="/admin/database"><Button variant="secondary" size="sm">Database</Button></Link>
-              <Link href="/admin?view=users"><Button variant="secondary" size="sm">Users</Button></Link>
+              <Link href="/admin?view=sysadmin"><Button variant="secondary" size="sm">Users</Button></Link>
               <Link href="/admin?view=templates"><Button variant="secondary" size="sm">Templates</Button></Link>
               <Link href="/admin?view=activity"><Button variant="secondary" size="sm">Activity Log</Button></Link>
             </div>
@@ -373,8 +373,6 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
         />
       )}
 
-      {/* ── Companies ── */}
-      {view === "companies" && <CompanyManagementView companies={JSON.parse(JSON.stringify(companies))} />}
     </div>
   );
 }
