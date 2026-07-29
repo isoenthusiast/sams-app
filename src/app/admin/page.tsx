@@ -20,6 +20,7 @@ import { CompanyManagementView } from "./CompanyManagementView";
 import { TemplatesManagementView } from "./TemplatesManagementView";
 import { GamificationManagementView } from "./GamificationManagementView";
 import { KnowledgebaseManagementView } from "./KnowledgebaseManagementView";
+import { SysAdminManagementView } from "./SysAdminManagementView";
 import { TemplateActivityTypesView } from "./TemplateActivityTypesView";
 import { HealthResetButton } from "./HealthResetButton";
 import { ManagerAssignmentView } from "./ManagerAssignmentView";
@@ -59,8 +60,8 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
     kbCount = Number(kb[0]?.count ?? 0);
   } catch {}
 
-  // Activity log (for activity view)
-  const activityLog = view === "activity"
+  // Activity log (for sysadmin view)
+  const activityLog = view === "sysadmin"
     ? await prisma.activityLog.findMany({ orderBy: { timestamp: "desc" }, take: 50 })
     : [];
 
@@ -257,7 +258,7 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
       </div>
 
       <div className="border-b border-slate-200 flex flex-wrap gap-x-1">
-        {[{ k: "dashboard", l: "📊 Dashboard" }, { k: "activity", l: "📜 Activity Log" }, { k: "users", l: "👥 Users" }, { k: "standards", l: "📐 Standards" }, { k: "companies", l: "🏢 Companies" }, { k: "templates", l: "📦 Templates" }, { k: "gamification", l: "🎮 Gamification" }, { k: "knowledgebase", l: "📚 Knowledgebase" }].map((t) => (
+        {[{ k: "dashboard", l: "📊 Dashboard" }, { k: "users", l: "👥 Users" }, { k: "standards", l: "📐 Standards" }, { k: "companies", l: "🏢 Companies" }, { k: "templates", l: "📦 Templates" }, { k: "gamification", l: "🎮 Gamification" }, { k: "knowledgebase", l: "📚 Knowledgebase" }, { k: "sysadmin", l: "⚙️ SysAdmin" }].map((t) => (
           <Link key={t.k} href={`/admin?view=${t.k}`}
             className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${view === t.k ? "border-slate-900 text-slate-900" : "border-transparent text-slate-500 hover:text-slate-700"}`}>
             {t.l}
@@ -317,34 +318,9 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
 
       {/* ── Dashboard ── (stats, quick actions, system status, and control health are now in the collapsible System Statistics above) */}
 
-      {/* ── Activity Log ── */}
-      {view === "activity" && (
-        <div className="mt-6">
-          <p className="text-sm text-slate-500 mb-4">Last 50 activity log entries</p>
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm border-collapse">
-              <thead>
-                <tr className="border-b border-slate-200 text-xs font-medium text-slate-500 text-left">
-                  <th className="py-2 pr-3 w-36 whitespace-nowrap">Timestamp</th>
-                  <th className="py-2 pr-3 w-24 whitespace-nowrap">Type</th>
-                  <th className="py-2 pr-3">Description</th>
-                  <th className="py-2 w-20 text-right whitespace-nowrap">User</th>
-                </tr>
-              </thead>
-              <tbody>
-                {activityLog.map((log) => (
-                  <tr key={log.id} className="border-b border-slate-50 align-top">
-                    <td className="py-2 pr-3 text-xs text-slate-400 whitespace-nowrap">{new Date(log.timestamp).toLocaleString()}</td>
-                    <td className="py-2 pr-3 text-xs font-medium text-slate-600 whitespace-nowrap">{log.activityType}</td>
-                    <td className="py-2 pr-3 text-slate-700 break-words whitespace-normal" title={log.description}>{log.description}</td>
-                    <td className="py-2 text-xs text-slate-400 text-right whitespace-nowrap">{log.username}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-          {activityLog.length === 0 && <p className="py-8 text-center text-sm text-slate-400">No activity recorded yet.</p>}
-        </div>
+      {/* ── SysAdmin ── */}
+      {view === "sysadmin" && (
+        <SysAdminManagementView activityLog={activityLog} />
       )}
 
       {/* ── Users ── */}
