@@ -1,8 +1,8 @@
-# SAMS App — Design Reference (Superseded)
+# SAMS App — Design Reference
 
-> **⚠️ This document has been consolidated into `CONAN_Design Philosophy.md` and `CONAN_App Design.md` in the project root. Those are now the single source of truth. This file is retained for reference only — do not update it.**
+> **📐 Active alongside `CONAN_Design Philosophy.md` and `CONAN_App Design.md`.** CONAN docs are the narrative source of truth; this document is the technical specification (models, routes, components, APIs). Both are maintained.
 
-**Last Updated:** July 28, 2026 (v1.9.1) — final update before consolidation
+**Last Updated:** July 29, 2026 (v1.9.2)
 
 ---
 
