@@ -10,6 +10,10 @@ function HelpContent() {
     return <DemoContent />;
   }
 
+  if (topic === "design-philosophy") {
+    return <DesignPhilosophyContent />;
+  }
+
   if (topic === "pip") {
     return (
       <div className="mx-auto max-w-3xl px-4 py-6">
@@ -60,9 +64,194 @@ function HelpContent() {
         <Card title="Requirements & Controls" padding="sm">
           <p className="text-sm text-slate-600">In Process Details, the Requirements & Controls tab shows controls grouped by requirement. Use Map Controls to reassign them.</p>
         </Card>
+        <Card title="🧠 Design Philosophy" padding="sm">
+          <p className="text-sm text-slate-600">The 15 guiding principles, paradigm shifts, and gamification philosophy that shape every design decision in CONAN.</p>
+          <a href="/help?topic=design-philosophy" className="text-sm text-blue-600 hover:underline mt-2 inline-block">🧠 Read Design Philosophy →</a>
+        </Card>
         <Card title="Gamification" padding="sm">
           <p className="text-sm text-slate-600">Earn points by completing assessments and closing actions. Badges across 8 emotional drives.</p>
         </Card>
+      </div>
+    </div>
+  );
+}
+
+function DesignPhilosophyContent() {
+  return (
+    <div className="mx-auto max-w-4xl px-4 py-8">
+      <a href="/help" className="text-sm text-blue-600 hover:underline mb-4 inline-block">← Back to Help</a>
+
+      <div className="mb-10">
+        <h1 className="text-3xl font-bold text-slate-900 mb-3">🧠 CONAN Design Philosophy</h1>
+        <p className="text-lg text-slate-500">
+          Every screen, every button, every workflow traces back to one of these principles.
+          This is our constitution — the rules that keep us building the right thing.
+        </p>
+      </div>
+
+      {/* Core Mission */}
+      <DemoSection title="Core Mission" icon="🎯" />
+      <div className="rounded-lg border border-blue-200 bg-blue-50 p-5 mb-8">
+        <p className="text-blue-900 text-lg font-medium text-center">
+          Make assurance visible, continuous, and everyone&apos;s job.
+        </p>
+        <p className="text-blue-700 text-sm mt-2 text-center">
+          CONAN is an <strong>assurance management system</strong> — not an audit tool, not a checklist app.
+          It shifts organizations from &quot;passing audits&quot; to continuously proving their barriers hold.
+        </p>
+      </div>
+
+      {/* 15 Guiding Principles */}
+      <DemoSection title="The 15 Guiding Principles" icon="📜" />
+
+      <div className="space-y-3 mb-8">
+        {[
+          { n: 1, title: "Assurance over Audit", body: "Track ongoing barrier health, not one-time certification events. Show health scores (0-100%) on controls — never just pass/fail." },
+          { n: 2, title: "Findings are Gold", body: "Surfacing a gap is celebrated — we caught it before it caught us. The UI should celebrate findings, not shame people for having them." },
+          { n: 3, title: "Every Role Has Stakes", body: "Site leadership to practitioners — every role sees their barrier health contribution. No one sees 'nothing' when they log in." },
+          { n: 4, title: "No-Blame Design", body: "Ineffective samples earn 0 points, never negative. No punishment mechanics. Learning conversations, not disciplinary ones." },
+          { n: 5, title: "Abundance, Not Scarcity", body: "Team leaderboards on aggregate points — everyone wins by doing their own work well. Not zero-sum competition." },
+          { n: 6, title: "Traceability to Risk", body: "Every point, badge, and metric traces to a specific control protecting against a specific risk. The chain must be visible." },
+          { n: 7, title: "Company Isolation", body: "Multi-tenant from day one. Companies never see each other's data. Every query filters by Company. Non-negotiable." },
+          { n: 8, title: "preferredName First", body: "Display calling names when available (e.g. 'Alvin' over 'Ho, Wei Seng'). Search scans both preferredName and formal name." },
+          { n: 9, title: "Leadership Visibility", body: "The system's value must be demonstrable to decision-makers. A Demo page tells the story — leaders don't need to click through every screen." },
+          { n: 10, title: "Hierarchy Clarity", body: "Org structures should be visually intuitive. Levels color-coded by depth. Sibling order is meaningful and user-controlled." },
+          { n: 11, title: "Resilient Error Recovery", body: "Graceful degradation with actionable recovery paths. Users get 'Try Again' and 'Clear Cookies & Retry' — never a blank page or stack trace." },
+          { n: 12, title: "Mandatory Field Guarding", body: "Red * on required fields. Save blocked until complete. Incomplete profiles flagged for admin review." },
+          { n: 13, title: "Optimistic Local Updates", body: "Update UI immediately after successful save. No full page reload. Preserves scroll position, filter state, and context." },
+          { n: 14, title: "Empty States Over Blank Pages", body: "Every list shows a helpful message when empty: 'Nothing here yet — create one?' Never show blank space." },
+          { n: 15, title: "Confirm Destructive Actions", body: "Deleting anything shows a confirmation dialog explaining exactly what will be lost. No accidental deletions." }
+        ].map(p => (
+          <div key={p.n} className="rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
+            <div className="flex gap-3">
+              <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-blue-800 text-white text-sm font-bold">{p.n}</span>
+              <div>
+                <h3 className="font-semibold text-slate-900 text-sm">{p.title}</h3>
+                <p className="text-xs text-slate-500 mt-1 leading-relaxed">{p.body}</p>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Paradigm Shifts */}
+      <DemoSection title="Paradigm Shifts — What Changes for Users" icon="🔄" />
+
+      <div className="overflow-x-auto mb-8">
+        <table className="w-full text-sm border-collapse">
+          <thead>
+            <tr className="border-b-2 border-slate-300 text-left text-slate-700">
+              <th className="py-2 pr-4 w-1/2">Old Paradigm</th>
+              <th className="py-2 pr-4 text-blue-700 w-1/2">→ New Paradigm (What CONAN Enables)</th>
+            </tr>
+          </thead>
+          <tbody className="text-slate-600">
+            {[
+              ["Audit → findings → more work → dread", "Assurance → findings → known gaps → closure → stronger"],
+              ['"Answer only what is asked" (defensive)', '"Show me what\'s really happening" (collaborative)'],
+              ["Certification is a one-time achievement", "Certification is a continuous claim, verified daily"],
+              ["Assurance is the assessor's job", "Assurance is everyone's job"],
+              ["Manager names as opaque text", "Manager names resolved to actual user identities"],
+              ["Assurance is invisible to leadership", "Leadership sees the full story via structured Demo"],
+              ["Red error pages are dead ends", "Error pages offer actionable recovery — retry or clear cookies"]
+            ].map(([old, neu], i) => (
+              <tr key={i} className="border-b border-slate-100">
+                <td className="py-3 text-slate-500 italic">{old}</td>
+                <td className="py-3 text-blue-700 font-medium">{neu}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      {/* Gamification Philosophy */}
+      <DemoSection title="Gamification Philosophy" icon="🎮" />
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+        <InfoCard title="🎪 Playground" body="Voluntary, curiosity-driven. 'I want to see what I can do.' New users explore freely. The system welcomes, not demands." />
+        <InfoCard title="🎯 Game" body="Rule-bound, achievement-driven. 'I want to win within the rules.' Points, badges, levels. Structured progression with clear goals." />
+        <InfoCard title="🏆 Sport" body="Mastery-driven, identity-forming. 'This is who I am as a professional.' Top performers define themselves through demonstrated competence." />
+      </div>
+
+      <div className="rounded-lg border border-purple-200 bg-purple-50 p-5 mb-8">
+        <h3 className="font-semibold text-purple-900 mb-2">Assessor-as-Coach Paradigm</h3>
+        <p className="text-sm text-purple-800 leading-relaxed">
+          The assessor is not an auditor with a checklist. They are a <strong>coach</strong> helping process owners see their own barriers clearly.
+          The highest form of caring is honest feedback. &quot;I&apos;m writing this Serious finding <em>because</em> I believe you can handle it.&quot;
+        </p>
+      </div>
+
+      {/* 4 Maturity Stages */}
+      <DemoSection title="Organisational Maturity Model" icon="📈" />
+
+      <div className="overflow-x-auto mb-8">
+        <table className="w-full text-sm border-collapse">
+          <thead>
+            <tr className="border-b-2 border-slate-300 text-left text-slate-700">
+              <th className="py-2 pr-4 w-16">Stage</th>
+              <th className="py-2 pr-4">Name</th>
+              <th className="py-2 pr-4">Characteristics</th>
+              <th className="py-2">Gamification Features</th>
+            </tr>
+          </thead>
+          <tbody className="text-slate-600">
+            {[
+              ["1", "Compliance", "Doing the minimum. Traditional audit cycle.", "Points for completing assessments"],
+              ["2", "Recognition", "Visibility of effort. Positive feedback appears.", "Leaderboards, badges, track progression"],
+              ["3", "Growth", "Seeking improvement. People want to be assessed.", "PIP Kanban, peer awards, competency certificates"],
+              ["4", "Play", "Intrinsic motivation. Self-directed challenges.", "Community recognition, cross-team tournaments"]
+            ].map(([stage, name, chars, feats]) => (
+              <tr key={stage} className="border-b border-slate-100">
+                <td className="py-3 font-medium text-slate-800">{stage}</td>
+                <td className="py-3 font-semibold">{name}</td>
+                <td className="py-3 text-xs">{chars}</td>
+                <td className="py-3 text-xs text-purple-700">{feats}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      {/* Domain Language */}
+      <DemoSection title="Domain Language — Speak This Vocabulary" icon="📖" />
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-8">
+        {[
+          { term: "Control Health", def: "0-100% score per control. Green (Effective ≥80%), Amber (Partial ≥50%), Red (Ineffective <50%), Grey (Never Tested)." },
+          { term: "ORCA", def: "Objectives → Risk → Controls → Assurance. The mental model for every process area overview." },
+          { term: "MIC Statement", def: "Management in Control — a narrative confidence declaration per process area, written by the SPO each quarter." },
+          { term: "Finding", def: "A gap identified during assessment. Severity: Low / Medium / High / Serious. Format: FID-XXXXXX." },
+          { term: "Action", def: "Remediation tied to a finding. Has closure date, evidence, and effectiveness flag." },
+          { term: "Assessment (FLA)", def: "A frontline assurance check. Status: Planned → InProgress → Completed / Cancelled." },
+          { term: "PIP", def: "Process Improvement Plan — Kanban board for tracking improvement actions per process area." },
+          { term: "Company", def: "Tenant boundary. Three exist: SAMS001 (template/shared), SMDS, OGP. Data never crosses company lines." }
+        ].map(d => (
+          <div key={d.term} className="rounded-lg border border-slate-200 bg-white p-3 shadow-sm">
+            <h4 className="font-semibold text-sm text-slate-900">{d.term}</h4>
+            <p className="text-xs text-slate-500 mt-1 leading-relaxed">{d.def}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* Reference Frameworks */}
+      <DemoSection title="Reference Frameworks" icon="📚" />
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+        <InfoCard title="Octalysis (Chou)" body="8 Core Drives gamification model — adopted exclusively. Balances White Hat (intrinsic, sustainable) and Black Hat (extrinsic, urgent) motivation." />
+        <InfoCard title="ORCA Model" body="Process overview mental model: Objectives → Risk → Controls → Assurance. Every Process Area detail screen follows this order." />
+        <InfoCard title="Control Statement Framework" body="5W+1H structured control specification: Who, What, When, Where, Why, How + Evidence. Used in AI document extraction." />
+      </div>
+
+      {/* Closing */}
+      <div className="mt-8 p-6 rounded-xl border-2 border-blue-300 bg-gradient-to-br from-blue-50 to-white text-center">
+        <h2 className="text-xl font-bold text-slate-900 mb-3">Design is Never Neutral</h2>
+        <p className="text-slate-600 max-w-2xl mx-auto leading-relaxed text-sm">
+          Every design decision either reinforces the old audit-punishment paradigm or builds the new assurance-coaching culture.
+          These 15 principles are how we make sure we&apos;re always building the latter.
+        </p>
+        <p className="text-xs text-slate-400 mt-4">
+          Derived from CONAN_Design Philosophy.md v1.9.4 · July 2026
+        </p>
       </div>
     </div>
   );
