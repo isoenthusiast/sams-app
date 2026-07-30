@@ -68,7 +68,7 @@ export function RequirementsView({ requirements, standards }: Props) {
       {msg && (<div className={`text-sm px-3 py-2 rounded ${msg.type === "ok" ? "bg-green-50 text-green-700" : "bg-red-50 text-red-600"}`}>{msg.text}</div>)}
       <div className="space-y-2 max-h-[65vh] overflow-y-auto">
         {grouped.map(([stdName, paMap]) => (
-          <CollapsibleSection key={stdName} title={stdName} count={[...paMap.values()].flat().length} defaultOpen>
+          <CollapsibleSection key={stdName} title={stdName} count={[...paMap.values()].flat().length} defaultOpen={false}>
             <div className="space-y-2">
               {[...paMap.entries()].sort((a, b) => a[0].localeCompare(b[0])).map(([paName, reqs]) => (
                 <CollapsibleSection key={paName} title={paName} count={reqs.length} defaultOpen={false}>

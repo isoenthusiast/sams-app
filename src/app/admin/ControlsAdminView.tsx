@@ -74,7 +74,7 @@ export function ControlsAdminView({ initialControls, initialProcessAreas }: { in
 
       <div className="space-y-2 max-h-[65vh] overflow-y-auto">
         {grouped.map(([stdName, paMap]) => (
-          <CollapsibleSection key={stdName} title={stdName} count={[...paMap.values()].flat().length} defaultOpen>
+          <CollapsibleSection key={stdName} title={stdName} count={[...paMap.values()].flat().length} defaultOpen={false}>
             <div className="space-y-1">
               {[...paMap.entries()].sort((a, b) => a[0].localeCompare(b[0])).map(([paName, ctrls]) => (
                 <CollapsibleSection key={paName} title={paName} count={ctrls.length} defaultOpen={false}>

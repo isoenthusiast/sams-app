@@ -61,7 +61,7 @@ export function ProcessAreasAdminView({ initialProcessAreas, initialStandards }:
       </div>
       <div className="space-y-2 max-h-[65vh] overflow-y-auto">
         {grouped.map(([stdName, items]) => (
-          <CollapsibleSection key={stdName} title={stdName} count={items.length} defaultOpen>
+          <CollapsibleSection key={stdName} title={stdName} count={items.length} defaultOpen={false}>
             <div className="space-y-1">
               {items.map(pa => (
                 <div key={pa.id} className="flex items-center justify-between py-1.5 px-3 rounded hover:bg-slate-50 text-sm">
