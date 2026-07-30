@@ -145,19 +145,19 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
       }))
     : [];
 
-  // Standards list (for requirements filter + standards management + knowledgebase)
+  // Standards list (company-filtered for standards management + knowledgebase)
   const allStandards = (view === "requirements" || view === "standards" || view === "knowledgebase")
-    ? await prisma.standard.findMany({ orderBy: { standard: "asc" } })
+    ? await prisma.standard.findMany({ where, orderBy: { standard: "asc" } })
     : [];
 
-  // Process areas with standard info (for standards management)
+  // Process areas with standard info (company-filtered for standards management)
   const allProcessAreas = view === "standards"
-    ? await prisma.processArea.findMany({ include: { standardRef: true }, orderBy: { name: "asc" } })
+    ? await prisma.processArea.findMany({ where, include: { standardRef: true }, orderBy: { name: "asc" } })
     : [];
 
-  // Controls with PA info (for standards management)
+  // Controls with PA info (company-filtered for standards management)
   const allControls = view === "standards"
-    ? await prisma.control.findMany({ include: { processArea: { include: { standardRef: { select: { standard: true } } } } }, orderBy: { name: "asc" } })
+    ? await prisma.control.findMany({ where, include: { processArea: { include: { standardRef: { select: { standard: true } } } } }, orderBy: { name: "asc" } })
     : [];
 
   // Simple PA list for control form dropdown

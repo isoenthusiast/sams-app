@@ -13,16 +13,11 @@ export function StandardAdminView({ initialStandards, companies }: { initialStan
   const [adding, setAdding] = useState(false);
   const [form, setForm] = useState({ standard: "", standardDescription: "", sequenceNo: 0, companyId: "" });
   const [saving, setSaving] = useState(false);
-  const [filterCompany, setFilterCompany] = useState<string>("SAMS");
   const [search, setSearch] = useState("");
 
   const filtered = useMemo(() => {
-    if (!filterCompany) return standards;
-    // Match by companyID (business code like "SAMS", "SMDS", "OGP")
-    const targetCompany = companies.find(c => c.companyID === filterCompany);
-    if (!targetCompany) return standards;
-    return standards.filter(s => s.companyId === targetCompany.id && (!search || s.standard.toLowerCase().includes(search.toLowerCase())));
-  }, [standards, filterCompany, companies, search]);
+    return standards.filter(s => !search || s.standard.toLowerCase().includes(search.toLowerCase()));
+  }, [standards, search]);
 
   const allCount = standards.length;
   const filteredCount = filtered.length;
@@ -34,9 +29,7 @@ export function StandardAdminView({ initialStandards, companies }: { initialStan
 
   const openAdd = () => {
     setAdding(true);
-    // Pre-select company from filter
-    const targetCompany = companies.find(c => c.companyID === filterCompany);
-    setForm({ standard: "", standardDescription: "", sequenceNo: 0, companyId: targetCompany?.id ?? "" });
+    setForm({ standard: "", standardDescription: "", sequenceNo: 0, companyId: "" });
   };
 
   const handleSave = async () => {
@@ -71,14 +64,7 @@ export function StandardAdminView({ initialStandards, companies }: { initialStan
       <div className="flex items-center justify-between mb-4 gap-2">
         <input type="text" placeholder="Search standards…" value={search} onChange={e => setSearch(e.target.value)}
           className="flex-1 rounded border border-slate-300 px-3 py-1.5 text-sm" />
-        <div className="flex items-center gap-2">
-          <span className="text-xs text-slate-400 shrink-0">{filteredCount} of {allCount}</span>
-          <select value={filterCompany} onChange={e => setFilterCompany(e.target.value)}
-            className="rounded border border-slate-300 px-2 py-1 text-xs text-slate-600 bg-white">
-            <option value="">All Companies</option>
-            {companies.map(c => (<option key={c.id} value={c.companyID}>{c.companyID} — {c.companyName}</option>))}
-          </select>
-        </div>
+        <span className="text-xs text-slate-400 shrink-0">{filteredCount} of {allCount}</span>
         <Button variant="primary" size="sm" onClick={openAdd}>+ Add</Button>
       </div>
 
