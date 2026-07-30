@@ -16,7 +16,9 @@ export function StandardAdminView({ initialStandards, companies }: { initialStan
   const [search, setSearch] = useState("");
 
   const filtered = useMemo(() => {
-    return standards.filter(s => !search || s.standard.toLowerCase().includes(search.toLowerCase()));
+    return standards
+      .filter(s => !search || s.standard.toLowerCase().includes(search.toLowerCase()))
+      .sort((a, b) => a.sequenceNo - b.sequenceNo);
   }, [standards, search]);
 
   const allCount = standards.length;

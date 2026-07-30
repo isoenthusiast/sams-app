@@ -147,7 +147,7 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
 
   // Standards list (company-filtered for standards management + knowledgebase)
   const allStandards = (view === "requirements" || view === "standards" || view === "knowledgebase")
-    ? await prisma.standard.findMany({ where, orderBy: { standard: "asc" } })
+    ? await prisma.standard.findMany({ where, orderBy: { sequenceNo: "asc" } })
     : [];
 
   // Process areas with standard info (company-filtered for standards management)
