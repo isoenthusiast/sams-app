@@ -157,7 +157,7 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
 
   // Controls with PA info (for standards management)
   const allControls = view === "standards"
-    ? await prisma.control.findMany({ include: { processArea: { select: { name: true } } }, orderBy: { name: "asc" } })
+    ? await prisma.control.findMany({ include: { processArea: { include: { standardRef: { select: { standard: true } } } } }, orderBy: { name: "asc" } })
     : [];
 
   // Simple PA list for control form dropdown

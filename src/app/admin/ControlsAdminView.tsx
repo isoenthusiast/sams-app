@@ -3,12 +3,13 @@
 import { useState, useMemo } from "react";
 import { Button } from "@/components/Button";
 import { Modal } from "@/components/Modal";
+import { CollapsibleSection } from "@/components/CollapsibleSection";
 import { showToast } from "@/components/Toast";
 
 type Control = {
   id: string; name: string; statement: string; controlType: string;
-  processAreaId: string; processArea?: { name: string } | null;
-  companyId?: string | null; standard?: string | null;
+  processAreaId: string; processArea?: { name: string; standardRef?: { standard: string } | null } | null;
+  companyId?: string | null;
 };
 
 type ProcessArea = { id: string; name: string };
@@ -28,114 +29,83 @@ export function ControlsAdminView({ initialControls, initialProcessAreas }: { in
     return controls.filter(c => c.name.toLowerCase().includes(t) || (c.processArea?.name ?? "").toLowerCase().includes(t) || c.controlType.toLowerCase().includes(t));
   }, [controls, search]);
 
-  const openEdit = (c: Control) => {
-    setEditing(c);
-    setForm({ name: c.name, statement: c.statement ?? "", controlType: c.controlType, processAreaId: c.processAreaId ?? "", companyId: c.companyId ?? "" });
-  };
+  // Group by Standard → PA
+  const grouped = useMemo(() => {
+    const byStd = new Map<string, Map<string, Control[]>>();
+    for (const c of filtered) {
+      const stdName = c.processArea?.standardRef?.standard ?? "No Standard";
+      const paName = c.processArea?.name ?? "No PA";
+      if (!byStd.has(stdName)) byStd.set(stdName, new Map());
+      const byPA = byStd.get(stdName)!;
+      if (!byPA.has(paName)) byPA.set(paName, []);
+      byPA.get(paName)!.push(c);
+    }
+    return [...byStd.entries()].sort((a, b) => a[0].localeCompare(b[0]));
+  }, [filtered]);
 
-  const openAdd = () => {
-    setAdding(true);
-    setForm({ name: "", statement: "", controlType: "Administrative", processAreaId: "", companyId: "" });
-  };
+  const openEdit = (c: Control) => { setEditing(c); setForm({ name: c.name, statement: c.statement ?? "", controlType: c.controlType, processAreaId: c.processAreaId ?? "", companyId: c.companyId ?? "" }); };
+  const openAdd = () => { setAdding(true); setForm({ name: "", statement: "", controlType: "Administrative", processAreaId: "", companyId: "" }); };
 
   const handleSave = async () => {
     if (!form.name.trim()) { showToast("Name is required", "error"); return; }
     setSaving(true);
     try {
-      const url = editing
-        ? `/api/admin/controls/${editing.id}`
-        : "/api/admin/controls";
+      const url = editing ? `/api/admin/controls/${editing.id}` : "/api/admin/controls";
       const method = editing ? "PUT" : "POST";
       const res = await fetch(url, { method, headers: { "Content-Type": "application/json" }, body: JSON.stringify(form) });
       if (!res.ok) throw new Error("Failed");
       const data = await res.json();
       if (editing) setControls(prev => prev.map(c => c.id === editing.id ? data.control : c));
       else setControls(prev => [...prev, data.control]);
-      showToast(editing ? "Updated" : "Created", "success");
-      setEditing(null); setAdding(false);
-    } catch { showToast("Failed to save", "error"); }
-    finally { setSaving(false); }
+      showToast(editing ? "Updated" : "Created", "success"); setEditing(null); setAdding(false);
+    } catch { showToast("Failed to save", "error"); } finally { setSaving(false); }
   };
 
   const controlTypes = ["Administrative", "Procedural", "Analytical", "Behavioral", "Informational", "Engineering"];
 
   return (
-    <div className="mt-6">
+    <div>
       <div className="flex items-center justify-between mb-4 gap-2">
-        <input type="text" placeholder="Search controls…" value={search}
-          onChange={e => setSearch(e.target.value)}
+        <input type="text" placeholder="Search controls by name, PA, or type…" value={search} onChange={e => setSearch(e.target.value)}
           className="flex-1 rounded border border-slate-300 px-3 py-1.5 text-sm" />
         <span className="text-xs text-slate-400 shrink-0">{filtered.length} of {controls.length}</span>
-        <Button variant="primary" size="sm" onClick={openAdd}>+ Add Control</Button>
+        <Button variant="primary" size="sm" onClick={openAdd}>+ Add</Button>
       </div>
 
-      <div className="overflow-x-auto max-h-[65vh] overflow-y-auto">
-        <table className="w-full text-sm">
-          <thead className="sticky top-0 bg-white">
-            <tr className="border-b border-slate-200 text-left text-xs text-slate-500">
-              <th className="py-2 px-3 font-medium">Name</th>
-              <th className="py-2 px-3 font-medium">Process Area</th>
-              <th className="py-2 px-3 font-medium">Type</th>
-              <th className="py-2 px-3 font-medium">Company</th>
-              <th className="py-2 px-3 font-medium w-16"></th>
-            </tr>
-          </thead>
-          <tbody>
-            {filtered.map(c => (
-              <tr key={c.id} className="border-b border-slate-100 hover:bg-slate-50">
-                <td className="py-2 px-3 font-medium text-slate-800 max-w-[300px] truncate">{c.name}</td>
-                <td className="py-2 px-3 text-slate-500 text-xs">{c.processArea?.name ?? "—"}</td>
-                <td className="py-2 px-3"><span className="text-xs bg-slate-100 px-1.5 py-0.5 rounded">{c.controlType}</span></td>
-                <td className="py-2 px-3 text-slate-400 text-xs">{c.companyId ?? "—"}</td>
-                <td className="py-2 px-3">
-                  <button onClick={() => openEdit(c)} className="text-xs text-blue-600 hover:text-blue-800">Edit</button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-        {filtered.length === 0 && <p className="text-sm text-slate-400 py-8 text-center">No controls found.</p>}
+      <div className="space-y-2 max-h-[65vh] overflow-y-auto">
+        {grouped.map(([stdName, paMap]) => (
+          <CollapsibleSection key={stdName} title={stdName} count={[...paMap.values()].flat().length} defaultOpen>
+            <div className="space-y-1">
+              {[...paMap.entries()].sort((a, b) => a[0].localeCompare(b[0])).map(([paName, ctrls]) => (
+                <CollapsibleSection key={paName} title={paName} count={ctrls.length} defaultOpen={false}>
+                  <div className="space-y-1">
+                    {ctrls.map(c => (
+                      <div key={c.id} className="flex items-center justify-between py-1.5 px-3 rounded hover:bg-slate-50 text-sm">
+                        <div className="flex-1 min-w-0">
+                          <span className="font-medium text-slate-800">{c.name}</span>
+                          <span className="ml-2 text-xs bg-slate-100 px-1.5 py-0.5 rounded">{c.controlType}</span>
+                        </div>
+                        <button onClick={() => openEdit(c)} className="text-xs text-blue-600 hover:text-blue-800 shrink-0 ml-2">Edit</button>
+                      </div>
+                    ))}
+                  </div>
+                </CollapsibleSection>
+              ))}
+            </div>
+          </CollapsibleSection>
+        ))}
+        {grouped.length === 0 && <p className="text-sm text-slate-400 py-8 text-center">No controls found.</p>}
       </div>
 
       <Modal isOpen={!!(editing || adding)} onClose={() => { setEditing(null); setAdding(false); }} title={editing ? "Edit Control" : "Add Control"}>
-          <div className="space-y-3 max-h-[70vh] overflow-y-auto">
-            <div>
-              <label className="text-xs font-medium text-slate-600">Name</label>
-              <input type="text" value={form.name} onChange={e => setForm({ ...form, name: e.target.value })}
-                className="w-full rounded border border-slate-300 px-2 py-1.5 text-sm mt-1" />
-            </div>
-            <div>
-              <label className="text-xs font-medium text-slate-600">Statement</label>
-              <textarea value={form.statement} onChange={e => setForm({ ...form, statement: e.target.value })}
-                className="w-full rounded border border-slate-300 px-2 py-1.5 text-sm mt-1" rows={3} />
-            </div>
-            <div>
-              <label className="text-xs font-medium text-slate-600">Control Type</label>
-              <select value={form.controlType} onChange={e => setForm({ ...form, controlType: e.target.value })}
-                className="w-full rounded border border-slate-300 px-2 py-1.5 text-sm mt-1">
-                {controlTypes.map(t => <option key={t} value={t}>{t}</option>)}
-              </select>
-            </div>
-            <div>
-              <label className="text-xs font-medium text-slate-600">Process Area</label>
-              <select value={form.processAreaId} onChange={e => setForm({ ...form, processAreaId: e.target.value })}
-                className="w-full rounded border border-slate-300 px-2 py-1.5 text-sm mt-1">
-                <option value="">— None —</option>
-                {pas.map(p => <option key={p.id} value={p.id}>{p.name}</option>)}
-              </select>
-            </div>
-            <div>
-              <label className="text-xs font-medium text-slate-600">Company ID</label>
-              <input type="text" value={form.companyId} onChange={e => setForm({ ...form, companyId: e.target.value })}
-                className="w-full rounded border border-slate-300 px-2 py-1.5 text-sm mt-1" placeholder="comp_…" />
-            </div>
-          </div>
-          <div className="flex gap-2 mt-4 justify-end">
-            <Button variant="ghost" size="sm" onClick={() => { setEditing(null); setAdding(false); }}>Cancel</Button>
-            <Button variant="primary" size="sm" disabled={saving} onClick={handleSave}>
-              {saving ? "Saving…" : "Save"}
-            </Button>
-          </div>
+        <div className="space-y-3 max-h-[70vh] overflow-y-auto">
+          <div><label className="text-xs font-medium text-slate-600">Name</label><input type="text" value={form.name} onChange={e => setForm({ ...form, name: e.target.value })} className="w-full rounded border border-slate-300 px-2 py-1.5 text-sm mt-1" /></div>
+          <div><label className="text-xs font-medium text-slate-600">Statement</label><textarea value={form.statement} onChange={e => setForm({ ...form, statement: e.target.value })} className="w-full rounded border border-slate-300 px-2 py-1.5 text-sm mt-1" rows={3} /></div>
+          <div><label className="text-xs font-medium text-slate-600">Control Type</label><select value={form.controlType} onChange={e => setForm({ ...form, controlType: e.target.value })} className="w-full rounded border border-slate-300 px-2 py-1.5 text-sm mt-1">{controlTypes.map(t => <option key={t} value={t}>{t}</option>)}</select></div>
+          <div><label className="text-xs font-medium text-slate-600">Process Area</label><select value={form.processAreaId} onChange={e => setForm({ ...form, processAreaId: e.target.value })} className="w-full rounded border border-slate-300 px-2 py-1.5 text-sm mt-1"><option value="">— None —</option>{pas.map(p => <option key={p.id} value={p.id}>{p.name}</option>)}</select></div>
+          <div><label className="text-xs font-medium text-slate-600">Company ID</label><input type="text" value={form.companyId} onChange={e => setForm({ ...form, companyId: e.target.value })} className="w-full rounded border border-slate-300 px-2 py-1.5 text-sm mt-1" placeholder="comp_…" /></div>
+          <div className="flex gap-2 mt-4 justify-end"><Button variant="ghost" size="sm" onClick={() => { setEditing(null); setAdding(false); }}>Cancel</Button><Button variant="primary" size="sm" disabled={saving} onClick={handleSave}>{saving ? "Saving…" : "Save"}</Button></div>
+        </div>
       </Modal>
     </div>
   );
