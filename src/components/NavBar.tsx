@@ -1,6 +1,7 @@
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
+import { Suspense } from "react";
 import { CompanySelector } from "./CompanySelector";
 import { SignOutButton } from "./SignOutButton";
 
@@ -28,7 +29,9 @@ export async function NavBar() {
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3">
         <div className="flex items-center gap-6">
           <Link href="/" className="text-lg font-bold text-slate-900">SAMS</Link>
-          <CompanySelector companies={companies} isAdmin={isAdmin} />
+          <Suspense fallback={<span className="text-sm text-slate-400">Loading…</span>}>
+            <CompanySelector companies={companies} isAdmin={isAdmin} />
+          </Suspense>
           <nav aria-label="Main navigation" className="flex items-center gap-1">
             {isAdmin ? (
               <>

@@ -14,13 +14,21 @@ import { ActionRowClient } from "@/components/ActionRowClient";
 
 export const dynamic = "force-dynamic";
 
-export default async function DashboardPage() {
+export default async function DashboardPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ companyId?: string }>;
+}) {
   const session = await auth();
   if (!session?.user) redirect("/login");
 
   const userId = (session.user as { id?: string }).id;
   const userName = (session.user as { name?: string }).name ?? "Unknown";
-  const companyId = await getSelectedCompanyId();
+
+  // Company selection: URL param takes precedence over cookie
+  const sp = await searchParams;
+  const cookieCompanyId = await getSelectedCompanyId();
+  const companyId = sp.companyId || cookieCompanyId;
 
   // Process areas with health data — safe fallback
   let processAreas: any[] = [];
