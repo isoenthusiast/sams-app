@@ -127,10 +127,15 @@ export default async function DashboardPage() {
 
   const userRank = leaderboard.find((e) => e.username === userName)?.rank;
 
-  // My Actions
+  // My Actions — filtered by selected company via finding → assessment
   const myActions = userName
     ? await prisma.action.findMany({
-        where: { actionParty: userName },
+        where: {
+          actionParty: userName,
+          ...(companyId
+            ? { finding: { assessment: { companyId } } }
+            : {}),
+        },
         include: {
           finding: {
             include: {
