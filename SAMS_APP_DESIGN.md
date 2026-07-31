@@ -2,7 +2,7 @@
 
 > **📐 Active alongside `CONAN_Design Philosophy.md` and `CONAN_App Design.md`.** CONAN docs are the narrative source of truth; this document is the technical specification (models, routes, components, APIs). Both are maintained.
 
-**Last Updated:** July 29, 2026 (v1.9.2)
+**Last Updated:** July 31, 2026 (v1.9.2)
 
 ---
 
@@ -637,11 +637,12 @@ Three companies in production:
 
 ### 8.2 How It Works
 
-1. **Company Cookie:** `selectedCompanyId` stored in browser cookie, read by `getSelectedCompanyId()` in `src/lib/authz.ts`
-2. **Server-Side Filtering:** All data queries add `where: { companyId }` when a company is selected
-3. **Company Selector:** `CompanySelector` component in NavBar — updates cookie on change
-4. **Template Adoption:** SAMS001 acts as seed. "Adopt Templates" copies Standards, ProcessAreas, SubProcesses, Requirements, Controls, and mappings into the target company
-5. **Composite Uniques:** `@@unique([field, companyId])` on all company-scoped tables prevents cross-company collisions
+1. **URL Search Param (primary):** CompanySelector navigates to `/fla?companyId=X` via `router.push()`. Server reads `searchParams.companyId` — this is the most reliable mechanism since the param is part of the HTTP request URL, not dependent on cookie attributes.
+2. **Cookie (fallback):** `selectedCompanyId` cookie stored with `Secure; SameSite=Lax` for persistence across sessions. Read by `getSelectedCompanyId()` as fallback when no URL param is present.
+3. **Server-Side Filtering:** All data queries add `where: { companyId }` when a company is selected. Models without direct `companyId` use nested relation traversal (e.g., `Action → Finding → Assessment → companyId`).
+4. **Company Selector:** `CompanySelector` client component in NavBar — wrapped in `<Suspense>` (required for `useSearchParams()`). Reads URL param first, then cookie, to determine current selection.
+5. **Template Adoption:** SAMS001 acts as seed. "Adopt Templates" copies Standards, ProcessAreas, SubProcesses, Requirements, Controls, and mappings into the target company
+6. **Composite Uniques:** `@@unique([field, companyId])` on all company-scoped tables prevents cross-company collisions
 
 ### 8.3 Company-Scoped vs. Global Tables
 
@@ -743,7 +744,7 @@ getCompanyWhere(companyId)  // Prisma where clause
 - **Middleware:** `/admin/*` UI pages blocked for non-Admin
 - **Route-level:** Every API route has explicit auth check via helpers
 - **Write gating:** Generic table API POST/PUT/DELETE whitelists tables per role
-- **Company scoping:** All data reads filtered by `companyId`
+- **Company scoping:** All data reads filtered by `companyId`. **Audit (2026-07-31):** Found 27 gaps — 3 unauthenticated endpoints (badges, templates), 9 missing company scope on GET/POST routes (controls, processAreas, standards, documents, findings, samples, actions, controlAssignments), 11 medium-severity gaps. Documented in `lessons-learned-2026-07-31.md`. Fixes in progress.
 
 ---
 
@@ -905,7 +906,7 @@ Local Dev (localhost:3100)
 | v1.9.0 | 2026-07-28 | **Manager Resolution Complete.** 540 of 550 users have resolved `managerUsername`. Zero TBC, zero invalid usernames. 8 external manager names absorbed by 3 SMDS users. TOP sentinel marks hierarchy apex. Display shows `↳ USERNAME — Name` below Manager field. Preferred names shown in Org Chart as `Name (Preferred)`. Manager assignment: uncontrolled inputs with Save button + blur/Enter triggers, status filter persisted to URL, optimistic local state updates (no page reload). |
 | v1.9.1 | 2026-07-28 | **preferredName Display Priority.** `preferredName` now the primary display name everywhere: Org Chart, User Manager left panel, and search bars. Fallback to formal `name` when preferred is absent. Search scans both `preferredName` and `name` so users are findable by either. |
 | v1.7.1 | 2026-07-27 | **User Profile Page.** New `/profile` page accessible by clicking the username in the navbar ("Admin (Admin)" → link). Two tabs: **📊 Overview** (gamification dashboard — XP sources, track levels, recommendations, mastery tracks, badges, recent activity — moved here from the navbar's "Gamification" link, which was removed) and **👤 User Details** (read-only profile card with Name, Username, Email, Role badge, Position, Department, Member since, Total Points, Company Memberships; "✏️ Edit" opens inline form for name/username/email, saves via `PUT /api/admin/users/[id]`). Gamification nav link removed; `/gamification` route now redirects to `/profile`. New components: `ProfileTabs.tsx`, `UserDetailsTab.tsx`. |
-| v1.7.0 | 2026-07-26 | **Process Documents Tab.** New 📄 Documents tab on Process Detail page — per-PA document library with two collapsible sections: 🌐 Shared (SAMS001, visible to all companies) and 🏢 Company (selected company only). New `DocumentsPanel` component: multi-file upload (PDF/DOCX/MD/CSV/TXT/images), "Shared with all companies" checkbox (SAMS001 sessions only), expandable content viewer, inline summary editing, admin soft-delete. New routes: `PATCH /api/documents/[id]` (summary, Assessor+), `DELETE /api/documents/[id]` (archive, Admin; shared docs blocked unless SAMS001 selected → 403). Upload reuses `/api/chat/knowledge/upload` with new optional `folder` param (`Uploaded` vs `AI Chat`). **SAMS001-as-shared convention established:** documents owned by SAMS001 company apply to all companies, superseding the `companyId IS NULL` pattern (verified 0 NULL rows existed). Chat context queries aligned: `companyId = master OR selected` + `archivedAt IS NULL`. Key discovery documented: `companyId` columns store `Company.id` cuid, not the `companyID` code — master id must be resolved via `Company.companyID` lookup (new Section 8.4). Design aligned via grill-with-docs session; glossary captured in CONTEXT.md "Process Documents". **Bug fixes:** Gamification page BigInt error (raw SQL `SUM` returned BigInt, added `::int` cast) and variable ordering (`pas` used before initialization). |
+| v1.9.2 | 2026-07-31 | **Company Selector — URL Params + Cookie Dual Mechanism.** Fixed `selectedCompanyId` cookie not being sent over HTTPS (missing `Secure` attribute). Switched primary mechanism to URL search params (`?companyId=X`) — CompanySelector now uses `router.push()` instead of `window.location.reload()`. Server reads `searchParams.companyId` with cookie fallback. Added `Suspense` boundary in NavBar for `useSearchParams()`. **My Actions company filter:** Added nested Prisma relation traversal `finding → assessment → companyId` to action queries in both `fla/page.tsx` and `admin/page.tsx`. **Comprehensive audit:** Identified 27 gaps across unauthenticated endpoints, missing company scoping on API routes, and models needing nested relation traversal (Action, Finding, Sample, ControlAssignment, Aact variants, etc.). Documented in lessons-learned-2026-07-31.md. |
 
 ---
 
