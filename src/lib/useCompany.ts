@@ -12,5 +12,5 @@ export function useSelectedCompanyId(): string | null {
 }
 
 export function setSelectedCompanyCookie(companyId: string) {
-  document.cookie = `selectedCompanyId=${companyId}; path=/; max-age=${60 * 60 * 24 * 365}`;
+  document.cookie = `selectedCompanyId=${companyId}; path=/; max-age=${60 * 60 * 24 * 365}; Secure; SameSite=Lax`;
 }
