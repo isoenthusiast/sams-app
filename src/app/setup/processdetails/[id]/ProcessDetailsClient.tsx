@@ -73,6 +73,7 @@ export default function ProcessDetailsClient(props: Props) {
   const testedTotal = effective + partiallyEffective + ineffective;
   const effectivePct = testedTotal > 0 ? Math.round((effective / testedTotal) * 100) : null;
   const isSpoOrAdmin = currentUserRole === "Admin" || currentUserRole === "Superuser";
+  const isAdmin = currentUserRole === "Admin";
 
   // ── PIP helpers ──
   const refreshPips = async () => {
@@ -265,7 +266,9 @@ export default function ProcessDetailsClient(props: Props) {
 
       {/* Tabs */}
       <div className="mt-4 flex border-b border-slate-200">
-        {(["overview", "requirements", "assessments", "knowledgebase", "documents", "improvement"] as const).map((t) => (
+        {(["overview", "requirements", "assessments", "knowledgebase", "documents", "improvement"] as const)
+          .filter((t) => t !== "knowledgebase" || isAdmin)
+          .map((t) => (
           <button
             key={t}
             onClick={() => { setActiveTab(t); setMapMode(false); }}
@@ -550,8 +553,8 @@ export default function ProcessDetailsClient(props: Props) {
         </div>
       )}
 
-      {/* ─── TAB 4: Knowledgebase ─── */}
-      {activeTab === "knowledgebase" && (
+      {/* ─── TAB 4: Knowledgebase (Admin Only) ─── */}
+      {activeTab === "knowledgebase" && isAdmin && (
         <div className="mt-6 space-y-6">
           <KnowledgebasePanel entries={kbEntries} />
 
