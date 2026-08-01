@@ -214,6 +214,7 @@ model Control {
   templateLinkages    AssessmentTemplateControlLinkage[]
   requirementMappings MapControl2Requirement[]
   pipLinks            BacklogItemControl[]
+  auditMappings       AuditChecklist2Requirement[]
   processArea         ProcessArea                        @relation(fields: [processAreaId], references: [id])
 
   @@unique([name, companyId])
@@ -792,6 +793,7 @@ model Requirement {
   processArea         ProcessArea?             @relation(fields: [processAreaId], references: [id])
   controlMappings     MapControl2Requirement[]
   assuranceProtocols  AssuranceProtocol[]
+  auditMappings       AuditChecklist2Requirement[]
 
   @@unique([requirementId, processAreaId, companyId])
   @@index([processAreaId])
@@ -999,4 +1001,72 @@ model BacklogItemControl {
   @@unique([backlogItemId, controlId])
   @@index([backlogItemId])
   @@index([controlId])
+}
+
+// ── IMS Audit Evidence ──────────────────────────────────────────
+// A single evidence-gathering event (interview, walkthrough, etc.)
+// that may satisfy requirements from multiple standards simultaneously.
+// Maps to AuditChecklist2Requirement via evidenceGroupId.
+model AuditEvidence {
+  id              String                          @id @default(cuid())
+  title           String                          // e.g. "Interview — Instrument Engineer, Gas Detector Calibration"
+  evidenceType    EvidenceType                    // Interview | DocumentReview | Walkthrough | GoSee | Sampling
+  intervieweeName String?                         // e.g. "Jignesh JJ"
+  plannedDate     DateTime                        // Scheduled date for audit plan
+  actualDate      DateTime?                       // When it actually happened
+  durationMinutes Int?                            // Duration in minutes
+  interviewerName String?                         // Auditor name
+  location        String?                         // e.g. "Control Room", "U-8600 Wax Plant"
+  transcriptUrl   String?                         // Link to transcript (future: DeepSeek analysis)
+  attachments     String?                         // Comma-separated or JSON array of attachment IDs
+  notes           String?
+  status          EvidenceStatus @default(Planned) // Planned → Conducted → Analysed
+  createdAt       DateTime       @default(now())
+
+  mappings        AuditChecklist2Requirement[]
+}
+
+// ── AuditChecklist2Requirement — Checklist Item ⟷ ISO/PMS Requirement ──
+// Maps audit checklist items to their corresponding ISO/PMS requirements.
+// Multiple checklist items can map to one requirement; one item can map to
+// multiple requirements (integrated audit — e.g., instrument calibration
+// satisfies QMS-7.1.5, EMS-9.1.1, and OHSMS-9.1.1 simultaneously).
+// Optionally links to a specific SMDS Control for full traceability.
+model AuditChecklist2Requirement {
+  id              String        @id @default(cuid())
+  checklistItemId String        // e.g. "1.1", "7.14" — from ISO_Internal_Audit_Checklist.md
+  checklistText   String?       // Snapshot of the checklist item text
+  auditStandard   String        // "ISO 9001" | "ISO 14001" | "ISO 45001" | "PMS"
+  requirementRId  Int           // FK → Requirement.rId (@map("rID"))
+  controlId       String?       // FK → Control.id (optional direct control link)
+  evidenceNote    String?       // How this control/evidence satisfies the checklist item
+  evidenceMethod  String?       // D | I | S | W | G
+  evidenceGroupId String        // FK → AuditEvidence.id (shared for multi-clause evidence)
+  mappedBy        String?       // Who did the mapping
+  mappedAt        DateTime      @default(now())
+
+  requirement     Requirement?  @relation(fields: [requirementRId], references: [rId])
+  control         Control?      @relation(fields: [controlId], references: [id])
+  evidence        AuditEvidence @relation(fields: [evidenceGroupId], references: [id])
+
+  @@index([checklistItemId, auditStandard])
+  @@index([requirementRId])
+  @@index([controlId])
+  @@index([evidenceGroupId])
+}
+
+// ── Enum: EvidenceType ─────────────────────────────────────────
+enum EvidenceType {
+  Interview
+  DocumentReview
+  Walkthrough
+  GoSee
+  Sampling
+}
+
+// ── Enum: EvidenceStatus ───────────────────────────────────────
+enum EvidenceStatus {
+  Planned
+  Conducted
+  Analysed
 }
