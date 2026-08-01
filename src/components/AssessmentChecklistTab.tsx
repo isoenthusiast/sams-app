@@ -5,6 +5,118 @@ import { StatusBadge } from "@/components/StatusBadge";
 import { AttachmentList } from "@/components/AttachmentList";
 import { VoiceInput } from "@/components/VoiceInput";
 
+// ── Linked Controls Sub-Component (v1.10.1) ──────────────────────
+function LinkedControlsSection({
+  assessmentId, itemId, onAddFinding, item,
+}: {
+  assessmentId: string;
+  itemId: string;
+  onAddFinding?: (checklistItemId: string, itemText: string) => void;
+  item: any;
+}) {
+  interface ScoredControl {
+    controlId: string;
+    controlName: string;
+    controlStatement: string;
+    controlType: string;
+    processArea: string;
+    score: number;
+    isLinked: boolean;
+    junctionId: string | null;
+  }
+
+  const [controls, setControls] = useState<ScoredControl[] | null>(null);
+
+  useEffect(() => {
+    fetch(`/api/admin/assessments/${assessmentId}/checklist-controls?itemId=${itemId}`)
+      .then((r) => r.json())
+      .then((d) => setControls(d.controls ?? []))
+      .catch(() => setControls([]));
+  }, [assessmentId, itemId]);
+
+  if (!controls) return null; // loading
+
+  const linked = controls.filter((c) => c.isLinked);
+  const suggested = controls.filter((c) => !c.isLinked && c.score > 0);
+  const [showAll, setShowAll] = useState(false);
+
+  if (controls.length === 0) return null; // no assigned controls
+
+  const handleLink = async (controlId: string) => {
+    await fetch(`/api/admin/assessments/${assessmentId}/checklist-controls`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ checklistItemId: itemId, controlId }),
+    });
+    // Refresh
+    const r = await fetch(`/api/admin/assessments/${assessmentId}/checklist-controls?itemId=${itemId}`);
+    const d = await r.json();
+    setControls(d.controls ?? []);
+  };
+
+  const handleUnlink = async (junctionId: string) => {
+    // We need the junction ID — find it from the linked list
+    await fetch(`/api/admin/assessments/${assessmentId}/checklist-controls/${junctionId}`, { method: "DELETE" });
+    const r = await fetch(`/api/admin/assessments/${assessmentId}/checklist-controls?itemId=${itemId}`);
+    const d = await r.json();
+    setControls(d.controls ?? []);
+  };
+
+  const displaySuggested = showAll ? suggested : suggested.slice(0, 5);
+
+  return (
+    <div className="mt-2 pt-2 border-t border-slate-100">
+      <p className="text-[10px] font-medium text-slate-400 mb-1">🔗 Linked Controls</p>
+      {/* Linked controls */}
+      {linked.map((c) => (
+        <div key={c.controlId} className="flex items-center gap-1 text-[10px] text-slate-600 ml-1">
+          <span className="text-emerald-500">✓</span>
+          <span className="font-medium truncate max-w-[200px]" title={c.controlStatement}>
+            {c.controlName}
+          </span>
+          <span className="text-slate-400">({c.score}%)</span>
+          {c.junctionId && (
+            <button
+              onClick={() => handleUnlink(c.junctionId!)}
+              className="text-red-400 hover:text-red-600 ml-1"
+              title="Unlink"
+            >
+              ×
+            </button>
+          )}
+        </div>
+      ))}
+      {/* Suggested controls */}
+      {displaySuggested.map((c) => (
+        <button
+          key={c.controlId}
+          onClick={() => handleLink(c.controlId)}
+          className="flex items-center gap-1 text-[10px] text-blue-500 hover:text-blue-700 ml-1 w-full text-left"
+          title={c.controlStatement}
+        >
+          <span>＋</span>
+          <span className="truncate max-w-[200px]">{c.controlName}</span>
+          <span className="text-slate-400">({c.score}%)</span>
+        </button>
+      ))}
+      {/* Show more */}
+      {!showAll && suggested.length > 5 && (
+        <button onClick={() => setShowAll(true)} className="text-[10px] text-blue-400 hover:text-blue-600 ml-1 mt-1">
+          ＋ {suggested.length - 5} more suggestions
+        </button>
+      )}
+      {showAll && suggested.length > 5 && (
+        <button onClick={() => setShowAll(false)} className="text-[10px] text-slate-400 hover:text-slate-600 ml-1 mt-1">
+          Show less
+        </button>
+      )}
+      {linked.length === 0 && suggested.length === 0 && (
+        <p className="text-[10px] text-slate-400 ml-1">No controls assigned to this assessment.</p>
+      )}
+    </div>
+  );
+}
+
 interface ChecklistItem {
   id: string;
   checklistItemId: string;
@@ -188,6 +300,8 @@ export function AssessmentChecklistTab({
                           ＋ Add notes
                         </button>
                       )}
+                      {/* v1.10.1: Linked Controls */}
+                      <LinkedControlsSection assessmentId={assessmentId} itemId={item.id} onAddFinding={onAddFinding} item={item} />
                       {/* T2.2: Evidence attachments per checklist item */}
                       <div className="mt-2 border-t border-slate-100 pt-2">
                         <AttachmentList destTable="AuditChecklistItem" recId={item.id} />

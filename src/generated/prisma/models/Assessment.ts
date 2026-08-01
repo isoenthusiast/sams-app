@@ -278,6 +278,7 @@ export type AssessmentWhereInput = {
   aacts?: Prisma.AactListRelationFilter
   assessorLinks?: Prisma.AssessmentAssessorListRelationFilter
   checklistItems?: Prisma.AuditChecklistItemListRelationFilter
+  checklistControlLinks?: Prisma.AssessmentChecklistControlListRelationFilter
 }
 
 export type AssessmentOrderByWithRelationInput = {
@@ -305,6 +306,7 @@ export type AssessmentOrderByWithRelationInput = {
   aacts?: Prisma.AactOrderByRelationAggregateInput
   assessorLinks?: Prisma.AssessmentAssessorOrderByRelationAggregateInput
   checklistItems?: Prisma.AuditChecklistItemOrderByRelationAggregateInput
+  checklistControlLinks?: Prisma.AssessmentChecklistControlOrderByRelationAggregateInput
 }
 
 export type AssessmentWhereUniqueInput = Prisma.AtLeast<{
@@ -335,6 +337,7 @@ export type AssessmentWhereUniqueInput = Prisma.AtLeast<{
   aacts?: Prisma.AactListRelationFilter
   assessorLinks?: Prisma.AssessmentAssessorListRelationFilter
   checklistItems?: Prisma.AuditChecklistItemListRelationFilter
+  checklistControlLinks?: Prisma.AssessmentChecklistControlListRelationFilter
 }, "id">
 
 export type AssessmentOrderByWithAggregationInput = {
@@ -404,6 +407,7 @@ export type AssessmentCreateInput = {
   aacts?: Prisma.AactCreateNestedManyWithoutAssessmentInput
   assessorLinks?: Prisma.AssessmentAssessorCreateNestedManyWithoutAssessmentInput
   checklistItems?: Prisma.AuditChecklistItemCreateNestedManyWithoutAssessmentInput
+  checklistControlLinks?: Prisma.AssessmentChecklistControlCreateNestedManyWithoutAssessmentInput
 }
 
 export type AssessmentUncheckedCreateInput = {
@@ -429,6 +433,7 @@ export type AssessmentUncheckedCreateInput = {
   aacts?: Prisma.AactUncheckedCreateNestedManyWithoutAssessmentInput
   assessorLinks?: Prisma.AssessmentAssessorUncheckedCreateNestedManyWithoutAssessmentInput
   checklistItems?: Prisma.AuditChecklistItemUncheckedCreateNestedManyWithoutAssessmentInput
+  checklistControlLinks?: Prisma.AssessmentChecklistControlUncheckedCreateNestedManyWithoutAssessmentInput
 }
 
 export type AssessmentUpdateInput = {
@@ -454,6 +459,7 @@ export type AssessmentUpdateInput = {
   aacts?: Prisma.AactUpdateManyWithoutAssessmentNestedInput
   assessorLinks?: Prisma.AssessmentAssessorUpdateManyWithoutAssessmentNestedInput
   checklistItems?: Prisma.AuditChecklistItemUpdateManyWithoutAssessmentNestedInput
+  checklistControlLinks?: Prisma.AssessmentChecklistControlUpdateManyWithoutAssessmentNestedInput
 }
 
 export type AssessmentUncheckedUpdateInput = {
@@ -479,6 +485,7 @@ export type AssessmentUncheckedUpdateInput = {
   aacts?: Prisma.AactUncheckedUpdateManyWithoutAssessmentNestedInput
   assessorLinks?: Prisma.AssessmentAssessorUncheckedUpdateManyWithoutAssessmentNestedInput
   checklistItems?: Prisma.AuditChecklistItemUncheckedUpdateManyWithoutAssessmentNestedInput
+  checklistControlLinks?: Prisma.AssessmentChecklistControlUncheckedUpdateManyWithoutAssessmentNestedInput
 }
 
 export type AssessmentCreateManyInput = {
@@ -780,6 +787,20 @@ export type AssessmentUpdateOneRequiredWithoutChecklistItemsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.AssessmentUpdateToOneWithWhereWithoutChecklistItemsInput, Prisma.AssessmentUpdateWithoutChecklistItemsInput>, Prisma.AssessmentUncheckedUpdateWithoutChecklistItemsInput>
 }
 
+export type AssessmentCreateNestedOneWithoutChecklistControlLinksInput = {
+  create?: Prisma.XOR<Prisma.AssessmentCreateWithoutChecklistControlLinksInput, Prisma.AssessmentUncheckedCreateWithoutChecklistControlLinksInput>
+  connectOrCreate?: Prisma.AssessmentCreateOrConnectWithoutChecklistControlLinksInput
+  connect?: Prisma.AssessmentWhereUniqueInput
+}
+
+export type AssessmentUpdateOneRequiredWithoutChecklistControlLinksNestedInput = {
+  create?: Prisma.XOR<Prisma.AssessmentCreateWithoutChecklistControlLinksInput, Prisma.AssessmentUncheckedCreateWithoutChecklistControlLinksInput>
+  connectOrCreate?: Prisma.AssessmentCreateOrConnectWithoutChecklistControlLinksInput
+  upsert?: Prisma.AssessmentUpsertWithoutChecklistControlLinksInput
+  connect?: Prisma.AssessmentWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.AssessmentUpdateToOneWithWhereWithoutChecklistControlLinksInput, Prisma.AssessmentUpdateWithoutChecklistControlLinksInput>, Prisma.AssessmentUncheckedUpdateWithoutChecklistControlLinksInput>
+}
+
 export type AssessmentCreateWithoutAssessorInput = {
   id?: string
   name: string
@@ -802,6 +823,7 @@ export type AssessmentCreateWithoutAssessorInput = {
   aacts?: Prisma.AactCreateNestedManyWithoutAssessmentInput
   assessorLinks?: Prisma.AssessmentAssessorCreateNestedManyWithoutAssessmentInput
   checklistItems?: Prisma.AuditChecklistItemCreateNestedManyWithoutAssessmentInput
+  checklistControlLinks?: Prisma.AssessmentChecklistControlCreateNestedManyWithoutAssessmentInput
 }
 
 export type AssessmentUncheckedCreateWithoutAssessorInput = {
@@ -826,6 +848,7 @@ export type AssessmentUncheckedCreateWithoutAssessorInput = {
   aacts?: Prisma.AactUncheckedCreateNestedManyWithoutAssessmentInput
   assessorLinks?: Prisma.AssessmentAssessorUncheckedCreateNestedManyWithoutAssessmentInput
   checklistItems?: Prisma.AuditChecklistItemUncheckedCreateNestedManyWithoutAssessmentInput
+  checklistControlLinks?: Prisma.AssessmentChecklistControlUncheckedCreateNestedManyWithoutAssessmentInput
 }
 
 export type AssessmentCreateOrConnectWithoutAssessorInput = {
@@ -898,6 +921,7 @@ export type AssessmentCreateWithoutActivityTypeInput = {
   aacts?: Prisma.AactCreateNestedManyWithoutAssessmentInput
   assessorLinks?: Prisma.AssessmentAssessorCreateNestedManyWithoutAssessmentInput
   checklistItems?: Prisma.AuditChecklistItemCreateNestedManyWithoutAssessmentInput
+  checklistControlLinks?: Prisma.AssessmentChecklistControlCreateNestedManyWithoutAssessmentInput
 }
 
 export type AssessmentUncheckedCreateWithoutActivityTypeInput = {
@@ -922,6 +946,7 @@ export type AssessmentUncheckedCreateWithoutActivityTypeInput = {
   aacts?: Prisma.AactUncheckedCreateNestedManyWithoutAssessmentInput
   assessorLinks?: Prisma.AssessmentAssessorUncheckedCreateNestedManyWithoutAssessmentInput
   checklistItems?: Prisma.AuditChecklistItemUncheckedCreateNestedManyWithoutAssessmentInput
+  checklistControlLinks?: Prisma.AssessmentChecklistControlUncheckedCreateNestedManyWithoutAssessmentInput
 }
 
 export type AssessmentCreateOrConnectWithoutActivityTypeInput = {
@@ -972,6 +997,7 @@ export type AssessmentCreateWithoutAssessorLinksInput = {
   findings?: Prisma.FindingCreateNestedManyWithoutAssessmentInput
   aacts?: Prisma.AactCreateNestedManyWithoutAssessmentInput
   checklistItems?: Prisma.AuditChecklistItemCreateNestedManyWithoutAssessmentInput
+  checklistControlLinks?: Prisma.AssessmentChecklistControlCreateNestedManyWithoutAssessmentInput
 }
 
 export type AssessmentUncheckedCreateWithoutAssessorLinksInput = {
@@ -996,6 +1022,7 @@ export type AssessmentUncheckedCreateWithoutAssessorLinksInput = {
   findings?: Prisma.FindingUncheckedCreateNestedManyWithoutAssessmentInput
   aacts?: Prisma.AactUncheckedCreateNestedManyWithoutAssessmentInput
   checklistItems?: Prisma.AuditChecklistItemUncheckedCreateNestedManyWithoutAssessmentInput
+  checklistControlLinks?: Prisma.AssessmentChecklistControlUncheckedCreateNestedManyWithoutAssessmentInput
 }
 
 export type AssessmentCreateOrConnectWithoutAssessorLinksInput = {
@@ -1036,6 +1063,7 @@ export type AssessmentUpdateWithoutAssessorLinksInput = {
   findings?: Prisma.FindingUpdateManyWithoutAssessmentNestedInput
   aacts?: Prisma.AactUpdateManyWithoutAssessmentNestedInput
   checklistItems?: Prisma.AuditChecklistItemUpdateManyWithoutAssessmentNestedInput
+  checklistControlLinks?: Prisma.AssessmentChecklistControlUpdateManyWithoutAssessmentNestedInput
 }
 
 export type AssessmentUncheckedUpdateWithoutAssessorLinksInput = {
@@ -1060,6 +1088,7 @@ export type AssessmentUncheckedUpdateWithoutAssessorLinksInput = {
   findings?: Prisma.FindingUncheckedUpdateManyWithoutAssessmentNestedInput
   aacts?: Prisma.AactUncheckedUpdateManyWithoutAssessmentNestedInput
   checklistItems?: Prisma.AuditChecklistItemUncheckedUpdateManyWithoutAssessmentNestedInput
+  checklistControlLinks?: Prisma.AssessmentChecklistControlUncheckedUpdateManyWithoutAssessmentNestedInput
 }
 
 export type AssessmentCreateWithoutControlAssignmentsInput = {
@@ -1084,6 +1113,7 @@ export type AssessmentCreateWithoutControlAssignmentsInput = {
   aacts?: Prisma.AactCreateNestedManyWithoutAssessmentInput
   assessorLinks?: Prisma.AssessmentAssessorCreateNestedManyWithoutAssessmentInput
   checklistItems?: Prisma.AuditChecklistItemCreateNestedManyWithoutAssessmentInput
+  checklistControlLinks?: Prisma.AssessmentChecklistControlCreateNestedManyWithoutAssessmentInput
 }
 
 export type AssessmentUncheckedCreateWithoutControlAssignmentsInput = {
@@ -1108,6 +1138,7 @@ export type AssessmentUncheckedCreateWithoutControlAssignmentsInput = {
   aacts?: Prisma.AactUncheckedCreateNestedManyWithoutAssessmentInput
   assessorLinks?: Prisma.AssessmentAssessorUncheckedCreateNestedManyWithoutAssessmentInput
   checklistItems?: Prisma.AuditChecklistItemUncheckedCreateNestedManyWithoutAssessmentInput
+  checklistControlLinks?: Prisma.AssessmentChecklistControlUncheckedCreateNestedManyWithoutAssessmentInput
 }
 
 export type AssessmentCreateOrConnectWithoutControlAssignmentsInput = {
@@ -1148,6 +1179,7 @@ export type AssessmentUpdateWithoutControlAssignmentsInput = {
   aacts?: Prisma.AactUpdateManyWithoutAssessmentNestedInput
   assessorLinks?: Prisma.AssessmentAssessorUpdateManyWithoutAssessmentNestedInput
   checklistItems?: Prisma.AuditChecklistItemUpdateManyWithoutAssessmentNestedInput
+  checklistControlLinks?: Prisma.AssessmentChecklistControlUpdateManyWithoutAssessmentNestedInput
 }
 
 export type AssessmentUncheckedUpdateWithoutControlAssignmentsInput = {
@@ -1172,6 +1204,7 @@ export type AssessmentUncheckedUpdateWithoutControlAssignmentsInput = {
   aacts?: Prisma.AactUncheckedUpdateManyWithoutAssessmentNestedInput
   assessorLinks?: Prisma.AssessmentAssessorUncheckedUpdateManyWithoutAssessmentNestedInput
   checklistItems?: Prisma.AuditChecklistItemUncheckedUpdateManyWithoutAssessmentNestedInput
+  checklistControlLinks?: Prisma.AssessmentChecklistControlUncheckedUpdateManyWithoutAssessmentNestedInput
 }
 
 export type AssessmentCreateWithoutSamplesInput = {
@@ -1196,6 +1229,7 @@ export type AssessmentCreateWithoutSamplesInput = {
   aacts?: Prisma.AactCreateNestedManyWithoutAssessmentInput
   assessorLinks?: Prisma.AssessmentAssessorCreateNestedManyWithoutAssessmentInput
   checklistItems?: Prisma.AuditChecklistItemCreateNestedManyWithoutAssessmentInput
+  checklistControlLinks?: Prisma.AssessmentChecklistControlCreateNestedManyWithoutAssessmentInput
 }
 
 export type AssessmentUncheckedCreateWithoutSamplesInput = {
@@ -1220,6 +1254,7 @@ export type AssessmentUncheckedCreateWithoutSamplesInput = {
   aacts?: Prisma.AactUncheckedCreateNestedManyWithoutAssessmentInput
   assessorLinks?: Prisma.AssessmentAssessorUncheckedCreateNestedManyWithoutAssessmentInput
   checklistItems?: Prisma.AuditChecklistItemUncheckedCreateNestedManyWithoutAssessmentInput
+  checklistControlLinks?: Prisma.AssessmentChecklistControlUncheckedCreateNestedManyWithoutAssessmentInput
 }
 
 export type AssessmentCreateOrConnectWithoutSamplesInput = {
@@ -1260,6 +1295,7 @@ export type AssessmentUpdateWithoutSamplesInput = {
   aacts?: Prisma.AactUpdateManyWithoutAssessmentNestedInput
   assessorLinks?: Prisma.AssessmentAssessorUpdateManyWithoutAssessmentNestedInput
   checklistItems?: Prisma.AuditChecklistItemUpdateManyWithoutAssessmentNestedInput
+  checklistControlLinks?: Prisma.AssessmentChecklistControlUpdateManyWithoutAssessmentNestedInput
 }
 
 export type AssessmentUncheckedUpdateWithoutSamplesInput = {
@@ -1284,6 +1320,7 @@ export type AssessmentUncheckedUpdateWithoutSamplesInput = {
   aacts?: Prisma.AactUncheckedUpdateManyWithoutAssessmentNestedInput
   assessorLinks?: Prisma.AssessmentAssessorUncheckedUpdateManyWithoutAssessmentNestedInput
   checklistItems?: Prisma.AuditChecklistItemUncheckedUpdateManyWithoutAssessmentNestedInput
+  checklistControlLinks?: Prisma.AssessmentChecklistControlUncheckedUpdateManyWithoutAssessmentNestedInput
 }
 
 export type AssessmentCreateWithoutFindingsInput = {
@@ -1308,6 +1345,7 @@ export type AssessmentCreateWithoutFindingsInput = {
   aacts?: Prisma.AactCreateNestedManyWithoutAssessmentInput
   assessorLinks?: Prisma.AssessmentAssessorCreateNestedManyWithoutAssessmentInput
   checklistItems?: Prisma.AuditChecklistItemCreateNestedManyWithoutAssessmentInput
+  checklistControlLinks?: Prisma.AssessmentChecklistControlCreateNestedManyWithoutAssessmentInput
 }
 
 export type AssessmentUncheckedCreateWithoutFindingsInput = {
@@ -1332,6 +1370,7 @@ export type AssessmentUncheckedCreateWithoutFindingsInput = {
   aacts?: Prisma.AactUncheckedCreateNestedManyWithoutAssessmentInput
   assessorLinks?: Prisma.AssessmentAssessorUncheckedCreateNestedManyWithoutAssessmentInput
   checklistItems?: Prisma.AuditChecklistItemUncheckedCreateNestedManyWithoutAssessmentInput
+  checklistControlLinks?: Prisma.AssessmentChecklistControlUncheckedCreateNestedManyWithoutAssessmentInput
 }
 
 export type AssessmentCreateOrConnectWithoutFindingsInput = {
@@ -1372,6 +1411,7 @@ export type AssessmentUpdateWithoutFindingsInput = {
   aacts?: Prisma.AactUpdateManyWithoutAssessmentNestedInput
   assessorLinks?: Prisma.AssessmentAssessorUpdateManyWithoutAssessmentNestedInput
   checklistItems?: Prisma.AuditChecklistItemUpdateManyWithoutAssessmentNestedInput
+  checklistControlLinks?: Prisma.AssessmentChecklistControlUpdateManyWithoutAssessmentNestedInput
 }
 
 export type AssessmentUncheckedUpdateWithoutFindingsInput = {
@@ -1396,6 +1436,7 @@ export type AssessmentUncheckedUpdateWithoutFindingsInput = {
   aacts?: Prisma.AactUncheckedUpdateManyWithoutAssessmentNestedInput
   assessorLinks?: Prisma.AssessmentAssessorUncheckedUpdateManyWithoutAssessmentNestedInput
   checklistItems?: Prisma.AuditChecklistItemUncheckedUpdateManyWithoutAssessmentNestedInput
+  checklistControlLinks?: Prisma.AssessmentChecklistControlUncheckedUpdateManyWithoutAssessmentNestedInput
 }
 
 export type AssessmentCreateWithoutAactsInput = {
@@ -1420,6 +1461,7 @@ export type AssessmentCreateWithoutAactsInput = {
   findings?: Prisma.FindingCreateNestedManyWithoutAssessmentInput
   assessorLinks?: Prisma.AssessmentAssessorCreateNestedManyWithoutAssessmentInput
   checklistItems?: Prisma.AuditChecklistItemCreateNestedManyWithoutAssessmentInput
+  checklistControlLinks?: Prisma.AssessmentChecklistControlCreateNestedManyWithoutAssessmentInput
 }
 
 export type AssessmentUncheckedCreateWithoutAactsInput = {
@@ -1444,6 +1486,7 @@ export type AssessmentUncheckedCreateWithoutAactsInput = {
   findings?: Prisma.FindingUncheckedCreateNestedManyWithoutAssessmentInput
   assessorLinks?: Prisma.AssessmentAssessorUncheckedCreateNestedManyWithoutAssessmentInput
   checklistItems?: Prisma.AuditChecklistItemUncheckedCreateNestedManyWithoutAssessmentInput
+  checklistControlLinks?: Prisma.AssessmentChecklistControlUncheckedCreateNestedManyWithoutAssessmentInput
 }
 
 export type AssessmentCreateOrConnectWithoutAactsInput = {
@@ -1484,6 +1527,7 @@ export type AssessmentUpdateWithoutAactsInput = {
   findings?: Prisma.FindingUpdateManyWithoutAssessmentNestedInput
   assessorLinks?: Prisma.AssessmentAssessorUpdateManyWithoutAssessmentNestedInput
   checklistItems?: Prisma.AuditChecklistItemUpdateManyWithoutAssessmentNestedInput
+  checklistControlLinks?: Prisma.AssessmentChecklistControlUpdateManyWithoutAssessmentNestedInput
 }
 
 export type AssessmentUncheckedUpdateWithoutAactsInput = {
@@ -1508,6 +1552,7 @@ export type AssessmentUncheckedUpdateWithoutAactsInput = {
   findings?: Prisma.FindingUncheckedUpdateManyWithoutAssessmentNestedInput
   assessorLinks?: Prisma.AssessmentAssessorUncheckedUpdateManyWithoutAssessmentNestedInput
   checklistItems?: Prisma.AuditChecklistItemUncheckedUpdateManyWithoutAssessmentNestedInput
+  checklistControlLinks?: Prisma.AssessmentChecklistControlUncheckedUpdateManyWithoutAssessmentNestedInput
 }
 
 export type AssessmentCreateWithoutChecklistItemsInput = {
@@ -1532,6 +1577,7 @@ export type AssessmentCreateWithoutChecklistItemsInput = {
   findings?: Prisma.FindingCreateNestedManyWithoutAssessmentInput
   aacts?: Prisma.AactCreateNestedManyWithoutAssessmentInput
   assessorLinks?: Prisma.AssessmentAssessorCreateNestedManyWithoutAssessmentInput
+  checklistControlLinks?: Prisma.AssessmentChecklistControlCreateNestedManyWithoutAssessmentInput
 }
 
 export type AssessmentUncheckedCreateWithoutChecklistItemsInput = {
@@ -1556,6 +1602,7 @@ export type AssessmentUncheckedCreateWithoutChecklistItemsInput = {
   findings?: Prisma.FindingUncheckedCreateNestedManyWithoutAssessmentInput
   aacts?: Prisma.AactUncheckedCreateNestedManyWithoutAssessmentInput
   assessorLinks?: Prisma.AssessmentAssessorUncheckedCreateNestedManyWithoutAssessmentInput
+  checklistControlLinks?: Prisma.AssessmentChecklistControlUncheckedCreateNestedManyWithoutAssessmentInput
 }
 
 export type AssessmentCreateOrConnectWithoutChecklistItemsInput = {
@@ -1596,6 +1643,7 @@ export type AssessmentUpdateWithoutChecklistItemsInput = {
   findings?: Prisma.FindingUpdateManyWithoutAssessmentNestedInput
   aacts?: Prisma.AactUpdateManyWithoutAssessmentNestedInput
   assessorLinks?: Prisma.AssessmentAssessorUpdateManyWithoutAssessmentNestedInput
+  checklistControlLinks?: Prisma.AssessmentChecklistControlUpdateManyWithoutAssessmentNestedInput
 }
 
 export type AssessmentUncheckedUpdateWithoutChecklistItemsInput = {
@@ -1620,6 +1668,123 @@ export type AssessmentUncheckedUpdateWithoutChecklistItemsInput = {
   findings?: Prisma.FindingUncheckedUpdateManyWithoutAssessmentNestedInput
   aacts?: Prisma.AactUncheckedUpdateManyWithoutAssessmentNestedInput
   assessorLinks?: Prisma.AssessmentAssessorUncheckedUpdateManyWithoutAssessmentNestedInput
+  checklistControlLinks?: Prisma.AssessmentChecklistControlUncheckedUpdateManyWithoutAssessmentNestedInput
+}
+
+export type AssessmentCreateWithoutChecklistControlLinksInput = {
+  id?: string
+  name: string
+  startDate: Date | string
+  endDate?: Date | string | null
+  loa: $Enums.LOA
+  status?: $Enums.AssessmentStatus
+  companyId?: string | null
+  createdAt?: Date | string
+  objective?: string | null
+  scope?: string | null
+  sponsor?: string | null
+  methodology?: string | null
+  keyFocus?: string | null
+  reportIssueDate?: Date | string | null
+  assessor: Prisma.UserCreateNestedOneWithoutAssessmentsInput
+  activityType: Prisma.AssuranceActivityTypeCreateNestedOneWithoutAssessmentsInput
+  controlAssignments?: Prisma.ControlAssignmentCreateNestedManyWithoutAssessmentInput
+  samples?: Prisma.SampleCreateNestedManyWithoutAssessmentInput
+  findings?: Prisma.FindingCreateNestedManyWithoutAssessmentInput
+  aacts?: Prisma.AactCreateNestedManyWithoutAssessmentInput
+  assessorLinks?: Prisma.AssessmentAssessorCreateNestedManyWithoutAssessmentInput
+  checklistItems?: Prisma.AuditChecklistItemCreateNestedManyWithoutAssessmentInput
+}
+
+export type AssessmentUncheckedCreateWithoutChecklistControlLinksInput = {
+  id?: string
+  activityTypeId: string
+  name: string
+  assessorId: string
+  startDate: Date | string
+  endDate?: Date | string | null
+  loa: $Enums.LOA
+  status?: $Enums.AssessmentStatus
+  companyId?: string | null
+  createdAt?: Date | string
+  objective?: string | null
+  scope?: string | null
+  sponsor?: string | null
+  methodology?: string | null
+  keyFocus?: string | null
+  reportIssueDate?: Date | string | null
+  controlAssignments?: Prisma.ControlAssignmentUncheckedCreateNestedManyWithoutAssessmentInput
+  samples?: Prisma.SampleUncheckedCreateNestedManyWithoutAssessmentInput
+  findings?: Prisma.FindingUncheckedCreateNestedManyWithoutAssessmentInput
+  aacts?: Prisma.AactUncheckedCreateNestedManyWithoutAssessmentInput
+  assessorLinks?: Prisma.AssessmentAssessorUncheckedCreateNestedManyWithoutAssessmentInput
+  checklistItems?: Prisma.AuditChecklistItemUncheckedCreateNestedManyWithoutAssessmentInput
+}
+
+export type AssessmentCreateOrConnectWithoutChecklistControlLinksInput = {
+  where: Prisma.AssessmentWhereUniqueInput
+  create: Prisma.XOR<Prisma.AssessmentCreateWithoutChecklistControlLinksInput, Prisma.AssessmentUncheckedCreateWithoutChecklistControlLinksInput>
+}
+
+export type AssessmentUpsertWithoutChecklistControlLinksInput = {
+  update: Prisma.XOR<Prisma.AssessmentUpdateWithoutChecklistControlLinksInput, Prisma.AssessmentUncheckedUpdateWithoutChecklistControlLinksInput>
+  create: Prisma.XOR<Prisma.AssessmentCreateWithoutChecklistControlLinksInput, Prisma.AssessmentUncheckedCreateWithoutChecklistControlLinksInput>
+  where?: Prisma.AssessmentWhereInput
+}
+
+export type AssessmentUpdateToOneWithWhereWithoutChecklistControlLinksInput = {
+  where?: Prisma.AssessmentWhereInput
+  data: Prisma.XOR<Prisma.AssessmentUpdateWithoutChecklistControlLinksInput, Prisma.AssessmentUncheckedUpdateWithoutChecklistControlLinksInput>
+}
+
+export type AssessmentUpdateWithoutChecklistControlLinksInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  loa?: Prisma.EnumLOAFieldUpdateOperationsInput | $Enums.LOA
+  status?: Prisma.EnumAssessmentStatusFieldUpdateOperationsInput | $Enums.AssessmentStatus
+  companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  objective?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  scope?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sponsor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  methodology?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  keyFocus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reportIssueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  assessor?: Prisma.UserUpdateOneRequiredWithoutAssessmentsNestedInput
+  activityType?: Prisma.AssuranceActivityTypeUpdateOneRequiredWithoutAssessmentsNestedInput
+  controlAssignments?: Prisma.ControlAssignmentUpdateManyWithoutAssessmentNestedInput
+  samples?: Prisma.SampleUpdateManyWithoutAssessmentNestedInput
+  findings?: Prisma.FindingUpdateManyWithoutAssessmentNestedInput
+  aacts?: Prisma.AactUpdateManyWithoutAssessmentNestedInput
+  assessorLinks?: Prisma.AssessmentAssessorUpdateManyWithoutAssessmentNestedInput
+  checklistItems?: Prisma.AuditChecklistItemUpdateManyWithoutAssessmentNestedInput
+}
+
+export type AssessmentUncheckedUpdateWithoutChecklistControlLinksInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  activityTypeId?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  assessorId?: Prisma.StringFieldUpdateOperationsInput | string
+  startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  loa?: Prisma.EnumLOAFieldUpdateOperationsInput | $Enums.LOA
+  status?: Prisma.EnumAssessmentStatusFieldUpdateOperationsInput | $Enums.AssessmentStatus
+  companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  objective?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  scope?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sponsor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  methodology?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  keyFocus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reportIssueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  controlAssignments?: Prisma.ControlAssignmentUncheckedUpdateManyWithoutAssessmentNestedInput
+  samples?: Prisma.SampleUncheckedUpdateManyWithoutAssessmentNestedInput
+  findings?: Prisma.FindingUncheckedUpdateManyWithoutAssessmentNestedInput
+  aacts?: Prisma.AactUncheckedUpdateManyWithoutAssessmentNestedInput
+  assessorLinks?: Prisma.AssessmentAssessorUncheckedUpdateManyWithoutAssessmentNestedInput
+  checklistItems?: Prisma.AuditChecklistItemUncheckedUpdateManyWithoutAssessmentNestedInput
 }
 
 export type AssessmentCreateManyAssessorInput = {
@@ -1662,6 +1827,7 @@ export type AssessmentUpdateWithoutAssessorInput = {
   aacts?: Prisma.AactUpdateManyWithoutAssessmentNestedInput
   assessorLinks?: Prisma.AssessmentAssessorUpdateManyWithoutAssessmentNestedInput
   checklistItems?: Prisma.AuditChecklistItemUpdateManyWithoutAssessmentNestedInput
+  checklistControlLinks?: Prisma.AssessmentChecklistControlUpdateManyWithoutAssessmentNestedInput
 }
 
 export type AssessmentUncheckedUpdateWithoutAssessorInput = {
@@ -1686,6 +1852,7 @@ export type AssessmentUncheckedUpdateWithoutAssessorInput = {
   aacts?: Prisma.AactUncheckedUpdateManyWithoutAssessmentNestedInput
   assessorLinks?: Prisma.AssessmentAssessorUncheckedUpdateManyWithoutAssessmentNestedInput
   checklistItems?: Prisma.AuditChecklistItemUncheckedUpdateManyWithoutAssessmentNestedInput
+  checklistControlLinks?: Prisma.AssessmentChecklistControlUncheckedUpdateManyWithoutAssessmentNestedInput
 }
 
 export type AssessmentUncheckedUpdateManyWithoutAssessorInput = {
@@ -1746,6 +1913,7 @@ export type AssessmentUpdateWithoutActivityTypeInput = {
   aacts?: Prisma.AactUpdateManyWithoutAssessmentNestedInput
   assessorLinks?: Prisma.AssessmentAssessorUpdateManyWithoutAssessmentNestedInput
   checklistItems?: Prisma.AuditChecklistItemUpdateManyWithoutAssessmentNestedInput
+  checklistControlLinks?: Prisma.AssessmentChecklistControlUpdateManyWithoutAssessmentNestedInput
 }
 
 export type AssessmentUncheckedUpdateWithoutActivityTypeInput = {
@@ -1770,6 +1938,7 @@ export type AssessmentUncheckedUpdateWithoutActivityTypeInput = {
   aacts?: Prisma.AactUncheckedUpdateManyWithoutAssessmentNestedInput
   assessorLinks?: Prisma.AssessmentAssessorUncheckedUpdateManyWithoutAssessmentNestedInput
   checklistItems?: Prisma.AuditChecklistItemUncheckedUpdateManyWithoutAssessmentNestedInput
+  checklistControlLinks?: Prisma.AssessmentChecklistControlUncheckedUpdateManyWithoutAssessmentNestedInput
 }
 
 export type AssessmentUncheckedUpdateManyWithoutActivityTypeInput = {
@@ -1802,6 +1971,7 @@ export type AssessmentCountOutputType = {
   aacts: number
   assessorLinks: number
   checklistItems: number
+  checklistControlLinks: number
 }
 
 export type AssessmentCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1811,6 +1981,7 @@ export type AssessmentCountOutputTypeSelect<ExtArgs extends runtime.Types.Extens
   aacts?: boolean | AssessmentCountOutputTypeCountAactsArgs
   assessorLinks?: boolean | AssessmentCountOutputTypeCountAssessorLinksArgs
   checklistItems?: boolean | AssessmentCountOutputTypeCountChecklistItemsArgs
+  checklistControlLinks?: boolean | AssessmentCountOutputTypeCountChecklistControlLinksArgs
 }
 
 /**
@@ -1865,6 +2036,13 @@ export type AssessmentCountOutputTypeCountChecklistItemsArgs<ExtArgs extends run
   where?: Prisma.AuditChecklistItemWhereInput
 }
 
+/**
+ * AssessmentCountOutputType without action
+ */
+export type AssessmentCountOutputTypeCountChecklistControlLinksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.AssessmentChecklistControlWhereInput
+}
+
 
 export type AssessmentSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1891,6 +2069,7 @@ export type AssessmentSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   aacts?: boolean | Prisma.Assessment$aactsArgs<ExtArgs>
   assessorLinks?: boolean | Prisma.Assessment$assessorLinksArgs<ExtArgs>
   checklistItems?: boolean | Prisma.Assessment$checklistItemsArgs<ExtArgs>
+  checklistControlLinks?: boolean | Prisma.Assessment$checklistControlLinksArgs<ExtArgs>
   _count?: boolean | Prisma.AssessmentCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["assessment"]>
 
@@ -1965,6 +2144,7 @@ export type AssessmentInclude<ExtArgs extends runtime.Types.Extensions.InternalA
   aacts?: boolean | Prisma.Assessment$aactsArgs<ExtArgs>
   assessorLinks?: boolean | Prisma.Assessment$assessorLinksArgs<ExtArgs>
   checklistItems?: boolean | Prisma.Assessment$checklistItemsArgs<ExtArgs>
+  checklistControlLinks?: boolean | Prisma.Assessment$checklistControlLinksArgs<ExtArgs>
   _count?: boolean | Prisma.AssessmentCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type AssessmentIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1987,6 +2167,7 @@ export type $AssessmentPayload<ExtArgs extends runtime.Types.Extensions.Internal
     aacts: Prisma.$AactPayload<ExtArgs>[]
     assessorLinks: Prisma.$AssessmentAssessorPayload<ExtArgs>[]
     checklistItems: Prisma.$AuditChecklistItemPayload<ExtArgs>[]
+    checklistControlLinks: Prisma.$AssessmentChecklistControlPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -2407,6 +2588,7 @@ export interface Prisma__AssessmentClient<T, Null = never, ExtArgs extends runti
   aacts<T extends Prisma.Assessment$aactsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Assessment$aactsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AactPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   assessorLinks<T extends Prisma.Assessment$assessorLinksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Assessment$assessorLinksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AssessmentAssessorPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   checklistItems<T extends Prisma.Assessment$checklistItemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Assessment$checklistItemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AuditChecklistItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  checklistControlLinks<T extends Prisma.Assessment$checklistControlLinksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Assessment$checklistControlLinksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AssessmentChecklistControlPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2994,6 +3176,30 @@ export type Assessment$checklistItemsArgs<ExtArgs extends runtime.Types.Extensio
   take?: number
   skip?: number
   distinct?: Prisma.AuditChecklistItemScalarFieldEnum | Prisma.AuditChecklistItemScalarFieldEnum[]
+}
+
+/**
+ * Assessment.checklistControlLinks
+ */
+export type Assessment$checklistControlLinksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the AssessmentChecklistControl
+   */
+  select?: Prisma.AssessmentChecklistControlSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the AssessmentChecklistControl
+   */
+  omit?: Prisma.AssessmentChecklistControlOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AssessmentChecklistControlInclude<ExtArgs> | null
+  where?: Prisma.AssessmentChecklistControlWhereInput
+  orderBy?: Prisma.AssessmentChecklistControlOrderByWithRelationInput | Prisma.AssessmentChecklistControlOrderByWithRelationInput[]
+  cursor?: Prisma.AssessmentChecklistControlWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.AssessmentChecklistControlScalarFieldEnum | Prisma.AssessmentChecklistControlScalarFieldEnum[]
 }
 
 /**

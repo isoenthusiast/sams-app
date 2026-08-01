@@ -106,7 +106,8 @@ export const ModelName = {
   AuditChecklist2Requirement: 'AuditChecklist2Requirement',
   AuditChecklistTemplate: 'AuditChecklistTemplate',
   AuditChecklistTemplateItem: 'AuditChecklistTemplateItem',
-  AuditChecklistItem: 'AuditChecklistItem'
+  AuditChecklistItem: 'AuditChecklistItem',
+  AssessmentChecklistControl: 'AssessmentChecklistControl'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -964,6 +965,19 @@ export const AuditChecklistItemScalarFieldEnum = {
 } as const
 
 export type AuditChecklistItemScalarFieldEnum = (typeof AuditChecklistItemScalarFieldEnum)[keyof typeof AuditChecklistItemScalarFieldEnum]
+
+
+export const AssessmentChecklistControlScalarFieldEnum = {
+  id: 'id',
+  checklistItemId: 'checklistItemId',
+  controlId: 'controlId',
+  assessmentId: 'assessmentId',
+  relevanceScore: 'relevanceScore',
+  isLinked: 'isLinked',
+  createdAt: 'createdAt'
+} as const
+
+export type AssessmentChecklistControlScalarFieldEnum = (typeof AssessmentChecklistControlScalarFieldEnum)[keyof typeof AssessmentChecklistControlScalarFieldEnum]
 
 
 export const SortOrder = {

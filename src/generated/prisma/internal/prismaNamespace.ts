@@ -439,7 +439,8 @@ export const ModelName = {
   AuditChecklist2Requirement: 'AuditChecklist2Requirement',
   AuditChecklistTemplate: 'AuditChecklistTemplate',
   AuditChecklistTemplateItem: 'AuditChecklistTemplateItem',
-  AuditChecklistItem: 'AuditChecklistItem'
+  AuditChecklistItem: 'AuditChecklistItem',
+  AssessmentChecklistControl: 'AssessmentChecklistControl'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -455,7 +456,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "activityLog" | "activityLogType" | "assuranceActivityType" | "assuranceProtocol" | "standard" | "processArea" | "subProcess" | "controlSubProcess" | "control" | "assessmentTemplate" | "assessmentTemplateControlLinkage" | "assessmentTemplateActivityType" | "assessment" | "assessmentAssessor" | "controlAssignment" | "sampleType" | "recordSourceType" | "sample" | "finding" | "action" | "attachment" | "attachmentMapping" | "achievementBadge" | "userAchievement" | "pointTransaction" | "gameAttribute" | "gameAttributeRule" | "emotionalDriveMetric" | "milestone" | "userRole" | "userRoleMapping" | "company" | "department" | "position" | "userCompany" | "userFavorite" | "assessmentActType" | "aact" | "aActControls" | "aActUsers" | "aActDetails" | "knowledgebase" | "mapArt2Know" | "requirement" | "mapControl2Requirement" | "gamificationStage" | "webhookLog" | "document" | "backlogItem" | "backlogItemControl" | "auditEvidence" | "auditChecklist2Requirement" | "auditChecklistTemplate" | "auditChecklistTemplateItem" | "auditChecklistItem"
+    modelProps: "user" | "activityLog" | "activityLogType" | "assuranceActivityType" | "assuranceProtocol" | "standard" | "processArea" | "subProcess" | "controlSubProcess" | "control" | "assessmentTemplate" | "assessmentTemplateControlLinkage" | "assessmentTemplateActivityType" | "assessment" | "assessmentAssessor" | "controlAssignment" | "sampleType" | "recordSourceType" | "sample" | "finding" | "action" | "attachment" | "attachmentMapping" | "achievementBadge" | "userAchievement" | "pointTransaction" | "gameAttribute" | "gameAttributeRule" | "emotionalDriveMetric" | "milestone" | "userRole" | "userRoleMapping" | "company" | "department" | "position" | "userCompany" | "userFavorite" | "assessmentActType" | "aact" | "aActControls" | "aActUsers" | "aActDetails" | "knowledgebase" | "mapArt2Know" | "requirement" | "mapControl2Requirement" | "gamificationStage" | "webhookLog" | "document" | "backlogItem" | "backlogItemControl" | "auditEvidence" | "auditChecklist2Requirement" | "auditChecklistTemplate" | "auditChecklistTemplateItem" | "auditChecklistItem" | "assessmentChecklistControl"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -4603,6 +4604,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    AssessmentChecklistControl: {
+      payload: Prisma.$AssessmentChecklistControlPayload<ExtArgs>
+      fields: Prisma.AssessmentChecklistControlFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.AssessmentChecklistControlFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AssessmentChecklistControlPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.AssessmentChecklistControlFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AssessmentChecklistControlPayload>
+        }
+        findFirst: {
+          args: Prisma.AssessmentChecklistControlFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AssessmentChecklistControlPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.AssessmentChecklistControlFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AssessmentChecklistControlPayload>
+        }
+        findMany: {
+          args: Prisma.AssessmentChecklistControlFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AssessmentChecklistControlPayload>[]
+        }
+        create: {
+          args: Prisma.AssessmentChecklistControlCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AssessmentChecklistControlPayload>
+        }
+        createMany: {
+          args: Prisma.AssessmentChecklistControlCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.AssessmentChecklistControlCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AssessmentChecklistControlPayload>[]
+        }
+        delete: {
+          args: Prisma.AssessmentChecklistControlDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AssessmentChecklistControlPayload>
+        }
+        update: {
+          args: Prisma.AssessmentChecklistControlUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AssessmentChecklistControlPayload>
+        }
+        deleteMany: {
+          args: Prisma.AssessmentChecklistControlDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.AssessmentChecklistControlUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.AssessmentChecklistControlUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AssessmentChecklistControlPayload>[]
+        }
+        upsert: {
+          args: Prisma.AssessmentChecklistControlUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AssessmentChecklistControlPayload>
+        }
+        aggregate: {
+          args: Prisma.AssessmentChecklistControlAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateAssessmentChecklistControl>
+        }
+        groupBy: {
+          args: Prisma.AssessmentChecklistControlGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AssessmentChecklistControlGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.AssessmentChecklistControlCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AssessmentChecklistControlCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -5483,6 +5558,19 @@ export const AuditChecklistItemScalarFieldEnum = {
 export type AuditChecklistItemScalarFieldEnum = (typeof AuditChecklistItemScalarFieldEnum)[keyof typeof AuditChecklistItemScalarFieldEnum]
 
 
+export const AssessmentChecklistControlScalarFieldEnum = {
+  id: 'id',
+  checklistItemId: 'checklistItemId',
+  controlId: 'controlId',
+  assessmentId: 'assessmentId',
+  relevanceScore: 'relevanceScore',
+  isLinked: 'isLinked',
+  createdAt: 'createdAt'
+} as const
+
+export type AssessmentChecklistControlScalarFieldEnum = (typeof AssessmentChecklistControlScalarFieldEnum)[keyof typeof AssessmentChecklistControlScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -6010,6 +6098,7 @@ export type GlobalOmitConfig = {
   auditChecklistTemplate?: Prisma.AuditChecklistTemplateOmit
   auditChecklistTemplateItem?: Prisma.AuditChecklistTemplateItemOmit
   auditChecklistItem?: Prisma.AuditChecklistItemOmit
+  assessmentChecklistControl?: Prisma.AssessmentChecklistControlOmit
 }
 
 /* Types for Logging */

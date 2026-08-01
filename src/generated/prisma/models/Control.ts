@@ -434,6 +434,7 @@ export type ControlWhereInput = {
   requirementMappings?: Prisma.MapControl2RequirementListRelationFilter
   pipLinks?: Prisma.BacklogItemControlListRelationFilter
   auditMappings?: Prisma.AuditChecklist2RequirementListRelationFilter
+  checklistControlLinks?: Prisma.AssessmentChecklistControlListRelationFilter
   processArea?: Prisma.XOR<Prisma.ProcessAreaScalarRelationFilter, Prisma.ProcessAreaWhereInput>
 }
 
@@ -475,6 +476,7 @@ export type ControlOrderByWithRelationInput = {
   requirementMappings?: Prisma.MapControl2RequirementOrderByRelationAggregateInput
   pipLinks?: Prisma.BacklogItemControlOrderByRelationAggregateInput
   auditMappings?: Prisma.AuditChecklist2RequirementOrderByRelationAggregateInput
+  checklistControlLinks?: Prisma.AssessmentChecklistControlOrderByRelationAggregateInput
   processArea?: Prisma.ProcessAreaOrderByWithRelationInput
 }
 
@@ -520,6 +522,7 @@ export type ControlWhereUniqueInput = Prisma.AtLeast<{
   requirementMappings?: Prisma.MapControl2RequirementListRelationFilter
   pipLinks?: Prisma.BacklogItemControlListRelationFilter
   auditMappings?: Prisma.AuditChecklist2RequirementListRelationFilter
+  checklistControlLinks?: Prisma.AssessmentChecklistControlListRelationFilter
   processArea?: Prisma.XOR<Prisma.ProcessAreaScalarRelationFilter, Prisma.ProcessAreaWhereInput>
 }, "id" | "name_companyId">
 
@@ -636,6 +639,7 @@ export type ControlCreateInput = {
   requirementMappings?: Prisma.MapControl2RequirementCreateNestedManyWithoutControlInput
   pipLinks?: Prisma.BacklogItemControlCreateNestedManyWithoutControlInput
   auditMappings?: Prisma.AuditChecklist2RequirementCreateNestedManyWithoutControlInput
+  checklistControlLinks?: Prisma.AssessmentChecklistControlCreateNestedManyWithoutControlInput
   processArea: Prisma.ProcessAreaCreateNestedOneWithoutControlsInput
 }
 
@@ -677,6 +681,7 @@ export type ControlUncheckedCreateInput = {
   requirementMappings?: Prisma.MapControl2RequirementUncheckedCreateNestedManyWithoutControlInput
   pipLinks?: Prisma.BacklogItemControlUncheckedCreateNestedManyWithoutControlInput
   auditMappings?: Prisma.AuditChecklist2RequirementUncheckedCreateNestedManyWithoutControlInput
+  checklistControlLinks?: Prisma.AssessmentChecklistControlUncheckedCreateNestedManyWithoutControlInput
 }
 
 export type ControlUpdateInput = {
@@ -716,6 +721,7 @@ export type ControlUpdateInput = {
   requirementMappings?: Prisma.MapControl2RequirementUpdateManyWithoutControlNestedInput
   pipLinks?: Prisma.BacklogItemControlUpdateManyWithoutControlNestedInput
   auditMappings?: Prisma.AuditChecklist2RequirementUpdateManyWithoutControlNestedInput
+  checklistControlLinks?: Prisma.AssessmentChecklistControlUpdateManyWithoutControlNestedInput
   processArea?: Prisma.ProcessAreaUpdateOneRequiredWithoutControlsNestedInput
 }
 
@@ -757,6 +763,7 @@ export type ControlUncheckedUpdateInput = {
   requirementMappings?: Prisma.MapControl2RequirementUncheckedUpdateManyWithoutControlNestedInput
   pipLinks?: Prisma.BacklogItemControlUncheckedUpdateManyWithoutControlNestedInput
   auditMappings?: Prisma.AuditChecklist2RequirementUncheckedUpdateManyWithoutControlNestedInput
+  checklistControlLinks?: Prisma.AssessmentChecklistControlUncheckedUpdateManyWithoutControlNestedInput
 }
 
 export type ControlCreateManyInput = {
@@ -1129,6 +1136,20 @@ export type ControlUpdateOneWithoutAuditMappingsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.ControlUpdateToOneWithWhereWithoutAuditMappingsInput, Prisma.ControlUpdateWithoutAuditMappingsInput>, Prisma.ControlUncheckedUpdateWithoutAuditMappingsInput>
 }
 
+export type ControlCreateNestedOneWithoutChecklistControlLinksInput = {
+  create?: Prisma.XOR<Prisma.ControlCreateWithoutChecklistControlLinksInput, Prisma.ControlUncheckedCreateWithoutChecklistControlLinksInput>
+  connectOrCreate?: Prisma.ControlCreateOrConnectWithoutChecklistControlLinksInput
+  connect?: Prisma.ControlWhereUniqueInput
+}
+
+export type ControlUpdateOneRequiredWithoutChecklistControlLinksNestedInput = {
+  create?: Prisma.XOR<Prisma.ControlCreateWithoutChecklistControlLinksInput, Prisma.ControlUncheckedCreateWithoutChecklistControlLinksInput>
+  connectOrCreate?: Prisma.ControlCreateOrConnectWithoutChecklistControlLinksInput
+  upsert?: Prisma.ControlUpsertWithoutChecklistControlLinksInput
+  connect?: Prisma.ControlWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ControlUpdateToOneWithWhereWithoutChecklistControlLinksInput, Prisma.ControlUpdateWithoutChecklistControlLinksInput>, Prisma.ControlUncheckedUpdateWithoutChecklistControlLinksInput>
+}
+
 export type ControlCreateWithoutProcessAreaInput = {
   id?: string
   name: string
@@ -1166,6 +1187,7 @@ export type ControlCreateWithoutProcessAreaInput = {
   requirementMappings?: Prisma.MapControl2RequirementCreateNestedManyWithoutControlInput
   pipLinks?: Prisma.BacklogItemControlCreateNestedManyWithoutControlInput
   auditMappings?: Prisma.AuditChecklist2RequirementCreateNestedManyWithoutControlInput
+  checklistControlLinks?: Prisma.AssessmentChecklistControlCreateNestedManyWithoutControlInput
 }
 
 export type ControlUncheckedCreateWithoutProcessAreaInput = {
@@ -1205,6 +1227,7 @@ export type ControlUncheckedCreateWithoutProcessAreaInput = {
   requirementMappings?: Prisma.MapControl2RequirementUncheckedCreateNestedManyWithoutControlInput
   pipLinks?: Prisma.BacklogItemControlUncheckedCreateNestedManyWithoutControlInput
   auditMappings?: Prisma.AuditChecklist2RequirementUncheckedCreateNestedManyWithoutControlInput
+  checklistControlLinks?: Prisma.AssessmentChecklistControlUncheckedCreateNestedManyWithoutControlInput
 }
 
 export type ControlCreateOrConnectWithoutProcessAreaInput = {
@@ -1306,6 +1329,7 @@ export type ControlCreateWithoutControlSubProcessesInput = {
   requirementMappings?: Prisma.MapControl2RequirementCreateNestedManyWithoutControlInput
   pipLinks?: Prisma.BacklogItemControlCreateNestedManyWithoutControlInput
   auditMappings?: Prisma.AuditChecklist2RequirementCreateNestedManyWithoutControlInput
+  checklistControlLinks?: Prisma.AssessmentChecklistControlCreateNestedManyWithoutControlInput
   processArea: Prisma.ProcessAreaCreateNestedOneWithoutControlsInput
 }
 
@@ -1346,6 +1370,7 @@ export type ControlUncheckedCreateWithoutControlSubProcessesInput = {
   requirementMappings?: Prisma.MapControl2RequirementUncheckedCreateNestedManyWithoutControlInput
   pipLinks?: Prisma.BacklogItemControlUncheckedCreateNestedManyWithoutControlInput
   auditMappings?: Prisma.AuditChecklist2RequirementUncheckedCreateNestedManyWithoutControlInput
+  checklistControlLinks?: Prisma.AssessmentChecklistControlUncheckedCreateNestedManyWithoutControlInput
 }
 
 export type ControlCreateOrConnectWithoutControlSubProcessesInput = {
@@ -1400,6 +1425,7 @@ export type ControlUpdateWithoutControlSubProcessesInput = {
   requirementMappings?: Prisma.MapControl2RequirementUpdateManyWithoutControlNestedInput
   pipLinks?: Prisma.BacklogItemControlUpdateManyWithoutControlNestedInput
   auditMappings?: Prisma.AuditChecklist2RequirementUpdateManyWithoutControlNestedInput
+  checklistControlLinks?: Prisma.AssessmentChecklistControlUpdateManyWithoutControlNestedInput
   processArea?: Prisma.ProcessAreaUpdateOneRequiredWithoutControlsNestedInput
 }
 
@@ -1440,6 +1466,7 @@ export type ControlUncheckedUpdateWithoutControlSubProcessesInput = {
   requirementMappings?: Prisma.MapControl2RequirementUncheckedUpdateManyWithoutControlNestedInput
   pipLinks?: Prisma.BacklogItemControlUncheckedUpdateManyWithoutControlNestedInput
   auditMappings?: Prisma.AuditChecklist2RequirementUncheckedUpdateManyWithoutControlNestedInput
+  checklistControlLinks?: Prisma.AssessmentChecklistControlUncheckedUpdateManyWithoutControlNestedInput
 }
 
 export type ControlCreateWithoutTemplateLinkagesInput = {
@@ -1478,6 +1505,7 @@ export type ControlCreateWithoutTemplateLinkagesInput = {
   requirementMappings?: Prisma.MapControl2RequirementCreateNestedManyWithoutControlInput
   pipLinks?: Prisma.BacklogItemControlCreateNestedManyWithoutControlInput
   auditMappings?: Prisma.AuditChecklist2RequirementCreateNestedManyWithoutControlInput
+  checklistControlLinks?: Prisma.AssessmentChecklistControlCreateNestedManyWithoutControlInput
   processArea: Prisma.ProcessAreaCreateNestedOneWithoutControlsInput
 }
 
@@ -1518,6 +1546,7 @@ export type ControlUncheckedCreateWithoutTemplateLinkagesInput = {
   requirementMappings?: Prisma.MapControl2RequirementUncheckedCreateNestedManyWithoutControlInput
   pipLinks?: Prisma.BacklogItemControlUncheckedCreateNestedManyWithoutControlInput
   auditMappings?: Prisma.AuditChecklist2RequirementUncheckedCreateNestedManyWithoutControlInput
+  checklistControlLinks?: Prisma.AssessmentChecklistControlUncheckedCreateNestedManyWithoutControlInput
 }
 
 export type ControlCreateOrConnectWithoutTemplateLinkagesInput = {
@@ -1572,6 +1601,7 @@ export type ControlUpdateWithoutTemplateLinkagesInput = {
   requirementMappings?: Prisma.MapControl2RequirementUpdateManyWithoutControlNestedInput
   pipLinks?: Prisma.BacklogItemControlUpdateManyWithoutControlNestedInput
   auditMappings?: Prisma.AuditChecklist2RequirementUpdateManyWithoutControlNestedInput
+  checklistControlLinks?: Prisma.AssessmentChecklistControlUpdateManyWithoutControlNestedInput
   processArea?: Prisma.ProcessAreaUpdateOneRequiredWithoutControlsNestedInput
 }
 
@@ -1612,6 +1642,7 @@ export type ControlUncheckedUpdateWithoutTemplateLinkagesInput = {
   requirementMappings?: Prisma.MapControl2RequirementUncheckedUpdateManyWithoutControlNestedInput
   pipLinks?: Prisma.BacklogItemControlUncheckedUpdateManyWithoutControlNestedInput
   auditMappings?: Prisma.AuditChecklist2RequirementUncheckedUpdateManyWithoutControlNestedInput
+  checklistControlLinks?: Prisma.AssessmentChecklistControlUncheckedUpdateManyWithoutControlNestedInput
 }
 
 export type ControlCreateWithoutControlAssignmentsInput = {
@@ -1650,6 +1681,7 @@ export type ControlCreateWithoutControlAssignmentsInput = {
   requirementMappings?: Prisma.MapControl2RequirementCreateNestedManyWithoutControlInput
   pipLinks?: Prisma.BacklogItemControlCreateNestedManyWithoutControlInput
   auditMappings?: Prisma.AuditChecklist2RequirementCreateNestedManyWithoutControlInput
+  checklistControlLinks?: Prisma.AssessmentChecklistControlCreateNestedManyWithoutControlInput
   processArea: Prisma.ProcessAreaCreateNestedOneWithoutControlsInput
 }
 
@@ -1690,6 +1722,7 @@ export type ControlUncheckedCreateWithoutControlAssignmentsInput = {
   requirementMappings?: Prisma.MapControl2RequirementUncheckedCreateNestedManyWithoutControlInput
   pipLinks?: Prisma.BacklogItemControlUncheckedCreateNestedManyWithoutControlInput
   auditMappings?: Prisma.AuditChecklist2RequirementUncheckedCreateNestedManyWithoutControlInput
+  checklistControlLinks?: Prisma.AssessmentChecklistControlUncheckedCreateNestedManyWithoutControlInput
 }
 
 export type ControlCreateOrConnectWithoutControlAssignmentsInput = {
@@ -1744,6 +1777,7 @@ export type ControlUpdateWithoutControlAssignmentsInput = {
   requirementMappings?: Prisma.MapControl2RequirementUpdateManyWithoutControlNestedInput
   pipLinks?: Prisma.BacklogItemControlUpdateManyWithoutControlNestedInput
   auditMappings?: Prisma.AuditChecklist2RequirementUpdateManyWithoutControlNestedInput
+  checklistControlLinks?: Prisma.AssessmentChecklistControlUpdateManyWithoutControlNestedInput
   processArea?: Prisma.ProcessAreaUpdateOneRequiredWithoutControlsNestedInput
 }
 
@@ -1784,6 +1818,7 @@ export type ControlUncheckedUpdateWithoutControlAssignmentsInput = {
   requirementMappings?: Prisma.MapControl2RequirementUncheckedUpdateManyWithoutControlNestedInput
   pipLinks?: Prisma.BacklogItemControlUncheckedUpdateManyWithoutControlNestedInput
   auditMappings?: Prisma.AuditChecklist2RequirementUncheckedUpdateManyWithoutControlNestedInput
+  checklistControlLinks?: Prisma.AssessmentChecklistControlUncheckedUpdateManyWithoutControlNestedInput
 }
 
 export type ControlCreateWithoutRequirementMappingsInput = {
@@ -1822,6 +1857,7 @@ export type ControlCreateWithoutRequirementMappingsInput = {
   templateLinkages?: Prisma.AssessmentTemplateControlLinkageCreateNestedManyWithoutControlInput
   pipLinks?: Prisma.BacklogItemControlCreateNestedManyWithoutControlInput
   auditMappings?: Prisma.AuditChecklist2RequirementCreateNestedManyWithoutControlInput
+  checklistControlLinks?: Prisma.AssessmentChecklistControlCreateNestedManyWithoutControlInput
   processArea: Prisma.ProcessAreaCreateNestedOneWithoutControlsInput
 }
 
@@ -1862,6 +1898,7 @@ export type ControlUncheckedCreateWithoutRequirementMappingsInput = {
   templateLinkages?: Prisma.AssessmentTemplateControlLinkageUncheckedCreateNestedManyWithoutControlInput
   pipLinks?: Prisma.BacklogItemControlUncheckedCreateNestedManyWithoutControlInput
   auditMappings?: Prisma.AuditChecklist2RequirementUncheckedCreateNestedManyWithoutControlInput
+  checklistControlLinks?: Prisma.AssessmentChecklistControlUncheckedCreateNestedManyWithoutControlInput
 }
 
 export type ControlCreateOrConnectWithoutRequirementMappingsInput = {
@@ -1916,6 +1953,7 @@ export type ControlUpdateWithoutRequirementMappingsInput = {
   templateLinkages?: Prisma.AssessmentTemplateControlLinkageUpdateManyWithoutControlNestedInput
   pipLinks?: Prisma.BacklogItemControlUpdateManyWithoutControlNestedInput
   auditMappings?: Prisma.AuditChecklist2RequirementUpdateManyWithoutControlNestedInput
+  checklistControlLinks?: Prisma.AssessmentChecklistControlUpdateManyWithoutControlNestedInput
   processArea?: Prisma.ProcessAreaUpdateOneRequiredWithoutControlsNestedInput
 }
 
@@ -1956,6 +1994,7 @@ export type ControlUncheckedUpdateWithoutRequirementMappingsInput = {
   templateLinkages?: Prisma.AssessmentTemplateControlLinkageUncheckedUpdateManyWithoutControlNestedInput
   pipLinks?: Prisma.BacklogItemControlUncheckedUpdateManyWithoutControlNestedInput
   auditMappings?: Prisma.AuditChecklist2RequirementUncheckedUpdateManyWithoutControlNestedInput
+  checklistControlLinks?: Prisma.AssessmentChecklistControlUncheckedUpdateManyWithoutControlNestedInput
 }
 
 export type ControlCreateWithoutPipLinksInput = {
@@ -1994,6 +2033,7 @@ export type ControlCreateWithoutPipLinksInput = {
   templateLinkages?: Prisma.AssessmentTemplateControlLinkageCreateNestedManyWithoutControlInput
   requirementMappings?: Prisma.MapControl2RequirementCreateNestedManyWithoutControlInput
   auditMappings?: Prisma.AuditChecklist2RequirementCreateNestedManyWithoutControlInput
+  checklistControlLinks?: Prisma.AssessmentChecklistControlCreateNestedManyWithoutControlInput
   processArea: Prisma.ProcessAreaCreateNestedOneWithoutControlsInput
 }
 
@@ -2034,6 +2074,7 @@ export type ControlUncheckedCreateWithoutPipLinksInput = {
   templateLinkages?: Prisma.AssessmentTemplateControlLinkageUncheckedCreateNestedManyWithoutControlInput
   requirementMappings?: Prisma.MapControl2RequirementUncheckedCreateNestedManyWithoutControlInput
   auditMappings?: Prisma.AuditChecklist2RequirementUncheckedCreateNestedManyWithoutControlInput
+  checklistControlLinks?: Prisma.AssessmentChecklistControlUncheckedCreateNestedManyWithoutControlInput
 }
 
 export type ControlCreateOrConnectWithoutPipLinksInput = {
@@ -2088,6 +2129,7 @@ export type ControlUpdateWithoutPipLinksInput = {
   templateLinkages?: Prisma.AssessmentTemplateControlLinkageUpdateManyWithoutControlNestedInput
   requirementMappings?: Prisma.MapControl2RequirementUpdateManyWithoutControlNestedInput
   auditMappings?: Prisma.AuditChecklist2RequirementUpdateManyWithoutControlNestedInput
+  checklistControlLinks?: Prisma.AssessmentChecklistControlUpdateManyWithoutControlNestedInput
   processArea?: Prisma.ProcessAreaUpdateOneRequiredWithoutControlsNestedInput
 }
 
@@ -2128,6 +2170,7 @@ export type ControlUncheckedUpdateWithoutPipLinksInput = {
   templateLinkages?: Prisma.AssessmentTemplateControlLinkageUncheckedUpdateManyWithoutControlNestedInput
   requirementMappings?: Prisma.MapControl2RequirementUncheckedUpdateManyWithoutControlNestedInput
   auditMappings?: Prisma.AuditChecklist2RequirementUncheckedUpdateManyWithoutControlNestedInput
+  checklistControlLinks?: Prisma.AssessmentChecklistControlUncheckedUpdateManyWithoutControlNestedInput
 }
 
 export type ControlCreateWithoutAuditMappingsInput = {
@@ -2166,6 +2209,7 @@ export type ControlCreateWithoutAuditMappingsInput = {
   templateLinkages?: Prisma.AssessmentTemplateControlLinkageCreateNestedManyWithoutControlInput
   requirementMappings?: Prisma.MapControl2RequirementCreateNestedManyWithoutControlInput
   pipLinks?: Prisma.BacklogItemControlCreateNestedManyWithoutControlInput
+  checklistControlLinks?: Prisma.AssessmentChecklistControlCreateNestedManyWithoutControlInput
   processArea: Prisma.ProcessAreaCreateNestedOneWithoutControlsInput
 }
 
@@ -2206,6 +2250,7 @@ export type ControlUncheckedCreateWithoutAuditMappingsInput = {
   templateLinkages?: Prisma.AssessmentTemplateControlLinkageUncheckedCreateNestedManyWithoutControlInput
   requirementMappings?: Prisma.MapControl2RequirementUncheckedCreateNestedManyWithoutControlInput
   pipLinks?: Prisma.BacklogItemControlUncheckedCreateNestedManyWithoutControlInput
+  checklistControlLinks?: Prisma.AssessmentChecklistControlUncheckedCreateNestedManyWithoutControlInput
 }
 
 export type ControlCreateOrConnectWithoutAuditMappingsInput = {
@@ -2260,6 +2305,7 @@ export type ControlUpdateWithoutAuditMappingsInput = {
   templateLinkages?: Prisma.AssessmentTemplateControlLinkageUpdateManyWithoutControlNestedInput
   requirementMappings?: Prisma.MapControl2RequirementUpdateManyWithoutControlNestedInput
   pipLinks?: Prisma.BacklogItemControlUpdateManyWithoutControlNestedInput
+  checklistControlLinks?: Prisma.AssessmentChecklistControlUpdateManyWithoutControlNestedInput
   processArea?: Prisma.ProcessAreaUpdateOneRequiredWithoutControlsNestedInput
 }
 
@@ -2300,6 +2346,183 @@ export type ControlUncheckedUpdateWithoutAuditMappingsInput = {
   templateLinkages?: Prisma.AssessmentTemplateControlLinkageUncheckedUpdateManyWithoutControlNestedInput
   requirementMappings?: Prisma.MapControl2RequirementUncheckedUpdateManyWithoutControlNestedInput
   pipLinks?: Prisma.BacklogItemControlUncheckedUpdateManyWithoutControlNestedInput
+  checklistControlLinks?: Prisma.AssessmentChecklistControlUncheckedUpdateManyWithoutControlNestedInput
+}
+
+export type ControlCreateWithoutChecklistControlLinksInput = {
+  id?: string
+  name: string
+  statement: string
+  controlType: $Enums.ControlType
+  isHsseCritical?: boolean
+  ramRating?: string | null
+  riskWeight?: number
+  rawHealthScore?: number
+  lastTestedDate?: Date | string | null
+  lastTestResult?: string | null
+  createdAt?: Date | string
+  controlRef?: string | null
+  sourceFile?: string | null
+  practiceDocument?: string | null
+  controlTypeDetail?: string | null
+  csfWho?: string | null
+  csfWhat?: string | null
+  csfWhen?: string | null
+  csfWhere?: string | null
+  csfWhy?: string | null
+  csfHow?: string | null
+  csfEvidence?: string | null
+  keyActivities?: string | null
+  riskAddressed?: string | null
+  testingApproach?: string | null
+  uncertainFlags?: string | null
+  standard?: string | null
+  pId?: string | null
+  Requirements?: string | null
+  companyId?: string | null
+  controlAssignments?: Prisma.ControlAssignmentCreateNestedManyWithoutControlInput
+  controlSubProcesses?: Prisma.ControlSubProcessCreateNestedManyWithoutControlInput
+  templateLinkages?: Prisma.AssessmentTemplateControlLinkageCreateNestedManyWithoutControlInput
+  requirementMappings?: Prisma.MapControl2RequirementCreateNestedManyWithoutControlInput
+  pipLinks?: Prisma.BacklogItemControlCreateNestedManyWithoutControlInput
+  auditMappings?: Prisma.AuditChecklist2RequirementCreateNestedManyWithoutControlInput
+  processArea: Prisma.ProcessAreaCreateNestedOneWithoutControlsInput
+}
+
+export type ControlUncheckedCreateWithoutChecklistControlLinksInput = {
+  id?: string
+  name: string
+  statement: string
+  controlType: $Enums.ControlType
+  processAreaId: string
+  isHsseCritical?: boolean
+  ramRating?: string | null
+  riskWeight?: number
+  rawHealthScore?: number
+  lastTestedDate?: Date | string | null
+  lastTestResult?: string | null
+  createdAt?: Date | string
+  controlRef?: string | null
+  sourceFile?: string | null
+  practiceDocument?: string | null
+  controlTypeDetail?: string | null
+  csfWho?: string | null
+  csfWhat?: string | null
+  csfWhen?: string | null
+  csfWhere?: string | null
+  csfWhy?: string | null
+  csfHow?: string | null
+  csfEvidence?: string | null
+  keyActivities?: string | null
+  riskAddressed?: string | null
+  testingApproach?: string | null
+  uncertainFlags?: string | null
+  standard?: string | null
+  pId?: string | null
+  Requirements?: string | null
+  companyId?: string | null
+  controlAssignments?: Prisma.ControlAssignmentUncheckedCreateNestedManyWithoutControlInput
+  controlSubProcesses?: Prisma.ControlSubProcessUncheckedCreateNestedManyWithoutControlInput
+  templateLinkages?: Prisma.AssessmentTemplateControlLinkageUncheckedCreateNestedManyWithoutControlInput
+  requirementMappings?: Prisma.MapControl2RequirementUncheckedCreateNestedManyWithoutControlInput
+  pipLinks?: Prisma.BacklogItemControlUncheckedCreateNestedManyWithoutControlInput
+  auditMappings?: Prisma.AuditChecklist2RequirementUncheckedCreateNestedManyWithoutControlInput
+}
+
+export type ControlCreateOrConnectWithoutChecklistControlLinksInput = {
+  where: Prisma.ControlWhereUniqueInput
+  create: Prisma.XOR<Prisma.ControlCreateWithoutChecklistControlLinksInput, Prisma.ControlUncheckedCreateWithoutChecklistControlLinksInput>
+}
+
+export type ControlUpsertWithoutChecklistControlLinksInput = {
+  update: Prisma.XOR<Prisma.ControlUpdateWithoutChecklistControlLinksInput, Prisma.ControlUncheckedUpdateWithoutChecklistControlLinksInput>
+  create: Prisma.XOR<Prisma.ControlCreateWithoutChecklistControlLinksInput, Prisma.ControlUncheckedCreateWithoutChecklistControlLinksInput>
+  where?: Prisma.ControlWhereInput
+}
+
+export type ControlUpdateToOneWithWhereWithoutChecklistControlLinksInput = {
+  where?: Prisma.ControlWhereInput
+  data: Prisma.XOR<Prisma.ControlUpdateWithoutChecklistControlLinksInput, Prisma.ControlUncheckedUpdateWithoutChecklistControlLinksInput>
+}
+
+export type ControlUpdateWithoutChecklistControlLinksInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  statement?: Prisma.StringFieldUpdateOperationsInput | string
+  controlType?: Prisma.EnumControlTypeFieldUpdateOperationsInput | $Enums.ControlType
+  isHsseCritical?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  ramRating?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  riskWeight?: Prisma.IntFieldUpdateOperationsInput | number
+  rawHealthScore?: Prisma.IntFieldUpdateOperationsInput | number
+  lastTestedDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastTestResult?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  controlRef?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceFile?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  practiceDocument?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  controlTypeDetail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  csfWho?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  csfWhat?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  csfWhen?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  csfWhere?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  csfWhy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  csfHow?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  csfEvidence?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  keyActivities?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  riskAddressed?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  testingApproach?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  uncertainFlags?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  standard?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  Requirements?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  controlAssignments?: Prisma.ControlAssignmentUpdateManyWithoutControlNestedInput
+  controlSubProcesses?: Prisma.ControlSubProcessUpdateManyWithoutControlNestedInput
+  templateLinkages?: Prisma.AssessmentTemplateControlLinkageUpdateManyWithoutControlNestedInput
+  requirementMappings?: Prisma.MapControl2RequirementUpdateManyWithoutControlNestedInput
+  pipLinks?: Prisma.BacklogItemControlUpdateManyWithoutControlNestedInput
+  auditMappings?: Prisma.AuditChecklist2RequirementUpdateManyWithoutControlNestedInput
+  processArea?: Prisma.ProcessAreaUpdateOneRequiredWithoutControlsNestedInput
+}
+
+export type ControlUncheckedUpdateWithoutChecklistControlLinksInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  statement?: Prisma.StringFieldUpdateOperationsInput | string
+  controlType?: Prisma.EnumControlTypeFieldUpdateOperationsInput | $Enums.ControlType
+  processAreaId?: Prisma.StringFieldUpdateOperationsInput | string
+  isHsseCritical?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  ramRating?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  riskWeight?: Prisma.IntFieldUpdateOperationsInput | number
+  rawHealthScore?: Prisma.IntFieldUpdateOperationsInput | number
+  lastTestedDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastTestResult?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  controlRef?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sourceFile?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  practiceDocument?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  controlTypeDetail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  csfWho?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  csfWhat?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  csfWhen?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  csfWhere?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  csfWhy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  csfHow?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  csfEvidence?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  keyActivities?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  riskAddressed?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  testingApproach?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  uncertainFlags?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  standard?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  Requirements?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  controlAssignments?: Prisma.ControlAssignmentUncheckedUpdateManyWithoutControlNestedInput
+  controlSubProcesses?: Prisma.ControlSubProcessUncheckedUpdateManyWithoutControlNestedInput
+  templateLinkages?: Prisma.AssessmentTemplateControlLinkageUncheckedUpdateManyWithoutControlNestedInput
+  requirementMappings?: Prisma.MapControl2RequirementUncheckedUpdateManyWithoutControlNestedInput
+  pipLinks?: Prisma.BacklogItemControlUncheckedUpdateManyWithoutControlNestedInput
+  auditMappings?: Prisma.AuditChecklist2RequirementUncheckedUpdateManyWithoutControlNestedInput
 }
 
 export type ControlCreateManyProcessAreaInput = {
@@ -2372,6 +2595,7 @@ export type ControlUpdateWithoutProcessAreaInput = {
   requirementMappings?: Prisma.MapControl2RequirementUpdateManyWithoutControlNestedInput
   pipLinks?: Prisma.BacklogItemControlUpdateManyWithoutControlNestedInput
   auditMappings?: Prisma.AuditChecklist2RequirementUpdateManyWithoutControlNestedInput
+  checklistControlLinks?: Prisma.AssessmentChecklistControlUpdateManyWithoutControlNestedInput
 }
 
 export type ControlUncheckedUpdateWithoutProcessAreaInput = {
@@ -2411,6 +2635,7 @@ export type ControlUncheckedUpdateWithoutProcessAreaInput = {
   requirementMappings?: Prisma.MapControl2RequirementUncheckedUpdateManyWithoutControlNestedInput
   pipLinks?: Prisma.BacklogItemControlUncheckedUpdateManyWithoutControlNestedInput
   auditMappings?: Prisma.AuditChecklist2RequirementUncheckedUpdateManyWithoutControlNestedInput
+  checklistControlLinks?: Prisma.AssessmentChecklistControlUncheckedUpdateManyWithoutControlNestedInput
 }
 
 export type ControlUncheckedUpdateManyWithoutProcessAreaInput = {
@@ -2458,6 +2683,7 @@ export type ControlCountOutputType = {
   requirementMappings: number
   pipLinks: number
   auditMappings: number
+  checklistControlLinks: number
 }
 
 export type ControlCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2467,6 +2693,7 @@ export type ControlCountOutputTypeSelect<ExtArgs extends runtime.Types.Extension
   requirementMappings?: boolean | ControlCountOutputTypeCountRequirementMappingsArgs
   pipLinks?: boolean | ControlCountOutputTypeCountPipLinksArgs
   auditMappings?: boolean | ControlCountOutputTypeCountAuditMappingsArgs
+  checklistControlLinks?: boolean | ControlCountOutputTypeCountChecklistControlLinksArgs
 }
 
 /**
@@ -2521,6 +2748,13 @@ export type ControlCountOutputTypeCountAuditMappingsArgs<ExtArgs extends runtime
   where?: Prisma.AuditChecklist2RequirementWhereInput
 }
 
+/**
+ * ControlCountOutputType without action
+ */
+export type ControlCountOutputTypeCountChecklistControlLinksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.AssessmentChecklistControlWhereInput
+}
+
 
 export type ControlSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -2560,6 +2794,7 @@ export type ControlSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   requirementMappings?: boolean | Prisma.Control$requirementMappingsArgs<ExtArgs>
   pipLinks?: boolean | Prisma.Control$pipLinksArgs<ExtArgs>
   auditMappings?: boolean | Prisma.Control$auditMappingsArgs<ExtArgs>
+  checklistControlLinks?: boolean | Prisma.Control$checklistControlLinksArgs<ExtArgs>
   processArea?: boolean | Prisma.ProcessAreaDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.ControlCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["control"]>
@@ -2676,6 +2911,7 @@ export type ControlInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs
   requirementMappings?: boolean | Prisma.Control$requirementMappingsArgs<ExtArgs>
   pipLinks?: boolean | Prisma.Control$pipLinksArgs<ExtArgs>
   auditMappings?: boolean | Prisma.Control$auditMappingsArgs<ExtArgs>
+  checklistControlLinks?: boolean | Prisma.Control$checklistControlLinksArgs<ExtArgs>
   processArea?: boolean | Prisma.ProcessAreaDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.ControlCountOutputTypeDefaultArgs<ExtArgs>
 }
@@ -2695,6 +2931,7 @@ export type $ControlPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     requirementMappings: Prisma.$MapControl2RequirementPayload<ExtArgs>[]
     pipLinks: Prisma.$BacklogItemControlPayload<ExtArgs>[]
     auditMappings: Prisma.$AuditChecklist2RequirementPayload<ExtArgs>[]
+    checklistControlLinks: Prisma.$AssessmentChecklistControlPayload<ExtArgs>[]
     processArea: Prisma.$ProcessAreaPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -3129,6 +3366,7 @@ export interface Prisma__ControlClient<T, Null = never, ExtArgs extends runtime.
   requirementMappings<T extends Prisma.Control$requirementMappingsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Control$requirementMappingsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MapControl2RequirementPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   pipLinks<T extends Prisma.Control$pipLinksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Control$pipLinksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BacklogItemControlPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   auditMappings<T extends Prisma.Control$auditMappingsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Control$auditMappingsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AuditChecklist2RequirementPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  checklistControlLinks<T extends Prisma.Control$checklistControlLinksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Control$checklistControlLinksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AssessmentChecklistControlPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   processArea<T extends Prisma.ProcessAreaDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ProcessAreaDefaultArgs<ExtArgs>>): Prisma.Prisma__ProcessAreaClient<runtime.Types.Result.GetResult<Prisma.$ProcessAreaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -3732,6 +3970,30 @@ export type Control$auditMappingsArgs<ExtArgs extends runtime.Types.Extensions.I
   take?: number
   skip?: number
   distinct?: Prisma.AuditChecklist2RequirementScalarFieldEnum | Prisma.AuditChecklist2RequirementScalarFieldEnum[]
+}
+
+/**
+ * Control.checklistControlLinks
+ */
+export type Control$checklistControlLinksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the AssessmentChecklistControl
+   */
+  select?: Prisma.AssessmentChecklistControlSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the AssessmentChecklistControl
+   */
+  omit?: Prisma.AssessmentChecklistControlOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AssessmentChecklistControlInclude<ExtArgs> | null
+  where?: Prisma.AssessmentChecklistControlWhereInput
+  orderBy?: Prisma.AssessmentChecklistControlOrderByWithRelationInput | Prisma.AssessmentChecklistControlOrderByWithRelationInput[]
+  cursor?: Prisma.AssessmentChecklistControlWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.AssessmentChecklistControlScalarFieldEnum | Prisma.AssessmentChecklistControlScalarFieldEnum[]
 }
 
 /**

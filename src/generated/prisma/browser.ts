@@ -297,3 +297,8 @@ export type AuditChecklistTemplateItem = Prisma.AuditChecklistTemplateItemModel
  * 
  */
 export type AuditChecklistItem = Prisma.AuditChecklistItemModel
+/**
+ * Model AssessmentChecklistControl
+ * 
+ */
+export type AssessmentChecklistControl = Prisma.AssessmentChecklistControlModel
