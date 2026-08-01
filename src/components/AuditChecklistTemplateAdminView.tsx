@@ -31,6 +31,9 @@ export function AuditChecklistTemplateAdminView() {
   const [editId, setEditId] = useState<string | null>(null);
   const [itemForm, setItemForm] = useState<Record<string, { checklistItemId: string; checklistText: string; sortOrder: number }>>({});
   const [error, setError] = useState<string | null>(null);
+  // Edit item modal state
+  const [editItem, setEditItem] = useState<TemplateItem | null>(null);
+  const [editForm, setEditForm] = useState({ checklistItemId: "", checklistText: "", sortOrder: 0, keyQuestions: "", whatGoodLooksLike: "", controlPoints: "", evidenceRequirements: "" });
 
   const loadTemplates = async () => {
     try {
@@ -115,6 +118,30 @@ export function AuditChecklistTemplateAdminView() {
     if (!confirm("Delete this item?")) return;
     await fetch(`/api/admin/audit-checklist-templates/${templateId}/items/${itemId}`, { method: "DELETE" });
     loadItems(templateId);
+  };
+
+  const openEditItem = (item: TemplateItem) => {
+    setEditItem(item);
+    setEditForm({
+      checklistItemId: item.checklistItemId,
+      checklistText: item.checklistText,
+      sortOrder: item.sortOrder,
+      keyQuestions: (item as any).keyQuestions ?? "",
+      whatGoodLooksLike: (item as any).whatGoodLooksLike ?? "",
+      controlPoints: (item as any).controlPoints ?? "",
+      evidenceRequirements: (item as any).evidenceRequirements ?? "",
+    });
+  };
+
+  const handleSaveItem = async () => {
+    if (!editItem) return;
+    await fetch(`/api/admin/audit-checklist-templates/${editItem.templateId}/items/${editItem.id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(editForm),
+    });
+    setEditItem(null);
+    loadItems(editItem.templateId);
   };
 
   if (loading) return <p className="text-sm text-slate-400 py-8 text-center">Loading templates…</p>;
@@ -209,18 +236,22 @@ export function AuditChecklistTemplateAdminView() {
                         <th className="py-1 pr-2 w-24">ID</th>
                         <th className="py-1 pr-2">Text</th>
                         <th className="py-1 pr-2 w-12">Order</th>
-                        <th className="py-1 w-12"></th>
+                        <th className="py-1 w-20">Actions</th>
                       </tr>
                     </thead>
                     <tbody>
                       {(t.items ?? []).map((item) => (
-                        <tr key={item.id} className="border-b border-slate-100">
+                        <tr key={item.id} className="border-b border-slate-100 hover:bg-slate-50">
                           <td className="py-1 pr-2 font-mono text-slate-600">{item.checklistItemId}</td>
                           <td className="py-1 pr-2 text-slate-700">{item.checklistText}</td>
                           <td className="py-1 pr-2 text-slate-400">{item.sortOrder}</td>
                           <td className="py-1">
-                            <button onClick={() => handleDeleteItem(t.id, item.id)}
-                              className="text-xs text-red-400 hover:text-red-600">×</button>
+                            <div className="flex items-center gap-1">
+                              <button onClick={() => openEditItem(item)}
+                                className="text-xs text-blue-600 hover:text-blue-800">✏️ Edit</button>
+                              <button onClick={() => handleDeleteItem(t.id, item.id)}
+                                className="text-xs text-red-400 hover:text-red-600">×</button>
+                            </div>
                           </td>
                         </tr>
                       ))}
@@ -257,6 +288,73 @@ export function AuditChecklistTemplateAdminView() {
 
       {templates.length === 0 && (
         <p className="text-sm text-slate-400 py-8 text-center">No templates yet. Create one to get started.</p>
+      )}
+
+      {/* Edit Item Modal */}
+      {editItem && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40" onClick={() => setEditItem(null)}>
+          <div className="bg-white rounded-lg shadow-xl p-6 max-w-lg w-full mx-4 max-h-[85vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
+            <h3 className="text-sm font-semibold text-slate-800 mb-4">
+              Edit Item: {editItem.checklistItemId}
+            </h3>
+            <div className="space-y-3">
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="text-xs font-medium text-slate-600">Item ID</label>
+                  <input type="text" value={editForm.checklistItemId}
+                    onChange={(e) => setEditForm({ ...editForm, checklistItemId: e.target.value })}
+                    className="w-full rounded border border-slate-300 px-2 py-1.5 text-sm mt-0.5" />
+                </div>
+                <div>
+                  <label className="text-xs font-medium text-slate-600">Sort Order</label>
+                  <input type="number" value={editForm.sortOrder}
+                    onChange={(e) => setEditForm({ ...editForm, sortOrder: parseInt(e.target.value) || 0 })}
+                    className="w-full rounded border border-slate-300 px-2 py-1.5 text-sm mt-0.5" />
+                </div>
+              </div>
+              <div>
+                <label className="text-xs font-medium text-slate-600">Checklist Text *</label>
+                <textarea value={editForm.checklistText}
+                  onChange={(e) => setEditForm({ ...editForm, checklistText: e.target.value })}
+                  className="w-full rounded border border-slate-300 px-2 py-1.5 text-sm mt-0.5" rows={2} />
+              </div>
+              <div>
+                <label className="text-xs font-medium text-slate-600">Key Questions</label>
+                <textarea value={editForm.keyQuestions}
+                  onChange={(e) => setEditForm({ ...editForm, keyQuestions: e.target.value })}
+                  className="w-full rounded border border-slate-300 px-2 py-1.5 text-sm mt-0.5" rows={2}
+                  placeholder="What should the auditor ask or look for?" />
+              </div>
+              <div>
+                <label className="text-xs font-medium text-slate-600">What Good Looks Like</label>
+                <textarea value={editForm.whatGoodLooksLike}
+                  onChange={(e) => setEditForm({ ...editForm, whatGoodLooksLike: e.target.value })}
+                  className="w-full rounded border border-slate-300 px-2 py-1.5 text-sm mt-0.5" rows={2}
+                  placeholder="Describe what compliant evidence looks like" />
+              </div>
+              <div>
+                <label className="text-xs font-medium text-slate-600">Control Points</label>
+                <textarea value={editForm.controlPoints}
+                  onChange={(e) => setEditForm({ ...editForm, controlPoints: e.target.value })}
+                  className="w-full rounded border border-slate-300 px-2 py-1.5 text-sm mt-0.5" rows={2}
+                  placeholder="Specific control points or items to verify" />
+              </div>
+              <div>
+                <label className="text-xs font-medium text-slate-600">Evidence Requirements</label>
+                <textarea value={editForm.evidenceRequirements}
+                  onChange={(e) => setEditForm({ ...editForm, evidenceRequirements: e.target.value })}
+                  className="w-full rounded border border-slate-300 px-2 py-1.5 text-sm mt-0.5" rows={2}
+                  placeholder="What evidence is needed?" />
+              </div>
+            </div>
+            <div className="flex gap-2 mt-4 justify-end">
+              <button onClick={() => setEditItem(null)}
+                className="rounded-md border border-slate-300 px-3 py-1.5 text-sm text-slate-600 hover:bg-slate-100">Cancel</button>
+              <button onClick={handleSaveItem}
+                className="rounded-md bg-blue-800 px-4 py-1.5 text-sm font-medium text-white hover:bg-blue-900">Save</button>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );

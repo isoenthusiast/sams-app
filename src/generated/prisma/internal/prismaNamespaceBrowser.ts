@@ -933,6 +933,10 @@ export const AuditChecklistTemplateItemScalarFieldEnum = {
   checklistText: 'checklistText',
   auditStandard: 'auditStandard',
   sortOrder: 'sortOrder',
+  keyQuestions: 'keyQuestions',
+  whatGoodLooksLike: 'whatGoodLooksLike',
+  controlPoints: 'controlPoints',
+  evidenceRequirements: 'evidenceRequirements',
   templateId: 'templateId'
 } as const
 
@@ -949,6 +953,10 @@ export const AuditChecklistItemScalarFieldEnum = {
   testedDate: 'testedDate',
   testedBy: 'testedBy',
   evidenceMethod: 'evidenceMethod',
+  keyQuestions: 'keyQuestions',
+  whatGoodLooksLike: 'whatGoodLooksLike',
+  controlPoints: 'controlPoints',
+  evidenceRequirements: 'evidenceRequirements',
   sortOrder: 'sortOrder',
   assessmentId: 'assessmentId',
   templateItemId: 'templateItemId',

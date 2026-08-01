@@ -58,6 +58,10 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
         testedDate: item.testedDate?.toISOString() ?? null,
         testedBy: item.testedBy,
         evidenceMethod: item.evidenceMethod,
+        keyQuestions: item.keyQuestions,
+        whatGoodLooksLike: item.whatGoodLooksLike,
+        controlPoints: item.controlPoints,
+        evidenceRequirements: item.evidenceRequirements,
         sortOrder: item.sortOrder,
         mappedControls: mappings,
       };

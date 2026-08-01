@@ -40,6 +40,10 @@ export type AuditChecklistTemplateItemMinAggregateOutputType = {
   checklistText: string | null
   auditStandard: string | null
   sortOrder: number | null
+  keyQuestions: string | null
+  whatGoodLooksLike: string | null
+  controlPoints: string | null
+  evidenceRequirements: string | null
   templateId: string | null
 }
 
@@ -49,6 +53,10 @@ export type AuditChecklistTemplateItemMaxAggregateOutputType = {
   checklistText: string | null
   auditStandard: string | null
   sortOrder: number | null
+  keyQuestions: string | null
+  whatGoodLooksLike: string | null
+  controlPoints: string | null
+  evidenceRequirements: string | null
   templateId: string | null
 }
 
@@ -58,6 +66,10 @@ export type AuditChecklistTemplateItemCountAggregateOutputType = {
   checklistText: number
   auditStandard: number
   sortOrder: number
+  keyQuestions: number
+  whatGoodLooksLike: number
+  controlPoints: number
+  evidenceRequirements: number
   templateId: number
   _all: number
 }
@@ -77,6 +89,10 @@ export type AuditChecklistTemplateItemMinAggregateInputType = {
   checklistText?: true
   auditStandard?: true
   sortOrder?: true
+  keyQuestions?: true
+  whatGoodLooksLike?: true
+  controlPoints?: true
+  evidenceRequirements?: true
   templateId?: true
 }
 
@@ -86,6 +102,10 @@ export type AuditChecklistTemplateItemMaxAggregateInputType = {
   checklistText?: true
   auditStandard?: true
   sortOrder?: true
+  keyQuestions?: true
+  whatGoodLooksLike?: true
+  controlPoints?: true
+  evidenceRequirements?: true
   templateId?: true
 }
 
@@ -95,6 +115,10 @@ export type AuditChecklistTemplateItemCountAggregateInputType = {
   checklistText?: true
   auditStandard?: true
   sortOrder?: true
+  keyQuestions?: true
+  whatGoodLooksLike?: true
+  controlPoints?: true
+  evidenceRequirements?: true
   templateId?: true
   _all?: true
 }
@@ -191,6 +215,10 @@ export type AuditChecklistTemplateItemGroupByOutputType = {
   checklistText: string
   auditStandard: string
   sortOrder: number
+  keyQuestions: string | null
+  whatGoodLooksLike: string | null
+  controlPoints: string | null
+  evidenceRequirements: string | null
   templateId: string
   _count: AuditChecklistTemplateItemCountAggregateOutputType | null
   _avg: AuditChecklistTemplateItemAvgAggregateOutputType | null
@@ -223,6 +251,10 @@ export type AuditChecklistTemplateItemWhereInput = {
   checklistText?: Prisma.StringFilter<"AuditChecklistTemplateItem"> | string
   auditStandard?: Prisma.StringFilter<"AuditChecklistTemplateItem"> | string
   sortOrder?: Prisma.IntFilter<"AuditChecklistTemplateItem"> | number
+  keyQuestions?: Prisma.StringNullableFilter<"AuditChecklistTemplateItem"> | string | null
+  whatGoodLooksLike?: Prisma.StringNullableFilter<"AuditChecklistTemplateItem"> | string | null
+  controlPoints?: Prisma.StringNullableFilter<"AuditChecklistTemplateItem"> | string | null
+  evidenceRequirements?: Prisma.StringNullableFilter<"AuditChecklistTemplateItem"> | string | null
   templateId?: Prisma.StringFilter<"AuditChecklistTemplateItem"> | string
   template?: Prisma.XOR<Prisma.AuditChecklistTemplateScalarRelationFilter, Prisma.AuditChecklistTemplateWhereInput>
   clonedItems?: Prisma.AuditChecklistItemListRelationFilter
@@ -234,6 +266,10 @@ export type AuditChecklistTemplateItemOrderByWithRelationInput = {
   checklistText?: Prisma.SortOrder
   auditStandard?: Prisma.SortOrder
   sortOrder?: Prisma.SortOrder
+  keyQuestions?: Prisma.SortOrderInput | Prisma.SortOrder
+  whatGoodLooksLike?: Prisma.SortOrderInput | Prisma.SortOrder
+  controlPoints?: Prisma.SortOrderInput | Prisma.SortOrder
+  evidenceRequirements?: Prisma.SortOrderInput | Prisma.SortOrder
   templateId?: Prisma.SortOrder
   template?: Prisma.AuditChecklistTemplateOrderByWithRelationInput
   clonedItems?: Prisma.AuditChecklistItemOrderByRelationAggregateInput
@@ -249,6 +285,10 @@ export type AuditChecklistTemplateItemWhereUniqueInput = Prisma.AtLeast<{
   checklistText?: Prisma.StringFilter<"AuditChecklistTemplateItem"> | string
   auditStandard?: Prisma.StringFilter<"AuditChecklistTemplateItem"> | string
   sortOrder?: Prisma.IntFilter<"AuditChecklistTemplateItem"> | number
+  keyQuestions?: Prisma.StringNullableFilter<"AuditChecklistTemplateItem"> | string | null
+  whatGoodLooksLike?: Prisma.StringNullableFilter<"AuditChecklistTemplateItem"> | string | null
+  controlPoints?: Prisma.StringNullableFilter<"AuditChecklistTemplateItem"> | string | null
+  evidenceRequirements?: Prisma.StringNullableFilter<"AuditChecklistTemplateItem"> | string | null
   templateId?: Prisma.StringFilter<"AuditChecklistTemplateItem"> | string
   template?: Prisma.XOR<Prisma.AuditChecklistTemplateScalarRelationFilter, Prisma.AuditChecklistTemplateWhereInput>
   clonedItems?: Prisma.AuditChecklistItemListRelationFilter
@@ -260,6 +300,10 @@ export type AuditChecklistTemplateItemOrderByWithAggregationInput = {
   checklistText?: Prisma.SortOrder
   auditStandard?: Prisma.SortOrder
   sortOrder?: Prisma.SortOrder
+  keyQuestions?: Prisma.SortOrderInput | Prisma.SortOrder
+  whatGoodLooksLike?: Prisma.SortOrderInput | Prisma.SortOrder
+  controlPoints?: Prisma.SortOrderInput | Prisma.SortOrder
+  evidenceRequirements?: Prisma.SortOrderInput | Prisma.SortOrder
   templateId?: Prisma.SortOrder
   _count?: Prisma.AuditChecklistTemplateItemCountOrderByAggregateInput
   _avg?: Prisma.AuditChecklistTemplateItemAvgOrderByAggregateInput
@@ -277,6 +321,10 @@ export type AuditChecklistTemplateItemScalarWhereWithAggregatesInput = {
   checklistText?: Prisma.StringWithAggregatesFilter<"AuditChecklistTemplateItem"> | string
   auditStandard?: Prisma.StringWithAggregatesFilter<"AuditChecklistTemplateItem"> | string
   sortOrder?: Prisma.IntWithAggregatesFilter<"AuditChecklistTemplateItem"> | number
+  keyQuestions?: Prisma.StringNullableWithAggregatesFilter<"AuditChecklistTemplateItem"> | string | null
+  whatGoodLooksLike?: Prisma.StringNullableWithAggregatesFilter<"AuditChecklistTemplateItem"> | string | null
+  controlPoints?: Prisma.StringNullableWithAggregatesFilter<"AuditChecklistTemplateItem"> | string | null
+  evidenceRequirements?: Prisma.StringNullableWithAggregatesFilter<"AuditChecklistTemplateItem"> | string | null
   templateId?: Prisma.StringWithAggregatesFilter<"AuditChecklistTemplateItem"> | string
 }
 
@@ -286,6 +334,10 @@ export type AuditChecklistTemplateItemCreateInput = {
   checklistText: string
   auditStandard: string
   sortOrder?: number
+  keyQuestions?: string | null
+  whatGoodLooksLike?: string | null
+  controlPoints?: string | null
+  evidenceRequirements?: string | null
   template: Prisma.AuditChecklistTemplateCreateNestedOneWithoutItemsInput
   clonedItems?: Prisma.AuditChecklistItemCreateNestedManyWithoutTemplateItemInput
 }
@@ -296,6 +348,10 @@ export type AuditChecklistTemplateItemUncheckedCreateInput = {
   checklistText: string
   auditStandard: string
   sortOrder?: number
+  keyQuestions?: string | null
+  whatGoodLooksLike?: string | null
+  controlPoints?: string | null
+  evidenceRequirements?: string | null
   templateId: string
   clonedItems?: Prisma.AuditChecklistItemUncheckedCreateNestedManyWithoutTemplateItemInput
 }
@@ -306,6 +362,10 @@ export type AuditChecklistTemplateItemUpdateInput = {
   checklistText?: Prisma.StringFieldUpdateOperationsInput | string
   auditStandard?: Prisma.StringFieldUpdateOperationsInput | string
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  keyQuestions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatGoodLooksLike?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  controlPoints?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  evidenceRequirements?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   template?: Prisma.AuditChecklistTemplateUpdateOneRequiredWithoutItemsNestedInput
   clonedItems?: Prisma.AuditChecklistItemUpdateManyWithoutTemplateItemNestedInput
 }
@@ -316,6 +376,10 @@ export type AuditChecklistTemplateItemUncheckedUpdateInput = {
   checklistText?: Prisma.StringFieldUpdateOperationsInput | string
   auditStandard?: Prisma.StringFieldUpdateOperationsInput | string
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  keyQuestions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatGoodLooksLike?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  controlPoints?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  evidenceRequirements?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   templateId?: Prisma.StringFieldUpdateOperationsInput | string
   clonedItems?: Prisma.AuditChecklistItemUncheckedUpdateManyWithoutTemplateItemNestedInput
 }
@@ -326,6 +390,10 @@ export type AuditChecklistTemplateItemCreateManyInput = {
   checklistText: string
   auditStandard: string
   sortOrder?: number
+  keyQuestions?: string | null
+  whatGoodLooksLike?: string | null
+  controlPoints?: string | null
+  evidenceRequirements?: string | null
   templateId: string
 }
 
@@ -335,6 +403,10 @@ export type AuditChecklistTemplateItemUpdateManyMutationInput = {
   checklistText?: Prisma.StringFieldUpdateOperationsInput | string
   auditStandard?: Prisma.StringFieldUpdateOperationsInput | string
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  keyQuestions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatGoodLooksLike?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  controlPoints?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  evidenceRequirements?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type AuditChecklistTemplateItemUncheckedUpdateManyInput = {
@@ -343,6 +415,10 @@ export type AuditChecklistTemplateItemUncheckedUpdateManyInput = {
   checklistText?: Prisma.StringFieldUpdateOperationsInput | string
   auditStandard?: Prisma.StringFieldUpdateOperationsInput | string
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  keyQuestions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatGoodLooksLike?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  controlPoints?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  evidenceRequirements?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   templateId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
@@ -367,6 +443,10 @@ export type AuditChecklistTemplateItemCountOrderByAggregateInput = {
   checklistText?: Prisma.SortOrder
   auditStandard?: Prisma.SortOrder
   sortOrder?: Prisma.SortOrder
+  keyQuestions?: Prisma.SortOrder
+  whatGoodLooksLike?: Prisma.SortOrder
+  controlPoints?: Prisma.SortOrder
+  evidenceRequirements?: Prisma.SortOrder
   templateId?: Prisma.SortOrder
 }
 
@@ -380,6 +460,10 @@ export type AuditChecklistTemplateItemMaxOrderByAggregateInput = {
   checklistText?: Prisma.SortOrder
   auditStandard?: Prisma.SortOrder
   sortOrder?: Prisma.SortOrder
+  keyQuestions?: Prisma.SortOrder
+  whatGoodLooksLike?: Prisma.SortOrder
+  controlPoints?: Prisma.SortOrder
+  evidenceRequirements?: Prisma.SortOrder
   templateId?: Prisma.SortOrder
 }
 
@@ -389,6 +473,10 @@ export type AuditChecklistTemplateItemMinOrderByAggregateInput = {
   checklistText?: Prisma.SortOrder
   auditStandard?: Prisma.SortOrder
   sortOrder?: Prisma.SortOrder
+  keyQuestions?: Prisma.SortOrder
+  whatGoodLooksLike?: Prisma.SortOrder
+  controlPoints?: Prisma.SortOrder
+  evidenceRequirements?: Prisma.SortOrder
   templateId?: Prisma.SortOrder
 }
 
@@ -463,6 +551,10 @@ export type AuditChecklistTemplateItemCreateWithoutTemplateInput = {
   checklistText: string
   auditStandard: string
   sortOrder?: number
+  keyQuestions?: string | null
+  whatGoodLooksLike?: string | null
+  controlPoints?: string | null
+  evidenceRequirements?: string | null
   clonedItems?: Prisma.AuditChecklistItemCreateNestedManyWithoutTemplateItemInput
 }
 
@@ -472,6 +564,10 @@ export type AuditChecklistTemplateItemUncheckedCreateWithoutTemplateInput = {
   checklistText: string
   auditStandard: string
   sortOrder?: number
+  keyQuestions?: string | null
+  whatGoodLooksLike?: string | null
+  controlPoints?: string | null
+  evidenceRequirements?: string | null
   clonedItems?: Prisma.AuditChecklistItemUncheckedCreateNestedManyWithoutTemplateItemInput
 }
 
@@ -510,6 +606,10 @@ export type AuditChecklistTemplateItemScalarWhereInput = {
   checklistText?: Prisma.StringFilter<"AuditChecklistTemplateItem"> | string
   auditStandard?: Prisma.StringFilter<"AuditChecklistTemplateItem"> | string
   sortOrder?: Prisma.IntFilter<"AuditChecklistTemplateItem"> | number
+  keyQuestions?: Prisma.StringNullableFilter<"AuditChecklistTemplateItem"> | string | null
+  whatGoodLooksLike?: Prisma.StringNullableFilter<"AuditChecklistTemplateItem"> | string | null
+  controlPoints?: Prisma.StringNullableFilter<"AuditChecklistTemplateItem"> | string | null
+  evidenceRequirements?: Prisma.StringNullableFilter<"AuditChecklistTemplateItem"> | string | null
   templateId?: Prisma.StringFilter<"AuditChecklistTemplateItem"> | string
 }
 
@@ -519,6 +619,10 @@ export type AuditChecklistTemplateItemCreateWithoutClonedItemsInput = {
   checklistText: string
   auditStandard: string
   sortOrder?: number
+  keyQuestions?: string | null
+  whatGoodLooksLike?: string | null
+  controlPoints?: string | null
+  evidenceRequirements?: string | null
   template: Prisma.AuditChecklistTemplateCreateNestedOneWithoutItemsInput
 }
 
@@ -528,6 +632,10 @@ export type AuditChecklistTemplateItemUncheckedCreateWithoutClonedItemsInput = {
   checklistText: string
   auditStandard: string
   sortOrder?: number
+  keyQuestions?: string | null
+  whatGoodLooksLike?: string | null
+  controlPoints?: string | null
+  evidenceRequirements?: string | null
   templateId: string
 }
 
@@ -553,6 +661,10 @@ export type AuditChecklistTemplateItemUpdateWithoutClonedItemsInput = {
   checklistText?: Prisma.StringFieldUpdateOperationsInput | string
   auditStandard?: Prisma.StringFieldUpdateOperationsInput | string
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  keyQuestions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatGoodLooksLike?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  controlPoints?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  evidenceRequirements?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   template?: Prisma.AuditChecklistTemplateUpdateOneRequiredWithoutItemsNestedInput
 }
 
@@ -562,6 +674,10 @@ export type AuditChecklistTemplateItemUncheckedUpdateWithoutClonedItemsInput = {
   checklistText?: Prisma.StringFieldUpdateOperationsInput | string
   auditStandard?: Prisma.StringFieldUpdateOperationsInput | string
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  keyQuestions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatGoodLooksLike?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  controlPoints?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  evidenceRequirements?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   templateId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
@@ -571,6 +687,10 @@ export type AuditChecklistTemplateItemCreateManyTemplateInput = {
   checklistText: string
   auditStandard: string
   sortOrder?: number
+  keyQuestions?: string | null
+  whatGoodLooksLike?: string | null
+  controlPoints?: string | null
+  evidenceRequirements?: string | null
 }
 
 export type AuditChecklistTemplateItemUpdateWithoutTemplateInput = {
@@ -579,6 +699,10 @@ export type AuditChecklistTemplateItemUpdateWithoutTemplateInput = {
   checklistText?: Prisma.StringFieldUpdateOperationsInput | string
   auditStandard?: Prisma.StringFieldUpdateOperationsInput | string
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  keyQuestions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatGoodLooksLike?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  controlPoints?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  evidenceRequirements?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   clonedItems?: Prisma.AuditChecklistItemUpdateManyWithoutTemplateItemNestedInput
 }
 
@@ -588,6 +712,10 @@ export type AuditChecklistTemplateItemUncheckedUpdateWithoutTemplateInput = {
   checklistText?: Prisma.StringFieldUpdateOperationsInput | string
   auditStandard?: Prisma.StringFieldUpdateOperationsInput | string
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  keyQuestions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatGoodLooksLike?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  controlPoints?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  evidenceRequirements?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   clonedItems?: Prisma.AuditChecklistItemUncheckedUpdateManyWithoutTemplateItemNestedInput
 }
 
@@ -597,6 +725,10 @@ export type AuditChecklistTemplateItemUncheckedUpdateManyWithoutTemplateInput = 
   checklistText?: Prisma.StringFieldUpdateOperationsInput | string
   auditStandard?: Prisma.StringFieldUpdateOperationsInput | string
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  keyQuestions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatGoodLooksLike?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  controlPoints?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  evidenceRequirements?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 
@@ -636,6 +768,10 @@ export type AuditChecklistTemplateItemSelect<ExtArgs extends runtime.Types.Exten
   checklistText?: boolean
   auditStandard?: boolean
   sortOrder?: boolean
+  keyQuestions?: boolean
+  whatGoodLooksLike?: boolean
+  controlPoints?: boolean
+  evidenceRequirements?: boolean
   templateId?: boolean
   template?: boolean | Prisma.AuditChecklistTemplateDefaultArgs<ExtArgs>
   clonedItems?: boolean | Prisma.AuditChecklistTemplateItem$clonedItemsArgs<ExtArgs>
@@ -648,6 +784,10 @@ export type AuditChecklistTemplateItemSelectCreateManyAndReturn<ExtArgs extends 
   checklistText?: boolean
   auditStandard?: boolean
   sortOrder?: boolean
+  keyQuestions?: boolean
+  whatGoodLooksLike?: boolean
+  controlPoints?: boolean
+  evidenceRequirements?: boolean
   templateId?: boolean
   template?: boolean | Prisma.AuditChecklistTemplateDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["auditChecklistTemplateItem"]>
@@ -658,6 +798,10 @@ export type AuditChecklistTemplateItemSelectUpdateManyAndReturn<ExtArgs extends 
   checklistText?: boolean
   auditStandard?: boolean
   sortOrder?: boolean
+  keyQuestions?: boolean
+  whatGoodLooksLike?: boolean
+  controlPoints?: boolean
+  evidenceRequirements?: boolean
   templateId?: boolean
   template?: boolean | Prisma.AuditChecklistTemplateDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["auditChecklistTemplateItem"]>
@@ -668,10 +812,14 @@ export type AuditChecklistTemplateItemSelectScalar = {
   checklistText?: boolean
   auditStandard?: boolean
   sortOrder?: boolean
+  keyQuestions?: boolean
+  whatGoodLooksLike?: boolean
+  controlPoints?: boolean
+  evidenceRequirements?: boolean
   templateId?: boolean
 }
 
-export type AuditChecklistTemplateItemOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "checklistItemId" | "checklistText" | "auditStandard" | "sortOrder" | "templateId", ExtArgs["result"]["auditChecklistTemplateItem"]>
+export type AuditChecklistTemplateItemOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "checklistItemId" | "checklistText" | "auditStandard" | "sortOrder" | "keyQuestions" | "whatGoodLooksLike" | "controlPoints" | "evidenceRequirements" | "templateId", ExtArgs["result"]["auditChecklistTemplateItem"]>
 export type AuditChecklistTemplateItemInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   template?: boolean | Prisma.AuditChecklistTemplateDefaultArgs<ExtArgs>
   clonedItems?: boolean | Prisma.AuditChecklistTemplateItem$clonedItemsArgs<ExtArgs>
@@ -696,6 +844,10 @@ export type $AuditChecklistTemplateItemPayload<ExtArgs extends runtime.Types.Ext
     checklistText: string
     auditStandard: string
     sortOrder: number
+    keyQuestions: string | null
+    whatGoodLooksLike: string | null
+    controlPoints: string | null
+    evidenceRequirements: string | null
     templateId: string
   }, ExtArgs["result"]["auditChecklistTemplateItem"]>
   composites: {}
@@ -1127,6 +1279,10 @@ export interface AuditChecklistTemplateItemFieldRefs {
   readonly checklistText: Prisma.FieldRef<"AuditChecklistTemplateItem", 'String'>
   readonly auditStandard: Prisma.FieldRef<"AuditChecklistTemplateItem", 'String'>
   readonly sortOrder: Prisma.FieldRef<"AuditChecklistTemplateItem", 'Int'>
+  readonly keyQuestions: Prisma.FieldRef<"AuditChecklistTemplateItem", 'String'>
+  readonly whatGoodLooksLike: Prisma.FieldRef<"AuditChecklistTemplateItem", 'String'>
+  readonly controlPoints: Prisma.FieldRef<"AuditChecklistTemplateItem", 'String'>
+  readonly evidenceRequirements: Prisma.FieldRef<"AuditChecklistTemplateItem", 'String'>
   readonly templateId: Prisma.FieldRef<"AuditChecklistTemplateItem", 'String'>
 }
     

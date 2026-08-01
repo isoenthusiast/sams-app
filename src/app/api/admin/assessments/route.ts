@@ -143,9 +143,9 @@ export async function POST(request: Request) {
         if (allItems.length > 0) {
           const values: string[] = [];
           const params: any[] = [];
-          allItems.forEach((item, i) => {
-            const base = i * 8;
-            values.push(`($${base + 1}, $${base + 2}, $${base + 3}, $${base + 4}, $${base + 5}, $${base + 6}, $${base + 7}, $${base + 8})`);
+          allItems.forEach((item: any, i: number) => {
+            const base = i * 12;
+            values.push(`($${base + 1}, $${base + 2}, $${base + 3}, $${base + 4}, $${base + 5}, $${base + 6}, $${base + 7}, $${base + 8}, $${base + 9}, $${base + 10}, $${base + 11}, $${base + 12})`);
             params.push(
               `ci_${Date.now()}_${i}`,
               item.checklistItemId,
@@ -155,10 +155,14 @@ export async function POST(request: Request) {
               item.sortOrder,
               assessmentId,
               item.id,
+              item.keyQuestions || null,
+              item.whatGoodLooksLike || null,
+              item.controlPoints || null,
+              item.evidenceRequirements || null,
             );
           });
           await prisma.$executeRawUnsafe(
-            `INSERT INTO "AuditChecklistItem" (id, "checklistItemId", "checklistText", "auditStandard", "complianceStatus", "sortOrder", "assessmentId", "templateItemId")
+            `INSERT INTO "AuditChecklistItem" (id, "checklistItemId", "checklistText", "auditStandard", "complianceStatus", "sortOrder", "assessmentId", "templateItemId", "keyQuestions", "whatGoodLooksLike", "controlPoints", "evidenceRequirements")
              VALUES ${values.join(", ")}
              ON CONFLICT ("checklistItemId", "assessmentId") DO NOTHING`,
             ...params

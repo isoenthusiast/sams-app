@@ -1096,15 +1096,19 @@ model AuditChecklistTemplate {
 // A single checklist item within a template. Maps to requirements
 // via AuditChecklist2Requirement (by checklistItemId string).
 model AuditChecklistTemplateItem {
-  id              String                  @id @default(cuid())
-  checklistItemId String                  // e.g. "7.14"
-  checklistText   String                  // the item text / question
-  auditStandard   String                  // denormalized for query convenience
-  sortOrder       Int                     @default(0)
-  templateId      String
-  template        AuditChecklistTemplate  @relation(fields: [templateId], references: [id], onDelete: Cascade)
+  id                  String                  @id @default(cuid())
+  checklistItemId     String                  // e.g. "7.14"
+  checklistText       String                  // the item text / question
+  auditStandard       String                  // denormalized for query convenience
+  sortOrder           Int                     @default(0)
+  keyQuestions        String?                 // What the auditor should ask or look for
+  whatGoodLooksLike   String?                 // Description of what compliant evidence looks like
+  controlPoints       String?                 // Specific control points to verify
+  evidenceRequirements String?                // What evidence is needed
+  templateId          String
+  template            AuditChecklistTemplate  @relation(fields: [templateId], references: [id], onDelete: Cascade)
 
-  clonedItems     AuditChecklistItem[]    // Instances in assessments
+  clonedItems         AuditChecklistItem[]    // Instances in assessments
 
   @@unique([checklistItemId, templateId])
   @@index([templateId])
@@ -1114,19 +1118,23 @@ model AuditChecklistTemplateItem {
 // A checklist item cloned into a specific assessment, with
 // compliance status tracked per audit round.
 model AuditChecklistItem {
-  id               String                  @id @default(cuid())
-  checklistItemId  String                  // e.g. "7.14" (same as template item)
-  checklistText    String
-  auditStandard    String
-  complianceStatus ComplianceStatus        @default(NotTested)
-  auditorNotes     String?
-  testedDate       DateTime?
-  testedBy         String?
-  evidenceMethod   String?                 // D | I | S | W | G
-  sortOrder        Int                     @default(0)
-  assessmentId     String
-  templateItemId   String                  // Source template item
-  templateId       String?                 // Source template (denormalized for query)
+  id                  String                  @id @default(cuid())
+  checklistItemId     String                  // e.g. "7.14" (same as template item)
+  checklistText       String
+  auditStandard       String
+  complianceStatus    ComplianceStatus        @default(NotTested)
+  auditorNotes        String?
+  testedDate          DateTime?
+  testedBy            String?
+  evidenceMethod      String?                 // D | I | S | W | G
+  keyQuestions        String?                 // Inherited from template
+  whatGoodLooksLike   String?                 // Inherited from template
+  controlPoints       String?                 // Inherited from template
+  evidenceRequirements String?                // Inherited from template
+  sortOrder           Int                     @default(0)
+  assessmentId        String
+  templateItemId      String                  // Source template item
+  templateId          String?                 // Source template (denormalized for query)
 
   assessment       Assessment              @relation(fields: [assessmentId], references: [id], onDelete: Cascade)
   templateItem     AuditChecklistTemplateItem @relation(fields: [templateItemId], references: [id])

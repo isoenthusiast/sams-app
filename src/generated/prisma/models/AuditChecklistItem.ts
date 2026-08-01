@@ -44,6 +44,10 @@ export type AuditChecklistItemMinAggregateOutputType = {
   testedDate: Date | null
   testedBy: string | null
   evidenceMethod: string | null
+  keyQuestions: string | null
+  whatGoodLooksLike: string | null
+  controlPoints: string | null
+  evidenceRequirements: string | null
   sortOrder: number | null
   assessmentId: string | null
   templateItemId: string | null
@@ -60,6 +64,10 @@ export type AuditChecklistItemMaxAggregateOutputType = {
   testedDate: Date | null
   testedBy: string | null
   evidenceMethod: string | null
+  keyQuestions: string | null
+  whatGoodLooksLike: string | null
+  controlPoints: string | null
+  evidenceRequirements: string | null
   sortOrder: number | null
   assessmentId: string | null
   templateItemId: string | null
@@ -76,6 +84,10 @@ export type AuditChecklistItemCountAggregateOutputType = {
   testedDate: number
   testedBy: number
   evidenceMethod: number
+  keyQuestions: number
+  whatGoodLooksLike: number
+  controlPoints: number
+  evidenceRequirements: number
   sortOrder: number
   assessmentId: number
   templateItemId: number
@@ -102,6 +114,10 @@ export type AuditChecklistItemMinAggregateInputType = {
   testedDate?: true
   testedBy?: true
   evidenceMethod?: true
+  keyQuestions?: true
+  whatGoodLooksLike?: true
+  controlPoints?: true
+  evidenceRequirements?: true
   sortOrder?: true
   assessmentId?: true
   templateItemId?: true
@@ -118,6 +134,10 @@ export type AuditChecklistItemMaxAggregateInputType = {
   testedDate?: true
   testedBy?: true
   evidenceMethod?: true
+  keyQuestions?: true
+  whatGoodLooksLike?: true
+  controlPoints?: true
+  evidenceRequirements?: true
   sortOrder?: true
   assessmentId?: true
   templateItemId?: true
@@ -134,6 +154,10 @@ export type AuditChecklistItemCountAggregateInputType = {
   testedDate?: true
   testedBy?: true
   evidenceMethod?: true
+  keyQuestions?: true
+  whatGoodLooksLike?: true
+  controlPoints?: true
+  evidenceRequirements?: true
   sortOrder?: true
   assessmentId?: true
   templateItemId?: true
@@ -237,6 +261,10 @@ export type AuditChecklistItemGroupByOutputType = {
   testedDate: Date | null
   testedBy: string | null
   evidenceMethod: string | null
+  keyQuestions: string | null
+  whatGoodLooksLike: string | null
+  controlPoints: string | null
+  evidenceRequirements: string | null
   sortOrder: number
   assessmentId: string
   templateItemId: string
@@ -276,6 +304,10 @@ export type AuditChecklistItemWhereInput = {
   testedDate?: Prisma.DateTimeNullableFilter<"AuditChecklistItem"> | Date | string | null
   testedBy?: Prisma.StringNullableFilter<"AuditChecklistItem"> | string | null
   evidenceMethod?: Prisma.StringNullableFilter<"AuditChecklistItem"> | string | null
+  keyQuestions?: Prisma.StringNullableFilter<"AuditChecklistItem"> | string | null
+  whatGoodLooksLike?: Prisma.StringNullableFilter<"AuditChecklistItem"> | string | null
+  controlPoints?: Prisma.StringNullableFilter<"AuditChecklistItem"> | string | null
+  evidenceRequirements?: Prisma.StringNullableFilter<"AuditChecklistItem"> | string | null
   sortOrder?: Prisma.IntFilter<"AuditChecklistItem"> | number
   assessmentId?: Prisma.StringFilter<"AuditChecklistItem"> | string
   templateItemId?: Prisma.StringFilter<"AuditChecklistItem"> | string
@@ -296,6 +328,10 @@ export type AuditChecklistItemOrderByWithRelationInput = {
   testedDate?: Prisma.SortOrderInput | Prisma.SortOrder
   testedBy?: Prisma.SortOrderInput | Prisma.SortOrder
   evidenceMethod?: Prisma.SortOrderInput | Prisma.SortOrder
+  keyQuestions?: Prisma.SortOrderInput | Prisma.SortOrder
+  whatGoodLooksLike?: Prisma.SortOrderInput | Prisma.SortOrder
+  controlPoints?: Prisma.SortOrderInput | Prisma.SortOrder
+  evidenceRequirements?: Prisma.SortOrderInput | Prisma.SortOrder
   sortOrder?: Prisma.SortOrder
   assessmentId?: Prisma.SortOrder
   templateItemId?: Prisma.SortOrder
@@ -320,6 +356,10 @@ export type AuditChecklistItemWhereUniqueInput = Prisma.AtLeast<{
   testedDate?: Prisma.DateTimeNullableFilter<"AuditChecklistItem"> | Date | string | null
   testedBy?: Prisma.StringNullableFilter<"AuditChecklistItem"> | string | null
   evidenceMethod?: Prisma.StringNullableFilter<"AuditChecklistItem"> | string | null
+  keyQuestions?: Prisma.StringNullableFilter<"AuditChecklistItem"> | string | null
+  whatGoodLooksLike?: Prisma.StringNullableFilter<"AuditChecklistItem"> | string | null
+  controlPoints?: Prisma.StringNullableFilter<"AuditChecklistItem"> | string | null
+  evidenceRequirements?: Prisma.StringNullableFilter<"AuditChecklistItem"> | string | null
   sortOrder?: Prisma.IntFilter<"AuditChecklistItem"> | number
   assessmentId?: Prisma.StringFilter<"AuditChecklistItem"> | string
   templateItemId?: Prisma.StringFilter<"AuditChecklistItem"> | string
@@ -340,6 +380,10 @@ export type AuditChecklistItemOrderByWithAggregationInput = {
   testedDate?: Prisma.SortOrderInput | Prisma.SortOrder
   testedBy?: Prisma.SortOrderInput | Prisma.SortOrder
   evidenceMethod?: Prisma.SortOrderInput | Prisma.SortOrder
+  keyQuestions?: Prisma.SortOrderInput | Prisma.SortOrder
+  whatGoodLooksLike?: Prisma.SortOrderInput | Prisma.SortOrder
+  controlPoints?: Prisma.SortOrderInput | Prisma.SortOrder
+  evidenceRequirements?: Prisma.SortOrderInput | Prisma.SortOrder
   sortOrder?: Prisma.SortOrder
   assessmentId?: Prisma.SortOrder
   templateItemId?: Prisma.SortOrder
@@ -364,6 +408,10 @@ export type AuditChecklistItemScalarWhereWithAggregatesInput = {
   testedDate?: Prisma.DateTimeNullableWithAggregatesFilter<"AuditChecklistItem"> | Date | string | null
   testedBy?: Prisma.StringNullableWithAggregatesFilter<"AuditChecklistItem"> | string | null
   evidenceMethod?: Prisma.StringNullableWithAggregatesFilter<"AuditChecklistItem"> | string | null
+  keyQuestions?: Prisma.StringNullableWithAggregatesFilter<"AuditChecklistItem"> | string | null
+  whatGoodLooksLike?: Prisma.StringNullableWithAggregatesFilter<"AuditChecklistItem"> | string | null
+  controlPoints?: Prisma.StringNullableWithAggregatesFilter<"AuditChecklistItem"> | string | null
+  evidenceRequirements?: Prisma.StringNullableWithAggregatesFilter<"AuditChecklistItem"> | string | null
   sortOrder?: Prisma.IntWithAggregatesFilter<"AuditChecklistItem"> | number
   assessmentId?: Prisma.StringWithAggregatesFilter<"AuditChecklistItem"> | string
   templateItemId?: Prisma.StringWithAggregatesFilter<"AuditChecklistItem"> | string
@@ -380,6 +428,10 @@ export type AuditChecklistItemCreateInput = {
   testedDate?: Date | string | null
   testedBy?: string | null
   evidenceMethod?: string | null
+  keyQuestions?: string | null
+  whatGoodLooksLike?: string | null
+  controlPoints?: string | null
+  evidenceRequirements?: string | null
   sortOrder?: number
   assessment: Prisma.AssessmentCreateNestedOneWithoutChecklistItemsInput
   templateItem: Prisma.AuditChecklistTemplateItemCreateNestedOneWithoutClonedItemsInput
@@ -397,6 +449,10 @@ export type AuditChecklistItemUncheckedCreateInput = {
   testedDate?: Date | string | null
   testedBy?: string | null
   evidenceMethod?: string | null
+  keyQuestions?: string | null
+  whatGoodLooksLike?: string | null
+  controlPoints?: string | null
+  evidenceRequirements?: string | null
   sortOrder?: number
   assessmentId: string
   templateItemId: string
@@ -414,6 +470,10 @@ export type AuditChecklistItemUpdateInput = {
   testedDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   testedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   evidenceMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  keyQuestions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatGoodLooksLike?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  controlPoints?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  evidenceRequirements?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   assessment?: Prisma.AssessmentUpdateOneRequiredWithoutChecklistItemsNestedInput
   templateItem?: Prisma.AuditChecklistTemplateItemUpdateOneRequiredWithoutClonedItemsNestedInput
@@ -431,6 +491,10 @@ export type AuditChecklistItemUncheckedUpdateInput = {
   testedDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   testedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   evidenceMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  keyQuestions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatGoodLooksLike?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  controlPoints?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  evidenceRequirements?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   assessmentId?: Prisma.StringFieldUpdateOperationsInput | string
   templateItemId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -448,6 +512,10 @@ export type AuditChecklistItemCreateManyInput = {
   testedDate?: Date | string | null
   testedBy?: string | null
   evidenceMethod?: string | null
+  keyQuestions?: string | null
+  whatGoodLooksLike?: string | null
+  controlPoints?: string | null
+  evidenceRequirements?: string | null
   sortOrder?: number
   assessmentId: string
   templateItemId: string
@@ -464,6 +532,10 @@ export type AuditChecklistItemUpdateManyMutationInput = {
   testedDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   testedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   evidenceMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  keyQuestions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatGoodLooksLike?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  controlPoints?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  evidenceRequirements?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
@@ -477,6 +549,10 @@ export type AuditChecklistItemUncheckedUpdateManyInput = {
   testedDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   testedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   evidenceMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  keyQuestions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatGoodLooksLike?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  controlPoints?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  evidenceRequirements?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   assessmentId?: Prisma.StringFieldUpdateOperationsInput | string
   templateItemId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -513,6 +589,10 @@ export type AuditChecklistItemCountOrderByAggregateInput = {
   testedDate?: Prisma.SortOrder
   testedBy?: Prisma.SortOrder
   evidenceMethod?: Prisma.SortOrder
+  keyQuestions?: Prisma.SortOrder
+  whatGoodLooksLike?: Prisma.SortOrder
+  controlPoints?: Prisma.SortOrder
+  evidenceRequirements?: Prisma.SortOrder
   sortOrder?: Prisma.SortOrder
   assessmentId?: Prisma.SortOrder
   templateItemId?: Prisma.SortOrder
@@ -533,6 +613,10 @@ export type AuditChecklistItemMaxOrderByAggregateInput = {
   testedDate?: Prisma.SortOrder
   testedBy?: Prisma.SortOrder
   evidenceMethod?: Prisma.SortOrder
+  keyQuestions?: Prisma.SortOrder
+  whatGoodLooksLike?: Prisma.SortOrder
+  controlPoints?: Prisma.SortOrder
+  evidenceRequirements?: Prisma.SortOrder
   sortOrder?: Prisma.SortOrder
   assessmentId?: Prisma.SortOrder
   templateItemId?: Prisma.SortOrder
@@ -549,6 +633,10 @@ export type AuditChecklistItemMinOrderByAggregateInput = {
   testedDate?: Prisma.SortOrder
   testedBy?: Prisma.SortOrder
   evidenceMethod?: Prisma.SortOrder
+  keyQuestions?: Prisma.SortOrder
+  whatGoodLooksLike?: Prisma.SortOrder
+  controlPoints?: Prisma.SortOrder
+  evidenceRequirements?: Prisma.SortOrder
   sortOrder?: Prisma.SortOrder
   assessmentId?: Prisma.SortOrder
   templateItemId?: Prisma.SortOrder
@@ -715,6 +803,10 @@ export type AuditChecklistItemCreateWithoutAssessmentInput = {
   testedDate?: Date | string | null
   testedBy?: string | null
   evidenceMethod?: string | null
+  keyQuestions?: string | null
+  whatGoodLooksLike?: string | null
+  controlPoints?: string | null
+  evidenceRequirements?: string | null
   sortOrder?: number
   templateItem: Prisma.AuditChecklistTemplateItemCreateNestedOneWithoutClonedItemsInput
   template?: Prisma.AuditChecklistTemplateCreateNestedOneWithoutAdoptedItemsInput
@@ -731,6 +823,10 @@ export type AuditChecklistItemUncheckedCreateWithoutAssessmentInput = {
   testedDate?: Date | string | null
   testedBy?: string | null
   evidenceMethod?: string | null
+  keyQuestions?: string | null
+  whatGoodLooksLike?: string | null
+  controlPoints?: string | null
+  evidenceRequirements?: string | null
   sortOrder?: number
   templateItemId: string
   templateId?: string | null
@@ -776,6 +872,10 @@ export type AuditChecklistItemScalarWhereInput = {
   testedDate?: Prisma.DateTimeNullableFilter<"AuditChecklistItem"> | Date | string | null
   testedBy?: Prisma.StringNullableFilter<"AuditChecklistItem"> | string | null
   evidenceMethod?: Prisma.StringNullableFilter<"AuditChecklistItem"> | string | null
+  keyQuestions?: Prisma.StringNullableFilter<"AuditChecklistItem"> | string | null
+  whatGoodLooksLike?: Prisma.StringNullableFilter<"AuditChecklistItem"> | string | null
+  controlPoints?: Prisma.StringNullableFilter<"AuditChecklistItem"> | string | null
+  evidenceRequirements?: Prisma.StringNullableFilter<"AuditChecklistItem"> | string | null
   sortOrder?: Prisma.IntFilter<"AuditChecklistItem"> | number
   assessmentId?: Prisma.StringFilter<"AuditChecklistItem"> | string
   templateItemId?: Prisma.StringFilter<"AuditChecklistItem"> | string
@@ -792,6 +892,10 @@ export type AuditChecklistItemCreateWithoutFindingsInput = {
   testedDate?: Date | string | null
   testedBy?: string | null
   evidenceMethod?: string | null
+  keyQuestions?: string | null
+  whatGoodLooksLike?: string | null
+  controlPoints?: string | null
+  evidenceRequirements?: string | null
   sortOrder?: number
   assessment: Prisma.AssessmentCreateNestedOneWithoutChecklistItemsInput
   templateItem: Prisma.AuditChecklistTemplateItemCreateNestedOneWithoutClonedItemsInput
@@ -808,6 +912,10 @@ export type AuditChecklistItemUncheckedCreateWithoutFindingsInput = {
   testedDate?: Date | string | null
   testedBy?: string | null
   evidenceMethod?: string | null
+  keyQuestions?: string | null
+  whatGoodLooksLike?: string | null
+  controlPoints?: string | null
+  evidenceRequirements?: string | null
   sortOrder?: number
   assessmentId: string
   templateItemId: string
@@ -840,6 +948,10 @@ export type AuditChecklistItemUpdateWithoutFindingsInput = {
   testedDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   testedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   evidenceMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  keyQuestions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatGoodLooksLike?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  controlPoints?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  evidenceRequirements?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   assessment?: Prisma.AssessmentUpdateOneRequiredWithoutChecklistItemsNestedInput
   templateItem?: Prisma.AuditChecklistTemplateItemUpdateOneRequiredWithoutClonedItemsNestedInput
@@ -856,6 +968,10 @@ export type AuditChecklistItemUncheckedUpdateWithoutFindingsInput = {
   testedDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   testedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   evidenceMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  keyQuestions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatGoodLooksLike?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  controlPoints?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  evidenceRequirements?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   assessmentId?: Prisma.StringFieldUpdateOperationsInput | string
   templateItemId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -872,6 +988,10 @@ export type AuditChecklistItemCreateWithoutTemplateInput = {
   testedDate?: Date | string | null
   testedBy?: string | null
   evidenceMethod?: string | null
+  keyQuestions?: string | null
+  whatGoodLooksLike?: string | null
+  controlPoints?: string | null
+  evidenceRequirements?: string | null
   sortOrder?: number
   assessment: Prisma.AssessmentCreateNestedOneWithoutChecklistItemsInput
   templateItem: Prisma.AuditChecklistTemplateItemCreateNestedOneWithoutClonedItemsInput
@@ -888,6 +1008,10 @@ export type AuditChecklistItemUncheckedCreateWithoutTemplateInput = {
   testedDate?: Date | string | null
   testedBy?: string | null
   evidenceMethod?: string | null
+  keyQuestions?: string | null
+  whatGoodLooksLike?: string | null
+  controlPoints?: string | null
+  evidenceRequirements?: string | null
   sortOrder?: number
   assessmentId: string
   templateItemId: string
@@ -930,6 +1054,10 @@ export type AuditChecklistItemCreateWithoutTemplateItemInput = {
   testedDate?: Date | string | null
   testedBy?: string | null
   evidenceMethod?: string | null
+  keyQuestions?: string | null
+  whatGoodLooksLike?: string | null
+  controlPoints?: string | null
+  evidenceRequirements?: string | null
   sortOrder?: number
   assessment: Prisma.AssessmentCreateNestedOneWithoutChecklistItemsInput
   template?: Prisma.AuditChecklistTemplateCreateNestedOneWithoutAdoptedItemsInput
@@ -946,6 +1074,10 @@ export type AuditChecklistItemUncheckedCreateWithoutTemplateItemInput = {
   testedDate?: Date | string | null
   testedBy?: string | null
   evidenceMethod?: string | null
+  keyQuestions?: string | null
+  whatGoodLooksLike?: string | null
+  controlPoints?: string | null
+  evidenceRequirements?: string | null
   sortOrder?: number
   assessmentId: string
   templateId?: string | null
@@ -988,6 +1120,10 @@ export type AuditChecklistItemCreateManyAssessmentInput = {
   testedDate?: Date | string | null
   testedBy?: string | null
   evidenceMethod?: string | null
+  keyQuestions?: string | null
+  whatGoodLooksLike?: string | null
+  controlPoints?: string | null
+  evidenceRequirements?: string | null
   sortOrder?: number
   templateItemId: string
   templateId?: string | null
@@ -1003,6 +1139,10 @@ export type AuditChecklistItemUpdateWithoutAssessmentInput = {
   testedDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   testedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   evidenceMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  keyQuestions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatGoodLooksLike?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  controlPoints?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  evidenceRequirements?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   templateItem?: Prisma.AuditChecklistTemplateItemUpdateOneRequiredWithoutClonedItemsNestedInput
   template?: Prisma.AuditChecklistTemplateUpdateOneWithoutAdoptedItemsNestedInput
@@ -1019,6 +1159,10 @@ export type AuditChecklistItemUncheckedUpdateWithoutAssessmentInput = {
   testedDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   testedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   evidenceMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  keyQuestions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatGoodLooksLike?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  controlPoints?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  evidenceRequirements?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   templateItemId?: Prisma.StringFieldUpdateOperationsInput | string
   templateId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1035,6 +1179,10 @@ export type AuditChecklistItemUncheckedUpdateManyWithoutAssessmentInput = {
   testedDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   testedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   evidenceMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  keyQuestions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatGoodLooksLike?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  controlPoints?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  evidenceRequirements?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   templateItemId?: Prisma.StringFieldUpdateOperationsInput | string
   templateId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1050,6 +1198,10 @@ export type AuditChecklistItemCreateManyTemplateInput = {
   testedDate?: Date | string | null
   testedBy?: string | null
   evidenceMethod?: string | null
+  keyQuestions?: string | null
+  whatGoodLooksLike?: string | null
+  controlPoints?: string | null
+  evidenceRequirements?: string | null
   sortOrder?: number
   assessmentId: string
   templateItemId: string
@@ -1065,6 +1217,10 @@ export type AuditChecklistItemUpdateWithoutTemplateInput = {
   testedDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   testedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   evidenceMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  keyQuestions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatGoodLooksLike?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  controlPoints?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  evidenceRequirements?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   assessment?: Prisma.AssessmentUpdateOneRequiredWithoutChecklistItemsNestedInput
   templateItem?: Prisma.AuditChecklistTemplateItemUpdateOneRequiredWithoutClonedItemsNestedInput
@@ -1081,6 +1237,10 @@ export type AuditChecklistItemUncheckedUpdateWithoutTemplateInput = {
   testedDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   testedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   evidenceMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  keyQuestions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatGoodLooksLike?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  controlPoints?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  evidenceRequirements?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   assessmentId?: Prisma.StringFieldUpdateOperationsInput | string
   templateItemId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1097,6 +1257,10 @@ export type AuditChecklistItemUncheckedUpdateManyWithoutTemplateInput = {
   testedDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   testedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   evidenceMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  keyQuestions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatGoodLooksLike?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  controlPoints?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  evidenceRequirements?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   assessmentId?: Prisma.StringFieldUpdateOperationsInput | string
   templateItemId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1112,6 +1276,10 @@ export type AuditChecklistItemCreateManyTemplateItemInput = {
   testedDate?: Date | string | null
   testedBy?: string | null
   evidenceMethod?: string | null
+  keyQuestions?: string | null
+  whatGoodLooksLike?: string | null
+  controlPoints?: string | null
+  evidenceRequirements?: string | null
   sortOrder?: number
   assessmentId: string
   templateId?: string | null
@@ -1127,6 +1295,10 @@ export type AuditChecklistItemUpdateWithoutTemplateItemInput = {
   testedDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   testedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   evidenceMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  keyQuestions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatGoodLooksLike?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  controlPoints?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  evidenceRequirements?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   assessment?: Prisma.AssessmentUpdateOneRequiredWithoutChecklistItemsNestedInput
   template?: Prisma.AuditChecklistTemplateUpdateOneWithoutAdoptedItemsNestedInput
@@ -1143,6 +1315,10 @@ export type AuditChecklistItemUncheckedUpdateWithoutTemplateItemInput = {
   testedDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   testedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   evidenceMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  keyQuestions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatGoodLooksLike?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  controlPoints?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  evidenceRequirements?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   assessmentId?: Prisma.StringFieldUpdateOperationsInput | string
   templateId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1159,6 +1335,10 @@ export type AuditChecklistItemUncheckedUpdateManyWithoutTemplateItemInput = {
   testedDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   testedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   evidenceMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  keyQuestions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatGoodLooksLike?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  controlPoints?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  evidenceRequirements?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   assessmentId?: Prisma.StringFieldUpdateOperationsInput | string
   templateId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1205,6 +1385,10 @@ export type AuditChecklistItemSelect<ExtArgs extends runtime.Types.Extensions.In
   testedDate?: boolean
   testedBy?: boolean
   evidenceMethod?: boolean
+  keyQuestions?: boolean
+  whatGoodLooksLike?: boolean
+  controlPoints?: boolean
+  evidenceRequirements?: boolean
   sortOrder?: boolean
   assessmentId?: boolean
   templateItemId?: boolean
@@ -1226,6 +1410,10 @@ export type AuditChecklistItemSelectCreateManyAndReturn<ExtArgs extends runtime.
   testedDate?: boolean
   testedBy?: boolean
   evidenceMethod?: boolean
+  keyQuestions?: boolean
+  whatGoodLooksLike?: boolean
+  controlPoints?: boolean
+  evidenceRequirements?: boolean
   sortOrder?: boolean
   assessmentId?: boolean
   templateItemId?: boolean
@@ -1245,6 +1433,10 @@ export type AuditChecklistItemSelectUpdateManyAndReturn<ExtArgs extends runtime.
   testedDate?: boolean
   testedBy?: boolean
   evidenceMethod?: boolean
+  keyQuestions?: boolean
+  whatGoodLooksLike?: boolean
+  controlPoints?: boolean
+  evidenceRequirements?: boolean
   sortOrder?: boolean
   assessmentId?: boolean
   templateItemId?: boolean
@@ -1264,13 +1456,17 @@ export type AuditChecklistItemSelectScalar = {
   testedDate?: boolean
   testedBy?: boolean
   evidenceMethod?: boolean
+  keyQuestions?: boolean
+  whatGoodLooksLike?: boolean
+  controlPoints?: boolean
+  evidenceRequirements?: boolean
   sortOrder?: boolean
   assessmentId?: boolean
   templateItemId?: boolean
   templateId?: boolean
 }
 
-export type AuditChecklistItemOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "checklistItemId" | "checklistText" | "auditStandard" | "complianceStatus" | "auditorNotes" | "testedDate" | "testedBy" | "evidenceMethod" | "sortOrder" | "assessmentId" | "templateItemId" | "templateId", ExtArgs["result"]["auditChecklistItem"]>
+export type AuditChecklistItemOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "checklistItemId" | "checklistText" | "auditStandard" | "complianceStatus" | "auditorNotes" | "testedDate" | "testedBy" | "evidenceMethod" | "keyQuestions" | "whatGoodLooksLike" | "controlPoints" | "evidenceRequirements" | "sortOrder" | "assessmentId" | "templateItemId" | "templateId", ExtArgs["result"]["auditChecklistItem"]>
 export type AuditChecklistItemInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   assessment?: boolean | Prisma.AssessmentDefaultArgs<ExtArgs>
   templateItem?: boolean | Prisma.AuditChecklistTemplateItemDefaultArgs<ExtArgs>
@@ -1307,6 +1503,10 @@ export type $AuditChecklistItemPayload<ExtArgs extends runtime.Types.Extensions.
     testedDate: Date | null
     testedBy: string | null
     evidenceMethod: string | null
+    keyQuestions: string | null
+    whatGoodLooksLike: string | null
+    controlPoints: string | null
+    evidenceRequirements: string | null
     sortOrder: number
     assessmentId: string
     templateItemId: string
@@ -1747,6 +1947,10 @@ export interface AuditChecklistItemFieldRefs {
   readonly testedDate: Prisma.FieldRef<"AuditChecklistItem", 'DateTime'>
   readonly testedBy: Prisma.FieldRef<"AuditChecklistItem", 'String'>
   readonly evidenceMethod: Prisma.FieldRef<"AuditChecklistItem", 'String'>
+  readonly keyQuestions: Prisma.FieldRef<"AuditChecklistItem", 'String'>
+  readonly whatGoodLooksLike: Prisma.FieldRef<"AuditChecklistItem", 'String'>
+  readonly controlPoints: Prisma.FieldRef<"AuditChecklistItem", 'String'>
+  readonly evidenceRequirements: Prisma.FieldRef<"AuditChecklistItem", 'String'>
   readonly sortOrder: Prisma.FieldRef<"AuditChecklistItem", 'Int'>
   readonly assessmentId: Prisma.FieldRef<"AuditChecklistItem", 'String'>
   readonly templateItemId: Prisma.FieldRef<"AuditChecklistItem", 'String'>

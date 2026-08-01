@@ -19,7 +19,7 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
 
   const { id } = await params;
   const body = await request.json();
-  const { checklistItemId, checklistText, sortOrder } = body;
+  const { checklistItemId, checklistText, sortOrder, keyQuestions, whatGoodLooksLike, controlPoints, evidenceRequirements } = body;
 
   if (!checklistItemId || !checklistText) {
     return NextResponse.json({ error: "checklistItemId and checklistText are required" }, { status: 400 });
@@ -34,6 +34,10 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
       checklistText,
       auditStandard: template.auditStandard,
       sortOrder: sortOrder ?? 0,
+      keyQuestions: keyQuestions || null,
+      whatGoodLooksLike: whatGoodLooksLike || null,
+      controlPoints: controlPoints || null,
+      evidenceRequirements: evidenceRequirements || null,
       templateId: id,
     },
   });
