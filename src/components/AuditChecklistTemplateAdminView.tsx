@@ -18,6 +18,7 @@ interface Template {
   auditStandard: string;
   _count?: { items: number };
   items?: TemplateItem[];
+  isGlobal?: boolean;
 }
 
 const STANDARDS = ["ISO9001", "ISO14001", "ISO45001", "PMS"];
@@ -34,6 +35,31 @@ export function AuditChecklistTemplateAdminView() {
   // Edit item modal state
   const [editItem, setEditItem] = useState<TemplateItem | null>(null);
   const [editForm, setEditForm] = useState({ checklistItemId: "", checklistText: "", sortOrder: 0, keyQuestions: "", whatGoodLooksLike: "", controlPoints: "", evidenceRequirements: "" });
+  // Filter: "all" | "global" | "local"
+  const [scopeFilter, setScopeFilter] = useState<"all" | "global" | "local">("all");
+  const [adoptingId, setAdoptingId] = useState<string | null>(null);
+
+  const handleAdopt = async (templateId: string) => {
+    setAdoptingId(templateId);
+    try {
+      const res = await fetch(`/api/admin/audit-checklist-templates/${templateId}/adopt`, { method: "POST" });
+      if (!res.ok) {
+        const d = await res.json();
+        if (res.status === 409) { setError("Already adopted"); }
+        else { setError(d.error || "Failed to adopt"); }
+        return;
+      }
+      loadTemplates();
+    } catch {
+      setError("Failed to adopt");
+    } finally {
+      setAdoptingId(null);
+    }
+  };
+
+  const filteredTemplates = scopeFilter === "all"
+    ? templates
+    : templates.filter((t) => scopeFilter === "global" ? t.isGlobal : !t.isGlobal);
 
   const loadTemplates = async () => {
     try {
@@ -149,9 +175,31 @@ export function AuditChecklistTemplateAdminView() {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <h2 className="text-lg font-semibold text-slate-800">
-          Audit Checklist Templates ({templates.length})
-        </h2>
+        <div className="flex items-center gap-3">
+          <h2 className="text-lg font-semibold text-slate-800">
+            Audit Checklist Templates ({filteredTemplates.length})
+          </h2>
+          {/* Scope filter toggles */}
+          <div className="flex items-center gap-0.5 rounded-md border border-slate-200 bg-slate-100 p-0.5">
+            {([
+              { key: "all", label: "All" },
+              { key: "global", label: "🌐 Global" },
+              { key: "local", label: "🏢 Local" },
+            ] as const).map((f) => (
+              <button
+                key={f.key}
+                onClick={() => setScopeFilter(f.key)}
+                className={`px-2.5 py-1 text-xs font-medium rounded transition-colors ${
+                  scopeFilter === f.key
+                    ? "bg-white text-slate-800 shadow-sm"
+                    : "text-slate-500 hover:text-slate-700"
+                }`}
+              >
+                {f.label}
+              </button>
+            ))}
+          </div>
+        </div>
         <button
           onClick={() => { setShowAdd(true); setEditId(null); }}
           className="rounded-md bg-blue-800 px-3 py-1.5 text-sm font-medium text-white hover:bg-blue-900"
@@ -206,22 +254,40 @@ export function AuditChecklistTemplateAdminView() {
 
       {/* Template List */}
       <div className="space-y-2">
-        {templates.map((t) => {
+        {filteredTemplates.map((t) => {
           const isOpen = expanded.has(t.id);
+          const isLocal = !t.isGlobal;
           return (
             <div key={t.id} className="border border-slate-200 rounded-lg overflow-hidden">
               <div className="flex items-center justify-between px-4 py-2.5 bg-slate-50">
                 <button onClick={() => toggleExpand(t.id)} className="flex items-center gap-2 text-left">
                   <span className="text-sm font-medium text-slate-800">{t.name}</span>
-                  <span className={`text-xs px-1.5 py-0.5 rounded font-mono ${t.auditStandard === "ISO9001" ? "bg-blue-100 text-blue-700" : t.auditStandard === "ISO14001" ? "bg-emerald-100 text-emerald-700" : t.auditStandard === "ISO45001" ? "bg-amber-100 text-amber-700" : "bg-slate-100 text-slate-600"}`}>
+                  <span className={`text-xs px-1.5 py-0.5 rounded font-mono ${t.auditStandard === "ISO9001" ? "bg-blue-100 text-blue-700" : t.auditStandard === "ISO14001" ? "bg-emerald-100 text-emerald-700" : t.auditStandard === "ISO45001" ? "bg-amber-100 text-amber-700" : t.auditStandard === "PMS" ? "bg-slate-100 text-slate-600" : "bg-purple-100 text-purple-700"}`}>
                     {t.auditStandard}
+                  </span>
+                  <span className={`text-xs px-1.5 py-0.5 rounded font-medium ${t.isGlobal ? "bg-blue-50 text-blue-600" : "bg-amber-50 text-amber-600"}`}>
+                    {t.isGlobal ? "🌐 Global" : "🏢 Local"}
                   </span>
                   <span className="text-xs text-slate-400">({t._count?.items ?? t.items?.length ?? 0} items)</span>
                   <span className="text-slate-400 text-xs">{isOpen ? "▲" : "▼"}</span>
                 </button>
                 <div className="flex items-center gap-1">
-                  <button onClick={() => handleUpdateTemplate(t.id)} className="text-xs text-blue-600 hover:text-blue-800 px-1">✏️</button>
-                  <button onClick={() => handleDelete(t.id)} className="text-xs text-red-400 hover:text-red-600 px-1">🗑</button>
+                  {t.isGlobal && (
+                    <button
+                      onClick={() => handleAdopt(t.id)}
+                      disabled={adoptingId === t.id}
+                      className="text-xs text-blue-600 hover:text-blue-800 px-2 py-0.5 rounded border border-blue-200 hover:border-blue-400 disabled:opacity-50"
+                      title="Copy to Local templates"
+                    >
+                      {adoptingId === t.id ? "…" : "📥 Copy to Local"}
+                    </button>
+                  )}
+                  {isLocal && (
+                    <>
+                      <button onClick={() => handleUpdateTemplate(t.id)} className="text-xs text-blue-600 hover:text-blue-800 px-1">✏️</button>
+                      <button onClick={() => handleDelete(t.id)} className="text-xs text-red-400 hover:text-red-600 px-1">🗑</button>
+                    </>
+                  )}
                 </div>
               </div>
 
@@ -286,8 +352,11 @@ export function AuditChecklistTemplateAdminView() {
         })}
       </div>
 
-      {templates.length === 0 && (
-        <p className="text-sm text-slate-400 py-8 text-center">No templates yet. Create one to get started.</p>
+      {filteredTemplates.length === 0 && (
+        <p className="text-sm text-slate-400 py-8 text-center">
+          {scopeFilter === "all" ? "No templates yet. Create one to get started." :
+           scopeFilter === "global" ? "No global templates." : "No local templates. Copy a global template to get started."}
+        </p>
       )}
 
       {/* Edit Item Modal */}

@@ -25,5 +25,11 @@ export async function GET() {
     orderBy: { name: "asc" },
   });
 
-  return NextResponse.json(templates);
+  // Tag each template as global (SAMS001) or local
+  const result = templates.map((t) => ({
+    ...t,
+    isGlobal: t.companyId === samsId,
+  }));
+
+  return NextResponse.json(result);
 }
