@@ -40,6 +40,7 @@ export default async function AssessmentDetailPage({ params }: { params: Promise
         orderBy: { activityDate: "desc" },
       },
       assessorLinks: { select: { userId: true } },
+      checklistItems: { orderBy: { sortOrder: "asc" } },
     },
   });
 

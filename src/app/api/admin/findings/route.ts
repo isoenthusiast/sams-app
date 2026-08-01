@@ -10,7 +10,7 @@ export async function POST(request: Request) {
 
     const userId = (session.user as { id?: string }).id || "unknown";
     const body = await request.json();
-    const { assessmentId, description, severity, risks, details, controlIds, repeat, sampleId } = body;
+    const { assessmentId, description, severity, risks, details, controlIds, repeat, sampleId, checklistItemId } = body;
 
     if (!assessmentId || !description) {
       return NextResponse.json({ error: "assessmentId and description are required" }, { status: 400 });
@@ -31,6 +31,7 @@ export async function POST(request: Request) {
         controlIds: controlIds || null,
         repeat: repeat ?? false,
         sampleId: sampleId || null,
+        checklistItemId: checklistItemId || null,
       },
     });
 

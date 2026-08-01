@@ -15,6 +15,7 @@ import { AssignedControlsList } from "@/components/AssignedControlsList";
 import { GamificationWidget } from "@/components/GamificationWidget";
 import { AssessmentChecklistTab } from "@/components/AssessmentChecklistTab";
 import { ChecklistTemplateSelector } from "@/components/ChecklistTemplateSelector";
+import { AuditWorkflowBar } from "@/components/AuditWorkflowBar";
 
 type Props = {
   assessment: any;
@@ -36,7 +37,7 @@ export default function AssessmentClient({ assessment, allControls, processAreas
   const [showAddSample, setShowAddSample] = useState(false);
   const [sampleForm, setSampleForm] = useState({ sampleTypeId: "", recordSourceId: "", recordReference: "", comment: "" });
   const [showAddFinding, setShowAddFinding] = useState(false);
-  const [findingForm, setFindingForm] = useState({ description: "", severity: "Low", risks: "", details: "", repeat: false, controlIds: new Set<string>(), sampleId: "" });
+  const [findingForm, setFindingForm] = useState({ description: "", severity: "Low", risks: "", details: "", repeat: false, controlIds: new Set<string>(), sampleId: "", checklistItemId: "" });
   const [expandedFindings, setExpandedFindings] = useState<Set<string>>(new Set());
   const [actionForms, setActionForms] = useState<Record<string, { description: string; party: string; details: string; targetDate: string }>>({});
   const [expandedGroups, setExpandedGroups] = useState<Set<string>>(new Set());
@@ -230,11 +231,12 @@ export default function AssessmentClient({ assessment, allControls, processAreas
           controlIds: [...findingForm.controlIds].join(", ") || null,
           repeat: findingForm.repeat || undefined,
           sampleId: findingForm.sampleId || null,
+          checklistItemId: findingForm.checklistItemId || null,
         }),
       });
       if (!res.ok) throw new Error("Failed to add finding");
       setShowAddFinding(false);
-      setFindingForm({ description: "", severity: "Low", risks: "", details: "", repeat: false, controlIds: new Set<string>(), sampleId: "" });
+      setFindingForm({ description: "", severity: "Low", risks: "", details: "", repeat: false, controlIds: new Set<string>(), sampleId: "", checklistItemId: "" });
       router.refresh();
     } catch (err) {
       showToast(err instanceof Error ? err.message : "Failed to add finding", "error");
@@ -353,6 +355,14 @@ export default function AssessmentClient({ assessment, allControls, processAreas
           </button>
         ))}
       </div>
+
+      {/* ─── Audit Workflow Progress Bar (T2.3) ─── */}
+      <AuditWorkflowBar
+        hasChecklist={(assessment as any).checklistItems?.length > 0}
+        hasAssignments={assessment.controlAssignments?.length > 0}
+        hasCompliance={(assessment as any).checklistItems?.some((ci: any) => ci.complianceStatus !== "NotTested")}
+        hasFindings={assessment.findings?.length > 0}
+      />
 
       {/* ─── TAB 1: Overview ─── */}
       {activeTab === "overview" && (
@@ -807,7 +817,7 @@ export default function AssessmentClient({ assessment, allControls, processAreas
                     {s.sampleType?.name ?? "Sample"} {s.recordReference ? `· ${s.recordReference}` : ""}
                   </div>
                   <div className="flex items-center gap-1 shrink-0">
-                    <button onClick={() => { setFindingForm({ description: "", severity: "Low", risks: "", details: "", repeat: false, controlIds: new Set<string>(), sampleId: s.id }); setShowAddFinding(true); }}
+                    <button onClick={() => { setFindingForm({ description: "", severity: "Low", risks: "", details: "", repeat: false, controlIds: new Set<string>(), sampleId: s.id, checklistItemId: "" }); setShowAddFinding(true); }}
                       className="text-xs text-blue-600 hover:text-blue-800 transition-colors" title="Create finding from this sample">
                       + Finding
                     </button>
@@ -958,6 +968,21 @@ export default function AssessmentClient({ assessment, allControls, processAreas
                       {findingForm.controlIds.size > 0 && (
                         <p className="text-xs text-slate-400 mt-1">{findingForm.controlIds.size} control(s) selected</p>
                       )}
+                    </div>
+                    <div>
+                      <label className="text-xs font-medium text-slate-600">Linked Checklist Item (T2.1)</label>
+                      <select
+                        value={findingForm.checklistItemId}
+                        onChange={(e) => setFindingForm({ ...findingForm, checklistItemId: e.target.value })}
+                        className="w-full rounded border border-slate-300 px-2 py-1.5 text-sm mt-1"
+                      >
+                        <option value="">— None —</option>
+                        {(assessment as any).checklistItems?.map((ci: any) => (
+                          <option key={ci.id} value={ci.id}>
+                            {ci.checklistItemId}: {ci.checklistText?.substring(0, 60)}
+                          </option>
+                        ))}
+                      </select>
                     </div>
                   <div>
                     <label className="text-xs font-medium text-slate-600">Risks</label>

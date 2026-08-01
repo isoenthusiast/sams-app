@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { StatusBadge } from "@/components/StatusBadge";
+import { AttachmentList } from "@/components/AttachmentList";
 
 interface ChecklistItem {
   id: string;
@@ -116,6 +117,10 @@ export function AssessmentChecklistTab({ assessmentId }: { assessmentId: string 
                       {item.auditorNotes && (
                         <p className="text-xs text-slate-500 mt-1 italic">📝 {item.auditorNotes}</p>
                       )}
+                      {/* T2.2: Evidence attachments per checklist item */}
+                      <div className="mt-2 border-t border-slate-100 pt-2">
+                        <AttachmentList destTable="AuditChecklistItem" recId={item.id} />
+                      </div>
                     </div>
                     <div className="shrink-0">
                       <select
