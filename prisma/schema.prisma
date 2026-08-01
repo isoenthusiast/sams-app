@@ -367,22 +367,25 @@ model Sample {
 // human-readable running-number id (FID-XXXXXX) instead of a cuid, generated
 // in application code (see src/lib/findings.ts).
 model Finding {
-  id           String          @id
-  assessmentId String
-  sampleId     String?
-  description  String
-  details      String?
-  controlIds   String?
-  risks        String?
-  repeat       Boolean         @default(false)
-  severity     FindingSeverity
-  createdAt    DateTime        @default(now())
-  assessment   Assessment      @relation(fields: [assessmentId], references: [id], onDelete: Cascade)
-  sample       Sample?         @relation(fields: [sampleId], references: [id], onDelete: SetNull)
-  actions      Action[]
+  id              String          @id
+  assessmentId    String
+  sampleId        String?
+  checklistItemId String?         // FK → AuditChecklistItem (audit finding trace)
+  description     String
+  details         String?
+  controlIds      String?
+  risks           String?
+  repeat          Boolean         @default(false)
+  severity        FindingSeverity
+  createdAt       DateTime        @default(now())
+  assessment      Assessment      @relation(fields: [assessmentId], references: [id], onDelete: Cascade)
+  sample          Sample?         @relation(fields: [sampleId], references: [id], onDelete: SetNull)
+  checklistItem   AuditChecklistItem? @relation(fields: [checklistItemId], references: [id], onDelete: SetNull)
+  actions         Action[]
 
   @@index([assessmentId])
   @@index([sampleId])
+  @@index([checklistItemId])
 }
 
 // An Action is a remediation item tied to exactly one Finding.
@@ -1128,6 +1131,7 @@ model AuditChecklistItem {
   assessment       Assessment              @relation(fields: [assessmentId], references: [id], onDelete: Cascade)
   templateItem     AuditChecklistTemplateItem @relation(fields: [templateItemId], references: [id])
   template         AuditChecklistTemplate?   @relation("TemplateToAdoptedItems", fields: [templateId], references: [id])
+  findings         Finding[]                // Findings linked to this checklist item
 
   @@unique([checklistItemId, assessmentId])
   @@index([assessmentId])

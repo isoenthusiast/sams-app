@@ -272,3 +272,28 @@ export type BacklogItem = Prisma.BacklogItemModel
  * 
  */
 export type BacklogItemControl = Prisma.BacklogItemControlModel
+/**
+ * Model AuditEvidence
+ * 
+ */
+export type AuditEvidence = Prisma.AuditEvidenceModel
+/**
+ * Model AuditChecklist2Requirement
+ * 
+ */
+export type AuditChecklist2Requirement = Prisma.AuditChecklist2RequirementModel
+/**
+ * Model AuditChecklistTemplate
+ * 
+ */
+export type AuditChecklistTemplate = Prisma.AuditChecklistTemplateModel
+/**
+ * Model AuditChecklistTemplateItem
+ * 
+ */
+export type AuditChecklistTemplateItem = Prisma.AuditChecklistTemplateItemModel
+/**
+ * Model AuditChecklistItem
+ * 
+ */
+export type AuditChecklistItem = Prisma.AuditChecklistItemModel

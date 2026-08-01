@@ -6,6 +6,11 @@
 			"type": "shell",
 			"command": "npx next dev -p 3100",
 			"isBackground": true
+		},
+		{
+			"label": "TS check + git diff",
+			"type": "shell",
+			"command": "npx tsc --noEmit --pretty 2>&1 | Select-Object -First 40; Write-Host '---'; git -C 'sams-app' diff --stat"
 		}
 	]
 }

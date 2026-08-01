@@ -101,7 +101,12 @@ export const ModelName = {
   WebhookLog: 'WebhookLog',
   Document: 'Document',
   BacklogItem: 'BacklogItem',
-  BacklogItemControl: 'BacklogItemControl'
+  BacklogItemControl: 'BacklogItemControl',
+  AuditEvidence: 'AuditEvidence',
+  AuditChecklist2Requirement: 'AuditChecklist2Requirement',
+  AuditChecklistTemplate: 'AuditChecklistTemplate',
+  AuditChecklistTemplateItem: 'AuditChecklistTemplateItem',
+  AuditChecklistItem: 'AuditChecklistItem'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -134,6 +139,7 @@ export const UserScalarFieldEnum = {
   organisationIndicator: 'organisationIndicator',
   preferredName: 'preferredName',
   active: 'active',
+  sortOrder: 'sortOrder',
   createdAt: 'createdAt',
   totalPoints: 'totalPoints',
   dailyPointStreak: 'dailyPointStreak',
@@ -414,6 +420,7 @@ export const FindingScalarFieldEnum = {
   id: 'id',
   assessmentId: 'assessmentId',
   sampleId: 'sampleId',
+  checklistItemId: 'checklistItemId',
   description: 'description',
   details: 'details',
   controlIds: 'controlIds',
@@ -869,6 +876,86 @@ export const BacklogItemControlScalarFieldEnum = {
 } as const
 
 export type BacklogItemControlScalarFieldEnum = (typeof BacklogItemControlScalarFieldEnum)[keyof typeof BacklogItemControlScalarFieldEnum]
+
+
+export const AuditEvidenceScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  evidenceType: 'evidenceType',
+  intervieweeName: 'intervieweeName',
+  plannedDate: 'plannedDate',
+  actualDate: 'actualDate',
+  durationMinutes: 'durationMinutes',
+  interviewerName: 'interviewerName',
+  location: 'location',
+  transcriptUrl: 'transcriptUrl',
+  attachments: 'attachments',
+  notes: 'notes',
+  status: 'status',
+  createdAt: 'createdAt'
+} as const
+
+export type AuditEvidenceScalarFieldEnum = (typeof AuditEvidenceScalarFieldEnum)[keyof typeof AuditEvidenceScalarFieldEnum]
+
+
+export const AuditChecklist2RequirementScalarFieldEnum = {
+  id: 'id',
+  checklistItemId: 'checklistItemId',
+  checklistText: 'checklistText',
+  auditStandard: 'auditStandard',
+  requirementRId: 'requirementRId',
+  controlId: 'controlId',
+  evidenceNote: 'evidenceNote',
+  evidenceMethod: 'evidenceMethod',
+  evidenceGroupId: 'evidenceGroupId',
+  mappedBy: 'mappedBy',
+  mappedAt: 'mappedAt'
+} as const
+
+export type AuditChecklist2RequirementScalarFieldEnum = (typeof AuditChecklist2RequirementScalarFieldEnum)[keyof typeof AuditChecklist2RequirementScalarFieldEnum]
+
+
+export const AuditChecklistTemplateScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  description: 'description',
+  auditStandard: 'auditStandard',
+  companyId: 'companyId',
+  createdAt: 'createdAt'
+} as const
+
+export type AuditChecklistTemplateScalarFieldEnum = (typeof AuditChecklistTemplateScalarFieldEnum)[keyof typeof AuditChecklistTemplateScalarFieldEnum]
+
+
+export const AuditChecklistTemplateItemScalarFieldEnum = {
+  id: 'id',
+  checklistItemId: 'checklistItemId',
+  checklistText: 'checklistText',
+  auditStandard: 'auditStandard',
+  sortOrder: 'sortOrder',
+  templateId: 'templateId'
+} as const
+
+export type AuditChecklistTemplateItemScalarFieldEnum = (typeof AuditChecklistTemplateItemScalarFieldEnum)[keyof typeof AuditChecklistTemplateItemScalarFieldEnum]
+
+
+export const AuditChecklistItemScalarFieldEnum = {
+  id: 'id',
+  checklistItemId: 'checklistItemId',
+  checklistText: 'checklistText',
+  auditStandard: 'auditStandard',
+  complianceStatus: 'complianceStatus',
+  auditorNotes: 'auditorNotes',
+  testedDate: 'testedDate',
+  testedBy: 'testedBy',
+  evidenceMethod: 'evidenceMethod',
+  sortOrder: 'sortOrder',
+  assessmentId: 'assessmentId',
+  templateItemId: 'templateItemId',
+  templateId: 'templateId'
+} as const
+
+export type AuditChecklistItemScalarFieldEnum = (typeof AuditChecklistItemScalarFieldEnum)[keyof typeof AuditChecklistItemScalarFieldEnum]
 
 
 export const SortOrder = {

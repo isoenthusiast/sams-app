@@ -28,6 +28,7 @@ export type FindingMinAggregateOutputType = {
   id: string | null
   assessmentId: string | null
   sampleId: string | null
+  checklistItemId: string | null
   description: string | null
   details: string | null
   controlIds: string | null
@@ -41,6 +42,7 @@ export type FindingMaxAggregateOutputType = {
   id: string | null
   assessmentId: string | null
   sampleId: string | null
+  checklistItemId: string | null
   description: string | null
   details: string | null
   controlIds: string | null
@@ -54,6 +56,7 @@ export type FindingCountAggregateOutputType = {
   id: number
   assessmentId: number
   sampleId: number
+  checklistItemId: number
   description: number
   details: number
   controlIds: number
@@ -69,6 +72,7 @@ export type FindingMinAggregateInputType = {
   id?: true
   assessmentId?: true
   sampleId?: true
+  checklistItemId?: true
   description?: true
   details?: true
   controlIds?: true
@@ -82,6 +86,7 @@ export type FindingMaxAggregateInputType = {
   id?: true
   assessmentId?: true
   sampleId?: true
+  checklistItemId?: true
   description?: true
   details?: true
   controlIds?: true
@@ -95,6 +100,7 @@ export type FindingCountAggregateInputType = {
   id?: true
   assessmentId?: true
   sampleId?: true
+  checklistItemId?: true
   description?: true
   details?: true
   controlIds?: true
@@ -181,6 +187,7 @@ export type FindingGroupByOutputType = {
   id: string
   assessmentId: string
   sampleId: string | null
+  checklistItemId: string | null
   description: string
   details: string | null
   controlIds: string | null
@@ -215,6 +222,7 @@ export type FindingWhereInput = {
   id?: Prisma.StringFilter<"Finding"> | string
   assessmentId?: Prisma.StringFilter<"Finding"> | string
   sampleId?: Prisma.StringNullableFilter<"Finding"> | string | null
+  checklistItemId?: Prisma.StringNullableFilter<"Finding"> | string | null
   description?: Prisma.StringFilter<"Finding"> | string
   details?: Prisma.StringNullableFilter<"Finding"> | string | null
   controlIds?: Prisma.StringNullableFilter<"Finding"> | string | null
@@ -224,6 +232,7 @@ export type FindingWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"Finding"> | Date | string
   assessment?: Prisma.XOR<Prisma.AssessmentScalarRelationFilter, Prisma.AssessmentWhereInput>
   sample?: Prisma.XOR<Prisma.SampleNullableScalarRelationFilter, Prisma.SampleWhereInput> | null
+  checklistItem?: Prisma.XOR<Prisma.AuditChecklistItemNullableScalarRelationFilter, Prisma.AuditChecklistItemWhereInput> | null
   actions?: Prisma.ActionListRelationFilter
 }
 
@@ -231,6 +240,7 @@ export type FindingOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   assessmentId?: Prisma.SortOrder
   sampleId?: Prisma.SortOrderInput | Prisma.SortOrder
+  checklistItemId?: Prisma.SortOrderInput | Prisma.SortOrder
   description?: Prisma.SortOrder
   details?: Prisma.SortOrderInput | Prisma.SortOrder
   controlIds?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -240,6 +250,7 @@ export type FindingOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   assessment?: Prisma.AssessmentOrderByWithRelationInput
   sample?: Prisma.SampleOrderByWithRelationInput
+  checklistItem?: Prisma.AuditChecklistItemOrderByWithRelationInput
   actions?: Prisma.ActionOrderByRelationAggregateInput
 }
 
@@ -250,6 +261,7 @@ export type FindingWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.FindingWhereInput | Prisma.FindingWhereInput[]
   assessmentId?: Prisma.StringFilter<"Finding"> | string
   sampleId?: Prisma.StringNullableFilter<"Finding"> | string | null
+  checklistItemId?: Prisma.StringNullableFilter<"Finding"> | string | null
   description?: Prisma.StringFilter<"Finding"> | string
   details?: Prisma.StringNullableFilter<"Finding"> | string | null
   controlIds?: Prisma.StringNullableFilter<"Finding"> | string | null
@@ -259,6 +271,7 @@ export type FindingWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"Finding"> | Date | string
   assessment?: Prisma.XOR<Prisma.AssessmentScalarRelationFilter, Prisma.AssessmentWhereInput>
   sample?: Prisma.XOR<Prisma.SampleNullableScalarRelationFilter, Prisma.SampleWhereInput> | null
+  checklistItem?: Prisma.XOR<Prisma.AuditChecklistItemNullableScalarRelationFilter, Prisma.AuditChecklistItemWhereInput> | null
   actions?: Prisma.ActionListRelationFilter
 }, "id">
 
@@ -266,6 +279,7 @@ export type FindingOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   assessmentId?: Prisma.SortOrder
   sampleId?: Prisma.SortOrderInput | Prisma.SortOrder
+  checklistItemId?: Prisma.SortOrderInput | Prisma.SortOrder
   description?: Prisma.SortOrder
   details?: Prisma.SortOrderInput | Prisma.SortOrder
   controlIds?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -285,6 +299,7 @@ export type FindingScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"Finding"> | string
   assessmentId?: Prisma.StringWithAggregatesFilter<"Finding"> | string
   sampleId?: Prisma.StringNullableWithAggregatesFilter<"Finding"> | string | null
+  checklistItemId?: Prisma.StringNullableWithAggregatesFilter<"Finding"> | string | null
   description?: Prisma.StringWithAggregatesFilter<"Finding"> | string
   details?: Prisma.StringNullableWithAggregatesFilter<"Finding"> | string | null
   controlIds?: Prisma.StringNullableWithAggregatesFilter<"Finding"> | string | null
@@ -305,6 +320,7 @@ export type FindingCreateInput = {
   createdAt?: Date | string
   assessment: Prisma.AssessmentCreateNestedOneWithoutFindingsInput
   sample?: Prisma.SampleCreateNestedOneWithoutFindingsInput
+  checklistItem?: Prisma.AuditChecklistItemCreateNestedOneWithoutFindingsInput
   actions?: Prisma.ActionCreateNestedManyWithoutFindingInput
 }
 
@@ -312,6 +328,7 @@ export type FindingUncheckedCreateInput = {
   id: string
   assessmentId: string
   sampleId?: string | null
+  checklistItemId?: string | null
   description: string
   details?: string | null
   controlIds?: string | null
@@ -333,6 +350,7 @@ export type FindingUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   assessment?: Prisma.AssessmentUpdateOneRequiredWithoutFindingsNestedInput
   sample?: Prisma.SampleUpdateOneWithoutFindingsNestedInput
+  checklistItem?: Prisma.AuditChecklistItemUpdateOneWithoutFindingsNestedInput
   actions?: Prisma.ActionUpdateManyWithoutFindingNestedInput
 }
 
@@ -340,6 +358,7 @@ export type FindingUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   assessmentId?: Prisma.StringFieldUpdateOperationsInput | string
   sampleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  checklistItemId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.StringFieldUpdateOperationsInput | string
   details?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   controlIds?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -354,6 +373,7 @@ export type FindingCreateManyInput = {
   id: string
   assessmentId: string
   sampleId?: string | null
+  checklistItemId?: string | null
   description: string
   details?: string | null
   controlIds?: string | null
@@ -378,6 +398,7 @@ export type FindingUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   assessmentId?: Prisma.StringFieldUpdateOperationsInput | string
   sampleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  checklistItemId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.StringFieldUpdateOperationsInput | string
   details?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   controlIds?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -401,6 +422,7 @@ export type FindingCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   assessmentId?: Prisma.SortOrder
   sampleId?: Prisma.SortOrder
+  checklistItemId?: Prisma.SortOrder
   description?: Prisma.SortOrder
   details?: Prisma.SortOrder
   controlIds?: Prisma.SortOrder
@@ -414,6 +436,7 @@ export type FindingMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   assessmentId?: Prisma.SortOrder
   sampleId?: Prisma.SortOrder
+  checklistItemId?: Prisma.SortOrder
   description?: Prisma.SortOrder
   details?: Prisma.SortOrder
   controlIds?: Prisma.SortOrder
@@ -427,6 +450,7 @@ export type FindingMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   assessmentId?: Prisma.SortOrder
   sampleId?: Prisma.SortOrder
+  checklistItemId?: Prisma.SortOrder
   description?: Prisma.SortOrder
   details?: Prisma.SortOrder
   controlIds?: Prisma.SortOrder
@@ -543,6 +567,48 @@ export type FindingUpdateOneRequiredWithoutActionsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.FindingUpdateToOneWithWhereWithoutActionsInput, Prisma.FindingUpdateWithoutActionsInput>, Prisma.FindingUncheckedUpdateWithoutActionsInput>
 }
 
+export type FindingCreateNestedManyWithoutChecklistItemInput = {
+  create?: Prisma.XOR<Prisma.FindingCreateWithoutChecklistItemInput, Prisma.FindingUncheckedCreateWithoutChecklistItemInput> | Prisma.FindingCreateWithoutChecklistItemInput[] | Prisma.FindingUncheckedCreateWithoutChecklistItemInput[]
+  connectOrCreate?: Prisma.FindingCreateOrConnectWithoutChecklistItemInput | Prisma.FindingCreateOrConnectWithoutChecklistItemInput[]
+  createMany?: Prisma.FindingCreateManyChecklistItemInputEnvelope
+  connect?: Prisma.FindingWhereUniqueInput | Prisma.FindingWhereUniqueInput[]
+}
+
+export type FindingUncheckedCreateNestedManyWithoutChecklistItemInput = {
+  create?: Prisma.XOR<Prisma.FindingCreateWithoutChecklistItemInput, Prisma.FindingUncheckedCreateWithoutChecklistItemInput> | Prisma.FindingCreateWithoutChecklistItemInput[] | Prisma.FindingUncheckedCreateWithoutChecklistItemInput[]
+  connectOrCreate?: Prisma.FindingCreateOrConnectWithoutChecklistItemInput | Prisma.FindingCreateOrConnectWithoutChecklistItemInput[]
+  createMany?: Prisma.FindingCreateManyChecklistItemInputEnvelope
+  connect?: Prisma.FindingWhereUniqueInput | Prisma.FindingWhereUniqueInput[]
+}
+
+export type FindingUpdateManyWithoutChecklistItemNestedInput = {
+  create?: Prisma.XOR<Prisma.FindingCreateWithoutChecklistItemInput, Prisma.FindingUncheckedCreateWithoutChecklistItemInput> | Prisma.FindingCreateWithoutChecklistItemInput[] | Prisma.FindingUncheckedCreateWithoutChecklistItemInput[]
+  connectOrCreate?: Prisma.FindingCreateOrConnectWithoutChecklistItemInput | Prisma.FindingCreateOrConnectWithoutChecklistItemInput[]
+  upsert?: Prisma.FindingUpsertWithWhereUniqueWithoutChecklistItemInput | Prisma.FindingUpsertWithWhereUniqueWithoutChecklistItemInput[]
+  createMany?: Prisma.FindingCreateManyChecklistItemInputEnvelope
+  set?: Prisma.FindingWhereUniqueInput | Prisma.FindingWhereUniqueInput[]
+  disconnect?: Prisma.FindingWhereUniqueInput | Prisma.FindingWhereUniqueInput[]
+  delete?: Prisma.FindingWhereUniqueInput | Prisma.FindingWhereUniqueInput[]
+  connect?: Prisma.FindingWhereUniqueInput | Prisma.FindingWhereUniqueInput[]
+  update?: Prisma.FindingUpdateWithWhereUniqueWithoutChecklistItemInput | Prisma.FindingUpdateWithWhereUniqueWithoutChecklistItemInput[]
+  updateMany?: Prisma.FindingUpdateManyWithWhereWithoutChecklistItemInput | Prisma.FindingUpdateManyWithWhereWithoutChecklistItemInput[]
+  deleteMany?: Prisma.FindingScalarWhereInput | Prisma.FindingScalarWhereInput[]
+}
+
+export type FindingUncheckedUpdateManyWithoutChecklistItemNestedInput = {
+  create?: Prisma.XOR<Prisma.FindingCreateWithoutChecklistItemInput, Prisma.FindingUncheckedCreateWithoutChecklistItemInput> | Prisma.FindingCreateWithoutChecklistItemInput[] | Prisma.FindingUncheckedCreateWithoutChecklistItemInput[]
+  connectOrCreate?: Prisma.FindingCreateOrConnectWithoutChecklistItemInput | Prisma.FindingCreateOrConnectWithoutChecklistItemInput[]
+  upsert?: Prisma.FindingUpsertWithWhereUniqueWithoutChecklistItemInput | Prisma.FindingUpsertWithWhereUniqueWithoutChecklistItemInput[]
+  createMany?: Prisma.FindingCreateManyChecklistItemInputEnvelope
+  set?: Prisma.FindingWhereUniqueInput | Prisma.FindingWhereUniqueInput[]
+  disconnect?: Prisma.FindingWhereUniqueInput | Prisma.FindingWhereUniqueInput[]
+  delete?: Prisma.FindingWhereUniqueInput | Prisma.FindingWhereUniqueInput[]
+  connect?: Prisma.FindingWhereUniqueInput | Prisma.FindingWhereUniqueInput[]
+  update?: Prisma.FindingUpdateWithWhereUniqueWithoutChecklistItemInput | Prisma.FindingUpdateWithWhereUniqueWithoutChecklistItemInput[]
+  updateMany?: Prisma.FindingUpdateManyWithWhereWithoutChecklistItemInput | Prisma.FindingUpdateManyWithWhereWithoutChecklistItemInput[]
+  deleteMany?: Prisma.FindingScalarWhereInput | Prisma.FindingScalarWhereInput[]
+}
+
 export type FindingCreateWithoutAssessmentInput = {
   id: string
   description: string
@@ -553,12 +619,14 @@ export type FindingCreateWithoutAssessmentInput = {
   severity: $Enums.FindingSeverity
   createdAt?: Date | string
   sample?: Prisma.SampleCreateNestedOneWithoutFindingsInput
+  checklistItem?: Prisma.AuditChecklistItemCreateNestedOneWithoutFindingsInput
   actions?: Prisma.ActionCreateNestedManyWithoutFindingInput
 }
 
 export type FindingUncheckedCreateWithoutAssessmentInput = {
   id: string
   sampleId?: string | null
+  checklistItemId?: string | null
   description: string
   details?: string | null
   controlIds?: string | null
@@ -602,6 +670,7 @@ export type FindingScalarWhereInput = {
   id?: Prisma.StringFilter<"Finding"> | string
   assessmentId?: Prisma.StringFilter<"Finding"> | string
   sampleId?: Prisma.StringNullableFilter<"Finding"> | string | null
+  checklistItemId?: Prisma.StringNullableFilter<"Finding"> | string | null
   description?: Prisma.StringFilter<"Finding"> | string
   details?: Prisma.StringNullableFilter<"Finding"> | string | null
   controlIds?: Prisma.StringNullableFilter<"Finding"> | string | null
@@ -621,12 +690,14 @@ export type FindingCreateWithoutSampleInput = {
   severity: $Enums.FindingSeverity
   createdAt?: Date | string
   assessment: Prisma.AssessmentCreateNestedOneWithoutFindingsInput
+  checklistItem?: Prisma.AuditChecklistItemCreateNestedOneWithoutFindingsInput
   actions?: Prisma.ActionCreateNestedManyWithoutFindingInput
 }
 
 export type FindingUncheckedCreateWithoutSampleInput = {
   id: string
   assessmentId: string
+  checklistItemId?: string | null
   description: string
   details?: string | null
   controlIds?: string | null
@@ -674,12 +745,14 @@ export type FindingCreateWithoutActionsInput = {
   createdAt?: Date | string
   assessment: Prisma.AssessmentCreateNestedOneWithoutFindingsInput
   sample?: Prisma.SampleCreateNestedOneWithoutFindingsInput
+  checklistItem?: Prisma.AuditChecklistItemCreateNestedOneWithoutFindingsInput
 }
 
 export type FindingUncheckedCreateWithoutActionsInput = {
   id: string
   assessmentId: string
   sampleId?: string | null
+  checklistItemId?: string | null
   description: string
   details?: string | null
   controlIds?: string | null
@@ -716,12 +789,14 @@ export type FindingUpdateWithoutActionsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   assessment?: Prisma.AssessmentUpdateOneRequiredWithoutFindingsNestedInput
   sample?: Prisma.SampleUpdateOneWithoutFindingsNestedInput
+  checklistItem?: Prisma.AuditChecklistItemUpdateOneWithoutFindingsNestedInput
 }
 
 export type FindingUncheckedUpdateWithoutActionsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   assessmentId?: Prisma.StringFieldUpdateOperationsInput | string
   sampleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  checklistItemId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.StringFieldUpdateOperationsInput | string
   details?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   controlIds?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -731,9 +806,64 @@ export type FindingUncheckedUpdateWithoutActionsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
+export type FindingCreateWithoutChecklistItemInput = {
+  id: string
+  description: string
+  details?: string | null
+  controlIds?: string | null
+  risks?: string | null
+  repeat?: boolean
+  severity: $Enums.FindingSeverity
+  createdAt?: Date | string
+  assessment: Prisma.AssessmentCreateNestedOneWithoutFindingsInput
+  sample?: Prisma.SampleCreateNestedOneWithoutFindingsInput
+  actions?: Prisma.ActionCreateNestedManyWithoutFindingInput
+}
+
+export type FindingUncheckedCreateWithoutChecklistItemInput = {
+  id: string
+  assessmentId: string
+  sampleId?: string | null
+  description: string
+  details?: string | null
+  controlIds?: string | null
+  risks?: string | null
+  repeat?: boolean
+  severity: $Enums.FindingSeverity
+  createdAt?: Date | string
+  actions?: Prisma.ActionUncheckedCreateNestedManyWithoutFindingInput
+}
+
+export type FindingCreateOrConnectWithoutChecklistItemInput = {
+  where: Prisma.FindingWhereUniqueInput
+  create: Prisma.XOR<Prisma.FindingCreateWithoutChecklistItemInput, Prisma.FindingUncheckedCreateWithoutChecklistItemInput>
+}
+
+export type FindingCreateManyChecklistItemInputEnvelope = {
+  data: Prisma.FindingCreateManyChecklistItemInput | Prisma.FindingCreateManyChecklistItemInput[]
+  skipDuplicates?: boolean
+}
+
+export type FindingUpsertWithWhereUniqueWithoutChecklistItemInput = {
+  where: Prisma.FindingWhereUniqueInput
+  update: Prisma.XOR<Prisma.FindingUpdateWithoutChecklistItemInput, Prisma.FindingUncheckedUpdateWithoutChecklistItemInput>
+  create: Prisma.XOR<Prisma.FindingCreateWithoutChecklistItemInput, Prisma.FindingUncheckedCreateWithoutChecklistItemInput>
+}
+
+export type FindingUpdateWithWhereUniqueWithoutChecklistItemInput = {
+  where: Prisma.FindingWhereUniqueInput
+  data: Prisma.XOR<Prisma.FindingUpdateWithoutChecklistItemInput, Prisma.FindingUncheckedUpdateWithoutChecklistItemInput>
+}
+
+export type FindingUpdateManyWithWhereWithoutChecklistItemInput = {
+  where: Prisma.FindingScalarWhereInput
+  data: Prisma.XOR<Prisma.FindingUpdateManyMutationInput, Prisma.FindingUncheckedUpdateManyWithoutChecklistItemInput>
+}
+
 export type FindingCreateManyAssessmentInput = {
   id: string
   sampleId?: string | null
+  checklistItemId?: string | null
   description: string
   details?: string | null
   controlIds?: string | null
@@ -753,12 +883,14 @@ export type FindingUpdateWithoutAssessmentInput = {
   severity?: Prisma.EnumFindingSeverityFieldUpdateOperationsInput | $Enums.FindingSeverity
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sample?: Prisma.SampleUpdateOneWithoutFindingsNestedInput
+  checklistItem?: Prisma.AuditChecklistItemUpdateOneWithoutFindingsNestedInput
   actions?: Prisma.ActionUpdateManyWithoutFindingNestedInput
 }
 
 export type FindingUncheckedUpdateWithoutAssessmentInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   sampleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  checklistItemId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.StringFieldUpdateOperationsInput | string
   details?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   controlIds?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -772,6 +904,7 @@ export type FindingUncheckedUpdateWithoutAssessmentInput = {
 export type FindingUncheckedUpdateManyWithoutAssessmentInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   sampleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  checklistItemId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.StringFieldUpdateOperationsInput | string
   details?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   controlIds?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -784,6 +917,7 @@ export type FindingUncheckedUpdateManyWithoutAssessmentInput = {
 export type FindingCreateManySampleInput = {
   id: string
   assessmentId: string
+  checklistItemId?: string | null
   description: string
   details?: string | null
   controlIds?: string | null
@@ -803,12 +937,14 @@ export type FindingUpdateWithoutSampleInput = {
   severity?: Prisma.EnumFindingSeverityFieldUpdateOperationsInput | $Enums.FindingSeverity
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   assessment?: Prisma.AssessmentUpdateOneRequiredWithoutFindingsNestedInput
+  checklistItem?: Prisma.AuditChecklistItemUpdateOneWithoutFindingsNestedInput
   actions?: Prisma.ActionUpdateManyWithoutFindingNestedInput
 }
 
 export type FindingUncheckedUpdateWithoutSampleInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   assessmentId?: Prisma.StringFieldUpdateOperationsInput | string
+  checklistItemId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.StringFieldUpdateOperationsInput | string
   details?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   controlIds?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -822,6 +958,61 @@ export type FindingUncheckedUpdateWithoutSampleInput = {
 export type FindingUncheckedUpdateManyWithoutSampleInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   assessmentId?: Prisma.StringFieldUpdateOperationsInput | string
+  checklistItemId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  details?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  controlIds?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  risks?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  repeat?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  severity?: Prisma.EnumFindingSeverityFieldUpdateOperationsInput | $Enums.FindingSeverity
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type FindingCreateManyChecklistItemInput = {
+  id: string
+  assessmentId: string
+  sampleId?: string | null
+  description: string
+  details?: string | null
+  controlIds?: string | null
+  risks?: string | null
+  repeat?: boolean
+  severity: $Enums.FindingSeverity
+  createdAt?: Date | string
+}
+
+export type FindingUpdateWithoutChecklistItemInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  details?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  controlIds?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  risks?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  repeat?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  severity?: Prisma.EnumFindingSeverityFieldUpdateOperationsInput | $Enums.FindingSeverity
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  assessment?: Prisma.AssessmentUpdateOneRequiredWithoutFindingsNestedInput
+  sample?: Prisma.SampleUpdateOneWithoutFindingsNestedInput
+  actions?: Prisma.ActionUpdateManyWithoutFindingNestedInput
+}
+
+export type FindingUncheckedUpdateWithoutChecklistItemInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  assessmentId?: Prisma.StringFieldUpdateOperationsInput | string
+  sampleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  details?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  controlIds?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  risks?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  repeat?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  severity?: Prisma.EnumFindingSeverityFieldUpdateOperationsInput | $Enums.FindingSeverity
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  actions?: Prisma.ActionUncheckedUpdateManyWithoutFindingNestedInput
+}
+
+export type FindingUncheckedUpdateManyWithoutChecklistItemInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  assessmentId?: Prisma.StringFieldUpdateOperationsInput | string
+  sampleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.StringFieldUpdateOperationsInput | string
   details?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   controlIds?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -866,6 +1057,7 @@ export type FindingSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   id?: boolean
   assessmentId?: boolean
   sampleId?: boolean
+  checklistItemId?: boolean
   description?: boolean
   details?: boolean
   controlIds?: boolean
@@ -875,6 +1067,7 @@ export type FindingSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   createdAt?: boolean
   assessment?: boolean | Prisma.AssessmentDefaultArgs<ExtArgs>
   sample?: boolean | Prisma.Finding$sampleArgs<ExtArgs>
+  checklistItem?: boolean | Prisma.Finding$checklistItemArgs<ExtArgs>
   actions?: boolean | Prisma.Finding$actionsArgs<ExtArgs>
   _count?: boolean | Prisma.FindingCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["finding"]>
@@ -883,6 +1076,7 @@ export type FindingSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   id?: boolean
   assessmentId?: boolean
   sampleId?: boolean
+  checklistItemId?: boolean
   description?: boolean
   details?: boolean
   controlIds?: boolean
@@ -892,12 +1086,14 @@ export type FindingSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   createdAt?: boolean
   assessment?: boolean | Prisma.AssessmentDefaultArgs<ExtArgs>
   sample?: boolean | Prisma.Finding$sampleArgs<ExtArgs>
+  checklistItem?: boolean | Prisma.Finding$checklistItemArgs<ExtArgs>
 }, ExtArgs["result"]["finding"]>
 
 export type FindingSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   assessmentId?: boolean
   sampleId?: boolean
+  checklistItemId?: boolean
   description?: boolean
   details?: boolean
   controlIds?: boolean
@@ -907,12 +1103,14 @@ export type FindingSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   createdAt?: boolean
   assessment?: boolean | Prisma.AssessmentDefaultArgs<ExtArgs>
   sample?: boolean | Prisma.Finding$sampleArgs<ExtArgs>
+  checklistItem?: boolean | Prisma.Finding$checklistItemArgs<ExtArgs>
 }, ExtArgs["result"]["finding"]>
 
 export type FindingSelectScalar = {
   id?: boolean
   assessmentId?: boolean
   sampleId?: boolean
+  checklistItemId?: boolean
   description?: boolean
   details?: boolean
   controlIds?: boolean
@@ -922,20 +1120,23 @@ export type FindingSelectScalar = {
   createdAt?: boolean
 }
 
-export type FindingOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "assessmentId" | "sampleId" | "description" | "details" | "controlIds" | "risks" | "repeat" | "severity" | "createdAt", ExtArgs["result"]["finding"]>
+export type FindingOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "assessmentId" | "sampleId" | "checklistItemId" | "description" | "details" | "controlIds" | "risks" | "repeat" | "severity" | "createdAt", ExtArgs["result"]["finding"]>
 export type FindingInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   assessment?: boolean | Prisma.AssessmentDefaultArgs<ExtArgs>
   sample?: boolean | Prisma.Finding$sampleArgs<ExtArgs>
+  checklistItem?: boolean | Prisma.Finding$checklistItemArgs<ExtArgs>
   actions?: boolean | Prisma.Finding$actionsArgs<ExtArgs>
   _count?: boolean | Prisma.FindingCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type FindingIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   assessment?: boolean | Prisma.AssessmentDefaultArgs<ExtArgs>
   sample?: boolean | Prisma.Finding$sampleArgs<ExtArgs>
+  checklistItem?: boolean | Prisma.Finding$checklistItemArgs<ExtArgs>
 }
 export type FindingIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   assessment?: boolean | Prisma.AssessmentDefaultArgs<ExtArgs>
   sample?: boolean | Prisma.Finding$sampleArgs<ExtArgs>
+  checklistItem?: boolean | Prisma.Finding$checklistItemArgs<ExtArgs>
 }
 
 export type $FindingPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -943,12 +1144,14 @@ export type $FindingPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
   objects: {
     assessment: Prisma.$AssessmentPayload<ExtArgs>
     sample: Prisma.$SamplePayload<ExtArgs> | null
+    checklistItem: Prisma.$AuditChecklistItemPayload<ExtArgs> | null
     actions: Prisma.$ActionPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     assessmentId: string
     sampleId: string | null
+    checklistItemId: string | null
     description: string
     details: string | null
     controlIds: string | null
@@ -1352,6 +1555,7 @@ export interface Prisma__FindingClient<T, Null = never, ExtArgs extends runtime.
   readonly [Symbol.toStringTag]: "PrismaPromise"
   assessment<T extends Prisma.AssessmentDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AssessmentDefaultArgs<ExtArgs>>): Prisma.Prisma__AssessmentClient<runtime.Types.Result.GetResult<Prisma.$AssessmentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   sample<T extends Prisma.Finding$sampleArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Finding$sampleArgs<ExtArgs>>): Prisma.Prisma__SampleClient<runtime.Types.Result.GetResult<Prisma.$SamplePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  checklistItem<T extends Prisma.Finding$checklistItemArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Finding$checklistItemArgs<ExtArgs>>): Prisma.Prisma__AuditChecklistItemClient<runtime.Types.Result.GetResult<Prisma.$AuditChecklistItemPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   actions<T extends Prisma.Finding$actionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Finding$actionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ActionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1385,6 +1589,7 @@ export interface FindingFieldRefs {
   readonly id: Prisma.FieldRef<"Finding", 'String'>
   readonly assessmentId: Prisma.FieldRef<"Finding", 'String'>
   readonly sampleId: Prisma.FieldRef<"Finding", 'String'>
+  readonly checklistItemId: Prisma.FieldRef<"Finding", 'String'>
   readonly description: Prisma.FieldRef<"Finding", 'String'>
   readonly details: Prisma.FieldRef<"Finding", 'String'>
   readonly controlIds: Prisma.FieldRef<"Finding", 'String'>
@@ -1809,6 +2014,25 @@ export type Finding$sampleArgs<ExtArgs extends runtime.Types.Extensions.Internal
    */
   include?: Prisma.SampleInclude<ExtArgs> | null
   where?: Prisma.SampleWhereInput
+}
+
+/**
+ * Finding.checklistItem
+ */
+export type Finding$checklistItemArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the AuditChecklistItem
+   */
+  select?: Prisma.AuditChecklistItemSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the AuditChecklistItem
+   */
+  omit?: Prisma.AuditChecklistItemOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AuditChecklistItemInclude<ExtArgs> | null
+  where?: Prisma.AuditChecklistItemWhereInput
 }
 
 /**

@@ -27,11 +27,13 @@ export type AggregateUser = {
 }
 
 export type UserAvgAggregateOutputType = {
+  sortOrder: number | null
   totalPoints: number | null
   dailyPointStreak: number | null
 }
 
 export type UserSumAggregateOutputType = {
+  sortOrder: number | null
   totalPoints: number | null
   dailyPointStreak: number | null
 }
@@ -50,6 +52,7 @@ export type UserMinAggregateOutputType = {
   organisationIndicator: string | null
   preferredName: string | null
   active: boolean | null
+  sortOrder: number | null
   createdAt: Date | null
   totalPoints: number | null
   dailyPointStreak: number | null
@@ -71,6 +74,7 @@ export type UserMaxAggregateOutputType = {
   organisationIndicator: string | null
   preferredName: string | null
   active: boolean | null
+  sortOrder: number | null
   createdAt: Date | null
   totalPoints: number | null
   dailyPointStreak: number | null
@@ -92,6 +96,7 @@ export type UserCountAggregateOutputType = {
   organisationIndicator: number
   preferredName: number
   active: number
+  sortOrder: number
   createdAt: number
   totalPoints: number
   dailyPointStreak: number
@@ -102,11 +107,13 @@ export type UserCountAggregateOutputType = {
 
 
 export type UserAvgAggregateInputType = {
+  sortOrder?: true
   totalPoints?: true
   dailyPointStreak?: true
 }
 
 export type UserSumAggregateInputType = {
+  sortOrder?: true
   totalPoints?: true
   dailyPointStreak?: true
 }
@@ -125,6 +132,7 @@ export type UserMinAggregateInputType = {
   organisationIndicator?: true
   preferredName?: true
   active?: true
+  sortOrder?: true
   createdAt?: true
   totalPoints?: true
   dailyPointStreak?: true
@@ -146,6 +154,7 @@ export type UserMaxAggregateInputType = {
   organisationIndicator?: true
   preferredName?: true
   active?: true
+  sortOrder?: true
   createdAt?: true
   totalPoints?: true
   dailyPointStreak?: true
@@ -167,6 +176,7 @@ export type UserCountAggregateInputType = {
   organisationIndicator?: true
   preferredName?: true
   active?: true
+  sortOrder?: true
   createdAt?: true
   totalPoints?: true
   dailyPointStreak?: true
@@ -275,6 +285,7 @@ export type UserGroupByOutputType = {
   organisationIndicator: string | null
   preferredName: string | null
   active: boolean
+  sortOrder: number
   createdAt: Date
   totalPoints: number
   dailyPointStreak: number
@@ -319,6 +330,7 @@ export type UserWhereInput = {
   organisationIndicator?: Prisma.StringNullableFilter<"User"> | string | null
   preferredName?: Prisma.StringNullableFilter<"User"> | string | null
   active?: Prisma.BoolFilter<"User"> | boolean
+  sortOrder?: Prisma.IntFilter<"User"> | number
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   totalPoints?: Prisma.IntFilter<"User"> | number
   dailyPointStreak?: Prisma.IntFilter<"User"> | number
@@ -349,6 +361,7 @@ export type UserOrderByWithRelationInput = {
   organisationIndicator?: Prisma.SortOrderInput | Prisma.SortOrder
   preferredName?: Prisma.SortOrderInput | Prisma.SortOrder
   active?: Prisma.SortOrder
+  sortOrder?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   totalPoints?: Prisma.SortOrder
   dailyPointStreak?: Prisma.SortOrder
@@ -382,6 +395,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   organisationIndicator?: Prisma.StringNullableFilter<"User"> | string | null
   preferredName?: Prisma.StringNullableFilter<"User"> | string | null
   active?: Prisma.BoolFilter<"User"> | boolean
+  sortOrder?: Prisma.IntFilter<"User"> | number
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   totalPoints?: Prisma.IntFilter<"User"> | number
   dailyPointStreak?: Prisma.IntFilter<"User"> | number
@@ -412,6 +426,7 @@ export type UserOrderByWithAggregationInput = {
   organisationIndicator?: Prisma.SortOrderInput | Prisma.SortOrder
   preferredName?: Prisma.SortOrderInput | Prisma.SortOrder
   active?: Prisma.SortOrder
+  sortOrder?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   totalPoints?: Prisma.SortOrder
   dailyPointStreak?: Prisma.SortOrder
@@ -441,6 +456,7 @@ export type UserScalarWhereWithAggregatesInput = {
   organisationIndicator?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   preferredName?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   active?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
+  sortOrder?: Prisma.IntWithAggregatesFilter<"User"> | number
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
   totalPoints?: Prisma.IntWithAggregatesFilter<"User"> | number
   dailyPointStreak?: Prisma.IntWithAggregatesFilter<"User"> | number
@@ -461,6 +477,7 @@ export type UserCreateInput = {
   organisationIndicator?: string | null
   preferredName?: string | null
   active?: boolean
+  sortOrder?: number
   createdAt?: Date | string
   totalPoints?: number
   dailyPointStreak?: number
@@ -491,6 +508,7 @@ export type UserUncheckedCreateInput = {
   organisationIndicator?: string | null
   preferredName?: string | null
   active?: boolean
+  sortOrder?: number
   createdAt?: Date | string
   totalPoints?: number
   dailyPointStreak?: number
@@ -519,6 +537,7 @@ export type UserUpdateInput = {
   organisationIndicator?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   preferredName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalPoints?: Prisma.IntFieldUpdateOperationsInput | number
   dailyPointStreak?: Prisma.IntFieldUpdateOperationsInput | number
@@ -549,6 +568,7 @@ export type UserUncheckedUpdateInput = {
   organisationIndicator?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   preferredName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalPoints?: Prisma.IntFieldUpdateOperationsInput | number
   dailyPointStreak?: Prisma.IntFieldUpdateOperationsInput | number
@@ -578,6 +598,7 @@ export type UserCreateManyInput = {
   organisationIndicator?: string | null
   preferredName?: string | null
   active?: boolean
+  sortOrder?: number
   createdAt?: Date | string
   totalPoints?: number
   dailyPointStreak?: number
@@ -598,6 +619,7 @@ export type UserUpdateManyMutationInput = {
   organisationIndicator?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   preferredName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalPoints?: Prisma.IntFieldUpdateOperationsInput | number
   dailyPointStreak?: Prisma.IntFieldUpdateOperationsInput | number
@@ -619,6 +641,7 @@ export type UserUncheckedUpdateManyInput = {
   organisationIndicator?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   preferredName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalPoints?: Prisma.IntFieldUpdateOperationsInput | number
   dailyPointStreak?: Prisma.IntFieldUpdateOperationsInput | number
@@ -640,6 +663,7 @@ export type UserCountOrderByAggregateInput = {
   organisationIndicator?: Prisma.SortOrder
   preferredName?: Prisma.SortOrder
   active?: Prisma.SortOrder
+  sortOrder?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   totalPoints?: Prisma.SortOrder
   dailyPointStreak?: Prisma.SortOrder
@@ -648,6 +672,7 @@ export type UserCountOrderByAggregateInput = {
 }
 
 export type UserAvgOrderByAggregateInput = {
+  sortOrder?: Prisma.SortOrder
   totalPoints?: Prisma.SortOrder
   dailyPointStreak?: Prisma.SortOrder
 }
@@ -666,6 +691,7 @@ export type UserMaxOrderByAggregateInput = {
   organisationIndicator?: Prisma.SortOrder
   preferredName?: Prisma.SortOrder
   active?: Prisma.SortOrder
+  sortOrder?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   totalPoints?: Prisma.SortOrder
   dailyPointStreak?: Prisma.SortOrder
@@ -687,6 +713,7 @@ export type UserMinOrderByAggregateInput = {
   organisationIndicator?: Prisma.SortOrder
   preferredName?: Prisma.SortOrder
   active?: Prisma.SortOrder
+  sortOrder?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   totalPoints?: Prisma.SortOrder
   dailyPointStreak?: Prisma.SortOrder
@@ -695,6 +722,7 @@ export type UserMinOrderByAggregateInput = {
 }
 
 export type UserSumOrderByAggregateInput = {
+  sortOrder?: Prisma.SortOrder
   totalPoints?: Prisma.SortOrder
   dailyPointStreak?: Prisma.SortOrder
 }
@@ -730,16 +758,16 @@ export type BoolFieldUpdateOperationsInput = {
   set?: boolean
 }
 
-export type DateTimeFieldUpdateOperationsInput = {
-  set?: Date | string
-}
-
 export type IntFieldUpdateOperationsInput = {
   set?: number
   increment?: number
   decrement?: number
   multiply?: number
   divide?: number
+}
+
+export type DateTimeFieldUpdateOperationsInput = {
+  set?: Date | string
 }
 
 export type NullableDateTimeFieldUpdateOperationsInput = {
@@ -913,6 +941,7 @@ export type UserCreateWithoutAssessmentsInput = {
   organisationIndicator?: string | null
   preferredName?: string | null
   active?: boolean
+  sortOrder?: number
   createdAt?: Date | string
   totalPoints?: number
   dailyPointStreak?: number
@@ -942,6 +971,7 @@ export type UserUncheckedCreateWithoutAssessmentsInput = {
   organisationIndicator?: string | null
   preferredName?: string | null
   active?: boolean
+  sortOrder?: number
   createdAt?: Date | string
   totalPoints?: number
   dailyPointStreak?: number
@@ -985,6 +1015,7 @@ export type UserUpdateWithoutAssessmentsInput = {
   organisationIndicator?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   preferredName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalPoints?: Prisma.IntFieldUpdateOperationsInput | number
   dailyPointStreak?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1014,6 +1045,7 @@ export type UserUncheckedUpdateWithoutAssessmentsInput = {
   organisationIndicator?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   preferredName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalPoints?: Prisma.IntFieldUpdateOperationsInput | number
   dailyPointStreak?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1041,6 +1073,7 @@ export type UserCreateWithoutAssessmentRolesInput = {
   organisationIndicator?: string | null
   preferredName?: string | null
   active?: boolean
+  sortOrder?: number
   createdAt?: Date | string
   totalPoints?: number
   dailyPointStreak?: number
@@ -1070,6 +1103,7 @@ export type UserUncheckedCreateWithoutAssessmentRolesInput = {
   organisationIndicator?: string | null
   preferredName?: string | null
   active?: boolean
+  sortOrder?: number
   createdAt?: Date | string
   totalPoints?: number
   dailyPointStreak?: number
@@ -1113,6 +1147,7 @@ export type UserUpdateWithoutAssessmentRolesInput = {
   organisationIndicator?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   preferredName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalPoints?: Prisma.IntFieldUpdateOperationsInput | number
   dailyPointStreak?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1142,6 +1177,7 @@ export type UserUncheckedUpdateWithoutAssessmentRolesInput = {
   organisationIndicator?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   preferredName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalPoints?: Prisma.IntFieldUpdateOperationsInput | number
   dailyPointStreak?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1169,6 +1205,7 @@ export type UserCreateWithoutAchievementsInput = {
   organisationIndicator?: string | null
   preferredName?: string | null
   active?: boolean
+  sortOrder?: number
   createdAt?: Date | string
   totalPoints?: number
   dailyPointStreak?: number
@@ -1198,6 +1235,7 @@ export type UserUncheckedCreateWithoutAchievementsInput = {
   organisationIndicator?: string | null
   preferredName?: string | null
   active?: boolean
+  sortOrder?: number
   createdAt?: Date | string
   totalPoints?: number
   dailyPointStreak?: number
@@ -1241,6 +1279,7 @@ export type UserUpdateWithoutAchievementsInput = {
   organisationIndicator?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   preferredName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalPoints?: Prisma.IntFieldUpdateOperationsInput | number
   dailyPointStreak?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1270,6 +1309,7 @@ export type UserUncheckedUpdateWithoutAchievementsInput = {
   organisationIndicator?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   preferredName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalPoints?: Prisma.IntFieldUpdateOperationsInput | number
   dailyPointStreak?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1297,6 +1337,7 @@ export type UserCreateWithoutPointsInput = {
   organisationIndicator?: string | null
   preferredName?: string | null
   active?: boolean
+  sortOrder?: number
   createdAt?: Date | string
   totalPoints?: number
   dailyPointStreak?: number
@@ -1326,6 +1367,7 @@ export type UserUncheckedCreateWithoutPointsInput = {
   organisationIndicator?: string | null
   preferredName?: string | null
   active?: boolean
+  sortOrder?: number
   createdAt?: Date | string
   totalPoints?: number
   dailyPointStreak?: number
@@ -1369,6 +1411,7 @@ export type UserUpdateWithoutPointsInput = {
   organisationIndicator?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   preferredName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalPoints?: Prisma.IntFieldUpdateOperationsInput | number
   dailyPointStreak?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1398,6 +1441,7 @@ export type UserUncheckedUpdateWithoutPointsInput = {
   organisationIndicator?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   preferredName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalPoints?: Prisma.IntFieldUpdateOperationsInput | number
   dailyPointStreak?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1425,6 +1469,7 @@ export type UserCreateWithoutEmotionalDrivesInput = {
   organisationIndicator?: string | null
   preferredName?: string | null
   active?: boolean
+  sortOrder?: number
   createdAt?: Date | string
   totalPoints?: number
   dailyPointStreak?: number
@@ -1454,6 +1499,7 @@ export type UserUncheckedCreateWithoutEmotionalDrivesInput = {
   organisationIndicator?: string | null
   preferredName?: string | null
   active?: boolean
+  sortOrder?: number
   createdAt?: Date | string
   totalPoints?: number
   dailyPointStreak?: number
@@ -1497,6 +1543,7 @@ export type UserUpdateWithoutEmotionalDrivesInput = {
   organisationIndicator?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   preferredName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalPoints?: Prisma.IntFieldUpdateOperationsInput | number
   dailyPointStreak?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1526,6 +1573,7 @@ export type UserUncheckedUpdateWithoutEmotionalDrivesInput = {
   organisationIndicator?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   preferredName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalPoints?: Prisma.IntFieldUpdateOperationsInput | number
   dailyPointStreak?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1553,6 +1601,7 @@ export type UserCreateWithoutMilestonesInput = {
   organisationIndicator?: string | null
   preferredName?: string | null
   active?: boolean
+  sortOrder?: number
   createdAt?: Date | string
   totalPoints?: number
   dailyPointStreak?: number
@@ -1582,6 +1631,7 @@ export type UserUncheckedCreateWithoutMilestonesInput = {
   organisationIndicator?: string | null
   preferredName?: string | null
   active?: boolean
+  sortOrder?: number
   createdAt?: Date | string
   totalPoints?: number
   dailyPointStreak?: number
@@ -1625,6 +1675,7 @@ export type UserUpdateWithoutMilestonesInput = {
   organisationIndicator?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   preferredName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalPoints?: Prisma.IntFieldUpdateOperationsInput | number
   dailyPointStreak?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1654,6 +1705,7 @@ export type UserUncheckedUpdateWithoutMilestonesInput = {
   organisationIndicator?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   preferredName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalPoints?: Prisma.IntFieldUpdateOperationsInput | number
   dailyPointStreak?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1681,6 +1733,7 @@ export type UserCreateWithoutRoleMappingsInput = {
   organisationIndicator?: string | null
   preferredName?: string | null
   active?: boolean
+  sortOrder?: number
   createdAt?: Date | string
   totalPoints?: number
   dailyPointStreak?: number
@@ -1710,6 +1763,7 @@ export type UserUncheckedCreateWithoutRoleMappingsInput = {
   organisationIndicator?: string | null
   preferredName?: string | null
   active?: boolean
+  sortOrder?: number
   createdAt?: Date | string
   totalPoints?: number
   dailyPointStreak?: number
@@ -1753,6 +1807,7 @@ export type UserUpdateWithoutRoleMappingsInput = {
   organisationIndicator?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   preferredName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalPoints?: Prisma.IntFieldUpdateOperationsInput | number
   dailyPointStreak?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1782,6 +1837,7 @@ export type UserUncheckedUpdateWithoutRoleMappingsInput = {
   organisationIndicator?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   preferredName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalPoints?: Prisma.IntFieldUpdateOperationsInput | number
   dailyPointStreak?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1809,6 +1865,7 @@ export type UserCreateWithoutPositionInput = {
   organisationIndicator?: string | null
   preferredName?: string | null
   active?: boolean
+  sortOrder?: number
   createdAt?: Date | string
   totalPoints?: number
   dailyPointStreak?: number
@@ -1837,6 +1894,7 @@ export type UserUncheckedCreateWithoutPositionInput = {
   organisationIndicator?: string | null
   preferredName?: string | null
   active?: boolean
+  sortOrder?: number
   createdAt?: Date | string
   totalPoints?: number
   dailyPointStreak?: number
@@ -1895,6 +1953,7 @@ export type UserScalarWhereInput = {
   organisationIndicator?: Prisma.StringNullableFilter<"User"> | string | null
   preferredName?: Prisma.StringNullableFilter<"User"> | string | null
   active?: Prisma.BoolFilter<"User"> | boolean
+  sortOrder?: Prisma.IntFilter<"User"> | number
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   totalPoints?: Prisma.IntFilter<"User"> | number
   dailyPointStreak?: Prisma.IntFilter<"User"> | number
@@ -1915,6 +1974,7 @@ export type UserCreateWithoutUserCompaniesInput = {
   organisationIndicator?: string | null
   preferredName?: string | null
   active?: boolean
+  sortOrder?: number
   createdAt?: Date | string
   totalPoints?: number
   dailyPointStreak?: number
@@ -1944,6 +2004,7 @@ export type UserUncheckedCreateWithoutUserCompaniesInput = {
   organisationIndicator?: string | null
   preferredName?: string | null
   active?: boolean
+  sortOrder?: number
   createdAt?: Date | string
   totalPoints?: number
   dailyPointStreak?: number
@@ -1987,6 +2048,7 @@ export type UserUpdateWithoutUserCompaniesInput = {
   organisationIndicator?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   preferredName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalPoints?: Prisma.IntFieldUpdateOperationsInput | number
   dailyPointStreak?: Prisma.IntFieldUpdateOperationsInput | number
@@ -2016,6 +2078,7 @@ export type UserUncheckedUpdateWithoutUserCompaniesInput = {
   organisationIndicator?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   preferredName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalPoints?: Prisma.IntFieldUpdateOperationsInput | number
   dailyPointStreak?: Prisma.IntFieldUpdateOperationsInput | number
@@ -2043,6 +2106,7 @@ export type UserCreateManyPositionInput = {
   organisationIndicator?: string | null
   preferredName?: string | null
   active?: boolean
+  sortOrder?: number
   createdAt?: Date | string
   totalPoints?: number
   dailyPointStreak?: number
@@ -2063,6 +2127,7 @@ export type UserUpdateWithoutPositionInput = {
   organisationIndicator?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   preferredName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalPoints?: Prisma.IntFieldUpdateOperationsInput | number
   dailyPointStreak?: Prisma.IntFieldUpdateOperationsInput | number
@@ -2091,6 +2156,7 @@ export type UserUncheckedUpdateWithoutPositionInput = {
   organisationIndicator?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   preferredName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalPoints?: Prisma.IntFieldUpdateOperationsInput | number
   dailyPointStreak?: Prisma.IntFieldUpdateOperationsInput | number
@@ -2119,6 +2185,7 @@ export type UserUncheckedUpdateManyWithoutPositionInput = {
   organisationIndicator?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   preferredName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalPoints?: Prisma.IntFieldUpdateOperationsInput | number
   dailyPointStreak?: Prisma.IntFieldUpdateOperationsInput | number
@@ -2234,6 +2301,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   organisationIndicator?: boolean
   preferredName?: boolean
   active?: boolean
+  sortOrder?: boolean
   createdAt?: boolean
   totalPoints?: boolean
   dailyPointStreak?: boolean
@@ -2265,6 +2333,7 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   organisationIndicator?: boolean
   preferredName?: boolean
   active?: boolean
+  sortOrder?: boolean
   createdAt?: boolean
   totalPoints?: boolean
   dailyPointStreak?: boolean
@@ -2287,6 +2356,7 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   organisationIndicator?: boolean
   preferredName?: boolean
   active?: boolean
+  sortOrder?: boolean
   createdAt?: boolean
   totalPoints?: boolean
   dailyPointStreak?: boolean
@@ -2309,6 +2379,7 @@ export type UserSelectScalar = {
   organisationIndicator?: boolean
   preferredName?: boolean
   active?: boolean
+  sortOrder?: boolean
   createdAt?: boolean
   totalPoints?: boolean
   dailyPointStreak?: boolean
@@ -2316,7 +2387,7 @@ export type UserSelectScalar = {
   confidenceInfluencer?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "username" | "email" | "passwordHash" | "role" | "positionId" | "companyId" | "managerName" | "managerUsername" | "organisationIndicator" | "preferredName" | "active" | "createdAt" | "totalPoints" | "dailyPointStreak" | "lastActivityDate" | "confidenceInfluencer", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "username" | "email" | "passwordHash" | "role" | "positionId" | "companyId" | "managerName" | "managerUsername" | "organisationIndicator" | "preferredName" | "active" | "sortOrder" | "createdAt" | "totalPoints" | "dailyPointStreak" | "lastActivityDate" | "confidenceInfluencer", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   position?: boolean | Prisma.User$positionArgs<ExtArgs>
   assessments?: boolean | Prisma.User$assessmentsArgs<ExtArgs>
@@ -2363,6 +2434,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     organisationIndicator: string | null
     preferredName: string | null
     active: boolean
+    sortOrder: number
     createdAt: Date
     totalPoints: number
     dailyPointStreak: number
@@ -2813,6 +2885,7 @@ export interface UserFieldRefs {
   readonly organisationIndicator: Prisma.FieldRef<"User", 'String'>
   readonly preferredName: Prisma.FieldRef<"User", 'String'>
   readonly active: Prisma.FieldRef<"User", 'Boolean'>
+  readonly sortOrder: Prisma.FieldRef<"User", 'Int'>
   readonly createdAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly totalPoints: Prisma.FieldRef<"User", 'Int'>
   readonly dailyPointStreak: Prisma.FieldRef<"User", 'Int'>

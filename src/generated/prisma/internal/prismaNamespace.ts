@@ -434,7 +434,12 @@ export const ModelName = {
   WebhookLog: 'WebhookLog',
   Document: 'Document',
   BacklogItem: 'BacklogItem',
-  BacklogItemControl: 'BacklogItemControl'
+  BacklogItemControl: 'BacklogItemControl',
+  AuditEvidence: 'AuditEvidence',
+  AuditChecklist2Requirement: 'AuditChecklist2Requirement',
+  AuditChecklistTemplate: 'AuditChecklistTemplate',
+  AuditChecklistTemplateItem: 'AuditChecklistTemplateItem',
+  AuditChecklistItem: 'AuditChecklistItem'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -450,7 +455,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "activityLog" | "activityLogType" | "assuranceActivityType" | "assuranceProtocol" | "standard" | "processArea" | "subProcess" | "controlSubProcess" | "control" | "assessmentTemplate" | "assessmentTemplateControlLinkage" | "assessmentTemplateActivityType" | "assessment" | "assessmentAssessor" | "controlAssignment" | "sampleType" | "recordSourceType" | "sample" | "finding" | "action" | "attachment" | "attachmentMapping" | "achievementBadge" | "userAchievement" | "pointTransaction" | "gameAttribute" | "gameAttributeRule" | "emotionalDriveMetric" | "milestone" | "userRole" | "userRoleMapping" | "company" | "department" | "position" | "userCompany" | "userFavorite" | "assessmentActType" | "aact" | "aActControls" | "aActUsers" | "aActDetails" | "knowledgebase" | "mapArt2Know" | "requirement" | "mapControl2Requirement" | "gamificationStage" | "webhookLog" | "document" | "backlogItem" | "backlogItemControl"
+    modelProps: "user" | "activityLog" | "activityLogType" | "assuranceActivityType" | "assuranceProtocol" | "standard" | "processArea" | "subProcess" | "controlSubProcess" | "control" | "assessmentTemplate" | "assessmentTemplateControlLinkage" | "assessmentTemplateActivityType" | "assessment" | "assessmentAssessor" | "controlAssignment" | "sampleType" | "recordSourceType" | "sample" | "finding" | "action" | "attachment" | "attachmentMapping" | "achievementBadge" | "userAchievement" | "pointTransaction" | "gameAttribute" | "gameAttributeRule" | "emotionalDriveMetric" | "milestone" | "userRole" | "userRoleMapping" | "company" | "department" | "position" | "userCompany" | "userFavorite" | "assessmentActType" | "aact" | "aActControls" | "aActUsers" | "aActDetails" | "knowledgebase" | "mapArt2Know" | "requirement" | "mapControl2Requirement" | "gamificationStage" | "webhookLog" | "document" | "backlogItem" | "backlogItemControl" | "auditEvidence" | "auditChecklist2Requirement" | "auditChecklistTemplate" | "auditChecklistTemplateItem" | "auditChecklistItem"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -4228,6 +4233,376 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    AuditEvidence: {
+      payload: Prisma.$AuditEvidencePayload<ExtArgs>
+      fields: Prisma.AuditEvidenceFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.AuditEvidenceFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuditEvidencePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.AuditEvidenceFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuditEvidencePayload>
+        }
+        findFirst: {
+          args: Prisma.AuditEvidenceFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuditEvidencePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.AuditEvidenceFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuditEvidencePayload>
+        }
+        findMany: {
+          args: Prisma.AuditEvidenceFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuditEvidencePayload>[]
+        }
+        create: {
+          args: Prisma.AuditEvidenceCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuditEvidencePayload>
+        }
+        createMany: {
+          args: Prisma.AuditEvidenceCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.AuditEvidenceCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuditEvidencePayload>[]
+        }
+        delete: {
+          args: Prisma.AuditEvidenceDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuditEvidencePayload>
+        }
+        update: {
+          args: Prisma.AuditEvidenceUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuditEvidencePayload>
+        }
+        deleteMany: {
+          args: Prisma.AuditEvidenceDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.AuditEvidenceUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.AuditEvidenceUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuditEvidencePayload>[]
+        }
+        upsert: {
+          args: Prisma.AuditEvidenceUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuditEvidencePayload>
+        }
+        aggregate: {
+          args: Prisma.AuditEvidenceAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateAuditEvidence>
+        }
+        groupBy: {
+          args: Prisma.AuditEvidenceGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AuditEvidenceGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.AuditEvidenceCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AuditEvidenceCountAggregateOutputType> | number
+        }
+      }
+    }
+    AuditChecklist2Requirement: {
+      payload: Prisma.$AuditChecklist2RequirementPayload<ExtArgs>
+      fields: Prisma.AuditChecklist2RequirementFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.AuditChecklist2RequirementFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuditChecklist2RequirementPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.AuditChecklist2RequirementFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuditChecklist2RequirementPayload>
+        }
+        findFirst: {
+          args: Prisma.AuditChecklist2RequirementFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuditChecklist2RequirementPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.AuditChecklist2RequirementFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuditChecklist2RequirementPayload>
+        }
+        findMany: {
+          args: Prisma.AuditChecklist2RequirementFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuditChecklist2RequirementPayload>[]
+        }
+        create: {
+          args: Prisma.AuditChecklist2RequirementCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuditChecklist2RequirementPayload>
+        }
+        createMany: {
+          args: Prisma.AuditChecklist2RequirementCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.AuditChecklist2RequirementCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuditChecklist2RequirementPayload>[]
+        }
+        delete: {
+          args: Prisma.AuditChecklist2RequirementDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuditChecklist2RequirementPayload>
+        }
+        update: {
+          args: Prisma.AuditChecklist2RequirementUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuditChecklist2RequirementPayload>
+        }
+        deleteMany: {
+          args: Prisma.AuditChecklist2RequirementDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.AuditChecklist2RequirementUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.AuditChecklist2RequirementUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuditChecklist2RequirementPayload>[]
+        }
+        upsert: {
+          args: Prisma.AuditChecklist2RequirementUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuditChecklist2RequirementPayload>
+        }
+        aggregate: {
+          args: Prisma.AuditChecklist2RequirementAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateAuditChecklist2Requirement>
+        }
+        groupBy: {
+          args: Prisma.AuditChecklist2RequirementGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AuditChecklist2RequirementGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.AuditChecklist2RequirementCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AuditChecklist2RequirementCountAggregateOutputType> | number
+        }
+      }
+    }
+    AuditChecklistTemplate: {
+      payload: Prisma.$AuditChecklistTemplatePayload<ExtArgs>
+      fields: Prisma.AuditChecklistTemplateFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.AuditChecklistTemplateFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuditChecklistTemplatePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.AuditChecklistTemplateFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuditChecklistTemplatePayload>
+        }
+        findFirst: {
+          args: Prisma.AuditChecklistTemplateFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuditChecklistTemplatePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.AuditChecklistTemplateFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuditChecklistTemplatePayload>
+        }
+        findMany: {
+          args: Prisma.AuditChecklistTemplateFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuditChecklistTemplatePayload>[]
+        }
+        create: {
+          args: Prisma.AuditChecklistTemplateCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuditChecklistTemplatePayload>
+        }
+        createMany: {
+          args: Prisma.AuditChecklistTemplateCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.AuditChecklistTemplateCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuditChecklistTemplatePayload>[]
+        }
+        delete: {
+          args: Prisma.AuditChecklistTemplateDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuditChecklistTemplatePayload>
+        }
+        update: {
+          args: Prisma.AuditChecklistTemplateUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuditChecklistTemplatePayload>
+        }
+        deleteMany: {
+          args: Prisma.AuditChecklistTemplateDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.AuditChecklistTemplateUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.AuditChecklistTemplateUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuditChecklistTemplatePayload>[]
+        }
+        upsert: {
+          args: Prisma.AuditChecklistTemplateUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuditChecklistTemplatePayload>
+        }
+        aggregate: {
+          args: Prisma.AuditChecklistTemplateAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateAuditChecklistTemplate>
+        }
+        groupBy: {
+          args: Prisma.AuditChecklistTemplateGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AuditChecklistTemplateGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.AuditChecklistTemplateCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AuditChecklistTemplateCountAggregateOutputType> | number
+        }
+      }
+    }
+    AuditChecklistTemplateItem: {
+      payload: Prisma.$AuditChecklistTemplateItemPayload<ExtArgs>
+      fields: Prisma.AuditChecklistTemplateItemFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.AuditChecklistTemplateItemFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuditChecklistTemplateItemPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.AuditChecklistTemplateItemFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuditChecklistTemplateItemPayload>
+        }
+        findFirst: {
+          args: Prisma.AuditChecklistTemplateItemFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuditChecklistTemplateItemPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.AuditChecklistTemplateItemFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuditChecklistTemplateItemPayload>
+        }
+        findMany: {
+          args: Prisma.AuditChecklistTemplateItemFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuditChecklistTemplateItemPayload>[]
+        }
+        create: {
+          args: Prisma.AuditChecklistTemplateItemCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuditChecklistTemplateItemPayload>
+        }
+        createMany: {
+          args: Prisma.AuditChecklistTemplateItemCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.AuditChecklistTemplateItemCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuditChecklistTemplateItemPayload>[]
+        }
+        delete: {
+          args: Prisma.AuditChecklistTemplateItemDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuditChecklistTemplateItemPayload>
+        }
+        update: {
+          args: Prisma.AuditChecklistTemplateItemUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuditChecklistTemplateItemPayload>
+        }
+        deleteMany: {
+          args: Prisma.AuditChecklistTemplateItemDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.AuditChecklistTemplateItemUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.AuditChecklistTemplateItemUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuditChecklistTemplateItemPayload>[]
+        }
+        upsert: {
+          args: Prisma.AuditChecklistTemplateItemUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuditChecklistTemplateItemPayload>
+        }
+        aggregate: {
+          args: Prisma.AuditChecklistTemplateItemAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateAuditChecklistTemplateItem>
+        }
+        groupBy: {
+          args: Prisma.AuditChecklistTemplateItemGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AuditChecklistTemplateItemGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.AuditChecklistTemplateItemCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AuditChecklistTemplateItemCountAggregateOutputType> | number
+        }
+      }
+    }
+    AuditChecklistItem: {
+      payload: Prisma.$AuditChecklistItemPayload<ExtArgs>
+      fields: Prisma.AuditChecklistItemFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.AuditChecklistItemFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuditChecklistItemPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.AuditChecklistItemFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuditChecklistItemPayload>
+        }
+        findFirst: {
+          args: Prisma.AuditChecklistItemFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuditChecklistItemPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.AuditChecklistItemFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuditChecklistItemPayload>
+        }
+        findMany: {
+          args: Prisma.AuditChecklistItemFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuditChecklistItemPayload>[]
+        }
+        create: {
+          args: Prisma.AuditChecklistItemCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuditChecklistItemPayload>
+        }
+        createMany: {
+          args: Prisma.AuditChecklistItemCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.AuditChecklistItemCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuditChecklistItemPayload>[]
+        }
+        delete: {
+          args: Prisma.AuditChecklistItemDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuditChecklistItemPayload>
+        }
+        update: {
+          args: Prisma.AuditChecklistItemUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuditChecklistItemPayload>
+        }
+        deleteMany: {
+          args: Prisma.AuditChecklistItemDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.AuditChecklistItemUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.AuditChecklistItemUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuditChecklistItemPayload>[]
+        }
+        upsert: {
+          args: Prisma.AuditChecklistItemUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AuditChecklistItemPayload>
+        }
+        aggregate: {
+          args: Prisma.AuditChecklistItemAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateAuditChecklistItem>
+        }
+        groupBy: {
+          args: Prisma.AuditChecklistItemGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AuditChecklistItemGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.AuditChecklistItemCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AuditChecklistItemCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -4281,6 +4656,7 @@ export const UserScalarFieldEnum = {
   organisationIndicator: 'organisationIndicator',
   preferredName: 'preferredName',
   active: 'active',
+  sortOrder: 'sortOrder',
   createdAt: 'createdAt',
   totalPoints: 'totalPoints',
   dailyPointStreak: 'dailyPointStreak',
@@ -4561,6 +4937,7 @@ export const FindingScalarFieldEnum = {
   id: 'id',
   assessmentId: 'assessmentId',
   sampleId: 'sampleId',
+  checklistItemId: 'checklistItemId',
   description: 'description',
   details: 'details',
   controlIds: 'controlIds',
@@ -5018,6 +5395,86 @@ export const BacklogItemControlScalarFieldEnum = {
 export type BacklogItemControlScalarFieldEnum = (typeof BacklogItemControlScalarFieldEnum)[keyof typeof BacklogItemControlScalarFieldEnum]
 
 
+export const AuditEvidenceScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  evidenceType: 'evidenceType',
+  intervieweeName: 'intervieweeName',
+  plannedDate: 'plannedDate',
+  actualDate: 'actualDate',
+  durationMinutes: 'durationMinutes',
+  interviewerName: 'interviewerName',
+  location: 'location',
+  transcriptUrl: 'transcriptUrl',
+  attachments: 'attachments',
+  notes: 'notes',
+  status: 'status',
+  createdAt: 'createdAt'
+} as const
+
+export type AuditEvidenceScalarFieldEnum = (typeof AuditEvidenceScalarFieldEnum)[keyof typeof AuditEvidenceScalarFieldEnum]
+
+
+export const AuditChecklist2RequirementScalarFieldEnum = {
+  id: 'id',
+  checklistItemId: 'checklistItemId',
+  checklistText: 'checklistText',
+  auditStandard: 'auditStandard',
+  requirementRId: 'requirementRId',
+  controlId: 'controlId',
+  evidenceNote: 'evidenceNote',
+  evidenceMethod: 'evidenceMethod',
+  evidenceGroupId: 'evidenceGroupId',
+  mappedBy: 'mappedBy',
+  mappedAt: 'mappedAt'
+} as const
+
+export type AuditChecklist2RequirementScalarFieldEnum = (typeof AuditChecklist2RequirementScalarFieldEnum)[keyof typeof AuditChecklist2RequirementScalarFieldEnum]
+
+
+export const AuditChecklistTemplateScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  description: 'description',
+  auditStandard: 'auditStandard',
+  companyId: 'companyId',
+  createdAt: 'createdAt'
+} as const
+
+export type AuditChecklistTemplateScalarFieldEnum = (typeof AuditChecklistTemplateScalarFieldEnum)[keyof typeof AuditChecklistTemplateScalarFieldEnum]
+
+
+export const AuditChecklistTemplateItemScalarFieldEnum = {
+  id: 'id',
+  checklistItemId: 'checklistItemId',
+  checklistText: 'checklistText',
+  auditStandard: 'auditStandard',
+  sortOrder: 'sortOrder',
+  templateId: 'templateId'
+} as const
+
+export type AuditChecklistTemplateItemScalarFieldEnum = (typeof AuditChecklistTemplateItemScalarFieldEnum)[keyof typeof AuditChecklistTemplateItemScalarFieldEnum]
+
+
+export const AuditChecklistItemScalarFieldEnum = {
+  id: 'id',
+  checklistItemId: 'checklistItemId',
+  checklistText: 'checklistText',
+  auditStandard: 'auditStandard',
+  complianceStatus: 'complianceStatus',
+  auditorNotes: 'auditorNotes',
+  testedDate: 'testedDate',
+  testedBy: 'testedBy',
+  evidenceMethod: 'evidenceMethod',
+  sortOrder: 'sortOrder',
+  assessmentId: 'assessmentId',
+  templateItemId: 'templateItemId',
+  templateId: 'templateId'
+} as const
+
+export type AuditChecklistItemScalarFieldEnum = (typeof AuditChecklistItemScalarFieldEnum)[keyof typeof AuditChecklistItemScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -5101,20 +5558,6 @@ export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel,
 
 
 /**
- * Reference to a field of type 'DateTime'
- */
-export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
-    
-
-
-/**
- * Reference to a field of type 'DateTime[]'
- */
-export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
-    
-
-
-/**
  * Reference to a field of type 'Int'
  */
 export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
@@ -5125,6 +5568,20 @@ export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'In
  * Reference to a field of type 'Int[]'
  */
 export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+    
+
+
+/**
+ * Reference to a field of type 'DateTime'
+ */
+export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
+    
+
+
+/**
+ * Reference to a field of type 'DateTime[]'
+ */
+export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
     
 
 
@@ -5337,6 +5794,48 @@ export type EnumPIPStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$Prisma
 export type ListEnumPIPStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PIPStatus[]'>
     
 
+
+/**
+ * Reference to a field of type 'EvidenceType'
+ */
+export type EnumEvidenceTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'EvidenceType'>
+    
+
+
+/**
+ * Reference to a field of type 'EvidenceType[]'
+ */
+export type ListEnumEvidenceTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'EvidenceType[]'>
+    
+
+
+/**
+ * Reference to a field of type 'EvidenceStatus'
+ */
+export type EnumEvidenceStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'EvidenceStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'EvidenceStatus[]'
+ */
+export type ListEnumEvidenceStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'EvidenceStatus[]'>
+    
+
+
+/**
+ * Reference to a field of type 'ComplianceStatus'
+ */
+export type EnumComplianceStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ComplianceStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'ComplianceStatus[]'
+ */
+export type ListEnumComplianceStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ComplianceStatus[]'>
+    
+
 /**
  * Batch Payload for updateMany & deleteMany & createMany
  */
@@ -5498,6 +5997,11 @@ export type GlobalOmitConfig = {
   document?: Prisma.DocumentOmit
   backlogItem?: Prisma.BacklogItemOmit
   backlogItemControl?: Prisma.BacklogItemControlOmit
+  auditEvidence?: Prisma.AuditEvidenceOmit
+  auditChecklist2Requirement?: Prisma.AuditChecklist2RequirementOmit
+  auditChecklistTemplate?: Prisma.AuditChecklistTemplateOmit
+  auditChecklistTemplateItem?: Prisma.AuditChecklistTemplateItemOmit
+  auditChecklistItem?: Prisma.AuditChecklistItemOmit
 }
 
 /* Types for Logging */

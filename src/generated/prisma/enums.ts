@@ -147,3 +147,34 @@ export const DevelopmentStage = {
 } as const
 
 export type DevelopmentStage = (typeof DevelopmentStage)[keyof typeof DevelopmentStage]
+
+
+export const EvidenceType = {
+  Interview: 'Interview',
+  DocumentReview: 'DocumentReview',
+  Walkthrough: 'Walkthrough',
+  GoSee: 'GoSee',
+  Sampling: 'Sampling'
+} as const
+
+export type EvidenceType = (typeof EvidenceType)[keyof typeof EvidenceType]
+
+
+export const EvidenceStatus = {
+  Planned: 'Planned',
+  Conducted: 'Conducted',
+  Analysed: 'Analysed'
+} as const
+
+export type EvidenceStatus = (typeof EvidenceStatus)[keyof typeof EvidenceStatus]
+
+
+export const ComplianceStatus = {
+  NotTested: 'NotTested',
+  Compliant: 'Compliant',
+  NonCompliant: 'NonCompliant',
+  NotApplicable: 'NotApplicable',
+  Observation: 'Observation'
+} as const
+
+export type ComplianceStatus = (typeof ComplianceStatus)[keyof typeof ComplianceStatus]

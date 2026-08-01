@@ -13,6 +13,8 @@ import { AttachmentList } from "@/components/AttachmentList";
 import AssessmentActivitiesPanel from "@/components/AssessmentActivitiesPanel";
 import { AssignedControlsList } from "@/components/AssignedControlsList";
 import { GamificationWidget } from "@/components/GamificationWidget";
+import { AssessmentChecklistTab } from "@/components/AssessmentChecklistTab";
+import { ChecklistTemplateSelector } from "@/components/ChecklistTemplateSelector";
 
 type Props = {
   assessment: any;
@@ -28,7 +30,7 @@ type Props = {
 
 export default function AssessmentClient({ assessment, allControls, processAreas, activityTypes, users, sampleTypes, recordSources, currentUserId, linkedAssessorIds = [] }: Props) {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState<"overview" | "controls" | "samples" | "findings" | "activities">("overview");
+  const [activeTab, setActiveTab] = useState<"overview" | "controls" | "samples" | "findings" | "activities" | "checklist">("overview");
   const [saving, setSaving] = useState(false);
   const [editing, setEditing] = useState(false);
   const [showAddSample, setShowAddSample] = useState(false);
@@ -127,6 +129,7 @@ export default function AssessmentClient({ assessment, allControls, processAreas
     { key: "samples" as const, label: "Sample Selection" },
     { key: "findings" as const, label: "Finding & Actions" },
     { key: "activities" as const, label: "Activities" },
+    { key: "checklist" as const, label: "📋 Checklist" },
   ];
 
   const assignedControlIds = new Set(assessment.controlAssignments?.map((ca: any) => ca.controlId) ?? []);
@@ -1097,6 +1100,21 @@ export default function AssessmentClient({ assessment, allControls, processAreas
             availableControls={assessment.controlAssignments?.map((ca: any) => ({ id: ca.controlId, name: ca.control?.name ?? ca.controlId })) ?? []}
             readOnly={assessment.status === "Completed"}
           />
+        </div>
+      )}
+
+      {/* ─── TAB 6: Checklist ─── */}
+      {activeTab === "checklist" && (
+        <div className="mt-6 space-y-6">
+          <ChecklistTemplateSelector
+            assessmentId={assessment.id}
+            onAdopted={() => {
+              // Force re-render to reload checklist items
+              setActiveTab("checklist");
+            }}
+          />
+          <hr className="border-slate-200" />
+          <AssessmentChecklistTab assessmentId={assessment.id} />
         </div>
       )}
 
