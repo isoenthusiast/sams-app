@@ -378,16 +378,23 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
 
       {/* ── Templates ── */}
       {view === "templates" && (
-        <TemplatesManagementView
-          templates={JSON.parse(JSON.stringify(templates))}
-          activityTypes={JSON.parse(JSON.stringify(activityTypes))}
-          allControls={JSON.parse(JSON.stringify(allControlsForTemplates))}
-          allStandards={JSON.parse(JSON.stringify(allStandardsForTemplates))}
-          allProcessAreas={JSON.parse(JSON.stringify(allPAsForTemplates))}
-          companies={JSON.parse(JSON.stringify(companies))}
-          selectedCompanyId={companyId ?? ""}
-          isAdmin={true}
-        />
+        <div className="mt-6 space-y-8">
+          <TemplatesManagementView
+            templates={JSON.parse(JSON.stringify(templates))}
+            activityTypes={JSON.parse(JSON.stringify(activityTypes))}
+            allControls={JSON.parse(JSON.stringify(allControlsForTemplates))}
+            allStandards={JSON.parse(JSON.stringify(allStandardsForTemplates))}
+            allProcessAreas={JSON.parse(JSON.stringify(allPAsForTemplates))}
+            companies={JSON.parse(JSON.stringify(companies))}
+            selectedCompanyId={companyId ?? ""}
+            isAdmin={true}
+          />
+          <hr className="border-slate-200" />
+          <div>
+            <h2 className="text-lg font-semibold text-slate-800 mb-3">📋 Audit Checklist Templates</h2>
+            <AuditChecklistTemplateAdminView />
+          </div>
+        </div>
       )}
 
       {/* ── Audit Checklist Templates ── */}
