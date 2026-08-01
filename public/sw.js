@@ -1,5 +1,7 @@
 // SAMS Service Worker — Offline-First for Field Use
-const CACHE_NAME = 'sams-v1';
+// v2: network-first for navigations so deploys invalidate stale HTML;
+//     cache-first only for content-hashed static assets (_next/static)
+const CACHE_NAME = 'sams-v2';
 const ASSETS_TO_CACHE = [
   '/',
   '/fla',
@@ -18,7 +20,7 @@ self.addEventListener('install', (event) => {
   self.skipWaiting();
 });
 
-// Activate: clean old caches
+// Activate: clean old caches (incl. stale sams-v1 code chunks)
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then((keys) => {
@@ -50,7 +52,22 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // Static assets: cache-first
+  // Navigation / HTML documents: network-first with cache fallback.
+  // Ensures new deploys are picked up immediately while offline users
+  // still get a cached shell.
+  if (event.request.mode === 'navigate') {
+    event.respondWith(
+      fetch(event.request).then((response) => {
+        const clone = response.clone();
+        caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
+        return response;
+      }).catch(() => caches.match(event.request).then((cached) => cached || caches.match('/')))
+    );
+    return;
+  }
+
+  // Static assets: cache-first (content-hashed by Next.js — safe to cache,
+  // a changed build produces different chunk names)
   event.respondWith(
     caches.match(event.request).then((cached) => {
       return cached || fetch(event.request).then((response) => {

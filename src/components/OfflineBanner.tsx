@@ -23,7 +23,18 @@ export function OfflineBanner() {
 
     // Register service worker
     if ("serviceWorker" in navigator && process.env.NODE_ENV === "production") {
-      navigator.serviceWorker.register("/sw.js").catch(() => {});
+      navigator.serviceWorker.register("/sw.js", { updateViaCache: "none" }).then((reg) => {
+        // Auto-reload once a new version takes control (deploys invalidate stale chunks)
+        reg.addEventListener("updatefound", () => {
+          const worker = reg.installing;
+          if (!worker) return;
+          worker.addEventListener("statechange", () => {
+            if (worker.state === "activated" && navigator.serviceWorker.controller) {
+              window.location.reload();
+            }
+          });
+        });
+      }).catch(() => {});
       navigator.serviceWorker.addEventListener("message", (event) => {
         if (event.data?.type === "SYNC_MUTATIONS") processQueue();
       });
