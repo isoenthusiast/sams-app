@@ -1,0 +1,263 @@
+"use client";
+
+import { useEffect, useState } from "react";
+
+interface TemplateItem {
+  id: string;
+  checklistItemId: string;
+  checklistText: string;
+  auditStandard: string;
+  sortOrder: number;
+  templateId: string;
+}
+
+interface Template {
+  id: string;
+  name: string;
+  description: string | null;
+  auditStandard: string;
+  _count?: { items: number };
+  items?: TemplateItem[];
+}
+
+const STANDARDS = ["ISO9001", "ISO14001", "ISO45001", "PMS"];
+
+export function AuditChecklistTemplateAdminView() {
+  const [templates, setTemplates] = useState<Template[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [expanded, setExpanded] = useState<Set<string>>(new Set());
+  const [showAdd, setShowAdd] = useState(false);
+  const [form, setForm] = useState({ name: "", description: "", auditStandard: "ISO9001" });
+  const [editId, setEditId] = useState<string | null>(null);
+  const [itemForm, setItemForm] = useState<Record<string, { checklistItemId: string; checklistText: string; sortOrder: number }>>({});
+  const [error, setError] = useState<string | null>(null);
+
+  const loadTemplates = async () => {
+    try {
+      const res = await fetch("/api/admin/assessments/checklist-templates");
+      const data = await res.json();
+      setTemplates(Array.isArray(data) ? data : []);
+    } catch { /* */ }
+    setLoading(false);
+  };
+
+  const loadItems = async (templateId: string) => {
+    try {
+      const res = await fetch(`/api/admin/audit-checklist-templates/${templateId}/items`);
+      const data = await res.json();
+      setTemplates((prev) =>
+        prev.map((t) => (t.id === templateId ? { ...t, items: Array.isArray(data) ? data : [] } : t))
+      );
+    } catch { /* */ }
+  };
+
+  useEffect(() => { loadTemplates(); }, []);
+
+  const toggleExpand = (id: string) => {
+    setExpanded((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) { next.delete(id); }
+      else { next.add(id); loadItems(id); }
+      return next;
+    });
+  };
+
+  const handleCreate = async () => {
+    if (!form.name.trim()) { setError("Name is required"); return; }
+    setError(null);
+    const res = await fetch("/api/admin/audit-checklist-templates", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(form),
+    });
+    if (!res.ok) { setError("Failed to create"); return; }
+    setShowAdd(false);
+    setForm({ name: "", description: "", auditStandard: "ISO9001" });
+    loadTemplates();
+  };
+
+  const handleDelete = async (id: string) => {
+    if (!confirm("Delete this template and all its items?")) return;
+    await fetch(`/api/admin/audit-checklist-templates/${id}`, { method: "DELETE" });
+    loadTemplates();
+  };
+
+  const handleUpdateTemplate = async (id: string) => {
+    const t = templates.find((t) => t.id === id);
+    if (!t) return;
+    const name = prompt("Template name:", t.name);
+    if (!name) return;
+    await fetch(`/api/admin/audit-checklist-templates/${id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name }),
+    });
+    loadTemplates();
+  };
+
+  const handleAddItem = async (templateId: string) => {
+    const f = itemForm[templateId];
+    if (!f?.checklistItemId?.trim() || !f?.checklistText?.trim()) {
+      setError("Item ID and text are required");
+      return;
+    }
+    setError(null);
+    await fetch(`/api/admin/audit-checklist-templates/${templateId}/items`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(f),
+    });
+    setItemForm((prev) => { const n = { ...prev }; delete n[templateId]; return n; });
+    loadItems(templateId);
+  };
+
+  const handleDeleteItem = async (templateId: string, itemId: string) => {
+    if (!confirm("Delete this item?")) return;
+    await fetch(`/api/admin/audit-checklist-templates/${templateId}/items/${itemId}`, { method: "DELETE" });
+    loadItems(templateId);
+  };
+
+  if (loading) return <p className="text-sm text-slate-400 py-8 text-center">Loading templates…</p>;
+
+  return (
+    <div className="space-y-4">
+      <div className="flex items-center justify-between">
+        <h2 className="text-lg font-semibold text-slate-800">
+          Audit Checklist Templates ({templates.length})
+        </h2>
+        <button
+          onClick={() => { setShowAdd(true); setEditId(null); }}
+          className="rounded-md bg-blue-800 px-3 py-1.5 text-sm font-medium text-white hover:bg-blue-900"
+        >
+          ＋ New Template
+        </button>
+      </div>
+
+      {error && <p className="text-sm text-red-600 bg-red-50 rounded p-2">{error}</p>}
+
+      {/* Add/Edit Template Form */}
+      {showAdd && (
+        <div className="rounded-lg border border-slate-200 bg-slate-50 p-4 space-y-3">
+          <h3 className="text-sm font-semibold text-slate-700">New Template</h3>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div>
+              <label className="text-xs font-medium text-slate-600">Name *</label>
+              <input
+                type="text" value={form.name}
+                onChange={(e) => setForm({ ...form, name: e.target.value })}
+                className="w-full rounded border border-slate-300 px-2 py-1.5 text-sm mt-0.5"
+                placeholder="ISO 9001:2015 Quality"
+              />
+            </div>
+            <div>
+              <label className="text-xs font-medium text-slate-600">Standard</label>
+              <select value={form.auditStandard} onChange={(e) => setForm({ ...form, auditStandard: e.target.value })}
+                className="w-full rounded border border-slate-300 px-2 py-1.5 text-sm mt-0.5">
+                {STANDARDS.map((s) => <option key={s} value={s}>{s}</option>)}
+              </select>
+            </div>
+            <div>
+              <label className="text-xs font-medium text-slate-600">Description</label>
+              <input
+                type="text" value={form.description}
+                onChange={(e) => setForm({ ...form, description: e.target.value })}
+                className="w-full rounded border border-slate-300 px-2 py-1.5 text-sm mt-0.5"
+                placeholder="Optional"
+              />
+            </div>
+          </div>
+          <div className="flex gap-2">
+            <button onClick={handleCreate} className="rounded-md bg-emerald-700 px-3 py-1.5 text-sm font-medium text-white hover:bg-emerald-800">
+              Create
+            </button>
+            <button onClick={() => { setShowAdd(false); setError(null); }} className="rounded-md border border-slate-300 px-3 py-1.5 text-sm text-slate-600 hover:bg-slate-100">
+              Cancel
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Template List */}
+      <div className="space-y-2">
+        {templates.map((t) => {
+          const isOpen = expanded.has(t.id);
+          return (
+            <div key={t.id} className="border border-slate-200 rounded-lg overflow-hidden">
+              <div className="flex items-center justify-between px-4 py-2.5 bg-slate-50">
+                <button onClick={() => toggleExpand(t.id)} className="flex items-center gap-2 text-left">
+                  <span className="text-sm font-medium text-slate-800">{t.name}</span>
+                  <span className={`text-xs px-1.5 py-0.5 rounded font-mono ${t.auditStandard === "ISO9001" ? "bg-blue-100 text-blue-700" : t.auditStandard === "ISO14001" ? "bg-emerald-100 text-emerald-700" : t.auditStandard === "ISO45001" ? "bg-amber-100 text-amber-700" : "bg-slate-100 text-slate-600"}`}>
+                    {t.auditStandard}
+                  </span>
+                  <span className="text-xs text-slate-400">({t._count?.items ?? t.items?.length ?? 0} items)</span>
+                  <span className="text-slate-400 text-xs">{isOpen ? "▲" : "▼"}</span>
+                </button>
+                <div className="flex items-center gap-1">
+                  <button onClick={() => handleUpdateTemplate(t.id)} className="text-xs text-blue-600 hover:text-blue-800 px-1">✏️</button>
+                  <button onClick={() => handleDelete(t.id)} className="text-xs text-red-400 hover:text-red-600 px-1">🗑</button>
+                </div>
+              </div>
+
+              {isOpen && (
+                <div className="px-4 py-2 space-y-2">
+                  {t.description && <p className="text-xs text-slate-500">{t.description}</p>}
+                  
+                  {/* Items table */}
+                  <table className="w-full text-xs">
+                    <thead>
+                      <tr className="border-b border-slate-200 text-left text-slate-500">
+                        <th className="py-1 pr-2 w-24">ID</th>
+                        <th className="py-1 pr-2">Text</th>
+                        <th className="py-1 pr-2 w-12">Order</th>
+                        <th className="py-1 w-12"></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {(t.items ?? []).map((item) => (
+                        <tr key={item.id} className="border-b border-slate-100">
+                          <td className="py-1 pr-2 font-mono text-slate-600">{item.checklistItemId}</td>
+                          <td className="py-1 pr-2 text-slate-700">{item.checklistText}</td>
+                          <td className="py-1 pr-2 text-slate-400">{item.sortOrder}</td>
+                          <td className="py-1">
+                            <button onClick={() => handleDeleteItem(t.id, item.id)}
+                              className="text-xs text-red-400 hover:text-red-600">×</button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+
+                  {/* Add item form */}
+                  <div className="flex items-center gap-2 pt-1">
+                    <input
+                      type="text"
+                      placeholder="Item ID (e.g. QMS-7.1.5)"
+                      value={itemForm[t.id]?.checklistItemId ?? ""}
+                      onChange={(e) => setItemForm((prev) => ({ ...prev, [t.id]: { ...prev[t.id], checklistItemId: e.target.value, checklistText: prev[t.id]?.checklistText ?? "", sortOrder: prev[t.id]?.sortOrder ?? (t.items?.length ?? 0) + 1 } }))}
+                      className="flex-1 rounded border border-slate-300 px-2 py-1 text-xs"
+                    />
+                    <input
+                      type="text"
+                      placeholder="Checklist text"
+                      value={itemForm[t.id]?.checklistText ?? ""}
+                      onChange={(e) => setItemForm((prev) => ({ ...prev, [t.id]: { ...prev[t.id], checklistItemId: prev[t.id]?.checklistItemId ?? "", checklistText: e.target.value, sortOrder: prev[t.id]?.sortOrder ?? (t.items?.length ?? 0) + 1 } }))}
+                      className="flex-[2] rounded border border-slate-300 px-2 py-1 text-xs"
+                    />
+                    <button onClick={() => handleAddItem(t.id)}
+                      className="rounded bg-emerald-600 px-2 py-1 text-xs font-medium text-white hover:bg-emerald-700 shrink-0">
+                      ＋ Add
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </div>
+
+      {templates.length === 0 && (
+        <p className="text-sm text-slate-400 py-8 text-center">No templates yet. Create one to get started.</p>
+      )}
+    </div>
+  );
+}

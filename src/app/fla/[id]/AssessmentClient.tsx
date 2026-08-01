@@ -16,6 +16,7 @@ import { GamificationWidget } from "@/components/GamificationWidget";
 import { AssessmentChecklistTab } from "@/components/AssessmentChecklistTab";
 import { ChecklistTemplateSelector } from "@/components/ChecklistTemplateSelector";
 import { AuditWorkflowBar } from "@/components/AuditWorkflowBar";
+import { AuditReportTab } from "@/components/AuditReportTab";
 
 type Props = {
   assessment: any;
@@ -27,11 +28,12 @@ type Props = {
   recordSources: Array<{ id: string; name: string }>;
   currentUserId?: string;
   linkedAssessorIds?: string[];
+  adoptChecklist?: boolean;
 };
 
-export default function AssessmentClient({ assessment, allControls, processAreas, activityTypes, users, sampleTypes, recordSources, currentUserId, linkedAssessorIds = [] }: Props) {
+export default function AssessmentClient({ assessment, allControls, processAreas, activityTypes, users, sampleTypes, recordSources, currentUserId, linkedAssessorIds = [], adoptChecklist = false }: Props) {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState<"overview" | "controls" | "samples" | "findings" | "activities" | "checklist">("overview");
+  const [activeTab, setActiveTab] = useState<"overview" | "controls" | "samples" | "findings" | "activities" | "checklist" | "report">(adoptChecklist ? "checklist" : "overview");
   const [saving, setSaving] = useState(false);
   const [editing, setEditing] = useState(false);
   const [showAddSample, setShowAddSample] = useState(false);
@@ -131,6 +133,7 @@ export default function AssessmentClient({ assessment, allControls, processAreas
     { key: "findings" as const, label: "Finding & Actions" },
     { key: "activities" as const, label: "Activities" },
     { key: "checklist" as const, label: "📋 Checklist" },
+    { key: "report" as const, label: "📄 Report" },
   ];
 
   const assignedControlIds = new Set(assessment.controlAssignments?.map((ca: any) => ca.controlId) ?? []);
@@ -1140,6 +1143,13 @@ export default function AssessmentClient({ assessment, allControls, processAreas
           />
           <hr className="border-slate-200" />
           <AssessmentChecklistTab assessmentId={assessment.id} />
+        </div>
+      )}
+
+      {/* ─── TAB 7: Report ─── */}
+      {activeTab === "report" && (
+        <div className="mt-6">
+          <AuditReportTab assessment={assessment} assessmentId={assessment.id} />
         </div>
       )}
 

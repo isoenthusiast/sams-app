@@ -6,8 +6,10 @@ import AssessmentClient from "./AssessmentClient";
 
 export const dynamic = "force-dynamic";
 
-export default async function AssessmentDetailPage({ params }: { params: Promise<{ id: string }> }) {
+export default async function AssessmentDetailPage({ params, searchParams }: { params: Promise<{ id: string }>; searchParams: Promise<{ adopt?: string }> }) {
   const { id } = await params;
+  const sp = await searchParams;
+  const adoptChecklist = sp.adopt === "1";
   const session = await auth();
   const companyId = await getSelectedCompanyId();
   if (!session?.user) return null;
@@ -21,7 +23,7 @@ export default async function AssessmentDetailPage({ params }: { params: Promise
       activityType: true,
       assessor: true,
       samples: { include: { sampleType: true, recordSource: true } },
-      findings: { include: { actions: { orderBy: { createdDate: "asc" } }, sample: { include: { sampleType: true } } } },
+      findings: { include: { actions: { orderBy: { createdDate: "asc" } }, sample: { include: { sampleType: true } }, checklistItem: true } },
       controlAssignments: {
         include: {
           control: {
@@ -98,6 +100,7 @@ export default async function AssessmentDetailPage({ params }: { params: Promise
       recordSources={recordSources}
       currentUserId={(session.user as any)?.id}
       linkedAssessorIds={linkedAssessorIds}
+      adoptChecklist={adoptChecklist}
     />
   );
 }

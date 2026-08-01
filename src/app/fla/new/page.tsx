@@ -48,7 +48,7 @@ export default function NewAssessmentPage() {
       });
       if (!res.ok) { const d = await res.json(); throw new Error(d.error || "Failed"); }
       const assessment = await res.json();
-      router.push(`/fla/${assessment.id}`);
+      router.push(`/fla/${assessment.id}?adopt=1`);
     } catch (err: any) {
       setError(err.message);
       setSaving(false);
