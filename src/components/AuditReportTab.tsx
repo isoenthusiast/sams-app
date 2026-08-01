@@ -2,6 +2,21 @@
 
 import { useEffect, useState } from "react";
 
+// Simple markdown-to-HTML for AI analysis display
+function formatMarkdown(md: string): string {
+  return md
+    .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+    .replace(/^### (.+)$/gm, '<h4 class="text-sm font-semibold text-slate-800 mt-3 mb-1">$1</h4>')
+    .replace(/^## (.+)$/gm, '<h3 class="text-base font-bold text-slate-900 mt-4 mb-2">$1</h3>')
+    .replace(/^# (.+)$/gm, '<h2 class="text-lg font-bold text-slate-900 mt-4 mb-2">$1</h2>')
+    .replace(/\*\*(.+?)\*\*/g, '<strong class="font-semibold">$1</strong>')
+    .replace(/\*(.+?)\*/g, '<em>$1</em>')
+    .replace(/^- (.+)$/gm, '<li class="ml-4 text-sm">• $1</li>')
+    .replace(/^(\d+)\. (.+)$/gm, '<li class="ml-4 text-sm">$1. $2</li>')
+    .replace(/\n\n/g, '<br/><br/>')
+    .replace(/\n/g, '<br/>');
+}
+
 interface ChecklistSummary {
   auditStandard: string;
   total: number;
@@ -20,6 +35,9 @@ interface Props {
 export function AuditReportTab({ assessment, assessmentId }: Props) {
   const [checklistSummary, setChecklistSummary] = useState<ChecklistSummary[]>([]);
   const [loading, setLoading] = useState(true);
+  const [aiLoading, setAiLoading] = useState(false);
+  const [aiAnalysis, setAiAnalysis] = useState<string | null>(null);
+  const [aiError, setAiError] = useState<string | null>(null);
 
   useEffect(() => {
     fetch(`/api/admin/assessments/${assessmentId}/checklist`)
@@ -53,6 +71,21 @@ export function AuditReportTab({ assessment, assessmentId }: Props) {
   const notEffectiveCount = controlAssignments.filter((ca: any) => ca.effective === "NotEffective").length;
 
   const handlePrint = () => window.print();
+
+  const handleAiAnalysis = async () => {
+    setAiLoading(true);
+    setAiError(null);
+    try {
+      const res = await fetch(`/api/admin/assessments/${assessmentId}/ai-analysis`, { method: "POST" });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "AI analysis failed");
+      setAiAnalysis(data.analysis);
+    } catch (e: any) {
+      setAiError(e.message || "Failed to generate AI analysis");
+    } finally {
+      setAiLoading(false);
+    }
+  };
 
   return (
     <div className="space-y-6 print:space-y-4" id="audit-report">
@@ -210,6 +243,39 @@ export function AuditReportTab({ assessment, assessmentId }: Props) {
                 )}
               </div>
             ))}
+          </div>
+        )}
+      </div>
+
+      {/* G10: AI Insights */}
+      <div className="print:break-inside-avoid print:hidden">
+        <h3 className="text-sm font-semibold text-slate-800 mb-2">🤖 AI Insights</h3>
+        {!aiAnalysis && !aiLoading && (
+          <button
+            onClick={handleAiAnalysis}
+            className="rounded-md bg-purple-700 px-4 py-2 text-sm font-medium text-white hover:bg-purple-800 transition-colors"
+          >
+            🔬 Analyze with DeepSeek AI
+          </button>
+        )}
+        {aiLoading && (
+          <div className="flex items-center gap-3 rounded border border-purple-200 bg-purple-50 p-4">
+            <div className="animate-spin h-5 w-5 border-2 border-purple-600 border-t-transparent rounded-full" />
+            <p className="text-sm text-purple-700">DeepSeek is analyzing {checklistSummary.reduce((a, s) => a + s.total, 0)} checklist items, {(assessment as any).findings?.length ?? 0} findings, and {(assessment as any).controlAssignments?.length ?? 0} controls…</p>
+          </div>
+        )}
+        {aiError && (
+          <div className="rounded border border-red-200 bg-red-50 p-3">
+            <p className="text-sm text-red-700">{aiError}</p>
+            <button onClick={handleAiAnalysis} className="text-xs text-red-600 underline mt-1">Retry</button>
+          </div>
+        )}
+        {aiAnalysis && (
+          <div className="rounded border border-purple-200 bg-purple-50/50 p-4 prose prose-sm max-w-none">
+            <div className="text-sm leading-relaxed whitespace-pre-wrap" dangerouslySetInnerHTML={{ __html: formatMarkdown(aiAnalysis) }} />
+            <button onClick={handleAiAnalysis} className="mt-3 text-xs text-purple-600 underline">
+              🔄 Re-run Analysis
+            </button>
           </div>
         )}
       </div>
