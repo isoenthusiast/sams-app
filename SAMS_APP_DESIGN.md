@@ -310,12 +310,22 @@ Client Component → fetch('/api/...', { method: 'POST', body })
 | **Assessment** | Frontline assurance check | status (Planned→InProgress→Completed/Cancelled), loa, assessorId (lead), activityTypeId. **TOR fields (v1.6.5):** objective, scope, sponsor, methodology, keyFocus, reportIssueDate |
 | **ControlAssignment** | Controls assigned to assessment | effectiveness (Effective/NotEffective/null), effectiveUpdatedAt |
 | **Sample** | Record sample tested | status (Tested/NotTested), conclusion (Pass/Fail), controlEffective |
-| **Finding** | Finding raised during assessment | severity (Low/Medium/High/Serious), repeat, FID-xxxxxx ID |
+| **Finding** | Finding raised during assessment | severity (Low/Medium/High/Serious), repeat, FID-xxxxxx ID, **checklistItemId (v1.10.0)** — optional FK to AuditChecklistItem for traceability |
 | **Action** | Remediation tied to finding | actionId, closureDate, closureEvidence, actionClosureEffective |
 | **Aact** | Assurance activity (interview, meeting, doc review) | aaID (unique), activityName, activityDate |
 | **AActUsers** | Participants in activity | userRoles, assignmentRemarks |
 | **AActControls** | Controls mapped to activity | — |
 | **AActDetails** | Activity detail/notes | checklists, activityNotes, summaryAgainstControls |
+
+#### Audit Models (v1.10.0)
+
+| Model | Purpose | Key Fields |
+|-------|---------|------------|
+| **AuditEvidence** | Evidence collected during audit | evidenceType (Document/Interview/Observation/Test/Sample), evidenceStatus (Collected/Reviewed/Accepted/Rejected), source, fileRef, collectedDate, assessmentId (FK→Assessment) |
+| **AuditChecklist2Requirement** | Checklist item ↔ Requirement junction | checklistItemId (FK), requirementRId (FK), assessmentId (FK). @@unique([checklistItemId, requirementRId, assessmentId]) |
+| **AuditChecklistTemplate** | Reusable checklist template | name, description, auditStandard (ISO9001/ISO14001/ISO45001/PMS), companyId (FK→Company) |
+| **AuditChecklistTemplateItem** | Template line item (adopted by assessment) | checklistItemId (unique ID like QMS-7.1.5), checklistText, auditStandard, sortOrder, templateId (FK). @@unique([checklistItemId, templateId]) |
+| **AuditChecklistItem** | Assessment-specific checklist instance | checklistItemId (copied from template), checklistText, auditStandard, complianceStatus (NotTested/Compliant/NonCompliant/NotApplicable/Observation), auditorNotes, testedDate, testedBy, evidenceMethod, sortOrder, assessmentId (FK), templateItemId (FK→AuditChecklistTemplateItem, nullable). @@unique([checklistItemId, assessmentId]) |
 
 #### Gamification Models
 
@@ -440,6 +450,10 @@ All company-scoped tables use `@@unique([businessKey, companyId])` rather than s
 | `/api/admin/table/Assessment/[id]/assessors` | PUT | Admin | Sync assessment assessors |
 | `/api/admin/table/MapControl2Requirement/[id]` | DELETE | Admin | Remove control-requirement mapping |
 | `/api/admin/table/Requirement/[rId]` | PUT | Admin | Update requirement fields |
+| `/api/admin/assessments/checklist-templates` | GET | Auth | List available checklist templates for current company |
+| `/api/admin/assessments/[id]/adopt-checklist` | POST | Assessor | Clone selected template items into assessment checklist (v1.10.0) |
+| `/api/admin/assessments/[id]/checklist` | GET | Assessor | Get assessment checklist items with enriched mapped controls (v1.10.0) |
+| `/api/admin/assessments/[id]/checklist/[itemId]` | PATCH | Assessor | Update checklist item compliance status, auditor notes, evidence method (v1.10.0) |
 
 #### Assessor APIs (`/api/*`)
 
@@ -535,6 +549,8 @@ All company-scoped tables use `@@unique([businessKey, companyId])` rather than s
 | **KnowledgebaseView** | Knowledgebase entry editor |
 | **ManagerAssignmentView** | Three-section manager→username resolution: (1) Distinct Managers with uncontrolled inputs (auto-save on blur via POST /api/admin/manager-assignment) + Status column filter buttons (All/✓ in table/✗ not found/tbc), (2) "Not in User Table" collapsible details, (3) User-by-User filterable table (All/Resolved/TBC) with inline dropdown edit |
 | **RequirementsView** | Requirements browser |
+| **ChecklistTemplateSelector** (v1.10.0) | Client component — multi-select checklist templates via checkboxes, "Adopt Selected Checklist(s)" button → POST adopt-checklist API, success/error feedback |
+| **AssessmentChecklistTab** (v1.10.0) | Client component — grouped by auditStandard collapsible sections, per-item compliance status dropdown (Not Tested/Compliant/Non-Compliant/N.A./Observation), control-to-requirement trace display (Requirement ID → Control Name → Source File), auditor notes inline |
 
 ---
 
@@ -907,6 +923,7 @@ Local Dev (localhost:3100)
 | v1.9.1 | 2026-07-28 | **preferredName Display Priority.** `preferredName` now the primary display name everywhere: Org Chart, User Manager left panel, and search bars. Fallback to formal `name` when preferred is absent. Search scans both `preferredName` and `name` so users are findable by either. |
 | v1.7.1 | 2026-07-27 | **User Profile Page.** New `/profile` page accessible by clicking the username in the navbar ("Admin (Admin)" → link). Two tabs: **📊 Overview** (gamification dashboard — XP sources, track levels, recommendations, mastery tracks, badges, recent activity — moved here from the navbar's "Gamification" link, which was removed) and **👤 User Details** (read-only profile card with Name, Username, Email, Role badge, Position, Department, Member since, Total Points, Company Memberships; "✏️ Edit" opens inline form for name/username/email, saves via `PUT /api/admin/users/[id]`). Gamification nav link removed; `/gamification` route now redirects to `/profile`. New components: `ProfileTabs.tsx`, `UserDetailsTab.tsx`. |
 | v1.9.2 | 2026-07-31 | **Company Selector — URL Params + Cookie Dual Mechanism.** Fixed `selectedCompanyId` cookie not being sent over HTTPS (missing `Secure` attribute). Switched primary mechanism to URL search params (`?companyId=X`) — CompanySelector now uses `router.push()` instead of `window.location.reload()`. Server reads `searchParams.companyId` with cookie fallback. Added `Suspense` boundary in NavBar for `useSearchParams()`. **My Actions company filter:** Added nested Prisma relation traversal `finding → assessment → companyId` to action queries in both `fla/page.tsx` and `admin/page.tsx`. **Comprehensive audit:** Identified 27 gaps across unauthenticated endpoints, missing company scoping on API routes, and models needing nested relation traversal (Action, Finding, Sample, ControlAssignment, Aact variants, etc.). Documented in lessons-learned-2026-07-31.md. |
+| v1.10.0 | 2026-08-01 | **Audit Checklist Infrastructure (G5-G6-G7-G9).** Added 5 new models: AuditEvidence, AuditChecklist2Requirement (checklist→requirement junction), AuditChecklistTemplate, AuditChecklistTemplateItem, AuditChecklistItem. Finding.checklistItemId FK links findings back to checklist items for traceability. v_AuditTrace VIEW provides full audit trail (Standard→PA→Requirement→ChecklistItem→Control→Finding→Action). 4 seeded ISO templates (ISO9001, ISO14001, ISO45001, PMS) with 124 total items. 4 new API routes: GET checklist-templates, POST adopt-checklist, GET assessment checklist (with enriched control-to-requirement traces from MapControl2Requirement), PATCH checklist item (complianceStatus, auditorNotes, testedBy, evidenceMethod). New components: ChecklistTemplateSelector (multi-select + adopt), AssessmentChecklistTab (grouped by standard, compliance status dropdowns per item, control trace display). 6th \"📋 Checklist\" tab added to AssessmentClient. **G7:** AssignedControlsList — each control row displays color-coded requirement ID badges (QMS/EMS/OHSMS/PMS) from MapControl2Requirement, up to 3 inline with \"+N\" overflow. |
 
 ---
 

@@ -40,6 +40,36 @@ export function AssignedControlsList({ assignments, totalCount }: Props) {
   const [expandedPAs, setExpandedPAs] = useState<Set<string>>(new Set());
   const [expandedReqs, setExpandedReqs] = useState<Set<string>>(new Set());
 
+  // Extract unique requirement IDs from a control's mappings, sorted by standard prefix
+  const getRequirementIds = (ca: ControlAssignment): string[] => {
+    const mappings = ca.control?.requirementMappings ?? [];
+    const ids = new Set<string>();
+    for (const m of mappings) {
+      if (m.requirement?.requirementId) ids.add(m.requirement.requirementId);
+    }
+    return Array.from(ids).sort((a, b) => {
+      // Sort: ISO standards first (QMS→EMS→OHSMS), then PMS
+      const prefix = (id: string) => {
+        if (id.startsWith("QMS")) return 0;
+        if (id.startsWith("EMS")) return 1;
+        if (id.startsWith("OHSMS")) return 2;
+        return 3;
+      };
+      const pa = prefix(a), pb = prefix(b);
+      if (pa !== pb) return pa - pb;
+      return a.localeCompare(b);
+    });
+  };
+
+  // Color-code requirement IDs by standard prefix
+  const getReqColor = (reqId: string): string => {
+    if (reqId.startsWith("QMS")) return "bg-blue-50 text-blue-700 border-blue-200";
+    if (reqId.startsWith("EMS")) return "bg-emerald-50 text-emerald-700 border-emerald-200";
+    if (reqId.startsWith("OHSMS")) return "bg-amber-50 text-amber-700 border-amber-200";
+    if (reqId.startsWith("PMS")) return "bg-slate-100 text-slate-600 border-slate-300";
+    return "bg-purple-50 text-purple-700 border-purple-200";
+  };
+
   const togglePA = (paId: string) => {
     setExpandedPAs((prev) => {
       const next = new Set(prev);
@@ -190,7 +220,18 @@ export function AssignedControlsList({ assignments, totalCount }: Props) {
                     </button>
 
                     {/* ── Controls (shown when requirement is open) ── */}
-                    {reqOpen && req.controls.map((ca) => (
+                    {reqOpen && req.controls.map((ca) => {
+                      const reqIds = getRequirementIds(ca);
+                      const primaryIdx = reqIds.indexOf(req.reqId);
+                      // Show non-primary requirement IDs (the ones this control ALSO satisfies)
+                      const otherReqIds = primaryIdx >= 0
+                        ? [...reqIds.slice(0, primaryIdx), ...reqIds.slice(primaryIdx + 1)]
+                        : reqIds;
+                      const maxShow = 4;
+                      const visible = otherReqIds.slice(0, maxShow);
+                      const overflow = otherReqIds.length - maxShow;
+
+                      return (
                       <div
                         key={ca.id}
                         className={`flex items-center gap-2 px-4 py-2 ${
@@ -208,6 +249,24 @@ export function AssignedControlsList({ assignments, totalCount }: Props) {
                         >
                           {ca.control?.name}
                         </span>
+                        {/* G7: Requirement mapping badges */}
+                        {reqIds.length > 0 && (
+                          <span className="hidden sm:flex items-center gap-1 shrink-0" title={`Satisfies: ${reqIds.join(", ")}`}>
+                            {reqIds.slice(0, 3).map((rid) => (
+                              <span
+                                key={rid}
+                                className={`text-[10px] font-mono font-medium px-1.5 py-0.5 rounded border ${getReqColor(rid)}`}
+                              >
+                                {rid}
+                              </span>
+                            ))}
+                            {reqIds.length > 3 && (
+                              <span className="text-[10px] text-slate-400 font-medium">
+                                +{reqIds.length - 3}
+                              </span>
+                            )}
+                          </span>
+                        )}
                         <select
                           value={ca.effective ?? ""}
                           onChange={(e) => handleEffectivenessChange(ca.id, e.target.value)}
@@ -233,7 +292,8 @@ export function AssignedControlsList({ assignments, totalCount }: Props) {
                           ×
                         </button>
                       </div>
-                    ))}
+                    );
+                    })}
                   </div>
                   );
                 })}
