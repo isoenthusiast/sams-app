@@ -349,7 +349,7 @@ export default function AssessmentActivitiesPanel({
                     {TYPE_LABELS[a.assacttypeid] || a.assacttypeid}
                   </span>
                 </div>
-                <div className="text-2xs text-slate-400 mt-0.5">
+                <div className="text-2xs text-slate-400 mt-0.5" suppressHydrationWarning>
                   {a.activityDate
                     ? new Date(a.activityDate).toLocaleDateString()
                     : ""}{" "}
@@ -411,7 +411,7 @@ export default function AssessmentActivitiesPanel({
                       </div>
                       <div>
                         Date:{" "}
-                        <span className="text-slate-700">
+                        <span className="text-slate-700" suppressHydrationWarning>
                           {selectedActivity.activityDate
                             ? new Date(
                                 selectedActivity.activityDate,

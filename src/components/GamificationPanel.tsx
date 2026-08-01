@@ -63,7 +63,7 @@ export function GamificationPanel({ totalPoints, dailyStreak = 0, recentBadges =
                   <div className="text-sm font-medium text-slate-900">{b.name}</div>
                   <div className="flex gap-2">
                     <Badge variant="default" size="sm" className={rarityColors[b.rarity] ?? ""}>{b.rarity}</Badge>
-                    {b.earnedAt && <span className="text-xs text-slate-400">{new Date(b.earnedAt).toLocaleDateString()}</span>}
+                    {b.earnedAt && <span className="text-xs text-slate-400" suppressHydrationWarning>{new Date(b.earnedAt).toLocaleDateString()}</span>}
                   </div>
                 </div>
               </div>

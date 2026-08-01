@@ -79,7 +79,7 @@ export function SysAdminManagementView({
                 <tbody>
                   {activityLog.map((log) => (
                     <tr key={log.id} className="border-b border-slate-50 align-top">
-                      <td className="py-2 pr-3 text-xs text-slate-400 whitespace-nowrap">{new Date(log.timestamp).toLocaleString()}</td>
+                      <td className="py-2 pr-3 text-xs text-slate-400 whitespace-nowrap" suppressHydrationWarning>{new Date(log.timestamp).toLocaleString()}</td>
                       <td className="py-2 pr-3 text-xs font-medium text-slate-600 whitespace-nowrap">{log.activityType}</td>
                       <td className="py-2 pr-3 text-slate-700 break-words whitespace-normal" title={log.description}>{log.description}</td>
                       <td className="py-2 text-xs text-slate-400 text-right whitespace-nowrap">{log.username}</td>

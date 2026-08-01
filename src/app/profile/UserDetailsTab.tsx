@@ -147,7 +147,7 @@ export function UserDetailsTab({ user }: { user: UserData }) {
               </div>
               <div>
                 <span className="text-slate-500">Member since:</span>{" "}
-                <span className="font-medium text-slate-800">{memberSince}</span>
+                <span className="font-medium text-slate-800" suppressHydrationWarning>{memberSince}</span>
               </div>
               <div>
                 <span className="text-slate-500">Total Points:</span>{" "}

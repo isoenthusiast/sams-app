@@ -132,7 +132,7 @@ export function ImprovementKanban({ pipItems: initial, assessmentActions, proces
                   {item._isAction ? (
                     <div className="mt-2 flex flex-col gap-1">
                       <a href={`/fla/${item._assessmentId}`} className="text-xs text-blue-600 hover:underline" target="_blank">📋 {item._assessmentName || "Assessment"}</a>
-                      <span className="text-xs text-slate-400">🔗 Assessment Action · {item._targetDate ? new Date(item._targetDate).toLocaleDateString() : "No target"}</span>
+                      <span className="text-xs text-slate-400" suppressHydrationWarning>🔗 Assessment Action · {item._targetDate ? new Date(item._targetDate).toLocaleDateString() : "No target"}</span>
                       {isSpoOrAdmin && (
                         <select value={item.pipStatus || "Approved"} onChange={e => moveItem(item.id, e.target.value)}
                           className="text-xs border rounded px-1 py-0.5 bg-white mt-1">

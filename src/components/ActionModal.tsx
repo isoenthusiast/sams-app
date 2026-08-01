@@ -89,7 +89,7 @@ export function ActionModal({ action, onClose, onSaved }: Props) {
               <div><span className="text-slate-500">Status:</span> <StatusBadge status={a.status} /></div>
               <div><span className="text-slate-500">Type:</span> {a.activityType.name}</div>
               <div><span className="text-slate-500">Assessor:</span> {a.assessor.name}</div>
-              <div><span className="text-slate-500">Date:</span> {new Date(a.startDate).toLocaleDateString()}</div>
+              <div><span className="text-slate-500">Date:</span> <span suppressHydrationWarning>{new Date(a.startDate).toLocaleDateString()}</span></div>
             </div>
           </Card>
 
@@ -113,7 +113,7 @@ export function ActionModal({ action, onClose, onSaved }: Props) {
                 <div><span className="text-slate-500">Assigned to:</span> {action.actionParty}</div>
               )}
               {action.targetDate && (
-                <div><span className="text-slate-500">Target Date:</span> {new Date(action.targetDate).toLocaleDateString()}</div>
+                <div><span className="text-slate-500">Target Date:</span> <span suppressHydrationWarning>{new Date(action.targetDate).toLocaleDateString()}</span></div>
               )}
 
               <div className="border-t border-slate-100 pt-3 space-y-3">

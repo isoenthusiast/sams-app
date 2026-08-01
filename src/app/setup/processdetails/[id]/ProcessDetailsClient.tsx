@@ -347,7 +347,7 @@ export default function ProcessDetailsClient(props: Props) {
             <div className="grid gap-3 sm:grid-cols-3">
               <div>
                 <div className="text-xs text-slate-500">Last Assessment</div>
-                <div className="text-sm font-medium text-slate-900">
+                <div className="text-sm font-medium text-slate-900" suppressHydrationWarning>
                   {lastAssessment ? new Date(lastAssessment.startDate).toLocaleDateString() : "Never"}
                 </div>
                 {lastAssessment?.assessorName && <div className="text-xs text-slate-400">by {lastAssessment.assessorName}</div>}
@@ -402,7 +402,7 @@ export default function ProcessDetailsClient(props: Props) {
             ) : (
               <p className="text-sm text-slate-600 whitespace-pre-wrap">{micStatement || "No MIC statement recorded yet. Site Process Owners should document their assessment of management in control for this process area."}</p>
             )}
-            {processArea.micStatementUpdatedAt && <p className="text-xs text-slate-400 mt-1">Last updated: {new Date(processArea.micStatementUpdatedAt).toLocaleDateString()}</p>}
+            {processArea.micStatementUpdatedAt && <p className="text-xs text-slate-400 mt-1" suppressHydrationWarning>Last updated: {new Date(processArea.micStatementUpdatedAt).toLocaleDateString()}</p>}
           </Card>
 
           {/* How to Read */}
@@ -542,7 +542,7 @@ export default function ProcessDetailsClient(props: Props) {
                 <div className="flex items-center justify-between">
                   <div>
                     <Link href={`/fla/${a.id}`} className="font-semibold text-blue-700 hover:underline">{a.name}</Link>
-                    <div className="text-xs text-slate-500">{a.activityType?.name} · Assessor: {a.assessor?.name} · {new Date(a.startDate).toLocaleDateString()}</div>
+                    <div className="text-xs text-slate-500" suppressHydrationWarning>{a.activityType?.name} · Assessor: {a.assessor?.name} · {new Date(a.startDate).toLocaleDateString()}</div>
                     <div className="text-xs text-slate-400">{a.samples?.length ?? 0} samples · {a.findings?.length ?? 0} findings</div>
                   </div>
                   <StatusBadge status={a.status} />

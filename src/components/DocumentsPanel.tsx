@@ -123,7 +123,7 @@ export default function DocumentsPanel({ documents, processAreaId, companyId, ma
               <span className="inline-block rounded-full bg-slate-100 px-2 py-0.5 text-[10px] font-medium text-slate-600">
                 {doc.folder === "AI Chat" ? "💬 AI Chat" : "📤 Uploaded"}
               </span>
-              <span className="text-[10px] text-slate-400">
+              <span className="text-[10px] text-slate-400" suppressHydrationWarning>
                 {new Date(doc.createdAt).toLocaleDateString()}
               </span>
               <span className="inline-block rounded-full bg-amber-50 px-2 py-0.5 text-[10px] text-amber-700" title="The AI assistant in the Knowledgebase tab can read this document">

@@ -218,7 +218,7 @@ export function CompetencyDashboard({ userName, overallXP, tracks, badges, recen
             <div key={i} className="flex items-center justify-between py-1.5 px-3 bg-slate-50 rounded text-xs">
               <span className="text-slate-600 truncate flex-1 mr-2">{r.reason}</span>
               <span className="font-medium text-emerald-600 shrink-0">+{r.points}</span>
-              <span className="text-slate-400 ml-2 shrink-0 w-16 text-right">
+              <span className="text-slate-400 ml-2 shrink-0 w-16 text-right" suppressHydrationWarning>
                 {new Date(r.createdAt).toLocaleDateString()}
               </span>
             </div>

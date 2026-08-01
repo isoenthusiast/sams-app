@@ -563,8 +563,8 @@ export default function AssessmentClient({ assessment, allControls, processAreas
                   <div><span className="text-slate-500">Additional Assessors:</span> <span className="font-medium">{linkedAssessorIds.map((id: string) => users.find((u) => u.id === id)?.name ?? id).join(", ")}</span></div>
                 )}
                 <div><span className="text-slate-500">Status:</span> <StatusBadge status={assessment.status} /></div>
-                <div><span className="text-slate-500">Start:</span> <span className="font-medium">{assessment.startDate ? new Date(assessment.startDate).toLocaleDateString() : "—"}</span></div>
-                <div><span className="text-slate-500">End:</span> <span className="font-medium">{assessment.endDate ? new Date(assessment.endDate).toLocaleDateString() : "—"}</span></div>
+                <div><span className="text-slate-500">Start:</span> <span className="font-medium" suppressHydrationWarning>{assessment.startDate ? new Date(assessment.startDate).toLocaleDateString() : "—"}</span></div>
+                <div><span className="text-slate-500">End:</span> <span className="font-medium" suppressHydrationWarning>{assessment.endDate ? new Date(assessment.endDate).toLocaleDateString() : "—"}</span></div>
               </div>
               <div className="pt-2">
                 <Button variant="secondary" size="sm" onClick={() => setEditing(true)}>✏️ Edit Details</Button>
@@ -599,7 +599,7 @@ export default function AssessmentClient({ assessment, allControls, processAreas
                 {assessment.reportIssueDate && (
                   <div>
                     <div className="text-xs font-medium text-slate-500 uppercase tracking-wide">Report Issue Date</div>
-                    <div className="mt-0.5 text-slate-800">{new Date(assessment.reportIssueDate).toLocaleDateString()}</div>
+                    <div className="mt-0.5 text-slate-800" suppressHydrationWarning>{new Date(assessment.reportIssueDate).toLocaleDateString()}</div>
                   </div>
                 )}
               </div>
@@ -1106,7 +1106,7 @@ export default function AssessmentClient({ assessment, allControls, processAreas
                             <span className="text-sm text-slate-800 truncate">{act.actionDescription}</span>
                             {act.actionClosureEffective && <span className="text-xs text-emerald-600">✓ Closed</span>}
                           </div>
-                          <div className="text-xs text-slate-400">
+                          <div className="text-xs text-slate-400" suppressHydrationWarning>
                             {act.actionParty && <span>{act.actionParty}</span>}
                             {act.targetDate && <span> · Due: {new Date(act.targetDate).toLocaleDateString()}</span>}
                             {act.apAgreed && <span> · Agreed</span>}

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useRef } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { Modal } from "./Modal";
 import { Button } from "./Button";
 import { Badge } from "./Badge";
@@ -60,6 +60,13 @@ export function KanbanBoard({ initialItems }: KanbanBoardProps) {
   const [showArchived, setShowArchived] = useState(false);
   const [completedExpanded, setCompletedExpanded] = useState(false);
   const dragOverRef = useRef<string | null>(null);
+  // "Now" is only known after mount — avoids server/client hydration mismatch
+  // when filtering archived items by age (Date.now() differs between server & client)
+  const [now, setNow] = useState<number | null>(null);
+
+  useEffect(() => {
+    setNow(Date.now());
+  }, []);
 
   const toggleExpand = (colKey: string) => {
     setExpandedColumns((prev) => {
@@ -72,7 +79,7 @@ export function KanbanBoard({ initialItems }: KanbanBoardProps) {
   // ── Archived filter (Completed > 30 days hidden by default) ────
   const THIRTY_DAYS = 30 * 24 * 60 * 60 * 1000;
   const isArchived = (item: BacklogItem) =>
-    item.status === "Completed" && (Date.now() - new Date(item.updatedAt).getTime()) > THIRTY_DAYS;
+    item.status === "Completed" && now !== null && (now - new Date(item.updatedAt).getTime()) > THIRTY_DAYS;
 
   // ── API helpers ──────────────────────────────────────────────────
   const updateItem = useCallback(async (id: string, data: Partial<BacklogItem>) => {
@@ -196,7 +203,7 @@ export function KanbanBoard({ initialItems }: KanbanBoardProps) {
           )}
           <div className="mt-2 flex items-center justify-between text-xs text-slate-400">
             <span>{item.createdBy}</span>
-            <span>{new Date(item.createdAt).toLocaleDateString()}</span>
+            <span suppressHydrationWarning>{new Date(item.createdAt).toLocaleDateString()}</span>
           </div>
         </div>
       ))}
@@ -483,7 +490,7 @@ function AddEditModal({
               <span>Status: <strong>{item.status}</strong>{item.stage ? ` · ${item.stage}` : ""}</span>
               <span>Created by: <strong>{item.createdBy}</strong></span>
             </div>
-            <div className="flex justify-between">
+            <div className="flex justify-between" suppressHydrationWarning>
               <span>Created: {new Date(item.createdAt).toLocaleString()}</span>
               <span>Updated: {new Date(item.updatedAt).toLocaleString()}</span>
             </div>

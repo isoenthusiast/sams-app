@@ -127,7 +127,7 @@ export function MyInterviewsClient() {
                         <Badge variant="warning" size="sm">Mandatory</Badge>
                       )}
                     </div>
-                    <div className="mt-1 text-xs text-slate-500 flex flex-wrap gap-x-3 gap-y-0.5">
+                    <div className="mt-1 text-xs text-slate-500 flex flex-wrap gap-x-3 gap-y-0.5" suppressHydrationWarning>
                       <span>{new Date(inv.activity.activityDate).toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" })}</span>
                       <span>{inv.activity.activityStartTime} – {inv.activity.activityEndTime}</span>
                       {inv.activity.activityDuration && <span>{inv.activity.activityDuration}</span>}

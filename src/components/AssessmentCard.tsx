@@ -17,7 +17,7 @@ export function AssessmentCard({ id, name, status, activityTypeName, startDate, 
     <Link href={`/fla/${id}`} className="flex items-center justify-between rounded-md border border-slate-100 px-4 py-3 hover:bg-slate-50">
       <div>
         <div className="text-sm font-medium text-slate-900">{name}</div>
-        <div className="text-xs text-slate-500">
+        <div className="text-xs text-slate-500" suppressHydrationWarning>
           {activityTypeName} · {new Date(startDate).toLocaleDateString()} · {samplesCount} samples · {findingsCount} findings
         </div>
       </div>
