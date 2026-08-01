@@ -26,6 +26,7 @@ function LinkedControlsSection({
   }
 
   const [controls, setControls] = useState<ScoredControl[] | null>(null);
+  const [showAll, setShowAll] = useState(false);
 
   useEffect(() => {
     fetch(`/api/admin/assessments/${assessmentId}/checklist-controls?itemId=${itemId}`)
@@ -38,7 +39,6 @@ function LinkedControlsSection({
 
   const linked = controls.filter((c) => c.isLinked);
   const suggested = controls.filter((c) => !c.isLinked && c.score > 0);
-  const [showAll, setShowAll] = useState(false);
 
   if (controls.length === 0) return null; // no assigned controls
 

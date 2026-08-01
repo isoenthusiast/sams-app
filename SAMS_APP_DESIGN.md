@@ -2,7 +2,7 @@
 
 > **📐 Active alongside `CONAN_Design Philosophy.md` and `CONAN_App Design.md`.** CONAN docs are the narrative source of truth; this document is the technical specification (models, routes, components, APIs). Both are maintained.
 
-**Last Updated:** July 31, 2026 (v1.9.2)
+**Last Updated:** August 2, 2026 (v1.10.3)
 
 ---
 
@@ -323,7 +323,7 @@ Client Component → fetch('/api/...', { method: 'POST', body })
 |-------|---------|------------|
 | **AuditEvidence** | Evidence collected during audit | evidenceType (Document/Interview/Observation/Test/Sample), evidenceStatus (Collected/Reviewed/Accepted/Rejected), source, fileRef, collectedDate, assessmentId (FK→Assessment) |
 | **AuditChecklist2Requirement** | Checklist item ↔ Requirement junction | checklistItemId (FK), requirementRId (FK), assessmentId (FK). @@unique([checklistItemId, requirementRId, assessmentId]) |
-| **AuditChecklistTemplate** | Reusable checklist template | name, description, auditStandard (ISO9001/ISO14001/ISO45001/PMS), companyId (FK→Company) |
+| **AuditChecklistTemplate** | Reusable checklist template | name, description, auditStandard (ISO9001/ISO14001/ISO45001/PMS), companyId (FK→Company). @@unique([name, companyId]). **v1.10.3:** `isGlobal` computed flag — templates owned by SAMS001 (comp_1783989395315) are global, visible to all companies via OR query. Non-SAMS001 templates are local. |
 | **AuditChecklistTemplateItem** | Template line item (adopted by assessment) | checklistItemId (unique ID like QMS-7.1.5), checklistText, auditStandard, sortOrder, templateId (FK). @@unique([checklistItemId, templateId]) |
 | **AuditChecklistItem** | Assessment-specific checklist instance | checklistItemId (copied from template), checklistText, auditStandard, complianceStatus (NotTested/Compliant/NonCompliant/NotApplicable/Observation), auditorNotes, testedDate, testedBy, evidenceMethod, sortOrder, assessmentId (FK), templateItemId (FK→AuditChecklistTemplateItem, nullable). @@unique([checklistItemId, assessmentId]) |
 
@@ -454,6 +454,11 @@ All company-scoped tables use `@@unique([businessKey, companyId])` rather than s
 | `/api/admin/assessments/[id]/adopt-checklist` | POST | Assessor | Clone selected template items into assessment checklist (v1.10.0) |
 | `/api/admin/assessments/[id]/checklist` | GET | Assessor | Get assessment checklist items with enriched mapped controls (v1.10.0) |
 | `/api/admin/assessments/[id]/checklist/[itemId]` | PATCH | Assessor | Update checklist item compliance status, auditor notes, evidence method (v1.10.0) |
+| `/api/admin/audit-checklist-templates` | POST | Admin | Create new checklist template (v1.10.0) |
+| `/api/admin/audit-checklist-templates/[id]` | PUT/DELETE | Admin | Update/Delete template (v1.10.0) |
+| `/api/admin/audit-checklist-templates/[id]/items` | GET/POST | Admin | List/Add template items (v1.10.0) |
+| `/api/admin/audit-checklist-templates/[id]/items/[itemId]` | PUT/DELETE | Admin | Update/Delete template item (v1.10.0) |
+| `/api/admin/audit-checklist-templates/[id]/adopt` | POST | Admin | **v1.10.3:** Clone global template to current company — copies template + all items with `[COMPANY]` prefix. Returns 409 if already adopted (duplicate name). |
 
 #### Assessor APIs (`/api/*`)
 
@@ -551,6 +556,7 @@ All company-scoped tables use `@@unique([businessKey, companyId])` rather than s
 | **RequirementsView** | Requirements browser |
 | **ChecklistTemplateSelector** (v1.10.0) | Client component — multi-select checklist templates via checkboxes, "Adopt Selected Checklist(s)" button → POST adopt-checklist API, success/error feedback |
 | **AssessmentChecklistTab** (v1.10.0) | Client component — grouped by auditStandard collapsible sections, per-item compliance status dropdown (Not Tested/Compliant/Non-Compliant/N.A./Observation), control-to-requirement trace display (Requirement ID → Control Name → Source File), auditor notes inline |
+| **AuditChecklistTemplateAdminView** (v1.10.3) | Client component — template CRUD with Global/Local filter toggles (All | 🌐 Global | 🏢 Local). Global templates (SAMS001-owned) are read-only for non-SAMS001 companies, show "📥 Copy to Local" button. Local templates fully editable (✏️ / 🗑). Template list expandable with inline item editing. |
 
 ---
 
@@ -925,6 +931,8 @@ Local Dev (localhost:3100)
 | v1.9.2 | 2026-07-31 | **Company Selector — URL Params + Cookie Dual Mechanism.** Fixed `selectedCompanyId` cookie not being sent over HTTPS (missing `Secure` attribute). Switched primary mechanism to URL search params (`?companyId=X`) — CompanySelector now uses `router.push()` instead of `window.location.reload()`. Server reads `searchParams.companyId` with cookie fallback. Added `Suspense` boundary in NavBar for `useSearchParams()`. **My Actions company filter:** Added nested Prisma relation traversal `finding → assessment → companyId` to action queries in both `fla/page.tsx` and `admin/page.tsx`. **Comprehensive audit:** Identified 27 gaps across unauthenticated endpoints, missing company scoping on API routes, and models needing nested relation traversal (Action, Finding, Sample, ControlAssignment, Aact variants, etc.). Documented in lessons-learned-2026-07-31.md. |
 | v1.10.0 | 2026-08-01 | **Complete Audit System.** 5 new models, 13 API routes, 5 components, 7 assessment tabs. All tiers G5-G10 + T2-T3-T5 delivered. |
 | v1.10.1 | 2026-08-01 | **Control → Checklist Reconciliation.** `AssessmentChecklistControl` junction (checklistItemId → controlId → assessmentId). Keyword relevance engine scores assigned controls per checklist item. \"🔗 Linked Controls\" on each item row. Resolves 1.2M-row indirect trace. |
+| v1.10.2 | 2026-08-01 | **IMS Integrated Checklist Template.** 5th template "IMS INTERNAL AUDIT" — 39 items covering shared clauses across all 4 standards. Rich fields carry per-standard breakdown. Design principles #25, #26. |
+| v1.10.3 | 2026-08-02 | **Global/Local Template Governance.** `AuditChecklistTemplate` now supports multi-company management: SAMS001 templates flagged `isGlobal` (🌐), visible to all. Filter toggles: All / 🌐 Global / 🏢 Local. "📥 Copy to Local" clones global template + all items with `[COMPANY]` prefix. New API: POST /api/admin/audit-checklist-templates/[id]/adopt. Global templates read-only for non-SAMS001. Local templates fully editable. Design principle #27. |
 
 ---
 
