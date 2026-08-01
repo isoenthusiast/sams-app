@@ -287,6 +287,7 @@ model Assessment {
   findings           Finding[]
   aacts              Aact[]
   assessorLinks      AssessmentAssessor[]  @relation("AssessmentToAssessor")
+  checklistItems     AuditChecklistItem[]
 }
 
 // Many-to-many: an Assessment can have multiple Assessors.
@@ -1069,4 +1070,75 @@ enum EvidenceStatus {
   Planned
   Conducted
   Analysed
+}
+
+// ── Audit Checklist Template ───────────────────────────────────
+// Reusable checklist template (e.g., "ISO 9001:2015", "Perform Maintenance Execution").
+// Adopted per assessment by cloning items into AuditChecklistItem.
+model AuditChecklistTemplate {
+  id              String                      @id @default(cuid())
+  name            String                      // e.g. "ISO 9001:2015 Quality Management System"
+  description     String?                     // e.g. "Full ISO 9001 internal audit checklist"
+  auditStandard   String                      // "ISO 9001" | "ISO 14001" | "ISO 45001" | "PMS" | "SEAM-MEX"
+  companyId       String?
+  createdAt       DateTime                    @default(now())
+
+  items           AuditChecklistTemplateItem[]
+  adoptedItems    AuditChecklistItem[]        @relation("TemplateToAdoptedItems")
+
+  @@unique([name, companyId])
+}
+
+// ── Audit Checklist Template Item ───────────────────────────────
+// A single checklist item within a template. Maps to requirements
+// via AuditChecklist2Requirement (by checklistItemId string).
+model AuditChecklistTemplateItem {
+  id              String                  @id @default(cuid())
+  checklistItemId String                  // e.g. "7.14"
+  checklistText   String                  // the item text / question
+  auditStandard   String                  // denormalized for query convenience
+  sortOrder       Int                     @default(0)
+  templateId      String
+  template        AuditChecklistTemplate  @relation(fields: [templateId], references: [id], onDelete: Cascade)
+
+  clonedItems     AuditChecklistItem[]    // Instances in assessments
+
+  @@unique([checklistItemId, templateId])
+  @@index([templateId])
+}
+
+// ── Audit Checklist Item (per-assessment) ──────────────────────
+// A checklist item cloned into a specific assessment, with
+// compliance status tracked per audit round.
+model AuditChecklistItem {
+  id               String                  @id @default(cuid())
+  checklistItemId  String                  // e.g. "7.14" (same as template item)
+  checklistText    String
+  auditStandard    String
+  complianceStatus ComplianceStatus        @default(NotTested)
+  auditorNotes     String?
+  testedDate       DateTime?
+  testedBy         String?
+  evidenceMethod   String?                 // D | I | S | W | G
+  sortOrder        Int                     @default(0)
+  assessmentId     String
+  templateItemId   String                  // Source template item
+  templateId       String?                 // Source template (denormalized for query)
+
+  assessment       Assessment              @relation(fields: [assessmentId], references: [id], onDelete: Cascade)
+  templateItem     AuditChecklistTemplateItem @relation(fields: [templateItemId], references: [id])
+  template         AuditChecklistTemplate?   @relation("TemplateToAdoptedItems", fields: [templateId], references: [id])
+
+  @@unique([checklistItemId, assessmentId])
+  @@index([assessmentId])
+  @@index([templateItemId])
+}
+
+// ── Enum: ComplianceStatus ─────────────────────────────────────
+enum ComplianceStatus {
+  NotTested
+  Compliant
+  NonCompliant
+  NotApplicable
+  Observation
 }
