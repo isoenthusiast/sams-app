@@ -337,6 +337,22 @@ export default function AssessmentClient({ assessment, allControls, processAreas
     }
   };
 
+  // T5.1/T5.4: Open finding modal pre-linked to a checklist item
+  const openFindingForChecklistItem = (checklistItemId: string, itemText: string) => {
+    setFindingForm({
+      description: `[${checklistItemId}] ${itemText.substring(0, 60)}`,
+      severity: "Low",
+      risks: "",
+      details: "",
+      repeat: false,
+      controlIds: new Set<string>(),
+      sampleId: "",
+      checklistItemId: checklistItemId,
+    });
+    setActiveTab("findings");
+    setShowAddFinding(true);
+  };
+
   return (
     <div className="mx-auto max-w-6xl px-4 py-6">
       <Link href="/fla" className="text-sm text-blue-600 hover:underline">← Dashboard</Link>
@@ -1142,7 +1158,7 @@ export default function AssessmentClient({ assessment, allControls, processAreas
             }}
           />
           <hr className="border-slate-200" />
-          <AssessmentChecklistTab assessmentId={assessment.id} />
+          <AssessmentChecklistTab assessmentId={assessment.id} onAddFinding={openFindingForChecklistItem} />
         </div>
       )}
 

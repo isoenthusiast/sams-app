@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { StatusBadge } from "@/components/StatusBadge";
 import { AttachmentList } from "@/components/AttachmentList";
+import { VoiceInput } from "@/components/VoiceInput";
 
 interface ChecklistItem {
   id: string;
@@ -33,10 +34,18 @@ const STATUS_OPTIONS = [
   { value: "Observation", label: "Observation", color: "bg-amber-100 text-amber-800" },
 ];
 
-export function AssessmentChecklistTab({ assessmentId }: { assessmentId: string }) {
+export function AssessmentChecklistTab({
+  assessmentId,
+  onAddFinding,
+}: {
+  assessmentId: string;
+  onAddFinding?: (checklistItemId: string, itemText: string) => void;
+}) {
   const [items, setItems] = useState<ChecklistItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState<string | null>(null);
+  const [editingNotes, setEditingNotes] = useState<string | null>(null);
+  const [notesDraft, setNotesDraft] = useState("");
 
   useEffect(() => {
     fetch(`/api/admin/assessments/${assessmentId}/checklist`)
@@ -48,7 +57,7 @@ export function AssessmentChecklistTab({ assessmentId }: { assessmentId: string 
       .catch(() => setLoading(false));
   }, [assessmentId]);
 
-  const updateStatus = async (itemId: string, status: string) => {
+  const updateStatus = async (itemId: string, status: string, itemText?: string) => {
     setSaving(itemId);
     await fetch(`/api/admin/assessments/${assessmentId}/checklist/${itemId}`, {
       method: "PATCH",
@@ -59,6 +68,33 @@ export function AssessmentChecklistTab({ assessmentId }: { assessmentId: string 
       prev.map((i) => (i.id === itemId ? { ...i, complianceStatus: status } : i))
     );
     setSaving(null);
+
+    // T5.4: Auto-prompt finding when status set to NonCompliant
+    if (status === "NonCompliant" && onAddFinding) {
+      const item = items.find((i) => i.id === itemId);
+      if (item) {
+        setTimeout(() => onAddFinding(item.id, item.checklistText), 300);
+      }
+    }
+  };
+
+  const saveNotes = async (itemId: string) => {
+    setSaving(itemId);
+    await fetch(`/api/admin/assessments/${assessmentId}/checklist/${itemId}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ auditorNotes: notesDraft }),
+    });
+    setItems((prev) =>
+      prev.map((i) => (i.id === itemId ? { ...i, auditorNotes: notesDraft } : i))
+    );
+    setEditingNotes(null);
+    setSaving(null);
+  };
+
+  const startEditNotes = (item: ChecklistItem) => {
+    setEditingNotes(item.id);
+    setNotesDraft(item.auditorNotes ?? "");
   };
 
   if (loading) return <p className="text-sm text-slate-400 py-4">Loading checklist…</p>;
@@ -114,18 +150,63 @@ export function AssessmentChecklistTab({ assessmentId }: { assessmentId: string 
                           )}
                         </div>
                       )}
-                      {item.auditorNotes && (
-                        <p className="text-xs text-slate-500 mt-1 italic">📝 {item.auditorNotes}</p>
+                      {item.auditorNotes && editingNotes !== item.id && (
+                        <p className="text-xs text-slate-500 mt-1 italic">
+                          📝 {item.auditorNotes}
+                          <button onClick={() => startEditNotes(item)} className="ml-1 text-blue-500 hover:text-blue-700 text-[10px]">✏️</button>
+                        </p>
+                      )}
+                      {/* T5.2: Inline notes editor with voice input */}
+                      {editingNotes === item.id && (
+                        <div className="mt-2 space-y-1">
+                          <div className="flex items-start gap-2">
+                            <textarea
+                              value={notesDraft}
+                              onChange={(e) => setNotesDraft(e.target.value)}
+                              className="flex-1 rounded border border-slate-300 px-2 py-1 text-xs"
+                              rows={2}
+                              placeholder="Auditor notes..."
+                              autoFocus
+                            />
+                            <VoiceInput onResult={(t: string) => setNotesDraft((prev) => prev + " " + t)} />
+                          </div>
+                          <div className="flex gap-1">
+                            <button onClick={() => saveNotes(item.id)}
+                              className="rounded bg-emerald-600 px-2 py-0.5 text-[10px] font-medium text-white hover:bg-emerald-700">
+                              Save
+                            </button>
+                            <button onClick={() => setEditingNotes(null)}
+                              className="rounded border border-slate-300 px-2 py-0.5 text-[10px] text-slate-500 hover:bg-slate-100">
+                              Cancel
+                            </button>
+                          </div>
+                        </div>
+                      )}
+                      {!item.auditorNotes && editingNotes !== item.id && (
+                        <button onClick={() => startEditNotes(item)}
+                          className="text-[10px] text-slate-400 hover:text-blue-500 mt-1">
+                          ＋ Add notes
+                        </button>
                       )}
                       {/* T2.2: Evidence attachments per checklist item */}
                       <div className="mt-2 border-t border-slate-100 pt-2">
                         <AttachmentList destTable="AuditChecklistItem" recId={item.id} />
                       </div>
                     </div>
-                    <div className="shrink-0">
+                    <div className="shrink-0 flex items-center gap-1">
+                      {/* T5.1: Quick-add finding from checklist item */}
+                      {onAddFinding && (
+                        <button
+                          onClick={() => onAddFinding(item.id, item.checklistText)}
+                          className="text-[10px] text-blue-500 hover:text-blue-700 font-medium px-1"
+                          title="Create finding from this checklist item"
+                        >
+                          ＋ Finding
+                        </button>
+                      )}
                       <select
                         value={item.complianceStatus}
-                        onChange={(e) => updateStatus(item.id, e.target.value)}
+                        onChange={(e) => updateStatus(item.id, e.target.value, item.checklistText)}
                         disabled={saving === item.id}
                         className={`text-xs rounded px-2 py-1 border ${st.color}`}
                       >

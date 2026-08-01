@@ -132,6 +132,43 @@ export async function POST(request: Request) {
       }
     }
 
+    // T5.3: Auto-adopt all checklist templates for this company
+    try {
+      const templates = await prisma.auditChecklistTemplate.findMany({
+        where: companyId ? { companyId } : {},
+        include: { items: true },
+      });
+      if (templates.length > 0) {
+        const allItems = templates.flatMap((t) => t.items);
+        if (allItems.length > 0) {
+          const values: string[] = [];
+          const params: any[] = [];
+          allItems.forEach((item, i) => {
+            const base = i * 8;
+            values.push(`($${base + 1}, $${base + 2}, $${base + 3}, $${base + 4}, $${base + 5}, $${base + 6}, $${base + 7}, $${base + 8})`);
+            params.push(
+              `ci_${Date.now()}_${i}`,
+              item.checklistItemId,
+              item.checklistText,
+              item.auditStandard,
+              "NotTested",
+              item.sortOrder,
+              assessmentId,
+              item.id,
+            );
+          });
+          await prisma.$executeRawUnsafe(
+            `INSERT INTO "AuditChecklistItem" (id, "checklistItemId", "checklistText", "auditStandard", "complianceStatus", "sortOrder", "assessmentId", "templateItemId")
+             VALUES ${values.join(", ")}
+             ON CONFLICT ("checklistItemId", "assessmentId") DO NOTHING`,
+            ...params
+          );
+        }
+      }
+    } catch (e) {
+      console.warn("Auto-adopt checklist templates failed (non-fatal):", e);
+    }
+
     // Log activity
     await logActivity({
       userId,
