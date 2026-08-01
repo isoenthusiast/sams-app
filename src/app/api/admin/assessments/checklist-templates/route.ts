@@ -4,7 +4,7 @@ import { auth } from "@/auth";
 import { getSelectedCompanyId } from "@/lib/authz";
 
 // GET /api/admin/assessments/checklist-templates
-// Returns all available checklist templates for the current company.
+// Returns available checklist templates: company-specific + SAMS001 shared.
 export async function GET() {
   const session = await auth();
   if (!session?.user) {
@@ -13,8 +13,14 @@ export async function GET() {
 
   const companyId = await getSelectedCompanyId();
 
+  // Resolve SAMS001 master company ID for shared templates
+  const samsCompany = await prisma.company.findFirst({ where: { companyID: "SAMS001" }, select: { id: true } });
+  const samsId = samsCompany?.id;
+
   const templates = await prisma.auditChecklistTemplate.findMany({
-    where: companyId ? { companyId } : {},
+    where: companyId
+      ? { OR: [{ companyId }, ...(samsId && companyId !== samsId ? [{ companyId: samsId }] : [])] }
+      : {},
     include: { _count: { select: { items: true } } },
     orderBy: { name: "asc" },
   });

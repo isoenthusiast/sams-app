@@ -132,10 +132,15 @@ export async function POST(request: Request) {
       }
     }
 
-    // T5.3: Auto-adopt all checklist templates for this company
+    // T5.3: Auto-adopt all checklist templates (company-specific + SAMS001 shared)
     try {
+      const samsCompany = await prisma.company.findFirst({ where: { companyID: "SAMS001" }, select: { id: true } });
+      const samsId = samsCompany?.id;
+
       const templates = await prisma.auditChecklistTemplate.findMany({
-        where: companyId ? { companyId } : {},
+        where: companyId
+          ? { OR: [{ companyId }, ...(samsId && companyId !== samsId ? [{ companyId: samsId }] : [])] }
+          : {},
         include: { items: true },
       });
       if (templates.length > 0) {
