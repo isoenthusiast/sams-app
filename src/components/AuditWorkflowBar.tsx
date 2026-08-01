@@ -3,23 +3,29 @@
 interface Props {
   hasChecklist: boolean;
   hasAssignments: boolean;
+  hasSamples: boolean;
   hasCompliance: boolean;
   hasFindings: boolean;
+  hasReport: boolean;
 }
 
 const steps = [
   { key: "checklist", label: "Adopt Checklist", icon: "📋" },
   { key: "controls", label: "Assign Controls", icon: "⚙️" },
+  { key: "samples", label: "Sample Selection", icon: "🧪" },
   { key: "execute", label: "Execute Checklist", icon: "✅" },
   { key: "findings", label: "Record Findings", icon: "🔍" },
+  { key: "report", label: "Update Report", icon: "📄" },
 ];
 
-export function AuditWorkflowBar({ hasChecklist, hasAssignments, hasCompliance, hasFindings }: Props) {
+export function AuditWorkflowBar({ hasChecklist, hasAssignments, hasSamples, hasCompliance, hasFindings, hasReport }: Props) {
   const status = {
     checklist: hasChecklist,
     controls: hasAssignments,
+    samples: hasSamples,
     execute: hasCompliance,
     findings: hasFindings,
+    report: hasReport,
   };
 
   return (

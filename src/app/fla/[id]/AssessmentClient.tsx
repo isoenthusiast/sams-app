@@ -379,8 +379,10 @@ export default function AssessmentClient({ assessment, allControls, processAreas
       <AuditWorkflowBar
         hasChecklist={(assessment as any).checklistItems?.length > 0}
         hasAssignments={assessment.controlAssignments?.length > 0}
+        hasSamples={assessment.samples?.length > 0}
         hasCompliance={(assessment as any).checklistItems?.some((ci: any) => ci.complianceStatus !== "NotTested")}
         hasFindings={assessment.findings?.length > 0}
+        hasReport={assessment.status === "Completed"}
       />
 
       {/* ─── TAB 1: Overview ─── */}
