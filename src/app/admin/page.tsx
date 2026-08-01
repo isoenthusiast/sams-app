@@ -21,7 +21,6 @@ import { TemplatesManagementView } from "./TemplatesManagementView";
 import { GamificationManagementView } from "./GamificationManagementView";
 import { KnowledgebaseManagementView } from "./KnowledgebaseManagementView";
 import { SysAdminManagementView } from "./SysAdminManagementView";
-import { AuditChecklistTemplateAdminView } from "@/components/AuditChecklistTemplateAdminView";
 import { TemplateActivityTypesView } from "./TemplateActivityTypesView";
 import { HealthResetButton } from "./HealthResetButton";
 import { ManagerAssignmentView } from "./ManagerAssignmentView";
@@ -314,7 +313,6 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
               <Link href="/admin?view=sysadmin"><Button variant="secondary" size="sm">Users</Button></Link>
               <Link href="/admin?view=templates"><Button variant="secondary" size="sm">Templates</Button></Link>
               <Link href="/admin?view=sysadmin"><Button variant="secondary" size="sm">SysAdmin</Button></Link>
-              <Link href="/admin?view=audit-checklist-templates"><Button variant="secondary" size="sm">📋 Audit Checklists</Button></Link>
             </div>
           </Card>
           <Card title="📊 System Status" padding="sm">
@@ -378,30 +376,16 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
 
       {/* ── Templates ── */}
       {view === "templates" && (
-        <div className="mt-6 space-y-8">
-          <TemplatesManagementView
-            templates={JSON.parse(JSON.stringify(templates))}
-            activityTypes={JSON.parse(JSON.stringify(activityTypes))}
-            allControls={JSON.parse(JSON.stringify(allControlsForTemplates))}
-            allStandards={JSON.parse(JSON.stringify(allStandardsForTemplates))}
-            allProcessAreas={JSON.parse(JSON.stringify(allPAsForTemplates))}
-            companies={JSON.parse(JSON.stringify(companies))}
-            selectedCompanyId={companyId ?? ""}
-            isAdmin={true}
-          />
-          <hr className="border-slate-200" />
-          <div>
-            <h2 className="text-lg font-semibold text-slate-800 mb-3">📋 Audit Checklist Templates</h2>
-            <AuditChecklistTemplateAdminView />
-          </div>
-        </div>
-      )}
-
-      {/* ── Audit Checklist Templates ── */}
-      {view === "audit-checklist-templates" && (
-        <div className="mt-6">
-          <AuditChecklistTemplateAdminView />
-        </div>
+        <TemplatesManagementView
+          templates={JSON.parse(JSON.stringify(templates))}
+          activityTypes={JSON.parse(JSON.stringify(activityTypes))}
+          allControls={JSON.parse(JSON.stringify(allControlsForTemplates))}
+          allStandards={JSON.parse(JSON.stringify(allStandardsForTemplates))}
+          allProcessAreas={JSON.parse(JSON.stringify(allPAsForTemplates))}
+          companies={JSON.parse(JSON.stringify(companies))}
+          selectedCompanyId={companyId ?? ""}
+          isAdmin={true}
+        />
       )}
 
       {/* ── Knowledgebase ── */}

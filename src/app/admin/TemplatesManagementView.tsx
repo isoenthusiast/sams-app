@@ -2,6 +2,7 @@
 
 import { useState, useMemo } from "react";
 import { TemplateActivityTypesView } from "./TemplateActivityTypesView";
+import { AuditChecklistTemplateAdminView } from "@/components/AuditChecklistTemplateAdminView";
 import { Modal } from "@/components/Modal";
 import { Button } from "@/components/Button";
 import { showToast } from "@/components/Toast";
@@ -9,6 +10,7 @@ import { showToast } from "@/components/Toast";
 const MENU_ITEMS = [
   { key: "assessment", label: "📋 Assessment Templates" },
   { key: "activities", label: "🔗 Activities Templates" },
+  { key: "checklist", label: "📋 Audit Checklist Templates" },
 ] as const;
 
 type Control = {
@@ -255,6 +257,9 @@ export function TemplatesManagementView({
         )}
         {activeTab === "activities" && (
           <TemplateActivityTypesView templates={templates} activityTypes={activityTypes} />
+        )}
+        {activeTab === "checklist" && (
+          <AuditChecklistTemplateAdminView />
         )}
       </div>
 
