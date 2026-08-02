@@ -2,7 +2,7 @@
 
 > **📐 Active alongside `CONAN_Design Philosophy.md` and `CONAN_App Design.md`.** CONAN docs are the narrative source of truth; this document is the technical specification (models, routes, components, APIs). Both are maintained.
 
-**Last Updated:** August 2, 2026 (v1.10.7)
+**Last Updated:** August 2, 2026 (v1.10.8 — deploying)
 
 ---
 
