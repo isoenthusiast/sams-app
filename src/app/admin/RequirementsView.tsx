@@ -23,7 +23,31 @@ export function RequirementsView({ requirements, standards }: Props) {
   const [editForm, setEditForm] = useState<{ requirementId: string; clauseContent: string }>({ requirementId: "", clauseContent: "" });
   const [saving, setSaving] = useState(false);
   const [msg, setMsg] = useState<{ type: "ok" | "err"; text: string } | null>(null);
-  const [data, setData] = useState(requirements);
+  const [data, setData] = useState(() => {
+    // Numeric clause sort — handles EMS-6.1.2, QMS-7.1.5, PMS-5.1.a, "11.2.1.1 - 11.2.1.2", "6.1 & 6.2"
+    const parseClause = (id: string) => {
+      // Strip prefix like "EMS-", "QMS-", "OHSMS-", "PMS-"
+      let num = id.replace(/^[A-Za-z]+-/, "");
+      // Take only the first clause part (before " & ", " - ", or space)
+      num = num.split(/[&\- ]/)[0].trim();
+      // Parse segments: split by ".", convert to numbers where possible
+      return num.split(".").map(s => { const n = Number(s); return isNaN(n) ? s : n; });
+    };
+    const cmp = (a: any, b: any): number => {
+      if (typeof a === "number" && typeof b === "number") return a - b;
+      if (typeof a === "number") return -1;
+      if (typeof b === "number") return 1;
+      return String(a).localeCompare(String(b));
+    };
+    return [...requirements].sort((a, b) => {
+      const va = parseClause(a.requirementId), vb = parseClause(b.requirementId);
+      for (let i = 0; i < Math.max(va.length, vb.length); i++) {
+        const r = cmp(va[i] ?? 0, vb[i] ?? 0);
+        if (r !== 0) return r;
+      }
+      return 0;
+    });
+  });
 
   // ── Control mapping modal state ──
   const [mappingTarget, setMappingTarget] = useState<{ rId: number; requirementId: string } | null>(null);

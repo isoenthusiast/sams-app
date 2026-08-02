@@ -142,7 +142,26 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
         processAreaName: r.processArea?.name ?? "Unknown",
         processAreaId: r.processArea?.id ?? "",
         controls: r.controlMappings.map((c) => ({ mappingId: c.id, id: c.control.id, name: c.control.name, controlType: c.control.controlType })),
-      }))
+      })).sort((a, b) => {
+        // Numeric clause sort: handles EMS-6.1.2, PMS-5.1.a, "11.2.1.1 - 11.2.1.2", "6.1 & 6.2"
+        const parseClause = (id: string) => {
+          let num = id.replace(/^[A-Za-z]+-/, "");
+          num = num.split(/[&\- ]/)[0].trim();
+          return num.split(".").map(s => { const n = Number(s); return isNaN(n) ? s : n; });
+        };
+        const cmp = (x: any, y: any): number => {
+          if (typeof x === "number" && typeof y === "number") return x - y;
+          if (typeof x === "number") return -1;
+          if (typeof y === "number") return 1;
+          return String(x).localeCompare(String(y));
+        };
+        const va = parseClause(a.requirementId), vb = parseClause(b.requirementId);
+        for (let i = 0; i < Math.max(va.length, vb.length); i++) {
+          const r = cmp(va[i] ?? 0, vb[i] ?? 0);
+          if (r !== 0) return r;
+        }
+        return 0;
+      })
     : [];
 
   // Standards list (company-filtered for standards management + knowledgebase)
