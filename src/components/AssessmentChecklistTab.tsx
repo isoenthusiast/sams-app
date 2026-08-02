@@ -5,114 +5,144 @@ import { StatusBadge } from "@/components/StatusBadge";
 import { AttachmentList } from "@/components/AttachmentList";
 import { VoiceInput } from "@/components/VoiceInput";
 
-// ── Linked Controls Sub-Component (v1.10.1) ──────────────────────
-function LinkedControlsSection({
-  assessmentId, itemId, onAddFinding, item,
+// ── Control Mapping Modal (v1.10.9) ──────────────────────────────
+function ControlMappingModal({
+  assessmentId, itemId, itemText, onClose,
 }: {
   assessmentId: string;
   itemId: string;
-  onAddFinding?: (checklistItemId: string, itemText: string) => void;
-  item: any;
+  itemText: string;
+  onClose: () => void;
 }) {
   interface ScoredControl {
-    controlId: string;
-    controlName: string;
-    controlStatement: string;
-    controlType: string;
-    processArea: string;
-    score: number;
-    isLinked: boolean;
-    junctionId: string | null;
+    controlId: string; controlName: string; controlStatement: string;
+    controlType: string; processArea: string; score: number;
+    isLinked: boolean; junctionId: string | null;
   }
 
   const [controls, setControls] = useState<ScoredControl[] | null>(null);
-  const [showAll, setShowAll] = useState(false);
+  const [search, setSearch] = useState("");
+  const [filterType, setFilterType] = useState("");
 
   useEffect(() => {
     fetch(`/api/admin/assessments/${assessmentId}/checklist-controls?itemId=${itemId}`)
-      .then((r) => r.json())
-      .then((d) => setControls(d.controls ?? []))
-      .catch(() => setControls([]));
+      .then(r => r.json()).then(d => setControls(d.controls ?? [])).catch(() => setControls([]));
   }, [assessmentId, itemId]);
-
-  if (!controls) return null; // loading
-
-  const linked = controls.filter((c) => c.isLinked);
-  const suggested = controls.filter((c) => !c.isLinked && c.score > 0);
-
-  if (controls.length === 0) return null; // no assigned controls
 
   const handleLink = async (controlId: string) => {
     await fetch(`/api/admin/assessments/${assessmentId}/checklist-controls`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
+      method: "POST", headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ checklistItemId: itemId, controlId }),
     });
-    // Refresh
     const r = await fetch(`/api/admin/assessments/${assessmentId}/checklist-controls?itemId=${itemId}`);
-    const d = await r.json();
-    setControls(d.controls ?? []);
+    const d = await r.json(); setControls(d.controls ?? []);
   };
 
   const handleUnlink = async (junctionId: string) => {
-    // We need the junction ID — find it from the linked list
     await fetch(`/api/admin/assessments/${assessmentId}/checklist-controls/${junctionId}`, { method: "DELETE" });
     const r = await fetch(`/api/admin/assessments/${assessmentId}/checklist-controls?itemId=${itemId}`);
-    const d = await r.json();
-    setControls(d.controls ?? []);
+    const d = await r.json(); setControls(d.controls ?? []);
   };
 
-  const displaySuggested = showAll ? suggested : suggested.slice(0, 5);
+  if (!controls) return null;
+
+  const linked = controls.filter(c => c.isLinked);
+  const suggested = controls.filter(c => !c.isLinked && c.score > 0);
+  const filtered = suggested.filter(c => {
+    const s = search.toLowerCase();
+    const matchSearch = !s || c.controlName.toLowerCase().includes(s) || c.controlStatement.toLowerCase().includes(s) || c.processArea.toLowerCase().includes(s);
+    const matchType = !filterType || c.controlType === filterType;
+    return matchSearch && matchType;
+  });
+
+  const controlTypes = [...new Set(controls.map(c => c.controlType))].sort();
 
   return (
-    <div className="mt-2 pt-2 border-t border-slate-100">
-      <p className="text-[10px] font-medium text-slate-400 mb-1">🔗 Linked Controls</p>
-      {/* Linked controls */}
-      {linked.map((c) => (
-        <div key={c.controlId} className="flex items-center gap-1 text-[10px] text-slate-600 ml-1">
-          <span className="text-emerald-500">✓</span>
-          <span className="font-medium truncate max-w-[200px]" title={c.controlStatement}>
-            {c.controlName}
-          </span>
-          <span className="text-slate-400">({c.score}%)</span>
-          {c.junctionId && (
-            <button
-              onClick={() => handleUnlink(c.junctionId!)}
-              className="text-red-400 hover:text-red-600 ml-1"
-              title="Unlink"
-            >
-              ×
-            </button>
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40" onClick={onClose}>
+      <div className="bg-white rounded-lg shadow-xl w-full max-w-2xl mx-4 max-h-[85vh] flex flex-col" onClick={e => e.stopPropagation()}>
+        {/* Header */}
+        <div className="px-6 py-4 border-b border-slate-200 flex items-center justify-between shrink-0">
+          <div>
+            <h3 className="text-sm font-semibold text-slate-800">🔗 Map Controls</h3>
+            <p className="text-xs text-slate-500 mt-0.5 truncate max-w-lg">{itemText}</p>
+          </div>
+          <button onClick={onClose} className="text-slate-400 hover:text-slate-600 text-lg leading-none">&times;</button>
+        </div>
+
+        {/* Linked Controls */}
+        {linked.length > 0 && (
+          <div className="px-6 py-3 border-b border-slate-100 shrink-0">
+            <p className="text-xs font-medium text-slate-500 mb-2">✓ Linked Controls ({linked.length})</p>
+            <div className="space-y-1">
+              {linked.map(c => (
+                <div key={c.controlId} className="flex items-center justify-between text-xs bg-emerald-50 rounded px-2 py-1">
+                  <div className="flex items-center gap-2 min-w-0">
+                    <span className="text-emerald-600 shrink-0">✓</span>
+                    <span className="font-medium text-slate-700 truncate">{c.controlName}</span>
+                    <span className="text-slate-400 shrink-0">({c.score}%)</span>
+                    <span className="text-slate-300 text-[10px] truncate hidden sm:inline">{c.processArea}</span>
+                  </div>
+                  <button onClick={() => handleUnlink(c.junctionId!)} className="text-red-400 hover:text-red-600 shrink-0 ml-2">&times;</button>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Available Controls */}
+        <div className="px-6 py-3 flex-1 overflow-y-auto">
+          <p className="text-xs font-medium text-slate-500 mb-2">
+            Available Controls ({filtered.length})
+          </p>
+
+          {/* Search & Filter */}
+          <div className="flex gap-2 mb-3">
+            <input
+              type="text" value={search} onChange={e => setSearch(e.target.value)}
+              placeholder="Search controls or process areas..."
+              className="flex-1 rounded border border-slate-300 px-2 py-1.5 text-xs"
+            />
+            <select value={filterType} onChange={e => setFilterType(e.target.value)}
+              className="rounded border border-slate-300 px-2 py-1.5 text-xs">
+              <option value="">All Types</option>
+              {controlTypes.map(t => <option key={t} value={t}>{t}</option>)}
+            </select>
+          </div>
+
+          {filtered.length === 0 ? (
+            <p className="text-xs text-slate-400 py-4 text-center">
+              {search ? "No controls match your search." : "No controls available for this checklist item."}
+            </p>
+          ) : (
+            <div className="space-y-1">
+              {filtered.map(c => (
+                <button
+                  key={c.controlId}
+                  onClick={() => handleLink(c.controlId)}
+                  className="w-full text-left flex items-center gap-2 text-xs rounded px-2 py-1.5 hover:bg-blue-50 transition-colors group"
+                >
+                  <span className="text-blue-400 group-hover:text-blue-600 shrink-0">＋</span>
+                  <span className="font-medium text-slate-700 truncate">{c.controlName}</span>
+                  <span className="text-slate-400 shrink-0">({c.score}%)</span>
+                  <span className="text-slate-300 text-[10px] truncate hidden sm:inline">{c.processArea}</span>
+                  <span className="text-slate-300 text-[10px] shrink-0 ml-auto">{c.controlType}</span>
+                </button>
+              ))}
+            </div>
           )}
         </div>
-      ))}
-      {/* Suggested controls */}
-      {displaySuggested.map((c) => (
-        <button
-          key={c.controlId}
-          onClick={() => handleLink(c.controlId)}
-          className="flex items-center gap-1 text-[10px] text-blue-500 hover:text-blue-700 ml-1 w-full text-left"
-          title={c.controlStatement}
-        >
-          <span>＋</span>
-          <span className="truncate max-w-[200px]">{c.controlName}</span>
-          <span className="text-slate-400">({c.score}%)</span>
-        </button>
-      ))}
-      {/* Show more */}
-      {!showAll && suggested.length > 5 && (
-        <button onClick={() => setShowAll(true)} className="text-[10px] text-blue-400 hover:text-blue-600 ml-1 mt-1">
-          ＋ {suggested.length - 5} more suggestions
-        </button>
-      )}
-      {showAll && suggested.length > 5 && (
-        <button onClick={() => setShowAll(false)} className="text-[10px] text-slate-400 hover:text-slate-600 ml-1 mt-1">
-          Show less
-        </button>
-      )}
-      {linked.length === 0 && suggested.length === 0 && (
-        <p className="text-[10px] text-slate-400 ml-1">No controls assigned to this assessment.</p>
-      )}
+
+        {/* Footer */}
+        <div className="px-6 py-3 border-t border-slate-200 shrink-0 flex justify-between items-center">
+          <span className="text-xs text-slate-400">
+            {linked.length} linked · {suggested.length} suggested
+          </span>
+          <button onClick={onClose}
+            className="rounded bg-slate-900 px-4 py-1.5 text-xs font-medium text-white hover:bg-slate-800">
+            Done
+          </button>
+        </div>
+      </div>
     </div>
   );
 }
@@ -128,6 +158,10 @@ interface ChecklistItem {
   testedBy: string | null;
   evidenceMethod: string | null;
   sortOrder: number;
+  keyQuestions?: string | null;
+  whatGoodLooksLike?: string | null;
+  controlPoints?: string | null;
+  evidenceRequirements?: string | null;
   mappedControls: Array<{
     requirementId: string;
     requirementText: string;
@@ -158,6 +192,8 @@ export function AssessmentChecklistTab({
   const [saving, setSaving] = useState<string | null>(null);
   const [editingNotes, setEditingNotes] = useState<string | null>(null);
   const [notesDraft, setNotesDraft] = useState("");
+  const [expandedDetails, setExpandedDetails] = useState<Set<string>>(new Set());
+  const [mappingItemId, setMappingItemId] = useState<string | null>(null);
 
   useEffect(() => {
     fetch(`/api/admin/assessments/${assessmentId}/checklist`)
@@ -300,8 +336,56 @@ export function AssessmentChecklistTab({
                           ＋ Add notes
                         </button>
                       )}
-                      {/* v1.10.1: Linked Controls */}
-                      <LinkedControlsSection assessmentId={assessmentId} itemId={item.id} onAddFinding={onAddFinding} item={item} />
+                      {/* v1.10.9: Rich content — expandable details */}
+                      <button
+                        onClick={() => {
+                          setExpandedDetails(prev => {
+                            const next = new Set(prev);
+                            next.has(item.id) ? next.delete(item.id) : next.add(item.id);
+                            return next;
+                          });
+                        }}
+                        className="text-[10px] text-slate-400 hover:text-blue-500 mt-1"
+                      >
+                        {expandedDetails.has(item.id) ? "▲ Hide Details" : "📋 Show Details"}
+                      </button>
+                      {expandedDetails.has(item.id) && (
+                        <div className="mt-2 pl-2 border-l-2 border-blue-200 space-y-2">
+                          {item.keyQuestions && (
+                            <div>
+                              <p className="text-[10px] font-medium text-slate-500">🔍 Key Questions</p>
+                              <p className="text-xs text-slate-600">{item.keyQuestions}</p>
+                            </div>
+                          )}
+                          {item.whatGoodLooksLike && (
+                            <div>
+                              <p className="text-[10px] font-medium text-slate-500">✅ What Good Looks Like</p>
+                              <p className="text-xs text-slate-600">{item.whatGoodLooksLike}</p>
+                            </div>
+                          )}
+                          {item.controlPoints && (
+                            <div>
+                              <p className="text-[10px] font-medium text-slate-500">🎯 Control Points</p>
+                              <p className="text-xs text-slate-600">{item.controlPoints}</p>
+                            </div>
+                          )}
+                          {item.evidenceRequirements && (
+                            <div>
+                              <p className="text-[10px] font-medium text-slate-500">📎 Evidence Requirements</p>
+                              <p className="text-xs text-slate-600">{item.evidenceRequirements}</p>
+                            </div>
+                          )}
+                        </div>
+                      )}
+                      {/* v1.10.9: Map Controls modal trigger */}
+                      <button
+                        onClick={() => setMappingItemId(item.id)}
+                        className="text-[10px] text-purple-500 hover:text-purple-700 font-medium mt-1"
+                      >
+                        🔗 Map Controls
+                      </button>
+                      {/* v1.10.1: Linked Controls (compact inline display) */}
+                      <LinkedControlsSummary assessmentId={assessmentId} itemId={item.id} />
                       {/* T2.2: Evidence attachments per checklist item */}
                       <div className="mt-2 border-t border-slate-100 pt-2">
                         <AttachmentList destTable="AuditChecklistItem" recId={item.id} />
@@ -338,6 +422,38 @@ export function AssessmentChecklistTab({
           </div>
         </div>
       ))}
+      {/* v1.10.9: Control Mapping Modal */}
+      {mappingItemId && (() => {
+        const item = items.find(i => i.id === mappingItemId);
+        return (
+          <ControlMappingModal
+            assessmentId={assessmentId}
+            itemId={mappingItemId}
+            itemText={item?.checklistText ?? ""}
+            onClose={() => setMappingItemId(null)}
+          />
+        );
+      })()}
     </div>
+  );
+}
+
+// ── Compact Linked Controls Summary (v1.10.9) ────────────────────
+function LinkedControlsSummary({ assessmentId, itemId }: { assessmentId: string; itemId: string }) {
+  const [count, setCount] = useState<number | null>(null);
+
+  useEffect(() => {
+    fetch(`/api/admin/assessments/${assessmentId}/checklist-controls?itemId=${itemId}`)
+      .then(r => r.json())
+      .then(d => setCount((d.controls ?? []).filter((c: any) => c.isLinked).length))
+      .catch(() => setCount(0));
+  }, [assessmentId, itemId]);
+
+  if (count === null || count === 0) return null;
+
+  return (
+    <span className="text-[10px] text-purple-500 ml-1">
+      ({count} linked)
+    </span>
   );
 }
