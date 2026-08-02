@@ -443,15 +443,45 @@ python scripts/db/cleanup_test_data.py             # execute cleanup
 
 ## 23. Execution Log
 
+> **Run 1: 2026-08-02** — Partial execution (smoke pass). All changes made during testing were reverted; no test data left in DB.
+
 | Test | Result | Notes |
 |------|--------|-------|
-| A1 | | |
-| A2 | | |
-| ... | | (all IDs) |
+| A1 | ✅ | Unauthenticated `/` → `/login` |
+| A2 | ⚠️ | Admin login succeeds but lands on `/fla` (design says `/admin`). `src/app/page.tsx` always redirects to `/fla` regardless of role — minor deviation, not a blocker |
+| A4 | ✅ | Invalid login → "Invalid username or password.", stays on login, no crash |
+| A6 | ✅ | Navbar shows "Admin (Admin)" + Sign out |
+| C2 | ✅ | Company switch updates URL to `?companyId=comp_smds` |
+| C3 | ✅ | URL param survives reload; SMDS stays selected |
+| C4 | ✅ | Data rescopes on switch (Process Health counts 27→9, 48→16, etc.) |
+| D9 | ✅ | Empty state: "No assessments yet." + New button |
+| AD1 | ✅ | 5 admin tabs: Dashboard, Standards, Templates, Knowledgebase, SysAdmin |
+| AD2 | ✅ | Stats (58 tables, 550 users, 1,048 controls), quick actions, health reset, Kanban |
+| T1 | ✅ | 5 templates render: name, standard badge, 🌐 Global, item count, "📥 Copy to Local" |
+| T2 | ✅ | Filter toggles work (Global=5, Local empty state, All restores) |
+| T5 | ✅ | Delete template with confirm dialog ("Delete this template and all its items?") |
+| T9 | ✅ | Global templates read-only in SMDS (no ✏️/🗑, only 📥 Copy to Local) |
+| T10 | ✅ | "Copy to Local" cloned template as `[SMDS] ICOP PMS...` with all 52 items (test copy deleted after) |
+| T11 | ✅ | Local template shows ✏️/🗑 (editable) |
+| O1 | ✅ | 7 tabs render |
+| O2 | ✅ | Workflow bar: Adopt Checklist ✓, others ○ (correct for data state) |
+| O5 | ✅ | Assessment Details card (Activity Type, LOA, Lead Assessor, Status, dates) |
+| O7 | ✅ | TOR card fully populated (Objective, Scope, Sponsor, Methodology, Key Focus, Report date) |
+| X3 | ⚠️ | Assessment page takes ~40s to stream on cold start (heavy query). Loads eventually; flag for perf review |
+| CH1 | ✅ | Checklist tab loads, grouped by standard, no error |
+| CH2 | ✅ | Items show ID (IMS-001) + text |
+| CH3 | ✅ | Compliance status PATCH works (set Compliant → persisted; reverted to NotTested) |
+| CH4 | ✅ | Status colors render |
+| AC1 | ✅ | Activities tab: Kick Off, Document Review, Engagement visible |
+| R1 | ✅ | Report tab: TOR, compliance table, effectiveness, findings, AI |
+| R2 | ✅ | Compliance summary table correct (IMS 39: 0/0/0/0/39) |
+| R3 | ✅ | Control effectiveness counts (0/0/0) |
+| R5 | ✅ | Print button renders |
+| X2 | ✅ | No "Something went wrong" on any page visited |
 
-**SUMMARY: _/_ passed · _ failed · _ deferred**
+**RUN 1 SUMMARY: 26 passed · 2 minor (A2 redirect, X3 cold-start) · 0 failed**
 
-**Test data cleanup run after testing:** ☐ Yes (marker: TEST) · ☐ N/A
+**Test data cleanup run after testing:** ✅ N/A — no TEST-marked data created; all mutations reverted (assessment status, template delete)
 
 ---
 
@@ -459,8 +489,8 @@ python scripts/db/cleanup_test_data.py             # execute cleanup
 
 | Item | Command | Done |
 |------|---------|------|
-| Full DB backup | `python scripts/db/full_db_backup.py` (root repo) | ☐ |
-| Backup saved to | `02 Design and Backup/backup/full_backup_<ts>.sql` | ☐ |
+| Full DB backup | `python scripts/db/full_db_backup.py` (root repo) | ✅ |
+| Backup saved to | `dbBackup/full_backup_20260802_085549.sql` (57 tables, 95,870 rows, 66 MB) | ✅ |
 
 ---
 
