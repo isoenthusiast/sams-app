@@ -1,4 +1,5 @@
 import { requireAdmin } from "@/lib/authz";
+import { getSelectedCompanyId } from "@/lib/authz";
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 
@@ -22,6 +23,7 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
   const { id } = await params;
   const body = await request.json();
   const { checklistItemId, checklistText, sortOrder, keyQuestions, whatGoodLooksLike, controlPoints, evidenceRequirements } = body;
+  const companyId = await getSelectedCompanyId();
 
   if (!checklistItemId || !checklistText) {
     return NextResponse.json({ error: "checklistItemId and checklistText are required" }, { status: 400 });
@@ -31,7 +33,7 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
   if (!template) return NextResponse.json({ error: "Template not found" }, { status: 404 });
 
   // Guard: Global templates (SAMS001-owned) are read-only for non-SAMS001 companies
-  if (template.companyId === SAMS_CUID && session.user?.companyId !== SAMS_CUID) {
+  if (template.companyId === SAMS_CUID && companyId !== SAMS_CUID) {
     return NextResponse.json({ error: "Global templates are read-only. Use Copy to Local to add items." }, { status: 403 });
   }
 

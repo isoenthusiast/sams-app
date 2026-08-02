@@ -1,4 +1,5 @@
 import { requireAdmin } from "@/lib/authz";
+import { getSelectedCompanyId } from "@/lib/authz";
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 
@@ -18,12 +19,13 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
   const { id: templateId, itemId } = await params;
   const body = await request.json();
   const { checklistItemId, checklistText, sortOrder, keyQuestions, whatGoodLooksLike, controlPoints, evidenceRequirements } = body;
+  const companyId = await getSelectedCompanyId();
 
   const existing = await prisma.auditChecklistTemplateItem.findUnique({ where: { id: itemId } });
   if (!existing) return NextResponse.json({ error: "Item not found" }, { status: 404 });
 
   // Guard: Global template items are read-only for non-SAMS001
-  if (await isGlobalTemplate(templateId) && session.user?.companyId !== SAMS_CUID) {
+  if (await isGlobalTemplate(templateId) && companyId !== SAMS_CUID) {
     return NextResponse.json({ error: "Global template items are read-only. Use Copy to Local to customize." }, { status: 403 });
   }
 
@@ -49,12 +51,13 @@ export async function DELETE(_request: Request, { params }: { params: Promise<{ 
   if (response) return response;
 
   const { id: templateId, itemId } = await params;
+  const companyId = await getSelectedCompanyId();
 
   const existing = await prisma.auditChecklistTemplateItem.findUnique({ where: { id: itemId } });
   if (!existing) return NextResponse.json({ error: "Item not found" }, { status: 404 });
 
   // Guard: Global template items cannot be deleted by non-SAMS001
-  if (await isGlobalTemplate(templateId) && session.user?.companyId !== SAMS_CUID) {
+  if (await isGlobalTemplate(templateId) && companyId !== SAMS_CUID) {
     return NextResponse.json({ error: "Global template items cannot be deleted. Use Copy to Local to customize." }, { status: 403 });
   }
 
