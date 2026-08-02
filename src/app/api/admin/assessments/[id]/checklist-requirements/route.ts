@@ -53,7 +53,8 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
 }
 
 // DELETE /api/admin/assessments/[id]/checklist-requirements?mappingId=xxx
-// Removes a control-to-requirement link
+// OR   /api/admin/assessments/[id]/checklist-requirements?checklistItemId=X&requirementRId=Y
+// Removes a single control link, or all links for a requirement under a checklist item
 export async function DELETE(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const session = await auth();
   if (!session?.user) {
@@ -61,11 +62,22 @@ export async function DELETE(req: NextRequest, { params }: { params: Promise<{ i
   }
 
   const mappingId = req.nextUrl.searchParams.get("mappingId");
-  if (!mappingId) {
-    return NextResponse.json({ error: "mappingId query parameter is required" }, { status: 400 });
+  const checklistItemId = req.nextUrl.searchParams.get("checklistItemId");
+  const requirementRId = req.nextUrl.searchParams.get("requirementRId");
+
+  // Delete single control link
+  if (mappingId) {
+    await prisma.auditChecklist2Requirement.delete({ where: { id: mappingId } });
+    return NextResponse.json({ deleted: true });
   }
 
-  await prisma.auditChecklist2Requirement.delete({ where: { id: mappingId } });
+  // Delete all mappings for a requirement under a checklist item (Unmap)
+  if (checklistItemId && requirementRId) {
+    const result = await prisma.auditChecklist2Requirement.deleteMany({
+      where: { checklistItemId, requirementRId: parseInt(requirementRId) },
+    });
+    return NextResponse.json({ deleted: result.count });
+  }
 
-  return NextResponse.json({ deleted: true });
+  return NextResponse.json({ error: "mappingId OR (checklistItemId + requirementRId) is required" }, { status: 400 });
 }

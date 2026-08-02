@@ -54,7 +54,6 @@ export function AssessmentChecklistTab({
   const [saving, setSaving] = useState<string | null>(null);
   const [editingNotes, setEditingNotes] = useState<string | null>(null);
   const [notesDraft, setNotesDraft] = useState("");
-  const [expandedDetails, setExpandedDetails] = useState<Set<string>>(new Set());
   const [expandedMappings, setExpandedMappings] = useState<Set<string>>(new Set());
   // Control mapping state
   const [mappingTarget, setMappingTarget] = useState<{ itemId: string; requirementRId: number; requirementId: string; auditStandard: string } | null>(null);
@@ -112,6 +111,13 @@ export function AssessmentChecklistTab({
     setNotesDraft(item.auditorNotes ?? "");
   };
 
+  // Unlink a control from a requirement
+  const handleUnlinkControl = async (mappingId: string) => {
+    if (!confirm("Remove this control from the requirement?")) return;
+    await fetch(`/api/admin/assessments/${assessmentId}/checklist-requirements?mappingId=${mappingId}`, { method: "DELETE" });
+    reloadChecklist();
+  };
+
   if (loading) return <p className="text-sm text-slate-400 py-4">Loading checklist…</p>;
   if (items.length === 0)
     return (
@@ -167,10 +173,10 @@ export function AssessmentChecklistTab({
     reloadChecklist();
   };
 
-  // Unlink a control from a requirement
-  const handleUnlinkControl = async (mappingId: string) => {
-    if (!confirm("Remove this control from the requirement?")) return;
-    await fetch(`/api/admin/assessments/${assessmentId}/checklist-requirements?mappingId=${mappingId}`, { method: "DELETE" });
+  // Unmap a requirement from a checklist item
+  const handleUnmapRequirement = async (checklistItemId: string, requirementRId: number) => {
+    if (!confirm("Remove this requirement and all its linked controls from this checklist item?")) return;
+    await fetch(`/api/admin/assessments/${assessmentId}/checklist-requirements?checklistItemId=${checklistItemId}&requirementRId=${requirementRId}`, { method: "DELETE" });
     reloadChecklist();
   };
 
@@ -240,6 +246,11 @@ export function AssessmentChecklistTab({
                                   <span className="text-slate-400">—</span>
                                   <span className="text-slate-600 truncate">{clause.substring(0, 100)}</span>
                                   <span className="text-slate-300 ml-auto text-[10px]">{controls.filter(c => c.controlId).length} controls</span>
+                                    <button
+                                      onClick={(e) => { e.preventDefault(); e.stopPropagation(); handleUnmapRequirement(item.checklistItemId, requirementRId); }}
+                                      className="text-red-400 hover:text-red-600 text-[10px] ml-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                                      title="Unmap this requirement"
+                                    >Unmap</button>
                                 </summary>
                                 <div className="px-3 py-2 border-t border-slate-100">
                                   {controls.filter(c => c.controlId).length === 0 ? (
@@ -333,44 +344,20 @@ export function AssessmentChecklistTab({
                           ＋ Add notes
                         </button>
                       )}
-                      {/* v1.10.9: Rich content — expandable details */}
-                      <button
-                        onClick={() => {
-                          setExpandedDetails(prev => {
-                            const next = new Set(prev);
-                            next.has(item.id) ? next.delete(item.id) : next.add(item.id);
-                            return next;
-                          });
-                        }}
-                        className="text-[10px] text-slate-400 hover:text-blue-500 mt-1"
-                      >
-                        {expandedDetails.has(item.id) ? "▲ Hide Details" : "📋 Show Details"}
-                      </button>
-                      {expandedDetails.has(item.id) && (
-                        <div className="mt-2 pl-2 border-l-2 border-blue-200 space-y-2">
+                      {/* v1.10.12: Rich content shown directly */}
+                      {(item.keyQuestions || item.whatGoodLooksLike || item.controlPoints || item.evidenceRequirements) && (
+                        <div className="mt-2 space-y-1.5 text-xs text-slate-600">
                           {item.keyQuestions && (
-                            <div>
-                              <p className="text-[10px] font-medium text-slate-500">🔍 Key Questions</p>
-                              <p className="text-xs text-slate-600">{item.keyQuestions}</p>
-                            </div>
+                            <p><span className="font-medium text-slate-500">🔍 Key Questions:</span> {item.keyQuestions.substring(0, 200)}{item.keyQuestions.length > 200 ? "…" : ""}</p>
                           )}
                           {item.whatGoodLooksLike && (
-                            <div>
-                              <p className="text-[10px] font-medium text-slate-500">✅ What Good Looks Like</p>
-                              <p className="text-xs text-slate-600">{item.whatGoodLooksLike}</p>
-                            </div>
+                            <p><span className="font-medium text-slate-500">✅ What Good Looks Like:</span> {item.whatGoodLooksLike.substring(0, 200)}{item.whatGoodLooksLike.length > 200 ? "…" : ""}</p>
                           )}
                           {item.controlPoints && (
-                            <div>
-                              <p className="text-[10px] font-medium text-slate-500">🎯 Control Points</p>
-                              <p className="text-xs text-slate-600">{item.controlPoints}</p>
-                            </div>
+                            <p><span className="font-medium text-slate-500">🎯 Control Points:</span> {item.controlPoints.substring(0, 200)}{item.controlPoints.length > 200 ? "…" : ""}</p>
                           )}
                           {item.evidenceRequirements && (
-                            <div>
-                              <p className="text-[10px] font-medium text-slate-500">📎 Evidence Requirements</p>
-                              <p className="text-xs text-slate-600">{item.evidenceRequirements}</p>
-                            </div>
+                            <p><span className="font-medium text-slate-500">📎 Evidence Requirements:</span> {item.evidenceRequirements.substring(0, 200)}{item.evidenceRequirements.length > 200 ? "…" : ""}</p>
                           )}
                         </div>
                       )}
