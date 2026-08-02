@@ -26,6 +26,7 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
         Array<{
           requirementId: string;
           requirementText: string;
+          requirementClause: string;
           controlId: string;
           controlName: string;
           controlType: string;
@@ -34,7 +35,8 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
       >(
         `SELECT 
           r."requirementId",
-          LEFT(r."clauseContent", 200) as "requirementText",
+          LEFT(r."clauseContent", 300) as "requirementText",
+          r."clauseContent" as "requirementClause",
           c.id as "controlId",
           c.name as "controlName",
           c."controlType",
@@ -43,7 +45,8 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
         JOIN "Requirement" r ON acr."requirementRId" = r."rID"
         LEFT JOIN "Control" c ON acr."controlId" = c.id
         WHERE acr."checklistItemId" = $1 AND acr."auditStandard" = $2
-        LIMIT 10`,
+        ORDER BY r."requirementId", c.name
+        LIMIT 30`,
         item.checklistItemId,
         item.auditStandard
       );
@@ -63,7 +66,15 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
         controlPoints: item.controlPoints,
         evidenceRequirements: item.evidenceRequirements,
         sortOrder: item.sortOrder,
-        mappedControls: mappings,
+        mappedControls: mappings.map((m: any) => ({
+          requirementId: m.requirementId,
+          requirementText: m.requirementText,
+          requirementClause: m.requirementClause,
+          controlId: m.controlId,
+          controlName: m.controlName,
+          controlType: m.controlType,
+          sourceFile: m.sourceFile,
+        })),
       };
     })
   );
