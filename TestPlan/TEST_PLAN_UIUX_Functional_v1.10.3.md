@@ -405,7 +405,43 @@ Verify that **all UI features render and behave as designed** (per `SAMS_APP_DES
 
 ---
 
-## 22. Execution Log
+## 22. Test Data Convention & Cleanup
+
+> **Every record created during testing MUST include the marker `TEST`** in its name/title
+> (e.g., `TEST - Login Check Assessment`, `TEST - QMS Template`, `TEST - Finding A`).
+> This makes cleanup safe and complete.
+
+### Cleanup Procedure (run AFTER testing + results recorded)
+
+```powershell
+cd "C:\Users\edwar\Claude\Projects\Gamified Plant"
+python scripts/db/cleanup_test_data.py --dry-run   # preview what will be deleted
+python scripts/db/cleanup_test_data.py             # execute cleanup
+```
+
+### What the cleanup script removes (in dependency order)
+
+1. **Test assessments** (`name LIKE %TEST%`) + all children:
+   - Findings → their Actions → AttachmentMappings
+   - Samples, ControlAssignments, AssessmentAssessors, AssessmentChecklistControls
+   - AuditChecklistItems → AuditChecklist2Requirement junctions → AttachmentMappings
+   - Aacts → AActUsers, AActControls, AActDetails → AttachmentMappings
+   - The Assessment rows themselves
+2. **Test checklist templates** (`name LIKE %TEST%`) + their items
+3. **Test users** (name `[TEST]...`) + role/company/favorite mappings
+4. **Test companies** (companyName `[TEST]...`)
+5. **Test point transactions** (reason LIKE %TEST%)
+
+### Safety guarantees
+
+- ❌ **Never touches** master data: Control, Requirement, ProcessArea, Standard, MapControl2Requirement, ControlSubProcess
+- ❌ No blanket deletes — only rows matching the `TEST` marker
+- ✅ `--dry-run` preview available; run it first
+- ✅ Full DB backup taken BEFORE testing (see §23) for additional safety
+
+---
+
+## 23. Execution Log
 
 | Test | Result | Notes |
 |------|--------|-------|
@@ -415,9 +451,20 @@ Verify that **all UI features render and behave as designed** (per `SAMS_APP_DES
 
 **SUMMARY: _/_ passed · _ failed · _ deferred**
 
+**Test data cleanup run after testing:** ☐ Yes (marker: TEST) · ☐ N/A
+
 ---
 
-## 23. Test Accounts
+## 24. Pre-Test Backup
+
+| Item | Command | Done |
+|------|---------|------|
+| Full DB backup | `python scripts/db/full_db_backup.py` (root repo) | ☐ |
+| Backup saved to | `02 Design and Backup/backup/full_backup_<ts>.sql` | ☐ |
+
+---
+
+## 25. Test Accounts
 
 | Role | Username | Password | Notes |
 |------|----------|----------|-------|
