@@ -2,7 +2,7 @@
 
 > **📐 Active alongside `CONAN_Design Philosophy.md` and `CONAN_App Design.md`.** CONAN docs are the narrative source of truth; this document is the technical specification (models, routes, components, APIs). Both are maintained.
 
-**Last Updated:** August 2, 2026 (v1.10.3)
+**Last Updated:** August 2, 2026 (v1.10.6)
 
 ---
 
@@ -933,6 +933,9 @@ Local Dev (localhost:3100)
 | v1.10.1 | 2026-08-01 | **Control → Checklist Reconciliation.** `AssessmentChecklistControl` junction (checklistItemId → controlId → assessmentId). Keyword relevance engine scores assigned controls per checklist item. \"🔗 Linked Controls\" on each item row. Resolves 1.2M-row indirect trace. |
 | v1.10.2 | 2026-08-01 | **IMS Integrated Checklist Template.** 5th template "IMS INTERNAL AUDIT" — 39 items covering shared clauses across all 4 standards. Rich fields carry per-standard breakdown. Design principles #25, #26. |
 | v1.10.3 | 2026-08-02 | **Global/Local Template Governance.** `AuditChecklistTemplate` now supports multi-company management: SAMS001 templates flagged `isGlobal` (🌐), visible to all. Filter toggles: All / 🌐 Global / 🏢 Local. "📥 Copy to Local" clones global template + all items with `[COMPANY]` prefix. New API: POST /api/admin/audit-checklist-templates/[id]/adopt. Global templates read-only for non-SAMS001. Local templates fully editable. Design principle #27. |
+| v1.10.4 | 2026-08-02 | **IMS Requirement Mapping (K1).** Auto-mapped all 39 IMS checklist items to 100 requirement references across QMS (25), EMS (24), OHSMS (26), and PMS (25). Sub-items with specific `(QMS §x.x)` references parsed automatically. Integrated parent items (IMS-001–IMS-018) mapped via `INTEGRATED_MAP` dict to equivalent clauses across all 4 standards. Creates `AuditEvidence` placeholder record as junction group container. Zero unmapped items. Script: `scripts/db/fix_ims_mappings_v3.py`. |
+| v1.10.5 | 2026-08-02 | **UI/UX Test Run 2 — 84 cases passed.** Verified: Activities CRUD, Samples/Findings/Actions flow, Checklist compliance auto-save + notes/voice, Template management with 6-field editor, Dashboard Process Health, Controls assignment, Report tab with live compliance summary + TOR + AI analysis. **Design gap T8:** global templates editable on non-SAMS001 (should be read-only per v1.10.3). **Known issue:** `/api/gamification/stats` 500. |
+| v1.10.6 | 2026-08-02 | **P1+P2 Bug Fixes + Test Completion (109 cases).** P1: Global template read-only guard enforced at UI (🔒 labels, hidden +Add/✏️/×) and API (403 on PUT/DELETE for non-SAMS001). 4 files, 78 insertions. P2: Gamification stats BigInt serialization fixed — `SUM()::int` cast + `Number()` wrapper. API returns 200 with 8 tracks + 36 XP. Test coverage: 109/130+ cases passed across 4 batches. Backlog: 5 remaining items (assessment flow, admin audit, deploy, 2 pre-existing features). |
 
 ---
 
