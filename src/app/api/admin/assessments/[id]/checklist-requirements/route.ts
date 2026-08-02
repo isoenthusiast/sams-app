@@ -22,7 +22,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
   // Get the checklist item text and requirement info
   const [item, requirement, control] = await Promise.all([
     prisma.auditChecklistItem.findFirst({ where: { checklistItemId, assessmentId } }),
-    prisma.requirement.findUnique({ where: { rID: requirementRId } }),
+    prisma.requirement.findUnique({ where: { rId: requirementRId } }),
     prisma.control.findUnique({ where: { id: controlId } }),
   ]);
 
@@ -38,18 +38,26 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
     return NextResponse.json({ mapping: existing, alreadyExists: true });
   }
 
-  const mapping = await prisma.auditChecklist2Requirement.create({
-    data: {
-      checklistItemId,
-      checklistText: item.checklistText,
-      auditStandard,
-      requirementRId,
-      controlId,
-      mappedBy: (session.user as { name?: string }).name || "assessor",
-    },
-  });
+  // Create placeholder evidence record then insert mapping via raw SQL
+  const evidenceId = `ev_checklist_${Date.now()}_${controlId?.slice(-6) || "000000"}`;
+  await prisma.$executeRawUnsafe(
+    `INSERT INTO "AuditEvidence" (id, title, "evidenceType", "plannedDate", status, "createdAt")
+     VALUES ($1, $2, 'DocumentReview'::"EvidenceType", NOW(), 'Conducted'::"EvidenceStatus", NOW())
+     ON CONFLICT (id) DO NOTHING`,
+    evidenceId, `Mapping: ${item.checklistItemId} → ${requirement?.requirementId || requirementRId}`
+  );
 
-  return NextResponse.json({ mapping }, { status: 201 });
+  await prisma.$executeRawUnsafe(
+    `INSERT INTO "AuditChecklist2Requirement" (id, "checklistItemId", "checklistText", "auditStandard", "requirementRId", "controlId", "evidenceGroupId", "mappedBy", "mappedAt")
+     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, NOW())
+     ON CONFLICT DO NOTHING`,
+    `acr_${Date.now()}_${controlId?.slice(-6) || "000000"}`,
+    checklistItemId, item.checklistText, auditStandard,
+    requirementRId, controlId, evidenceId,
+    (session.user as { name?: string }).name || "assessor"
+  );
+
+  return NextResponse.json({ success: true, evidenceId }, { status: 201 });
 }
 
 // DELETE /api/admin/assessments/[id]/checklist-requirements?mappingId=xxx

@@ -247,7 +247,7 @@ export function AssessmentChecklistTab({
                                   <span className="text-slate-600 truncate">{clause.substring(0, 100)}</span>
                                   <span className="text-slate-300 ml-auto text-[10px]">{controls.filter(c => c.controlId).length} controls</span>
                                     <button
-                                      onClick={(e) => { e.preventDefault(); e.stopPropagation(); handleUnmapRequirement(item.checklistItemId, requirementRId); }}
+                                      onClick={(e) => { e.preventDefault(); e.stopPropagation(); const rid = controls[0]?.requirementRId; if (rid) handleUnmapRequirement(item.checklistItemId, rid); }}
                                       className="text-red-400 hover:text-red-600 text-[10px] ml-1 opacity-0 group-hover:opacity-100 transition-opacity"
                                       title="Unmap this requirement"
                                     >Unmap</button>
