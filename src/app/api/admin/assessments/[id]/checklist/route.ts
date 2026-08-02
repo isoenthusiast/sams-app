@@ -24,9 +24,11 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
       // Note: ACR maps by checklistItemId string, not FK — query the view or direct
       const mappings = await prisma.$queryRawUnsafe<
         Array<{
+          mappingId: string;
           requirementId: string;
           requirementText: string;
           requirementClause: string;
+          requirementRId: number;
           controlId: string;
           controlName: string;
           controlType: string;
@@ -34,9 +36,11 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
         }>
       >(
         `SELECT 
+          acr.id as "mappingId",
           r."requirementId",
           LEFT(r."clauseContent", 300) as "requirementText",
           r."clauseContent" as "requirementClause",
+          r."rID" as "requirementRId",
           c.id as "controlId",
           c.name as "controlName",
           c."controlType",
@@ -68,9 +72,11 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
         evidenceRequirements: item.evidenceRequirements,
         sortOrder: item.sortOrder,
         mappedControls: mappings.map((m: any) => ({
+          mappingId: m.mappingId,
           requirementId: m.requirementId,
           requirementText: m.requirementText,
           requirementClause: m.requirementClause,
+          requirementRId: m.requirementRId,
           controlId: m.controlId,
           controlName: m.controlName,
           controlType: m.controlType,

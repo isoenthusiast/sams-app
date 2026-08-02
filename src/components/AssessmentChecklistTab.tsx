@@ -22,9 +22,11 @@ interface ChecklistItem {
   controlPoints?: string | null;
   evidenceRequirements?: string | null;
   mappedControls: Array<{
+    mappingId: string;
     requirementId: string;
     requirementText: string;
     requirementClause?: string;
+    requirementRId: number;
     controlId: string;
     controlName: string;
     controlType: string;
@@ -54,6 +56,11 @@ export function AssessmentChecklistTab({
   const [notesDraft, setNotesDraft] = useState("");
   const [expandedDetails, setExpandedDetails] = useState<Set<string>>(new Set());
   const [expandedMappings, setExpandedMappings] = useState<Set<string>>(new Set());
+  // Control mapping state
+  const [mappingTarget, setMappingTarget] = useState<{ itemId: string; requirementRId: number; requirementId: string; auditStandard: string } | null>(null);
+  const [availableControls, setAvailableControls] = useState<any[]>([]);
+  const [controlSearch, setControlSearch] = useState("");
+  const [loadingControls, setLoadingControls] = useState(false);
 
   useEffect(() => {
     fetch(`/api/admin/assessments/${assessmentId}/checklist`)
@@ -119,10 +126,52 @@ export function AssessmentChecklistTab({
   const handleRemoveChecklist = async (templateId: string) => {
     if (!confirm("Remove all checklist items from this template? This cannot be undone.")) return;
     await fetch(`/api/admin/assessments/${assessmentId}/adopt-checklist?templateId=${templateId}`, { method: "DELETE" });
-    // Reload
+    reloadChecklist();
+  };
+
+  const reloadChecklist = async () => {
     const r = await fetch(`/api/admin/assessments/${assessmentId}/checklist`);
     const d = await r.json();
     setItems(Array.isArray(d) ? d : []);
+  };
+
+  // Open control mapping modal
+  const openControlMapping = async (item: ChecklistItem, reqRId: number, reqId: string) => {
+    setMappingTarget({ itemId: item.id, requirementRId: reqRId, requirementId: reqId, auditStandard: item.auditStandard });
+    setControlSearch("");
+    setLoadingControls(true);
+    try {
+      const r = await fetch(`/api/admin/assessments/${assessmentId}/controls`);
+      const d = await r.json();
+      setAvailableControls(Array.isArray(d) ? d : []);
+    } catch { setAvailableControls([]); }
+    setLoadingControls(false);
+  };
+
+  // Link a control to a requirement
+  const handleLinkControl = async (controlId: string) => {
+    if (!mappingTarget) return;
+    const item = items.find(i => i.id === mappingTarget.itemId);
+    if (!item) return;
+    await fetch(`/api/admin/assessments/${assessmentId}/checklist-requirements`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        checklistItemId: item.checklistItemId,
+        requirementRId: mappingTarget.requirementRId,
+        controlId,
+        auditStandard: mappingTarget.auditStandard,
+      }),
+    });
+    setMappingTarget(null);
+    reloadChecklist();
+  };
+
+  // Unlink a control from a requirement
+  const handleUnlinkControl = async (mappingId: string) => {
+    if (!confirm("Remove this control from the requirement?")) return;
+    await fetch(`/api/admin/assessments/${assessmentId}/checklist-requirements?mappingId=${mappingId}`, { method: "DELETE" });
+    reloadChecklist();
   };
 
   // Group by auditStandard
@@ -194,18 +243,40 @@ export function AssessmentChecklistTab({
                                 </summary>
                                 <div className="px-3 py-2 border-t border-slate-100">
                                   {controls.filter(c => c.controlId).length === 0 ? (
-                                    <p className="text-xs text-slate-400 italic">No controls mapped yet. Use "Map Controls" to link controls to this requirement.</p>
+                                    <p className="text-xs text-slate-400 italic mb-2">No controls linked yet.</p>
                                   ) : (
-                                    <div className="space-y-1">
+                                    <div className="space-y-1 mb-2">
                                       {controls.filter(c => c.controlId).map((mc, i) => (
-                                        <div key={i} className="flex items-center gap-2 text-xs text-slate-600 py-0.5">
+                                        <div key={i} className="flex items-center gap-2 text-xs text-slate-600 py-0.5 group">
                                           <span className="text-emerald-500 shrink-0">●</span>
-                                          <span className="truncate">{mc.controlName}</span>
+                                          <span className="truncate flex-1">{mc.controlName}</span>
                                           <span className="text-slate-300 text-[10px] shrink-0">{mc.controlType}</span>
+                                          {mc.mappingId && (
+                                            <button
+                                              onClick={(e) => { e.preventDefault(); handleUnlinkControl(mc.mappingId); }}
+                                              className="text-red-400 hover:text-red-600 opacity-0 group-hover:opacity-100 transition-opacity shrink-0"
+                                              title="Remove control"
+                                            >×</button>
+                                          )}
                                         </div>
                                       ))}
                                     </div>
                                   )}
+                                  {/* Find the requirementRId from the first control */}
+                                  <button
+                                    onClick={(e) => {
+                                      e.preventDefault();
+                                      const firstCtrl = controls[0];
+                                      if (firstCtrl?.requirementRId) {
+                                        const checklistItem = items.find(ci =>
+                                          ci.mappedControls.some(mc => mc.requirementRId === firstCtrl.requirementRId));
+                                        if (checklistItem) openControlMapping(checklistItem, firstCtrl.requirementRId, reqId);
+                                      }
+                                    }}
+                                    className="text-[10px] text-blue-500 hover:text-blue-700"
+                                  >
+                                    ＋ Add Control
+                                  </button>
                                 </div>
                               </details>
                             ))}
@@ -339,6 +410,64 @@ export function AssessmentChecklistTab({
           </div>
         </div>
       ))}
+      {/* Control Mapping Modal */}
+      {mappingTarget && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40" onClick={() => setMappingTarget(null)}>
+          <div className="bg-white rounded-lg shadow-xl w-full max-w-2xl mx-4 max-h-[80vh] flex flex-col" onClick={e => e.stopPropagation()}>
+            <div className="px-6 py-4 border-b border-slate-200 flex items-center justify-between shrink-0">
+              <div>
+                <h3 className="text-sm font-semibold text-slate-800">🔗 Add Control to Requirement</h3>
+                <p className="text-xs text-slate-500 mt-0.5">
+                  {mappingTarget.requirementId}
+                </p>
+              </div>
+              <button onClick={() => setMappingTarget(null)} className="text-slate-400 hover:text-slate-600 text-lg">&times;</button>
+            </div>
+            <div className="px-6 py-3 border-b border-slate-100 shrink-0">
+              <input
+                type="text" value={controlSearch} onChange={e => setControlSearch(e.target.value)}
+                placeholder="Search controls by name or process area..."
+                className="w-full rounded border border-slate-300 px-3 py-2 text-sm"
+                autoFocus
+              />
+            </div>
+            <div className="flex-1 overflow-y-auto px-6 py-3">
+              {loadingControls ? (
+                <p className="text-sm text-slate-400 py-4 text-center">Loading controls…</p>
+              ) : (
+                <div className="space-y-1">
+                  {availableControls
+                    .filter((c: any) => !controlSearch || c.name?.toLowerCase().includes(controlSearch.toLowerCase()) || c.processArea?.name?.toLowerCase().includes(controlSearch.toLowerCase()))
+                    .slice(0, 50)
+                    .map((c: any) => (
+                      <button
+                        key={c.id}
+                        onClick={() => handleLinkControl(c.id)}
+                        className="w-full text-left flex items-center gap-2 text-sm rounded px-3 py-2 hover:bg-blue-50 transition-colors"
+                      >
+                        <span className="text-blue-400 shrink-0">＋</span>
+                        <span className="font-medium text-slate-700 truncate flex-1">{c.name}</span>
+                        <span className="text-xs text-slate-400 shrink-0">{c.controlType}</span>
+                        {c.processArea?.name && (
+                          <span className="text-xs text-slate-300 truncate max-w-[120px] shrink-0">{c.processArea.name}</span>
+                        )}
+                      </button>
+                    ))}
+                  {availableControls.length === 0 && (
+                    <p className="text-sm text-slate-400 py-4 text-center">No controls available. Assign controls to this assessment first.</p>
+                  )}
+                </div>
+              )}
+            </div>
+            <div className="px-6 py-3 border-t border-slate-200 shrink-0 flex justify-end">
+              <button onClick={() => setMappingTarget(null)}
+                className="rounded bg-slate-900 px-4 py-1.5 text-xs font-medium text-white hover:bg-slate-800">
+                Done
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
