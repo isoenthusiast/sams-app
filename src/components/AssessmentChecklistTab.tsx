@@ -10,6 +10,7 @@ interface ChecklistItem {
   checklistItemId: string;
   checklistText: string;
   auditStandard: string;
+  templateId?: string | null;
   complianceStatus: string;
   auditorNotes: string | null;
   testedDate: string | null;
@@ -112,6 +113,18 @@ export function AssessmentChecklistTab({
       </p>
     );
 
+  // Get unique template IDs for removal
+  const templateIds = [...new Set(items.map(i => i.templateId).filter(Boolean))] as string[];
+
+  const handleRemoveChecklist = async (templateId: string) => {
+    if (!confirm("Remove all checklist items from this template? This cannot be undone.")) return;
+    await fetch(`/api/admin/assessments/${assessmentId}/adopt-checklist?templateId=${templateId}`, { method: "DELETE" });
+    // Reload
+    const r = await fetch(`/api/admin/assessments/${assessmentId}/checklist`);
+    const d = await r.json();
+    setItems(Array.isArray(d) ? d : []);
+  };
+
   // Group by auditStandard
   const grouped = new Map<string, ChecklistItem[]>();
   for (const item of items) {
@@ -122,6 +135,21 @@ export function AssessmentChecklistTab({
 
   return (
     <div className="space-y-6">
+      {/* Remove Checklist button */}
+      {templateIds.length > 0 && (
+        <div className="flex items-center gap-2">
+          <span className="text-xs text-slate-400">{items.length} checklist items</span>
+          {templateIds.map(tid => (
+            <button
+              key={tid}
+              onClick={() => handleRemoveChecklist(tid)}
+              className="text-xs text-red-500 hover:text-red-700 border border-red-200 rounded px-2 py-0.5 hover:bg-red-50"
+            >
+              🗑 Remove Checklist
+            </button>
+          ))}
+        </div>
+      )}
       {Array.from(grouped.entries()).map(([std, stdItems]) => (
         <div key={std}>
           <h4 className="text-sm font-semibold text-slate-800 mb-2">{std}</h4>

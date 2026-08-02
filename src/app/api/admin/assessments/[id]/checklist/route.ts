@@ -56,6 +56,7 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
         checklistItemId: item.checklistItemId,
         checklistText: item.checklistText,
         auditStandard: item.auditStandard,
+        templateId: item.templateId,
         complianceStatus: item.complianceStatus,
         auditorNotes: item.auditorNotes,
         testedDate: item.testedDate?.toISOString() ?? null,

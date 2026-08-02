@@ -75,3 +75,31 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
     items: templateItems.length,
   });
 }
+
+// DELETE /api/admin/assessments/[id]/adopt-checklist?templateId=xxx
+// Removes all checklist items from the assessment that belong to the given template.
+export async function DELETE(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const session = await auth();
+  if (!session?.user || (session.user as { role?: string }).role !== "Admin") {
+    return NextResponse.json({ error: "Admin access required" }, { status: 403 });
+  }
+
+  const { id: assessmentId } = await params;
+  const templateId = req.nextUrl.searchParams.get("templateId");
+
+  if (!templateId) {
+    return NextResponse.json({ error: "templateId query parameter is required" }, { status: 400 });
+  }
+
+  // Verify assessment exists
+  const assessment = await prisma.assessment.findUnique({ where: { id: assessmentId } });
+  if (!assessment) {
+    return NextResponse.json({ error: "Assessment not found" }, { status: 404 });
+  }
+
+  const result = await prisma.auditChecklistItem.deleteMany({
+    where: { assessmentId, templateId },
+  });
+
+  return NextResponse.json({ deleted: result.count });
+}
