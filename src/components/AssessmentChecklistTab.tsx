@@ -194,6 +194,7 @@ export function AssessmentChecklistTab({
   const [notesDraft, setNotesDraft] = useState("");
   const [expandedDetails, setExpandedDetails] = useState<Set<string>>(new Set());
   const [mappingItemId, setMappingItemId] = useState<string | null>(null);
+  const [expandedMappings, setExpandedMappings] = useState<Set<string>>(new Set());
 
   useEffect(() => {
     fetch(`/api/admin/assessments/${assessmentId}/checklist`)
@@ -280,24 +281,48 @@ export function AssessmentChecklistTab({
                         <span className="text-xs font-mono text-slate-400">{item.checklistItemId}</span>
                         <span className="text-sm text-slate-800">{item.checklistText}</span>
                       </div>
-                      {/* Mapped controls */}
-                      {item.mappedControls.length > 0 && (
-                        <div className="mt-2 space-y-1">
-                          {item.mappedControls.slice(0, 3).map((mc, i) => (
-                            <div key={i} className="text-xs text-slate-500 flex items-center gap-1">
-                              <span className="font-mono text-blue-600">{mc.requirementId}</span>
-                              <span>→</span>
-                              <span className="truncate">{mc.controlName}</span>
-                              <span className="text-slate-300">({mc.sourceFile ?? "no source"})</span>
-                            </div>
-                          ))}
-                          {item.mappedControls.length > 3 && (
-                            <span className="text-xs text-slate-400">
-                              +{item.mappedControls.length - 3} more controls
-                            </span>
-                          )}
-                        </div>
-                      )}
+                      {/* Mapped controls — grouped by requirement (v1.10.9) */}
+                      {item.mappedControls.length > 0 && (() => {
+                        // Group controls by requirementId
+                        const byReq = new Map<string, typeof item.mappedControls>();
+                        for (const mc of item.mappedControls) {
+                          const key = mc.requirementId;
+                          if (!byReq.has(key)) byReq.set(key, []);
+                          byReq.get(key)!.push(mc);
+                        }
+                        const reqEntries = Array.from(byReq.entries());
+                        const isExpanded = expandedMappings.has(item.id);
+                        const displayEntries = isExpanded ? reqEntries : reqEntries.slice(0, 3);
+
+                        return (
+                          <div className="mt-2 space-y-1">
+                            {displayEntries.map(([reqId, controls]) => (
+                              <div key={reqId} className="text-xs text-slate-500">
+                                <span className="font-mono text-blue-600 font-medium">{reqId}</span>
+                                <span className="text-slate-300 mx-1">→</span>
+                                {controls.map((mc, i) => (
+                                  <span key={i}>
+                                    {i > 0 && <span className="text-slate-300">, </span>}
+                                    <span className="truncate" title={mc.controlName}>{mc.controlName}</span>
+                                  </span>
+                                ))}
+                              </div>
+                            ))}
+                            {reqEntries.length > 3 && (
+                              <button
+                                onClick={() => setExpandedMappings(prev => {
+                                  const next = new Set(prev);
+                                  next.has(item.id) ? next.delete(item.id) : next.add(item.id);
+                                  return next;
+                                })}
+                                className="text-[10px] text-blue-500 hover:text-blue-700"
+                              >
+                                {isExpanded ? "▲ Show less" : `＋ ${reqEntries.length - 3} more requirements`}
+                              </button>
+                            )}
+                          </div>
+                        );
+                      })()}
                       {item.auditorNotes && editingNotes !== item.id && (
                         <p className="text-xs text-slate-500 mt-1 italic">
                           📝 {item.auditorNotes}
