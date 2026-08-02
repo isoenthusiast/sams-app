@@ -2,7 +2,7 @@
 
 > **📐 Active alongside `CONAN_Design Philosophy.md` and `CONAN_App Design.md`.** CONAN docs are the narrative source of truth; this document is the technical specification (models, routes, components, APIs). Both are maintained.
 
-**Last Updated:** August 2, 2026 (v1.10.9 — global control mapping)
+**Last Updated:** August 3, 2026 (v1.10.10 — ISO 14001 + PMS mapping complete)
 
 ---
 
@@ -553,7 +553,7 @@ All company-scoped tables use `@@unique([businessKey, companyId])` rather than s
 | **ExtractionView** | Document upload + AI extraction UI |
 | **KnowledgebaseView** | Knowledgebase entry editor |
 | **ManagerAssignmentView** | Three-section manager→username resolution: (1) Distinct Managers with uncontrolled inputs (auto-save on blur via POST /api/admin/manager-assignment) + Status column filter buttons (All/✓ in table/✗ not found/tbc), (2) "Not in User Table" collapsible details, (3) User-by-User filterable table (All/Resolved/TBC) with inline dropdown edit |
-| **RequirementsView** | Requirements browser |
+| **RequirementsView** (v1.10.9) | Requirements browser grouped by Standard → ProcessArea. **Control mapping:** "＋ Add Control" modal searches controls by name/process area, links via `MapControl2Requirement`. "× Remove" on hover. Optimistic local updates. Global company-level mapping — assessments inherit automatically. |
 | **ChecklistTemplateSelector** (v1.10.0) | Client component — multi-select checklist templates via checkboxes, "Adopt Selected Checklist(s)" button → POST adopt-checklist API, success/error feedback |
 | **AssessmentChecklistTab** (v1.10.0) | Client component — grouped by auditStandard collapsible sections, per-item compliance status dropdown (Not Tested/Compliant/Non-Compliant/N.A./Observation), control-to-requirement trace display (Requirement ID → Control Name → Source File), auditor notes inline |
 | **AuditChecklistTemplateAdminView** (v1.10.3) | Client component — template CRUD with Global/Local filter toggles (All | 🌐 Global | 🏢 Local). Global templates (SAMS001-owned) are read-only for non-SAMS001 companies, show "📥 Copy to Local" button. Local templates fully editable (✏️ / 🗑). Template list expandable with inline item editing. |
@@ -939,6 +939,7 @@ Local Dev (localhost:3100)
 | v1.10.7 | 2026-08-02 | **P4: End-to-end assessment creation verified (9/9).** Full pipeline tested: Assessment → ControlAssignment → Aact (6 default activities) → AssessmentAssessor → AuditChecklistItem → verified readable. All CRUD operations clean up with 0 traces. Checklist template adoption verified (39 items available). Admin subviews audited: 550 users (94 preferredName, 545 managers), 12 standards (2,393 requirements), 54 backlog items, 527 KB entries, 58 DB tables, 195 PAs, 3,144 controls. 4 backlog items remaining. |
 | v1.10.8 | 2026-08-02 | **Checklist UI Redesign (v1.10.9–v1.10.12).** 4 iterations driven by user feedback: (1) "+X more controls" made clickable, grouped by requirement; (2) Collapsible requirement containers with reqId + clause text, per-requirement add/remove controls via search modal; (3) `AuditChecklist2Requirement` junction for checklist→control links, new `POST/DELETE /api/admin/assessments/[id]/checklist-requirements`; (4) Inline rich content (no toggle needed), collapsible "📋 Requirements (N mapped)" container, Unmap button. Collapsible template selector. Un-adopt checklist via DELETE. |
 | v1.10.9 | 2026-08-02 | **Global Control ↔ Requirement Mapping UI.** Architectural grilling resolved 5 design decisions: (1) Controls live under ProcessAreas — single source of truth; (2) One control test cascades to all linked requirements — no duplicate ISO+process audits; (3) Requirement-first mapping workflow; (4) Global company-level mapping — assessments inherit automatically; (5) Batch cross-company replication via matching `requirementId` + `controlName`. **Implementation:** Enhanced `RequirementsView.tsx` with "＋ Add Control" modal (searches by control name/process area), "× Remove" on hover, instant UI updates. Enhanced `GET /api/admin/controls` with company scoping + `mappedRequirementRIds`. Added `DELETE` to `MapControl2Requirement/[id]`. Updated server query to include `mappingId` for delete operations. 4 files changed. |
+| v1.10.10 | 2026-08-03 | **ISO 14001 + ICOP PMS Control Mapping Complete.** ISO 14001:2015 EMS: 177 mappings, 101 controls → 22 clauses (8 environment ProcessAreas). ICOP PMS: 1,231 mappings, 385 controls → 26 clauses (11 ProcessAreas). PA-level mapping: all controls in a ProcessArea map to relevant PMS clauses. 17 EMS + 16 PMS system-level clauses intentionally unmapped. SAMS001 only — SMDS/OGP ready for batch replication. New design principles #28 (Control-First Assurance) and #29 (Global Mapping, Batch Replication) in CONAN_Design Philosophy.md. IMS Audit Philosophy §8 added. 15 mapping/export/verify scripts committed. |
 
 ---
 
