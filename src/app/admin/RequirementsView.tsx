@@ -28,9 +28,24 @@ export function RequirementsView({ requirements, standards }: Props) {
   // ── Control mapping modal state ──
   const [mappingTarget, setMappingTarget] = useState<{ rId: number; requirementId: string } | null>(null);
   const [controlSearch, setControlSearch] = useState("");
+  const [paFilter, setPaFilter] = useState("");
   const [availableControls, setAvailableControls] = useState<any[]>([]);
   const [loadingControls, setLoadingControls] = useState(false);
   const [linking, setLinking] = useState(false);
+  const [showNewControlForm, setShowNewControlForm] = useState(false);
+  const [newControl, setNewControl] = useState({ name: "", controlType: "Procedural", statement: "", controlRef: "", processAreaId: "" });
+  const [creatingControl, setCreatingControl] = useState(false);
+
+  // Derive unique PAs from available controls
+  const paList = useMemo(() => {
+    const pas = new Map<string, string>();
+    for (const c of availableControls) {
+      if (c.processAreaId && !pas.has(c.processAreaId)) {
+        pas.set(c.processAreaId, c.processAreaName || c.processAreaId);
+      }
+    }
+    return [...pas.entries()].sort((a, b) => a[1].localeCompare(b[1]));
+  }, [availableControls]);
 
   const filtered = useMemo(() => data.filter((r) => {
     if (filter && !r.requirementId.toLowerCase().includes(filter.toLowerCase()) && !r.clauseContent.toLowerCase().includes(filter.toLowerCase())) return false;
@@ -68,6 +83,9 @@ export function RequirementsView({ requirements, standards }: Props) {
   const openMappingModal = async (r: ReqData) => {
     setMappingTarget({ rId: r.rId, requirementId: r.requirementId });
     setControlSearch("");
+    setPaFilter("");
+    setShowNewControlForm(false);
+    setNewControl({ name: "", controlType: "Procedural", statement: "", controlRef: "", processAreaId: "" });
     setLoadingControls(true);
     try {
       const res = await fetch("/api/admin/controls");
@@ -117,6 +135,56 @@ export function RequirementsView({ requirements, standards }: Props) {
     } catch (err) {
       setMsg({ type: "err", text: err instanceof Error ? err.message : "Unlink failed" });
     }
+  };
+
+  const handleCreateControl = async () => {
+    if (!mappingTarget || !newControl.name.trim() || !newControl.processAreaId) return;
+    setCreatingControl(true);
+    try {
+      // 1. Create the control
+      const createRes = await fetch("/api/admin/controls", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: newControl.name.trim(),
+          controlType: newControl.controlType,
+          statement: newControl.statement.trim(),
+          processAreaId: newControl.processAreaId,
+        }),
+      });
+      if (!createRes.ok) throw new Error("Failed to create control");
+      const { control: created } = await createRes.json();
+
+      // 2. Link it to the requirement
+      const linkRes = await fetch("/api/admin/table/MapControl2Requirement/data", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ controlId: created.id, requirementRId: mappingTarget.rId }),
+      });
+      if (!linkRes.ok) throw new Error("Control created but link failed");
+      const linkJson = await linkRes.json();
+
+      // 3. Update local state
+      setData((prev) => prev.map((r) => r.rId === mappingTarget.rId
+        ? { ...r, controls: [...r.controls, { mappingId: linkJson.id, id: created.id, name: created.name, controlType: created.controlType }] }
+        : r
+      ));
+      // 4. Add to available controls list so it shows immediately
+      const paName = paList.find(([id]) => id === newControl.processAreaId)?.[1] || "";
+      setAvailableControls((prev) => [...prev, {
+        id: created.id, name: created.name, controlType: created.controlType,
+        controlRef: "", processAreaId: newControl.processAreaId, processAreaName: paName,
+        mappedRequirementRIds: [mappingTarget.rId],
+      }]);
+
+      setMsg({ type: "ok", text: `Created & linked "${newControl.name.trim()}".` });
+      setTimeout(() => setMsg(null), 2000);
+      setShowNewControlForm(false);
+      setNewControl({ name: "", controlType: "Procedural", statement: "", controlRef: "", processAreaId: "" });
+    } catch (err) {
+      setMsg({ type: "err", text: err instanceof Error ? err.message : "Creation failed" });
+    }
+    finally { setCreatingControl(false); }
   };
 
   return (
@@ -197,7 +265,7 @@ export function RequirementsView({ requirements, standards }: Props) {
       {/* ── Control Mapping Modal ── */}
       {mappingTarget && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40" onClick={() => setMappingTarget(null)}>
-          <div className="bg-white rounded-lg shadow-xl w-full max-w-2xl mx-4 max-h-[80vh] flex flex-col" onClick={e => e.stopPropagation()}>
+          <div className="bg-white rounded-lg shadow-xl w-full max-w-2xl mx-4 max-h-[85vh] flex flex-col" onClick={e => e.stopPropagation()}>
             <div className="px-6 py-4 border-b border-slate-200 flex items-center justify-between shrink-0">
               <div>
                 <h3 className="text-sm font-semibold text-slate-800">🔗 Map Controls to Requirement</h3>
@@ -205,23 +273,90 @@ export function RequirementsView({ requirements, standards }: Props) {
               </div>
               <button onClick={() => setMappingTarget(null)} className="text-slate-400 hover:text-slate-600 text-lg">&times;</button>
             </div>
-            <div className="px-6 py-3 border-b border-slate-100 shrink-0">
+
+            {/* ProcessArea filter + search */}
+            <div className="px-6 py-3 border-b border-slate-100 shrink-0 space-y-2">
+              <select
+                value={paFilter} onChange={e => setPaFilter(e.target.value)}
+                className="w-full rounded border border-slate-300 px-3 py-2 text-sm bg-white"
+              >
+                <option value="">All Process Areas</option>
+                {paList.map(([id, name]) => (
+                  <option key={id} value={id}>{name}</option>
+                ))}
+              </select>
               <input
                 type="text" value={controlSearch} onChange={e => setControlSearch(e.target.value)}
-                placeholder="Search controls by name or process area…"
+                placeholder="Search controls by name…"
                 className="w-full rounded border border-slate-300 px-3 py-2 text-sm"
                 autoFocus
               />
             </div>
+
+            {/* Control list */}
             <div className="flex-1 overflow-y-auto px-6 py-3">
               {loadingControls ? (
                 <p className="text-sm text-slate-400 py-4 text-center">Loading controls…</p>
+              ) : showNewControlForm ? (
+                /* ── New Control Form ── */
+                <div className="space-y-3">
+                  <h4 className="text-xs font-semibold text-slate-700">＋ Register New Control</h4>
+                  <div>
+                    <label className="block text-xs font-medium text-slate-600 mb-1">Process Area *</label>
+                    <select
+                      value={newControl.processAreaId} onChange={e => setNewControl(p => ({ ...p, processAreaId: e.target.value }))}
+                      className="w-full rounded border border-slate-300 px-3 py-2 text-sm bg-white"
+                    >
+                      <option value="">Select Process Area…</option>
+                      {paList.map(([id, name]) => (
+                        <option key={id} value={id}>{name}</option>
+                      ))}
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-xs font-medium text-slate-600 mb-1">Control Name *</label>
+                    <input type="text" value={newControl.name} onChange={e => setNewControl(p => ({ ...p, name: e.target.value }))}
+                      className="w-full rounded border border-slate-300 px-3 py-2 text-sm" placeholder="e.g., Calibrate Monitoring Equipment" />
+                  </div>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <label className="block text-xs font-medium text-slate-600 mb-1">Control Type</label>
+                      <select value={newControl.controlType} onChange={e => setNewControl(p => ({ ...p, controlType: e.target.value }))}
+                        className="w-full rounded border border-slate-300 px-3 py-2 text-sm bg-white">
+                        <option>Procedural</option><option>Engineering</option><option>Administrative</option><option>Analytical</option><option>Informational</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label className="block text-xs font-medium text-slate-600 mb-1">Control Ref</label>
+                      <input type="text" value={newControl.controlRef} onChange={e => setNewControl(p => ({ ...p, controlRef: e.target.value }))}
+                        className="w-full rounded border border-slate-300 px-3 py-2 text-sm" placeholder="e.g., QMS-001" />
+                    </div>
+                  </div>
+                  <div>
+                    <label className="block text-xs font-medium text-slate-600 mb-1">Statement</label>
+                    <textarea value={newControl.statement} onChange={e => setNewControl(p => ({ ...p, statement: e.target.value }))}
+                      className="w-full rounded border border-slate-300 px-3 py-2 text-sm min-h-[60px]" placeholder="What does this control require?" />
+                  </div>
+                  <div className="flex gap-2 pt-1">
+                    <button onClick={handleCreateControl}
+                      disabled={creatingControl || !newControl.name.trim() || !newControl.processAreaId}
+                      className="rounded bg-blue-600 px-4 py-1.5 text-xs font-medium text-white hover:bg-blue-700 disabled:opacity-50">
+                      {creatingControl ? "Creating…" : "Create & Link"}
+                    </button>
+                    <button onClick={() => setShowNewControlForm(false)}
+                      className="rounded bg-slate-100 px-4 py-1.5 text-xs font-medium text-slate-600 hover:bg-slate-200">
+                      Cancel
+                    </button>
+                  </div>
+                </div>
               ) : (
                 <div className="space-y-1">
                   {availableControls
-                    .filter((c: any) => !controlSearch
-                      || c.name?.toLowerCase().includes(controlSearch.toLowerCase())
-                      || c.processAreaName?.toLowerCase().includes(controlSearch.toLowerCase()))
+                    .filter((c: any) => {
+                      if (paFilter && c.processAreaId !== paFilter) return false;
+                      if (controlSearch && !c.name?.toLowerCase().includes(controlSearch.toLowerCase())) return false;
+                      return true;
+                    })
                     .slice(0, 50)
                     .map((c: any) => (
                       <button
@@ -244,12 +379,24 @@ export function RequirementsView({ requirements, standards }: Props) {
                 </div>
               )}
             </div>
+
+            {/* Footer */}
             <div className="px-6 py-3 border-t border-slate-200 shrink-0 flex justify-between items-center">
-              <span className="text-xs text-slate-400">
-                {availableControls.filter((c: any) => !controlSearch
-                  || c.name?.toLowerCase().includes(controlSearch.toLowerCase())
-                  || c.processAreaName?.toLowerCase().includes(controlSearch.toLowerCase())).length} control(s) available
-              </span>
+              <div className="flex gap-2">
+                {!showNewControlForm && (
+                  <button onClick={() => setShowNewControlForm(true)}
+                    className="rounded bg-green-600 px-3 py-1.5 text-xs font-medium text-white hover:bg-green-700">
+                    ＋ New Control
+                  </button>
+                )}
+                <span className="text-xs text-slate-400 self-center">
+                  {availableControls.filter((c: any) => {
+                    if (paFilter && c.processAreaId !== paFilter) return false;
+                    if (controlSearch && !c.name?.toLowerCase().includes(controlSearch.toLowerCase())) return false;
+                    return true;
+                  }).length} control(s) available
+                </span>
+              </div>
               <button onClick={() => setMappingTarget(null)}
                 className="rounded bg-slate-900 px-4 py-1.5 text-xs font-medium text-white hover:bg-slate-800">
                 Done
