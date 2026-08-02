@@ -2,7 +2,7 @@
 
 > **📐 Active alongside `CONAN_Design Philosophy.md` and `CONAN_App Design.md`.** CONAN docs are the narrative source of truth; this document is the technical specification (models, routes, components, APIs). Both are maintained.
 
-**Last Updated:** August 2, 2026 (v1.10.6)
+**Last Updated:** August 2, 2026 (v1.10.7)
 
 ---
 
@@ -936,6 +936,7 @@ Local Dev (localhost:3100)
 | v1.10.4 | 2026-08-02 | **IMS Requirement Mapping (K1).** Auto-mapped all 39 IMS checklist items to 100 requirement references across QMS (25), EMS (24), OHSMS (26), and PMS (25). Sub-items with specific `(QMS §x.x)` references parsed automatically. Integrated parent items (IMS-001–IMS-018) mapped via `INTEGRATED_MAP` dict to equivalent clauses across all 4 standards. Creates `AuditEvidence` placeholder record as junction group container. Zero unmapped items. Script: `scripts/db/fix_ims_mappings_v3.py`. |
 | v1.10.5 | 2026-08-02 | **UI/UX Test Run 2 — 84 cases passed.** Verified: Activities CRUD, Samples/Findings/Actions flow, Checklist compliance auto-save + notes/voice, Template management with 6-field editor, Dashboard Process Health, Controls assignment, Report tab with live compliance summary + TOR + AI analysis. **Design gap T8:** global templates editable on non-SAMS001 (should be read-only per v1.10.3). **Known issue:** `/api/gamification/stats` 500. |
 | v1.10.6 | 2026-08-02 | **P1+P2 Bug Fixes + Test Completion (109 cases).** P1: Global template read-only guard enforced at UI (🔒 labels, hidden +Add/✏️/×) and API (403 on PUT/DELETE for non-SAMS001). 4 files, 78 insertions. P2: Gamification stats BigInt serialization fixed — `SUM()::int` cast + `Number()` wrapper. API returns 200 with 8 tracks + 36 XP. Test coverage: 109/130+ cases passed across 4 batches. Backlog: 5 remaining items (assessment flow, admin audit, deploy, 2 pre-existing features). |
+| v1.10.7 | 2026-08-02 | **P4: End-to-end assessment creation verified (9/9).** Full pipeline tested: Assessment → ControlAssignment → Aact (6 default activities) → AssessmentAssessor → AuditChecklistItem → verified readable. All CRUD operations clean up with 0 traces. Checklist template adoption verified (39 items available). Admin subviews audited: 550 users (94 preferredName, 545 managers), 12 standards (2,393 requirements), 54 backlog items, 527 KB entries, 58 DB tables, 195 PAs, 3,144 controls. 4 backlog items remaining. |
 
 ---
 
