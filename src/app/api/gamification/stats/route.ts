@@ -18,9 +18,9 @@ export async function GET(request: Request) {
       include: { gameAttribute: { select: { attributeName: true } } },
     });
 
-    // All tracks with levels
+    // All tracks with levels — cast SUM to INTEGER to avoid BigInt serialization error
     const trackData = await prisma.$queryRawUnsafe<Array<{ paName: string; xp: number; level: string }>>(
-      `SELECT ga."attributeName" as "paName", COALESCE(SUM(pt.points), 0) as xp,
+      `SELECT ga."attributeName" as "paName", COALESCE(SUM(pt.points)::int, 0) as xp,
               CASE
                 WHEN COALESCE(SUM(pt.points), 0) >= 100 THEN 'Silver'
                 WHEN COALESCE(SUM(pt.points), 0) >= 10 THEN 'Bronze'
@@ -34,12 +34,19 @@ export async function GET(request: Request) {
       userId
     );
 
-    return NextResponse.json({
-      overallXP,
+    // Ensure all BigInt values are converted to Number before JSON serialization
+    const serializable = {
+      overallXP: Number(overallXP),
       latestTrack: latestDomain?.gameAttribute?.attributeName || null,
-      latestTrackXP: latestDomain?.points || 0,
-      tracks: trackData,
-    });
+      latestTrackXP: Number(latestDomain?.points || 0),
+      tracks: trackData.map((t: any) => ({
+        paName: t.paName,
+        xp: Number(t.xp),
+        level: t.level,
+      })),
+    };
+
+    return NextResponse.json(serializable);
   } catch (err: any) {
     return NextResponse.json({ error: err.message }, { status: 500 });
   }
