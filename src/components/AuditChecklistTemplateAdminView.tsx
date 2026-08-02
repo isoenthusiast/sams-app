@@ -313,10 +313,17 @@ export function AuditChecklistTemplateAdminView() {
                           <td className="py-1 pr-2 text-slate-400">{item.sortOrder}</td>
                           <td className="py-1">
                             <div className="flex items-center gap-1">
-                              <button onClick={() => openEditItem(item)}
-                                className="text-xs text-blue-600 hover:text-blue-800">✏️ Edit</button>
-                              <button onClick={() => handleDeleteItem(t.id, item.id)}
-                                className="text-xs text-red-400 hover:text-red-600">×</button>
+                              {isLocal && (
+                                <>
+                                  <button onClick={() => openEditItem(item)}
+                                    className="text-xs text-blue-600 hover:text-blue-800">✏️ Edit</button>
+                                  <button onClick={() => handleDeleteItem(t.id, item.id)}
+                                    className="text-xs text-red-400 hover:text-red-600">×</button>
+                                </>
+                              )}
+                              {!isLocal && (
+                                <span className="text-xs text-slate-300" title="Global template items are read-only. Copy to Local to customize.">🔒 Read-only</span>
+                              )}
                             </div>
                           </td>
                         </tr>
@@ -324,27 +331,34 @@ export function AuditChecklistTemplateAdminView() {
                     </tbody>
                   </table>
 
-                  {/* Add item form */}
-                  <div className="flex items-center gap-2 pt-1">
-                    <input
-                      type="text"
-                      placeholder="Item ID (e.g. QMS-7.1.5)"
-                      value={itemForm[t.id]?.checklistItemId ?? ""}
-                      onChange={(e) => setItemForm((prev) => ({ ...prev, [t.id]: { ...prev[t.id], checklistItemId: e.target.value, checklistText: prev[t.id]?.checklistText ?? "", sortOrder: prev[t.id]?.sortOrder ?? (t.items?.length ?? 0) + 1 } }))}
-                      className="flex-1 rounded border border-slate-300 px-2 py-1 text-xs"
-                    />
-                    <input
-                      type="text"
-                      placeholder="Checklist text"
-                      value={itemForm[t.id]?.checklistText ?? ""}
-                      onChange={(e) => setItemForm((prev) => ({ ...prev, [t.id]: { ...prev[t.id], checklistItemId: prev[t.id]?.checklistItemId ?? "", checklistText: e.target.value, sortOrder: prev[t.id]?.sortOrder ?? (t.items?.length ?? 0) + 1 } }))}
-                      className="flex-[2] rounded border border-slate-300 px-2 py-1 text-xs"
-                    />
-                    <button onClick={() => handleAddItem(t.id)}
-                      className="rounded bg-emerald-600 px-2 py-1 text-xs font-medium text-white hover:bg-emerald-700 shrink-0">
-                      ＋ Add
-                    </button>
-                  </div>
+                  {/* Add item form — only for local templates */}
+                  {isLocal && (
+                    <div className="flex items-center gap-2 pt-1">
+                      <input
+                        type="text"
+                        placeholder="Item ID (e.g. QMS-7.1.5)"
+                        value={itemForm[t.id]?.checklistItemId ?? ""}
+                        onChange={(e) => setItemForm((prev) => ({ ...prev, [t.id]: { ...prev[t.id], checklistItemId: e.target.value, checklistText: prev[t.id]?.checklistText ?? "", sortOrder: prev[t.id]?.sortOrder ?? (t.items?.length ?? 0) + 1 } }))}
+                        className="flex-1 rounded border border-slate-300 px-2 py-1 text-xs"
+                      />
+                      <input
+                        type="text"
+                        placeholder="Checklist text"
+                        value={itemForm[t.id]?.checklistText ?? ""}
+                        onChange={(e) => setItemForm((prev) => ({ ...prev, [t.id]: { ...prev[t.id], checklistItemId: prev[t.id]?.checklistItemId ?? "", checklistText: e.target.value, sortOrder: prev[t.id]?.sortOrder ?? (t.items?.length ?? 0) + 1 } }))}
+                        className="flex-[2] rounded border border-slate-300 px-2 py-1 text-xs"
+                      />
+                      <button onClick={() => handleAddItem(t.id)}
+                        className="rounded bg-emerald-600 px-2 py-1 text-xs font-medium text-white hover:bg-emerald-700 shrink-0">
+                        ＋ Add
+                      </button>
+                    </div>
+                  )}
+                  {!isLocal && (
+                    <p className="text-xs text-slate-400 pt-1 italic">
+                      📥 Use "Copy to Local" to create an editable copy for your company.
+                    </p>
+                  )}
                 </div>
               )}
             </div>
