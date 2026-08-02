@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useEffect, useMemo } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Card } from "@/components/Card";
@@ -20,7 +20,7 @@ import { AuditReportTab } from "@/components/AuditReportTab";
 
 type Props = {
   assessment: any;
-  allControls: any[];
+  initialControls?: any[];
   processAreas: Array<{ id: string; name: string }>;
   activityTypes: Array<{ id: string; name: string }>;
   users: Array<{ id: string; name: string; role: string }>;
@@ -31,7 +31,7 @@ type Props = {
   adoptChecklist?: boolean;
 };
 
-export default function AssessmentClient({ assessment, allControls, processAreas, activityTypes, users, sampleTypes, recordSources, currentUserId, linkedAssessorIds = [], adoptChecklist = false }: Props) {
+export default function AssessmentClient({ assessment, initialControls = [], processAreas, activityTypes, users, sampleTypes, recordSources, currentUserId, linkedAssessorIds = [], adoptChecklist = false }: Props) {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState<"overview" | "controls" | "samples" | "findings" | "activities" | "checklist" | "report">(adoptChecklist ? "checklist" : "overview");
   const [saving, setSaving] = useState(false);
@@ -44,6 +44,26 @@ export default function AssessmentClient({ assessment, allControls, processAreas
   const [actionForms, setActionForms] = useState<Record<string, { description: string; party: string; details: string; targetDate: string }>>({});
   const [expandedGroups, setExpandedGroups] = useState<Set<string>>(new Set());
   const [controlFilter, setControlFilter] = useState("");
+  // v1.10.4: Controls lazy-loaded when Control Assignment tab opens (avoids
+  // serializing 70k+ requirement mappings into the RSC payload on page load)
+  const [allControls, setAllControls] = useState<any[]>(initialControls);
+  const [controlsLoaded, setControlsLoaded] = useState(initialControls.length > 0);
+
+  useEffect(() => {
+    if (activeTab !== "controls" || controlsLoaded) return;
+    let cancelled = false;
+    fetch(`/api/admin/assessments/${assessment.id}/controls`)
+      .then((r) => r.json())
+      .then((data) => {
+        if (cancelled) return;
+        if (Array.isArray(data)) {
+          setAllControls(data);
+          setControlsLoaded(true);
+        }
+      })
+      .catch(() => { /* keep empty; tab shows empty state */ });
+    return () => { cancelled = true; };
+  }, [activeTab, controlsLoaded, assessment.id]);
 
   const toggleGroup = (key: string) => {
     setExpandedGroups((prev) => {

@@ -61,16 +61,6 @@ export default async function AssessmentDetailPage({ params, searchParams }: { p
     notFound();
   }
 
-  // All available controls (company-scoped), with standard hierarchy
-  const allControls = await prisma.control.findMany({
-    where: companyId ? { companyId } : {},
-    include: {
-      processArea: { include: { standardRef: true } },
-      requirementMappings: { include: { requirement: true } },
-    },
-    orderBy: { name: "asc" },
-  });
-
   // Process areas for filter
   const processAreas = await prisma.processArea.findMany({
     where: companyId ? { companyId } : {},
@@ -92,7 +82,6 @@ export default async function AssessmentDetailPage({ params, searchParams }: { p
   return (
     <AssessmentClient
       assessment={JSON.parse(JSON.stringify(assessment))}
-      allControls={JSON.parse(JSON.stringify(allControls))}
       processAreas={processAreas}
       activityTypes={activityTypes}
       users={users}

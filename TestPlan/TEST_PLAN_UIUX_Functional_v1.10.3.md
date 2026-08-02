@@ -448,7 +448,7 @@ python scripts/db/cleanup_test_data.py             # execute cleanup
 | Test | Result | Notes |
 |------|--------|-------|
 | A1 | ✅ | Unauthenticated `/` → `/login` |
-| A2 | ⚠️ | Admin login succeeds but lands on `/fla` (design says `/admin`). `src/app/page.tsx` always redirects to `/fla` regardless of role — minor deviation, not a blocker |
+| A2 | ✅ | Admin login → `/admin` (fixed in v1.10.4: `page.tsx` role-based redirect). Assessor → `/fla` |
 | A4 | ✅ | Invalid login → "Invalid username or password.", stays on login, no crash |
 | A6 | ✅ | Navbar shows "Admin (Admin)" + Sign out |
 | C2 | ✅ | Company switch updates URL to `?companyId=comp_smds` |
@@ -467,7 +467,7 @@ python scripts/db/cleanup_test_data.py             # execute cleanup
 | O2 | ✅ | Workflow bar: Adopt Checklist ✓, others ○ (correct for data state) |
 | O5 | ✅ | Assessment Details card (Activity Type, LOA, Lead Assessor, Status, dates) |
 | O7 | ✅ | TOR card fully populated (Objective, Scope, Sponsor, Methodology, Key Focus, Report date) |
-| X3 | ⚠️ | Assessment page takes ~40s to stream on cold start (heavy query). Loads eventually; flag for perf review |
+| X3 | ✅ | Assessment page cold-start fixed in v1.10.4: controls lazy-loaded client-side when Control Assignment tab opens (`GET /api/admin/assessments/[id]/controls`). Removed 1,048 controls + 73,619 requirement mappings from the RSC payload — initial page load no longer serializes them |
 | CH1 | ✅ | Checklist tab loads, grouped by standard, no error |
 | CH2 | ✅ | Items show ID (IMS-001) + text |
 | CH3 | ✅ | Compliance status PATCH works (set Compliant → persisted; reverted to NotTested) |
