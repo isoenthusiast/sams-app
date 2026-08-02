@@ -141,7 +141,7 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
         standard: r.processArea?.standardRef?.standard ?? r.standard ?? "Unknown",
         processAreaName: r.processArea?.name ?? "Unknown",
         processAreaId: r.processArea?.id ?? "",
-        controls: r.controlMappings.map((c) => ({ id: c.control.id, name: c.control.name, controlType: c.control.controlType })),
+        controls: r.controlMappings.map((c) => ({ mappingId: c.id, id: c.control.id, name: c.control.name, controlType: c.control.controlType })),
       }))
     : [];
 

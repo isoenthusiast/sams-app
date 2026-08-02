@@ -1,12 +1,41 @@
 import { requireAdmin } from "@/lib/authz";
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
+import { cookies } from "next/headers";
 
 export async function GET() {
   const { response } = await requireAdmin();
   if (response) return response;
-  const controls = await prisma.control.findMany({ include: { processArea: { select: { name: true } } }, orderBy: { name: "asc" } });
-  return NextResponse.json({ controls });
+
+  const cookieStore = await cookies();
+  const companyId = cookieStore.get("selectedCompanyId")?.value || null;
+
+  const controls = await prisma.control.findMany({
+    where: companyId ? { companyId } : {},
+    select: {
+      id: true,
+      name: true,
+      controlType: true,
+      controlRef: true,
+      standard: true,
+      processArea: { select: { id: true, name: true } },
+      requirementMappings: { select: { requirementRId: true } },
+    },
+    orderBy: { name: "asc" },
+  });
+
+  const mapped = controls.map((c) => ({
+    id: c.id,
+    name: c.name,
+    controlType: c.controlType,
+    controlRef: c.controlRef,
+    standard: c.standard,
+    processAreaId: c.processArea?.id || "",
+    processAreaName: c.processArea?.name || "",
+    mappedRequirementRIds: c.requirementMappings.map((m) => m.requirementRId),
+  }));
+
+  return NextResponse.json({ controls: mapped, total: mapped.length });
 }
 
 export async function POST(request: Request) {

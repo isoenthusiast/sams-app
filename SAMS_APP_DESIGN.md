@@ -2,7 +2,7 @@
 
 > **📐 Active alongside `CONAN_Design Philosophy.md` and `CONAN_App Design.md`.** CONAN docs are the narrative source of truth; this document is the technical specification (models, routes, components, APIs). Both are maintained.
 
-**Last Updated:** August 2, 2026 (v1.10.8 — deploying)
+**Last Updated:** August 2, 2026 (v1.10.9 — global control mapping)
 
 ---
 
@@ -937,6 +937,8 @@ Local Dev (localhost:3100)
 | v1.10.5 | 2026-08-02 | **UI/UX Test Run 2 — 84 cases passed.** Verified: Activities CRUD, Samples/Findings/Actions flow, Checklist compliance auto-save + notes/voice, Template management with 6-field editor, Dashboard Process Health, Controls assignment, Report tab with live compliance summary + TOR + AI analysis. **Design gap T8:** global templates editable on non-SAMS001 (should be read-only per v1.10.3). **Known issue:** `/api/gamification/stats` 500. |
 | v1.10.6 | 2026-08-02 | **P1+P2 Bug Fixes + Test Completion (109 cases).** P1: Global template read-only guard enforced at UI (🔒 labels, hidden +Add/✏️/×) and API (403 on PUT/DELETE for non-SAMS001). 4 files, 78 insertions. P2: Gamification stats BigInt serialization fixed — `SUM()::int` cast + `Number()` wrapper. API returns 200 with 8 tracks + 36 XP. Test coverage: 109/130+ cases passed across 4 batches. Backlog: 5 remaining items (assessment flow, admin audit, deploy, 2 pre-existing features). |
 | v1.10.7 | 2026-08-02 | **P4: End-to-end assessment creation verified (9/9).** Full pipeline tested: Assessment → ControlAssignment → Aact (6 default activities) → AssessmentAssessor → AuditChecklistItem → verified readable. All CRUD operations clean up with 0 traces. Checklist template adoption verified (39 items available). Admin subviews audited: 550 users (94 preferredName, 545 managers), 12 standards (2,393 requirements), 54 backlog items, 527 KB entries, 58 DB tables, 195 PAs, 3,144 controls. 4 backlog items remaining. |
+| v1.10.8 | 2026-08-02 | **Checklist UI Redesign (v1.10.9–v1.10.12).** 4 iterations driven by user feedback: (1) "+X more controls" made clickable, grouped by requirement; (2) Collapsible requirement containers with reqId + clause text, per-requirement add/remove controls via search modal; (3) `AuditChecklist2Requirement` junction for checklist→control links, new `POST/DELETE /api/admin/assessments/[id]/checklist-requirements`; (4) Inline rich content (no toggle needed), collapsible "📋 Requirements (N mapped)" container, Unmap button. Collapsible template selector. Un-adopt checklist via DELETE. |
+| v1.10.9 | 2026-08-02 | **Global Control ↔ Requirement Mapping UI.** Architectural grilling resolved 5 design decisions: (1) Controls live under ProcessAreas — single source of truth; (2) One control test cascades to all linked requirements — no duplicate ISO+process audits; (3) Requirement-first mapping workflow; (4) Global company-level mapping — assessments inherit automatically; (5) Batch cross-company replication via matching `requirementId` + `controlName`. **Implementation:** Enhanced `RequirementsView.tsx` with "＋ Add Control" modal (searches by control name/process area), "× Remove" on hover, instant UI updates. Enhanced `GET /api/admin/controls` with company scoping + `mappedRequirementRIds`. Added `DELETE` to `MapControl2Requirement/[id]`. Updated server query to include `mappingId` for delete operations. 4 files changed. |
 
 ---
 

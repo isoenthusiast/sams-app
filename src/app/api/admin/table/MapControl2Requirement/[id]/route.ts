@@ -30,3 +30,26 @@ export async function PUT(
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
 }
+
+// DELETE — remove a control-requirement mapping
+export async function DELETE(
+  _request: Request,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  try {
+    const session = await auth();
+    if (!session?.user) return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
+
+    const { id } = await params;
+
+    await prisma.$executeRawUnsafe(
+      `DELETE FROM "MapControl2Requirement" WHERE id = $1`,
+      id
+    );
+
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    console.error("Error deleting MapControl2Requirement:", error);
+    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+  }
+}

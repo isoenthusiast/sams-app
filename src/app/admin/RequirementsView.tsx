@@ -10,7 +10,7 @@ import { CollapsibleSection } from "@/components/CollapsibleSection";
 type ReqData = {
   rId: number; requirementId: string; clauseContent: string;
   standard: string; processAreaName: string; processAreaId: string;
-  controls: { id: string; name: string; controlType: string }[];
+  controls: { mappingId: string; id: string; name: string; controlType: string }[];
 };
 
 type Props = { requirements: ReqData[]; standards: { standard: string }[] };
@@ -24,6 +24,13 @@ export function RequirementsView({ requirements, standards }: Props) {
   const [saving, setSaving] = useState(false);
   const [msg, setMsg] = useState<{ type: "ok" | "err"; text: string } | null>(null);
   const [data, setData] = useState(requirements);
+
+  // ── Control mapping modal state ──
+  const [mappingTarget, setMappingTarget] = useState<{ rId: number; requirementId: string } | null>(null);
+  const [controlSearch, setControlSearch] = useState("");
+  const [availableControls, setAvailableControls] = useState<any[]>([]);
+  const [loadingControls, setLoadingControls] = useState(false);
+  const [linking, setLinking] = useState(false);
 
   const filtered = useMemo(() => data.filter((r) => {
     if (filter && !r.requirementId.toLowerCase().includes(filter.toLowerCase()) && !r.clauseContent.toLowerCase().includes(filter.toLowerCase())) return false;
@@ -55,6 +62,61 @@ export function RequirementsView({ requirements, standards }: Props) {
       setEditing(null); setMsg({ type: "ok", text: "Saved." });
     } catch (err) { setMsg({ type: "err", text: err instanceof Error ? err.message : "Save failed" }); }
     finally { setSaving(false); }
+  };
+
+  // ── Control mapping helpers ──
+  const openMappingModal = async (r: ReqData) => {
+    setMappingTarget({ rId: r.rId, requirementId: r.requirementId });
+    setControlSearch("");
+    setLoadingControls(true);
+    try {
+      const res = await fetch("/api/admin/controls");
+      if (res.ok) {
+        const json = await res.json();
+        setAvailableControls(json.controls || []);
+      }
+    } catch { /* ignore */ }
+    finally { setLoadingControls(false); }
+  };
+
+  const handleLinkControl = async (controlId: string) => {
+    if (!mappingTarget) return;
+    setLinking(true);
+    try {
+      const res = await fetch("/api/admin/table/MapControl2Requirement/data", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ controlId, requirementRId: mappingTarget.rId }),
+      });
+      if (!res.ok) throw new Error("Link failed");
+      const json = await res.json();
+      // Add to local state
+      const ctrl = availableControls.find((c: any) => c.id === controlId);
+      setData((prev) => prev.map((r) => r.rId === mappingTarget.rId
+        ? { ...r, controls: [...r.controls, { mappingId: json.id, id: controlId, name: ctrl?.name || controlId, controlType: ctrl?.controlType || "" }] }
+        : r
+      ));
+      setMsg({ type: "ok", text: `Linked ${ctrl?.name || controlId}.` });
+      setTimeout(() => setMsg(null), 2000);
+    } catch (err) {
+      setMsg({ type: "err", text: err instanceof Error ? err.message : "Link failed" });
+    }
+    finally { setLinking(false); }
+  };
+
+  const handleUnlinkControl = async (mappingId: string, controlName: string, rId: number) => {
+    try {
+      const res = await fetch(`/api/admin/table/MapControl2Requirement/${mappingId}`, { method: "DELETE" });
+      if (!res.ok) throw new Error("Unlink failed");
+      setData((prev) => prev.map((r) => r.rId === rId
+        ? { ...r, controls: r.controls.filter((c) => c.mappingId !== mappingId) }
+        : r
+      ));
+      setMsg({ type: "ok", text: `Removed ${controlName}.` });
+      setTimeout(() => setMsg(null), 2000);
+    } catch (err) {
+      setMsg({ type: "err", text: err instanceof Error ? err.message : "Unlink failed" });
+    }
   };
 
   return (
@@ -96,8 +158,27 @@ export function RequirementsView({ requirements, standards }: Props) {
                                 <><p className="text-sm text-slate-700 whitespace-pre-wrap">{r.clauseContent}</p><Button variant="secondary" size="sm" onClick={() => startEdit(r)}>✏️ Edit</Button></>
                               )}
                               {r.controls.length > 0 && (
-                                <div className="border-t border-slate-100 pt-3"><h4 className="text-xs font-medium text-slate-600 mb-2">Associated Controls ({r.controls.length})</h4>
-                                  <div className="flex flex-wrap gap-1">{r.controls.map((c) => (<Badge key={c.id} variant="default" size="sm">{c.name} <span className="text-slate-400 ml-1">({c.controlType})</span></Badge>))}</div></div>
+                                <div className="border-t border-slate-100 pt-3">
+                                  <div className="flex items-center justify-between mb-2">
+                                    <h4 className="text-xs font-medium text-slate-600">Associated Controls ({r.controls.length})</h4>
+                                    <button onClick={() => openMappingModal(r)} className="text-xs text-blue-600 hover:text-blue-800 font-medium">＋ Add Control</button>
+                                  </div>
+                                  <div className="flex flex-wrap gap-1">
+                                    {r.controls.map((c) => (
+                                      <span key={c.mappingId} className="inline-flex items-center gap-1 rounded-full bg-slate-100 px-2.5 py-1 text-xs text-slate-700 group">
+                                        {c.name} <span className="text-slate-400">({c.controlType})</span>
+                                        <button onClick={() => handleUnlinkControl(c.mappingId, c.name, r.rId)}
+                                          className="ml-0.5 text-slate-300 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity"
+                                          title="Remove mapping">×</button>
+                                      </span>
+                                    ))}
+                                  </div>
+                                </div>
+                              )}
+                              {r.controls.length === 0 && (
+                                <div className="border-t border-slate-100 pt-3">
+                                  <button onClick={() => openMappingModal(r)} className="text-xs text-blue-600 hover:text-blue-800 font-medium">＋ Add Control</button>
+                                </div>
                               )}
                             </div>
                           )}
@@ -112,6 +193,71 @@ export function RequirementsView({ requirements, standards }: Props) {
         ))}
         {grouped.length === 0 && <p className="py-12 text-center text-sm text-slate-400">No requirements match your filter.</p>}
       </div>
+
+      {/* ── Control Mapping Modal ── */}
+      {mappingTarget && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40" onClick={() => setMappingTarget(null)}>
+          <div className="bg-white rounded-lg shadow-xl w-full max-w-2xl mx-4 max-h-[80vh] flex flex-col" onClick={e => e.stopPropagation()}>
+            <div className="px-6 py-4 border-b border-slate-200 flex items-center justify-between shrink-0">
+              <div>
+                <h3 className="text-sm font-semibold text-slate-800">🔗 Map Controls to Requirement</h3>
+                <p className="text-xs text-slate-500 mt-0.5">{mappingTarget.requirementId}</p>
+              </div>
+              <button onClick={() => setMappingTarget(null)} className="text-slate-400 hover:text-slate-600 text-lg">&times;</button>
+            </div>
+            <div className="px-6 py-3 border-b border-slate-100 shrink-0">
+              <input
+                type="text" value={controlSearch} onChange={e => setControlSearch(e.target.value)}
+                placeholder="Search controls by name or process area…"
+                className="w-full rounded border border-slate-300 px-3 py-2 text-sm"
+                autoFocus
+              />
+            </div>
+            <div className="flex-1 overflow-y-auto px-6 py-3">
+              {loadingControls ? (
+                <p className="text-sm text-slate-400 py-4 text-center">Loading controls…</p>
+              ) : (
+                <div className="space-y-1">
+                  {availableControls
+                    .filter((c: any) => !controlSearch
+                      || c.name?.toLowerCase().includes(controlSearch.toLowerCase())
+                      || c.processAreaName?.toLowerCase().includes(controlSearch.toLowerCase()))
+                    .slice(0, 50)
+                    .map((c: any) => (
+                      <button
+                        key={c.id}
+                        onClick={() => handleLinkControl(c.id)}
+                        disabled={linking}
+                        className="w-full text-left flex items-center gap-2 text-sm rounded px-3 py-2 hover:bg-blue-50 transition-colors disabled:opacity-50"
+                      >
+                        <span className="text-blue-400 shrink-0">＋</span>
+                        <span className="font-medium text-slate-700 truncate flex-1">{c.name}</span>
+                        <span className="text-xs text-slate-400 shrink-0">{c.controlType}</span>
+                        {c.processAreaName && (
+                          <span className="text-xs text-slate-300 truncate max-w-[140px] shrink-0">{c.processAreaName}</span>
+                        )}
+                      </button>
+                    ))}
+                  {availableControls.length === 0 && !loadingControls && (
+                    <p className="text-sm text-slate-400 py-4 text-center">No controls found. Add controls via the Controls admin tab first.</p>
+                  )}
+                </div>
+              )}
+            </div>
+            <div className="px-6 py-3 border-t border-slate-200 shrink-0 flex justify-between items-center">
+              <span className="text-xs text-slate-400">
+                {availableControls.filter((c: any) => !controlSearch
+                  || c.name?.toLowerCase().includes(controlSearch.toLowerCase())
+                  || c.processAreaName?.toLowerCase().includes(controlSearch.toLowerCase())).length} control(s) available
+              </span>
+              <button onClick={() => setMappingTarget(null)}
+                className="rounded bg-slate-900 px-4 py-1.5 text-xs font-medium text-white hover:bg-slate-800">
+                Done
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
