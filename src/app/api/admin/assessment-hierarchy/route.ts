@@ -33,13 +33,22 @@ export async function GET() {
   });
 
   // Build hierarchy: Standard → PA → Requirement → Controls
-  // Group by requirement.standard (the ISO clause standard name)
+  // ISO standards (14001, 45001, 9001, etc.) are nested under "International Standards (ISO)"
+  const ISO_PARENT = "International Standards (ISO)";
   const stdMap = new Map<string, Map<string, { reqs: any[]; paId: string }>>();
   
   for (const r of requirements) {
-    const stdName = r.standard || "Unknown";
-    const paName = r.processArea?.name || "Unknown";
-    const paId = r.processArea?.id || "";
+    // Determine top-level standard: ISO standards go under "International Standards (ISO)"
+    const isIso = /ISO\s+\d{4,5}/i.test(r.standard || "");
+    const stdName = isIso ? ISO_PARENT : (r.standard || "Unknown");
+    
+    // For ISO standards, the standard name becomes the ProcessArea
+    // (e.g., "ISO 14001:2015 Environmental Management System (EMS)" → PA name)
+    // For non-ISO, use the actual processArea name
+    const paName = isIso 
+      ? (r.standard || "Unknown").replace("Environmental Management System (EMS)", "EMS").replace("Quality Management System (QMS)", "QMS").replace("Occupational Health and Safety Standard", "OHSMS").trim()
+      : (r.processArea?.name || "Unknown");
+    const paId = isIso ? `iso_pa_${r.standard?.replace(/\s+/g, "_")}` : (r.processArea?.id || "");
 
     if (!stdMap.has(stdName)) stdMap.set(stdName, new Map());
     const paMap = stdMap.get(stdName)!;
