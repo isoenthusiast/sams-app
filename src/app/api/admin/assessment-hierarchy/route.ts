@@ -72,49 +72,36 @@ export async function GET() {
     });
   }
 
-  // Also add ProcessAreas that have controls but no requirements mapped yet
-  const paWithControls = new Map<string, { id: string; name: string; ctrlCount: number }>();
-  for (const c of allControls) {
-    const paName = c.processArea?.name || "Unknown";
-    const paId = c.processAreaId;
-    if (!paWithControls.has(paId)) paWithControls.set(paId, { id: paId, name: paName, ctrlCount: 0 });
-    paWithControls.get(paId)!.ctrlCount++;
-  }
-
   // Build final hierarchy array
-  const hierarchy = [...stdMap.entries()]
-    .sort((a, b) => a[0].localeCompare(b[0]))
-    .map(([stdName, paMap]) => ({
-      standard: stdName,
-      standardId: stdName.replace(/\s+/g, "_"),
-      processAreas: [...paMap.entries()]
-        .sort((a, b) => a[0].localeCompare(b[0]))
-        .map(([paName, data]) => ({
-            id: data.paId,
-            name: paName,
-            totalControls: data.reqs.reduce((sum, r) => sum + r.controlCount, 0),
-            requirements: data.reqs
-              .filter((r) => r.controlCount > 0) // Only show requirements with mapped controls
-              .sort((a, b) => {
-                // Numeric sort
-                const parse = (id: string) => {
-                  let n = id.replace(/^[A-Za-z]+-/, "").split(/[&\- ]/)[0].trim();
-                  return n.split(".").map((s) => { const num = Number(s); return isNaN(num) ? s : num; });
-                };
-                const va = parse(a.requirementId), vb = parse(b.requirementId);
-                for (let i = 0; i < Math.max(va.length, vb.length); i++) {
-                  const x = va[i] ?? 0, y = vb[i] ?? 0;
-                  if (typeof x === "number" && typeof y === "number" && x !== y) return x - y;
-                  if (typeof x === "number") return -1;
-                  if (typeof y === "number") return 1;
-                  if (String(x) !== String(y)) return String(x).localeCompare(String(y));
-                }
-                return 0;
-              }),
-          })
-        .filter((pa) => pa.totalControls > 0),
-    }))
-    .filter((s) => s.processAreas.length > 0);
+  const hierarchy: any[] = [];
+  for (const [stdName, paMap] of [...stdMap.entries()].sort((a, b) => a[0].localeCompare(b[0]))) {
+    const pas: any[] = [];
+    for (const [paName, data] of [...paMap.entries()].sort((a, b) => a[0].localeCompare(b[0]))) {
+      const totalControls = data.reqs.reduce((sum: number, r: any) => sum + r.controlCount, 0);
+      if (totalControls === 0) continue;
+      const requirements = data.reqs
+        .filter((r: any) => r.controlCount > 0)
+        .sort((a: any, b: any) => {
+          const parse = (id: string) => {
+            let n = id.replace(/^[A-Za-z]+-/, "").split(/[&\- ]/)[0].trim();
+            return n.split(".").map((s) => { const num = Number(s); return isNaN(num) ? s : num; });
+          };
+          const va = parse(a.requirementId), vb = parse(b.requirementId);
+          for (let i = 0; i < Math.max(va.length, vb.length); i++) {
+            const x = va[i] ?? 0, y = vb[i] ?? 0;
+            if (typeof x === "number" && typeof y === "number" && x !== y) return x - y;
+            if (typeof x === "number") return -1;
+            if (typeof y === "number") return 1;
+            if (String(x) !== String(y)) return String(x).localeCompare(String(y));
+          }
+          return 0;
+        });
+      pas.push({ id: data.paId, name: paName, totalControls, requirements });
+    }
+    if (pas.length > 0) {
+      hierarchy.push({ standard: stdName, standardId: stdName.replace(/\s+/g, "_"), processAreas: pas });
+    }
+  }
 
   // Flat controls list
   const flatControls = allControls.map((c) => ({
