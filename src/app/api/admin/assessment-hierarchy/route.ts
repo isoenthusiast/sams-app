@@ -85,7 +85,7 @@ export async function GET() {
           return {
             id: data.paId,
             name: paName,
-            totalControls: paInfo?.ctrlCount || 0,
+            totalControls: data.reqs.reduce((sum, r) => sum + r.controlCount, 0),
             requirements: data.reqs
               .filter((r) => r.controlCount > 0) // Only show requirements with mapped controls
               .sort((a, b) => {
@@ -105,7 +105,7 @@ export async function GET() {
                 return 0;
               }),
           };
-        }),
+        }).filter((pa) => pa.totalControls > 0),
     }))
     .filter((s) => s.processAreas.length > 0);
 
