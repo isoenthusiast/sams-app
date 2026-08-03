@@ -800,6 +800,7 @@ model Requirement {
   controlMappings     MapControl2Requirement[]
   assuranceProtocols  AssuranceProtocol[]
   auditMappings       AuditChecklist2Requirement[]
+  documentMappings    MapRequirement2Document[]
 
   @@unique([requirementId, processAreaId, companyId])
   @@index([processAreaId])
@@ -866,6 +867,7 @@ model Document {
   srcFileDeleted  Boolean   @default(false)
   createdAt       DateTime  @default(now())
   updatedAt       DateTime  @updatedAt
+  requirementMappings MapRequirement2Document[]
 
   @@index([documentNo])
   @@index([isLatest])
@@ -873,6 +875,22 @@ model Document {
   @@index([processAreaId])
   @@index([folder])
   @@map("Document")
+}
+
+// ── Requirement ↔ Document junction ──
+model MapRequirement2Document {
+  id             String      @id @default(cuid())
+  requirementRId Int
+  documentId     String
+  linkedBy       String?
+  linkedAt       DateTime    @default(now())
+  requirement    Requirement @relation(fields: [requirementRId], references: [rId], onDelete: Cascade)
+  document       Document    @relation(fields: [documentId], references: [id], onDelete: Cascade)
+
+  @@unique([requirementRId, documentId])
+  @@index([requirementRId])
+  @@index([documentId])
+  @@map("MapRequirement2Document")
 }
 
 enum LOA {

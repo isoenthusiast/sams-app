@@ -7,10 +7,13 @@ import { RequirementsView } from "./RequirementsView";
 import { ControlsAdminView } from "./ControlsAdminView";
 import { AssuranceProtocolView } from "./AssuranceProtocolView";
 
+import { RequirementDocumentsTab } from "./RequirementDocumentsTab";
+
 const MENU_ITEMS = [
   { key: "standards", label: "📋 Manage Standards" },
   { key: "processareas", label: "🔄 Process Areas" },
   { key: "requirements", label: "📝 Requirements" },
+  { key: "documents", label: "📄 Documents" },
   { key: "controls", label: "🎛 Controls" },
   { key: "protocols", label: "📋 Protocols" },
 ] as const;
@@ -45,6 +48,7 @@ export function StandardsManagementView({
         {activeTab === "standards" && <StandardAdminView initialStandards={standards} companies={companies} />}
         {activeTab === "processareas" && <ProcessAreasAdminView initialProcessAreas={processAreas} initialStandards={allStandards} />}
         {activeTab === "requirements" && <RequirementsView requirements={requirements} standards={allStandards} />}
+        {activeTab === "documents" && <RequirementDocumentsTab requirements={requirements} standards={allStandards} />}
         {activeTab === "controls" && <ControlsAdminView initialControls={controls} initialProcessAreas={controlPas} />}
         {activeTab === "protocols" && <AssuranceProtocolView />}
       </div>

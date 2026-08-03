@@ -263,6 +263,11 @@ export type WebhookLog = Prisma.WebhookLogModel
  */
 export type Document = Prisma.DocumentModel
 /**
+ * Model MapRequirement2Document
+ * 
+ */
+export type MapRequirement2Document = Prisma.MapRequirement2DocumentModel
+/**
  * Model BacklogItem
  * 
  */

@@ -304,6 +304,7 @@ export type DocumentWhereInput = {
   srcFileDeleted?: Prisma.BoolFilter<"Document"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Document"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Document"> | Date | string
+  requirementMappings?: Prisma.MapRequirement2DocumentListRelationFilter
 }
 
 export type DocumentOrderByWithRelationInput = {
@@ -323,6 +324,7 @@ export type DocumentOrderByWithRelationInput = {
   srcFileDeleted?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  requirementMappings?: Prisma.MapRequirement2DocumentOrderByRelationAggregateInput
 }
 
 export type DocumentWhereUniqueInput = Prisma.AtLeast<{
@@ -345,6 +347,7 @@ export type DocumentWhereUniqueInput = Prisma.AtLeast<{
   srcFileDeleted?: Prisma.BoolFilter<"Document"> | boolean
   createdAt?: Prisma.DateTimeFilter<"Document"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Document"> | Date | string
+  requirementMappings?: Prisma.MapRequirement2DocumentListRelationFilter
 }, "id" | "documentNo">
 
 export type DocumentOrderByWithAggregationInput = {
@@ -410,6 +413,7 @@ export type DocumentCreateInput = {
   srcFileDeleted?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  requirementMappings?: Prisma.MapRequirement2DocumentCreateNestedManyWithoutDocumentInput
 }
 
 export type DocumentUncheckedCreateInput = {
@@ -429,6 +433,7 @@ export type DocumentUncheckedCreateInput = {
   srcFileDeleted?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  requirementMappings?: Prisma.MapRequirement2DocumentUncheckedCreateNestedManyWithoutDocumentInput
 }
 
 export type DocumentUpdateInput = {
@@ -448,6 +453,7 @@ export type DocumentUpdateInput = {
   srcFileDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  requirementMappings?: Prisma.MapRequirement2DocumentUpdateManyWithoutDocumentNestedInput
 }
 
 export type DocumentUncheckedUpdateInput = {
@@ -467,6 +473,7 @@ export type DocumentUncheckedUpdateInput = {
   srcFileDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  requirementMappings?: Prisma.MapRequirement2DocumentUncheckedUpdateManyWithoutDocumentNestedInput
 }
 
 export type DocumentCreateManyInput = {
@@ -591,6 +598,146 @@ export type DocumentSumOrderByAggregateInput = {
   version?: Prisma.SortOrder
 }
 
+export type DocumentScalarRelationFilter = {
+  is?: Prisma.DocumentWhereInput
+  isNot?: Prisma.DocumentWhereInput
+}
+
+export type DocumentCreateNestedOneWithoutRequirementMappingsInput = {
+  create?: Prisma.XOR<Prisma.DocumentCreateWithoutRequirementMappingsInput, Prisma.DocumentUncheckedCreateWithoutRequirementMappingsInput>
+  connectOrCreate?: Prisma.DocumentCreateOrConnectWithoutRequirementMappingsInput
+  connect?: Prisma.DocumentWhereUniqueInput
+}
+
+export type DocumentUpdateOneRequiredWithoutRequirementMappingsNestedInput = {
+  create?: Prisma.XOR<Prisma.DocumentCreateWithoutRequirementMappingsInput, Prisma.DocumentUncheckedCreateWithoutRequirementMappingsInput>
+  connectOrCreate?: Prisma.DocumentCreateOrConnectWithoutRequirementMappingsInput
+  upsert?: Prisma.DocumentUpsertWithoutRequirementMappingsInput
+  connect?: Prisma.DocumentWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.DocumentUpdateToOneWithWhereWithoutRequirementMappingsInput, Prisma.DocumentUpdateWithoutRequirementMappingsInput>, Prisma.DocumentUncheckedUpdateWithoutRequirementMappingsInput>
+}
+
+export type DocumentCreateWithoutRequirementMappingsInput = {
+  id?: string
+  documentNo?: string | null
+  version?: number
+  isLatest?: boolean
+  replacedById?: string | null
+  archivedAt?: Date | string | null
+  companyId?: string | null
+  source?: string | null
+  folder?: string | null
+  filename: string
+  processAreaId?: string | null
+  summary?: string | null
+  documentContent: string
+  srcFileDeleted?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type DocumentUncheckedCreateWithoutRequirementMappingsInput = {
+  id?: string
+  documentNo?: string | null
+  version?: number
+  isLatest?: boolean
+  replacedById?: string | null
+  archivedAt?: Date | string | null
+  companyId?: string | null
+  source?: string | null
+  folder?: string | null
+  filename: string
+  processAreaId?: string | null
+  summary?: string | null
+  documentContent: string
+  srcFileDeleted?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type DocumentCreateOrConnectWithoutRequirementMappingsInput = {
+  where: Prisma.DocumentWhereUniqueInput
+  create: Prisma.XOR<Prisma.DocumentCreateWithoutRequirementMappingsInput, Prisma.DocumentUncheckedCreateWithoutRequirementMappingsInput>
+}
+
+export type DocumentUpsertWithoutRequirementMappingsInput = {
+  update: Prisma.XOR<Prisma.DocumentUpdateWithoutRequirementMappingsInput, Prisma.DocumentUncheckedUpdateWithoutRequirementMappingsInput>
+  create: Prisma.XOR<Prisma.DocumentCreateWithoutRequirementMappingsInput, Prisma.DocumentUncheckedCreateWithoutRequirementMappingsInput>
+  where?: Prisma.DocumentWhereInput
+}
+
+export type DocumentUpdateToOneWithWhereWithoutRequirementMappingsInput = {
+  where?: Prisma.DocumentWhereInput
+  data: Prisma.XOR<Prisma.DocumentUpdateWithoutRequirementMappingsInput, Prisma.DocumentUncheckedUpdateWithoutRequirementMappingsInput>
+}
+
+export type DocumentUpdateWithoutRequirementMappingsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  documentNo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  version?: Prisma.IntFieldUpdateOperationsInput | number
+  isLatest?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  replacedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  archivedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  source?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  folder?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  filename?: Prisma.StringFieldUpdateOperationsInput | string
+  processAreaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  summary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  documentContent?: Prisma.StringFieldUpdateOperationsInput | string
+  srcFileDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type DocumentUncheckedUpdateWithoutRequirementMappingsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  documentNo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  version?: Prisma.IntFieldUpdateOperationsInput | number
+  isLatest?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  replacedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  archivedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  source?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  folder?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  filename?: Prisma.StringFieldUpdateOperationsInput | string
+  processAreaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  summary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  documentContent?: Prisma.StringFieldUpdateOperationsInput | string
+  srcFileDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+
+/**
+ * Count Type DocumentCountOutputType
+ */
+
+export type DocumentCountOutputType = {
+  requirementMappings: number
+}
+
+export type DocumentCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  requirementMappings?: boolean | DocumentCountOutputTypeCountRequirementMappingsArgs
+}
+
+/**
+ * DocumentCountOutputType without action
+ */
+export type DocumentCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the DocumentCountOutputType
+   */
+  select?: Prisma.DocumentCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * DocumentCountOutputType without action
+ */
+export type DocumentCountOutputTypeCountRequirementMappingsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.MapRequirement2DocumentWhereInput
+}
 
 
 export type DocumentSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -610,6 +757,8 @@ export type DocumentSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   srcFileDeleted?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  requirementMappings?: boolean | Prisma.Document$requirementMappingsArgs<ExtArgs>
+  _count?: boolean | Prisma.DocumentCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["document"]>
 
 export type DocumentSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -670,10 +819,18 @@ export type DocumentSelectScalar = {
 }
 
 export type DocumentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "documentNo" | "version" | "isLatest" | "replacedById" | "archivedAt" | "companyId" | "source" | "folder" | "filename" | "processAreaId" | "summary" | "documentContent" | "srcFileDeleted" | "createdAt" | "updatedAt", ExtArgs["result"]["document"]>
+export type DocumentInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  requirementMappings?: boolean | Prisma.Document$requirementMappingsArgs<ExtArgs>
+  _count?: boolean | Prisma.DocumentCountOutputTypeDefaultArgs<ExtArgs>
+}
+export type DocumentIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
+export type DocumentIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
 
 export type $DocumentPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Document"
-  objects: {}
+  objects: {
+    requirementMappings: Prisma.$MapRequirement2DocumentPayload<ExtArgs>[]
+  }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     documentNo: string | null
@@ -1085,6 +1242,7 @@ readonly fields: DocumentFieldRefs;
  */
 export interface Prisma__DocumentClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  requirementMappings<T extends Prisma.Document$requirementMappingsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Document$requirementMappingsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MapRequirement2DocumentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1147,6 +1305,10 @@ export type DocumentFindUniqueArgs<ExtArgs extends runtime.Types.Extensions.Inte
    */
   omit?: Prisma.DocumentOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DocumentInclude<ExtArgs> | null
+  /**
    * Filter, which Document to fetch.
    */
   where: Prisma.DocumentWhereUniqueInput
@@ -1165,6 +1327,10 @@ export type DocumentFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Extensio
    */
   omit?: Prisma.DocumentOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DocumentInclude<ExtArgs> | null
+  /**
    * Filter, which Document to fetch.
    */
   where: Prisma.DocumentWhereUniqueInput
@@ -1182,6 +1348,10 @@ export type DocumentFindFirstArgs<ExtArgs extends runtime.Types.Extensions.Inter
    * Omit specific fields from the Document
    */
   omit?: Prisma.DocumentOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DocumentInclude<ExtArgs> | null
   /**
    * Filter, which Document to fetch.
    */
@@ -1231,6 +1401,10 @@ export type DocumentFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Extension
    */
   omit?: Prisma.DocumentOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DocumentInclude<ExtArgs> | null
+  /**
    * Filter, which Document to fetch.
    */
   where?: Prisma.DocumentWhereInput
@@ -1278,6 +1452,10 @@ export type DocumentFindManyArgs<ExtArgs extends runtime.Types.Extensions.Intern
    * Omit specific fields from the Document
    */
   omit?: Prisma.DocumentOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DocumentInclude<ExtArgs> | null
   /**
    * Filter, which Documents to fetch.
    */
@@ -1327,6 +1505,10 @@ export type DocumentCreateArgs<ExtArgs extends runtime.Types.Extensions.Internal
    */
   omit?: Prisma.DocumentOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DocumentInclude<ExtArgs> | null
+  /**
    * The data needed to create a Document.
    */
   data: Prisma.XOR<Prisma.DocumentCreateInput, Prisma.DocumentUncheckedCreateInput>
@@ -1374,6 +1556,10 @@ export type DocumentUpdateArgs<ExtArgs extends runtime.Types.Extensions.Internal
    * Omit specific fields from the Document
    */
   omit?: Prisma.DocumentOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DocumentInclude<ExtArgs> | null
   /**
    * The data needed to update a Document.
    */
@@ -1441,6 +1627,10 @@ export type DocumentUpsertArgs<ExtArgs extends runtime.Types.Extensions.Internal
    */
   omit?: Prisma.DocumentOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DocumentInclude<ExtArgs> | null
+  /**
    * The filter to search for the Document to update in case it exists.
    */
   where: Prisma.DocumentWhereUniqueInput
@@ -1467,6 +1657,10 @@ export type DocumentDeleteArgs<ExtArgs extends runtime.Types.Extensions.Internal
    */
   omit?: Prisma.DocumentOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DocumentInclude<ExtArgs> | null
+  /**
    * Filter which Document to delete.
    */
   where: Prisma.DocumentWhereUniqueInput
@@ -1487,6 +1681,30 @@ export type DocumentDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Inte
 }
 
 /**
+ * Document.requirementMappings
+ */
+export type Document$requirementMappingsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the MapRequirement2Document
+   */
+  select?: Prisma.MapRequirement2DocumentSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the MapRequirement2Document
+   */
+  omit?: Prisma.MapRequirement2DocumentOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MapRequirement2DocumentInclude<ExtArgs> | null
+  where?: Prisma.MapRequirement2DocumentWhereInput
+  orderBy?: Prisma.MapRequirement2DocumentOrderByWithRelationInput | Prisma.MapRequirement2DocumentOrderByWithRelationInput[]
+  cursor?: Prisma.MapRequirement2DocumentWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.MapRequirement2DocumentScalarFieldEnum | Prisma.MapRequirement2DocumentScalarFieldEnum[]
+}
+
+/**
  * Document without action
  */
 export type DocumentDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1498,4 +1716,8 @@ export type DocumentDefaultArgs<ExtArgs extends runtime.Types.Extensions.Interna
    * Omit specific fields from the Document
    */
   omit?: Prisma.DocumentOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DocumentInclude<ExtArgs> | null
 }

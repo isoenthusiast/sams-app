@@ -433,6 +433,7 @@ export const ModelName = {
   GamificationStage: 'GamificationStage',
   WebhookLog: 'WebhookLog',
   Document: 'Document',
+  MapRequirement2Document: 'MapRequirement2Document',
   BacklogItem: 'BacklogItem',
   BacklogItemControl: 'BacklogItemControl',
   AuditEvidence: 'AuditEvidence',
@@ -456,7 +457,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "activityLog" | "activityLogType" | "assuranceActivityType" | "assuranceProtocol" | "standard" | "processArea" | "subProcess" | "controlSubProcess" | "control" | "assessmentTemplate" | "assessmentTemplateControlLinkage" | "assessmentTemplateActivityType" | "assessment" | "assessmentAssessor" | "controlAssignment" | "sampleType" | "recordSourceType" | "sample" | "finding" | "action" | "attachment" | "attachmentMapping" | "achievementBadge" | "userAchievement" | "pointTransaction" | "gameAttribute" | "gameAttributeRule" | "emotionalDriveMetric" | "milestone" | "userRole" | "userRoleMapping" | "company" | "department" | "position" | "userCompany" | "userFavorite" | "assessmentActType" | "aact" | "aActControls" | "aActUsers" | "aActDetails" | "knowledgebase" | "mapArt2Know" | "requirement" | "mapControl2Requirement" | "gamificationStage" | "webhookLog" | "document" | "backlogItem" | "backlogItemControl" | "auditEvidence" | "auditChecklist2Requirement" | "auditChecklistTemplate" | "auditChecklistTemplateItem" | "auditChecklistItem" | "assessmentChecklistControl"
+    modelProps: "user" | "activityLog" | "activityLogType" | "assuranceActivityType" | "assuranceProtocol" | "standard" | "processArea" | "subProcess" | "controlSubProcess" | "control" | "assessmentTemplate" | "assessmentTemplateControlLinkage" | "assessmentTemplateActivityType" | "assessment" | "assessmentAssessor" | "controlAssignment" | "sampleType" | "recordSourceType" | "sample" | "finding" | "action" | "attachment" | "attachmentMapping" | "achievementBadge" | "userAchievement" | "pointTransaction" | "gameAttribute" | "gameAttributeRule" | "emotionalDriveMetric" | "milestone" | "userRole" | "userRoleMapping" | "company" | "department" | "position" | "userCompany" | "userFavorite" | "assessmentActType" | "aact" | "aActControls" | "aActUsers" | "aActDetails" | "knowledgebase" | "mapArt2Know" | "requirement" | "mapControl2Requirement" | "gamificationStage" | "webhookLog" | "document" | "mapRequirement2Document" | "backlogItem" | "backlogItemControl" | "auditEvidence" | "auditChecklist2Requirement" | "auditChecklistTemplate" | "auditChecklistTemplateItem" | "auditChecklistItem" | "assessmentChecklistControl"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -4086,6 +4087,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    MapRequirement2Document: {
+      payload: Prisma.$MapRequirement2DocumentPayload<ExtArgs>
+      fields: Prisma.MapRequirement2DocumentFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.MapRequirement2DocumentFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MapRequirement2DocumentPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.MapRequirement2DocumentFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MapRequirement2DocumentPayload>
+        }
+        findFirst: {
+          args: Prisma.MapRequirement2DocumentFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MapRequirement2DocumentPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.MapRequirement2DocumentFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MapRequirement2DocumentPayload>
+        }
+        findMany: {
+          args: Prisma.MapRequirement2DocumentFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MapRequirement2DocumentPayload>[]
+        }
+        create: {
+          args: Prisma.MapRequirement2DocumentCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MapRequirement2DocumentPayload>
+        }
+        createMany: {
+          args: Prisma.MapRequirement2DocumentCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.MapRequirement2DocumentCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MapRequirement2DocumentPayload>[]
+        }
+        delete: {
+          args: Prisma.MapRequirement2DocumentDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MapRequirement2DocumentPayload>
+        }
+        update: {
+          args: Prisma.MapRequirement2DocumentUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MapRequirement2DocumentPayload>
+        }
+        deleteMany: {
+          args: Prisma.MapRequirement2DocumentDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.MapRequirement2DocumentUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.MapRequirement2DocumentUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MapRequirement2DocumentPayload>[]
+        }
+        upsert: {
+          args: Prisma.MapRequirement2DocumentUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MapRequirement2DocumentPayload>
+        }
+        aggregate: {
+          args: Prisma.MapRequirement2DocumentAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateMapRequirement2Document>
+        }
+        groupBy: {
+          args: Prisma.MapRequirement2DocumentGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.MapRequirement2DocumentGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.MapRequirement2DocumentCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.MapRequirement2DocumentCountAggregateOutputType> | number
+        }
+      }
+    }
     BacklogItem: {
       payload: Prisma.$BacklogItemPayload<ExtArgs>
       fields: Prisma.BacklogItemFieldRefs
@@ -5434,6 +5509,17 @@ export const DocumentScalarFieldEnum = {
 export type DocumentScalarFieldEnum = (typeof DocumentScalarFieldEnum)[keyof typeof DocumentScalarFieldEnum]
 
 
+export const MapRequirement2DocumentScalarFieldEnum = {
+  id: 'id',
+  requirementRId: 'requirementRId',
+  documentId: 'documentId',
+  linkedBy: 'linkedBy',
+  linkedAt: 'linkedAt'
+} as const
+
+export type MapRequirement2DocumentScalarFieldEnum = (typeof MapRequirement2DocumentScalarFieldEnum)[keyof typeof MapRequirement2DocumentScalarFieldEnum]
+
+
 export const BacklogItemScalarFieldEnum = {
   id: 'id',
   title: 'title',
@@ -6091,6 +6177,7 @@ export type GlobalOmitConfig = {
   gamificationStage?: Prisma.GamificationStageOmit
   webhookLog?: Prisma.WebhookLogOmit
   document?: Prisma.DocumentOmit
+  mapRequirement2Document?: Prisma.MapRequirement2DocumentOmit
   backlogItem?: Prisma.BacklogItemOmit
   backlogItemControl?: Prisma.BacklogItemControlOmit
   auditEvidence?: Prisma.AuditEvidenceOmit

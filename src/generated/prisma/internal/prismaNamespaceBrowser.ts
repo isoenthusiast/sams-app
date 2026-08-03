@@ -100,6 +100,7 @@ export const ModelName = {
   GamificationStage: 'GamificationStage',
   WebhookLog: 'WebhookLog',
   Document: 'Document',
+  MapRequirement2Document: 'MapRequirement2Document',
   BacklogItem: 'BacklogItem',
   BacklogItemControl: 'BacklogItemControl',
   AuditEvidence: 'AuditEvidence',
@@ -841,6 +842,17 @@ export const DocumentScalarFieldEnum = {
 } as const
 
 export type DocumentScalarFieldEnum = (typeof DocumentScalarFieldEnum)[keyof typeof DocumentScalarFieldEnum]
+
+
+export const MapRequirement2DocumentScalarFieldEnum = {
+  id: 'id',
+  requirementRId: 'requirementRId',
+  documentId: 'documentId',
+  linkedBy: 'linkedBy',
+  linkedAt: 'linkedAt'
+} as const
+
+export type MapRequirement2DocumentScalarFieldEnum = (typeof MapRequirement2DocumentScalarFieldEnum)[keyof typeof MapRequirement2DocumentScalarFieldEnum]
 
 
 export const BacklogItemScalarFieldEnum = {
