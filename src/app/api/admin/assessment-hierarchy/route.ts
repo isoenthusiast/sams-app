@@ -38,17 +38,17 @@ export async function GET() {
   const stdMap = new Map<string, Map<string, { reqs: any[]; paId: string }>>();
   
   for (const r of requirements) {
-    // Determine top-level standard: ISO standards go under "International Standards (ISO)"
-    const isIso = /ISO\s+\d{4,5}/i.test(r.standard || "");
-    const stdName = isIso ? ISO_PARENT : (r.standard || "Unknown");
+    // Normalize standard name — strip invisible Unicode and whitespace
+    const rawStd = (r.standard || "Unknown").replace(/[\u200B-\u200D\uFEFF]/g, "").trim();
+    const isIso = /ISO\s+\d{4,5}/i.test(rawStd);
+    const stdName = isIso ? ISO_PARENT : rawStd;
     
     // For ISO standards, the standard name becomes the ProcessArea
-    // (e.g., "ISO 14001:2015 Environmental Management System (EMS)" → PA name)
     // For non-ISO, use the actual processArea name
     const paName = isIso 
-      ? (r.standard || "Unknown").replace("Environmental Management System (EMS)", "EMS").replace("Quality Management System (QMS)", "QMS").replace("Occupational Health and Safety Standard", "OHSMS").trim()
+      ? rawStd.replace("Environmental Management System (EMS)", "EMS").replace("Quality Management System (QMS)", "QMS").replace("Occupational Health and Safety Standard", "OHSMS").trim()
       : (r.processArea?.name || "Unknown");
-    const paId = isIso ? `iso_pa_${r.standard?.replace(/\s+/g, "_")}` : (r.processArea?.id || "");
+    const paId = isIso ? `iso_pa_${rawStd.replace(/\s+/g, "_")}` : (r.processArea?.id || "");
 
     if (!stdMap.has(stdName)) stdMap.set(stdName, new Map());
     const paMap = stdMap.get(stdName)!;
@@ -89,9 +89,7 @@ export async function GET() {
       standardId: stdName.replace(/\s+/g, "_"),
       processAreas: [...paMap.entries()]
         .sort((a, b) => a[0].localeCompare(b[0]))
-        .map(([paName, data]) => {
-          const paInfo = paWithControls.get(data.paId);
-          return {
+        .map(([paName, data]) => ({
             id: data.paId,
             name: paName,
             totalControls: data.reqs.reduce((sum, r) => sum + r.controlCount, 0),
