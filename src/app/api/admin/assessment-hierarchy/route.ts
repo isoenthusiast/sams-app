@@ -77,10 +77,10 @@ export async function GET() {
   for (const [stdName, paMap] of [...stdMap.entries()].sort((a, b) => a[0].localeCompare(b[0]))) {
     const pas: any[] = [];
     for (const [paName, data] of [...paMap.entries()].sort((a, b) => a[0].localeCompare(b[0]))) {
+      if (data.reqs.length === 0) continue; // skip PAs with no requirements at all
       const totalControls = data.reqs.reduce((sum: number, r: any) => sum + r.controlCount, 0);
-      if (totalControls === 0) continue;
       const requirements = data.reqs
-        .filter((r: any) => r.controlCount > 0)
+        .filter((r: any) => r.controlCount > 0) // Only show requirements with mapped controls
         .sort((a: any, b: any) => {
           const parse = (id: string) => {
             let n = id.replace(/^[A-Za-z]+-/, "").split(/[&\- ]/)[0].trim();
