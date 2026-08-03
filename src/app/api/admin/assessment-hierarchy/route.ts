@@ -40,13 +40,13 @@ export async function GET() {
   for (const r of requirements) {
     // Normalize standard name — strip invisible Unicode and whitespace
     const rawStd = (r.standard || "Unknown").replace(/[\u200B-\u200D\uFEFF]/g, "").trim();
-    const isIso = /ISO\s+\d{4,5}/i.test(rawStd);
+    const isIso = /ISO\s+\d{4,5}/i.test(rawStd) || /ICOP\s+PMS/i.test(rawStd) || rawStd === "SMDS ICOP PMS";
     const stdName = isIso ? ISO_PARENT : rawStd;
     
     // For ISO standards, the standard name becomes the ProcessArea
     // For non-ISO, use the actual processArea name
     const paName = isIso 
-      ? rawStd.replace("Environmental Management System (EMS)", "EMS").replace("Quality Management System (QMS)", "QMS").replace("Occupational Health and Safety Standard", "OHSMS").trim()
+      ? rawStd.replace("Environmental Management System (EMS)", "EMS").replace("Quality Management System (QMS)", "QMS").replace("Occupational Health and Safety Standard", "OHSMS").replace("Business Continuity Management System", "BCMS").trim()
       : (r.processArea?.name || "Unknown");
     const paId = isIso ? `iso_pa_${rawStd.replace(/\s+/g, "_")}` : (r.processArea?.id || "");
 
