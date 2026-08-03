@@ -111,8 +111,8 @@ export async function GET() {
                 }
                 return 0;
               }),
-          };
-        }).filter((pa) => pa.totalControls > 0),
+          })
+        .filter((pa) => pa.totalControls > 0),
     }))
     .filter((s) => s.processAreas.length > 0);
 
