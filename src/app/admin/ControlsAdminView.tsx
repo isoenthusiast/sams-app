@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useCallback } from "react";
 import { Button } from "@/components/Button";
 import { Modal } from "@/components/Modal";
 import { CollapsibleSection } from "@/components/CollapsibleSection";
@@ -63,6 +63,8 @@ export function ControlsAdminView({ initialControls, initialProcessAreas, isAdmi
 
   const controlTypes = ["Administrative", "Procedural", "Analytical", "Behavioral", "Informational", "Engineering"];
 
+  const closeModal = useCallback(() => { setEditing(null); setAdding(false); }, []);
+
   return (
     <div>
       <div className="flex items-center justify-between mb-4 gap-2">
@@ -97,7 +99,7 @@ export function ControlsAdminView({ initialControls, initialProcessAreas, isAdmi
         {grouped.length === 0 && <p className="text-sm text-slate-400 py-8 text-center">No controls found.</p>}
       </div>
 
-      <Modal isOpen={!!(editing || adding)} onClose={() => { setEditing(null); setAdding(false); }} title={editing ? "Edit Control" : "Add Control"}>
+      <Modal isOpen={!!(editing || adding)} onClose={closeModal} title={editing ? "Edit Control" : "Add Control"}>
         <div className="space-y-3 max-h-[70vh] overflow-y-auto">
           <div><label className="text-xs font-medium text-slate-600">Name</label><input type="text" value={form.name} onChange={e => setForm({ ...form, name: e.target.value })} className="w-full rounded border border-slate-300 px-2 py-1.5 text-sm mt-1" /></div>
           <div><label className="text-xs font-medium text-slate-600">Statement</label><textarea value={form.statement} onChange={e => setForm({ ...form, statement: e.target.value })} className="w-full rounded border border-slate-300 px-2 py-1.5 text-sm mt-1" rows={3} /></div>
@@ -105,7 +107,7 @@ export function ControlsAdminView({ initialControls, initialProcessAreas, isAdmi
           <div><label className="text-xs font-medium text-slate-600">Process Area</label><select value={form.processAreaId} onChange={e => setForm({ ...form, processAreaId: e.target.value })} className="w-full rounded border border-slate-300 px-2 py-1.5 text-sm mt-1"><option value="">— None —</option>{pas.map(p => <option key={p.id} value={p.id}>{p.name}</option>)}</select></div>
           <div><label className="text-xs font-medium text-slate-600">Company ID</label><input type="text" value={form.companyId} onChange={e => setForm({ ...form, companyId: e.target.value })} className="w-full rounded border border-slate-300 px-2 py-1.5 text-sm mt-1" placeholder="comp_…" /></div>
           {isAdmin && <div><label className="text-xs font-medium text-slate-600">🔒 Knowledge (Admin only)</label><textarea value={form.knowledge} onChange={e => setForm({ ...form, knowledge: e.target.value })} className="w-full rounded border border-slate-300 px-2 py-1.5 text-sm mt-1" rows={4} placeholder="Audit knowledge, briefing notes, or control background…" /></div>}
-          <div className="flex gap-2 mt-4 justify-end"><Button variant="ghost" size="sm" onClick={() => { setEditing(null); setAdding(false); }}>Cancel</Button><Button variant="primary" size="sm" disabled={saving} onClick={handleSave}>{saving ? "Saving…" : "Save"}</Button></div>
+          <div className="flex gap-2 mt-4 justify-end"><Button variant="ghost" size="sm" onClick={closeModal}>Cancel</Button><Button variant="primary" size="sm" disabled={saving} onClick={handleSave}>{saving ? "Saving…" : "Save"}</Button></div>
         </div>
       </Modal>
     </div>
