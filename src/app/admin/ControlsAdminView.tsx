@@ -9,18 +9,18 @@ import { showToast } from "@/components/Toast";
 type Control = {
   id: string; name: string; statement: string; controlType: string;
   processAreaId: string; processArea?: { name: string; standardRef?: { standard: string } | null } | null;
-  companyId?: string | null;
+  companyId?: string | null; knowledge?: string | null;
 };
 
 type ProcessArea = { id: string; name: string };
 
-export function ControlsAdminView({ initialControls, initialProcessAreas }: { initialControls: Control[]; initialProcessAreas: ProcessArea[] }) {
+export function ControlsAdminView({ initialControls, initialProcessAreas, isAdmin }: { initialControls: Control[]; initialProcessAreas: ProcessArea[]; isAdmin?: boolean }) {
   const [controls, setControls] = useState<Control[]>(initialControls);
   const [pas] = useState<ProcessArea[]>(initialProcessAreas);
   const [editing, setEditing] = useState<Control | null>(null);
   const [adding, setAdding] = useState(false);
   const [search, setSearch] = useState("");
-  const [form, setForm] = useState({ name: "", statement: "", controlType: "Administrative", processAreaId: "", companyId: "" });
+  const [form, setForm] = useState({ name: "", statement: "", controlType: "Administrative", processAreaId: "", companyId: "", knowledge: "" });
   const [saving, setSaving] = useState(false);
 
   const filtered = useMemo(() => {
@@ -43,8 +43,8 @@ export function ControlsAdminView({ initialControls, initialProcessAreas }: { in
     return [...byStd.entries()].sort((a, b) => a[0].localeCompare(b[0]));
   }, [filtered]);
 
-  const openEdit = (c: Control) => { setEditing(c); setForm({ name: c.name, statement: c.statement ?? "", controlType: c.controlType, processAreaId: c.processAreaId ?? "", companyId: c.companyId ?? "" }); };
-  const openAdd = () => { setAdding(true); setForm({ name: "", statement: "", controlType: "Administrative", processAreaId: "", companyId: "" }); };
+  const openEdit = (c: Control) => { setEditing(c); setForm({ name: c.name, statement: c.statement ?? "", controlType: c.controlType, processAreaId: c.processAreaId ?? "", companyId: c.companyId ?? "", knowledge: c.knowledge ?? "" }); };
+  const openAdd = () => { setAdding(true); setForm({ name: "", statement: "", controlType: "Administrative", processAreaId: "", companyId: "", knowledge: "" }); };
 
   const handleSave = async () => {
     if (!form.name.trim()) { showToast("Name is required", "error"); return; }
@@ -104,6 +104,7 @@ export function ControlsAdminView({ initialControls, initialProcessAreas }: { in
           <div><label className="text-xs font-medium text-slate-600">Control Type</label><select value={form.controlType} onChange={e => setForm({ ...form, controlType: e.target.value })} className="w-full rounded border border-slate-300 px-2 py-1.5 text-sm mt-1">{controlTypes.map(t => <option key={t} value={t}>{t}</option>)}</select></div>
           <div><label className="text-xs font-medium text-slate-600">Process Area</label><select value={form.processAreaId} onChange={e => setForm({ ...form, processAreaId: e.target.value })} className="w-full rounded border border-slate-300 px-2 py-1.5 text-sm mt-1"><option value="">— None —</option>{pas.map(p => <option key={p.id} value={p.id}>{p.name}</option>)}</select></div>
           <div><label className="text-xs font-medium text-slate-600">Company ID</label><input type="text" value={form.companyId} onChange={e => setForm({ ...form, companyId: e.target.value })} className="w-full rounded border border-slate-300 px-2 py-1.5 text-sm mt-1" placeholder="comp_…" /></div>
+          {isAdmin && <div><label className="text-xs font-medium text-slate-600">🔒 Knowledge (Admin only)</label><textarea value={form.knowledge} onChange={e => setForm({ ...form, knowledge: e.target.value })} className="w-full rounded border border-slate-300 px-2 py-1.5 text-sm mt-1" rows={4} placeholder="Audit knowledge, briefing notes, or control background…" /></div>}
           <div className="flex gap-2 mt-4 justify-end"><Button variant="ghost" size="sm" onClick={() => { setEditing(null); setAdding(false); }}>Cancel</Button><Button variant="primary" size="sm" disabled={saving} onClick={handleSave}>{saving ? "Saving…" : "Save"}</Button></div>
         </div>
       </Modal>

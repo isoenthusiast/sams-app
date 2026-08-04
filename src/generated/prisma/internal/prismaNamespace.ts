@@ -4963,6 +4963,7 @@ export const ControlScalarFieldEnum = {
   riskAddressed: 'riskAddressed',
   testingApproach: 'testingApproach',
   uncertainFlags: 'uncertainFlags',
+  knowledge: 'knowledge',
   standard: 'standard',
   pId: 'pId',
   Requirements: 'Requirements',

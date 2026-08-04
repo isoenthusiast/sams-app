@@ -64,6 +64,7 @@ export type ControlMinAggregateOutputType = {
   riskAddressed: string | null
   testingApproach: string | null
   uncertainFlags: string | null
+  knowledge: string | null
   standard: string | null
   pId: string | null
   Requirements: string | null
@@ -98,6 +99,7 @@ export type ControlMaxAggregateOutputType = {
   riskAddressed: string | null
   testingApproach: string | null
   uncertainFlags: string | null
+  knowledge: string | null
   standard: string | null
   pId: string | null
   Requirements: string | null
@@ -132,6 +134,7 @@ export type ControlCountAggregateOutputType = {
   riskAddressed: number
   testingApproach: number
   uncertainFlags: number
+  knowledge: number
   standard: number
   pId: number
   Requirements: number
@@ -178,6 +181,7 @@ export type ControlMinAggregateInputType = {
   riskAddressed?: true
   testingApproach?: true
   uncertainFlags?: true
+  knowledge?: true
   standard?: true
   pId?: true
   Requirements?: true
@@ -212,6 +216,7 @@ export type ControlMaxAggregateInputType = {
   riskAddressed?: true
   testingApproach?: true
   uncertainFlags?: true
+  knowledge?: true
   standard?: true
   pId?: true
   Requirements?: true
@@ -246,6 +251,7 @@ export type ControlCountAggregateInputType = {
   riskAddressed?: true
   testingApproach?: true
   uncertainFlags?: true
+  knowledge?: true
   standard?: true
   pId?: true
   Requirements?: true
@@ -367,6 +373,7 @@ export type ControlGroupByOutputType = {
   riskAddressed: string | null
   testingApproach: string | null
   uncertainFlags: string | null
+  knowledge: string | null
   standard: string | null
   pId: string | null
   Requirements: string | null
@@ -424,6 +431,7 @@ export type ControlWhereInput = {
   riskAddressed?: Prisma.StringNullableFilter<"Control"> | string | null
   testingApproach?: Prisma.StringNullableFilter<"Control"> | string | null
   uncertainFlags?: Prisma.StringNullableFilter<"Control"> | string | null
+  knowledge?: Prisma.StringNullableFilter<"Control"> | string | null
   standard?: Prisma.StringNullableFilter<"Control"> | string | null
   pId?: Prisma.StringNullableFilter<"Control"> | string | null
   Requirements?: Prisma.StringNullableFilter<"Control"> | string | null
@@ -466,6 +474,7 @@ export type ControlOrderByWithRelationInput = {
   riskAddressed?: Prisma.SortOrderInput | Prisma.SortOrder
   testingApproach?: Prisma.SortOrderInput | Prisma.SortOrder
   uncertainFlags?: Prisma.SortOrderInput | Prisma.SortOrder
+  knowledge?: Prisma.SortOrderInput | Prisma.SortOrder
   standard?: Prisma.SortOrderInput | Prisma.SortOrder
   pId?: Prisma.SortOrderInput | Prisma.SortOrder
   Requirements?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -512,6 +521,7 @@ export type ControlWhereUniqueInput = Prisma.AtLeast<{
   riskAddressed?: Prisma.StringNullableFilter<"Control"> | string | null
   testingApproach?: Prisma.StringNullableFilter<"Control"> | string | null
   uncertainFlags?: Prisma.StringNullableFilter<"Control"> | string | null
+  knowledge?: Prisma.StringNullableFilter<"Control"> | string | null
   standard?: Prisma.StringNullableFilter<"Control"> | string | null
   pId?: Prisma.StringNullableFilter<"Control"> | string | null
   Requirements?: Prisma.StringNullableFilter<"Control"> | string | null
@@ -554,6 +564,7 @@ export type ControlOrderByWithAggregationInput = {
   riskAddressed?: Prisma.SortOrderInput | Prisma.SortOrder
   testingApproach?: Prisma.SortOrderInput | Prisma.SortOrder
   uncertainFlags?: Prisma.SortOrderInput | Prisma.SortOrder
+  knowledge?: Prisma.SortOrderInput | Prisma.SortOrder
   standard?: Prisma.SortOrderInput | Prisma.SortOrder
   pId?: Prisma.SortOrderInput | Prisma.SortOrder
   Requirements?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -596,6 +607,7 @@ export type ControlScalarWhereWithAggregatesInput = {
   riskAddressed?: Prisma.StringNullableWithAggregatesFilter<"Control"> | string | null
   testingApproach?: Prisma.StringNullableWithAggregatesFilter<"Control"> | string | null
   uncertainFlags?: Prisma.StringNullableWithAggregatesFilter<"Control"> | string | null
+  knowledge?: Prisma.StringNullableWithAggregatesFilter<"Control"> | string | null
   standard?: Prisma.StringNullableWithAggregatesFilter<"Control"> | string | null
   pId?: Prisma.StringNullableWithAggregatesFilter<"Control"> | string | null
   Requirements?: Prisma.StringNullableWithAggregatesFilter<"Control"> | string | null
@@ -629,6 +641,7 @@ export type ControlCreateInput = {
   riskAddressed?: string | null
   testingApproach?: string | null
   uncertainFlags?: string | null
+  knowledge?: string | null
   standard?: string | null
   pId?: string | null
   Requirements?: string | null
@@ -671,6 +684,7 @@ export type ControlUncheckedCreateInput = {
   riskAddressed?: string | null
   testingApproach?: string | null
   uncertainFlags?: string | null
+  knowledge?: string | null
   standard?: string | null
   pId?: string | null
   Requirements?: string | null
@@ -711,6 +725,7 @@ export type ControlUpdateInput = {
   riskAddressed?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   testingApproach?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   uncertainFlags?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  knowledge?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   standard?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   Requirements?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -753,6 +768,7 @@ export type ControlUncheckedUpdateInput = {
   riskAddressed?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   testingApproach?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   uncertainFlags?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  knowledge?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   standard?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   Requirements?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -794,6 +810,7 @@ export type ControlCreateManyInput = {
   riskAddressed?: string | null
   testingApproach?: string | null
   uncertainFlags?: string | null
+  knowledge?: string | null
   standard?: string | null
   pId?: string | null
   Requirements?: string | null
@@ -827,6 +844,7 @@ export type ControlUpdateManyMutationInput = {
   riskAddressed?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   testingApproach?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   uncertainFlags?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  knowledge?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   standard?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   Requirements?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -861,6 +879,7 @@ export type ControlUncheckedUpdateManyInput = {
   riskAddressed?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   testingApproach?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   uncertainFlags?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  knowledge?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   standard?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   Requirements?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -915,6 +934,7 @@ export type ControlCountOrderByAggregateInput = {
   riskAddressed?: Prisma.SortOrder
   testingApproach?: Prisma.SortOrder
   uncertainFlags?: Prisma.SortOrder
+  knowledge?: Prisma.SortOrder
   standard?: Prisma.SortOrder
   pId?: Prisma.SortOrder
   Requirements?: Prisma.SortOrder
@@ -954,6 +974,7 @@ export type ControlMaxOrderByAggregateInput = {
   riskAddressed?: Prisma.SortOrder
   testingApproach?: Prisma.SortOrder
   uncertainFlags?: Prisma.SortOrder
+  knowledge?: Prisma.SortOrder
   standard?: Prisma.SortOrder
   pId?: Prisma.SortOrder
   Requirements?: Prisma.SortOrder
@@ -988,6 +1009,7 @@ export type ControlMinOrderByAggregateInput = {
   riskAddressed?: Prisma.SortOrder
   testingApproach?: Prisma.SortOrder
   uncertainFlags?: Prisma.SortOrder
+  knowledge?: Prisma.SortOrder
   standard?: Prisma.SortOrder
   pId?: Prisma.SortOrder
   Requirements?: Prisma.SortOrder
@@ -1177,6 +1199,7 @@ export type ControlCreateWithoutProcessAreaInput = {
   riskAddressed?: string | null
   testingApproach?: string | null
   uncertainFlags?: string | null
+  knowledge?: string | null
   standard?: string | null
   pId?: string | null
   Requirements?: string | null
@@ -1217,6 +1240,7 @@ export type ControlUncheckedCreateWithoutProcessAreaInput = {
   riskAddressed?: string | null
   testingApproach?: string | null
   uncertainFlags?: string | null
+  knowledge?: string | null
   standard?: string | null
   pId?: string | null
   Requirements?: string | null
@@ -1287,6 +1311,7 @@ export type ControlScalarWhereInput = {
   riskAddressed?: Prisma.StringNullableFilter<"Control"> | string | null
   testingApproach?: Prisma.StringNullableFilter<"Control"> | string | null
   uncertainFlags?: Prisma.StringNullableFilter<"Control"> | string | null
+  knowledge?: Prisma.StringNullableFilter<"Control"> | string | null
   standard?: Prisma.StringNullableFilter<"Control"> | string | null
   pId?: Prisma.StringNullableFilter<"Control"> | string | null
   Requirements?: Prisma.StringNullableFilter<"Control"> | string | null
@@ -1320,6 +1345,7 @@ export type ControlCreateWithoutControlSubProcessesInput = {
   riskAddressed?: string | null
   testingApproach?: string | null
   uncertainFlags?: string | null
+  knowledge?: string | null
   standard?: string | null
   pId?: string | null
   Requirements?: string | null
@@ -1361,6 +1387,7 @@ export type ControlUncheckedCreateWithoutControlSubProcessesInput = {
   riskAddressed?: string | null
   testingApproach?: string | null
   uncertainFlags?: string | null
+  knowledge?: string | null
   standard?: string | null
   pId?: string | null
   Requirements?: string | null
@@ -1416,6 +1443,7 @@ export type ControlUpdateWithoutControlSubProcessesInput = {
   riskAddressed?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   testingApproach?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   uncertainFlags?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  knowledge?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   standard?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   Requirements?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1457,6 +1485,7 @@ export type ControlUncheckedUpdateWithoutControlSubProcessesInput = {
   riskAddressed?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   testingApproach?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   uncertainFlags?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  knowledge?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   standard?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   Requirements?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1496,6 +1525,7 @@ export type ControlCreateWithoutTemplateLinkagesInput = {
   riskAddressed?: string | null
   testingApproach?: string | null
   uncertainFlags?: string | null
+  knowledge?: string | null
   standard?: string | null
   pId?: string | null
   Requirements?: string | null
@@ -1537,6 +1567,7 @@ export type ControlUncheckedCreateWithoutTemplateLinkagesInput = {
   riskAddressed?: string | null
   testingApproach?: string | null
   uncertainFlags?: string | null
+  knowledge?: string | null
   standard?: string | null
   pId?: string | null
   Requirements?: string | null
@@ -1592,6 +1623,7 @@ export type ControlUpdateWithoutTemplateLinkagesInput = {
   riskAddressed?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   testingApproach?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   uncertainFlags?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  knowledge?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   standard?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   Requirements?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1633,6 +1665,7 @@ export type ControlUncheckedUpdateWithoutTemplateLinkagesInput = {
   riskAddressed?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   testingApproach?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   uncertainFlags?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  knowledge?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   standard?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   Requirements?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1672,6 +1705,7 @@ export type ControlCreateWithoutControlAssignmentsInput = {
   riskAddressed?: string | null
   testingApproach?: string | null
   uncertainFlags?: string | null
+  knowledge?: string | null
   standard?: string | null
   pId?: string | null
   Requirements?: string | null
@@ -1713,6 +1747,7 @@ export type ControlUncheckedCreateWithoutControlAssignmentsInput = {
   riskAddressed?: string | null
   testingApproach?: string | null
   uncertainFlags?: string | null
+  knowledge?: string | null
   standard?: string | null
   pId?: string | null
   Requirements?: string | null
@@ -1768,6 +1803,7 @@ export type ControlUpdateWithoutControlAssignmentsInput = {
   riskAddressed?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   testingApproach?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   uncertainFlags?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  knowledge?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   standard?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   Requirements?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1809,6 +1845,7 @@ export type ControlUncheckedUpdateWithoutControlAssignmentsInput = {
   riskAddressed?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   testingApproach?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   uncertainFlags?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  knowledge?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   standard?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   Requirements?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1848,6 +1885,7 @@ export type ControlCreateWithoutRequirementMappingsInput = {
   riskAddressed?: string | null
   testingApproach?: string | null
   uncertainFlags?: string | null
+  knowledge?: string | null
   standard?: string | null
   pId?: string | null
   Requirements?: string | null
@@ -1889,6 +1927,7 @@ export type ControlUncheckedCreateWithoutRequirementMappingsInput = {
   riskAddressed?: string | null
   testingApproach?: string | null
   uncertainFlags?: string | null
+  knowledge?: string | null
   standard?: string | null
   pId?: string | null
   Requirements?: string | null
@@ -1944,6 +1983,7 @@ export type ControlUpdateWithoutRequirementMappingsInput = {
   riskAddressed?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   testingApproach?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   uncertainFlags?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  knowledge?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   standard?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   Requirements?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1985,6 +2025,7 @@ export type ControlUncheckedUpdateWithoutRequirementMappingsInput = {
   riskAddressed?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   testingApproach?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   uncertainFlags?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  knowledge?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   standard?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   Requirements?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2024,6 +2065,7 @@ export type ControlCreateWithoutPipLinksInput = {
   riskAddressed?: string | null
   testingApproach?: string | null
   uncertainFlags?: string | null
+  knowledge?: string | null
   standard?: string | null
   pId?: string | null
   Requirements?: string | null
@@ -2065,6 +2107,7 @@ export type ControlUncheckedCreateWithoutPipLinksInput = {
   riskAddressed?: string | null
   testingApproach?: string | null
   uncertainFlags?: string | null
+  knowledge?: string | null
   standard?: string | null
   pId?: string | null
   Requirements?: string | null
@@ -2120,6 +2163,7 @@ export type ControlUpdateWithoutPipLinksInput = {
   riskAddressed?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   testingApproach?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   uncertainFlags?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  knowledge?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   standard?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   Requirements?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2161,6 +2205,7 @@ export type ControlUncheckedUpdateWithoutPipLinksInput = {
   riskAddressed?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   testingApproach?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   uncertainFlags?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  knowledge?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   standard?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   Requirements?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2200,6 +2245,7 @@ export type ControlCreateWithoutAuditMappingsInput = {
   riskAddressed?: string | null
   testingApproach?: string | null
   uncertainFlags?: string | null
+  knowledge?: string | null
   standard?: string | null
   pId?: string | null
   Requirements?: string | null
@@ -2241,6 +2287,7 @@ export type ControlUncheckedCreateWithoutAuditMappingsInput = {
   riskAddressed?: string | null
   testingApproach?: string | null
   uncertainFlags?: string | null
+  knowledge?: string | null
   standard?: string | null
   pId?: string | null
   Requirements?: string | null
@@ -2296,6 +2343,7 @@ export type ControlUpdateWithoutAuditMappingsInput = {
   riskAddressed?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   testingApproach?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   uncertainFlags?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  knowledge?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   standard?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   Requirements?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2337,6 +2385,7 @@ export type ControlUncheckedUpdateWithoutAuditMappingsInput = {
   riskAddressed?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   testingApproach?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   uncertainFlags?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  knowledge?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   standard?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   Requirements?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2376,6 +2425,7 @@ export type ControlCreateWithoutChecklistControlLinksInput = {
   riskAddressed?: string | null
   testingApproach?: string | null
   uncertainFlags?: string | null
+  knowledge?: string | null
   standard?: string | null
   pId?: string | null
   Requirements?: string | null
@@ -2417,6 +2467,7 @@ export type ControlUncheckedCreateWithoutChecklistControlLinksInput = {
   riskAddressed?: string | null
   testingApproach?: string | null
   uncertainFlags?: string | null
+  knowledge?: string | null
   standard?: string | null
   pId?: string | null
   Requirements?: string | null
@@ -2472,6 +2523,7 @@ export type ControlUpdateWithoutChecklistControlLinksInput = {
   riskAddressed?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   testingApproach?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   uncertainFlags?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  knowledge?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   standard?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   Requirements?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2513,6 +2565,7 @@ export type ControlUncheckedUpdateWithoutChecklistControlLinksInput = {
   riskAddressed?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   testingApproach?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   uncertainFlags?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  knowledge?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   standard?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   Requirements?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2552,6 +2605,7 @@ export type ControlCreateManyProcessAreaInput = {
   riskAddressed?: string | null
   testingApproach?: string | null
   uncertainFlags?: string | null
+  knowledge?: string | null
   standard?: string | null
   pId?: string | null
   Requirements?: string | null
@@ -2585,6 +2639,7 @@ export type ControlUpdateWithoutProcessAreaInput = {
   riskAddressed?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   testingApproach?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   uncertainFlags?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  knowledge?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   standard?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   Requirements?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2625,6 +2680,7 @@ export type ControlUncheckedUpdateWithoutProcessAreaInput = {
   riskAddressed?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   testingApproach?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   uncertainFlags?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  knowledge?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   standard?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   Requirements?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2665,6 +2721,7 @@ export type ControlUncheckedUpdateManyWithoutProcessAreaInput = {
   riskAddressed?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   testingApproach?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   uncertainFlags?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  knowledge?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   standard?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   Requirements?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2784,6 +2841,7 @@ export type ControlSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   riskAddressed?: boolean
   testingApproach?: boolean
   uncertainFlags?: boolean
+  knowledge?: boolean
   standard?: boolean
   pId?: boolean
   Requirements?: boolean
@@ -2827,6 +2885,7 @@ export type ControlSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   riskAddressed?: boolean
   testingApproach?: boolean
   uncertainFlags?: boolean
+  knowledge?: boolean
   standard?: boolean
   pId?: boolean
   Requirements?: boolean
@@ -2862,6 +2921,7 @@ export type ControlSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   riskAddressed?: boolean
   testingApproach?: boolean
   uncertainFlags?: boolean
+  knowledge?: boolean
   standard?: boolean
   pId?: boolean
   Requirements?: boolean
@@ -2897,13 +2957,14 @@ export type ControlSelectScalar = {
   riskAddressed?: boolean
   testingApproach?: boolean
   uncertainFlags?: boolean
+  knowledge?: boolean
   standard?: boolean
   pId?: boolean
   Requirements?: boolean
   companyId?: boolean
 }
 
-export type ControlOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "statement" | "controlType" | "processAreaId" | "isHsseCritical" | "ramRating" | "riskWeight" | "rawHealthScore" | "lastTestedDate" | "lastTestResult" | "createdAt" | "controlRef" | "sourceFile" | "practiceDocument" | "controlTypeDetail" | "csfWho" | "csfWhat" | "csfWhen" | "csfWhere" | "csfWhy" | "csfHow" | "csfEvidence" | "keyActivities" | "riskAddressed" | "testingApproach" | "uncertainFlags" | "standard" | "pId" | "Requirements" | "companyId", ExtArgs["result"]["control"]>
+export type ControlOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "statement" | "controlType" | "processAreaId" | "isHsseCritical" | "ramRating" | "riskWeight" | "rawHealthScore" | "lastTestedDate" | "lastTestResult" | "createdAt" | "controlRef" | "sourceFile" | "practiceDocument" | "controlTypeDetail" | "csfWho" | "csfWhat" | "csfWhen" | "csfWhere" | "csfWhy" | "csfHow" | "csfEvidence" | "keyActivities" | "riskAddressed" | "testingApproach" | "uncertainFlags" | "knowledge" | "standard" | "pId" | "Requirements" | "companyId", ExtArgs["result"]["control"]>
 export type ControlInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   controlAssignments?: boolean | Prisma.Control$controlAssignmentsArgs<ExtArgs>
   controlSubProcesses?: boolean | Prisma.Control$controlSubProcessesArgs<ExtArgs>
@@ -2962,6 +3023,7 @@ export type $ControlPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     riskAddressed: string | null
     testingApproach: string | null
     uncertainFlags: string | null
+    knowledge: string | null
     standard: string | null
     pId: string | null
     Requirements: string | null
@@ -3424,6 +3486,7 @@ export interface ControlFieldRefs {
   readonly riskAddressed: Prisma.FieldRef<"Control", 'String'>
   readonly testingApproach: Prisma.FieldRef<"Control", 'String'>
   readonly uncertainFlags: Prisma.FieldRef<"Control", 'String'>
+  readonly knowledge: Prisma.FieldRef<"Control", 'String'>
   readonly standard: Prisma.FieldRef<"Control", 'String'>
   readonly pId: Prisma.FieldRef<"Control", 'String'>
   readonly Requirements: Prisma.FieldRef<"Control", 'String'>

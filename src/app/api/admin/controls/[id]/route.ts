@@ -7,8 +7,8 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
   if (response) return response;
   const { id } = await params;
   const body = await request.json();
-  const { name, statement, controlType, processAreaId } = body;
-  const ctrl = await prisma.control.update({ where: { id }, data: { name: name?.trim(), statement: statement?.trim() ?? undefined, controlType: controlType ?? undefined, processAreaId: processAreaId ?? undefined }, include: { processArea: { select: { name: true } } } });
+  const { name, statement, controlType, processAreaId, knowledge } = body;
+  const ctrl = await prisma.control.update({ where: { id }, data: { name: name?.trim(), statement: statement?.trim() ?? undefined, controlType: controlType ?? undefined, processAreaId: processAreaId ?? undefined, knowledge: knowledge !== undefined ? (knowledge?.trim() || null) : undefined }, include: { processArea: { select: { name: true } } } });
   return NextResponse.json({ control: ctrl });
 }
 

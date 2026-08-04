@@ -390,6 +390,7 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
           controls={JSON.parse(JSON.stringify(allControls))}
           controlPas={JSON.parse(JSON.stringify(paList))}
           companies={JSON.parse(JSON.stringify(companies))}
+          isAdmin={true}
         />
       )}
 

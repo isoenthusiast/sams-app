@@ -205,6 +205,7 @@ model Control {
   riskAddressed       String?
   testingApproach     String?
   uncertainFlags      String?
+  knowledge           String?                            // Admin-only: audit knowledge / briefing notes
   standard            String?
   pId                 String?
   Requirements        String?
