@@ -40,7 +40,7 @@ export async function GET(request: Request) {
       latestTrack: latestDomain?.gameAttribute?.attributeName || null,
       latestTrackXP: Number(latestDomain?.points || 0),
       tracks: trackData.map((t: any) => ({
-        paName: t.paName,
+        name: t.paName,
         xp: Number(t.xp),
         level: t.level,
       })),

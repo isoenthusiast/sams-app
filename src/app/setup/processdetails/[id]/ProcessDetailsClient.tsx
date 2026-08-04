@@ -10,6 +10,7 @@ import { RequirementCard } from "@/components/RequirementCard";
 import { KnowledgebasePanel } from "@/components/KnowledgebasePanel";
 import { ImprovementKanban } from "@/components/ImprovementKanban";
 import DocumentsPanel, { type PaDocument } from "@/components/DocumentsPanel";
+import { ControlTree, type StandardNode } from "@/components/ControlTree";
 import { formatMarkdown } from "@/lib/formatMarkdown";
 
 type Props = {
@@ -57,6 +58,10 @@ export default function ProcessDetailsClient(props: Props) {
   const [mapSaving, setMapSaving] = useState(false);
   const [mapMsg, setMapMsg] = useState<{ type: "ok" | "err"; text: string } | null>(null);
   const [mapFilter, setMapFilter] = useState("");
+  const [treeStandards, setTreeStandards] = useState<StandardNode[]>([]);
+  const [treeLoading, setTreeLoading] = useState(false);
+  const [treeCollapsed, setTreeCollapsed] = useState(false);
+  const [alreadyMappedIds, setAlreadyMappedIds] = useState<Set<string>>(new Set());
   const [dragCtrlId, setDragCtrlId] = useState<string | null>(null);
   const [dragOverReqId, setDragOverReqId] = useState<number | null>(null);
   const [chatMessages, setChatMessages] = useState<ChatMsg[]>([]);
@@ -137,6 +142,32 @@ export default function ProcessDetailsClient(props: Props) {
   };
 
   useEffect(() => { setReqData(reqWithControls); }, [reqWithControls]);
+
+  // Load control tree when Map Mode is entered
+  useEffect(() => {
+    if (!mapMode || treeStandards.length > 0) return;
+    setTreeLoading(true);
+    fetch("/api/admin/controls/tree")
+      .then((r) => r.json())
+      .then((data) => {
+        if (data.standards) setTreeStandards(data.standards);
+      })
+      .catch(() => {})
+      .finally(() => setTreeLoading(false));
+  }, [mapMode, treeStandards.length]);
+
+  // Compute already-mapped control IDs for the current PA
+  useEffect(() => {
+    if (!mapMode) return;
+    const mapped = new Set<string>();
+    for (const r of reqData) {
+      if (r.requirementId === "Unmapped Controls") continue;
+      for (const c of r.controls || []) {
+        mapped.add(c.id);
+      }
+    }
+    setAlreadyMappedIds(mapped);
+  }, [mapMode, reqData]);
 
   const toggleReq = (rId: number) => {
     setExpandedReqs((prev) => { const n = new Set(prev); if (n.has(rId)) n.delete(rId); else n.add(rId); return n; });
@@ -442,7 +473,45 @@ export default function ProcessDetailsClient(props: Props) {
             /* Map Mode: side-by-side */
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {/* Left: Unmapped */}
-              <Card className="border-amber-200 bg-amber-50" padding="sm">
+              <div className="space-y-3">
+                {/* ── Control Tree ── */}
+                <Card padding="sm">
+                  <button
+                    onClick={() => setTreeCollapsed(!treeCollapsed)}
+                    className="w-full flex items-center justify-between text-left"
+                  >
+                    <h3 className="font-semibold text-slate-700 text-sm">
+                      🌳 All Standards {treeLoading && <span className="text-xs text-slate-400 font-normal">(loading…)</span>}
+                    </h3>
+                    <span className="text-xs text-slate-400">{treeCollapsed ? "▶" : "▼"}</span>
+                  </button>
+                  {!treeCollapsed && (
+                    <div className="mt-2">
+                      <ControlTree
+                        standards={treeStandards}
+                        unmappedIds={mapChecked}
+                        alreadyMappedIds={alreadyMappedIds}
+                        onToggleControl={(ctrlId) => {
+                          setMapChecked((prev) => {
+                            const next = new Set(prev);
+                            if (next.has(ctrlId)) next.delete(ctrlId);
+                            else next.add(ctrlId);
+                            return next;
+                          });
+                        }}
+                        currentPaName={processArea.name}
+                      />
+                      {treeStandards.length === 0 && !treeLoading && (
+                        <p className="text-xs text-slate-400 py-2 text-center">
+                          No controls found. Add controls via Admin panel first.
+                        </p>
+                      )}
+                    </div>
+                  )}
+                </Card>
+
+                {/* ── Unmapped ── */}
+                <Card className="border-amber-200 bg-amber-50" padding="sm">
                 <div className="flex items-center justify-between mb-2">
                   <h3 className="font-semibold text-amber-900 text-sm">
                     📋 Unmapped ({(() => { const uc = reqData.find((r: any) => r.requirementId === "Unmapped Controls"); return uc ? uc.controls.length : 0; })()})
@@ -469,6 +538,7 @@ export default function ProcessDetailsClient(props: Props) {
                   })()}
                 </div>
               </Card>
+              </div>
               {/* Right: Requirements */}
               <div className="space-y-2">
                 <Card padding="sm">
