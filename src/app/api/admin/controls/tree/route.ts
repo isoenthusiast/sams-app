@@ -61,7 +61,7 @@ export async function GET(_req: Request) {
               id: string;
               name: string;
               controlType: string;
-              homePaId: string;
+              homePaId: string | null;
             }>;
           }>;
         }

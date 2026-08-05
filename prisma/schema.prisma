@@ -182,7 +182,7 @@ model Control {
   name                String
   statement           String
   controlType         ControlType
-  processAreaId       String
+  processAreaId       String?
   isHsseCritical      Boolean                            @default(false)
   ramRating           String?
   riskWeight          Int                                @default(1)
@@ -217,7 +217,7 @@ model Control {
   pipLinks            BacklogItemControl[]
   auditMappings       AuditChecklist2Requirement[]
   checklistControlLinks AssessmentChecklistControl[] // v1.10.1
-  processArea         ProcessArea                        @relation(fields: [processAreaId], references: [id])
+  processArea         ProcessArea?                       @relation(fields: [processAreaId], references: [id])
 
   @@unique([name, companyId])
   @@index([controlRef])
@@ -381,6 +381,13 @@ model Finding {
   repeat          Boolean         @default(false)
   severity        FindingSeverity
   createdAt       DateTime        @default(now())
+  // ── Requirement-based findings (v1.11.2) ─────────────────────────────
+  requirementRId  Int?            @map("requirementRId")
+  processAreaId   String?         // denormalized for query performance
+  riskDescription String?
+  rootCause       String?
+  recommendation  String?
+  // ──────────────────────────────────────────────────────────────────────
   assessment      Assessment      @relation(fields: [assessmentId], references: [id], onDelete: Cascade)
   sample          Sample?         @relation(fields: [sampleId], references: [id], onDelete: SetNull)
   checklistItem   AuditChecklistItem? @relation(fields: [checklistItemId], references: [id], onDelete: SetNull)
@@ -389,6 +396,8 @@ model Finding {
   @@index([assessmentId])
   @@index([sampleId])
   @@index([checklistItemId])
+  @@index([requirementRId])
+  @@index([processAreaId])
 }
 
 // An Action is a remediation item tied to exactly one Finding.

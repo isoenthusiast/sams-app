@@ -562,10 +562,12 @@ export type ProcessAreaCreateNestedOneWithoutControlsInput = {
   connect?: Prisma.ProcessAreaWhereUniqueInput
 }
 
-export type ProcessAreaUpdateOneRequiredWithoutControlsNestedInput = {
+export type ProcessAreaUpdateOneWithoutControlsNestedInput = {
   create?: Prisma.XOR<Prisma.ProcessAreaCreateWithoutControlsInput, Prisma.ProcessAreaUncheckedCreateWithoutControlsInput>
   connectOrCreate?: Prisma.ProcessAreaCreateOrConnectWithoutControlsInput
   upsert?: Prisma.ProcessAreaUpsertWithoutControlsInput
+  disconnect?: Prisma.ProcessAreaWhereInput | boolean
+  delete?: Prisma.ProcessAreaWhereInput | boolean
   connect?: Prisma.ProcessAreaWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.ProcessAreaUpdateToOneWithWhereWithoutControlsInput, Prisma.ProcessAreaUpdateWithoutControlsInput>, Prisma.ProcessAreaUncheckedUpdateWithoutControlsInput>
 }

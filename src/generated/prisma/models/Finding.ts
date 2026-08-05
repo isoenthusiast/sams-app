@@ -20,8 +20,18 @@ export type FindingModel = runtime.Types.Result.DefaultSelection<Prisma.$Finding
 
 export type AggregateFinding = {
   _count: FindingCountAggregateOutputType | null
+  _avg: FindingAvgAggregateOutputType | null
+  _sum: FindingSumAggregateOutputType | null
   _min: FindingMinAggregateOutputType | null
   _max: FindingMaxAggregateOutputType | null
+}
+
+export type FindingAvgAggregateOutputType = {
+  requirementRId: number | null
+}
+
+export type FindingSumAggregateOutputType = {
+  requirementRId: number | null
 }
 
 export type FindingMinAggregateOutputType = {
@@ -36,6 +46,11 @@ export type FindingMinAggregateOutputType = {
   repeat: boolean | null
   severity: $Enums.FindingSeverity | null
   createdAt: Date | null
+  requirementRId: number | null
+  processAreaId: string | null
+  riskDescription: string | null
+  rootCause: string | null
+  recommendation: string | null
 }
 
 export type FindingMaxAggregateOutputType = {
@@ -50,6 +65,11 @@ export type FindingMaxAggregateOutputType = {
   repeat: boolean | null
   severity: $Enums.FindingSeverity | null
   createdAt: Date | null
+  requirementRId: number | null
+  processAreaId: string | null
+  riskDescription: string | null
+  rootCause: string | null
+  recommendation: string | null
 }
 
 export type FindingCountAggregateOutputType = {
@@ -64,9 +84,22 @@ export type FindingCountAggregateOutputType = {
   repeat: number
   severity: number
   createdAt: number
+  requirementRId: number
+  processAreaId: number
+  riskDescription: number
+  rootCause: number
+  recommendation: number
   _all: number
 }
 
+
+export type FindingAvgAggregateInputType = {
+  requirementRId?: true
+}
+
+export type FindingSumAggregateInputType = {
+  requirementRId?: true
+}
 
 export type FindingMinAggregateInputType = {
   id?: true
@@ -80,6 +113,11 @@ export type FindingMinAggregateInputType = {
   repeat?: true
   severity?: true
   createdAt?: true
+  requirementRId?: true
+  processAreaId?: true
+  riskDescription?: true
+  rootCause?: true
+  recommendation?: true
 }
 
 export type FindingMaxAggregateInputType = {
@@ -94,6 +132,11 @@ export type FindingMaxAggregateInputType = {
   repeat?: true
   severity?: true
   createdAt?: true
+  requirementRId?: true
+  processAreaId?: true
+  riskDescription?: true
+  rootCause?: true
+  recommendation?: true
 }
 
 export type FindingCountAggregateInputType = {
@@ -108,6 +151,11 @@ export type FindingCountAggregateInputType = {
   repeat?: true
   severity?: true
   createdAt?: true
+  requirementRId?: true
+  processAreaId?: true
+  riskDescription?: true
+  rootCause?: true
+  recommendation?: true
   _all?: true
 }
 
@@ -149,6 +197,18 @@ export type FindingAggregateArgs<ExtArgs extends runtime.Types.Extensions.Intern
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: FindingAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: FindingSumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: FindingMinAggregateInputType
@@ -179,6 +239,8 @@ export type FindingGroupByArgs<ExtArgs extends runtime.Types.Extensions.Internal
   take?: number
   skip?: number
   _count?: FindingCountAggregateInputType | true
+  _avg?: FindingAvgAggregateInputType
+  _sum?: FindingSumAggregateInputType
   _min?: FindingMinAggregateInputType
   _max?: FindingMaxAggregateInputType
 }
@@ -195,7 +257,14 @@ export type FindingGroupByOutputType = {
   repeat: boolean
   severity: $Enums.FindingSeverity
   createdAt: Date
+  requirementRId: number | null
+  processAreaId: string | null
+  riskDescription: string | null
+  rootCause: string | null
+  recommendation: string | null
   _count: FindingCountAggregateOutputType | null
+  _avg: FindingAvgAggregateOutputType | null
+  _sum: FindingSumAggregateOutputType | null
   _min: FindingMinAggregateOutputType | null
   _max: FindingMaxAggregateOutputType | null
 }
@@ -230,6 +299,11 @@ export type FindingWhereInput = {
   repeat?: Prisma.BoolFilter<"Finding"> | boolean
   severity?: Prisma.EnumFindingSeverityFilter<"Finding"> | $Enums.FindingSeverity
   createdAt?: Prisma.DateTimeFilter<"Finding"> | Date | string
+  requirementRId?: Prisma.IntNullableFilter<"Finding"> | number | null
+  processAreaId?: Prisma.StringNullableFilter<"Finding"> | string | null
+  riskDescription?: Prisma.StringNullableFilter<"Finding"> | string | null
+  rootCause?: Prisma.StringNullableFilter<"Finding"> | string | null
+  recommendation?: Prisma.StringNullableFilter<"Finding"> | string | null
   assessment?: Prisma.XOR<Prisma.AssessmentScalarRelationFilter, Prisma.AssessmentWhereInput>
   sample?: Prisma.XOR<Prisma.SampleNullableScalarRelationFilter, Prisma.SampleWhereInput> | null
   checklistItem?: Prisma.XOR<Prisma.AuditChecklistItemNullableScalarRelationFilter, Prisma.AuditChecklistItemWhereInput> | null
@@ -248,6 +322,11 @@ export type FindingOrderByWithRelationInput = {
   repeat?: Prisma.SortOrder
   severity?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  requirementRId?: Prisma.SortOrderInput | Prisma.SortOrder
+  processAreaId?: Prisma.SortOrderInput | Prisma.SortOrder
+  riskDescription?: Prisma.SortOrderInput | Prisma.SortOrder
+  rootCause?: Prisma.SortOrderInput | Prisma.SortOrder
+  recommendation?: Prisma.SortOrderInput | Prisma.SortOrder
   assessment?: Prisma.AssessmentOrderByWithRelationInput
   sample?: Prisma.SampleOrderByWithRelationInput
   checklistItem?: Prisma.AuditChecklistItemOrderByWithRelationInput
@@ -269,6 +348,11 @@ export type FindingWhereUniqueInput = Prisma.AtLeast<{
   repeat?: Prisma.BoolFilter<"Finding"> | boolean
   severity?: Prisma.EnumFindingSeverityFilter<"Finding"> | $Enums.FindingSeverity
   createdAt?: Prisma.DateTimeFilter<"Finding"> | Date | string
+  requirementRId?: Prisma.IntNullableFilter<"Finding"> | number | null
+  processAreaId?: Prisma.StringNullableFilter<"Finding"> | string | null
+  riskDescription?: Prisma.StringNullableFilter<"Finding"> | string | null
+  rootCause?: Prisma.StringNullableFilter<"Finding"> | string | null
+  recommendation?: Prisma.StringNullableFilter<"Finding"> | string | null
   assessment?: Prisma.XOR<Prisma.AssessmentScalarRelationFilter, Prisma.AssessmentWhereInput>
   sample?: Prisma.XOR<Prisma.SampleNullableScalarRelationFilter, Prisma.SampleWhereInput> | null
   checklistItem?: Prisma.XOR<Prisma.AuditChecklistItemNullableScalarRelationFilter, Prisma.AuditChecklistItemWhereInput> | null
@@ -287,9 +371,16 @@ export type FindingOrderByWithAggregationInput = {
   repeat?: Prisma.SortOrder
   severity?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  requirementRId?: Prisma.SortOrderInput | Prisma.SortOrder
+  processAreaId?: Prisma.SortOrderInput | Prisma.SortOrder
+  riskDescription?: Prisma.SortOrderInput | Prisma.SortOrder
+  rootCause?: Prisma.SortOrderInput | Prisma.SortOrder
+  recommendation?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.FindingCountOrderByAggregateInput
+  _avg?: Prisma.FindingAvgOrderByAggregateInput
   _max?: Prisma.FindingMaxOrderByAggregateInput
   _min?: Prisma.FindingMinOrderByAggregateInput
+  _sum?: Prisma.FindingSumOrderByAggregateInput
 }
 
 export type FindingScalarWhereWithAggregatesInput = {
@@ -307,6 +398,11 @@ export type FindingScalarWhereWithAggregatesInput = {
   repeat?: Prisma.BoolWithAggregatesFilter<"Finding"> | boolean
   severity?: Prisma.EnumFindingSeverityWithAggregatesFilter<"Finding"> | $Enums.FindingSeverity
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Finding"> | Date | string
+  requirementRId?: Prisma.IntNullableWithAggregatesFilter<"Finding"> | number | null
+  processAreaId?: Prisma.StringNullableWithAggregatesFilter<"Finding"> | string | null
+  riskDescription?: Prisma.StringNullableWithAggregatesFilter<"Finding"> | string | null
+  rootCause?: Prisma.StringNullableWithAggregatesFilter<"Finding"> | string | null
+  recommendation?: Prisma.StringNullableWithAggregatesFilter<"Finding"> | string | null
 }
 
 export type FindingCreateInput = {
@@ -318,6 +414,11 @@ export type FindingCreateInput = {
   repeat?: boolean
   severity: $Enums.FindingSeverity
   createdAt?: Date | string
+  requirementRId?: number | null
+  processAreaId?: string | null
+  riskDescription?: string | null
+  rootCause?: string | null
+  recommendation?: string | null
   assessment: Prisma.AssessmentCreateNestedOneWithoutFindingsInput
   sample?: Prisma.SampleCreateNestedOneWithoutFindingsInput
   checklistItem?: Prisma.AuditChecklistItemCreateNestedOneWithoutFindingsInput
@@ -336,6 +437,11 @@ export type FindingUncheckedCreateInput = {
   repeat?: boolean
   severity: $Enums.FindingSeverity
   createdAt?: Date | string
+  requirementRId?: number | null
+  processAreaId?: string | null
+  riskDescription?: string | null
+  rootCause?: string | null
+  recommendation?: string | null
   actions?: Prisma.ActionUncheckedCreateNestedManyWithoutFindingInput
 }
 
@@ -348,6 +454,11 @@ export type FindingUpdateInput = {
   repeat?: Prisma.BoolFieldUpdateOperationsInput | boolean
   severity?: Prisma.EnumFindingSeverityFieldUpdateOperationsInput | $Enums.FindingSeverity
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  requirementRId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  processAreaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  riskDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rootCause?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recommendation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   assessment?: Prisma.AssessmentUpdateOneRequiredWithoutFindingsNestedInput
   sample?: Prisma.SampleUpdateOneWithoutFindingsNestedInput
   checklistItem?: Prisma.AuditChecklistItemUpdateOneWithoutFindingsNestedInput
@@ -366,6 +477,11 @@ export type FindingUncheckedUpdateInput = {
   repeat?: Prisma.BoolFieldUpdateOperationsInput | boolean
   severity?: Prisma.EnumFindingSeverityFieldUpdateOperationsInput | $Enums.FindingSeverity
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  requirementRId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  processAreaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  riskDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rootCause?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recommendation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   actions?: Prisma.ActionUncheckedUpdateManyWithoutFindingNestedInput
 }
 
@@ -381,6 +497,11 @@ export type FindingCreateManyInput = {
   repeat?: boolean
   severity: $Enums.FindingSeverity
   createdAt?: Date | string
+  requirementRId?: number | null
+  processAreaId?: string | null
+  riskDescription?: string | null
+  rootCause?: string | null
+  recommendation?: string | null
 }
 
 export type FindingUpdateManyMutationInput = {
@@ -392,6 +513,11 @@ export type FindingUpdateManyMutationInput = {
   repeat?: Prisma.BoolFieldUpdateOperationsInput | boolean
   severity?: Prisma.EnumFindingSeverityFieldUpdateOperationsInput | $Enums.FindingSeverity
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  requirementRId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  processAreaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  riskDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rootCause?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recommendation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type FindingUncheckedUpdateManyInput = {
@@ -406,6 +532,11 @@ export type FindingUncheckedUpdateManyInput = {
   repeat?: Prisma.BoolFieldUpdateOperationsInput | boolean
   severity?: Prisma.EnumFindingSeverityFieldUpdateOperationsInput | $Enums.FindingSeverity
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  requirementRId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  processAreaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  riskDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rootCause?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recommendation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type FindingListRelationFilter = {
@@ -430,6 +561,15 @@ export type FindingCountOrderByAggregateInput = {
   repeat?: Prisma.SortOrder
   severity?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  requirementRId?: Prisma.SortOrder
+  processAreaId?: Prisma.SortOrder
+  riskDescription?: Prisma.SortOrder
+  rootCause?: Prisma.SortOrder
+  recommendation?: Prisma.SortOrder
+}
+
+export type FindingAvgOrderByAggregateInput = {
+  requirementRId?: Prisma.SortOrder
 }
 
 export type FindingMaxOrderByAggregateInput = {
@@ -444,6 +584,11 @@ export type FindingMaxOrderByAggregateInput = {
   repeat?: Prisma.SortOrder
   severity?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  requirementRId?: Prisma.SortOrder
+  processAreaId?: Prisma.SortOrder
+  riskDescription?: Prisma.SortOrder
+  rootCause?: Prisma.SortOrder
+  recommendation?: Prisma.SortOrder
 }
 
 export type FindingMinOrderByAggregateInput = {
@@ -458,6 +603,15 @@ export type FindingMinOrderByAggregateInput = {
   repeat?: Prisma.SortOrder
   severity?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  requirementRId?: Prisma.SortOrder
+  processAreaId?: Prisma.SortOrder
+  riskDescription?: Prisma.SortOrder
+  rootCause?: Prisma.SortOrder
+  recommendation?: Prisma.SortOrder
+}
+
+export type FindingSumOrderByAggregateInput = {
+  requirementRId?: Prisma.SortOrder
 }
 
 export type FindingScalarRelationFilter = {
@@ -553,6 +707,14 @@ export type EnumFindingSeverityFieldUpdateOperationsInput = {
   set?: $Enums.FindingSeverity
 }
 
+export type NullableIntFieldUpdateOperationsInput = {
+  set?: number | null
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
+}
+
 export type FindingCreateNestedOneWithoutActionsInput = {
   create?: Prisma.XOR<Prisma.FindingCreateWithoutActionsInput, Prisma.FindingUncheckedCreateWithoutActionsInput>
   connectOrCreate?: Prisma.FindingCreateOrConnectWithoutActionsInput
@@ -618,6 +780,11 @@ export type FindingCreateWithoutAssessmentInput = {
   repeat?: boolean
   severity: $Enums.FindingSeverity
   createdAt?: Date | string
+  requirementRId?: number | null
+  processAreaId?: string | null
+  riskDescription?: string | null
+  rootCause?: string | null
+  recommendation?: string | null
   sample?: Prisma.SampleCreateNestedOneWithoutFindingsInput
   checklistItem?: Prisma.AuditChecklistItemCreateNestedOneWithoutFindingsInput
   actions?: Prisma.ActionCreateNestedManyWithoutFindingInput
@@ -634,6 +801,11 @@ export type FindingUncheckedCreateWithoutAssessmentInput = {
   repeat?: boolean
   severity: $Enums.FindingSeverity
   createdAt?: Date | string
+  requirementRId?: number | null
+  processAreaId?: string | null
+  riskDescription?: string | null
+  rootCause?: string | null
+  recommendation?: string | null
   actions?: Prisma.ActionUncheckedCreateNestedManyWithoutFindingInput
 }
 
@@ -678,6 +850,11 @@ export type FindingScalarWhereInput = {
   repeat?: Prisma.BoolFilter<"Finding"> | boolean
   severity?: Prisma.EnumFindingSeverityFilter<"Finding"> | $Enums.FindingSeverity
   createdAt?: Prisma.DateTimeFilter<"Finding"> | Date | string
+  requirementRId?: Prisma.IntNullableFilter<"Finding"> | number | null
+  processAreaId?: Prisma.StringNullableFilter<"Finding"> | string | null
+  riskDescription?: Prisma.StringNullableFilter<"Finding"> | string | null
+  rootCause?: Prisma.StringNullableFilter<"Finding"> | string | null
+  recommendation?: Prisma.StringNullableFilter<"Finding"> | string | null
 }
 
 export type FindingCreateWithoutSampleInput = {
@@ -689,6 +866,11 @@ export type FindingCreateWithoutSampleInput = {
   repeat?: boolean
   severity: $Enums.FindingSeverity
   createdAt?: Date | string
+  requirementRId?: number | null
+  processAreaId?: string | null
+  riskDescription?: string | null
+  rootCause?: string | null
+  recommendation?: string | null
   assessment: Prisma.AssessmentCreateNestedOneWithoutFindingsInput
   checklistItem?: Prisma.AuditChecklistItemCreateNestedOneWithoutFindingsInput
   actions?: Prisma.ActionCreateNestedManyWithoutFindingInput
@@ -705,6 +887,11 @@ export type FindingUncheckedCreateWithoutSampleInput = {
   repeat?: boolean
   severity: $Enums.FindingSeverity
   createdAt?: Date | string
+  requirementRId?: number | null
+  processAreaId?: string | null
+  riskDescription?: string | null
+  rootCause?: string | null
+  recommendation?: string | null
   actions?: Prisma.ActionUncheckedCreateNestedManyWithoutFindingInput
 }
 
@@ -743,6 +930,11 @@ export type FindingCreateWithoutActionsInput = {
   repeat?: boolean
   severity: $Enums.FindingSeverity
   createdAt?: Date | string
+  requirementRId?: number | null
+  processAreaId?: string | null
+  riskDescription?: string | null
+  rootCause?: string | null
+  recommendation?: string | null
   assessment: Prisma.AssessmentCreateNestedOneWithoutFindingsInput
   sample?: Prisma.SampleCreateNestedOneWithoutFindingsInput
   checklistItem?: Prisma.AuditChecklistItemCreateNestedOneWithoutFindingsInput
@@ -760,6 +952,11 @@ export type FindingUncheckedCreateWithoutActionsInput = {
   repeat?: boolean
   severity: $Enums.FindingSeverity
   createdAt?: Date | string
+  requirementRId?: number | null
+  processAreaId?: string | null
+  riskDescription?: string | null
+  rootCause?: string | null
+  recommendation?: string | null
 }
 
 export type FindingCreateOrConnectWithoutActionsInput = {
@@ -787,6 +984,11 @@ export type FindingUpdateWithoutActionsInput = {
   repeat?: Prisma.BoolFieldUpdateOperationsInput | boolean
   severity?: Prisma.EnumFindingSeverityFieldUpdateOperationsInput | $Enums.FindingSeverity
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  requirementRId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  processAreaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  riskDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rootCause?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recommendation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   assessment?: Prisma.AssessmentUpdateOneRequiredWithoutFindingsNestedInput
   sample?: Prisma.SampleUpdateOneWithoutFindingsNestedInput
   checklistItem?: Prisma.AuditChecklistItemUpdateOneWithoutFindingsNestedInput
@@ -804,6 +1006,11 @@ export type FindingUncheckedUpdateWithoutActionsInput = {
   repeat?: Prisma.BoolFieldUpdateOperationsInput | boolean
   severity?: Prisma.EnumFindingSeverityFieldUpdateOperationsInput | $Enums.FindingSeverity
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  requirementRId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  processAreaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  riskDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rootCause?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recommendation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type FindingCreateWithoutChecklistItemInput = {
@@ -815,6 +1022,11 @@ export type FindingCreateWithoutChecklistItemInput = {
   repeat?: boolean
   severity: $Enums.FindingSeverity
   createdAt?: Date | string
+  requirementRId?: number | null
+  processAreaId?: string | null
+  riskDescription?: string | null
+  rootCause?: string | null
+  recommendation?: string | null
   assessment: Prisma.AssessmentCreateNestedOneWithoutFindingsInput
   sample?: Prisma.SampleCreateNestedOneWithoutFindingsInput
   actions?: Prisma.ActionCreateNestedManyWithoutFindingInput
@@ -831,6 +1043,11 @@ export type FindingUncheckedCreateWithoutChecklistItemInput = {
   repeat?: boolean
   severity: $Enums.FindingSeverity
   createdAt?: Date | string
+  requirementRId?: number | null
+  processAreaId?: string | null
+  riskDescription?: string | null
+  rootCause?: string | null
+  recommendation?: string | null
   actions?: Prisma.ActionUncheckedCreateNestedManyWithoutFindingInput
 }
 
@@ -871,6 +1088,11 @@ export type FindingCreateManyAssessmentInput = {
   repeat?: boolean
   severity: $Enums.FindingSeverity
   createdAt?: Date | string
+  requirementRId?: number | null
+  processAreaId?: string | null
+  riskDescription?: string | null
+  rootCause?: string | null
+  recommendation?: string | null
 }
 
 export type FindingUpdateWithoutAssessmentInput = {
@@ -882,6 +1104,11 @@ export type FindingUpdateWithoutAssessmentInput = {
   repeat?: Prisma.BoolFieldUpdateOperationsInput | boolean
   severity?: Prisma.EnumFindingSeverityFieldUpdateOperationsInput | $Enums.FindingSeverity
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  requirementRId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  processAreaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  riskDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rootCause?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recommendation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sample?: Prisma.SampleUpdateOneWithoutFindingsNestedInput
   checklistItem?: Prisma.AuditChecklistItemUpdateOneWithoutFindingsNestedInput
   actions?: Prisma.ActionUpdateManyWithoutFindingNestedInput
@@ -898,6 +1125,11 @@ export type FindingUncheckedUpdateWithoutAssessmentInput = {
   repeat?: Prisma.BoolFieldUpdateOperationsInput | boolean
   severity?: Prisma.EnumFindingSeverityFieldUpdateOperationsInput | $Enums.FindingSeverity
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  requirementRId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  processAreaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  riskDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rootCause?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recommendation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   actions?: Prisma.ActionUncheckedUpdateManyWithoutFindingNestedInput
 }
 
@@ -912,6 +1144,11 @@ export type FindingUncheckedUpdateManyWithoutAssessmentInput = {
   repeat?: Prisma.BoolFieldUpdateOperationsInput | boolean
   severity?: Prisma.EnumFindingSeverityFieldUpdateOperationsInput | $Enums.FindingSeverity
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  requirementRId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  processAreaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  riskDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rootCause?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recommendation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type FindingCreateManySampleInput = {
@@ -925,6 +1162,11 @@ export type FindingCreateManySampleInput = {
   repeat?: boolean
   severity: $Enums.FindingSeverity
   createdAt?: Date | string
+  requirementRId?: number | null
+  processAreaId?: string | null
+  riskDescription?: string | null
+  rootCause?: string | null
+  recommendation?: string | null
 }
 
 export type FindingUpdateWithoutSampleInput = {
@@ -936,6 +1178,11 @@ export type FindingUpdateWithoutSampleInput = {
   repeat?: Prisma.BoolFieldUpdateOperationsInput | boolean
   severity?: Prisma.EnumFindingSeverityFieldUpdateOperationsInput | $Enums.FindingSeverity
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  requirementRId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  processAreaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  riskDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rootCause?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recommendation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   assessment?: Prisma.AssessmentUpdateOneRequiredWithoutFindingsNestedInput
   checklistItem?: Prisma.AuditChecklistItemUpdateOneWithoutFindingsNestedInput
   actions?: Prisma.ActionUpdateManyWithoutFindingNestedInput
@@ -952,6 +1199,11 @@ export type FindingUncheckedUpdateWithoutSampleInput = {
   repeat?: Prisma.BoolFieldUpdateOperationsInput | boolean
   severity?: Prisma.EnumFindingSeverityFieldUpdateOperationsInput | $Enums.FindingSeverity
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  requirementRId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  processAreaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  riskDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rootCause?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recommendation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   actions?: Prisma.ActionUncheckedUpdateManyWithoutFindingNestedInput
 }
 
@@ -966,6 +1218,11 @@ export type FindingUncheckedUpdateManyWithoutSampleInput = {
   repeat?: Prisma.BoolFieldUpdateOperationsInput | boolean
   severity?: Prisma.EnumFindingSeverityFieldUpdateOperationsInput | $Enums.FindingSeverity
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  requirementRId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  processAreaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  riskDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rootCause?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recommendation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type FindingCreateManyChecklistItemInput = {
@@ -979,6 +1236,11 @@ export type FindingCreateManyChecklistItemInput = {
   repeat?: boolean
   severity: $Enums.FindingSeverity
   createdAt?: Date | string
+  requirementRId?: number | null
+  processAreaId?: string | null
+  riskDescription?: string | null
+  rootCause?: string | null
+  recommendation?: string | null
 }
 
 export type FindingUpdateWithoutChecklistItemInput = {
@@ -990,6 +1252,11 @@ export type FindingUpdateWithoutChecklistItemInput = {
   repeat?: Prisma.BoolFieldUpdateOperationsInput | boolean
   severity?: Prisma.EnumFindingSeverityFieldUpdateOperationsInput | $Enums.FindingSeverity
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  requirementRId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  processAreaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  riskDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rootCause?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recommendation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   assessment?: Prisma.AssessmentUpdateOneRequiredWithoutFindingsNestedInput
   sample?: Prisma.SampleUpdateOneWithoutFindingsNestedInput
   actions?: Prisma.ActionUpdateManyWithoutFindingNestedInput
@@ -1006,6 +1273,11 @@ export type FindingUncheckedUpdateWithoutChecklistItemInput = {
   repeat?: Prisma.BoolFieldUpdateOperationsInput | boolean
   severity?: Prisma.EnumFindingSeverityFieldUpdateOperationsInput | $Enums.FindingSeverity
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  requirementRId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  processAreaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  riskDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rootCause?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recommendation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   actions?: Prisma.ActionUncheckedUpdateManyWithoutFindingNestedInput
 }
 
@@ -1020,6 +1292,11 @@ export type FindingUncheckedUpdateManyWithoutChecklistItemInput = {
   repeat?: Prisma.BoolFieldUpdateOperationsInput | boolean
   severity?: Prisma.EnumFindingSeverityFieldUpdateOperationsInput | $Enums.FindingSeverity
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  requirementRId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  processAreaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  riskDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  rootCause?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recommendation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 
@@ -1065,6 +1342,11 @@ export type FindingSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   repeat?: boolean
   severity?: boolean
   createdAt?: boolean
+  requirementRId?: boolean
+  processAreaId?: boolean
+  riskDescription?: boolean
+  rootCause?: boolean
+  recommendation?: boolean
   assessment?: boolean | Prisma.AssessmentDefaultArgs<ExtArgs>
   sample?: boolean | Prisma.Finding$sampleArgs<ExtArgs>
   checklistItem?: boolean | Prisma.Finding$checklistItemArgs<ExtArgs>
@@ -1084,6 +1366,11 @@ export type FindingSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   repeat?: boolean
   severity?: boolean
   createdAt?: boolean
+  requirementRId?: boolean
+  processAreaId?: boolean
+  riskDescription?: boolean
+  rootCause?: boolean
+  recommendation?: boolean
   assessment?: boolean | Prisma.AssessmentDefaultArgs<ExtArgs>
   sample?: boolean | Prisma.Finding$sampleArgs<ExtArgs>
   checklistItem?: boolean | Prisma.Finding$checklistItemArgs<ExtArgs>
@@ -1101,6 +1388,11 @@ export type FindingSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   repeat?: boolean
   severity?: boolean
   createdAt?: boolean
+  requirementRId?: boolean
+  processAreaId?: boolean
+  riskDescription?: boolean
+  rootCause?: boolean
+  recommendation?: boolean
   assessment?: boolean | Prisma.AssessmentDefaultArgs<ExtArgs>
   sample?: boolean | Prisma.Finding$sampleArgs<ExtArgs>
   checklistItem?: boolean | Prisma.Finding$checklistItemArgs<ExtArgs>
@@ -1118,9 +1410,14 @@ export type FindingSelectScalar = {
   repeat?: boolean
   severity?: boolean
   createdAt?: boolean
+  requirementRId?: boolean
+  processAreaId?: boolean
+  riskDescription?: boolean
+  rootCause?: boolean
+  recommendation?: boolean
 }
 
-export type FindingOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "assessmentId" | "sampleId" | "checklistItemId" | "description" | "details" | "controlIds" | "risks" | "repeat" | "severity" | "createdAt", ExtArgs["result"]["finding"]>
+export type FindingOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "assessmentId" | "sampleId" | "checklistItemId" | "description" | "details" | "controlIds" | "risks" | "repeat" | "severity" | "createdAt" | "requirementRId" | "processAreaId" | "riskDescription" | "rootCause" | "recommendation", ExtArgs["result"]["finding"]>
 export type FindingInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   assessment?: boolean | Prisma.AssessmentDefaultArgs<ExtArgs>
   sample?: boolean | Prisma.Finding$sampleArgs<ExtArgs>
@@ -1159,6 +1456,11 @@ export type $FindingPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     repeat: boolean
     severity: $Enums.FindingSeverity
     createdAt: Date
+    requirementRId: number | null
+    processAreaId: string | null
+    riskDescription: string | null
+    rootCause: string | null
+    recommendation: string | null
   }, ExtArgs["result"]["finding"]>
   composites: {}
 }
@@ -1597,6 +1899,11 @@ export interface FindingFieldRefs {
   readonly repeat: Prisma.FieldRef<"Finding", 'Boolean'>
   readonly severity: Prisma.FieldRef<"Finding", 'FindingSeverity'>
   readonly createdAt: Prisma.FieldRef<"Finding", 'DateTime'>
+  readonly requirementRId: Prisma.FieldRef<"Finding", 'Int'>
+  readonly processAreaId: Prisma.FieldRef<"Finding", 'String'>
+  readonly riskDescription: Prisma.FieldRef<"Finding", 'String'>
+  readonly rootCause: Prisma.FieldRef<"Finding", 'String'>
+  readonly recommendation: Prisma.FieldRef<"Finding", 'String'>
 }
     
 

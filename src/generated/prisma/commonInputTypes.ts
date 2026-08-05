@@ -352,16 +352,6 @@ export type EnumFindingSeverityFilter<$PrismaModel = never> = {
   not?: Prisma.NestedEnumFindingSeverityFilter<$PrismaModel> | $Enums.FindingSeverity
 }
 
-export type EnumFindingSeverityWithAggregatesFilter<$PrismaModel = never> = {
-  equals?: $Enums.FindingSeverity | Prisma.EnumFindingSeverityFieldRefInput<$PrismaModel>
-  in?: $Enums.FindingSeverity[] | Prisma.ListEnumFindingSeverityFieldRefInput<$PrismaModel>
-  notIn?: $Enums.FindingSeverity[] | Prisma.ListEnumFindingSeverityFieldRefInput<$PrismaModel>
-  not?: Prisma.NestedEnumFindingSeverityWithAggregatesFilter<$PrismaModel> | $Enums.FindingSeverity
-  _count?: Prisma.NestedIntFilter<$PrismaModel>
-  _min?: Prisma.NestedEnumFindingSeverityFilter<$PrismaModel>
-  _max?: Prisma.NestedEnumFindingSeverityFilter<$PrismaModel>
-}
-
 export type IntNullableFilter<$PrismaModel = never> = {
   equals?: number | Prisma.IntFieldRefInput<$PrismaModel> | null
   in?: number[] | Prisma.ListIntFieldRefInput<$PrismaModel> | null
@@ -371,6 +361,16 @@ export type IntNullableFilter<$PrismaModel = never> = {
   gt?: number | Prisma.IntFieldRefInput<$PrismaModel>
   gte?: number | Prisma.IntFieldRefInput<$PrismaModel>
   not?: Prisma.NestedIntNullableFilter<$PrismaModel> | number | null
+}
+
+export type EnumFindingSeverityWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.FindingSeverity | Prisma.EnumFindingSeverityFieldRefInput<$PrismaModel>
+  in?: $Enums.FindingSeverity[] | Prisma.ListEnumFindingSeverityFieldRefInput<$PrismaModel>
+  notIn?: $Enums.FindingSeverity[] | Prisma.ListEnumFindingSeverityFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumFindingSeverityWithAggregatesFilter<$PrismaModel> | $Enums.FindingSeverity
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumFindingSeverityFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumFindingSeverityFilter<$PrismaModel>
 }
 
 export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {

@@ -427,14 +427,6 @@ export type AttachmentScalarRelationFilter = {
   isNot?: Prisma.AttachmentWhereInput
 }
 
-export type NullableIntFieldUpdateOperationsInput = {
-  set?: number | null
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
-}
-
 export type AttachmentCreateNestedOneWithoutMappingsInput = {
   create?: Prisma.XOR<Prisma.AttachmentCreateWithoutMappingsInput, Prisma.AttachmentUncheckedCreateWithoutMappingsInput>
   connectOrCreate?: Prisma.AttachmentCreateOrConnectWithoutMappingsInput
