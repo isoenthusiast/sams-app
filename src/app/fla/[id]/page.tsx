@@ -6,10 +6,11 @@ import AssessmentClient from "./AssessmentClient";
 
 export const dynamic = "force-dynamic";
 
-export default async function AssessmentDetailPage({ params, searchParams }: { params: Promise<{ id: string }>; searchParams: Promise<{ adopt?: string }> }) {
+export default async function AssessmentDetailPage({ params, searchParams }: { params: Promise<{ id: string }>; searchParams: Promise<{ adopt?: string; view?: string }> }) {
   const { id } = await params;
   const sp = await searchParams;
   const adoptChecklist = sp.adopt === "1";
+  const view = sp.view || "minimalist"; // default to minimalist
   const session = await auth();
   const companyId = await getSelectedCompanyId();
   if (!session?.user) return null;
@@ -90,6 +91,7 @@ export default async function AssessmentDetailPage({ params, searchParams }: { p
       currentUserId={(session.user as any)?.id}
       linkedAssessorIds={linkedAssessorIds}
       adoptChecklist={adoptChecklist}
+      initialView={view}
     />
   );
 }

@@ -17,6 +17,7 @@ import { AssessmentChecklistTab } from "@/components/AssessmentChecklistTab";
 import { ChecklistTemplateSelector } from "@/components/ChecklistTemplateSelector";
 import { AuditWorkflowBar } from "@/components/AuditWorkflowBar";
 import { AuditReportTab } from "@/components/AuditReportTab";
+import MinimalistView from "@/components/MinimalistView";
 
 type Props = {
   assessment: any;
@@ -29,10 +30,12 @@ type Props = {
   currentUserId?: string;
   linkedAssessorIds?: string[];
   adoptChecklist?: boolean;
+  initialView?: string;
 };
 
-export default function AssessmentClient({ assessment, initialControls = [], processAreas, activityTypes, users, sampleTypes, recordSources, currentUserId, linkedAssessorIds = [], adoptChecklist = false }: Props) {
+export default function AssessmentClient({ assessment, initialControls = [], processAreas, activityTypes, users, sampleTypes, recordSources, currentUserId, linkedAssessorIds = [], adoptChecklist = false, initialView = "minimalist" }: Props) {
   const router = useRouter();
+  const [view, setView] = useState<"minimalist" | "classic">(initialView as "minimalist" | "classic" || "minimalist");
   const [activeTab, setActiveTab] = useState<"overview" | "controls" | "samples" | "findings" | "activities" | "checklist" | "report">(adoptChecklist ? "checklist" : "overview");
   const [saving, setSaving] = useState(false);
   const [editing, setEditing] = useState(false);
@@ -375,13 +378,43 @@ export default function AssessmentClient({ assessment, initialControls = [], pro
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-6">
-      <Link href="/fla" className="text-sm text-blue-600 hover:underline">← Dashboard</Link>
+      <div className="flex items-center justify-between">
+        <Link href="/fla" className="text-sm text-blue-600 hover:underline">← Dashboard</Link>
+        <div className="flex items-center gap-1 rounded-lg border border-slate-200 bg-slate-50 p-0.5">
+          <button
+            onClick={() => setView("minimalist")}
+            className={`rounded-md px-3 py-1 text-xs font-medium transition-colors ${view === "minimalist" ? "bg-white text-slate-900 shadow-sm" : "text-slate-500 hover:text-slate-700"}`}
+          >
+            Minimalist
+          </button>
+          <button
+            onClick={() => setView("classic")}
+            className={`rounded-md px-3 py-1 text-xs font-medium transition-colors ${view === "classic" ? "bg-white text-slate-900 shadow-sm" : "text-slate-500 hover:text-slate-700"}`}
+          >
+            Classic
+          </button>
+        </div>
+      </div>
       <div className="mt-2 flex items-center gap-3">
         <h1 className="text-2xl font-bold text-slate-900">{assessment.name}</h1>
         <StatusBadge status={assessment.status} />
       </div>
       <p className="text-sm text-slate-500">{assessment.activityType?.name} · Assessor: {assessment.assessor?.name} · LOA: {assessment.loa}</p>
 
+      {/* ─── MINIMALIST VIEW ─── */}
+      {view === "minimalist" && (
+        <MinimalistView
+          assessment={assessment}
+          allControls={allControls}
+          controlsLoaded={controlsLoaded}
+          setActiveTab={setActiveTab}
+          setView={setView}
+        />
+      )}
+
+      {/* ─── CLASSIC VIEW ─── */}
+      {view === "classic" && (
+      <>
       <div className="mt-3">
         <GamificationWidget userId={currentUserId} />
       </div>
@@ -1194,6 +1227,8 @@ export default function AssessmentClient({ assessment, initialControls = [], pro
       <div className="mt-6 flex gap-3">
         <Button variant="secondary" size="sm" onClick={() => router.push("/fla")}>← Back</Button>
       </div>
+      </>
+      )}
     </div>
   );
 }
