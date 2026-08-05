@@ -17,6 +17,52 @@ function generateAaId(assessmentId: string, seq: number): string {
   return `AA-${assessmentId.slice(-8)}-${suffix}`;
 }
 
+// GET — list all assessments for the company, enriched with processArea
+export async function GET(request: Request) {
+  try {
+    const { session, response } = await requireSuperuser();
+    if (response) return response;
+
+    const companyId = await getSelectedCompanyId();
+
+    const assessments = await prisma.assessment.findMany({
+      where: companyId ? { companyId } : {},
+      include: {
+        activityType: { select: { name: true } },
+        assessor: { select: { name: true } },
+        _count: { select: { samples: true, findings: true } },
+      },
+      orderBy: { startDate: "desc" },
+    });
+
+    // Enrich with processArea via first control assignment
+    const enriched = await Promise.all(
+      assessments.map(async (a) => {
+        const ca = await prisma.controlAssignment.findFirst({
+          where: { assessmentId: a.id },
+          include: { control: { select: { processArea: { select: { id: true, name: true } } } } },
+        });
+        return {
+          id: a.id,
+          name: a.name,
+          status: a.status,
+          startDate: a.startDate?.toISOString() ?? null,
+          endDate: a.endDate?.toISOString() ?? null,
+          loa: a.loa,
+          activityType: a.activityType,
+          assessor: a.assessor,
+          processArea: ca?.control?.processArea ?? null,
+          _count: a._count,
+        };
+      })
+    );
+
+    return NextResponse.json({ assessments: enriched });
+  } catch (err: any) {
+    return NextResponse.json({ error: err.message }, { status: 500 });
+  }
+}
+
 // POST — create a new assessment with template activities
 export async function POST(request: Request) {
   try {
