@@ -268,6 +268,26 @@ export type Document = Prisma.DocumentModel
  */
 export type MapRequirement2Document = Prisma.MapRequirement2DocumentModel
 /**
+ * Model RiskCategory
+ * 
+ */
+export type RiskCategory = Prisma.RiskCategoryModel
+/**
+ * Model Risk
+ * 
+ */
+export type Risk = Prisma.RiskModel
+/**
+ * Model RiskMetrics
+ * 
+ */
+export type RiskMetrics = Prisma.RiskMetricsModel
+/**
+ * Model ControlRisk
+ * 
+ */
+export type ControlRisk = Prisma.ControlRiskModel
+/**
  * Model BacklogItem
  * 
  */

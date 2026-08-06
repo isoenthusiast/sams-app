@@ -52,6 +52,7 @@ export type ActionMinAggregateOutputType = {
   actionClosureApprovedBy: string | null
   closureDate: Date | null
   closureEvidence: string | null
+  riskID: string | null
 }
 
 export type ActionMaxAggregateOutputType = {
@@ -72,6 +73,7 @@ export type ActionMaxAggregateOutputType = {
   actionClosureApprovedBy: string | null
   closureDate: Date | null
   closureEvidence: string | null
+  riskID: string | null
 }
 
 export type ActionCountAggregateOutputType = {
@@ -92,6 +94,7 @@ export type ActionCountAggregateOutputType = {
   actionClosureApprovedBy: number
   closureDate: number
   closureEvidence: number
+  riskID: number
   _all: number
 }
 
@@ -122,6 +125,7 @@ export type ActionMinAggregateInputType = {
   actionClosureApprovedBy?: true
   closureDate?: true
   closureEvidence?: true
+  riskID?: true
 }
 
 export type ActionMaxAggregateInputType = {
@@ -142,6 +146,7 @@ export type ActionMaxAggregateInputType = {
   actionClosureApprovedBy?: true
   closureDate?: true
   closureEvidence?: true
+  riskID?: true
 }
 
 export type ActionCountAggregateInputType = {
@@ -162,6 +167,7 @@ export type ActionCountAggregateInputType = {
   actionClosureApprovedBy?: true
   closureDate?: true
   closureEvidence?: true
+  riskID?: true
   _all?: true
 }
 
@@ -269,6 +275,7 @@ export type ActionGroupByOutputType = {
   actionClosureApprovedBy: string | null
   closureDate: Date | null
   closureEvidence: string | null
+  riskID: string | null
   _count: ActionCountAggregateOutputType | null
   _avg: ActionAvgAggregateOutputType | null
   _sum: ActionSumAggregateOutputType | null
@@ -312,6 +319,7 @@ export type ActionWhereInput = {
   actionClosureApprovedBy?: Prisma.StringNullableFilter<"Action"> | string | null
   closureDate?: Prisma.DateTimeNullableFilter<"Action"> | Date | string | null
   closureEvidence?: Prisma.StringNullableFilter<"Action"> | string | null
+  riskID?: Prisma.StringNullableFilter<"Action"> | string | null
   finding?: Prisma.XOR<Prisma.FindingScalarRelationFilter, Prisma.FindingWhereInput>
 }
 
@@ -333,6 +341,7 @@ export type ActionOrderByWithRelationInput = {
   actionClosureApprovedBy?: Prisma.SortOrderInput | Prisma.SortOrder
   closureDate?: Prisma.SortOrderInput | Prisma.SortOrder
   closureEvidence?: Prisma.SortOrderInput | Prisma.SortOrder
+  riskID?: Prisma.SortOrderInput | Prisma.SortOrder
   finding?: Prisma.FindingOrderByWithRelationInput
 }
 
@@ -357,6 +366,7 @@ export type ActionWhereUniqueInput = Prisma.AtLeast<{
   actionClosureApprovedBy?: Prisma.StringNullableFilter<"Action"> | string | null
   closureDate?: Prisma.DateTimeNullableFilter<"Action"> | Date | string | null
   closureEvidence?: Prisma.StringNullableFilter<"Action"> | string | null
+  riskID?: Prisma.StringNullableFilter<"Action"> | string | null
   finding?: Prisma.XOR<Prisma.FindingScalarRelationFilter, Prisma.FindingWhereInput>
 }, "id" | "actionId">
 
@@ -378,6 +388,7 @@ export type ActionOrderByWithAggregationInput = {
   actionClosureApprovedBy?: Prisma.SortOrderInput | Prisma.SortOrder
   closureDate?: Prisma.SortOrderInput | Prisma.SortOrder
   closureEvidence?: Prisma.SortOrderInput | Prisma.SortOrder
+  riskID?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.ActionCountOrderByAggregateInput
   _avg?: Prisma.ActionAvgOrderByAggregateInput
   _max?: Prisma.ActionMaxOrderByAggregateInput
@@ -406,6 +417,7 @@ export type ActionScalarWhereWithAggregatesInput = {
   actionClosureApprovedBy?: Prisma.StringNullableWithAggregatesFilter<"Action"> | string | null
   closureDate?: Prisma.DateTimeNullableWithAggregatesFilter<"Action"> | Date | string | null
   closureEvidence?: Prisma.StringNullableWithAggregatesFilter<"Action"> | string | null
+  riskID?: Prisma.StringNullableWithAggregatesFilter<"Action"> | string | null
 }
 
 export type ActionCreateInput = {
@@ -425,6 +437,7 @@ export type ActionCreateInput = {
   actionClosureApprovedBy?: string | null
   closureDate?: Date | string | null
   closureEvidence?: string | null
+  riskID?: string | null
   finding: Prisma.FindingCreateNestedOneWithoutActionsInput
 }
 
@@ -446,6 +459,7 @@ export type ActionUncheckedCreateInput = {
   actionClosureApprovedBy?: string | null
   closureDate?: Date | string | null
   closureEvidence?: string | null
+  riskID?: string | null
 }
 
 export type ActionUpdateInput = {
@@ -465,6 +479,7 @@ export type ActionUpdateInput = {
   actionClosureApprovedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   closureDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   closureEvidence?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  riskID?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   finding?: Prisma.FindingUpdateOneRequiredWithoutActionsNestedInput
 }
 
@@ -486,6 +501,7 @@ export type ActionUncheckedUpdateInput = {
   actionClosureApprovedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   closureDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   closureEvidence?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  riskID?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type ActionCreateManyInput = {
@@ -506,6 +522,7 @@ export type ActionCreateManyInput = {
   actionClosureApprovedBy?: string | null
   closureDate?: Date | string | null
   closureEvidence?: string | null
+  riskID?: string | null
 }
 
 export type ActionUpdateManyMutationInput = {
@@ -525,6 +542,7 @@ export type ActionUpdateManyMutationInput = {
   actionClosureApprovedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   closureDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   closureEvidence?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  riskID?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type ActionUncheckedUpdateManyInput = {
@@ -545,6 +563,7 @@ export type ActionUncheckedUpdateManyInput = {
   actionClosureApprovedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   closureDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   closureEvidence?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  riskID?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type ActionListRelationFilter = {
@@ -575,6 +594,7 @@ export type ActionCountOrderByAggregateInput = {
   actionClosureApprovedBy?: Prisma.SortOrder
   closureDate?: Prisma.SortOrder
   closureEvidence?: Prisma.SortOrder
+  riskID?: Prisma.SortOrder
 }
 
 export type ActionAvgOrderByAggregateInput = {
@@ -599,6 +619,7 @@ export type ActionMaxOrderByAggregateInput = {
   actionClosureApprovedBy?: Prisma.SortOrder
   closureDate?: Prisma.SortOrder
   closureEvidence?: Prisma.SortOrder
+  riskID?: Prisma.SortOrder
 }
 
 export type ActionMinOrderByAggregateInput = {
@@ -619,6 +640,7 @@ export type ActionMinOrderByAggregateInput = {
   actionClosureApprovedBy?: Prisma.SortOrder
   closureDate?: Prisma.SortOrder
   closureEvidence?: Prisma.SortOrder
+  riskID?: Prisma.SortOrder
 }
 
 export type ActionSumOrderByAggregateInput = {
@@ -684,6 +706,7 @@ export type ActionCreateWithoutFindingInput = {
   actionClosureApprovedBy?: string | null
   closureDate?: Date | string | null
   closureEvidence?: string | null
+  riskID?: string | null
 }
 
 export type ActionUncheckedCreateWithoutFindingInput = {
@@ -703,6 +726,7 @@ export type ActionUncheckedCreateWithoutFindingInput = {
   actionClosureApprovedBy?: string | null
   closureDate?: Date | string | null
   closureEvidence?: string | null
+  riskID?: string | null
 }
 
 export type ActionCreateOrConnectWithoutFindingInput = {
@@ -752,6 +776,7 @@ export type ActionScalarWhereInput = {
   actionClosureApprovedBy?: Prisma.StringNullableFilter<"Action"> | string | null
   closureDate?: Prisma.DateTimeNullableFilter<"Action"> | Date | string | null
   closureEvidence?: Prisma.StringNullableFilter<"Action"> | string | null
+  riskID?: Prisma.StringNullableFilter<"Action"> | string | null
 }
 
 export type ActionCreateManyFindingInput = {
@@ -771,6 +796,7 @@ export type ActionCreateManyFindingInput = {
   actionClosureApprovedBy?: string | null
   closureDate?: Date | string | null
   closureEvidence?: string | null
+  riskID?: string | null
 }
 
 export type ActionUpdateWithoutFindingInput = {
@@ -790,6 +816,7 @@ export type ActionUpdateWithoutFindingInput = {
   actionClosureApprovedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   closureDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   closureEvidence?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  riskID?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type ActionUncheckedUpdateWithoutFindingInput = {
@@ -809,6 +836,7 @@ export type ActionUncheckedUpdateWithoutFindingInput = {
   actionClosureApprovedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   closureDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   closureEvidence?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  riskID?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type ActionUncheckedUpdateManyWithoutFindingInput = {
@@ -828,6 +856,7 @@ export type ActionUncheckedUpdateManyWithoutFindingInput = {
   actionClosureApprovedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   closureDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   closureEvidence?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  riskID?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 
@@ -850,6 +879,7 @@ export type ActionSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   actionClosureApprovedBy?: boolean
   closureDate?: boolean
   closureEvidence?: boolean
+  riskID?: boolean
   finding?: boolean | Prisma.FindingDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["action"]>
 
@@ -871,6 +901,7 @@ export type ActionSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extens
   actionClosureApprovedBy?: boolean
   closureDate?: boolean
   closureEvidence?: boolean
+  riskID?: boolean
   finding?: boolean | Prisma.FindingDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["action"]>
 
@@ -892,6 +923,7 @@ export type ActionSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
   actionClosureApprovedBy?: boolean
   closureDate?: boolean
   closureEvidence?: boolean
+  riskID?: boolean
   finding?: boolean | Prisma.FindingDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["action"]>
 
@@ -913,9 +945,10 @@ export type ActionSelectScalar = {
   actionClosureApprovedBy?: boolean
   closureDate?: boolean
   closureEvidence?: boolean
+  riskID?: boolean
 }
 
-export type ActionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "actionId" | "findingId" | "actionDescription" | "actionDetails" | "actionTaken" | "actionParty" | "auditee" | "createdDate" | "targetDate" | "apAgreed" | "originalTargetDate" | "numberOfExtensions" | "actionClosureEffective" | "actionClosureApprovedBy" | "closureDate" | "closureEvidence", ExtArgs["result"]["action"]>
+export type ActionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "actionId" | "findingId" | "actionDescription" | "actionDetails" | "actionTaken" | "actionParty" | "auditee" | "createdDate" | "targetDate" | "apAgreed" | "originalTargetDate" | "numberOfExtensions" | "actionClosureEffective" | "actionClosureApprovedBy" | "closureDate" | "closureEvidence" | "riskID", ExtArgs["result"]["action"]>
 export type ActionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   finding?: boolean | Prisma.FindingDefaultArgs<ExtArgs>
 }
@@ -949,6 +982,7 @@ export type $ActionPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     actionClosureApprovedBy: string | null
     closureDate: Date | null
     closureEvidence: string | null
+    riskID: string | null
   }, ExtArgs["result"]["action"]>
   composites: {}
 }
@@ -1390,6 +1424,7 @@ export interface ActionFieldRefs {
   readonly actionClosureApprovedBy: Prisma.FieldRef<"Action", 'String'>
   readonly closureDate: Prisma.FieldRef<"Action", 'DateTime'>
   readonly closureEvidence: Prisma.FieldRef<"Action", 'String'>
+  readonly riskID: Prisma.FieldRef<"Action", 'String'>
 }
     
 

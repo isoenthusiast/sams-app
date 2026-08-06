@@ -51,6 +51,7 @@ export type FindingMinAggregateOutputType = {
   riskDescription: string | null
   rootCause: string | null
   recommendation: string | null
+  riskID: string | null
 }
 
 export type FindingMaxAggregateOutputType = {
@@ -70,6 +71,7 @@ export type FindingMaxAggregateOutputType = {
   riskDescription: string | null
   rootCause: string | null
   recommendation: string | null
+  riskID: string | null
 }
 
 export type FindingCountAggregateOutputType = {
@@ -89,6 +91,7 @@ export type FindingCountAggregateOutputType = {
   riskDescription: number
   rootCause: number
   recommendation: number
+  riskID: number
   _all: number
 }
 
@@ -118,6 +121,7 @@ export type FindingMinAggregateInputType = {
   riskDescription?: true
   rootCause?: true
   recommendation?: true
+  riskID?: true
 }
 
 export type FindingMaxAggregateInputType = {
@@ -137,6 +141,7 @@ export type FindingMaxAggregateInputType = {
   riskDescription?: true
   rootCause?: true
   recommendation?: true
+  riskID?: true
 }
 
 export type FindingCountAggregateInputType = {
@@ -156,6 +161,7 @@ export type FindingCountAggregateInputType = {
   riskDescription?: true
   rootCause?: true
   recommendation?: true
+  riskID?: true
   _all?: true
 }
 
@@ -262,6 +268,7 @@ export type FindingGroupByOutputType = {
   riskDescription: string | null
   rootCause: string | null
   recommendation: string | null
+  riskID: string | null
   _count: FindingCountAggregateOutputType | null
   _avg: FindingAvgAggregateOutputType | null
   _sum: FindingSumAggregateOutputType | null
@@ -304,6 +311,7 @@ export type FindingWhereInput = {
   riskDescription?: Prisma.StringNullableFilter<"Finding"> | string | null
   rootCause?: Prisma.StringNullableFilter<"Finding"> | string | null
   recommendation?: Prisma.StringNullableFilter<"Finding"> | string | null
+  riskID?: Prisma.StringNullableFilter<"Finding"> | string | null
   assessment?: Prisma.XOR<Prisma.AssessmentScalarRelationFilter, Prisma.AssessmentWhereInput>
   sample?: Prisma.XOR<Prisma.SampleNullableScalarRelationFilter, Prisma.SampleWhereInput> | null
   checklistItem?: Prisma.XOR<Prisma.AuditChecklistItemNullableScalarRelationFilter, Prisma.AuditChecklistItemWhereInput> | null
@@ -327,6 +335,7 @@ export type FindingOrderByWithRelationInput = {
   riskDescription?: Prisma.SortOrderInput | Prisma.SortOrder
   rootCause?: Prisma.SortOrderInput | Prisma.SortOrder
   recommendation?: Prisma.SortOrderInput | Prisma.SortOrder
+  riskID?: Prisma.SortOrderInput | Prisma.SortOrder
   assessment?: Prisma.AssessmentOrderByWithRelationInput
   sample?: Prisma.SampleOrderByWithRelationInput
   checklistItem?: Prisma.AuditChecklistItemOrderByWithRelationInput
@@ -353,6 +362,7 @@ export type FindingWhereUniqueInput = Prisma.AtLeast<{
   riskDescription?: Prisma.StringNullableFilter<"Finding"> | string | null
   rootCause?: Prisma.StringNullableFilter<"Finding"> | string | null
   recommendation?: Prisma.StringNullableFilter<"Finding"> | string | null
+  riskID?: Prisma.StringNullableFilter<"Finding"> | string | null
   assessment?: Prisma.XOR<Prisma.AssessmentScalarRelationFilter, Prisma.AssessmentWhereInput>
   sample?: Prisma.XOR<Prisma.SampleNullableScalarRelationFilter, Prisma.SampleWhereInput> | null
   checklistItem?: Prisma.XOR<Prisma.AuditChecklistItemNullableScalarRelationFilter, Prisma.AuditChecklistItemWhereInput> | null
@@ -376,6 +386,7 @@ export type FindingOrderByWithAggregationInput = {
   riskDescription?: Prisma.SortOrderInput | Prisma.SortOrder
   rootCause?: Prisma.SortOrderInput | Prisma.SortOrder
   recommendation?: Prisma.SortOrderInput | Prisma.SortOrder
+  riskID?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.FindingCountOrderByAggregateInput
   _avg?: Prisma.FindingAvgOrderByAggregateInput
   _max?: Prisma.FindingMaxOrderByAggregateInput
@@ -403,6 +414,7 @@ export type FindingScalarWhereWithAggregatesInput = {
   riskDescription?: Prisma.StringNullableWithAggregatesFilter<"Finding"> | string | null
   rootCause?: Prisma.StringNullableWithAggregatesFilter<"Finding"> | string | null
   recommendation?: Prisma.StringNullableWithAggregatesFilter<"Finding"> | string | null
+  riskID?: Prisma.StringNullableWithAggregatesFilter<"Finding"> | string | null
 }
 
 export type FindingCreateInput = {
@@ -419,6 +431,7 @@ export type FindingCreateInput = {
   riskDescription?: string | null
   rootCause?: string | null
   recommendation?: string | null
+  riskID?: string | null
   assessment: Prisma.AssessmentCreateNestedOneWithoutFindingsInput
   sample?: Prisma.SampleCreateNestedOneWithoutFindingsInput
   checklistItem?: Prisma.AuditChecklistItemCreateNestedOneWithoutFindingsInput
@@ -442,6 +455,7 @@ export type FindingUncheckedCreateInput = {
   riskDescription?: string | null
   rootCause?: string | null
   recommendation?: string | null
+  riskID?: string | null
   actions?: Prisma.ActionUncheckedCreateNestedManyWithoutFindingInput
 }
 
@@ -459,6 +473,7 @@ export type FindingUpdateInput = {
   riskDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   rootCause?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   recommendation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  riskID?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   assessment?: Prisma.AssessmentUpdateOneRequiredWithoutFindingsNestedInput
   sample?: Prisma.SampleUpdateOneWithoutFindingsNestedInput
   checklistItem?: Prisma.AuditChecklistItemUpdateOneWithoutFindingsNestedInput
@@ -482,6 +497,7 @@ export type FindingUncheckedUpdateInput = {
   riskDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   rootCause?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   recommendation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  riskID?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   actions?: Prisma.ActionUncheckedUpdateManyWithoutFindingNestedInput
 }
 
@@ -502,6 +518,7 @@ export type FindingCreateManyInput = {
   riskDescription?: string | null
   rootCause?: string | null
   recommendation?: string | null
+  riskID?: string | null
 }
 
 export type FindingUpdateManyMutationInput = {
@@ -518,6 +535,7 @@ export type FindingUpdateManyMutationInput = {
   riskDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   rootCause?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   recommendation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  riskID?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type FindingUncheckedUpdateManyInput = {
@@ -537,6 +555,7 @@ export type FindingUncheckedUpdateManyInput = {
   riskDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   rootCause?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   recommendation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  riskID?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type FindingListRelationFilter = {
@@ -566,6 +585,7 @@ export type FindingCountOrderByAggregateInput = {
   riskDescription?: Prisma.SortOrder
   rootCause?: Prisma.SortOrder
   recommendation?: Prisma.SortOrder
+  riskID?: Prisma.SortOrder
 }
 
 export type FindingAvgOrderByAggregateInput = {
@@ -589,6 +609,7 @@ export type FindingMaxOrderByAggregateInput = {
   riskDescription?: Prisma.SortOrder
   rootCause?: Prisma.SortOrder
   recommendation?: Prisma.SortOrder
+  riskID?: Prisma.SortOrder
 }
 
 export type FindingMinOrderByAggregateInput = {
@@ -608,6 +629,7 @@ export type FindingMinOrderByAggregateInput = {
   riskDescription?: Prisma.SortOrder
   rootCause?: Prisma.SortOrder
   recommendation?: Prisma.SortOrder
+  riskID?: Prisma.SortOrder
 }
 
 export type FindingSumOrderByAggregateInput = {
@@ -785,6 +807,7 @@ export type FindingCreateWithoutAssessmentInput = {
   riskDescription?: string | null
   rootCause?: string | null
   recommendation?: string | null
+  riskID?: string | null
   sample?: Prisma.SampleCreateNestedOneWithoutFindingsInput
   checklistItem?: Prisma.AuditChecklistItemCreateNestedOneWithoutFindingsInput
   actions?: Prisma.ActionCreateNestedManyWithoutFindingInput
@@ -806,6 +829,7 @@ export type FindingUncheckedCreateWithoutAssessmentInput = {
   riskDescription?: string | null
   rootCause?: string | null
   recommendation?: string | null
+  riskID?: string | null
   actions?: Prisma.ActionUncheckedCreateNestedManyWithoutFindingInput
 }
 
@@ -855,6 +879,7 @@ export type FindingScalarWhereInput = {
   riskDescription?: Prisma.StringNullableFilter<"Finding"> | string | null
   rootCause?: Prisma.StringNullableFilter<"Finding"> | string | null
   recommendation?: Prisma.StringNullableFilter<"Finding"> | string | null
+  riskID?: Prisma.StringNullableFilter<"Finding"> | string | null
 }
 
 export type FindingCreateWithoutSampleInput = {
@@ -871,6 +896,7 @@ export type FindingCreateWithoutSampleInput = {
   riskDescription?: string | null
   rootCause?: string | null
   recommendation?: string | null
+  riskID?: string | null
   assessment: Prisma.AssessmentCreateNestedOneWithoutFindingsInput
   checklistItem?: Prisma.AuditChecklistItemCreateNestedOneWithoutFindingsInput
   actions?: Prisma.ActionCreateNestedManyWithoutFindingInput
@@ -892,6 +918,7 @@ export type FindingUncheckedCreateWithoutSampleInput = {
   riskDescription?: string | null
   rootCause?: string | null
   recommendation?: string | null
+  riskID?: string | null
   actions?: Prisma.ActionUncheckedCreateNestedManyWithoutFindingInput
 }
 
@@ -935,6 +962,7 @@ export type FindingCreateWithoutActionsInput = {
   riskDescription?: string | null
   rootCause?: string | null
   recommendation?: string | null
+  riskID?: string | null
   assessment: Prisma.AssessmentCreateNestedOneWithoutFindingsInput
   sample?: Prisma.SampleCreateNestedOneWithoutFindingsInput
   checklistItem?: Prisma.AuditChecklistItemCreateNestedOneWithoutFindingsInput
@@ -957,6 +985,7 @@ export type FindingUncheckedCreateWithoutActionsInput = {
   riskDescription?: string | null
   rootCause?: string | null
   recommendation?: string | null
+  riskID?: string | null
 }
 
 export type FindingCreateOrConnectWithoutActionsInput = {
@@ -989,6 +1018,7 @@ export type FindingUpdateWithoutActionsInput = {
   riskDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   rootCause?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   recommendation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  riskID?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   assessment?: Prisma.AssessmentUpdateOneRequiredWithoutFindingsNestedInput
   sample?: Prisma.SampleUpdateOneWithoutFindingsNestedInput
   checklistItem?: Prisma.AuditChecklistItemUpdateOneWithoutFindingsNestedInput
@@ -1011,6 +1041,7 @@ export type FindingUncheckedUpdateWithoutActionsInput = {
   riskDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   rootCause?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   recommendation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  riskID?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type FindingCreateWithoutChecklistItemInput = {
@@ -1027,6 +1058,7 @@ export type FindingCreateWithoutChecklistItemInput = {
   riskDescription?: string | null
   rootCause?: string | null
   recommendation?: string | null
+  riskID?: string | null
   assessment: Prisma.AssessmentCreateNestedOneWithoutFindingsInput
   sample?: Prisma.SampleCreateNestedOneWithoutFindingsInput
   actions?: Prisma.ActionCreateNestedManyWithoutFindingInput
@@ -1048,6 +1080,7 @@ export type FindingUncheckedCreateWithoutChecklistItemInput = {
   riskDescription?: string | null
   rootCause?: string | null
   recommendation?: string | null
+  riskID?: string | null
   actions?: Prisma.ActionUncheckedCreateNestedManyWithoutFindingInput
 }
 
@@ -1093,6 +1126,7 @@ export type FindingCreateManyAssessmentInput = {
   riskDescription?: string | null
   rootCause?: string | null
   recommendation?: string | null
+  riskID?: string | null
 }
 
 export type FindingUpdateWithoutAssessmentInput = {
@@ -1109,6 +1143,7 @@ export type FindingUpdateWithoutAssessmentInput = {
   riskDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   rootCause?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   recommendation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  riskID?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sample?: Prisma.SampleUpdateOneWithoutFindingsNestedInput
   checklistItem?: Prisma.AuditChecklistItemUpdateOneWithoutFindingsNestedInput
   actions?: Prisma.ActionUpdateManyWithoutFindingNestedInput
@@ -1130,6 +1165,7 @@ export type FindingUncheckedUpdateWithoutAssessmentInput = {
   riskDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   rootCause?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   recommendation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  riskID?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   actions?: Prisma.ActionUncheckedUpdateManyWithoutFindingNestedInput
 }
 
@@ -1149,6 +1185,7 @@ export type FindingUncheckedUpdateManyWithoutAssessmentInput = {
   riskDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   rootCause?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   recommendation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  riskID?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type FindingCreateManySampleInput = {
@@ -1167,6 +1204,7 @@ export type FindingCreateManySampleInput = {
   riskDescription?: string | null
   rootCause?: string | null
   recommendation?: string | null
+  riskID?: string | null
 }
 
 export type FindingUpdateWithoutSampleInput = {
@@ -1183,6 +1221,7 @@ export type FindingUpdateWithoutSampleInput = {
   riskDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   rootCause?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   recommendation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  riskID?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   assessment?: Prisma.AssessmentUpdateOneRequiredWithoutFindingsNestedInput
   checklistItem?: Prisma.AuditChecklistItemUpdateOneWithoutFindingsNestedInput
   actions?: Prisma.ActionUpdateManyWithoutFindingNestedInput
@@ -1204,6 +1243,7 @@ export type FindingUncheckedUpdateWithoutSampleInput = {
   riskDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   rootCause?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   recommendation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  riskID?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   actions?: Prisma.ActionUncheckedUpdateManyWithoutFindingNestedInput
 }
 
@@ -1223,6 +1263,7 @@ export type FindingUncheckedUpdateManyWithoutSampleInput = {
   riskDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   rootCause?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   recommendation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  riskID?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type FindingCreateManyChecklistItemInput = {
@@ -1241,6 +1282,7 @@ export type FindingCreateManyChecklistItemInput = {
   riskDescription?: string | null
   rootCause?: string | null
   recommendation?: string | null
+  riskID?: string | null
 }
 
 export type FindingUpdateWithoutChecklistItemInput = {
@@ -1257,6 +1299,7 @@ export type FindingUpdateWithoutChecklistItemInput = {
   riskDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   rootCause?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   recommendation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  riskID?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   assessment?: Prisma.AssessmentUpdateOneRequiredWithoutFindingsNestedInput
   sample?: Prisma.SampleUpdateOneWithoutFindingsNestedInput
   actions?: Prisma.ActionUpdateManyWithoutFindingNestedInput
@@ -1278,6 +1321,7 @@ export type FindingUncheckedUpdateWithoutChecklistItemInput = {
   riskDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   rootCause?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   recommendation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  riskID?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   actions?: Prisma.ActionUncheckedUpdateManyWithoutFindingNestedInput
 }
 
@@ -1297,6 +1341,7 @@ export type FindingUncheckedUpdateManyWithoutChecklistItemInput = {
   riskDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   rootCause?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   recommendation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  riskID?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 
@@ -1347,6 +1392,7 @@ export type FindingSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   riskDescription?: boolean
   rootCause?: boolean
   recommendation?: boolean
+  riskID?: boolean
   assessment?: boolean | Prisma.AssessmentDefaultArgs<ExtArgs>
   sample?: boolean | Prisma.Finding$sampleArgs<ExtArgs>
   checklistItem?: boolean | Prisma.Finding$checklistItemArgs<ExtArgs>
@@ -1371,6 +1417,7 @@ export type FindingSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   riskDescription?: boolean
   rootCause?: boolean
   recommendation?: boolean
+  riskID?: boolean
   assessment?: boolean | Prisma.AssessmentDefaultArgs<ExtArgs>
   sample?: boolean | Prisma.Finding$sampleArgs<ExtArgs>
   checklistItem?: boolean | Prisma.Finding$checklistItemArgs<ExtArgs>
@@ -1393,6 +1440,7 @@ export type FindingSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   riskDescription?: boolean
   rootCause?: boolean
   recommendation?: boolean
+  riskID?: boolean
   assessment?: boolean | Prisma.AssessmentDefaultArgs<ExtArgs>
   sample?: boolean | Prisma.Finding$sampleArgs<ExtArgs>
   checklistItem?: boolean | Prisma.Finding$checklistItemArgs<ExtArgs>
@@ -1415,9 +1463,10 @@ export type FindingSelectScalar = {
   riskDescription?: boolean
   rootCause?: boolean
   recommendation?: boolean
+  riskID?: boolean
 }
 
-export type FindingOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "assessmentId" | "sampleId" | "checklistItemId" | "description" | "details" | "controlIds" | "risks" | "repeat" | "severity" | "createdAt" | "requirementRId" | "processAreaId" | "riskDescription" | "rootCause" | "recommendation", ExtArgs["result"]["finding"]>
+export type FindingOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "assessmentId" | "sampleId" | "checklistItemId" | "description" | "details" | "controlIds" | "risks" | "repeat" | "severity" | "createdAt" | "requirementRId" | "processAreaId" | "riskDescription" | "rootCause" | "recommendation" | "riskID", ExtArgs["result"]["finding"]>
 export type FindingInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   assessment?: boolean | Prisma.AssessmentDefaultArgs<ExtArgs>
   sample?: boolean | Prisma.Finding$sampleArgs<ExtArgs>
@@ -1461,6 +1510,7 @@ export type $FindingPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     riskDescription: string | null
     rootCause: string | null
     recommendation: string | null
+    riskID: string | null
   }, ExtArgs["result"]["finding"]>
   composites: {}
 }
@@ -1904,6 +1954,7 @@ export interface FindingFieldRefs {
   readonly riskDescription: Prisma.FieldRef<"Finding", 'String'>
   readonly rootCause: Prisma.FieldRef<"Finding", 'String'>
   readonly recommendation: Prisma.FieldRef<"Finding", 'String'>
+  readonly riskID: Prisma.FieldRef<"Finding", 'String'>
 }
     
 

@@ -434,6 +434,10 @@ export const ModelName = {
   WebhookLog: 'WebhookLog',
   Document: 'Document',
   MapRequirement2Document: 'MapRequirement2Document',
+  RiskCategory: 'RiskCategory',
+  Risk: 'Risk',
+  RiskMetrics: 'RiskMetrics',
+  ControlRisk: 'ControlRisk',
   BacklogItem: 'BacklogItem',
   BacklogItemControl: 'BacklogItemControl',
   AuditEvidence: 'AuditEvidence',
@@ -457,7 +461,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "activityLog" | "activityLogType" | "assuranceActivityType" | "assuranceProtocol" | "standard" | "processArea" | "subProcess" | "controlSubProcess" | "control" | "assessmentTemplate" | "assessmentTemplateControlLinkage" | "assessmentTemplateActivityType" | "assessment" | "assessmentAssessor" | "controlAssignment" | "sampleType" | "recordSourceType" | "sample" | "finding" | "action" | "attachment" | "attachmentMapping" | "achievementBadge" | "userAchievement" | "pointTransaction" | "gameAttribute" | "gameAttributeRule" | "emotionalDriveMetric" | "milestone" | "userRole" | "userRoleMapping" | "company" | "department" | "position" | "userCompany" | "userFavorite" | "assessmentActType" | "aact" | "aActControls" | "aActUsers" | "aActDetails" | "knowledgebase" | "mapArt2Know" | "requirement" | "mapControl2Requirement" | "gamificationStage" | "webhookLog" | "document" | "mapRequirement2Document" | "backlogItem" | "backlogItemControl" | "auditEvidence" | "auditChecklist2Requirement" | "auditChecklistTemplate" | "auditChecklistTemplateItem" | "auditChecklistItem" | "assessmentChecklistControl"
+    modelProps: "user" | "activityLog" | "activityLogType" | "assuranceActivityType" | "assuranceProtocol" | "standard" | "processArea" | "subProcess" | "controlSubProcess" | "control" | "assessmentTemplate" | "assessmentTemplateControlLinkage" | "assessmentTemplateActivityType" | "assessment" | "assessmentAssessor" | "controlAssignment" | "sampleType" | "recordSourceType" | "sample" | "finding" | "action" | "attachment" | "attachmentMapping" | "achievementBadge" | "userAchievement" | "pointTransaction" | "gameAttribute" | "gameAttributeRule" | "emotionalDriveMetric" | "milestone" | "userRole" | "userRoleMapping" | "company" | "department" | "position" | "userCompany" | "userFavorite" | "assessmentActType" | "aact" | "aActControls" | "aActUsers" | "aActDetails" | "knowledgebase" | "mapArt2Know" | "requirement" | "mapControl2Requirement" | "gamificationStage" | "webhookLog" | "document" | "mapRequirement2Document" | "riskCategory" | "risk" | "riskMetrics" | "controlRisk" | "backlogItem" | "backlogItemControl" | "auditEvidence" | "auditChecklist2Requirement" | "auditChecklistTemplate" | "auditChecklistTemplateItem" | "auditChecklistItem" | "assessmentChecklistControl"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -4161,6 +4165,302 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    RiskCategory: {
+      payload: Prisma.$RiskCategoryPayload<ExtArgs>
+      fields: Prisma.RiskCategoryFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.RiskCategoryFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RiskCategoryPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.RiskCategoryFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RiskCategoryPayload>
+        }
+        findFirst: {
+          args: Prisma.RiskCategoryFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RiskCategoryPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.RiskCategoryFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RiskCategoryPayload>
+        }
+        findMany: {
+          args: Prisma.RiskCategoryFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RiskCategoryPayload>[]
+        }
+        create: {
+          args: Prisma.RiskCategoryCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RiskCategoryPayload>
+        }
+        createMany: {
+          args: Prisma.RiskCategoryCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.RiskCategoryCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RiskCategoryPayload>[]
+        }
+        delete: {
+          args: Prisma.RiskCategoryDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RiskCategoryPayload>
+        }
+        update: {
+          args: Prisma.RiskCategoryUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RiskCategoryPayload>
+        }
+        deleteMany: {
+          args: Prisma.RiskCategoryDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.RiskCategoryUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.RiskCategoryUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RiskCategoryPayload>[]
+        }
+        upsert: {
+          args: Prisma.RiskCategoryUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RiskCategoryPayload>
+        }
+        aggregate: {
+          args: Prisma.RiskCategoryAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateRiskCategory>
+        }
+        groupBy: {
+          args: Prisma.RiskCategoryGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.RiskCategoryGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.RiskCategoryCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.RiskCategoryCountAggregateOutputType> | number
+        }
+      }
+    }
+    Risk: {
+      payload: Prisma.$RiskPayload<ExtArgs>
+      fields: Prisma.RiskFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.RiskFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RiskPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.RiskFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RiskPayload>
+        }
+        findFirst: {
+          args: Prisma.RiskFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RiskPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.RiskFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RiskPayload>
+        }
+        findMany: {
+          args: Prisma.RiskFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RiskPayload>[]
+        }
+        create: {
+          args: Prisma.RiskCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RiskPayload>
+        }
+        createMany: {
+          args: Prisma.RiskCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.RiskCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RiskPayload>[]
+        }
+        delete: {
+          args: Prisma.RiskDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RiskPayload>
+        }
+        update: {
+          args: Prisma.RiskUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RiskPayload>
+        }
+        deleteMany: {
+          args: Prisma.RiskDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.RiskUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.RiskUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RiskPayload>[]
+        }
+        upsert: {
+          args: Prisma.RiskUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RiskPayload>
+        }
+        aggregate: {
+          args: Prisma.RiskAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateRisk>
+        }
+        groupBy: {
+          args: Prisma.RiskGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.RiskGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.RiskCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.RiskCountAggregateOutputType> | number
+        }
+      }
+    }
+    RiskMetrics: {
+      payload: Prisma.$RiskMetricsPayload<ExtArgs>
+      fields: Prisma.RiskMetricsFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.RiskMetricsFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RiskMetricsPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.RiskMetricsFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RiskMetricsPayload>
+        }
+        findFirst: {
+          args: Prisma.RiskMetricsFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RiskMetricsPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.RiskMetricsFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RiskMetricsPayload>
+        }
+        findMany: {
+          args: Prisma.RiskMetricsFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RiskMetricsPayload>[]
+        }
+        create: {
+          args: Prisma.RiskMetricsCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RiskMetricsPayload>
+        }
+        createMany: {
+          args: Prisma.RiskMetricsCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.RiskMetricsCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RiskMetricsPayload>[]
+        }
+        delete: {
+          args: Prisma.RiskMetricsDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RiskMetricsPayload>
+        }
+        update: {
+          args: Prisma.RiskMetricsUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RiskMetricsPayload>
+        }
+        deleteMany: {
+          args: Prisma.RiskMetricsDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.RiskMetricsUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.RiskMetricsUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RiskMetricsPayload>[]
+        }
+        upsert: {
+          args: Prisma.RiskMetricsUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RiskMetricsPayload>
+        }
+        aggregate: {
+          args: Prisma.RiskMetricsAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateRiskMetrics>
+        }
+        groupBy: {
+          args: Prisma.RiskMetricsGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.RiskMetricsGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.RiskMetricsCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.RiskMetricsCountAggregateOutputType> | number
+        }
+      }
+    }
+    ControlRisk: {
+      payload: Prisma.$ControlRiskPayload<ExtArgs>
+      fields: Prisma.ControlRiskFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ControlRiskFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ControlRiskPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ControlRiskFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ControlRiskPayload>
+        }
+        findFirst: {
+          args: Prisma.ControlRiskFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ControlRiskPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ControlRiskFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ControlRiskPayload>
+        }
+        findMany: {
+          args: Prisma.ControlRiskFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ControlRiskPayload>[]
+        }
+        create: {
+          args: Prisma.ControlRiskCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ControlRiskPayload>
+        }
+        createMany: {
+          args: Prisma.ControlRiskCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ControlRiskCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ControlRiskPayload>[]
+        }
+        delete: {
+          args: Prisma.ControlRiskDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ControlRiskPayload>
+        }
+        update: {
+          args: Prisma.ControlRiskUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ControlRiskPayload>
+        }
+        deleteMany: {
+          args: Prisma.ControlRiskDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ControlRiskUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ControlRiskUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ControlRiskPayload>[]
+        }
+        upsert: {
+          args: Prisma.ControlRiskUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ControlRiskPayload>
+        }
+        aggregate: {
+          args: Prisma.ControlRiskAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateControlRisk>
+        }
+        groupBy: {
+          args: Prisma.ControlRiskGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ControlRiskGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ControlRiskCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ControlRiskCountAggregateOutputType> | number
+        }
+      }
+    }
     BacklogItem: {
       payload: Prisma.$BacklogItemPayload<ExtArgs>
       fields: Prisma.BacklogItemFieldRefs
@@ -4967,7 +5267,11 @@ export const ControlScalarFieldEnum = {
   standard: 'standard',
   pId: 'pId',
   Requirements: 'Requirements',
-  companyId: 'companyId'
+  companyId: 'companyId',
+  controlOwner: 'controlOwner',
+  assuranceCadence: 'assuranceCadence',
+  effectivenessCriteria: 'effectivenessCriteria',
+  practiceDocumentId: 'practiceDocumentId'
 } as const
 
 export type ControlScalarFieldEnum = (typeof ControlScalarFieldEnum)[keyof typeof ControlScalarFieldEnum]
@@ -5100,7 +5404,8 @@ export const FindingScalarFieldEnum = {
   processAreaId: 'processAreaId',
   riskDescription: 'riskDescription',
   rootCause: 'rootCause',
-  recommendation: 'recommendation'
+  recommendation: 'recommendation',
+  riskID: 'riskID'
 } as const
 
 export type FindingScalarFieldEnum = (typeof FindingScalarFieldEnum)[keyof typeof FindingScalarFieldEnum]
@@ -5123,7 +5428,8 @@ export const ActionScalarFieldEnum = {
   actionClosureEffective: 'actionClosureEffective',
   actionClosureApprovedBy: 'actionClosureApprovedBy',
   closureDate: 'closureDate',
-  closureEvidence: 'closureEvidence'
+  closureEvidence: 'closureEvidence',
+  riskID: 'riskID'
 } as const
 
 export type ActionScalarFieldEnum = (typeof ActionScalarFieldEnum)[keyof typeof ActionScalarFieldEnum]
@@ -5524,6 +5830,74 @@ export const MapRequirement2DocumentScalarFieldEnum = {
 } as const
 
 export type MapRequirement2DocumentScalarFieldEnum = (typeof MapRequirement2DocumentScalarFieldEnum)[keyof typeof MapRequirement2DocumentScalarFieldEnum]
+
+
+export const RiskCategoryScalarFieldEnum = {
+  id: 'id',
+  externalId: 'externalId',
+  title: 'title',
+  level: 'level',
+  parentId: 'parentId',
+  domain: 'domain',
+  category: 'category',
+  categoryCode: 'categoryCode',
+  ranking: 'ranking',
+  processAreaId: 'processAreaId'
+} as const
+
+export type RiskCategoryScalarFieldEnum = (typeof RiskCategoryScalarFieldEnum)[keyof typeof RiskCategoryScalarFieldEnum]
+
+
+export const RiskScalarFieldEnum = {
+  id: 'id',
+  riskID: 'riskID',
+  currentImpact: 'currentImpact',
+  currentLikelihood: 'currentLikelihood',
+  objectives: 'objectives',
+  unmitigatedImpact: 'unmitigatedImpact',
+  unmitigatedLikelihood: 'unmitigatedLikelihood',
+  riskEnvExternal: 'riskEnvExternal',
+  riskEnvInternal: 'riskEnvInternal',
+  riskEvent: 'riskEvent',
+  rootCauses: 'rootCauses',
+  consequences: 'consequences',
+  riskCategoryId: 'riskCategoryId',
+  processAreaId: 'processAreaId',
+  createdById: 'createdById',
+  updatedById: 'updatedById',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type RiskScalarFieldEnum = (typeof RiskScalarFieldEnum)[keyof typeof RiskScalarFieldEnum]
+
+
+export const RiskMetricsScalarFieldEnum = {
+  id: 'id',
+  riskId: 'riskId',
+  defWithinAppetite: 'defWithinAppetite',
+  defNearAppetite: 'defNearAppetite',
+  defOutsideAppetite: 'defOutsideAppetite',
+  currentStatus: 'currentStatus',
+  statusUpdatedOn: 'statusUpdatedOn',
+  createdById: 'createdById',
+  updatedById: 'updatedById',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type RiskMetricsScalarFieldEnum = (typeof RiskMetricsScalarFieldEnum)[keyof typeof RiskMetricsScalarFieldEnum]
+
+
+export const ControlRiskScalarFieldEnum = {
+  id: 'id',
+  riskId: 'riskId',
+  controlId: 'controlId',
+  role: 'role',
+  riskWeight: 'riskWeight'
+} as const
+
+export type ControlRiskScalarFieldEnum = (typeof ControlRiskScalarFieldEnum)[keyof typeof ControlRiskScalarFieldEnum]
 
 
 export const BacklogItemScalarFieldEnum = {
@@ -5928,6 +6302,20 @@ export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaMode
 
 
 /**
+ * Reference to a field of type 'ControlRiskRole'
+ */
+export type EnumControlRiskRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ControlRiskRole'>
+    
+
+
+/**
+ * Reference to a field of type 'ControlRiskRole[]'
+ */
+export type ListEnumControlRiskRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ControlRiskRole[]'>
+    
+
+
+/**
  * Reference to a field of type 'BacklogItemType'
  */
 export type EnumBacklogItemTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BacklogItemType'>
@@ -6184,6 +6572,10 @@ export type GlobalOmitConfig = {
   webhookLog?: Prisma.WebhookLogOmit
   document?: Prisma.DocumentOmit
   mapRequirement2Document?: Prisma.MapRequirement2DocumentOmit
+  riskCategory?: Prisma.RiskCategoryOmit
+  risk?: Prisma.RiskOmit
+  riskMetrics?: Prisma.RiskMetricsOmit
+  controlRisk?: Prisma.ControlRiskOmit
   backlogItem?: Prisma.BacklogItemOmit
   backlogItemControl?: Prisma.BacklogItemControlOmit
   auditEvidence?: Prisma.AuditEvidenceOmit

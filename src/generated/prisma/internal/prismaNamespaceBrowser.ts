@@ -101,6 +101,10 @@ export const ModelName = {
   WebhookLog: 'WebhookLog',
   Document: 'Document',
   MapRequirement2Document: 'MapRequirement2Document',
+  RiskCategory: 'RiskCategory',
+  Risk: 'Risk',
+  RiskMetrics: 'RiskMetrics',
+  ControlRisk: 'ControlRisk',
   BacklogItem: 'BacklogItem',
   BacklogItemControl: 'BacklogItemControl',
   AuditEvidence: 'AuditEvidence',
@@ -302,7 +306,11 @@ export const ControlScalarFieldEnum = {
   standard: 'standard',
   pId: 'pId',
   Requirements: 'Requirements',
-  companyId: 'companyId'
+  companyId: 'companyId',
+  controlOwner: 'controlOwner',
+  assuranceCadence: 'assuranceCadence',
+  effectivenessCriteria: 'effectivenessCriteria',
+  practiceDocumentId: 'practiceDocumentId'
 } as const
 
 export type ControlScalarFieldEnum = (typeof ControlScalarFieldEnum)[keyof typeof ControlScalarFieldEnum]
@@ -435,7 +443,8 @@ export const FindingScalarFieldEnum = {
   processAreaId: 'processAreaId',
   riskDescription: 'riskDescription',
   rootCause: 'rootCause',
-  recommendation: 'recommendation'
+  recommendation: 'recommendation',
+  riskID: 'riskID'
 } as const
 
 export type FindingScalarFieldEnum = (typeof FindingScalarFieldEnum)[keyof typeof FindingScalarFieldEnum]
@@ -458,7 +467,8 @@ export const ActionScalarFieldEnum = {
   actionClosureEffective: 'actionClosureEffective',
   actionClosureApprovedBy: 'actionClosureApprovedBy',
   closureDate: 'closureDate',
-  closureEvidence: 'closureEvidence'
+  closureEvidence: 'closureEvidence',
+  riskID: 'riskID'
 } as const
 
 export type ActionScalarFieldEnum = (typeof ActionScalarFieldEnum)[keyof typeof ActionScalarFieldEnum]
@@ -859,6 +869,74 @@ export const MapRequirement2DocumentScalarFieldEnum = {
 } as const
 
 export type MapRequirement2DocumentScalarFieldEnum = (typeof MapRequirement2DocumentScalarFieldEnum)[keyof typeof MapRequirement2DocumentScalarFieldEnum]
+
+
+export const RiskCategoryScalarFieldEnum = {
+  id: 'id',
+  externalId: 'externalId',
+  title: 'title',
+  level: 'level',
+  parentId: 'parentId',
+  domain: 'domain',
+  category: 'category',
+  categoryCode: 'categoryCode',
+  ranking: 'ranking',
+  processAreaId: 'processAreaId'
+} as const
+
+export type RiskCategoryScalarFieldEnum = (typeof RiskCategoryScalarFieldEnum)[keyof typeof RiskCategoryScalarFieldEnum]
+
+
+export const RiskScalarFieldEnum = {
+  id: 'id',
+  riskID: 'riskID',
+  currentImpact: 'currentImpact',
+  currentLikelihood: 'currentLikelihood',
+  objectives: 'objectives',
+  unmitigatedImpact: 'unmitigatedImpact',
+  unmitigatedLikelihood: 'unmitigatedLikelihood',
+  riskEnvExternal: 'riskEnvExternal',
+  riskEnvInternal: 'riskEnvInternal',
+  riskEvent: 'riskEvent',
+  rootCauses: 'rootCauses',
+  consequences: 'consequences',
+  riskCategoryId: 'riskCategoryId',
+  processAreaId: 'processAreaId',
+  createdById: 'createdById',
+  updatedById: 'updatedById',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type RiskScalarFieldEnum = (typeof RiskScalarFieldEnum)[keyof typeof RiskScalarFieldEnum]
+
+
+export const RiskMetricsScalarFieldEnum = {
+  id: 'id',
+  riskId: 'riskId',
+  defWithinAppetite: 'defWithinAppetite',
+  defNearAppetite: 'defNearAppetite',
+  defOutsideAppetite: 'defOutsideAppetite',
+  currentStatus: 'currentStatus',
+  statusUpdatedOn: 'statusUpdatedOn',
+  createdById: 'createdById',
+  updatedById: 'updatedById',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type RiskMetricsScalarFieldEnum = (typeof RiskMetricsScalarFieldEnum)[keyof typeof RiskMetricsScalarFieldEnum]
+
+
+export const ControlRiskScalarFieldEnum = {
+  id: 'id',
+  riskId: 'riskId',
+  controlId: 'controlId',
+  role: 'role',
+  riskWeight: 'riskWeight'
+} as const
+
+export type ControlRiskScalarFieldEnum = (typeof ControlRiskScalarFieldEnum)[keyof typeof ControlRiskScalarFieldEnum]
 
 
 export const BacklogItemScalarFieldEnum = {

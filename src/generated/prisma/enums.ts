@@ -37,6 +37,15 @@ export const Role = {
 export type Role = (typeof Role)[keyof typeof Role]
 
 
+export const ControlRiskRole = {
+  Primary: 'Primary',
+  Secondary: 'Secondary',
+  Supporting: 'Supporting'
+} as const
+
+export type ControlRiskRole = (typeof ControlRiskRole)[keyof typeof ControlRiskRole]
+
+
 export const LOA = {
   FirstLine: 'FirstLine',
   SecondLine: 'SecondLine',

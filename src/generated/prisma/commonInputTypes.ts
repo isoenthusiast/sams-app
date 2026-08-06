@@ -467,6 +467,23 @@ export type FloatWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedFloatFilter<$PrismaModel>
 }
 
+export type EnumControlRiskRoleNullableFilter<$PrismaModel = never> = {
+  equals?: $Enums.ControlRiskRole | Prisma.EnumControlRiskRoleFieldRefInput<$PrismaModel> | null
+  in?: $Enums.ControlRiskRole[] | Prisma.ListEnumControlRiskRoleFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.ControlRiskRole[] | Prisma.ListEnumControlRiskRoleFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumControlRiskRoleNullableFilter<$PrismaModel> | $Enums.ControlRiskRole | null
+}
+
+export type EnumControlRiskRoleNullableWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.ControlRiskRole | Prisma.EnumControlRiskRoleFieldRefInput<$PrismaModel> | null
+  in?: $Enums.ControlRiskRole[] | Prisma.ListEnumControlRiskRoleFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.ControlRiskRole[] | Prisma.ListEnumControlRiskRoleFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumControlRiskRoleNullableWithAggregatesFilter<$PrismaModel> | $Enums.ControlRiskRole | null
+  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumControlRiskRoleNullableFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumControlRiskRoleNullableFilter<$PrismaModel>
+}
+
 export type EnumBacklogItemTypeFilter<$PrismaModel = never> = {
   equals?: $Enums.BacklogItemType | Prisma.EnumBacklogItemTypeFieldRefInput<$PrismaModel>
   in?: $Enums.BacklogItemType[] | Prisma.ListEnumBacklogItemTypeFieldRefInput<$PrismaModel>
@@ -1025,6 +1042,23 @@ export type NestedFloatWithAggregatesFilter<$PrismaModel = never> = {
   _sum?: Prisma.NestedFloatFilter<$PrismaModel>
   _min?: Prisma.NestedFloatFilter<$PrismaModel>
   _max?: Prisma.NestedFloatFilter<$PrismaModel>
+}
+
+export type NestedEnumControlRiskRoleNullableFilter<$PrismaModel = never> = {
+  equals?: $Enums.ControlRiskRole | Prisma.EnumControlRiskRoleFieldRefInput<$PrismaModel> | null
+  in?: $Enums.ControlRiskRole[] | Prisma.ListEnumControlRiskRoleFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.ControlRiskRole[] | Prisma.ListEnumControlRiskRoleFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumControlRiskRoleNullableFilter<$PrismaModel> | $Enums.ControlRiskRole | null
+}
+
+export type NestedEnumControlRiskRoleNullableWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.ControlRiskRole | Prisma.EnumControlRiskRoleFieldRefInput<$PrismaModel> | null
+  in?: $Enums.ControlRiskRole[] | Prisma.ListEnumControlRiskRoleFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.ControlRiskRole[] | Prisma.ListEnumControlRiskRoleFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumControlRiskRoleNullableWithAggregatesFilter<$PrismaModel> | $Enums.ControlRiskRole | null
+  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumControlRiskRoleNullableFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumControlRiskRoleNullableFilter<$PrismaModel>
 }
 
 export type NestedEnumBacklogItemTypeFilter<$PrismaModel = never> = {
