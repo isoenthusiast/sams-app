@@ -2,7 +2,7 @@
 
 > **📐 Active alongside `CONAN_Design Philosophy.md` and `CONAN_App Design.md`.** CONAN docs are the narrative source of truth; this document is the technical specification (models, routes, components, APIs). Both are maintained.
 
-**Last Updated:** August 7, 2026 (v1.11.6 — checklist repurposed, compliance matrix from tree, finding buttons wired)
+**Last Updated:** August 7, 2026 (v1.11.7 — CSF batch extraction pipeline switched to V4 Pro + full document context)
 
 ---
 
@@ -731,6 +731,21 @@ Three companies in production:
 - `ControlFromDocument` — Raw SQL table. FK: documentId → Document(id). Status: Pending/Approved/Rejected.
 - `DocumentControl` — Raw SQL junction table. Links approved Documents to Controls. FK: documentId → Document(id), controlId → Control(id).
 
+### 9.3 Batch CSF Extraction Pipeline (`scripts/db/csf_batch_runner.py`)
+
+Out-of-app bulk control extraction for the SMDS company (522 procedure documents, batches of 5). Distinct from the in-app extraction above — it writes directly to the `Control` table (not `ControlFromDocument` candidates).
+
+**Configuration (v1.11.7, 2026-08-07):**
+- **Model:** `deepseek-v4-pro` (was `deepseek-chat` / V4 Flash)
+- **Context:** full document content (was truncated to 2,500 chars)
+- **Token limit:** none — `max_tokens` removed (8K cap truncated JSON and dropped controls)
+
+**Quality impact (measured):** Pro + full context extracts **2–3× more controls** per batch, with deeper CSF fields (`csfHow` +8–16w, `csfEvidence` +2.6–5.3w) and finer granularity (one control per analyser/asset vs grouped procedures). PCN narrative docs consistently yield 0 controls (expected — not procedures).
+
+**⚠ Non-determinism:** the same batch re-run produces 0% exact-name overlap (semantically-same controls, different phrasing). Name-based dedup (`ON CONFLICT (name, companyId)`) does NOT catch re-runs — each batch must run exactly once per library build. Semantic dedup required if re-running.
+
+**Supporting scripts:** `scripts/db/check_smds_state.py` (count verify), `scripts/db/purge_smds_controls.py` (full SMDS purge), `scripts/db/csf_extract_pro.py` + `scripts/db/pro_full_compare.py` (model comparison), `CSF_BATCH_BACKLOG.md` (batch status).
+
 ---
 
 ## 10. Security & Authorization
@@ -951,6 +966,7 @@ Local Dev (localhost:3100)
 | v1.11.3 | 2026-08-07 | **Tree-View Control Assignment & Compliance Matrix.** **ControlTreePanel:** Reusable tree component replacing the dual-panel `RequirementControlPanel` in both MinimalistView and Classic views. Tree: Standard → ProcessArea → Requirement → Control with checkboxes at every level. Cascade logic: check control auto-checks parent requirement; check requirement auto-checks all child controls. Multi-location awareness: 🔗N badge on controls appearing in N other requirements; popup on assign lists locations without auto-checking. Requirements with zero controls shown with gap indicator (Principle #32). Filter searches requirement IDs, clause content, and control names. "Selected Assignments" summary panel below tree groups assigned controls by PA → Req with per-control ✕ remove. **New API routes:** `GET /api/admin/assessments/[id]/requirement-tree` (full hierarchy with `controlLocations` map + `assignedControlIds` + `unmappedControls`), `POST /api/admin/assessments/[id]/controls/remove` (bulk-remove by controlIds). **Compliance Matrix:** Added per-requirement compliance table at top of Audit Report (before TOR): Requirement No | Requirement | Comply Y/N | Compliance Statement (Fully/Partially/Not complied with gap bullet points). Aggregates checklist items by `(requirementId, auditStandard)`. Existing checklist summary, control effectiveness, findings, and AI sections maintained. **Design philosophy:** CONAN Principles #32 (Tree-View Cascade) and #33 (Compliance Matrix); Audit Brain Principles #33 (Tree-View Assignment) and #34 (Per-Requirement Reporting). |
 | v1.11.4 | 2026-08-07 | **Requirement Conclusions & Persisted Effectiveness.** ... |
 | v1.11.5 | 2026-08-07 | **Test Method Capture & Dual-Trigger Findings.** ... |
+| v1.11.7 | 2026-08-07 | **CSF Batch Extraction — V4 Pro + Full Context.** Switched `scripts/db/csf_batch_runner.py` from `deepseek-chat` (V4 Flash) to `deepseek-v4-pro`, full document context (removed 2,500-char truncation), and removed `max_tokens` cap. Measured: Pro+full context yields 2–3× more controls (batch 1: 22→59; batch 2: 47 controls) with deeper CSF fields (`csfHow` +8–16w, `csfEvidence` +2.6–5.3w) and per-asset granularity (9→16 analyser controls). PCN narratives consistently return 0 controls (expected). **Non-determinism finding:** same batch re-run gives 0% exact-name overlap — name-based dedup ineffective; each batch must run once per library build. Purged 680 legacy Flash controls, re-extracted batches 2-10 → 252 controls in DB. New scripts: `csf_extract_pro.py`, `pro_full_compare.py`, `purge_smds_controls.py`, `compare_batch1_runs.py`. |
 | v1.11.6 | 2026-08-07 | **Checklist Repurposed & Compliance Matrix from Tree.** **Design decisions (5-part grill):** (1) Checklist = interview guide (read-only reference), Tree = single source of truth. (2) `complianceStatus` stripped from checklist items — no dual sources of truth. (3) Checklist adoption = scope transparency ("I used this guide"), not data cloning. (4) Compliance Matrix now derives from `RequirementConclusion` + `ControlAssignment.effective`, not checklist items. (5) "Checklist Compliance Summary" renamed to "Audit Coverage Summary" — shows which interview guides were used, item count only. **Code changes:** `AuditReportTab` fetches from both checklist API (coverage) and requirement-tree API (compliance). Matrix logic: FullyMet + all controls Effective = "Fully complied"; PartiallyMet or mixed = "Partially complied"; NotMet or zero controls = "Not complied." **Finding buttons wired:** `onCreateFinding` callback in `ControlTreePanel` now opens finding form in AssessmentClient (pre-fills description with requirement/control context) and switches to classic findings tab from MinimalistView. **Design philosophy:** CONAN Principles #38–40 (Checklist=Guide, Tree-Derived Compliance, Scope Transparency); Audit Brain Principles #39–41. | **ControlTreePanel:** Reusable tree component replacing the dual-panel `RequirementControlPanel` in both MinimalistView and Classic views. Tree: Standard → ProcessArea → Requirement → Control with checkboxes at every level. Cascade logic: check control auto-checks parent requirement; check requirement auto-checks all child controls. Multi-location awareness: 🔗N badge on controls appearing in N other requirements; popup on assign lists locations without auto-checking. Requirements with zero controls shown with gap indicator (Principle #32). Filter searches requirement IDs, clause content, and control names. "Selected Assignments" summary panel below tree groups assigned controls by PA → Req with per-control ✕ remove. **New API routes:** `GET /api/admin/assessments/[id]/requirement-tree` (full hierarchy with `controlLocations` map + `assignedControlIds` + `unmappedControls`), `POST /api/admin/assessments/[id]/controls/remove` (bulk-remove by controlIds). **Compliance Matrix:** Added per-requirement compliance table at top of Audit Report (before TOR): Requirement No | Requirement | Comply Y/N | Compliance Statement (Fully/Partially/Not complied with gap bullet points). Aggregates checklist items by `(requirementId, auditStandard)`. Existing checklist summary, control effectiveness, findings, and AI sections maintained. **Design philosophy:** CONAN Principles #32 (Tree-View Cascade) and #33 (Compliance Matrix); Audit Brain Principles #33 (Tree-View Assignment) and #34 (Per-Requirement Reporting). |
 
 ---

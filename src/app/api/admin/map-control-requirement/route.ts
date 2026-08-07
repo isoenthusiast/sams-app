@@ -37,7 +37,6 @@ export async function POST(req: NextRequest) {
         id: `mcr_${controlId}_${requirementRId}`.substring(0, 50),
         controlId,
         requirementRId,
-        companyId: ctrl.companyId ?? undefined,
       },
     });
     created++;

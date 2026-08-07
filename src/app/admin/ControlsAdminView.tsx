@@ -33,7 +33,7 @@ type ControlForm = {
   keyActivities: string; riskAddressed: string; testingApproach: string; uncertainFlags: string;
 };
 
-type ProcessArea = { id: string; name: string };
+type ProcessArea = { id: string; name: string; standardId?: string | null; standardRef?: { id: string; standard: string } | null };
 
 const NONE = (x: string | null | undefined) => x || <span className="text-slate-300 italic">—</span>;
 
@@ -97,6 +97,12 @@ export function ControlsAdminView({ initialControls, initialProcessAreas, isAdmi
     for (const c of filtered) { const docName = c.practiceDocument || "No Document"; if (!byDoc.has(docName)) byDoc.set(docName, []); byDoc.get(docName)!.push(c); }
     return [...byDoc.entries()].sort((a, b) => a[0].localeCompare(b[0]));
   }, [filtered]);
+
+  // Filter PAs by selected standard (cascading filter)
+  const filteredPas = useMemo(() => {
+    if (!reqStandardFilter) return pas;
+    return pas.filter(p => p.standardRef?.standard === reqStandardFilter || p.standardId === reqStandardFilter);
+  }, [pas, reqStandardFilter]);
 
   const selectControl = useCallback((c: Control) => { setSelectedControl(c); setIsEditingDetail(false); setForm(controlToForm(c)); }, []);
   const deselectControl = useCallback(() => { setSelectedControl(null); setIsEditingDetail(false); }, []);
@@ -173,12 +179,12 @@ export function ControlsAdminView({ initialControls, initialProcessAreas, isAdmi
   );
 
   return (
-    <div>
+    <div className="flex flex-col flex-1 min-h-0">
       <div className="flex items-center border-b border-slate-200 mb-0">
         <button onClick={() => { setActiveTab("details"); setSelectedControl(null); setIsEditingDetail(false); }} className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${activeTab === "details" ? "border-blue-600 text-blue-700" : "border-transparent text-slate-500 hover:text-slate-700"}`}>Details</button>
         <button onClick={() => { setActiveTab("map2requirement"); setSelectedControl(null); setIsEditingDetail(false); }} className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${activeTab === "map2requirement" ? "border-blue-600 text-blue-700" : "border-transparent text-slate-500 hover:text-slate-700"}`}>Map2Requirement</button>
       </div>
-      <div className="flex gap-0 h-[70vh]">
+      <div className="flex gap-0 flex-1 min-h-0">
         <div className="w-2/5 border-r border-slate-200 flex flex-col min-w-0">
           <div className="flex items-center justify-between gap-2 px-3 py-2 border-b border-slate-100 shrink-0">
             <input type="text" placeholder="Search…" value={search} onChange={e => setSearch(e.target.value)} className="flex-1 min-w-0 rounded border border-slate-300 px-2 py-1 text-xs" />
@@ -205,8 +211,8 @@ export function ControlsAdminView({ initialControls, initialProcessAreas, isAdmi
           ) : (
             <div className="flex-1 flex flex-col min-h-0">
               <div className="flex gap-2 px-3 py-2 border-b border-slate-200 shrink-0">
-                <select value={reqStandardFilter} onChange={e => setReqStandardFilter(e.target.value)} className="flex-1 rounded border border-slate-300 px-2 py-1 text-xs"><option value="">All Standards</option>{standardsList.map(s => <option key={s.id} value={s.id}>{s.standard}</option>)}</select>
-                <select value={reqPAFilter} onChange={e => setReqPAFilter(e.target.value)} className="flex-1 rounded border border-slate-300 px-2 py-1 text-xs"><option value="">All Process Areas</option>{pas.map(p => <option key={p.id} value={p.id}>{p.name}</option>)}</select>
+                <select value={reqStandardFilter} onChange={e => { setReqStandardFilter(e.target.value); setReqPAFilter(""); }} className="flex-1 rounded border border-slate-300 px-2 py-1 text-xs"><option value="">All Standards</option>{standardsList.map(s => <option key={s.id} value={s.standard}>{s.standard}</option>)}</select>
+                <select value={reqPAFilter} onChange={e => setReqPAFilter(e.target.value)} className="flex-1 rounded border border-slate-300 px-2 py-1 text-xs"><option value="">All Process Areas</option>{filteredPas.map(p => <option key={p.id} value={p.id}>{p.name}</option>)}</select>
               </div>
               <div className="flex-1 overflow-y-auto">
                 {reqLoading ? <div className="flex items-center justify-center py-12"><div className="inline-block h-5 w-5 animate-spin rounded-full border-2 border-slate-200 border-t-blue-600" /></div>
