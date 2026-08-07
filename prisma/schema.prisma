@@ -298,6 +298,7 @@ model Assessment {
   assessorLinks      AssessmentAssessor[]  @relation("AssessmentToAssessor")
   checklistItems     AuditChecklistItem[]
   checklistControlLinks AssessmentChecklistControl[] // v1.10.1
+  requirementConclusions RequirementConclusion[]
 }
 
 // Many-to-many: an Assessment can have multiple Assessors.
@@ -326,9 +327,12 @@ model ControlAssignment {
   effective          Effectiveness?
   // Set whenever `effective` is changed, and only then.
   effectiveUpdatedAt DateTime?
+  testNotes          String?         // Auditor notes from testing this control
+  testMethod         String?         // Document Review | Interview | Observation | Sample | Walkthrough
   createdAt          DateTime       @default(now())
   control            Control        @relation(fields: [controlId], references: [id], onDelete: Cascade)
   assessment         Assessment     @relation(fields: [assessmentId], references: [id], onDelete: Cascade)
+  samples            Sample[]       // Evidence linked to this control
 
   @@unique([assessmentId, controlId])
   @@index([assessmentId])
@@ -338,6 +342,28 @@ model ControlAssignment {
 enum Effectiveness {
   Effective
   NotEffective
+}
+
+enum Conclusion {
+  FullyMet
+  PartiallyMet
+  NotMet
+}
+
+model RequirementConclusion {
+  id               String     @id @default(cuid())
+  assessmentId     String
+  requirementRId   Int
+  conclusion       Conclusion
+  narrative        String?
+  lastAssessedDate DateTime?
+  createdAt        DateTime   @default(now())
+  assessment       Assessment @relation(fields: [assessmentId], references: [id], onDelete: Cascade)
+  requirement      Requirement @relation(fields: [requirementRId], references: [rId], onDelete: Cascade)
+
+  @@unique([assessmentId, requirementRId])
+  @@index([assessmentId])
+  @@index([requirementRId])
 }
 
 model SampleType {
@@ -368,6 +394,8 @@ model Sample {
   createdAt        DateTime          @default(now())
   recordSource     RecordSourceType? @relation(fields: [recordSourceId], references: [id])
   sampleType       SampleType?       @relation(fields: [sampleTypeId], references: [id])
+  controlAssignmentId String?        // Link to specific control being tested
+  controlAssignment   ControlAssignment? @relation(fields: [controlAssignmentId], references: [id], onDelete: SetNull)
   assessment       Assessment        @relation(fields: [assessmentId], references: [id], onDelete: Cascade)
   findings         Finding[]
 }
@@ -822,6 +850,7 @@ model Requirement {
   assuranceProtocols  AssuranceProtocol[]
   auditMappings       AuditChecklist2Requirement[]
   documentMappings    MapRequirement2Document[]
+  conclusions         RequirementConclusion[]
 
   @@unique([requirementId, processAreaId, companyId])
   @@index([processAreaId])

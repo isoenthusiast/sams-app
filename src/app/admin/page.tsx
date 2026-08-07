@@ -174,10 +174,12 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
     ? await prisma.processArea.findMany({ where, include: { standardRef: true }, orderBy: { name: "asc" } })
     : [];
 
-  // Controls with PA info (company-filtered for standards management)
+  // Controls with PA info + practiceDocument (company-filtered for standards management)
   const allControls = view === "standards"
     ? await prisma.control.findMany({ where, include: { processArea: { include: { standardRef: { select: { standard: true } } } } }, orderBy: { name: "asc" } })
     : [];
+  // Ensure practiceDocument is available (not in default Prisma include)
+  const controlsWithDoc = allControls.map(c => ({ ...JSON.parse(JSON.stringify(c)), practiceDocument: (c as any).practiceDocument ?? null }));
 
   // Simple PA list for control form dropdown
   const paList = view === "standards"
@@ -387,7 +389,7 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
           processAreas={JSON.parse(JSON.stringify(allProcessAreas))}
           requirements={JSON.parse(JSON.stringify(requirements))}
           allStandards={allStandards}
-          controls={JSON.parse(JSON.stringify(allControls))}
+          controls={JSON.parse(JSON.stringify(controlsWithDoc))}
           controlPas={JSON.parse(JSON.stringify(paList))}
           companies={JSON.parse(JSON.stringify(companies))}
           isAdmin={true}

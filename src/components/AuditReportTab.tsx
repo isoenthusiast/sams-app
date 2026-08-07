@@ -27,6 +27,17 @@ interface ChecklistSummary {
   observation: number;
 }
 
+interface ComplianceMatrixRow {
+  requirementNo: string;
+  requirementText: string;
+  auditStandard: string;
+  comply: boolean;
+  complianceStatement: "Fully complied" | "Partially complied" | "Not complied";
+  gapDetails: string[];
+  totalItems: number;
+  compliantItems: number;
+}
+
 interface Props {
   assessment: any;
   assessmentId: string;
@@ -34,35 +45,102 @@ interface Props {
 
 export function AuditReportTab({ assessment, assessmentId }: Props) {
   const [checklistSummary, setChecklistSummary] = useState<ChecklistSummary[]>([]);
+  const [complianceMatrix, setComplianceMatrix] = useState<ComplianceMatrixRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [aiLoading, setAiLoading] = useState(false);
   const [aiAnalysis, setAiAnalysis] = useState<string | null>(null);
   const [aiError, setAiError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch(`/api/admin/assessments/${assessmentId}/checklist`)
-      .then((r) => r.json())
-      .then((items: any[]) => {
-        if (!Array.isArray(items)) return;
+    // Fetch checklist for Audit Coverage Summary + requirement-tree for Compliance Matrix
+    Promise.all([
+      fetch(`/api/admin/assessments/${assessmentId}/checklist`).then(r => r.json()).catch(() => []),
+      fetch(`/api/admin/assessments/${assessmentId}/requirement-tree`).then(r => r.json()).catch(() => null),
+    ]).then(([items, tree]: [any[], any]) => {
+      // --- Audit Coverage Summary (from checklists, no compliance) ---
+      if (Array.isArray(items)) {
         const byStandard = new Map<string, ChecklistSummary>();
         for (const item of items) {
           const key = item.auditStandard;
           if (!byStandard.has(key)) {
             byStandard.set(key, { auditStandard: key, total: 0, compliant: 0, nonCompliant: 0, notTested: 0, notApplicable: 0, observation: 0 });
           }
-          const s = byStandard.get(key)!;
-          s.total++;
-          const status = item.complianceStatus;
-          if (status === "Compliant") s.compliant++;
-          else if (status === "NonCompliant") s.nonCompliant++;
-          else if (status === "NotApplicable") s.notApplicable++;
-          else if (status === "Observation") s.observation++;
-          else s.notTested++;
+          byStandard.get(key)!.total++;
         }
         setChecklistSummary(Array.from(byStandard.values()));
-        setLoading(false);
-      })
-      .catch(() => setLoading(false));
+      }
+
+      // --- Compliance Matrix (from tree: RequirementConclusion + ControlAssignment) ---
+      if (tree?.standards && tree?.requirementConclusions) {
+        const conclusions: Record<number, { conclusion: string; narrative: string | null }> = tree.requirementConclusions;
+        const effectiveness: Record<string, { effective: string | null }> = tree.controlEffectiveness ?? {};
+
+        const matrix: ComplianceMatrixRow[] = [];
+        for (const std of tree.standards) {
+          for (const pa of std.processAreas) {
+            for (const req of pa.requirements) {
+              const conc = conclusions[req.rId];
+              const controlsWithEff = req.controls.filter((c: any) => effectiveness[c.id]?.effective);
+              const effectiveCount = controlsWithEff.filter((c: any) => effectiveness[c.id]?.effective === "Effective").length;
+              const notEffectiveCount = controlsWithEff.filter((c: any) => effectiveness[c.id]?.effective === "NotEffective").length;
+              const totalAssigned = req.controls.filter((c: any) => tree.assignedControlIds?.includes(c.id)).length;
+
+              let complianceStatement: ComplianceMatrixRow["complianceStatement"];
+              let comply: boolean;
+              const gapDetails: string[] = [];
+
+              if (totalAssigned === 0) {
+                complianceStatement = "Not complied";
+                comply = false;
+                gapDetails.push("No controls assigned to this requirement");
+              } else if (controlsWithEff.length === 0) {
+                complianceStatement = "Not complied";
+                comply = false;
+                gapDetails.push("Controls assigned but not yet tested");
+              } else if (conc?.conclusion === "FullyMet") {
+                complianceStatement = "Fully complied";
+                comply = true;
+              } else if (conc?.conclusion === "PartiallyMet") {
+                complianceStatement = "Partially complied";
+                comply = true;
+                if (conc.narrative) gapDetails.push(conc.narrative);
+                if (notEffectiveCount > 0) gapDetails.push(`${notEffectiveCount} control(s) Not Effective`);
+              } else if (conc?.conclusion === "NotMet") {
+                complianceStatement = "Not complied";
+                comply = false;
+                if (conc.narrative) gapDetails.push(conc.narrative);
+              } else if (notEffectiveCount > 0 && effectiveCount === 0) {
+                complianceStatement = "Not complied";
+                comply = false;
+                gapDetails.push(`${notEffectiveCount} control(s) Not Effective`);
+              } else if (notEffectiveCount > 0) {
+                complianceStatement = "Partially complied";
+                comply = true;
+                gapDetails.push(`${notEffectiveCount} control(s) Not Effective`);
+              } else {
+                complianceStatement = "Fully complied";
+                comply = true;
+              }
+
+              matrix.push({
+                requirementNo: req.requirementId,
+                requirementText: req.clauseContent?.substring(0, 200) ?? "",
+                auditStandard: std.standard,
+                comply,
+                complianceStatement,
+                gapDetails,
+                totalItems: totalAssigned,
+                compliantItems: effectiveCount,
+              });
+            }
+          }
+        }
+        matrix.sort((a, b) => a.requirementNo.localeCompare(b.requirementNo, undefined, { numeric: true }));
+        setComplianceMatrix(matrix);
+      }
+
+      setLoading(false);
+    });
   }, [assessmentId]);
 
   const findings = assessment.findings ?? [];
@@ -109,6 +187,57 @@ export function AuditReportTab({ assessment, assessmentId }: Props) {
         </div>
       </div>
 
+      {/* Compliance Matrix — per-requirement compliance status */}
+      <div className="print:break-inside-avoid">
+        <h3 className="text-sm font-semibold text-slate-800 mb-2">📊 Compliance Matrix</h3>
+        {loading ? (
+          <p className="text-sm text-slate-400">Loading compliance data…</p>
+        ) : complianceMatrix.length === 0 ? (
+          <p className="text-sm text-slate-400">No requirements mapped. Adopt a checklist to populate the compliance matrix.</p>
+        ) : (
+          <table className="w-full text-xs border border-slate-200 rounded overflow-hidden">
+            <thead>
+              <tr className="bg-slate-100 text-left text-slate-600">
+                <th className="px-3 py-2 font-medium w-[10%]">Requirement No</th>
+                <th className="px-3 py-2 font-medium w-[35%]">Requirement</th>
+                <th className="px-3 py-2 font-medium text-center w-[7%]">Comply</th>
+                <th className="px-3 py-2 font-medium w-[48%]">Compliance Statement</th>
+              </tr>
+            </thead>
+            <tbody>
+              {complianceMatrix.map((row) => (
+                <tr key={`${row.requirementNo}-${row.auditStandard}`} className="border-t border-slate-100">
+                  <td className="px-3 py-2 font-mono text-slate-700 align-top">{row.requirementNo}</td>
+                  <td className="px-3 py-2 text-slate-700 align-top">
+                    <div className="line-clamp-2">{row.requirementText}</div>
+                    <span className="text-[10px] text-slate-400">{row.auditStandard}</span>
+                  </td>
+                  <td className="px-3 py-2 text-center align-top">
+                    <span className={`inline-block px-2 py-0.5 rounded text-xs font-bold ${
+                      row.comply ? "bg-emerald-100 text-emerald-700" : "bg-red-100 text-red-700"
+                    }`}>{row.comply ? "Y" : "N"}</span>
+                  </td>
+                  <td className="px-3 py-2 align-top">
+                    <span className={`font-medium ${
+                      row.complianceStatement === "Fully complied" ? "text-emerald-700" :
+                      row.complianceStatement === "Partially complied" ? "text-amber-700" :
+                      "text-red-700"
+                    }`}>{row.complianceStatement}</span>
+                    {row.gapDetails.length > 0 && (
+                      <ul className="mt-1 ml-3 list-disc text-[11px] text-slate-500 space-y-0.5">
+                        {row.gapDetails.map((gap, i) => (
+                          <li key={i}>{gap}</li>
+                        ))}
+                      </ul>
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
+      </div>
+
       {/* Terms of Reference */}
       {(assessment.objective || assessment.scope || assessment.methodology) && (
         <div className="print:break-inside-avoid">
@@ -133,24 +262,19 @@ export function AuditReportTab({ assessment, assessmentId }: Props) {
         </div>
       )}
 
-      {/* Checklist Compliance Summary */}
+      {/* Audit Coverage Summary — which interview guides were used */}
       <div className="print:break-inside-avoid">
-        <h3 className="text-sm font-semibold text-slate-800 mb-2">✅ Checklist Compliance Summary</h3>
+        <h3 className="text-sm font-semibold text-slate-800 mb-2">📋 Audit Coverage Summary</h3>
         {loading ? (
-          <p className="text-sm text-slate-400">Loading checklist data…</p>
+          <p className="text-sm text-slate-400">Loading…</p>
         ) : checklistSummary.length === 0 ? (
           <p className="text-sm text-slate-400">No checklist adopted for this assessment.</p>
         ) : (
           <table className="w-full text-xs border border-slate-200 rounded overflow-hidden">
             <thead>
               <tr className="bg-slate-100 text-left text-slate-600">
-                <th className="px-3 py-2 font-medium">Standard</th>
-                <th className="px-3 py-2 font-medium text-center">Total</th>
-                <th className="px-3 py-2 font-medium text-center text-emerald-700">✓ Compliant</th>
-                <th className="px-3 py-2 font-medium text-center text-red-600">✗ Non-Compliant</th>
-                <th className="px-3 py-2 font-medium text-center text-amber-600">⚠ Observation</th>
-                <th className="px-3 py-2 font-medium text-center text-slate-400">N/A</th>
-                <th className="px-3 py-2 font-medium text-center text-slate-400">Not Tested</th>
+                <th className="px-3 py-2 font-medium">Interview Guide</th>
+                <th className="px-3 py-2 font-medium text-center">Items Referenced</th>
               </tr>
             </thead>
             <tbody>
@@ -158,21 +282,11 @@ export function AuditReportTab({ assessment, assessmentId }: Props) {
                 <tr key={s.auditStandard} className="border-t border-slate-100">
                   <td className="px-3 py-2 font-medium text-slate-700">{s.auditStandard}</td>
                   <td className="px-3 py-2 text-center">{s.total}</td>
-                  <td className="px-3 py-2 text-center text-emerald-700 font-medium">{s.compliant}</td>
-                  <td className="px-3 py-2 text-center text-red-600 font-medium">{s.nonCompliant}</td>
-                  <td className="px-3 py-2 text-center text-amber-600 font-medium">{s.observation}</td>
-                  <td className="px-3 py-2 text-center text-slate-400">{s.notApplicable}</td>
-                  <td className="px-3 py-2 text-center text-slate-400">{s.notTested}</td>
                 </tr>
               ))}
               <tr className="border-t border-slate-200 bg-slate-50 font-semibold">
                 <td className="px-3 py-2 text-slate-700">TOTAL</td>
                 <td className="px-3 py-2 text-center">{checklistSummary.reduce((a, s) => a + s.total, 0)}</td>
-                <td className="px-3 py-2 text-center text-emerald-700">{checklistSummary.reduce((a, s) => a + s.compliant, 0)}</td>
-                <td className="px-3 py-2 text-center text-red-600">{checklistSummary.reduce((a, s) => a + s.nonCompliant, 0)}</td>
-                <td className="px-3 py-2 text-center text-amber-600">{checklistSummary.reduce((a, s) => a + s.observation, 0)}</td>
-                <td className="px-3 py-2 text-center text-slate-400">{checklistSummary.reduce((a, s) => a + s.notApplicable, 0)}</td>
-                <td className="px-3 py-2 text-center text-slate-400">{checklistSummary.reduce((a, s) => a + s.notTested, 0)}</td>
               </tr>
             </tbody>
           </table>
@@ -261,7 +375,7 @@ export function AuditReportTab({ assessment, assessmentId }: Props) {
         {aiLoading && (
           <div className="flex items-center gap-3 rounded border border-purple-200 bg-purple-50 p-4">
             <div className="animate-spin h-5 w-5 border-2 border-purple-600 border-t-transparent rounded-full" />
-            <p className="text-sm text-purple-700">DeepSeek is analyzing {checklistSummary.reduce((a, s) => a + s.total, 0)} checklist items, {(assessment as any).findings?.length ?? 0} findings, and {(assessment as any).controlAssignments?.length ?? 0} controls…</p>
+            <p className="text-sm text-purple-700">DeepSeek is analyzing {(assessment as any).findings?.length ?? 0} findings and {(assessment as any).controlAssignments?.length ?? 0} controls…</p>
           </div>
         )}
         {aiError && (

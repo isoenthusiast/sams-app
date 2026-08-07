@@ -5,7 +5,7 @@ import { Card } from "@/components/Card";
 import { StatusBadge } from "@/components/StatusBadge";
 import { Button } from "@/components/Button";
 import { showToast } from "@/components/Toast";
-import RequirementControlPanel from "@/components/RequirementControlPanel";
+import ControlTreePanel from "@/components/ControlTreePanel";
 
 interface MinimalistViewProps {
   assessment: any;
@@ -193,14 +193,12 @@ export default function MinimalistView({ assessment, allControls, controlsLoaded
         </button>
         {expanded.has("controls") && (
           <div className="border-t border-slate-100 px-4 py-3">
-            <RequirementControlPanel
+            <ControlTreePanel
               assessmentId={assessment.id}
-              assignedControls={controls.map((ca: any) => ({
-                ...ca.control,
-                assignmentId: ca.id,
-                effectiveness: ca.effective,
-              }))}
-              onRefresh={() => window.location.reload()}
+              onCreateFinding={() => {
+                setView("classic");
+                setActiveTab("findings");
+              }}
             />
           </div>
         )}

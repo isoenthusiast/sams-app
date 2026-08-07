@@ -400,6 +400,7 @@ export const ModelName = {
   Assessment: 'Assessment',
   AssessmentAssessor: 'AssessmentAssessor',
   ControlAssignment: 'ControlAssignment',
+  RequirementConclusion: 'RequirementConclusion',
   SampleType: 'SampleType',
   RecordSourceType: 'RecordSourceType',
   Sample: 'Sample',
@@ -461,7 +462,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "activityLog" | "activityLogType" | "assuranceActivityType" | "assuranceProtocol" | "standard" | "processArea" | "subProcess" | "controlSubProcess" | "control" | "assessmentTemplate" | "assessmentTemplateControlLinkage" | "assessmentTemplateActivityType" | "assessment" | "assessmentAssessor" | "controlAssignment" | "sampleType" | "recordSourceType" | "sample" | "finding" | "action" | "attachment" | "attachmentMapping" | "achievementBadge" | "userAchievement" | "pointTransaction" | "gameAttribute" | "gameAttributeRule" | "emotionalDriveMetric" | "milestone" | "userRole" | "userRoleMapping" | "company" | "department" | "position" | "userCompany" | "userFavorite" | "assessmentActType" | "aact" | "aActControls" | "aActUsers" | "aActDetails" | "knowledgebase" | "mapArt2Know" | "requirement" | "mapControl2Requirement" | "gamificationStage" | "webhookLog" | "document" | "mapRequirement2Document" | "riskCategory" | "risk" | "riskMetrics" | "controlRisk" | "backlogItem" | "backlogItemControl" | "auditEvidence" | "auditChecklist2Requirement" | "auditChecklistTemplate" | "auditChecklistTemplateItem" | "auditChecklistItem" | "assessmentChecklistControl"
+    modelProps: "user" | "activityLog" | "activityLogType" | "assuranceActivityType" | "assuranceProtocol" | "standard" | "processArea" | "subProcess" | "controlSubProcess" | "control" | "assessmentTemplate" | "assessmentTemplateControlLinkage" | "assessmentTemplateActivityType" | "assessment" | "assessmentAssessor" | "controlAssignment" | "requirementConclusion" | "sampleType" | "recordSourceType" | "sample" | "finding" | "action" | "attachment" | "attachmentMapping" | "achievementBadge" | "userAchievement" | "pointTransaction" | "gameAttribute" | "gameAttributeRule" | "emotionalDriveMetric" | "milestone" | "userRole" | "userRoleMapping" | "company" | "department" | "position" | "userCompany" | "userFavorite" | "assessmentActType" | "aact" | "aActControls" | "aActUsers" | "aActDetails" | "knowledgebase" | "mapArt2Know" | "requirement" | "mapControl2Requirement" | "gamificationStage" | "webhookLog" | "document" | "mapRequirement2Document" | "riskCategory" | "risk" | "riskMetrics" | "controlRisk" | "backlogItem" | "backlogItemControl" | "auditEvidence" | "auditChecklist2Requirement" | "auditChecklistTemplate" | "auditChecklistTemplateItem" | "auditChecklistItem" | "assessmentChecklistControl"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1646,6 +1647,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.ControlAssignmentCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.ControlAssignmentCountAggregateOutputType> | number
+        }
+      }
+    }
+    RequirementConclusion: {
+      payload: Prisma.$RequirementConclusionPayload<ExtArgs>
+      fields: Prisma.RequirementConclusionFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.RequirementConclusionFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RequirementConclusionPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.RequirementConclusionFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RequirementConclusionPayload>
+        }
+        findFirst: {
+          args: Prisma.RequirementConclusionFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RequirementConclusionPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.RequirementConclusionFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RequirementConclusionPayload>
+        }
+        findMany: {
+          args: Prisma.RequirementConclusionFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RequirementConclusionPayload>[]
+        }
+        create: {
+          args: Prisma.RequirementConclusionCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RequirementConclusionPayload>
+        }
+        createMany: {
+          args: Prisma.RequirementConclusionCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.RequirementConclusionCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RequirementConclusionPayload>[]
+        }
+        delete: {
+          args: Prisma.RequirementConclusionDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RequirementConclusionPayload>
+        }
+        update: {
+          args: Prisma.RequirementConclusionUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RequirementConclusionPayload>
+        }
+        deleteMany: {
+          args: Prisma.RequirementConclusionDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.RequirementConclusionUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.RequirementConclusionUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RequirementConclusionPayload>[]
+        }
+        upsert: {
+          args: Prisma.RequirementConclusionUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RequirementConclusionPayload>
+        }
+        aggregate: {
+          args: Prisma.RequirementConclusionAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateRequirementConclusion>
+        }
+        groupBy: {
+          args: Prisma.RequirementConclusionGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.RequirementConclusionGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.RequirementConclusionCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.RequirementConclusionCountAggregateOutputType> | number
         }
       }
     }
@@ -5347,10 +5422,25 @@ export const ControlAssignmentScalarFieldEnum = {
   controlId: 'controlId',
   effective: 'effective',
   effectiveUpdatedAt: 'effectiveUpdatedAt',
+  testNotes: 'testNotes',
+  testMethod: 'testMethod',
   createdAt: 'createdAt'
 } as const
 
 export type ControlAssignmentScalarFieldEnum = (typeof ControlAssignmentScalarFieldEnum)[keyof typeof ControlAssignmentScalarFieldEnum]
+
+
+export const RequirementConclusionScalarFieldEnum = {
+  id: 'id',
+  assessmentId: 'assessmentId',
+  requirementRId: 'requirementRId',
+  conclusion: 'conclusion',
+  narrative: 'narrative',
+  lastAssessedDate: 'lastAssessedDate',
+  createdAt: 'createdAt'
+} as const
+
+export type RequirementConclusionScalarFieldEnum = (typeof RequirementConclusionScalarFieldEnum)[keyof typeof RequirementConclusionScalarFieldEnum]
 
 
 export const SampleTypeScalarFieldEnum = {
@@ -5382,7 +5472,8 @@ export const SampleScalarFieldEnum = {
   status: 'status',
   conclusion: 'conclusion',
   evidenceUrl: 'evidenceUrl',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  controlAssignmentId: 'controlAssignmentId'
 } as const
 
 export type SampleScalarFieldEnum = (typeof SampleScalarFieldEnum)[keyof typeof SampleScalarFieldEnum]
@@ -6218,6 +6309,20 @@ export type ListEnumEffectivenessFieldRefInput<$PrismaModel> = FieldRefInputType
 
 
 /**
+ * Reference to a field of type 'Conclusion'
+ */
+export type EnumConclusionFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Conclusion'>
+    
+
+
+/**
+ * Reference to a field of type 'Conclusion[]'
+ */
+export type ListEnumConclusionFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Conclusion[]'>
+    
+
+
+/**
  * Reference to a field of type 'SampleStatus'
  */
 export type EnumSampleStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SampleStatus'>
@@ -6538,6 +6643,7 @@ export type GlobalOmitConfig = {
   assessment?: Prisma.AssessmentOmit
   assessmentAssessor?: Prisma.AssessmentAssessorOmit
   controlAssignment?: Prisma.ControlAssignmentOmit
+  requirementConclusion?: Prisma.RequirementConclusionOmit
   sampleType?: Prisma.SampleTypeOmit
   recordSourceType?: Prisma.RecordSourceTypeOmit
   sample?: Prisma.SampleOmit

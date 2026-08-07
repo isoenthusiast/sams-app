@@ -67,6 +67,7 @@ export const ModelName = {
   Assessment: 'Assessment',
   AssessmentAssessor: 'AssessmentAssessor',
   ControlAssignment: 'ControlAssignment',
+  RequirementConclusion: 'RequirementConclusion',
   SampleType: 'SampleType',
   RecordSourceType: 'RecordSourceType',
   Sample: 'Sample',
@@ -386,10 +387,25 @@ export const ControlAssignmentScalarFieldEnum = {
   controlId: 'controlId',
   effective: 'effective',
   effectiveUpdatedAt: 'effectiveUpdatedAt',
+  testNotes: 'testNotes',
+  testMethod: 'testMethod',
   createdAt: 'createdAt'
 } as const
 
 export type ControlAssignmentScalarFieldEnum = (typeof ControlAssignmentScalarFieldEnum)[keyof typeof ControlAssignmentScalarFieldEnum]
+
+
+export const RequirementConclusionScalarFieldEnum = {
+  id: 'id',
+  assessmentId: 'assessmentId',
+  requirementRId: 'requirementRId',
+  conclusion: 'conclusion',
+  narrative: 'narrative',
+  lastAssessedDate: 'lastAssessedDate',
+  createdAt: 'createdAt'
+} as const
+
+export type RequirementConclusionScalarFieldEnum = (typeof RequirementConclusionScalarFieldEnum)[keyof typeof RequirementConclusionScalarFieldEnum]
 
 
 export const SampleTypeScalarFieldEnum = {
@@ -421,7 +437,8 @@ export const SampleScalarFieldEnum = {
   status: 'status',
   conclusion: 'conclusion',
   evidenceUrl: 'evidenceUrl',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  controlAssignmentId: 'controlAssignmentId'
 } as const
 
 export type SampleScalarFieldEnum = (typeof SampleScalarFieldEnum)[keyof typeof SampleScalarFieldEnum]

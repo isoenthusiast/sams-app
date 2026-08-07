@@ -122,6 +122,11 @@ export type AssessmentAssessor = Prisma.AssessmentAssessorModel
  */
 export type ControlAssignment = Prisma.ControlAssignmentModel
 /**
+ * Model RequirementConclusion
+ * 
+ */
+export type RequirementConclusion = Prisma.RequirementConclusionModel
+/**
  * Model SampleType
  * 
  */

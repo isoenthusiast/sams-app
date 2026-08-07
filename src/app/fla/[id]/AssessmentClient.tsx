@@ -11,7 +11,7 @@ import { showToast } from "@/components/Toast";
 import { VoiceInput } from "@/components/VoiceInput";
 import { AttachmentList } from "@/components/AttachmentList";
 import AssessmentActivitiesPanel from "@/components/AssessmentActivitiesPanel";
-import { AssignedControlsList } from "@/components/AssignedControlsList";
+import ControlTreePanel from "@/components/ControlTreePanel";
 import { GamificationWidget } from "@/components/GamificationWidget";
 import { AssessmentChecklistTab } from "@/components/AssessmentChecklistTab";
 import { ChecklistTemplateSelector } from "@/components/ChecklistTemplateSelector";
@@ -685,146 +685,23 @@ export default function AssessmentClient({ assessment, initialControls = [], pro
 
       {/* ─── TAB 2: Control Assignment ─── */}
       {activeTab === "controls" && (
-        <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
-          <Card title={`Select Controls (${allControls.length} total)`} padding="sm">
-            <div className="mb-3">
-              <input
-                type="text"
-                placeholder="Filter controls..."
-                value={controlFilter}
-                onChange={(e) => setControlFilter(e.target.value)}
-                className="w-full rounded-md border border-slate-300 px-3 py-1.5 text-sm"
-              />
-            </div>
-            <div className="max-h-[60vh] overflow-y-auto">
-              {[...filteredGroupedControls.entries()]
-                .sort(([a], [b]) => a.localeCompare(b))
-                .map(([std, pas]) => {
-                const stdKey = `std:${std}`;
-                const stdCollapsed = !expandedGroups.has(stdKey);
-                const stdTotal = [...pas.values()].reduce((s, reqs) => s + [...reqs.values()].reduce((s2, cs) => s2 + cs.length, 0), 0);
-                const stdAssigned = [...pas.values()].reduce((s, reqs) => s + [...reqs.values()].reduce((s2, cs) => s2 + cs.filter((c: any) => assignedControlIds.has(c.id)).length, 0), 0);
-                return (
-                  <div key={stdKey} className="border border-slate-200 rounded-md mb-2 overflow-hidden">
-                    <button
-                      onClick={() => toggleGroup(stdKey)}
-                      className="w-full flex items-center justify-between px-3 py-2 bg-slate-50 hover:bg-slate-100 transition-colors text-left"
-                    >
-                      <span className="text-sm font-semibold text-slate-800">{std}</span>
-                      <span className="flex items-center gap-2 text-xs text-slate-500">
-                        {stdAssigned > 0 && <span className="text-blue-600 font-medium">{stdAssigned} assigned</span>}
-                        <span>{stdCollapsed ? "▶" : "▼"} {stdTotal}</span>
-                      </span>
-                    </button>
-                    {!stdCollapsed && (
-                      <div>
-                        {[...pas.entries()]
-                          .sort(([a], [b]) => a.localeCompare(b))
-                          .map(([pa, reqs]) => {
-                          const paKey = `pa:${std}:${pa}`;
-                          const paCollapsed = !expandedGroups.has(paKey);
-                          const paTotal = [...reqs.values()].reduce((s, cs) => s + cs.length, 0);
-                          const paAssigned = [...reqs.values()].reduce((s, cs) => s + cs.filter((c: any) => assignedControlIds.has(c.id)).length, 0);
-                          return (
-                            <div key={paKey} className="border-t border-slate-100">
-                              <button
-                                onClick={() => toggleGroup(paKey)}
-                                className="w-full flex items-center justify-between px-4 py-1.5 hover:bg-slate-50 transition-colors text-left"
-                              >
-                                <span className="text-xs font-medium text-slate-700">{pa}</span>
-                                <span className="flex items-center gap-2 text-xs text-slate-400">
-                                  {paAssigned > 0 && <span className="text-blue-600">{paAssigned} assigned</span>}
-                                  <span>{paCollapsed ? "▶" : "▼"} {paTotal}</span>
-                                </span>
-                              </button>
-                              {!paCollapsed && (
-                                <div className="border-l-2 border-blue-100 ml-6">
-                                  {[...reqs.entries()]
-                                  .sort(([aLbl], [bLbl]) => {
-                                    // Unmapped always last
-                                    if (aLbl === "__unmapped__") return 1;
-                                    if (bLbl === "__unmapped__") return -1;
-                                    // Extract numeric suffix from requirementId (e.g. "Air Quality - 3" → 3)
-                                    const num = (lbl: string) => {
-                                      const idPart = lbl.split(":")[0].trim();
-                                      const m = idPart.match(/-?\s*(\d+)$/);
-                                      return m ? parseInt(m[1], 10) : -1;
-                                    };
-                                    const aN = num(aLbl), bN = num(bLbl);
-                                    if (aN >= 0 && bN >= 0) return aN - bN;
-                                    if (aN >= 0) return -1;
-                                    if (bN >= 0) return 1;
-                                    return aLbl.localeCompare(bLbl);
-                                  })
-                                  .map(([reqLabel, controls]) => {
-                                    const reqKey = `req:${std}:${pa}:${reqLabel}`;
-                                    const reqCollapsed = !expandedGroups.has(reqKey);
-                                    const isUnmapped = reqLabel === "__unmapped__";
-                                    const reqAssigned = controls.filter((c: any) => assignedControlIds.has(c.id)).length;
-                                    return (
-                                      <div key={reqKey}>
-                                        {!isUnmapped && (
-                                          <button
-                                            onClick={() => toggleGroup(reqKey)}
-                                            className="w-full flex items-center justify-between px-3 py-1 hover:bg-slate-50 transition-colors text-left"
-                                          >
-                                            <span className="text-xs text-slate-500 truncate max-w-[80%]">{reqLabel}</span>
-                                            <span className="flex items-center gap-1 text-xs text-slate-400 ml-1 shrink-0">
-                                              {reqAssigned > 0 && <span className="text-blue-500 text-[10px]">{reqAssigned}</span>}
-                                              <span>{reqCollapsed ? "▶" : "▼"} {controls.length}</span>
-                                            </span>
-                                          </button>
-                                        )}
-                                        {(!isUnmapped && !reqCollapsed || isUnmapped) && (
-                                          <div className={isUnmapped ? "ml-2" : "ml-4 border-l border-slate-100"}>
-                                            {isUnmapped && <div className="text-[10px] text-slate-400 px-2 py-1 italic">Unmapped</div>}
-                                            {controls.map((c: any) => {
-                                              const checked = assignedControlIds.has(c.id);
-                                              return (
-                                                <label key={c.id}
-                                                  className={`flex items-center gap-2 px-3 py-1.5 cursor-pointer hover:bg-blue-50 transition-colors text-xs ${checked ? "bg-blue-50 border-l-2 border-blue-400" : ""}`}>
-                                                  <input type="checkbox" checked={checked}
-                                                    onChange={() => handleToggleControl(c.id)} disabled={saving}
-                                                    className="rounded text-blue-600 shrink-0" />
-                                                  <span className="flex-1 truncate">{c.name}</span>
-                                                  <span className="text-[10px] text-slate-400 shrink-0">{c.controlType}</span>
-                                                </label>
-                                              );
-                                            })}
-                                          </div>
-                                        )}
-                                      </div>
-                                    );
-                                  })}
-                                </div>
-                              )}
-                            </div>
-                          );
-                        })}
-                      </div>
-                    )}
-                  </div>
-                );
-              })}
-              {filteredGroupedControls.size === 0 && (
-                <p className="text-sm text-slate-400 py-4 text-center">
-                  {controlFilter ? "No controls match your filter." : "No controls available."}
-                </p>
-              )}
-            </div>
-          </Card>
-          <Card title={`Assigned Controls (${assignedControlIds.size})`} padding="sm">
-            {assignedControlIds.size === 0 ? (
-              <p className="text-sm text-slate-400">No controls assigned yet. Use the panel on the left to assign controls.</p>
-            ) : (
-              <div className="max-h-[60vh] overflow-y-auto">
-                <AssignedControlsList
-                  assignments={assessment.controlAssignments ?? []}
-                  totalCount={assignedControlIds.size}
-                />
-              </div>
-            )}
-          </Card>
+        <div className="mt-6">
+          <ControlTreePanel
+            assessmentId={assessment.id}
+            onCreateFinding={(prefill) => {
+              setFindingForm({
+                ...findingForm,
+                description: prefill.controlName
+                  ? `Finding for control: ${prefill.controlName} (${prefill.requirementId ?? ""})`
+                  : `Finding for requirement: ${prefill.requirementId ?? ""}`,
+                controlIds: prefill.controlId ? new Set([prefill.controlId]) : new Set(),
+                checklistItemId: "",
+                sampleId: "",
+              });
+              setShowAddFinding(true);
+              setActiveTab("findings");
+            }}
+          />
         </div>
       )}
 

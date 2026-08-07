@@ -311,6 +311,23 @@ export type EnumEffectivenessNullableWithAggregatesFilter<$PrismaModel = never> 
   _max?: Prisma.NestedEnumEffectivenessNullableFilter<$PrismaModel>
 }
 
+export type EnumConclusionFilter<$PrismaModel = never> = {
+  equals?: $Enums.Conclusion | Prisma.EnumConclusionFieldRefInput<$PrismaModel>
+  in?: $Enums.Conclusion[] | Prisma.ListEnumConclusionFieldRefInput<$PrismaModel>
+  notIn?: $Enums.Conclusion[] | Prisma.ListEnumConclusionFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumConclusionFilter<$PrismaModel> | $Enums.Conclusion
+}
+
+export type EnumConclusionWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.Conclusion | Prisma.EnumConclusionFieldRefInput<$PrismaModel>
+  in?: $Enums.Conclusion[] | Prisma.ListEnumConclusionFieldRefInput<$PrismaModel>
+  notIn?: $Enums.Conclusion[] | Prisma.ListEnumConclusionFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumConclusionWithAggregatesFilter<$PrismaModel> | $Enums.Conclusion
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumConclusionFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumConclusionFilter<$PrismaModel>
+}
+
 export type EnumSampleStatusFilter<$PrismaModel = never> = {
   equals?: $Enums.SampleStatus | Prisma.EnumSampleStatusFieldRefInput<$PrismaModel>
   in?: $Enums.SampleStatus[] | Prisma.ListEnumSampleStatusFieldRefInput<$PrismaModel>
@@ -897,6 +914,23 @@ export type NestedEnumEffectivenessNullableWithAggregatesFilter<$PrismaModel = n
   _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
   _min?: Prisma.NestedEnumEffectivenessNullableFilter<$PrismaModel>
   _max?: Prisma.NestedEnumEffectivenessNullableFilter<$PrismaModel>
+}
+
+export type NestedEnumConclusionFilter<$PrismaModel = never> = {
+  equals?: $Enums.Conclusion | Prisma.EnumConclusionFieldRefInput<$PrismaModel>
+  in?: $Enums.Conclusion[] | Prisma.ListEnumConclusionFieldRefInput<$PrismaModel>
+  notIn?: $Enums.Conclusion[] | Prisma.ListEnumConclusionFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumConclusionFilter<$PrismaModel> | $Enums.Conclusion
+}
+
+export type NestedEnumConclusionWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.Conclusion | Prisma.EnumConclusionFieldRefInput<$PrismaModel>
+  in?: $Enums.Conclusion[] | Prisma.ListEnumConclusionFieldRefInput<$PrismaModel>
+  notIn?: $Enums.Conclusion[] | Prisma.ListEnumConclusionFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumConclusionWithAggregatesFilter<$PrismaModel> | $Enums.Conclusion
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumConclusionFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumConclusionFilter<$PrismaModel>
 }
 
 export type NestedEnumSampleStatusFilter<$PrismaModel = never> = {

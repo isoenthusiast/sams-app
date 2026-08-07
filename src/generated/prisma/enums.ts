@@ -17,6 +17,15 @@ export const Effectiveness = {
 export type Effectiveness = (typeof Effectiveness)[keyof typeof Effectiveness]
 
 
+export const Conclusion = {
+  FullyMet: 'FullyMet',
+  PartiallyMet: 'PartiallyMet',
+  NotMet: 'NotMet'
+} as const
+
+export type Conclusion = (typeof Conclusion)[keyof typeof Conclusion]
+
+
 export const FindingSeverity = {
   Low: 'Low',
   Medium: 'Medium',

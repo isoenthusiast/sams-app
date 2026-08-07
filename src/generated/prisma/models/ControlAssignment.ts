@@ -30,6 +30,8 @@ export type ControlAssignmentMinAggregateOutputType = {
   controlId: string | null
   effective: $Enums.Effectiveness | null
   effectiveUpdatedAt: Date | null
+  testNotes: string | null
+  testMethod: string | null
   createdAt: Date | null
 }
 
@@ -39,6 +41,8 @@ export type ControlAssignmentMaxAggregateOutputType = {
   controlId: string | null
   effective: $Enums.Effectiveness | null
   effectiveUpdatedAt: Date | null
+  testNotes: string | null
+  testMethod: string | null
   createdAt: Date | null
 }
 
@@ -48,6 +52,8 @@ export type ControlAssignmentCountAggregateOutputType = {
   controlId: number
   effective: number
   effectiveUpdatedAt: number
+  testNotes: number
+  testMethod: number
   createdAt: number
   _all: number
 }
@@ -59,6 +65,8 @@ export type ControlAssignmentMinAggregateInputType = {
   controlId?: true
   effective?: true
   effectiveUpdatedAt?: true
+  testNotes?: true
+  testMethod?: true
   createdAt?: true
 }
 
@@ -68,6 +76,8 @@ export type ControlAssignmentMaxAggregateInputType = {
   controlId?: true
   effective?: true
   effectiveUpdatedAt?: true
+  testNotes?: true
+  testMethod?: true
   createdAt?: true
 }
 
@@ -77,6 +87,8 @@ export type ControlAssignmentCountAggregateInputType = {
   controlId?: true
   effective?: true
   effectiveUpdatedAt?: true
+  testNotes?: true
+  testMethod?: true
   createdAt?: true
   _all?: true
 }
@@ -159,6 +171,8 @@ export type ControlAssignmentGroupByOutputType = {
   controlId: string
   effective: $Enums.Effectiveness | null
   effectiveUpdatedAt: Date | null
+  testNotes: string | null
+  testMethod: string | null
   createdAt: Date
   _count: ControlAssignmentCountAggregateOutputType | null
   _min: ControlAssignmentMinAggregateOutputType | null
@@ -189,9 +203,12 @@ export type ControlAssignmentWhereInput = {
   controlId?: Prisma.StringFilter<"ControlAssignment"> | string
   effective?: Prisma.EnumEffectivenessNullableFilter<"ControlAssignment"> | $Enums.Effectiveness | null
   effectiveUpdatedAt?: Prisma.DateTimeNullableFilter<"ControlAssignment"> | Date | string | null
+  testNotes?: Prisma.StringNullableFilter<"ControlAssignment"> | string | null
+  testMethod?: Prisma.StringNullableFilter<"ControlAssignment"> | string | null
   createdAt?: Prisma.DateTimeFilter<"ControlAssignment"> | Date | string
   control?: Prisma.XOR<Prisma.ControlScalarRelationFilter, Prisma.ControlWhereInput>
   assessment?: Prisma.XOR<Prisma.AssessmentScalarRelationFilter, Prisma.AssessmentWhereInput>
+  samples?: Prisma.SampleListRelationFilter
 }
 
 export type ControlAssignmentOrderByWithRelationInput = {
@@ -200,9 +217,12 @@ export type ControlAssignmentOrderByWithRelationInput = {
   controlId?: Prisma.SortOrder
   effective?: Prisma.SortOrderInput | Prisma.SortOrder
   effectiveUpdatedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  testNotes?: Prisma.SortOrderInput | Prisma.SortOrder
+  testMethod?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   control?: Prisma.ControlOrderByWithRelationInput
   assessment?: Prisma.AssessmentOrderByWithRelationInput
+  samples?: Prisma.SampleOrderByRelationAggregateInput
 }
 
 export type ControlAssignmentWhereUniqueInput = Prisma.AtLeast<{
@@ -215,9 +235,12 @@ export type ControlAssignmentWhereUniqueInput = Prisma.AtLeast<{
   controlId?: Prisma.StringFilter<"ControlAssignment"> | string
   effective?: Prisma.EnumEffectivenessNullableFilter<"ControlAssignment"> | $Enums.Effectiveness | null
   effectiveUpdatedAt?: Prisma.DateTimeNullableFilter<"ControlAssignment"> | Date | string | null
+  testNotes?: Prisma.StringNullableFilter<"ControlAssignment"> | string | null
+  testMethod?: Prisma.StringNullableFilter<"ControlAssignment"> | string | null
   createdAt?: Prisma.DateTimeFilter<"ControlAssignment"> | Date | string
   control?: Prisma.XOR<Prisma.ControlScalarRelationFilter, Prisma.ControlWhereInput>
   assessment?: Prisma.XOR<Prisma.AssessmentScalarRelationFilter, Prisma.AssessmentWhereInput>
+  samples?: Prisma.SampleListRelationFilter
 }, "id" | "assessmentId_controlId">
 
 export type ControlAssignmentOrderByWithAggregationInput = {
@@ -226,6 +249,8 @@ export type ControlAssignmentOrderByWithAggregationInput = {
   controlId?: Prisma.SortOrder
   effective?: Prisma.SortOrderInput | Prisma.SortOrder
   effectiveUpdatedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  testNotes?: Prisma.SortOrderInput | Prisma.SortOrder
+  testMethod?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   _count?: Prisma.ControlAssignmentCountOrderByAggregateInput
   _max?: Prisma.ControlAssignmentMaxOrderByAggregateInput
@@ -241,6 +266,8 @@ export type ControlAssignmentScalarWhereWithAggregatesInput = {
   controlId?: Prisma.StringWithAggregatesFilter<"ControlAssignment"> | string
   effective?: Prisma.EnumEffectivenessNullableWithAggregatesFilter<"ControlAssignment"> | $Enums.Effectiveness | null
   effectiveUpdatedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"ControlAssignment"> | Date | string | null
+  testNotes?: Prisma.StringNullableWithAggregatesFilter<"ControlAssignment"> | string | null
+  testMethod?: Prisma.StringNullableWithAggregatesFilter<"ControlAssignment"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"ControlAssignment"> | Date | string
 }
 
@@ -248,9 +275,12 @@ export type ControlAssignmentCreateInput = {
   id?: string
   effective?: $Enums.Effectiveness | null
   effectiveUpdatedAt?: Date | string | null
+  testNotes?: string | null
+  testMethod?: string | null
   createdAt?: Date | string
   control: Prisma.ControlCreateNestedOneWithoutControlAssignmentsInput
   assessment: Prisma.AssessmentCreateNestedOneWithoutControlAssignmentsInput
+  samples?: Prisma.SampleCreateNestedManyWithoutControlAssignmentInput
 }
 
 export type ControlAssignmentUncheckedCreateInput = {
@@ -259,16 +289,22 @@ export type ControlAssignmentUncheckedCreateInput = {
   controlId: string
   effective?: $Enums.Effectiveness | null
   effectiveUpdatedAt?: Date | string | null
+  testNotes?: string | null
+  testMethod?: string | null
   createdAt?: Date | string
+  samples?: Prisma.SampleUncheckedCreateNestedManyWithoutControlAssignmentInput
 }
 
 export type ControlAssignmentUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   effective?: Prisma.NullableEnumEffectivenessFieldUpdateOperationsInput | $Enums.Effectiveness | null
   effectiveUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  testNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  testMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   control?: Prisma.ControlUpdateOneRequiredWithoutControlAssignmentsNestedInput
   assessment?: Prisma.AssessmentUpdateOneRequiredWithoutControlAssignmentsNestedInput
+  samples?: Prisma.SampleUpdateManyWithoutControlAssignmentNestedInput
 }
 
 export type ControlAssignmentUncheckedUpdateInput = {
@@ -277,7 +313,10 @@ export type ControlAssignmentUncheckedUpdateInput = {
   controlId?: Prisma.StringFieldUpdateOperationsInput | string
   effective?: Prisma.NullableEnumEffectivenessFieldUpdateOperationsInput | $Enums.Effectiveness | null
   effectiveUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  testNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  testMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  samples?: Prisma.SampleUncheckedUpdateManyWithoutControlAssignmentNestedInput
 }
 
 export type ControlAssignmentCreateManyInput = {
@@ -286,6 +325,8 @@ export type ControlAssignmentCreateManyInput = {
   controlId: string
   effective?: $Enums.Effectiveness | null
   effectiveUpdatedAt?: Date | string | null
+  testNotes?: string | null
+  testMethod?: string | null
   createdAt?: Date | string
 }
 
@@ -293,6 +334,8 @@ export type ControlAssignmentUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   effective?: Prisma.NullableEnumEffectivenessFieldUpdateOperationsInput | $Enums.Effectiveness | null
   effectiveUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  testNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  testMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -302,6 +345,8 @@ export type ControlAssignmentUncheckedUpdateManyInput = {
   controlId?: Prisma.StringFieldUpdateOperationsInput | string
   effective?: Prisma.NullableEnumEffectivenessFieldUpdateOperationsInput | $Enums.Effectiveness | null
   effectiveUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  testNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  testMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -326,6 +371,8 @@ export type ControlAssignmentCountOrderByAggregateInput = {
   controlId?: Prisma.SortOrder
   effective?: Prisma.SortOrder
   effectiveUpdatedAt?: Prisma.SortOrder
+  testNotes?: Prisma.SortOrder
+  testMethod?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -335,6 +382,8 @@ export type ControlAssignmentMaxOrderByAggregateInput = {
   controlId?: Prisma.SortOrder
   effective?: Prisma.SortOrder
   effectiveUpdatedAt?: Prisma.SortOrder
+  testNotes?: Prisma.SortOrder
+  testMethod?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -344,7 +393,14 @@ export type ControlAssignmentMinOrderByAggregateInput = {
   controlId?: Prisma.SortOrder
   effective?: Prisma.SortOrder
   effectiveUpdatedAt?: Prisma.SortOrder
+  testNotes?: Prisma.SortOrder
+  testMethod?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+}
+
+export type ControlAssignmentNullableScalarRelationFilter = {
+  is?: Prisma.ControlAssignmentWhereInput | null
+  isNot?: Prisma.ControlAssignmentWhereInput | null
 }
 
 export type ControlAssignmentCreateNestedManyWithoutControlInput = {
@@ -435,12 +491,31 @@ export type NullableEnumEffectivenessFieldUpdateOperationsInput = {
   set?: $Enums.Effectiveness | null
 }
 
+export type ControlAssignmentCreateNestedOneWithoutSamplesInput = {
+  create?: Prisma.XOR<Prisma.ControlAssignmentCreateWithoutSamplesInput, Prisma.ControlAssignmentUncheckedCreateWithoutSamplesInput>
+  connectOrCreate?: Prisma.ControlAssignmentCreateOrConnectWithoutSamplesInput
+  connect?: Prisma.ControlAssignmentWhereUniqueInput
+}
+
+export type ControlAssignmentUpdateOneWithoutSamplesNestedInput = {
+  create?: Prisma.XOR<Prisma.ControlAssignmentCreateWithoutSamplesInput, Prisma.ControlAssignmentUncheckedCreateWithoutSamplesInput>
+  connectOrCreate?: Prisma.ControlAssignmentCreateOrConnectWithoutSamplesInput
+  upsert?: Prisma.ControlAssignmentUpsertWithoutSamplesInput
+  disconnect?: Prisma.ControlAssignmentWhereInput | boolean
+  delete?: Prisma.ControlAssignmentWhereInput | boolean
+  connect?: Prisma.ControlAssignmentWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ControlAssignmentUpdateToOneWithWhereWithoutSamplesInput, Prisma.ControlAssignmentUpdateWithoutSamplesInput>, Prisma.ControlAssignmentUncheckedUpdateWithoutSamplesInput>
+}
+
 export type ControlAssignmentCreateWithoutControlInput = {
   id?: string
   effective?: $Enums.Effectiveness | null
   effectiveUpdatedAt?: Date | string | null
+  testNotes?: string | null
+  testMethod?: string | null
   createdAt?: Date | string
   assessment: Prisma.AssessmentCreateNestedOneWithoutControlAssignmentsInput
+  samples?: Prisma.SampleCreateNestedManyWithoutControlAssignmentInput
 }
 
 export type ControlAssignmentUncheckedCreateWithoutControlInput = {
@@ -448,7 +523,10 @@ export type ControlAssignmentUncheckedCreateWithoutControlInput = {
   assessmentId: string
   effective?: $Enums.Effectiveness | null
   effectiveUpdatedAt?: Date | string | null
+  testNotes?: string | null
+  testMethod?: string | null
   createdAt?: Date | string
+  samples?: Prisma.SampleUncheckedCreateNestedManyWithoutControlAssignmentInput
 }
 
 export type ControlAssignmentCreateOrConnectWithoutControlInput = {
@@ -486,6 +564,8 @@ export type ControlAssignmentScalarWhereInput = {
   controlId?: Prisma.StringFilter<"ControlAssignment"> | string
   effective?: Prisma.EnumEffectivenessNullableFilter<"ControlAssignment"> | $Enums.Effectiveness | null
   effectiveUpdatedAt?: Prisma.DateTimeNullableFilter<"ControlAssignment"> | Date | string | null
+  testNotes?: Prisma.StringNullableFilter<"ControlAssignment"> | string | null
+  testMethod?: Prisma.StringNullableFilter<"ControlAssignment"> | string | null
   createdAt?: Prisma.DateTimeFilter<"ControlAssignment"> | Date | string
 }
 
@@ -493,8 +573,11 @@ export type ControlAssignmentCreateWithoutAssessmentInput = {
   id?: string
   effective?: $Enums.Effectiveness | null
   effectiveUpdatedAt?: Date | string | null
+  testNotes?: string | null
+  testMethod?: string | null
   createdAt?: Date | string
   control: Prisma.ControlCreateNestedOneWithoutControlAssignmentsInput
+  samples?: Prisma.SampleCreateNestedManyWithoutControlAssignmentInput
 }
 
 export type ControlAssignmentUncheckedCreateWithoutAssessmentInput = {
@@ -502,7 +585,10 @@ export type ControlAssignmentUncheckedCreateWithoutAssessmentInput = {
   controlId: string
   effective?: $Enums.Effectiveness | null
   effectiveUpdatedAt?: Date | string | null
+  testNotes?: string | null
+  testMethod?: string | null
   createdAt?: Date | string
+  samples?: Prisma.SampleUncheckedCreateNestedManyWithoutControlAssignmentInput
 }
 
 export type ControlAssignmentCreateOrConnectWithoutAssessmentInput = {
@@ -531,11 +617,73 @@ export type ControlAssignmentUpdateManyWithWhereWithoutAssessmentInput = {
   data: Prisma.XOR<Prisma.ControlAssignmentUpdateManyMutationInput, Prisma.ControlAssignmentUncheckedUpdateManyWithoutAssessmentInput>
 }
 
+export type ControlAssignmentCreateWithoutSamplesInput = {
+  id?: string
+  effective?: $Enums.Effectiveness | null
+  effectiveUpdatedAt?: Date | string | null
+  testNotes?: string | null
+  testMethod?: string | null
+  createdAt?: Date | string
+  control: Prisma.ControlCreateNestedOneWithoutControlAssignmentsInput
+  assessment: Prisma.AssessmentCreateNestedOneWithoutControlAssignmentsInput
+}
+
+export type ControlAssignmentUncheckedCreateWithoutSamplesInput = {
+  id?: string
+  assessmentId: string
+  controlId: string
+  effective?: $Enums.Effectiveness | null
+  effectiveUpdatedAt?: Date | string | null
+  testNotes?: string | null
+  testMethod?: string | null
+  createdAt?: Date | string
+}
+
+export type ControlAssignmentCreateOrConnectWithoutSamplesInput = {
+  where: Prisma.ControlAssignmentWhereUniqueInput
+  create: Prisma.XOR<Prisma.ControlAssignmentCreateWithoutSamplesInput, Prisma.ControlAssignmentUncheckedCreateWithoutSamplesInput>
+}
+
+export type ControlAssignmentUpsertWithoutSamplesInput = {
+  update: Prisma.XOR<Prisma.ControlAssignmentUpdateWithoutSamplesInput, Prisma.ControlAssignmentUncheckedUpdateWithoutSamplesInput>
+  create: Prisma.XOR<Prisma.ControlAssignmentCreateWithoutSamplesInput, Prisma.ControlAssignmentUncheckedCreateWithoutSamplesInput>
+  where?: Prisma.ControlAssignmentWhereInput
+}
+
+export type ControlAssignmentUpdateToOneWithWhereWithoutSamplesInput = {
+  where?: Prisma.ControlAssignmentWhereInput
+  data: Prisma.XOR<Prisma.ControlAssignmentUpdateWithoutSamplesInput, Prisma.ControlAssignmentUncheckedUpdateWithoutSamplesInput>
+}
+
+export type ControlAssignmentUpdateWithoutSamplesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  effective?: Prisma.NullableEnumEffectivenessFieldUpdateOperationsInput | $Enums.Effectiveness | null
+  effectiveUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  testNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  testMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  control?: Prisma.ControlUpdateOneRequiredWithoutControlAssignmentsNestedInput
+  assessment?: Prisma.AssessmentUpdateOneRequiredWithoutControlAssignmentsNestedInput
+}
+
+export type ControlAssignmentUncheckedUpdateWithoutSamplesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  assessmentId?: Prisma.StringFieldUpdateOperationsInput | string
+  controlId?: Prisma.StringFieldUpdateOperationsInput | string
+  effective?: Prisma.NullableEnumEffectivenessFieldUpdateOperationsInput | $Enums.Effectiveness | null
+  effectiveUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  testNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  testMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
 export type ControlAssignmentCreateManyControlInput = {
   id?: string
   assessmentId: string
   effective?: $Enums.Effectiveness | null
   effectiveUpdatedAt?: Date | string | null
+  testNotes?: string | null
+  testMethod?: string | null
   createdAt?: Date | string
 }
 
@@ -543,8 +691,11 @@ export type ControlAssignmentUpdateWithoutControlInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   effective?: Prisma.NullableEnumEffectivenessFieldUpdateOperationsInput | $Enums.Effectiveness | null
   effectiveUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  testNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  testMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   assessment?: Prisma.AssessmentUpdateOneRequiredWithoutControlAssignmentsNestedInput
+  samples?: Prisma.SampleUpdateManyWithoutControlAssignmentNestedInput
 }
 
 export type ControlAssignmentUncheckedUpdateWithoutControlInput = {
@@ -552,7 +703,10 @@ export type ControlAssignmentUncheckedUpdateWithoutControlInput = {
   assessmentId?: Prisma.StringFieldUpdateOperationsInput | string
   effective?: Prisma.NullableEnumEffectivenessFieldUpdateOperationsInput | $Enums.Effectiveness | null
   effectiveUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  testNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  testMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  samples?: Prisma.SampleUncheckedUpdateManyWithoutControlAssignmentNestedInput
 }
 
 export type ControlAssignmentUncheckedUpdateManyWithoutControlInput = {
@@ -560,6 +714,8 @@ export type ControlAssignmentUncheckedUpdateManyWithoutControlInput = {
   assessmentId?: Prisma.StringFieldUpdateOperationsInput | string
   effective?: Prisma.NullableEnumEffectivenessFieldUpdateOperationsInput | $Enums.Effectiveness | null
   effectiveUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  testNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  testMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -568,6 +724,8 @@ export type ControlAssignmentCreateManyAssessmentInput = {
   controlId: string
   effective?: $Enums.Effectiveness | null
   effectiveUpdatedAt?: Date | string | null
+  testNotes?: string | null
+  testMethod?: string | null
   createdAt?: Date | string
 }
 
@@ -575,8 +733,11 @@ export type ControlAssignmentUpdateWithoutAssessmentInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   effective?: Prisma.NullableEnumEffectivenessFieldUpdateOperationsInput | $Enums.Effectiveness | null
   effectiveUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  testNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  testMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   control?: Prisma.ControlUpdateOneRequiredWithoutControlAssignmentsNestedInput
+  samples?: Prisma.SampleUpdateManyWithoutControlAssignmentNestedInput
 }
 
 export type ControlAssignmentUncheckedUpdateWithoutAssessmentInput = {
@@ -584,7 +745,10 @@ export type ControlAssignmentUncheckedUpdateWithoutAssessmentInput = {
   controlId?: Prisma.StringFieldUpdateOperationsInput | string
   effective?: Prisma.NullableEnumEffectivenessFieldUpdateOperationsInput | $Enums.Effectiveness | null
   effectiveUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  testNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  testMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  samples?: Prisma.SampleUncheckedUpdateManyWithoutControlAssignmentNestedInput
 }
 
 export type ControlAssignmentUncheckedUpdateManyWithoutAssessmentInput = {
@@ -592,9 +756,40 @@ export type ControlAssignmentUncheckedUpdateManyWithoutAssessmentInput = {
   controlId?: Prisma.StringFieldUpdateOperationsInput | string
   effective?: Prisma.NullableEnumEffectivenessFieldUpdateOperationsInput | $Enums.Effectiveness | null
   effectiveUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  testNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  testMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
+
+/**
+ * Count Type ControlAssignmentCountOutputType
+ */
+
+export type ControlAssignmentCountOutputType = {
+  samples: number
+}
+
+export type ControlAssignmentCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  samples?: boolean | ControlAssignmentCountOutputTypeCountSamplesArgs
+}
+
+/**
+ * ControlAssignmentCountOutputType without action
+ */
+export type ControlAssignmentCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ControlAssignmentCountOutputType
+   */
+  select?: Prisma.ControlAssignmentCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * ControlAssignmentCountOutputType without action
+ */
+export type ControlAssignmentCountOutputTypeCountSamplesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.SampleWhereInput
+}
 
 
 export type ControlAssignmentSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -603,9 +798,13 @@ export type ControlAssignmentSelect<ExtArgs extends runtime.Types.Extensions.Int
   controlId?: boolean
   effective?: boolean
   effectiveUpdatedAt?: boolean
+  testNotes?: boolean
+  testMethod?: boolean
   createdAt?: boolean
   control?: boolean | Prisma.ControlDefaultArgs<ExtArgs>
   assessment?: boolean | Prisma.AssessmentDefaultArgs<ExtArgs>
+  samples?: boolean | Prisma.ControlAssignment$samplesArgs<ExtArgs>
+  _count?: boolean | Prisma.ControlAssignmentCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["controlAssignment"]>
 
 export type ControlAssignmentSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -614,6 +813,8 @@ export type ControlAssignmentSelectCreateManyAndReturn<ExtArgs extends runtime.T
   controlId?: boolean
   effective?: boolean
   effectiveUpdatedAt?: boolean
+  testNotes?: boolean
+  testMethod?: boolean
   createdAt?: boolean
   control?: boolean | Prisma.ControlDefaultArgs<ExtArgs>
   assessment?: boolean | Prisma.AssessmentDefaultArgs<ExtArgs>
@@ -625,6 +826,8 @@ export type ControlAssignmentSelectUpdateManyAndReturn<ExtArgs extends runtime.T
   controlId?: boolean
   effective?: boolean
   effectiveUpdatedAt?: boolean
+  testNotes?: boolean
+  testMethod?: boolean
   createdAt?: boolean
   control?: boolean | Prisma.ControlDefaultArgs<ExtArgs>
   assessment?: boolean | Prisma.AssessmentDefaultArgs<ExtArgs>
@@ -636,13 +839,17 @@ export type ControlAssignmentSelectScalar = {
   controlId?: boolean
   effective?: boolean
   effectiveUpdatedAt?: boolean
+  testNotes?: boolean
+  testMethod?: boolean
   createdAt?: boolean
 }
 
-export type ControlAssignmentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "assessmentId" | "controlId" | "effective" | "effectiveUpdatedAt" | "createdAt", ExtArgs["result"]["controlAssignment"]>
+export type ControlAssignmentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "assessmentId" | "controlId" | "effective" | "effectiveUpdatedAt" | "testNotes" | "testMethod" | "createdAt", ExtArgs["result"]["controlAssignment"]>
 export type ControlAssignmentInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   control?: boolean | Prisma.ControlDefaultArgs<ExtArgs>
   assessment?: boolean | Prisma.AssessmentDefaultArgs<ExtArgs>
+  samples?: boolean | Prisma.ControlAssignment$samplesArgs<ExtArgs>
+  _count?: boolean | Prisma.ControlAssignmentCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type ControlAssignmentIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   control?: boolean | Prisma.ControlDefaultArgs<ExtArgs>
@@ -658,6 +865,7 @@ export type $ControlAssignmentPayload<ExtArgs extends runtime.Types.Extensions.I
   objects: {
     control: Prisma.$ControlPayload<ExtArgs>
     assessment: Prisma.$AssessmentPayload<ExtArgs>
+    samples: Prisma.$SamplePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -665,6 +873,8 @@ export type $ControlAssignmentPayload<ExtArgs extends runtime.Types.Extensions.I
     controlId: string
     effective: $Enums.Effectiveness | null
     effectiveUpdatedAt: Date | null
+    testNotes: string | null
+    testMethod: string | null
     createdAt: Date
   }, ExtArgs["result"]["controlAssignment"]>
   composites: {}
@@ -1062,6 +1272,7 @@ export interface Prisma__ControlAssignmentClient<T, Null = never, ExtArgs extend
   readonly [Symbol.toStringTag]: "PrismaPromise"
   control<T extends Prisma.ControlDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ControlDefaultArgs<ExtArgs>>): Prisma.Prisma__ControlClient<runtime.Types.Result.GetResult<Prisma.$ControlPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   assessment<T extends Prisma.AssessmentDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AssessmentDefaultArgs<ExtArgs>>): Prisma.Prisma__AssessmentClient<runtime.Types.Result.GetResult<Prisma.$AssessmentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  samples<T extends Prisma.ControlAssignment$samplesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ControlAssignment$samplesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SamplePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1096,6 +1307,8 @@ export interface ControlAssignmentFieldRefs {
   readonly controlId: Prisma.FieldRef<"ControlAssignment", 'String'>
   readonly effective: Prisma.FieldRef<"ControlAssignment", 'Effectiveness'>
   readonly effectiveUpdatedAt: Prisma.FieldRef<"ControlAssignment", 'DateTime'>
+  readonly testNotes: Prisma.FieldRef<"ControlAssignment", 'String'>
+  readonly testMethod: Prisma.FieldRef<"ControlAssignment", 'String'>
   readonly createdAt: Prisma.FieldRef<"ControlAssignment", 'DateTime'>
 }
     
@@ -1495,6 +1708,30 @@ export type ControlAssignmentDeleteManyArgs<ExtArgs extends runtime.Types.Extens
    * Limit how many ControlAssignments to delete.
    */
   limit?: number
+}
+
+/**
+ * ControlAssignment.samples
+ */
+export type ControlAssignment$samplesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Sample
+   */
+  select?: Prisma.SampleSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Sample
+   */
+  omit?: Prisma.SampleOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.SampleInclude<ExtArgs> | null
+  where?: Prisma.SampleWhereInput
+  orderBy?: Prisma.SampleOrderByWithRelationInput | Prisma.SampleOrderByWithRelationInput[]
+  cursor?: Prisma.SampleWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.SampleScalarFieldEnum | Prisma.SampleScalarFieldEnum[]
 }
 
 /**
