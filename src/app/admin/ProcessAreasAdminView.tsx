@@ -10,9 +10,10 @@ type ProcessArea = {
   id: string; name: string; description?: string | null;
   standardId?: string | null; standardRef?: { standard: string } | null; companyId?: string | null;
 };
-type Standard = { id: string; standard: string };
+type Standard = { id: string; standard: string; companyId?: string | null };
+type Company = { id: string; companyID: string; name: string };
 
-export function ProcessAreasAdminView({ initialProcessAreas, initialStandards }: { initialProcessAreas: ProcessArea[]; initialStandards: Standard[] }) {
+export function ProcessAreasAdminView({ initialProcessAreas, initialStandards, companies = [] }: { initialProcessAreas: ProcessArea[]; initialStandards: Standard[]; companies?: Company[] }) {
   const [pas, setPas] = useState<ProcessArea[]>(initialProcessAreas);
   const [standards] = useState<Standard[]>(initialStandards);
   const [editing, setEditing] = useState<ProcessArea | null>(null);
@@ -79,8 +80,8 @@ export function ProcessAreasAdminView({ initialProcessAreas, initialStandards }:
         <div className="space-y-3">
           <div><label className="text-xs font-medium text-slate-600">Name</label><input type="text" value={form.name} onChange={e => setForm({ ...form, name: e.target.value })} className="w-full rounded border border-slate-300 px-2 py-1.5 text-sm mt-1" /></div>
           <div><label className="text-xs font-medium text-slate-600">Description</label><input type="text" value={form.description} onChange={e => setForm({ ...form, description: e.target.value })} className="w-full rounded border border-slate-300 px-2 py-1.5 text-sm mt-1" /></div>
-          <div><label className="text-xs font-medium text-slate-600">Standard</label><select value={form.standardId} onChange={e => setForm({ ...form, standardId: e.target.value })} className="w-full rounded border border-slate-300 px-2 py-1.5 text-sm mt-1"><option value="">— None —</option>{standards.map(s => <option key={s.id} value={s.id}>{s.standard}</option>)}</select></div>
-          <div><label className="text-xs font-medium text-slate-600">Company ID</label><input type="text" value={form.companyId} onChange={e => setForm({ ...form, companyId: e.target.value })} className="w-full rounded border border-slate-300 px-2 py-1.5 text-sm mt-1" placeholder="comp_..." /></div>
+          <div><label className="text-xs font-medium text-slate-600">Company</label><select value={form.companyId} onChange={e => setForm({ ...form, companyId: e.target.value, standardId: "" })} className="w-full rounded border border-slate-300 px-2 py-1.5 text-sm mt-1"><option value="">— None —</option>{companies.map(c => <option key={c.id} value={c.id}>{c.companyID}{c.name ? ` — ${c.name}` : ""}</option>)}</select></div>
+          <div><label className="text-xs font-medium text-slate-600">Standard</label><select value={form.standardId} onChange={e => setForm({ ...form, standardId: e.target.value })} className="w-full rounded border border-slate-300 px-2 py-1.5 text-sm mt-1"><option value="">— None —</option>{standards.filter(s => !form.companyId || s.companyId === form.companyId).map(s => <option key={s.id} value={s.id}>{s.standard}</option>)}</select></div>
           <div className="flex gap-2 mt-4 justify-end"><Button variant="ghost" size="sm" onClick={() => { setEditing(null); setAdding(false); }}>Cancel</Button><Button variant="primary" size="sm" disabled={saving} onClick={handleSave}>{saving ? "Saving…" : "Save"}</Button></div>
         </div>
       </Modal>

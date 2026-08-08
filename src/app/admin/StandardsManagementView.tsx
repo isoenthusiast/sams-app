@@ -19,9 +19,9 @@ const MENU_ITEMS = [
 ] as const;
 
 export function StandardsManagementView({
-  standards, processAreas, requirements, allStandards, controls, controlPas, companies, isAdmin,
+  standards, processAreas, requirements, allStandards, standardsAll, controls, controlPas, companies, isAdmin,
 }: {
-  standards: any[]; processAreas: any[]; requirements: any[]; allStandards: any[];
+  standards: any[]; processAreas: any[]; requirements: any[]; allStandards: any[]; standardsAll?: any[];
   controls: any[]; controlPas: any[]; companies: any[]; isAdmin?: boolean;
 }) {
   const [activeTab, setActiveTab] = useState<string>("standards");
@@ -46,7 +46,7 @@ export function StandardsManagementView({
 
       <div className="flex-1 flex flex-col p-5 min-w-0 overflow-hidden">
         {activeTab === "standards" && <StandardAdminView initialStandards={standards} companies={companies} />}
-        {activeTab === "processareas" && <ProcessAreasAdminView initialProcessAreas={processAreas} initialStandards={allStandards} />}
+        {activeTab === "processareas" && <ProcessAreasAdminView initialProcessAreas={processAreas} initialStandards={standardsAll ?? allStandards} companies={companies} />}
         {activeTab === "requirements" && <RequirementsView requirements={requirements} standards={allStandards} />}
         {activeTab === "documents" && <RequirementDocumentsTab requirements={requirements} standards={allStandards} />}
         {activeTab === "controls" && <ControlsAdminView initialControls={controls} initialProcessAreas={controlPas} isAdmin={isAdmin} />}

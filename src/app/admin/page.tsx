@@ -169,6 +169,11 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
     ? await prisma.standard.findMany({ where, orderBy: { sequenceNo: "asc" } })
     : [];
 
+  // Unfiltered standards (all companies) so the ProcessArea modal can filter by selected company
+  const standardsAllCompanies = view === "standards"
+    ? await prisma.standard.findMany({ orderBy: { sequenceNo: "asc" } })
+    : [];
+
   // Process areas with standard info (company-filtered for standards management)
   const allProcessAreas = view === "standards"
     ? await prisma.processArea.findMany({ where, include: { standardRef: true }, orderBy: { name: "asc" } })
@@ -202,18 +207,23 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
 
   // Knowledgebase entries (for knowledgebase view)
   const kbEntries = view === "knowledgebase"
-    ? (await prisma.$queryRawUnsafe<Array<{ kID: string; knowledgeName: string; knowledgeContent: string; remarks: string | null; createdDate: string; addedBy: string; processAreaId: string | null; processAreaName: string | null }>>(
-        `SELECT kb."kID", kb."knowledgeName", kb."knowledgeContent", kb."remarks", kb."createdDate"::text, kb."addedBy", kb."processAreaId", pa.name as "processAreaName"
+    ? (await prisma.$queryRawUnsafe<Array<{ kID: string; knowledgeName: string; knowledgeContent: string; remarks: string | null; createdDate: string; addedBy: string; processAreaId: string | null; processAreaName: string | null; standardName: string | null }>>(
+        `SELECT kb."kID", kb."knowledgeName", kb."knowledgeContent", kb."remarks", kb."createdDate"::text, kb."addedBy", kb."processAreaId", pa.name as "processAreaName", s.standard as "standardName"
          FROM "Knowledgebase" kb
          LEFT JOIN "ProcessArea" pa ON pa.id = kb."processAreaId"
+         LEFT JOIN "Standard" s ON pa."StandardID" = s.id
          ${companyId ? `WHERE kb."companyId" = '${companyId}'` : ""}
          ORDER BY kb."createdDate" DESC`
       ))
     : [];
 
-  // Process areas list (for KB upload filter)
+  // Process areas list (for KB upload filter + KB standard/PA mapping)
   const processAreas = view === "knowledgebase"
-    ? await prisma.processArea.findMany({ where, orderBy: { name: "asc" }, select: { id: true, name: true } })
+    ? await prisma.processArea.findMany({
+        where,
+        orderBy: { name: "asc" },
+        select: { id: true, name: true, standardId: true, standardRef: { select: { id: true, standard: true } } }
+      })
     : [];
 
   // Backlog items (for backlog Kanban view + dashboard widget) — NOT company-scoped
@@ -389,6 +399,7 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
           processAreas={JSON.parse(JSON.stringify(allProcessAreas))}
           requirements={JSON.parse(JSON.stringify(requirements))}
           allStandards={allStandards}
+          standardsAll={JSON.parse(JSON.stringify(standardsAllCompanies))}
           controls={JSON.parse(JSON.stringify(controlsWithDoc))}
           controlPas={JSON.parse(JSON.stringify(allProcessAreas))}
           companies={JSON.parse(JSON.stringify(companies))}

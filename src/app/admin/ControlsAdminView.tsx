@@ -93,9 +93,19 @@ export function ControlsAdminView({ initialControls, initialProcessAreas, isAdmi
   }, [controls, search]);
 
   const grouped = useMemo(() => {
-    const byDoc = new Map<string, Control[]>();
-    for (const c of filtered) { const docName = c.practiceDocument || "No Document"; if (!byDoc.has(docName)) byDoc.set(docName, []); byDoc.get(docName)!.push(c); }
-    return [...byDoc.entries()].sort((a, b) => a[0].localeCompare(b[0]));
+    // Two-level grouping: ProcessArea → documents → controls
+    const byPA = new Map<string, Map<string, Control[]>>();
+    for (const c of filtered) {
+      const paName = c.processArea?.name || "Unassigned";
+      if (!byPA.has(paName)) byPA.set(paName, new Map());
+      const byDoc = byPA.get(paName)!;
+      const docName = c.practiceDocument || "No Document";
+      if (!byDoc.has(docName)) byDoc.set(docName, []);
+      byDoc.get(docName)!.push(c);
+    }
+    return [...byPA.entries()]
+      .map(([paName, byDoc]) => ({ paName, docs: [...byDoc.entries()].sort((a, b) => a[0].localeCompare(b[0])) }))
+      .sort((a, b) => a.paName.localeCompare(b.paName));
   }, [filtered]);
 
   // Filter PAs by selected standard (cascading filter)
@@ -154,22 +164,28 @@ export function ControlsAdminView({ initialControls, initialProcessAreas, isAdmi
 
   const controlList = (
     <div className="flex-1 overflow-y-auto px-1 py-1">
-      {grouped.map(([docName, ctrls]) => (
-        <CollapsibleSection key={docName} title={docName} count={ctrls.length} defaultOpen={false}>
-          <div className="space-y-0.5">
-            {ctrls.map(c => (
-              activeTab === "map2requirement" ? (
-                <label key={c.id} className={`w-full flex items-center gap-1.5 py-1 px-2 rounded text-xs cursor-pointer ${selectedControlIds.has(c.id) ? "bg-blue-50 border border-blue-200" : "hover:bg-slate-50 border border-transparent"}`}>
-                  <input type="checkbox" checked={selectedControlIds.has(c.id)} onChange={() => toggleControlCheckbox(c.id)} className="shrink-0 rounded" />
-                  <span className="truncate flex-1 min-w-0 font-medium text-slate-700">{c.name}</span>
-                  <span className="ml-1 shrink-0 text-[10px] px-1 py-0.5 rounded bg-slate-100 text-slate-500">{c.controlType}</span>
-                </label>
-              ) : (
-                <button key={c.id} onClick={() => selectControl(c)} className={`w-full text-left flex items-center justify-between py-1 px-2 rounded text-xs ${selectedControl?.id === c.id ? "bg-blue-50 border border-blue-200 text-blue-800" : "hover:bg-slate-50 text-slate-700 border border-transparent"}`}>
-                  <span className="truncate flex-1 min-w-0 font-medium">{c.name}</span>
-                  <span className={`ml-1 shrink-0 text-[10px] px-1 py-0.5 rounded ${selectedControl?.id === c.id ? "bg-blue-100 text-blue-700" : "bg-slate-100 text-slate-500"}`}>{c.controlType}</span>
-                </button>
-              )
+      {grouped.map(({ paName, docs }) => (
+        <CollapsibleSection key={paName} title={paName} count={docs.length} defaultOpen={false}>
+          <div className="space-y-1 pl-2 border-l border-slate-100 ml-1">
+            {docs.map(([docName, ctrls]) => (
+              <CollapsibleSection key={docName} title={docName} count={ctrls.length} defaultOpen={false}>
+                <div className="space-y-0.5 pl-1">
+                  {ctrls.map(c => (
+                    activeTab === "map2requirement" ? (
+                      <label key={c.id} className={`w-full flex items-center gap-1.5 py-1 px-2 rounded text-xs cursor-pointer ${selectedControlIds.has(c.id) ? "bg-blue-50 border border-blue-200" : "hover:bg-slate-50 border border-transparent"}`}>
+                        <input type="checkbox" checked={selectedControlIds.has(c.id)} onChange={() => toggleControlCheckbox(c.id)} className="shrink-0 rounded" />
+                        <span className="truncate flex-1 min-w-0 font-medium text-slate-700">{c.name}</span>
+                        <span className="ml-1 shrink-0 text-[10px] px-1 py-0.5 rounded bg-slate-100 text-slate-500">{c.controlType}</span>
+                      </label>
+                    ) : (
+                      <button key={c.id} onClick={() => selectControl(c)} className={`w-full text-left flex items-center justify-between py-1 px-2 rounded text-xs ${selectedControl?.id === c.id ? "bg-blue-50 border border-blue-200 text-blue-800" : "hover:bg-slate-50 text-slate-700 border border-transparent"}`}>
+                        <span className="truncate flex-1 min-w-0 font-medium">{c.name}</span>
+                        <span className={`ml-1 shrink-0 text-[10px] px-1 py-0.5 rounded ${selectedControl?.id === c.id ? "bg-blue-100 text-blue-700" : "bg-slate-100 text-slate-500"}`}>{c.controlType}</span>
+                      </button>
+                    )
+                  ))}
+                </div>
+              </CollapsibleSection>
             ))}
           </div>
         </CollapsibleSection>

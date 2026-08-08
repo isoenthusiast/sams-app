@@ -3,11 +3,13 @@
 import { useState } from "react";
 import { KnowledgebaseView } from "./KnowledgebaseView";
 import { ListKnowledgeView } from "./ListKnowledgeView";
+import { MapKnowledgeView } from "./MapKnowledgeView";
 import { DocumentsAdminView } from "./DocumentsAdminView";
 
 const MENU_ITEMS = [
   { key: "entry", label: "📝 Knowledge Entry" },
   { key: "list", label: "📋 List Knowledge" },
+  { key: "map", label: "🗺️ Map Standard/PA" },
   { key: "documents", label: "📄 Documents" },
 ] as const;
 
@@ -40,6 +42,7 @@ export function KnowledgebaseManagementView({
       <div className="flex-1 overflow-y-auto p-5 min-w-0">
         {activeTab === "entry" && <KnowledgebaseView entries={entries} processAreas={processAreas} companyId={companyId} />}
         {activeTab === "list" && <ListKnowledgeView entries={entries} />}
+        {activeTab === "map" && <MapKnowledgeView entries={entries} processAreas={processAreas} standards={standards} />}
         {activeTab === "documents" && <DocumentsAdminView companies={companies} standards={standards} processAreas={processAreas} />}
       </div>
     </div>
