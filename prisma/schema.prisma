@@ -865,6 +865,7 @@ model MapControl2Requirement {
   controlId      String
   requirementRId Int
   processAreaId  String?
+  mandatory      Boolean     @default(false) // PMS: control is essential to satisfy this requirement (if absent, requirement fails)
   createdAt      DateTime    @default(now())
   control        Control     @relation(fields: [controlId], references: [id], onDelete: Cascade)
   requirement    Requirement @relation(fields: [requirementRId], references: [rId], onDelete: Cascade)

@@ -295,7 +295,7 @@ Client Component → fetch('/api/...', { method: 'POST', body })
 |-------|---------|-------------------|
 | **ControlSubProcess** | Control ↔ SubProcess (M:N) | `@@unique([controlId, subProcessId])` |
 | **ControlFDSubProcess** | ControlFromDocument ↔ SubProcess (M:N) | `@@unique([controlFromDocumentId, subProcessId])` |
-| **MapControl2Requirement** | Control ↔ Requirement (M:N) | `@@unique([controlId, requirementRId])` |
+| **MapControl2Requirement** | Control ↔ Requirement (M:N); `mandatory` flag marks controls essential to a specific requirement (PMS) | `@@unique([controlId, requirementRId])` |
 | **AssessmentAssessor** | Assessment ↔ User (additional assessors) | `@@unique([assessmentId, userId])` |
 | **AssessmentTemplateControlLinkage** | Template ↔ Control | `@@unique([templateId, controlId])` |
 | **AssessmentTemplateActivityType** | Template ↔ ActivityType | `@@unique([templateId, activityTypeId])` |
@@ -918,6 +918,7 @@ Local Dev (localhost:3100)
 
 | Version | Date | Changes |
 |---------|------|---------|
+| v1.12.1 | 2026-08-09 | **PMS cross-PA control mapping.** Added `mandatory Boolean @default(false)` to `MapControl2Requirement` (added via idempotent raw `ALTER TABLE ADD COLUMN IF NOT EXISTS` to avoid Prisma drift-drop). Marks controls that are essential (non-substitutable) to a specific requirement. Used to map the 5,055-control SMDS library to the 42 statutory ICOP PMS clauses (controls from other PAs anchored to the PMS requirement; MCR `processAreaId` = the control's own PA). Produces `SMDS PMS Gaps.md` + Design Effectiveness report. |
 | v1.0.0 | 2026-07-24 | Initial SAMS_APP_DESIGN.md created — comprehensive documentation of all design aspects |
 | v1.0.1 | 2026-07-24 | Added `ProcessAreaList` component — groups PAs by Standard with collapsible sections on `/setup/process-areas` |
 | v1.0.2 | 2026-07-24 | Added `AssignedControlsList` component — 2-level PA→Req→Ctrl hierarchy for assessment assigned controls with inline effectiveness dropdowns, remove button, color-coded status, and mouseover tooltip showing full control statement |

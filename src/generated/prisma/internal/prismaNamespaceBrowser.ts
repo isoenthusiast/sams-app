@@ -824,6 +824,7 @@ export const MapControl2RequirementScalarFieldEnum = {
   controlId: 'controlId',
   requirementRId: 'requirementRId',
   processAreaId: 'processAreaId',
+  mandatory: 'mandatory',
   createdAt: 'createdAt'
 } as const
 
