@@ -918,6 +918,7 @@ Local Dev (localhost:3100)
 
 | Version | Date | Changes |
 |---------|------|---------|
+| v1.12.2 | 2026-08-09 | **ISO International Standards SOP.** Added SOP-ISO-001 (`docs/iso/SOP-ISO-001 …md`) codifying the repeatable "map → gap-assess → report" method for managing the ISO International Standards PAs (ISO 9001:2015, 14001:2015, 45001:2018, 22301:2019). Discipline attribution (Everyone/AI/PS/OSH) on every requirement; Design-Effectiveness report format (Summary TOC table RequirementId·Requirement·Discipline·Comply·Link → What-went-well with collapsed control details → Gaps). Reference implementation: SMDS ICOP PMS (147 control→clause pairs, 43 mandatory). Design Philosophy principles #45–47; IMS Audit Philosophy §9. |
 | v1.12.1 | 2026-08-09 | **PMS cross-PA control mapping.** Added `mandatory Boolean @default(false)` to `MapControl2Requirement` (added via idempotent raw `ALTER TABLE ADD COLUMN IF NOT EXISTS` to avoid Prisma drift-drop). Marks controls that are essential (non-substitutable) to a specific requirement. Used to map the 5,055-control SMDS library to the 42 statutory ICOP PMS clauses (controls from other PAs anchored to the PMS requirement; MCR `processAreaId` = the control's own PA). Produces `SMDS PMS Gaps.md` + Design Effectiveness report. |
 | v1.0.0 | 2026-07-24 | Initial SAMS_APP_DESIGN.md created — comprehensive documentation of all design aspects |
 | v1.0.1 | 2026-07-24 | Added `ProcessAreaList` component — groups PAs by Standard with collapsible sections on `/setup/process-areas` |
