@@ -30,6 +30,7 @@ export async function GET(request: Request) {
       include: {
         activityType: { select: { name: true } },
         assessor: { select: { name: true } },
+        processArea: { select: { id: true, name: true, standard: true } },
         _count: { select: { samples: true, findings: true } },
       },
       orderBy: { startDate: "desc" },
@@ -40,7 +41,7 @@ export async function GET(request: Request) {
       assessments.map(async (a) => {
         const ca = await prisma.controlAssignment.findFirst({
           where: { assessmentId: a.id },
-          include: { control: { select: { processArea: { select: { id: true, name: true } } } } },
+          include: { control: { select: { processArea: { select: { id: true, name: true, standard: true } } } } },
         });
         return {
           id: a.id,
@@ -51,7 +52,8 @@ export async function GET(request: Request) {
           loa: a.loa,
           activityType: a.activityType,
           assessor: a.assessor,
-          processArea: ca?.control?.processArea ?? null,
+          // Direct PA link first (coverage audits); legacy fallback via first control assignment
+          processArea: a.processArea ?? ca?.control?.processArea ?? null,
           _count: a._count,
         };
       })

@@ -2,7 +2,7 @@
 
 > **📐 Active alongside `CONAN_Design Philosophy.md` and `CONAN_App Design.md`.** CONAN docs are the narrative source of truth; this document is the technical specification (models, routes, components, APIs). Both are maintained.
 
-**Last Updated:** August 8, 2026 (v1.11.9 — admin KB/standards UI overhaul + multi-select Standard→PA mapping)
+**Last Updated:** August 10, 2026 (v1.12.3 — report format v2: expandable rows, discipline filter badges, IMS merged report)
 
 ---
 
@@ -295,10 +295,16 @@ Client Component → fetch('/api/...', { method: 'POST', body })
 |-------|---------|-------------------|
 | **ControlSubProcess** | Control ↔ SubProcess (M:N) | `@@unique([controlId, subProcessId])` |
 | **ControlFDSubProcess** | ControlFromDocument ↔ SubProcess (M:N) | `@@unique([controlFromDocumentId, subProcessId])` |
-| **MapControl2Requirement** | Control ↔ Requirement (M:N); `mandatory` flag marks controls essential to a specific requirement (PMS) | `@@unique([controlId, requirementRId])` |
+| **MapControl2Requirement** | Control ↔ Requirement (M:N); `mandatory` flag: **true = control is mandatory for the requirement, false = supporting only** (v1.13.0 semantics); `aiGenerated` (nullable boolean, raw-SQL column) flags AI-created rows for review | `@@unique([controlId, requirementRId])` |
 | **AssessmentAssessor** | Assessment ↔ User (additional assessors) | `@@unique([assessmentId, userId])` |
 | **AssessmentTemplateControlLinkage** | Template ↔ Control | `@@unique([templateId, controlId])` |
 | **AssessmentTemplateActivityType** | Template ↔ ActivityType | `@@unique([templateId, activityTypeId])` |
+
+#### Operational Tables (raw SQL, not Prisma-managed)
+
+| Table | Purpose | Key Fields |
+|-------|---------|------------|
+| **ReconcileClaim** | Coordination table for parallel AI pipelines (v1.13.0): per-unit claim gate + launcher lease. Workers claim a unit via `INSERT ON CONFLICT (kbId) DO NOTHING`; stale claims (>20 min) are reclaimed. The row `kbId='__launcher__'` is the single-instance launcher lease (5s heartbeat, stale-reclaim >120s). **v1.13.1:** pipelines use distinct lease ids (`__launcher__` for extraction, `__launcher_map__` for mapping) so two pipelines can run concurrently. | kbId (text PK), shard (int), claimedAt, heartbeatAt |
 
 #### Assessment & Workflow Models
 
@@ -355,7 +361,7 @@ Client Component → fetch('/api/...', { method: 'POST', body })
 
 | Model | Purpose | Key Fields |
 |-------|---------|------------|
-| **Knowledgebase** | Knowledge entries | knowledgeName, knowledgeContent, companyId, processAreaId |
+| **Knowledgebase** | Knowledge entries | knowledgeName, knowledgeContent, companyId, processAreaId, **reconciledAt (v1.13.1)** — timestamptz, authoritative "doc reconciled" marker stamped by the reconciliation pipeline after a doc completes (inserts AND update-merges) |
 | **MapArt2Know** | Article ↔ Knowledge mapping | artName, artID, kID, whyToMap |
 | **DocumentExtract** | Uploaded source document | documentTitle, content (extracted text), status |
 | **ControlFromDocument** | AI-extracted control candidate | CSF fields, status (Pending→Approved/Rejected) |
@@ -752,6 +758,19 @@ Out-of-app bulk control extraction for the SMDS company (522 procedure documents
 
 **Rebuild (no-dedup):** DB rebuilt from `batch_XXX_parsed.json` records (DELETE 4,912 → INSERT 5,055, 0 failures). Identical names from different docs preserved with running-number suffix + `knowledge` note (Design Principle #43). Pipeline scripts: `backup_smds_controls.py` → `merge_batch_jsons.py` → `analyze_merged.py`/`classify_issues.py` → `fix_merged.py` → `generate_sql.py` → `validate_sql_v2.py` (static + DB dry-run) → `execute_rebuild.py` (batched, failure capture). Fix report: `dbBackup/FIX_REPORT.md`.
 
+### 9.4 Parallel KB → Control Reconciliation Pipeline (v1.13.0)
+
+Fan-out batch reconciliation of every SMDS Knowledgebase document into consolidated controls, coordinated with Postgres-only primitives (no external queue). Replaced the single-threaded `csf_batch_runner` workflow for full-library runs.
+
+**Components:**
+- `launch_shards.py` — supervisor: single-instance **lease row** in `ReconcileClaim` (`kbId='__launcher__'`, 5s heartbeat, stale-reclaim >120s), loser goes **standby** (never exits) and auto-takes-over on staleness; spawns 20 shard workers + aggregator; Windows Job Object + parent watchdog for orphan-free shutdown.
+- `kb_control_reconcile.py` — per-shard worker: deterministic sharding (`md5(kb_name) % N`), **per-doc claim gate** (`INSERT ON CONFLICT DO NOTHING`, release after commit, stale-reclaim >20 min), skip-don't-crash on AI/network failure, **DB reconnect-retry wrapper** on InterfaceError, per-doc commit, **work-stealing sweep** after own queue (all workers pull unclaimed docs at the tail).
+- `kb_reconcile_aggregate.py` — merges per-shard status into one dashboard JSON with a **unique-union tally** (never >100%); `--out` flag for side-by-side corrected status.
+- `parent_watchdog.py` — child self-terminates when its supervisor dies.
+- Dashboards: `scripts/db/kb_reconcile_output/kb_reconcile_progress.html` (extraction) + `kb_map_progress.html` (mapping); auto-refresh 2s.
+
+**Result (2026-08-13):** 557/557 docs → SMDS Control library 23,586 controls (18,531 KB-derived NEW), 0 duplicate name rows, 0 rate-limit hits, resumable across kills and network outages. Full method + failure catalog: `docs/parallel-worker-coordination.md`.
+
 **Supporting scripts:** `scripts/db/check_smds_state.py` (count verify), `scripts/db/purge_smds_controls.py` (full SMDS purge), `scripts/db/csf_extract_pro.py` + `scripts/db/pro_full_compare.py` (model comparison), `CSF_BATCH_BACKLOG.md` (batch status).
 
 ---
@@ -918,9 +937,10 @@ Local Dev (localhost:3100)
 
 | Version | Date | Changes |
 |---------|------|---------|
-| v1.12.2 | 2026-08-09 | **ISO International Standards SOP.** Added SOP-ISO-001 (`docs/iso/SOP-ISO-001 …md`) codifying the repeatable "map → gap-assess → report" method for managing the ISO International Standards PAs (ISO 9001:2015, 14001:2015, 45001:2018, 22301:2019). Discipline attribution (Everyone/AI/PS/OSH) on every requirement; Design-Effectiveness report format (Summary TOC table RequirementId·Requirement·Discipline·Comply·Link → What-went-well with collapsed control details → Gaps). Reference implementation: SMDS ICOP PMS (147 control→clause pairs, 43 mandatory). Design Philosophy principles #45–47; IMS Audit Philosophy §9. |
+| v1.12.3 | 2026-08-10 | **Report format v2 + discipline filter badges + IMS merged report.** Design-effectiveness reports refactored from separate-sections format (Summary TOC → What-went-well → Gaps) to a single expandable-row table with clickable filter badges (comply status + standard + discipline). Discipline badges (Everyone/AI/PS/OSH for PMS; QMS/EMS/OHSMS for ISO) are now interactive filters — clicking narrows the table to one discipline's clauses. Badges work in legend bars, cat-summary bars, and table cells via `toggleFilter` JS with `el.closest('table.summary')` fallback. IMS merged report (`IMS_DESIGN_EFFECTIVENESS.html`) consolidates all 4 standards into 7 IMS category tables with per-category filter badges and a consolidated Find & Act section. Design Philosophy principles #46–48 updated; IMS Audit Philosophy §9.2–9.4 updated. |
 | v1.12.1 | 2026-08-09 | **PMS cross-PA control mapping.** Added `mandatory Boolean @default(false)` to `MapControl2Requirement` (added via idempotent raw `ALTER TABLE ADD COLUMN IF NOT EXISTS` to avoid Prisma drift-drop). Marks controls that are essential (non-substitutable) to a specific requirement. Used to map the 5,055-control SMDS library to the 42 statutory ICOP PMS clauses (controls from other PAs anchored to the PMS requirement; MCR `processAreaId` = the control's own PA). Produces `SMDS PMS Gaps.md` + Design Effectiveness report. |
-| v1.0.0 | 2026-07-24 | Initial SAMS_APP_DESIGN.md created — comprehensive documentation of all design aspects |
+| v1.13.0 | 2026-08-13 | **KB→Control Parallel Reconciliation + Mapping v2 Design.** (1) **Parallel extraction pipeline** (`scripts/db/launch_shards.py`, `kb_control_reconcile.py`, `kb_reconcile_aggregate.py`, `parent_watchdog.py`): 20 shards × 2 process copies coordinated via new **`ReconcileClaim`** raw-SQL table (per-doc claim gate + `__launcher__` lease row with 5s heartbeat + stale reclaim; standby never exits; work-stealing sweep at tail; skip-don't-crash on network failures; per-doc commit). Result: SMDS control library grown to 23,586 controls (18,531 KB-derived NEW), 0 duplicate name rows, 0 × 429. (2) **`MapControl2Requirement.aiGenerated`** nullable boolean added via idempotent raw ALTER — flags AI-created mapping rows. (3) **Mapping v2 design grilled & confirmed:** backup + delete all 5,596 SMDS mappings, re-match all controls against all 881 SMDS requirements two-stage (token-overlap top-40 → AI confirm with justification, strong/weak tiering), mandatory boolean = mandatory/supporting, many-to-many, AI chunk 40 + commit per control, single supervisor with 30 workers, launch only after extraction completes. New docs: `docs/parallel-worker-coordination.md` (runbook) + `docs/adr/adr-coordinating-many-workers-db-claims.md`; 19-entry lessons log `/memories/lessons-learned-2026-08-13.md`. |
+| v1.13.1 | 2026-08-13 | **Reconciliation completion marker + Mapping v2 runner built.** (1) **`Knowledgebase.reconciledAt`** (idempotent raw ALTER) is now the authoritative "doc reconciled" marker — stamped in the same transaction after a doc completes with inserts AND/OR update-merges. `Control.practiceDocumentId` reverts to CREATOR-only semantics (stamped on INSERT, never on UPDATE) — update-stamping caused a 44-doc ownership ping-pong between docs that merge into the same controls. Backfill stamped 556/557 docs from evidence (control ownership or successful worklog); only 1 doc (SGN U1100 PRE-FURN) needed a real re-run. (2) **Mapping v2 runner built**: `scripts/db/kb_map_v2.py` (work unit = control; chunk 40/AI call with adaptive split; stage-1 token-overlap top-40 candidates from 873 eligible reqs; stage-2 AI strong/weak + justification; strong-only inserts capped at 5; weak → `kb_map_review.jsonl`; per-control claim/insert/commit/release; deterministic `map_smds_<md5>` ids; skip-don't-crash; DB reconnect-retry; work-stealing), `kb_map_aggregate.py` (unique-union + dbMapped), `kb_map_progress.html` rebuilt, `map_backup_clear.py` (export 5,596 rows to dbBackup/ then delete). `launch_shards.py` parameterized: `--worker-script/--aggregate-script/--log-prefix/--status-out/--dashboard-file/--extra-worker-args/--lease-id`. |
 | v1.0.1 | 2026-07-24 | Added `ProcessAreaList` component — groups PAs by Standard with collapsible sections on `/setup/process-areas` |
 | v1.0.2 | 2026-07-24 | Added `AssignedControlsList` component — 2-level PA→Req→Ctrl hierarchy for assessment assigned controls with inline effectiveness dropdowns, remove button, color-coded status, and mouseover tooltip showing full control statement |
 | v1.0.3 | 2026-07-24 | Sorting: Standards and ProcessAreas sorted alphabetically; Requirement IDs sorted by natural numeric order (1, 2, 3… not 1, 10, 11) with Unmapped Controls always last. Applied to both Select Controls and Assigned Controls panels. |
@@ -991,6 +1011,9 @@ Local Dev (localhost:3100)
 | APP_DESIGN_PowerPlatform.md | `01 Context and References/archive/seam-assurance-app/APP_DESIGN_PowerPlatform.md` | Power Platform companion design (archived) |
 | CONTEXT.md | `CONTEXT.md` (project root) | Sharpened domain glossary + design decisions |
 | ADRs | `sams-app/docs/adr/` | Architecture Decision Records |
+| Parallel Worker Coordination Runbook | `docs/parallel-worker-coordination.md` (project root) | Reusable method: DB lease + claim gate + standby + work-stealing + idempotency + monitoring + failure catalog |
+| ADR: DB-Claims Coordination | `docs/adr/adr-coordinating-many-workers-db-claims.md` | Why Postgres leases/claims beat file locks & process guards for 20+ workers |
+| Session Lessons (2026-08-13) | `/memories/lessons-learned-2026-08-13.md` | 19-entry failure catalog from the parallel extraction + mapping sessions |
 | Schema | `sams-app/prisma/schema.prisma` | Prisma schema (source of truth for DB) |
 | Gamification Design | `02 Design and Backup/SEAM_Process_Gamification_Design.md` | Full gamification design doc |
 | Backup Instructions | `/memories/repo/backup.md` | DB backup & restore procedures |

@@ -33,6 +33,7 @@ export type KnowledgebaseMinAggregateOutputType = {
   addedBy: string | null
   companyId: string | null
   processAreaId: string | null
+  reconciledAt: Date | null
 }
 
 export type KnowledgebaseMaxAggregateOutputType = {
@@ -44,6 +45,7 @@ export type KnowledgebaseMaxAggregateOutputType = {
   addedBy: string | null
   companyId: string | null
   processAreaId: string | null
+  reconciledAt: Date | null
 }
 
 export type KnowledgebaseCountAggregateOutputType = {
@@ -55,6 +57,7 @@ export type KnowledgebaseCountAggregateOutputType = {
   addedBy: number
   companyId: number
   processAreaId: number
+  reconciledAt: number
   _all: number
 }
 
@@ -68,6 +71,7 @@ export type KnowledgebaseMinAggregateInputType = {
   addedBy?: true
   companyId?: true
   processAreaId?: true
+  reconciledAt?: true
 }
 
 export type KnowledgebaseMaxAggregateInputType = {
@@ -79,6 +83,7 @@ export type KnowledgebaseMaxAggregateInputType = {
   addedBy?: true
   companyId?: true
   processAreaId?: true
+  reconciledAt?: true
 }
 
 export type KnowledgebaseCountAggregateInputType = {
@@ -90,6 +95,7 @@ export type KnowledgebaseCountAggregateInputType = {
   addedBy?: true
   companyId?: true
   processAreaId?: true
+  reconciledAt?: true
   _all?: true
 }
 
@@ -174,6 +180,7 @@ export type KnowledgebaseGroupByOutputType = {
   addedBy: string
   companyId: string | null
   processAreaId: string | null
+  reconciledAt: Date | null
   _count: KnowledgebaseCountAggregateOutputType | null
   _min: KnowledgebaseMinAggregateOutputType | null
   _max: KnowledgebaseMaxAggregateOutputType | null
@@ -206,6 +213,7 @@ export type KnowledgebaseWhereInput = {
   addedBy?: Prisma.StringFilter<"Knowledgebase"> | string
   companyId?: Prisma.StringNullableFilter<"Knowledgebase"> | string | null
   processAreaId?: Prisma.StringNullableFilter<"Knowledgebase"> | string | null
+  reconciledAt?: Prisma.DateTimeNullableFilter<"Knowledgebase"> | Date | string | null
 }
 
 export type KnowledgebaseOrderByWithRelationInput = {
@@ -217,6 +225,7 @@ export type KnowledgebaseOrderByWithRelationInput = {
   addedBy?: Prisma.SortOrder
   companyId?: Prisma.SortOrderInput | Prisma.SortOrder
   processAreaId?: Prisma.SortOrderInput | Prisma.SortOrder
+  reconciledAt?: Prisma.SortOrderInput | Prisma.SortOrder
 }
 
 export type KnowledgebaseWhereUniqueInput = Prisma.AtLeast<{
@@ -232,6 +241,7 @@ export type KnowledgebaseWhereUniqueInput = Prisma.AtLeast<{
   addedBy?: Prisma.StringFilter<"Knowledgebase"> | string
   companyId?: Prisma.StringNullableFilter<"Knowledgebase"> | string | null
   processAreaId?: Prisma.StringNullableFilter<"Knowledgebase"> | string | null
+  reconciledAt?: Prisma.DateTimeNullableFilter<"Knowledgebase"> | Date | string | null
 }, "kID" | "knowledgeName_companyId">
 
 export type KnowledgebaseOrderByWithAggregationInput = {
@@ -243,6 +253,7 @@ export type KnowledgebaseOrderByWithAggregationInput = {
   addedBy?: Prisma.SortOrder
   companyId?: Prisma.SortOrderInput | Prisma.SortOrder
   processAreaId?: Prisma.SortOrderInput | Prisma.SortOrder
+  reconciledAt?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.KnowledgebaseCountOrderByAggregateInput
   _max?: Prisma.KnowledgebaseMaxOrderByAggregateInput
   _min?: Prisma.KnowledgebaseMinOrderByAggregateInput
@@ -260,6 +271,7 @@ export type KnowledgebaseScalarWhereWithAggregatesInput = {
   addedBy?: Prisma.StringWithAggregatesFilter<"Knowledgebase"> | string
   companyId?: Prisma.StringNullableWithAggregatesFilter<"Knowledgebase"> | string | null
   processAreaId?: Prisma.StringNullableWithAggregatesFilter<"Knowledgebase"> | string | null
+  reconciledAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Knowledgebase"> | Date | string | null
 }
 
 export type KnowledgebaseCreateInput = {
@@ -271,6 +283,7 @@ export type KnowledgebaseCreateInput = {
   addedBy: string
   companyId?: string | null
   processAreaId?: string | null
+  reconciledAt?: Date | string | null
 }
 
 export type KnowledgebaseUncheckedCreateInput = {
@@ -282,6 +295,7 @@ export type KnowledgebaseUncheckedCreateInput = {
   addedBy: string
   companyId?: string | null
   processAreaId?: string | null
+  reconciledAt?: Date | string | null
 }
 
 export type KnowledgebaseUpdateInput = {
@@ -293,6 +307,7 @@ export type KnowledgebaseUpdateInput = {
   addedBy?: Prisma.StringFieldUpdateOperationsInput | string
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   processAreaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reconciledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type KnowledgebaseUncheckedUpdateInput = {
@@ -304,6 +319,7 @@ export type KnowledgebaseUncheckedUpdateInput = {
   addedBy?: Prisma.StringFieldUpdateOperationsInput | string
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   processAreaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reconciledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type KnowledgebaseCreateManyInput = {
@@ -315,6 +331,7 @@ export type KnowledgebaseCreateManyInput = {
   addedBy: string
   companyId?: string | null
   processAreaId?: string | null
+  reconciledAt?: Date | string | null
 }
 
 export type KnowledgebaseUpdateManyMutationInput = {
@@ -326,6 +343,7 @@ export type KnowledgebaseUpdateManyMutationInput = {
   addedBy?: Prisma.StringFieldUpdateOperationsInput | string
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   processAreaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reconciledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type KnowledgebaseUncheckedUpdateManyInput = {
@@ -337,6 +355,7 @@ export type KnowledgebaseUncheckedUpdateManyInput = {
   addedBy?: Prisma.StringFieldUpdateOperationsInput | string
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   processAreaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reconciledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type KnowledgebaseKnowledgeNameCompanyIdCompoundUniqueInput = {
@@ -353,6 +372,7 @@ export type KnowledgebaseCountOrderByAggregateInput = {
   addedBy?: Prisma.SortOrder
   companyId?: Prisma.SortOrder
   processAreaId?: Prisma.SortOrder
+  reconciledAt?: Prisma.SortOrder
 }
 
 export type KnowledgebaseMaxOrderByAggregateInput = {
@@ -364,6 +384,7 @@ export type KnowledgebaseMaxOrderByAggregateInput = {
   addedBy?: Prisma.SortOrder
   companyId?: Prisma.SortOrder
   processAreaId?: Prisma.SortOrder
+  reconciledAt?: Prisma.SortOrder
 }
 
 export type KnowledgebaseMinOrderByAggregateInput = {
@@ -375,6 +396,7 @@ export type KnowledgebaseMinOrderByAggregateInput = {
   addedBy?: Prisma.SortOrder
   companyId?: Prisma.SortOrder
   processAreaId?: Prisma.SortOrder
+  reconciledAt?: Prisma.SortOrder
 }
 
 
@@ -388,6 +410,7 @@ export type KnowledgebaseSelect<ExtArgs extends runtime.Types.Extensions.Interna
   addedBy?: boolean
   companyId?: boolean
   processAreaId?: boolean
+  reconciledAt?: boolean
 }, ExtArgs["result"]["knowledgebase"]>
 
 export type KnowledgebaseSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -399,6 +422,7 @@ export type KnowledgebaseSelectCreateManyAndReturn<ExtArgs extends runtime.Types
   addedBy?: boolean
   companyId?: boolean
   processAreaId?: boolean
+  reconciledAt?: boolean
 }, ExtArgs["result"]["knowledgebase"]>
 
 export type KnowledgebaseSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -410,6 +434,7 @@ export type KnowledgebaseSelectUpdateManyAndReturn<ExtArgs extends runtime.Types
   addedBy?: boolean
   companyId?: boolean
   processAreaId?: boolean
+  reconciledAt?: boolean
 }, ExtArgs["result"]["knowledgebase"]>
 
 export type KnowledgebaseSelectScalar = {
@@ -421,9 +446,10 @@ export type KnowledgebaseSelectScalar = {
   addedBy?: boolean
   companyId?: boolean
   processAreaId?: boolean
+  reconciledAt?: boolean
 }
 
-export type KnowledgebaseOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"kID" | "knowledgeName" | "knowledgeContent" | "remarks" | "createdDate" | "addedBy" | "companyId" | "processAreaId", ExtArgs["result"]["knowledgebase"]>
+export type KnowledgebaseOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"kID" | "knowledgeName" | "knowledgeContent" | "remarks" | "createdDate" | "addedBy" | "companyId" | "processAreaId" | "reconciledAt", ExtArgs["result"]["knowledgebase"]>
 
 export type $KnowledgebasePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Knowledgebase"
@@ -437,6 +463,11 @@ export type $KnowledgebasePayload<ExtArgs extends runtime.Types.Extensions.Inter
     addedBy: string
     companyId: string | null
     processAreaId: string | null
+    /**
+     * Authoritative marker that this KB doc was processed by the control
+     * reconciliation pipeline (set after inserts AND update-merges).
+     */
+    reconciledAt: Date | null
   }, ExtArgs["result"]["knowledgebase"]>
   composites: {}
 }
@@ -868,6 +899,7 @@ export interface KnowledgebaseFieldRefs {
   readonly addedBy: Prisma.FieldRef<"Knowledgebase", 'String'>
   readonly companyId: Prisma.FieldRef<"Knowledgebase", 'String'>
   readonly processAreaId: Prisma.FieldRef<"Knowledgebase", 'String'>
+  readonly reconciledAt: Prisma.FieldRef<"Knowledgebase", 'DateTime'>
 }
     
 

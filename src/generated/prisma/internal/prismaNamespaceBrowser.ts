@@ -113,7 +113,9 @@ export const ModelName = {
   AuditChecklistTemplate: 'AuditChecklistTemplate',
   AuditChecklistTemplateItem: 'AuditChecklistTemplateItem',
   AuditChecklistItem: 'AuditChecklistItem',
-  AssessmentChecklistControl: 'AssessmentChecklistControl'
+  AssessmentChecklistControl: 'AssessmentChecklistControl',
+  ReconcileClaim: 'ReconcileClaim',
+  RequirementCoverageAudit: 'RequirementCoverageAudit'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -284,6 +286,7 @@ export const ControlScalarFieldEnum = {
   isHsseCritical: 'isHsseCritical',
   ramRating: 'ramRating',
   riskWeight: 'riskWeight',
+  mappedAt: 'mappedAt',
   rawHealthScore: 'rawHealthScore',
   lastTestedDate: 'lastTestedDate',
   lastTestResult: 'lastTestResult',
@@ -359,6 +362,7 @@ export const AssessmentScalarFieldEnum = {
   loa: 'loa',
   status: 'status',
   companyId: 'companyId',
+  processAreaId: 'processAreaId',
   createdAt: 'createdAt',
   objective: 'objective',
   scope: 'scope',
@@ -782,7 +786,8 @@ export const KnowledgebaseScalarFieldEnum = {
   createdDate: 'createdDate',
   addedBy: 'addedBy',
   companyId: 'companyId',
-  processAreaId: 'processAreaId'
+  processAreaId: 'processAreaId',
+  reconciledAt: 'reconciledAt'
 } as const
 
 export type KnowledgebaseScalarFieldEnum = (typeof KnowledgebaseScalarFieldEnum)[keyof typeof KnowledgebaseScalarFieldEnum]
@@ -825,6 +830,7 @@ export const MapControl2RequirementScalarFieldEnum = {
   requirementRId: 'requirementRId',
   processAreaId: 'processAreaId',
   mandatory: 'mandatory',
+  aiGenerated: 'aiGenerated',
   createdAt: 'createdAt'
 } as const
 
@@ -1092,6 +1098,37 @@ export const AssessmentChecklistControlScalarFieldEnum = {
 } as const
 
 export type AssessmentChecklistControlScalarFieldEnum = (typeof AssessmentChecklistControlScalarFieldEnum)[keyof typeof AssessmentChecklistControlScalarFieldEnum]
+
+
+export const ReconcileClaimScalarFieldEnum = {
+  kbId: 'kbId',
+  shard: 'shard',
+  claimedAt: 'claimedAt',
+  heartbeatAt: 'heartbeatAt'
+} as const
+
+export type ReconcileClaimScalarFieldEnum = (typeof ReconcileClaimScalarFieldEnum)[keyof typeof ReconcileClaimScalarFieldEnum]
+
+
+export const RequirementCoverageAuditScalarFieldEnum = {
+  id: 'id',
+  companyId: 'companyId',
+  processAreaId: 'processAreaId',
+  requirementRId: 'requirementRId',
+  requirementId: 'requirementId',
+  standard: 'standard',
+  verdict: 'verdict',
+  howMetEvidence: 'howMetEvidence',
+  gapAnalysis: 'gapAnalysis',
+  proposedControlStatement: 'proposedControlStatement',
+  mappedControlCount: 'mappedControlCount',
+  aiGenerated: 'aiGenerated',
+  modelName: 'modelName',
+  worker: 'worker',
+  covAt: 'covAt'
+} as const
+
+export type RequirementCoverageAuditScalarFieldEnum = (typeof RequirementCoverageAuditScalarFieldEnum)[keyof typeof RequirementCoverageAuditScalarFieldEnum]
 
 
 export const SortOrder = {

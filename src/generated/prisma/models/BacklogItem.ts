@@ -757,10 +757,6 @@ export type NullableEnumDevelopmentStageFieldUpdateOperationsInput = {
   set?: $Enums.DevelopmentStage | null
 }
 
-export type NullableBoolFieldUpdateOperationsInput = {
-  set?: boolean | null
-}
-
 export type NullableEnumPIPStatusFieldUpdateOperationsInput = {
   set?: $Enums.PIPStatus | null
 }

@@ -34,6 +34,7 @@ export type AssessmentMinAggregateOutputType = {
   loa: $Enums.LOA | null
   status: $Enums.AssessmentStatus | null
   companyId: string | null
+  processAreaId: string | null
   createdAt: Date | null
   objective: string | null
   scope: string | null
@@ -53,6 +54,7 @@ export type AssessmentMaxAggregateOutputType = {
   loa: $Enums.LOA | null
   status: $Enums.AssessmentStatus | null
   companyId: string | null
+  processAreaId: string | null
   createdAt: Date | null
   objective: string | null
   scope: string | null
@@ -72,6 +74,7 @@ export type AssessmentCountAggregateOutputType = {
   loa: number
   status: number
   companyId: number
+  processAreaId: number
   createdAt: number
   objective: number
   scope: number
@@ -93,6 +96,7 @@ export type AssessmentMinAggregateInputType = {
   loa?: true
   status?: true
   companyId?: true
+  processAreaId?: true
   createdAt?: true
   objective?: true
   scope?: true
@@ -112,6 +116,7 @@ export type AssessmentMaxAggregateInputType = {
   loa?: true
   status?: true
   companyId?: true
+  processAreaId?: true
   createdAt?: true
   objective?: true
   scope?: true
@@ -131,6 +136,7 @@ export type AssessmentCountAggregateInputType = {
   loa?: true
   status?: true
   companyId?: true
+  processAreaId?: true
   createdAt?: true
   objective?: true
   scope?: true
@@ -223,6 +229,7 @@ export type AssessmentGroupByOutputType = {
   loa: $Enums.LOA
   status: $Enums.AssessmentStatus
   companyId: string | null
+  processAreaId: string | null
   createdAt: Date
   objective: string | null
   scope: string | null
@@ -263,6 +270,7 @@ export type AssessmentWhereInput = {
   loa?: Prisma.EnumLOAFilter<"Assessment"> | $Enums.LOA
   status?: Prisma.EnumAssessmentStatusFilter<"Assessment"> | $Enums.AssessmentStatus
   companyId?: Prisma.StringNullableFilter<"Assessment"> | string | null
+  processAreaId?: Prisma.StringNullableFilter<"Assessment"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Assessment"> | Date | string
   objective?: Prisma.StringNullableFilter<"Assessment"> | string | null
   scope?: Prisma.StringNullableFilter<"Assessment"> | string | null
@@ -272,6 +280,7 @@ export type AssessmentWhereInput = {
   reportIssueDate?: Prisma.DateTimeNullableFilter<"Assessment"> | Date | string | null
   assessor?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   activityType?: Prisma.XOR<Prisma.AssuranceActivityTypeScalarRelationFilter, Prisma.AssuranceActivityTypeWhereInput>
+  processArea?: Prisma.XOR<Prisma.ProcessAreaNullableScalarRelationFilter, Prisma.ProcessAreaWhereInput> | null
   controlAssignments?: Prisma.ControlAssignmentListRelationFilter
   samples?: Prisma.SampleListRelationFilter
   findings?: Prisma.FindingListRelationFilter
@@ -292,6 +301,7 @@ export type AssessmentOrderByWithRelationInput = {
   loa?: Prisma.SortOrder
   status?: Prisma.SortOrder
   companyId?: Prisma.SortOrderInput | Prisma.SortOrder
+  processAreaId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   objective?: Prisma.SortOrderInput | Prisma.SortOrder
   scope?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -301,6 +311,7 @@ export type AssessmentOrderByWithRelationInput = {
   reportIssueDate?: Prisma.SortOrderInput | Prisma.SortOrder
   assessor?: Prisma.UserOrderByWithRelationInput
   activityType?: Prisma.AssuranceActivityTypeOrderByWithRelationInput
+  processArea?: Prisma.ProcessAreaOrderByWithRelationInput
   controlAssignments?: Prisma.ControlAssignmentOrderByRelationAggregateInput
   samples?: Prisma.SampleOrderByRelationAggregateInput
   findings?: Prisma.FindingOrderByRelationAggregateInput
@@ -324,6 +335,7 @@ export type AssessmentWhereUniqueInput = Prisma.AtLeast<{
   loa?: Prisma.EnumLOAFilter<"Assessment"> | $Enums.LOA
   status?: Prisma.EnumAssessmentStatusFilter<"Assessment"> | $Enums.AssessmentStatus
   companyId?: Prisma.StringNullableFilter<"Assessment"> | string | null
+  processAreaId?: Prisma.StringNullableFilter<"Assessment"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Assessment"> | Date | string
   objective?: Prisma.StringNullableFilter<"Assessment"> | string | null
   scope?: Prisma.StringNullableFilter<"Assessment"> | string | null
@@ -333,6 +345,7 @@ export type AssessmentWhereUniqueInput = Prisma.AtLeast<{
   reportIssueDate?: Prisma.DateTimeNullableFilter<"Assessment"> | Date | string | null
   assessor?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   activityType?: Prisma.XOR<Prisma.AssuranceActivityTypeScalarRelationFilter, Prisma.AssuranceActivityTypeWhereInput>
+  processArea?: Prisma.XOR<Prisma.ProcessAreaNullableScalarRelationFilter, Prisma.ProcessAreaWhereInput> | null
   controlAssignments?: Prisma.ControlAssignmentListRelationFilter
   samples?: Prisma.SampleListRelationFilter
   findings?: Prisma.FindingListRelationFilter
@@ -353,6 +366,7 @@ export type AssessmentOrderByWithAggregationInput = {
   loa?: Prisma.SortOrder
   status?: Prisma.SortOrder
   companyId?: Prisma.SortOrderInput | Prisma.SortOrder
+  processAreaId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   objective?: Prisma.SortOrderInput | Prisma.SortOrder
   scope?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -378,6 +392,7 @@ export type AssessmentScalarWhereWithAggregatesInput = {
   loa?: Prisma.EnumLOAWithAggregatesFilter<"Assessment"> | $Enums.LOA
   status?: Prisma.EnumAssessmentStatusWithAggregatesFilter<"Assessment"> | $Enums.AssessmentStatus
   companyId?: Prisma.StringNullableWithAggregatesFilter<"Assessment"> | string | null
+  processAreaId?: Prisma.StringNullableWithAggregatesFilter<"Assessment"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Assessment"> | Date | string
   objective?: Prisma.StringNullableWithAggregatesFilter<"Assessment"> | string | null
   scope?: Prisma.StringNullableWithAggregatesFilter<"Assessment"> | string | null
@@ -404,6 +419,7 @@ export type AssessmentCreateInput = {
   reportIssueDate?: Date | string | null
   assessor: Prisma.UserCreateNestedOneWithoutAssessmentsInput
   activityType: Prisma.AssuranceActivityTypeCreateNestedOneWithoutAssessmentsInput
+  processArea?: Prisma.ProcessAreaCreateNestedOneWithoutAssessmentsInput
   controlAssignments?: Prisma.ControlAssignmentCreateNestedManyWithoutAssessmentInput
   samples?: Prisma.SampleCreateNestedManyWithoutAssessmentInput
   findings?: Prisma.FindingCreateNestedManyWithoutAssessmentInput
@@ -424,6 +440,7 @@ export type AssessmentUncheckedCreateInput = {
   loa: $Enums.LOA
   status?: $Enums.AssessmentStatus
   companyId?: string | null
+  processAreaId?: string | null
   createdAt?: Date | string
   objective?: string | null
   scope?: string | null
@@ -458,6 +475,7 @@ export type AssessmentUpdateInput = {
   reportIssueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   assessor?: Prisma.UserUpdateOneRequiredWithoutAssessmentsNestedInput
   activityType?: Prisma.AssuranceActivityTypeUpdateOneRequiredWithoutAssessmentsNestedInput
+  processArea?: Prisma.ProcessAreaUpdateOneWithoutAssessmentsNestedInput
   controlAssignments?: Prisma.ControlAssignmentUpdateManyWithoutAssessmentNestedInput
   samples?: Prisma.SampleUpdateManyWithoutAssessmentNestedInput
   findings?: Prisma.FindingUpdateManyWithoutAssessmentNestedInput
@@ -478,6 +496,7 @@ export type AssessmentUncheckedUpdateInput = {
   loa?: Prisma.EnumLOAFieldUpdateOperationsInput | $Enums.LOA
   status?: Prisma.EnumAssessmentStatusFieldUpdateOperationsInput | $Enums.AssessmentStatus
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  processAreaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   objective?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   scope?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -505,6 +524,7 @@ export type AssessmentCreateManyInput = {
   loa: $Enums.LOA
   status?: $Enums.AssessmentStatus
   companyId?: string | null
+  processAreaId?: string | null
   createdAt?: Date | string
   objective?: string | null
   scope?: string | null
@@ -541,6 +561,7 @@ export type AssessmentUncheckedUpdateManyInput = {
   loa?: Prisma.EnumLOAFieldUpdateOperationsInput | $Enums.LOA
   status?: Prisma.EnumAssessmentStatusFieldUpdateOperationsInput | $Enums.AssessmentStatus
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  processAreaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   objective?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   scope?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -570,6 +591,7 @@ export type AssessmentCountOrderByAggregateInput = {
   loa?: Prisma.SortOrder
   status?: Prisma.SortOrder
   companyId?: Prisma.SortOrder
+  processAreaId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   objective?: Prisma.SortOrder
   scope?: Prisma.SortOrder
@@ -589,6 +611,7 @@ export type AssessmentMaxOrderByAggregateInput = {
   loa?: Prisma.SortOrder
   status?: Prisma.SortOrder
   companyId?: Prisma.SortOrder
+  processAreaId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   objective?: Prisma.SortOrder
   scope?: Prisma.SortOrder
@@ -608,6 +631,7 @@ export type AssessmentMinOrderByAggregateInput = {
   loa?: Prisma.SortOrder
   status?: Prisma.SortOrder
   companyId?: Prisma.SortOrder
+  processAreaId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   objective?: Prisma.SortOrder
   scope?: Prisma.SortOrder
@@ -703,6 +727,48 @@ export type AssessmentUncheckedUpdateManyWithoutActivityTypeNestedInput = {
   connect?: Prisma.AssessmentWhereUniqueInput | Prisma.AssessmentWhereUniqueInput[]
   update?: Prisma.AssessmentUpdateWithWhereUniqueWithoutActivityTypeInput | Prisma.AssessmentUpdateWithWhereUniqueWithoutActivityTypeInput[]
   updateMany?: Prisma.AssessmentUpdateManyWithWhereWithoutActivityTypeInput | Prisma.AssessmentUpdateManyWithWhereWithoutActivityTypeInput[]
+  deleteMany?: Prisma.AssessmentScalarWhereInput | Prisma.AssessmentScalarWhereInput[]
+}
+
+export type AssessmentCreateNestedManyWithoutProcessAreaInput = {
+  create?: Prisma.XOR<Prisma.AssessmentCreateWithoutProcessAreaInput, Prisma.AssessmentUncheckedCreateWithoutProcessAreaInput> | Prisma.AssessmentCreateWithoutProcessAreaInput[] | Prisma.AssessmentUncheckedCreateWithoutProcessAreaInput[]
+  connectOrCreate?: Prisma.AssessmentCreateOrConnectWithoutProcessAreaInput | Prisma.AssessmentCreateOrConnectWithoutProcessAreaInput[]
+  createMany?: Prisma.AssessmentCreateManyProcessAreaInputEnvelope
+  connect?: Prisma.AssessmentWhereUniqueInput | Prisma.AssessmentWhereUniqueInput[]
+}
+
+export type AssessmentUncheckedCreateNestedManyWithoutProcessAreaInput = {
+  create?: Prisma.XOR<Prisma.AssessmentCreateWithoutProcessAreaInput, Prisma.AssessmentUncheckedCreateWithoutProcessAreaInput> | Prisma.AssessmentCreateWithoutProcessAreaInput[] | Prisma.AssessmentUncheckedCreateWithoutProcessAreaInput[]
+  connectOrCreate?: Prisma.AssessmentCreateOrConnectWithoutProcessAreaInput | Prisma.AssessmentCreateOrConnectWithoutProcessAreaInput[]
+  createMany?: Prisma.AssessmentCreateManyProcessAreaInputEnvelope
+  connect?: Prisma.AssessmentWhereUniqueInput | Prisma.AssessmentWhereUniqueInput[]
+}
+
+export type AssessmentUpdateManyWithoutProcessAreaNestedInput = {
+  create?: Prisma.XOR<Prisma.AssessmentCreateWithoutProcessAreaInput, Prisma.AssessmentUncheckedCreateWithoutProcessAreaInput> | Prisma.AssessmentCreateWithoutProcessAreaInput[] | Prisma.AssessmentUncheckedCreateWithoutProcessAreaInput[]
+  connectOrCreate?: Prisma.AssessmentCreateOrConnectWithoutProcessAreaInput | Prisma.AssessmentCreateOrConnectWithoutProcessAreaInput[]
+  upsert?: Prisma.AssessmentUpsertWithWhereUniqueWithoutProcessAreaInput | Prisma.AssessmentUpsertWithWhereUniqueWithoutProcessAreaInput[]
+  createMany?: Prisma.AssessmentCreateManyProcessAreaInputEnvelope
+  set?: Prisma.AssessmentWhereUniqueInput | Prisma.AssessmentWhereUniqueInput[]
+  disconnect?: Prisma.AssessmentWhereUniqueInput | Prisma.AssessmentWhereUniqueInput[]
+  delete?: Prisma.AssessmentWhereUniqueInput | Prisma.AssessmentWhereUniqueInput[]
+  connect?: Prisma.AssessmentWhereUniqueInput | Prisma.AssessmentWhereUniqueInput[]
+  update?: Prisma.AssessmentUpdateWithWhereUniqueWithoutProcessAreaInput | Prisma.AssessmentUpdateWithWhereUniqueWithoutProcessAreaInput[]
+  updateMany?: Prisma.AssessmentUpdateManyWithWhereWithoutProcessAreaInput | Prisma.AssessmentUpdateManyWithWhereWithoutProcessAreaInput[]
+  deleteMany?: Prisma.AssessmentScalarWhereInput | Prisma.AssessmentScalarWhereInput[]
+}
+
+export type AssessmentUncheckedUpdateManyWithoutProcessAreaNestedInput = {
+  create?: Prisma.XOR<Prisma.AssessmentCreateWithoutProcessAreaInput, Prisma.AssessmentUncheckedCreateWithoutProcessAreaInput> | Prisma.AssessmentCreateWithoutProcessAreaInput[] | Prisma.AssessmentUncheckedCreateWithoutProcessAreaInput[]
+  connectOrCreate?: Prisma.AssessmentCreateOrConnectWithoutProcessAreaInput | Prisma.AssessmentCreateOrConnectWithoutProcessAreaInput[]
+  upsert?: Prisma.AssessmentUpsertWithWhereUniqueWithoutProcessAreaInput | Prisma.AssessmentUpsertWithWhereUniqueWithoutProcessAreaInput[]
+  createMany?: Prisma.AssessmentCreateManyProcessAreaInputEnvelope
+  set?: Prisma.AssessmentWhereUniqueInput | Prisma.AssessmentWhereUniqueInput[]
+  disconnect?: Prisma.AssessmentWhereUniqueInput | Prisma.AssessmentWhereUniqueInput[]
+  delete?: Prisma.AssessmentWhereUniqueInput | Prisma.AssessmentWhereUniqueInput[]
+  connect?: Prisma.AssessmentWhereUniqueInput | Prisma.AssessmentWhereUniqueInput[]
+  update?: Prisma.AssessmentUpdateWithWhereUniqueWithoutProcessAreaInput | Prisma.AssessmentUpdateWithWhereUniqueWithoutProcessAreaInput[]
+  updateMany?: Prisma.AssessmentUpdateManyWithWhereWithoutProcessAreaInput | Prisma.AssessmentUpdateManyWithWhereWithoutProcessAreaInput[]
   deleteMany?: Prisma.AssessmentScalarWhereInput | Prisma.AssessmentScalarWhereInput[]
 }
 
@@ -838,6 +904,7 @@ export type AssessmentCreateWithoutAssessorInput = {
   keyFocus?: string | null
   reportIssueDate?: Date | string | null
   activityType: Prisma.AssuranceActivityTypeCreateNestedOneWithoutAssessmentsInput
+  processArea?: Prisma.ProcessAreaCreateNestedOneWithoutAssessmentsInput
   controlAssignments?: Prisma.ControlAssignmentCreateNestedManyWithoutAssessmentInput
   samples?: Prisma.SampleCreateNestedManyWithoutAssessmentInput
   findings?: Prisma.FindingCreateNestedManyWithoutAssessmentInput
@@ -857,6 +924,7 @@ export type AssessmentUncheckedCreateWithoutAssessorInput = {
   loa: $Enums.LOA
   status?: $Enums.AssessmentStatus
   companyId?: string | null
+  processAreaId?: string | null
   createdAt?: Date | string
   objective?: string | null
   scope?: string | null
@@ -913,6 +981,7 @@ export type AssessmentScalarWhereInput = {
   loa?: Prisma.EnumLOAFilter<"Assessment"> | $Enums.LOA
   status?: Prisma.EnumAssessmentStatusFilter<"Assessment"> | $Enums.AssessmentStatus
   companyId?: Prisma.StringNullableFilter<"Assessment"> | string | null
+  processAreaId?: Prisma.StringNullableFilter<"Assessment"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Assessment"> | Date | string
   objective?: Prisma.StringNullableFilter<"Assessment"> | string | null
   scope?: Prisma.StringNullableFilter<"Assessment"> | string | null
@@ -938,6 +1007,7 @@ export type AssessmentCreateWithoutActivityTypeInput = {
   keyFocus?: string | null
   reportIssueDate?: Date | string | null
   assessor: Prisma.UserCreateNestedOneWithoutAssessmentsInput
+  processArea?: Prisma.ProcessAreaCreateNestedOneWithoutAssessmentsInput
   controlAssignments?: Prisma.ControlAssignmentCreateNestedManyWithoutAssessmentInput
   samples?: Prisma.SampleCreateNestedManyWithoutAssessmentInput
   findings?: Prisma.FindingCreateNestedManyWithoutAssessmentInput
@@ -957,6 +1027,7 @@ export type AssessmentUncheckedCreateWithoutActivityTypeInput = {
   loa: $Enums.LOA
   status?: $Enums.AssessmentStatus
   companyId?: string | null
+  processAreaId?: string | null
   createdAt?: Date | string
   objective?: string | null
   scope?: string | null
@@ -1000,7 +1071,7 @@ export type AssessmentUpdateManyWithWhereWithoutActivityTypeInput = {
   data: Prisma.XOR<Prisma.AssessmentUpdateManyMutationInput, Prisma.AssessmentUncheckedUpdateManyWithoutActivityTypeInput>
 }
 
-export type AssessmentCreateWithoutAssessorLinksInput = {
+export type AssessmentCreateWithoutProcessAreaInput = {
   id?: string
   name: string
   startDate: Date | string
@@ -1021,6 +1092,87 @@ export type AssessmentCreateWithoutAssessorLinksInput = {
   samples?: Prisma.SampleCreateNestedManyWithoutAssessmentInput
   findings?: Prisma.FindingCreateNestedManyWithoutAssessmentInput
   aacts?: Prisma.AactCreateNestedManyWithoutAssessmentInput
+  assessorLinks?: Prisma.AssessmentAssessorCreateNestedManyWithoutAssessmentInput
+  checklistItems?: Prisma.AuditChecklistItemCreateNestedManyWithoutAssessmentInput
+  checklistControlLinks?: Prisma.AssessmentChecklistControlCreateNestedManyWithoutAssessmentInput
+  requirementConclusions?: Prisma.RequirementConclusionCreateNestedManyWithoutAssessmentInput
+}
+
+export type AssessmentUncheckedCreateWithoutProcessAreaInput = {
+  id?: string
+  activityTypeId: string
+  name: string
+  assessorId: string
+  startDate: Date | string
+  endDate?: Date | string | null
+  loa: $Enums.LOA
+  status?: $Enums.AssessmentStatus
+  companyId?: string | null
+  createdAt?: Date | string
+  objective?: string | null
+  scope?: string | null
+  sponsor?: string | null
+  methodology?: string | null
+  keyFocus?: string | null
+  reportIssueDate?: Date | string | null
+  controlAssignments?: Prisma.ControlAssignmentUncheckedCreateNestedManyWithoutAssessmentInput
+  samples?: Prisma.SampleUncheckedCreateNestedManyWithoutAssessmentInput
+  findings?: Prisma.FindingUncheckedCreateNestedManyWithoutAssessmentInput
+  aacts?: Prisma.AactUncheckedCreateNestedManyWithoutAssessmentInput
+  assessorLinks?: Prisma.AssessmentAssessorUncheckedCreateNestedManyWithoutAssessmentInput
+  checklistItems?: Prisma.AuditChecklistItemUncheckedCreateNestedManyWithoutAssessmentInput
+  checklistControlLinks?: Prisma.AssessmentChecklistControlUncheckedCreateNestedManyWithoutAssessmentInput
+  requirementConclusions?: Prisma.RequirementConclusionUncheckedCreateNestedManyWithoutAssessmentInput
+}
+
+export type AssessmentCreateOrConnectWithoutProcessAreaInput = {
+  where: Prisma.AssessmentWhereUniqueInput
+  create: Prisma.XOR<Prisma.AssessmentCreateWithoutProcessAreaInput, Prisma.AssessmentUncheckedCreateWithoutProcessAreaInput>
+}
+
+export type AssessmentCreateManyProcessAreaInputEnvelope = {
+  data: Prisma.AssessmentCreateManyProcessAreaInput | Prisma.AssessmentCreateManyProcessAreaInput[]
+  skipDuplicates?: boolean
+}
+
+export type AssessmentUpsertWithWhereUniqueWithoutProcessAreaInput = {
+  where: Prisma.AssessmentWhereUniqueInput
+  update: Prisma.XOR<Prisma.AssessmentUpdateWithoutProcessAreaInput, Prisma.AssessmentUncheckedUpdateWithoutProcessAreaInput>
+  create: Prisma.XOR<Prisma.AssessmentCreateWithoutProcessAreaInput, Prisma.AssessmentUncheckedCreateWithoutProcessAreaInput>
+}
+
+export type AssessmentUpdateWithWhereUniqueWithoutProcessAreaInput = {
+  where: Prisma.AssessmentWhereUniqueInput
+  data: Prisma.XOR<Prisma.AssessmentUpdateWithoutProcessAreaInput, Prisma.AssessmentUncheckedUpdateWithoutProcessAreaInput>
+}
+
+export type AssessmentUpdateManyWithWhereWithoutProcessAreaInput = {
+  where: Prisma.AssessmentScalarWhereInput
+  data: Prisma.XOR<Prisma.AssessmentUpdateManyMutationInput, Prisma.AssessmentUncheckedUpdateManyWithoutProcessAreaInput>
+}
+
+export type AssessmentCreateWithoutAssessorLinksInput = {
+  id?: string
+  name: string
+  startDate: Date | string
+  endDate?: Date | string | null
+  loa: $Enums.LOA
+  status?: $Enums.AssessmentStatus
+  companyId?: string | null
+  createdAt?: Date | string
+  objective?: string | null
+  scope?: string | null
+  sponsor?: string | null
+  methodology?: string | null
+  keyFocus?: string | null
+  reportIssueDate?: Date | string | null
+  assessor: Prisma.UserCreateNestedOneWithoutAssessmentsInput
+  activityType: Prisma.AssuranceActivityTypeCreateNestedOneWithoutAssessmentsInput
+  processArea?: Prisma.ProcessAreaCreateNestedOneWithoutAssessmentsInput
+  controlAssignments?: Prisma.ControlAssignmentCreateNestedManyWithoutAssessmentInput
+  samples?: Prisma.SampleCreateNestedManyWithoutAssessmentInput
+  findings?: Prisma.FindingCreateNestedManyWithoutAssessmentInput
+  aacts?: Prisma.AactCreateNestedManyWithoutAssessmentInput
   checklistItems?: Prisma.AuditChecklistItemCreateNestedManyWithoutAssessmentInput
   checklistControlLinks?: Prisma.AssessmentChecklistControlCreateNestedManyWithoutAssessmentInput
   requirementConclusions?: Prisma.RequirementConclusionCreateNestedManyWithoutAssessmentInput
@@ -1036,6 +1188,7 @@ export type AssessmentUncheckedCreateWithoutAssessorLinksInput = {
   loa: $Enums.LOA
   status?: $Enums.AssessmentStatus
   companyId?: string | null
+  processAreaId?: string | null
   createdAt?: Date | string
   objective?: string | null
   scope?: string | null
@@ -1085,6 +1238,7 @@ export type AssessmentUpdateWithoutAssessorLinksInput = {
   reportIssueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   assessor?: Prisma.UserUpdateOneRequiredWithoutAssessmentsNestedInput
   activityType?: Prisma.AssuranceActivityTypeUpdateOneRequiredWithoutAssessmentsNestedInput
+  processArea?: Prisma.ProcessAreaUpdateOneWithoutAssessmentsNestedInput
   controlAssignments?: Prisma.ControlAssignmentUpdateManyWithoutAssessmentNestedInput
   samples?: Prisma.SampleUpdateManyWithoutAssessmentNestedInput
   findings?: Prisma.FindingUpdateManyWithoutAssessmentNestedInput
@@ -1104,6 +1258,7 @@ export type AssessmentUncheckedUpdateWithoutAssessorLinksInput = {
   loa?: Prisma.EnumLOAFieldUpdateOperationsInput | $Enums.LOA
   status?: Prisma.EnumAssessmentStatusFieldUpdateOperationsInput | $Enums.AssessmentStatus
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  processAreaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   objective?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   scope?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1137,6 +1292,7 @@ export type AssessmentCreateWithoutControlAssignmentsInput = {
   reportIssueDate?: Date | string | null
   assessor: Prisma.UserCreateNestedOneWithoutAssessmentsInput
   activityType: Prisma.AssuranceActivityTypeCreateNestedOneWithoutAssessmentsInput
+  processArea?: Prisma.ProcessAreaCreateNestedOneWithoutAssessmentsInput
   samples?: Prisma.SampleCreateNestedManyWithoutAssessmentInput
   findings?: Prisma.FindingCreateNestedManyWithoutAssessmentInput
   aacts?: Prisma.AactCreateNestedManyWithoutAssessmentInput
@@ -1156,6 +1312,7 @@ export type AssessmentUncheckedCreateWithoutControlAssignmentsInput = {
   loa: $Enums.LOA
   status?: $Enums.AssessmentStatus
   companyId?: string | null
+  processAreaId?: string | null
   createdAt?: Date | string
   objective?: string | null
   scope?: string | null
@@ -1205,6 +1362,7 @@ export type AssessmentUpdateWithoutControlAssignmentsInput = {
   reportIssueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   assessor?: Prisma.UserUpdateOneRequiredWithoutAssessmentsNestedInput
   activityType?: Prisma.AssuranceActivityTypeUpdateOneRequiredWithoutAssessmentsNestedInput
+  processArea?: Prisma.ProcessAreaUpdateOneWithoutAssessmentsNestedInput
   samples?: Prisma.SampleUpdateManyWithoutAssessmentNestedInput
   findings?: Prisma.FindingUpdateManyWithoutAssessmentNestedInput
   aacts?: Prisma.AactUpdateManyWithoutAssessmentNestedInput
@@ -1224,6 +1382,7 @@ export type AssessmentUncheckedUpdateWithoutControlAssignmentsInput = {
   loa?: Prisma.EnumLOAFieldUpdateOperationsInput | $Enums.LOA
   status?: Prisma.EnumAssessmentStatusFieldUpdateOperationsInput | $Enums.AssessmentStatus
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  processAreaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   objective?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   scope?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1257,6 +1416,7 @@ export type AssessmentCreateWithoutRequirementConclusionsInput = {
   reportIssueDate?: Date | string | null
   assessor: Prisma.UserCreateNestedOneWithoutAssessmentsInput
   activityType: Prisma.AssuranceActivityTypeCreateNestedOneWithoutAssessmentsInput
+  processArea?: Prisma.ProcessAreaCreateNestedOneWithoutAssessmentsInput
   controlAssignments?: Prisma.ControlAssignmentCreateNestedManyWithoutAssessmentInput
   samples?: Prisma.SampleCreateNestedManyWithoutAssessmentInput
   findings?: Prisma.FindingCreateNestedManyWithoutAssessmentInput
@@ -1276,6 +1436,7 @@ export type AssessmentUncheckedCreateWithoutRequirementConclusionsInput = {
   loa: $Enums.LOA
   status?: $Enums.AssessmentStatus
   companyId?: string | null
+  processAreaId?: string | null
   createdAt?: Date | string
   objective?: string | null
   scope?: string | null
@@ -1325,6 +1486,7 @@ export type AssessmentUpdateWithoutRequirementConclusionsInput = {
   reportIssueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   assessor?: Prisma.UserUpdateOneRequiredWithoutAssessmentsNestedInput
   activityType?: Prisma.AssuranceActivityTypeUpdateOneRequiredWithoutAssessmentsNestedInput
+  processArea?: Prisma.ProcessAreaUpdateOneWithoutAssessmentsNestedInput
   controlAssignments?: Prisma.ControlAssignmentUpdateManyWithoutAssessmentNestedInput
   samples?: Prisma.SampleUpdateManyWithoutAssessmentNestedInput
   findings?: Prisma.FindingUpdateManyWithoutAssessmentNestedInput
@@ -1344,6 +1506,7 @@ export type AssessmentUncheckedUpdateWithoutRequirementConclusionsInput = {
   loa?: Prisma.EnumLOAFieldUpdateOperationsInput | $Enums.LOA
   status?: Prisma.EnumAssessmentStatusFieldUpdateOperationsInput | $Enums.AssessmentStatus
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  processAreaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   objective?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   scope?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1377,6 +1540,7 @@ export type AssessmentCreateWithoutSamplesInput = {
   reportIssueDate?: Date | string | null
   assessor: Prisma.UserCreateNestedOneWithoutAssessmentsInput
   activityType: Prisma.AssuranceActivityTypeCreateNestedOneWithoutAssessmentsInput
+  processArea?: Prisma.ProcessAreaCreateNestedOneWithoutAssessmentsInput
   controlAssignments?: Prisma.ControlAssignmentCreateNestedManyWithoutAssessmentInput
   findings?: Prisma.FindingCreateNestedManyWithoutAssessmentInput
   aacts?: Prisma.AactCreateNestedManyWithoutAssessmentInput
@@ -1396,6 +1560,7 @@ export type AssessmentUncheckedCreateWithoutSamplesInput = {
   loa: $Enums.LOA
   status?: $Enums.AssessmentStatus
   companyId?: string | null
+  processAreaId?: string | null
   createdAt?: Date | string
   objective?: string | null
   scope?: string | null
@@ -1445,6 +1610,7 @@ export type AssessmentUpdateWithoutSamplesInput = {
   reportIssueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   assessor?: Prisma.UserUpdateOneRequiredWithoutAssessmentsNestedInput
   activityType?: Prisma.AssuranceActivityTypeUpdateOneRequiredWithoutAssessmentsNestedInput
+  processArea?: Prisma.ProcessAreaUpdateOneWithoutAssessmentsNestedInput
   controlAssignments?: Prisma.ControlAssignmentUpdateManyWithoutAssessmentNestedInput
   findings?: Prisma.FindingUpdateManyWithoutAssessmentNestedInput
   aacts?: Prisma.AactUpdateManyWithoutAssessmentNestedInput
@@ -1464,6 +1630,7 @@ export type AssessmentUncheckedUpdateWithoutSamplesInput = {
   loa?: Prisma.EnumLOAFieldUpdateOperationsInput | $Enums.LOA
   status?: Prisma.EnumAssessmentStatusFieldUpdateOperationsInput | $Enums.AssessmentStatus
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  processAreaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   objective?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   scope?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1497,6 +1664,7 @@ export type AssessmentCreateWithoutFindingsInput = {
   reportIssueDate?: Date | string | null
   assessor: Prisma.UserCreateNestedOneWithoutAssessmentsInput
   activityType: Prisma.AssuranceActivityTypeCreateNestedOneWithoutAssessmentsInput
+  processArea?: Prisma.ProcessAreaCreateNestedOneWithoutAssessmentsInput
   controlAssignments?: Prisma.ControlAssignmentCreateNestedManyWithoutAssessmentInput
   samples?: Prisma.SampleCreateNestedManyWithoutAssessmentInput
   aacts?: Prisma.AactCreateNestedManyWithoutAssessmentInput
@@ -1516,6 +1684,7 @@ export type AssessmentUncheckedCreateWithoutFindingsInput = {
   loa: $Enums.LOA
   status?: $Enums.AssessmentStatus
   companyId?: string | null
+  processAreaId?: string | null
   createdAt?: Date | string
   objective?: string | null
   scope?: string | null
@@ -1565,6 +1734,7 @@ export type AssessmentUpdateWithoutFindingsInput = {
   reportIssueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   assessor?: Prisma.UserUpdateOneRequiredWithoutAssessmentsNestedInput
   activityType?: Prisma.AssuranceActivityTypeUpdateOneRequiredWithoutAssessmentsNestedInput
+  processArea?: Prisma.ProcessAreaUpdateOneWithoutAssessmentsNestedInput
   controlAssignments?: Prisma.ControlAssignmentUpdateManyWithoutAssessmentNestedInput
   samples?: Prisma.SampleUpdateManyWithoutAssessmentNestedInput
   aacts?: Prisma.AactUpdateManyWithoutAssessmentNestedInput
@@ -1584,6 +1754,7 @@ export type AssessmentUncheckedUpdateWithoutFindingsInput = {
   loa?: Prisma.EnumLOAFieldUpdateOperationsInput | $Enums.LOA
   status?: Prisma.EnumAssessmentStatusFieldUpdateOperationsInput | $Enums.AssessmentStatus
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  processAreaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   objective?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   scope?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1617,6 +1788,7 @@ export type AssessmentCreateWithoutAactsInput = {
   reportIssueDate?: Date | string | null
   assessor: Prisma.UserCreateNestedOneWithoutAssessmentsInput
   activityType: Prisma.AssuranceActivityTypeCreateNestedOneWithoutAssessmentsInput
+  processArea?: Prisma.ProcessAreaCreateNestedOneWithoutAssessmentsInput
   controlAssignments?: Prisma.ControlAssignmentCreateNestedManyWithoutAssessmentInput
   samples?: Prisma.SampleCreateNestedManyWithoutAssessmentInput
   findings?: Prisma.FindingCreateNestedManyWithoutAssessmentInput
@@ -1636,6 +1808,7 @@ export type AssessmentUncheckedCreateWithoutAactsInput = {
   loa: $Enums.LOA
   status?: $Enums.AssessmentStatus
   companyId?: string | null
+  processAreaId?: string | null
   createdAt?: Date | string
   objective?: string | null
   scope?: string | null
@@ -1685,6 +1858,7 @@ export type AssessmentUpdateWithoutAactsInput = {
   reportIssueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   assessor?: Prisma.UserUpdateOneRequiredWithoutAssessmentsNestedInput
   activityType?: Prisma.AssuranceActivityTypeUpdateOneRequiredWithoutAssessmentsNestedInput
+  processArea?: Prisma.ProcessAreaUpdateOneWithoutAssessmentsNestedInput
   controlAssignments?: Prisma.ControlAssignmentUpdateManyWithoutAssessmentNestedInput
   samples?: Prisma.SampleUpdateManyWithoutAssessmentNestedInput
   findings?: Prisma.FindingUpdateManyWithoutAssessmentNestedInput
@@ -1704,6 +1878,7 @@ export type AssessmentUncheckedUpdateWithoutAactsInput = {
   loa?: Prisma.EnumLOAFieldUpdateOperationsInput | $Enums.LOA
   status?: Prisma.EnumAssessmentStatusFieldUpdateOperationsInput | $Enums.AssessmentStatus
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  processAreaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   objective?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   scope?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1737,6 +1912,7 @@ export type AssessmentCreateWithoutChecklistItemsInput = {
   reportIssueDate?: Date | string | null
   assessor: Prisma.UserCreateNestedOneWithoutAssessmentsInput
   activityType: Prisma.AssuranceActivityTypeCreateNestedOneWithoutAssessmentsInput
+  processArea?: Prisma.ProcessAreaCreateNestedOneWithoutAssessmentsInput
   controlAssignments?: Prisma.ControlAssignmentCreateNestedManyWithoutAssessmentInput
   samples?: Prisma.SampleCreateNestedManyWithoutAssessmentInput
   findings?: Prisma.FindingCreateNestedManyWithoutAssessmentInput
@@ -1756,6 +1932,7 @@ export type AssessmentUncheckedCreateWithoutChecklistItemsInput = {
   loa: $Enums.LOA
   status?: $Enums.AssessmentStatus
   companyId?: string | null
+  processAreaId?: string | null
   createdAt?: Date | string
   objective?: string | null
   scope?: string | null
@@ -1805,6 +1982,7 @@ export type AssessmentUpdateWithoutChecklistItemsInput = {
   reportIssueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   assessor?: Prisma.UserUpdateOneRequiredWithoutAssessmentsNestedInput
   activityType?: Prisma.AssuranceActivityTypeUpdateOneRequiredWithoutAssessmentsNestedInput
+  processArea?: Prisma.ProcessAreaUpdateOneWithoutAssessmentsNestedInput
   controlAssignments?: Prisma.ControlAssignmentUpdateManyWithoutAssessmentNestedInput
   samples?: Prisma.SampleUpdateManyWithoutAssessmentNestedInput
   findings?: Prisma.FindingUpdateManyWithoutAssessmentNestedInput
@@ -1824,6 +2002,7 @@ export type AssessmentUncheckedUpdateWithoutChecklistItemsInput = {
   loa?: Prisma.EnumLOAFieldUpdateOperationsInput | $Enums.LOA
   status?: Prisma.EnumAssessmentStatusFieldUpdateOperationsInput | $Enums.AssessmentStatus
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  processAreaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   objective?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   scope?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1857,6 +2036,7 @@ export type AssessmentCreateWithoutChecklistControlLinksInput = {
   reportIssueDate?: Date | string | null
   assessor: Prisma.UserCreateNestedOneWithoutAssessmentsInput
   activityType: Prisma.AssuranceActivityTypeCreateNestedOneWithoutAssessmentsInput
+  processArea?: Prisma.ProcessAreaCreateNestedOneWithoutAssessmentsInput
   controlAssignments?: Prisma.ControlAssignmentCreateNestedManyWithoutAssessmentInput
   samples?: Prisma.SampleCreateNestedManyWithoutAssessmentInput
   findings?: Prisma.FindingCreateNestedManyWithoutAssessmentInput
@@ -1876,6 +2056,7 @@ export type AssessmentUncheckedCreateWithoutChecklistControlLinksInput = {
   loa: $Enums.LOA
   status?: $Enums.AssessmentStatus
   companyId?: string | null
+  processAreaId?: string | null
   createdAt?: Date | string
   objective?: string | null
   scope?: string | null
@@ -1925,6 +2106,7 @@ export type AssessmentUpdateWithoutChecklistControlLinksInput = {
   reportIssueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   assessor?: Prisma.UserUpdateOneRequiredWithoutAssessmentsNestedInput
   activityType?: Prisma.AssuranceActivityTypeUpdateOneRequiredWithoutAssessmentsNestedInput
+  processArea?: Prisma.ProcessAreaUpdateOneWithoutAssessmentsNestedInput
   controlAssignments?: Prisma.ControlAssignmentUpdateManyWithoutAssessmentNestedInput
   samples?: Prisma.SampleUpdateManyWithoutAssessmentNestedInput
   findings?: Prisma.FindingUpdateManyWithoutAssessmentNestedInput
@@ -1944,6 +2126,7 @@ export type AssessmentUncheckedUpdateWithoutChecklistControlLinksInput = {
   loa?: Prisma.EnumLOAFieldUpdateOperationsInput | $Enums.LOA
   status?: Prisma.EnumAssessmentStatusFieldUpdateOperationsInput | $Enums.AssessmentStatus
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  processAreaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   objective?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   scope?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1969,6 +2152,7 @@ export type AssessmentCreateManyAssessorInput = {
   loa: $Enums.LOA
   status?: $Enums.AssessmentStatus
   companyId?: string | null
+  processAreaId?: string | null
   createdAt?: Date | string
   objective?: string | null
   scope?: string | null
@@ -1994,6 +2178,7 @@ export type AssessmentUpdateWithoutAssessorInput = {
   keyFocus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reportIssueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   activityType?: Prisma.AssuranceActivityTypeUpdateOneRequiredWithoutAssessmentsNestedInput
+  processArea?: Prisma.ProcessAreaUpdateOneWithoutAssessmentsNestedInput
   controlAssignments?: Prisma.ControlAssignmentUpdateManyWithoutAssessmentNestedInput
   samples?: Prisma.SampleUpdateManyWithoutAssessmentNestedInput
   findings?: Prisma.FindingUpdateManyWithoutAssessmentNestedInput
@@ -2013,6 +2198,7 @@ export type AssessmentUncheckedUpdateWithoutAssessorInput = {
   loa?: Prisma.EnumLOAFieldUpdateOperationsInput | $Enums.LOA
   status?: Prisma.EnumAssessmentStatusFieldUpdateOperationsInput | $Enums.AssessmentStatus
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  processAreaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   objective?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   scope?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2039,6 +2225,7 @@ export type AssessmentUncheckedUpdateManyWithoutAssessorInput = {
   loa?: Prisma.EnumLOAFieldUpdateOperationsInput | $Enums.LOA
   status?: Prisma.EnumAssessmentStatusFieldUpdateOperationsInput | $Enums.AssessmentStatus
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  processAreaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   objective?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   scope?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2057,6 +2244,7 @@ export type AssessmentCreateManyActivityTypeInput = {
   loa: $Enums.LOA
   status?: $Enums.AssessmentStatus
   companyId?: string | null
+  processAreaId?: string | null
   createdAt?: Date | string
   objective?: string | null
   scope?: string | null
@@ -2082,6 +2270,7 @@ export type AssessmentUpdateWithoutActivityTypeInput = {
   keyFocus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   reportIssueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   assessor?: Prisma.UserUpdateOneRequiredWithoutAssessmentsNestedInput
+  processArea?: Prisma.ProcessAreaUpdateOneWithoutAssessmentsNestedInput
   controlAssignments?: Prisma.ControlAssignmentUpdateManyWithoutAssessmentNestedInput
   samples?: Prisma.SampleUpdateManyWithoutAssessmentNestedInput
   findings?: Prisma.FindingUpdateManyWithoutAssessmentNestedInput
@@ -2094,6 +2283,99 @@ export type AssessmentUpdateWithoutActivityTypeInput = {
 
 export type AssessmentUncheckedUpdateWithoutActivityTypeInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  assessorId?: Prisma.StringFieldUpdateOperationsInput | string
+  startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  loa?: Prisma.EnumLOAFieldUpdateOperationsInput | $Enums.LOA
+  status?: Prisma.EnumAssessmentStatusFieldUpdateOperationsInput | $Enums.AssessmentStatus
+  companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  processAreaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  objective?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  scope?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sponsor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  methodology?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  keyFocus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reportIssueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  controlAssignments?: Prisma.ControlAssignmentUncheckedUpdateManyWithoutAssessmentNestedInput
+  samples?: Prisma.SampleUncheckedUpdateManyWithoutAssessmentNestedInput
+  findings?: Prisma.FindingUncheckedUpdateManyWithoutAssessmentNestedInput
+  aacts?: Prisma.AactUncheckedUpdateManyWithoutAssessmentNestedInput
+  assessorLinks?: Prisma.AssessmentAssessorUncheckedUpdateManyWithoutAssessmentNestedInput
+  checklistItems?: Prisma.AuditChecklistItemUncheckedUpdateManyWithoutAssessmentNestedInput
+  checklistControlLinks?: Prisma.AssessmentChecklistControlUncheckedUpdateManyWithoutAssessmentNestedInput
+  requirementConclusions?: Prisma.RequirementConclusionUncheckedUpdateManyWithoutAssessmentNestedInput
+}
+
+export type AssessmentUncheckedUpdateManyWithoutActivityTypeInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  assessorId?: Prisma.StringFieldUpdateOperationsInput | string
+  startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  loa?: Prisma.EnumLOAFieldUpdateOperationsInput | $Enums.LOA
+  status?: Prisma.EnumAssessmentStatusFieldUpdateOperationsInput | $Enums.AssessmentStatus
+  companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  processAreaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  objective?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  scope?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sponsor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  methodology?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  keyFocus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reportIssueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+}
+
+export type AssessmentCreateManyProcessAreaInput = {
+  id?: string
+  activityTypeId: string
+  name: string
+  assessorId: string
+  startDate: Date | string
+  endDate?: Date | string | null
+  loa: $Enums.LOA
+  status?: $Enums.AssessmentStatus
+  companyId?: string | null
+  createdAt?: Date | string
+  objective?: string | null
+  scope?: string | null
+  sponsor?: string | null
+  methodology?: string | null
+  keyFocus?: string | null
+  reportIssueDate?: Date | string | null
+}
+
+export type AssessmentUpdateWithoutProcessAreaInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  loa?: Prisma.EnumLOAFieldUpdateOperationsInput | $Enums.LOA
+  status?: Prisma.EnumAssessmentStatusFieldUpdateOperationsInput | $Enums.AssessmentStatus
+  companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  objective?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  scope?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sponsor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  methodology?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  keyFocus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reportIssueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  assessor?: Prisma.UserUpdateOneRequiredWithoutAssessmentsNestedInput
+  activityType?: Prisma.AssuranceActivityTypeUpdateOneRequiredWithoutAssessmentsNestedInput
+  controlAssignments?: Prisma.ControlAssignmentUpdateManyWithoutAssessmentNestedInput
+  samples?: Prisma.SampleUpdateManyWithoutAssessmentNestedInput
+  findings?: Prisma.FindingUpdateManyWithoutAssessmentNestedInput
+  aacts?: Prisma.AactUpdateManyWithoutAssessmentNestedInput
+  assessorLinks?: Prisma.AssessmentAssessorUpdateManyWithoutAssessmentNestedInput
+  checklistItems?: Prisma.AuditChecklistItemUpdateManyWithoutAssessmentNestedInput
+  checklistControlLinks?: Prisma.AssessmentChecklistControlUpdateManyWithoutAssessmentNestedInput
+  requirementConclusions?: Prisma.RequirementConclusionUpdateManyWithoutAssessmentNestedInput
+}
+
+export type AssessmentUncheckedUpdateWithoutProcessAreaInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  activityTypeId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   assessorId?: Prisma.StringFieldUpdateOperationsInput | string
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2118,8 +2400,9 @@ export type AssessmentUncheckedUpdateWithoutActivityTypeInput = {
   requirementConclusions?: Prisma.RequirementConclusionUncheckedUpdateManyWithoutAssessmentNestedInput
 }
 
-export type AssessmentUncheckedUpdateManyWithoutActivityTypeInput = {
+export type AssessmentUncheckedUpdateManyWithoutProcessAreaInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  activityTypeId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   assessorId?: Prisma.StringFieldUpdateOperationsInput | string
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2240,6 +2523,7 @@ export type AssessmentSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   loa?: boolean
   status?: boolean
   companyId?: boolean
+  processAreaId?: boolean
   createdAt?: boolean
   objective?: boolean
   scope?: boolean
@@ -2249,6 +2533,7 @@ export type AssessmentSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   reportIssueDate?: boolean
   assessor?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   activityType?: boolean | Prisma.AssuranceActivityTypeDefaultArgs<ExtArgs>
+  processArea?: boolean | Prisma.Assessment$processAreaArgs<ExtArgs>
   controlAssignments?: boolean | Prisma.Assessment$controlAssignmentsArgs<ExtArgs>
   samples?: boolean | Prisma.Assessment$samplesArgs<ExtArgs>
   findings?: boolean | Prisma.Assessment$findingsArgs<ExtArgs>
@@ -2270,6 +2555,7 @@ export type AssessmentSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   loa?: boolean
   status?: boolean
   companyId?: boolean
+  processAreaId?: boolean
   createdAt?: boolean
   objective?: boolean
   scope?: boolean
@@ -2279,6 +2565,7 @@ export type AssessmentSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   reportIssueDate?: boolean
   assessor?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   activityType?: boolean | Prisma.AssuranceActivityTypeDefaultArgs<ExtArgs>
+  processArea?: boolean | Prisma.Assessment$processAreaArgs<ExtArgs>
 }, ExtArgs["result"]["assessment"]>
 
 export type AssessmentSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -2291,6 +2578,7 @@ export type AssessmentSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   loa?: boolean
   status?: boolean
   companyId?: boolean
+  processAreaId?: boolean
   createdAt?: boolean
   objective?: boolean
   scope?: boolean
@@ -2300,6 +2588,7 @@ export type AssessmentSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   reportIssueDate?: boolean
   assessor?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   activityType?: boolean | Prisma.AssuranceActivityTypeDefaultArgs<ExtArgs>
+  processArea?: boolean | Prisma.Assessment$processAreaArgs<ExtArgs>
 }, ExtArgs["result"]["assessment"]>
 
 export type AssessmentSelectScalar = {
@@ -2312,6 +2601,7 @@ export type AssessmentSelectScalar = {
   loa?: boolean
   status?: boolean
   companyId?: boolean
+  processAreaId?: boolean
   createdAt?: boolean
   objective?: boolean
   scope?: boolean
@@ -2321,10 +2611,11 @@ export type AssessmentSelectScalar = {
   reportIssueDate?: boolean
 }
 
-export type AssessmentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "activityTypeId" | "name" | "assessorId" | "startDate" | "endDate" | "loa" | "status" | "companyId" | "createdAt" | "objective" | "scope" | "sponsor" | "methodology" | "keyFocus" | "reportIssueDate", ExtArgs["result"]["assessment"]>
+export type AssessmentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "activityTypeId" | "name" | "assessorId" | "startDate" | "endDate" | "loa" | "status" | "companyId" | "processAreaId" | "createdAt" | "objective" | "scope" | "sponsor" | "methodology" | "keyFocus" | "reportIssueDate", ExtArgs["result"]["assessment"]>
 export type AssessmentInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   assessor?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   activityType?: boolean | Prisma.AssuranceActivityTypeDefaultArgs<ExtArgs>
+  processArea?: boolean | Prisma.Assessment$processAreaArgs<ExtArgs>
   controlAssignments?: boolean | Prisma.Assessment$controlAssignmentsArgs<ExtArgs>
   samples?: boolean | Prisma.Assessment$samplesArgs<ExtArgs>
   findings?: boolean | Prisma.Assessment$findingsArgs<ExtArgs>
@@ -2338,10 +2629,12 @@ export type AssessmentInclude<ExtArgs extends runtime.Types.Extensions.InternalA
 export type AssessmentIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   assessor?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   activityType?: boolean | Prisma.AssuranceActivityTypeDefaultArgs<ExtArgs>
+  processArea?: boolean | Prisma.Assessment$processAreaArgs<ExtArgs>
 }
 export type AssessmentIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   assessor?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   activityType?: boolean | Prisma.AssuranceActivityTypeDefaultArgs<ExtArgs>
+  processArea?: boolean | Prisma.Assessment$processAreaArgs<ExtArgs>
 }
 
 export type $AssessmentPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2349,6 +2642,7 @@ export type $AssessmentPayload<ExtArgs extends runtime.Types.Extensions.Internal
   objects: {
     assessor: Prisma.$UserPayload<ExtArgs>
     activityType: Prisma.$AssuranceActivityTypePayload<ExtArgs>
+    processArea: Prisma.$ProcessAreaPayload<ExtArgs> | null
     controlAssignments: Prisma.$ControlAssignmentPayload<ExtArgs>[]
     samples: Prisma.$SamplePayload<ExtArgs>[]
     findings: Prisma.$FindingPayload<ExtArgs>[]
@@ -2368,6 +2662,7 @@ export type $AssessmentPayload<ExtArgs extends runtime.Types.Extensions.Internal
     loa: $Enums.LOA
     status: $Enums.AssessmentStatus
     companyId: string | null
+    processAreaId: string | null
     createdAt: Date
     objective: string | null
     scope: string | null
@@ -2771,6 +3066,7 @@ export interface Prisma__AssessmentClient<T, Null = never, ExtArgs extends runti
   readonly [Symbol.toStringTag]: "PrismaPromise"
   assessor<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   activityType<T extends Prisma.AssuranceActivityTypeDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AssuranceActivityTypeDefaultArgs<ExtArgs>>): Prisma.Prisma__AssuranceActivityTypeClient<runtime.Types.Result.GetResult<Prisma.$AssuranceActivityTypePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  processArea<T extends Prisma.Assessment$processAreaArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Assessment$processAreaArgs<ExtArgs>>): Prisma.Prisma__ProcessAreaClient<runtime.Types.Result.GetResult<Prisma.$ProcessAreaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   controlAssignments<T extends Prisma.Assessment$controlAssignmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Assessment$controlAssignmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ControlAssignmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   samples<T extends Prisma.Assessment$samplesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Assessment$samplesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SamplePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   findings<T extends Prisma.Assessment$findingsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Assessment$findingsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FindingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -2817,6 +3113,7 @@ export interface AssessmentFieldRefs {
   readonly loa: Prisma.FieldRef<"Assessment", 'LOA'>
   readonly status: Prisma.FieldRef<"Assessment", 'AssessmentStatus'>
   readonly companyId: Prisma.FieldRef<"Assessment", 'String'>
+  readonly processAreaId: Prisma.FieldRef<"Assessment", 'String'>
   readonly createdAt: Prisma.FieldRef<"Assessment", 'DateTime'>
   readonly objective: Prisma.FieldRef<"Assessment", 'String'>
   readonly scope: Prisma.FieldRef<"Assessment", 'String'>
@@ -3222,6 +3519,25 @@ export type AssessmentDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.In
    * Limit how many Assessments to delete.
    */
   limit?: number
+}
+
+/**
+ * Assessment.processArea
+ */
+export type Assessment$processAreaArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ProcessArea
+   */
+  select?: Prisma.ProcessAreaSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ProcessArea
+   */
+  omit?: Prisma.ProcessAreaOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ProcessAreaInclude<ExtArgs> | null
+  where?: Prisma.ProcessAreaWhereInput
 }
 
 /**

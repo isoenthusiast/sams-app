@@ -137,6 +137,7 @@ model ProcessArea {
   subProcesses    SubProcess[]
   badges          AchievementBadge[]
   requirements    Requirement[]
+  assessments     Assessment[]
 
   // ── MIC (Management in Control) ──
   micStatement         String?
@@ -186,6 +187,9 @@ model Control {
   isHsseCritical      Boolean                            @default(false)
   ramRating           String?
   riskWeight          Int                                @default(1)
+  /// Authoritative marker that this control was processed by the control →
+  /// requirement mapping pipeline (stamped with 0..N mapping rows).
+  mappedAt            DateTime?
   rawHealthScore      Int                                @default(80)
   lastTestedDate      DateTime?
   lastTestResult      String?
@@ -279,6 +283,7 @@ model Assessment {
   loa                LOA
   status             AssessmentStatus      @default(Planned)
   companyId          String?
+  processAreaId      String?   // direct PA link (coverage audits + future grouping; UI falls back to control assignments when null)
   createdAt          DateTime              @default(now())
 
   // ── Terms of Reference (TOR) ──
@@ -291,6 +296,7 @@ model Assessment {
 
   assessor           User                  @relation("AssessmentLeadAssessor", fields: [assessorId], references: [id])
   activityType       AssuranceActivityType @relation(fields: [activityTypeId], references: [id])
+  processArea        ProcessArea?          @relation(fields: [processAreaId], references: [id])
   controlAssignments ControlAssignment[]
   samples            Sample[]
   findings           Finding[]
@@ -806,6 +812,9 @@ model Knowledgebase {
   addedBy          String
   companyId        String?
   processAreaId    String?
+  /// Authoritative marker that this KB doc was processed by the control
+  /// reconciliation pipeline (set after inserts AND update-merges).
+  reconciledAt     DateTime?
 
   @@unique([knowledgeName, companyId])
   @@index([knowledgeName])
@@ -866,6 +875,7 @@ model MapControl2Requirement {
   requirementRId Int
   processAreaId  String?
   mandatory      Boolean     @default(false) // PMS: control is essential to satisfy this requirement (if absent, requirement fails)
+  aiGenerated    Boolean?    // true when row was created by the AI mapping pipeline (kb_map_v2.py)
   createdAt      DateTime    @default(now())
   control        Control     @relation(fields: [controlId], references: [id], onDelete: Cascade)
   requirement    Requirement @relation(fields: [requirementRId], references: [rId], onDelete: Cascade)
@@ -1332,4 +1342,39 @@ model AssessmentChecklistControl {
   @@unique([checklistItemId, controlId])
   @@index([checklistItemId])
   @@index([assessmentId])
+}
+
+// ── Pipeline tables (written via raw SQL by scripts/db; registered here so
+// prisma db push never treats them as drift) ─────────────────────────────
+// ReconcileClaim: multiworker claim gate + launcher lease
+// (kb_control_reconcile.py / kb_map_v2.py / kb_cov_audit.py / launch_shards.py).
+model ReconcileClaim {
+  kbId        String   @id
+  shard       Int
+  claimedAt   DateTime @default(now())
+  heartbeatAt DateTime @default(now())
+}
+
+// RequirementCoverageAudit: requirement coverage verdicts from the
+// coverage-audit pipeline (cov_bootstrap.py / kb_cov_audit.py). Verdict labels
+// match the Conclusion enum (FullyMet / PartiallyMet / NotMet).
+model RequirementCoverageAudit {
+  id                       String   @id
+  companyId                String?
+  processAreaId            String?
+  requirementRId           Int
+  requirementId            String?
+  standard                 String?
+  verdict                  String
+  howMetEvidence           String?
+  gapAnalysis              String?
+  proposedControlStatement String?
+  mappedControlCount       Int      @default(0)
+  aiGenerated              Boolean  @default(true)
+  modelName                String?  @map("model")
+  worker                   String?
+  covAt                    DateTime @default(now())
+
+  @@index([processAreaId])
+  @@index([requirementRId])
 }

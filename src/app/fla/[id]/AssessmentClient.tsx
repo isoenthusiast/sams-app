@@ -979,7 +979,12 @@ export default function AssessmentClient({ assessment, initialControls = [], pro
                   <button onClick={() => handleDeleteFinding(f.id)}
                     className="text-xs text-red-400 hover:text-red-600 transition-colors" title="Delete finding">🗑</button>
                 </div>
-                <p className="text-sm text-slate-800 mb-2">{f.description}</p>
+                <div className="mb-2 rounded border border-slate-100 bg-slate-50 p-2">
+                  <p className="text-[10px] font-semibold uppercase tracking-wide text-slate-400 mb-0.5">
+                    Requirement (clause)
+                  </p>
+                  <p className="text-sm text-slate-800 whitespace-pre-wrap">{f.description}</p>
+                </div>
                 {f.sampleId && (
                   <p className="text-xs text-slate-500 mb-1">
                     <strong>Sample:</strong>{" "}
@@ -992,7 +997,41 @@ export default function AssessmentClient({ assessment, initialControls = [], pro
                   </p>
                 )}
                 {f.risks && <p className="text-xs text-slate-500 mb-1"><strong>Risks:</strong> {f.risks}</p>}
-                {f.controlIds && <p className="text-xs text-slate-500 mb-2"><strong>Controls:</strong> {f.controlIds}</p>}
+                {f.controlIds && (() => {
+                  const ids = f.controlIds.split(",").map((s: string) => s.trim()).filter(Boolean);
+                  const shown = ids.slice(0, 15);
+                  const rest = ids.length - shown.length;
+                  return (
+                    <div className="mb-1 flex flex-wrap items-center gap-1">
+                      <span className="text-xs font-medium text-slate-500">Controls:</span>
+                      {shown.map((cid: string) => (
+                        <span
+                          key={cid}
+                          title={cid}
+                          className="inline-flex items-center rounded-full border border-slate-200 bg-slate-100 px-2 py-0.5 font-mono text-[10px] text-slate-600"
+                        >
+                          {cid}
+                        </span>
+                      ))}
+                      {rest > 0 && (
+                        <span className="inline-flex items-center rounded-full border border-slate-200 bg-white px-2 py-0.5 text-[10px] text-slate-400">
+                          +{rest} more
+                        </span>
+                      )}
+                    </div>
+                  );
+                })()}
+                {f.details && (
+                  <p className="text-xs text-slate-600 mb-1 whitespace-pre-wrap"><strong>Finding (what went wrong):</strong> {f.details}</p>
+                )}
+                {f.rootCause && f.rootCause !== f.details && (
+                  <p className="text-xs text-slate-600 mb-1 whitespace-pre-wrap"><strong>Root cause:</strong> {f.rootCause}</p>
+                )}
+                {f.recommendation && (
+                  <p className="text-xs text-slate-700 mb-2 rounded border border-blue-100 bg-blue-50 p-2 whitespace-pre-wrap">
+                    <strong>Recommendation (proposed control):</strong> {f.recommendation}
+                  </p>
+                )}
 
                 {/* Actions sub-section */}
                 <div className="mt-3 pt-3 border-t border-slate-100">
@@ -1033,9 +1072,12 @@ export default function AssessmentClient({ assessment, initialControls = [], pro
                       <div className="flex items-start justify-between">
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2">
-                            <span className="text-sm text-slate-800 truncate">{act.actionDescription}</span>
+                            <span className="text-sm text-slate-800 whitespace-pre-wrap">{act.actionDescription}</span>
                             {act.actionClosureEffective && <span className="text-xs text-emerald-600">✓ Closed</span>}
                           </div>
+                          {act.actionDetails && (
+                            <div className="text-xs text-slate-500 mt-1 whitespace-pre-wrap">{act.actionDetails}</div>
+                          )}
                           <div className="text-xs text-slate-400" suppressHydrationWarning>
                             {act.actionParty && <span>{act.actionParty}</span>}
                             {act.targetDate && <span> · Due: {new Date(act.targetDate).toLocaleDateString()}</span>}

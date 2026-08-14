@@ -40,6 +40,7 @@ export type MapControl2RequirementMinAggregateOutputType = {
   requirementRId: number | null
   processAreaId: string | null
   mandatory: boolean | null
+  aiGenerated: boolean | null
   createdAt: Date | null
 }
 
@@ -49,6 +50,7 @@ export type MapControl2RequirementMaxAggregateOutputType = {
   requirementRId: number | null
   processAreaId: string | null
   mandatory: boolean | null
+  aiGenerated: boolean | null
   createdAt: Date | null
 }
 
@@ -58,6 +60,7 @@ export type MapControl2RequirementCountAggregateOutputType = {
   requirementRId: number
   processAreaId: number
   mandatory: number
+  aiGenerated: number
   createdAt: number
   _all: number
 }
@@ -77,6 +80,7 @@ export type MapControl2RequirementMinAggregateInputType = {
   requirementRId?: true
   processAreaId?: true
   mandatory?: true
+  aiGenerated?: true
   createdAt?: true
 }
 
@@ -86,6 +90,7 @@ export type MapControl2RequirementMaxAggregateInputType = {
   requirementRId?: true
   processAreaId?: true
   mandatory?: true
+  aiGenerated?: true
   createdAt?: true
 }
 
@@ -95,6 +100,7 @@ export type MapControl2RequirementCountAggregateInputType = {
   requirementRId?: true
   processAreaId?: true
   mandatory?: true
+  aiGenerated?: true
   createdAt?: true
   _all?: true
 }
@@ -191,6 +197,7 @@ export type MapControl2RequirementGroupByOutputType = {
   requirementRId: number
   processAreaId: string | null
   mandatory: boolean
+  aiGenerated: boolean | null
   createdAt: Date
   _count: MapControl2RequirementCountAggregateOutputType | null
   _avg: MapControl2RequirementAvgAggregateOutputType | null
@@ -223,6 +230,7 @@ export type MapControl2RequirementWhereInput = {
   requirementRId?: Prisma.IntFilter<"MapControl2Requirement"> | number
   processAreaId?: Prisma.StringNullableFilter<"MapControl2Requirement"> | string | null
   mandatory?: Prisma.BoolFilter<"MapControl2Requirement"> | boolean
+  aiGenerated?: Prisma.BoolNullableFilter<"MapControl2Requirement"> | boolean | null
   createdAt?: Prisma.DateTimeFilter<"MapControl2Requirement"> | Date | string
   control?: Prisma.XOR<Prisma.ControlScalarRelationFilter, Prisma.ControlWhereInput>
   requirement?: Prisma.XOR<Prisma.RequirementScalarRelationFilter, Prisma.RequirementWhereInput>
@@ -234,6 +242,7 @@ export type MapControl2RequirementOrderByWithRelationInput = {
   requirementRId?: Prisma.SortOrder
   processAreaId?: Prisma.SortOrderInput | Prisma.SortOrder
   mandatory?: Prisma.SortOrder
+  aiGenerated?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   control?: Prisma.ControlOrderByWithRelationInput
   requirement?: Prisma.RequirementOrderByWithRelationInput
@@ -249,6 +258,7 @@ export type MapControl2RequirementWhereUniqueInput = Prisma.AtLeast<{
   requirementRId?: Prisma.IntFilter<"MapControl2Requirement"> | number
   processAreaId?: Prisma.StringNullableFilter<"MapControl2Requirement"> | string | null
   mandatory?: Prisma.BoolFilter<"MapControl2Requirement"> | boolean
+  aiGenerated?: Prisma.BoolNullableFilter<"MapControl2Requirement"> | boolean | null
   createdAt?: Prisma.DateTimeFilter<"MapControl2Requirement"> | Date | string
   control?: Prisma.XOR<Prisma.ControlScalarRelationFilter, Prisma.ControlWhereInput>
   requirement?: Prisma.XOR<Prisma.RequirementScalarRelationFilter, Prisma.RequirementWhereInput>
@@ -260,6 +270,7 @@ export type MapControl2RequirementOrderByWithAggregationInput = {
   requirementRId?: Prisma.SortOrder
   processAreaId?: Prisma.SortOrderInput | Prisma.SortOrder
   mandatory?: Prisma.SortOrder
+  aiGenerated?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   _count?: Prisma.MapControl2RequirementCountOrderByAggregateInput
   _avg?: Prisma.MapControl2RequirementAvgOrderByAggregateInput
@@ -277,6 +288,7 @@ export type MapControl2RequirementScalarWhereWithAggregatesInput = {
   requirementRId?: Prisma.IntWithAggregatesFilter<"MapControl2Requirement"> | number
   processAreaId?: Prisma.StringNullableWithAggregatesFilter<"MapControl2Requirement"> | string | null
   mandatory?: Prisma.BoolWithAggregatesFilter<"MapControl2Requirement"> | boolean
+  aiGenerated?: Prisma.BoolNullableWithAggregatesFilter<"MapControl2Requirement"> | boolean | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"MapControl2Requirement"> | Date | string
 }
 
@@ -284,6 +296,7 @@ export type MapControl2RequirementCreateInput = {
   id?: string
   processAreaId?: string | null
   mandatory?: boolean
+  aiGenerated?: boolean | null
   createdAt?: Date | string
   control: Prisma.ControlCreateNestedOneWithoutRequirementMappingsInput
   requirement: Prisma.RequirementCreateNestedOneWithoutControlMappingsInput
@@ -295,6 +308,7 @@ export type MapControl2RequirementUncheckedCreateInput = {
   requirementRId: number
   processAreaId?: string | null
   mandatory?: boolean
+  aiGenerated?: boolean | null
   createdAt?: Date | string
 }
 
@@ -302,6 +316,7 @@ export type MapControl2RequirementUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   processAreaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mandatory?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aiGenerated?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   control?: Prisma.ControlUpdateOneRequiredWithoutRequirementMappingsNestedInput
   requirement?: Prisma.RequirementUpdateOneRequiredWithoutControlMappingsNestedInput
@@ -313,6 +328,7 @@ export type MapControl2RequirementUncheckedUpdateInput = {
   requirementRId?: Prisma.IntFieldUpdateOperationsInput | number
   processAreaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mandatory?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aiGenerated?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -322,6 +338,7 @@ export type MapControl2RequirementCreateManyInput = {
   requirementRId: number
   processAreaId?: string | null
   mandatory?: boolean
+  aiGenerated?: boolean | null
   createdAt?: Date | string
 }
 
@@ -329,6 +346,7 @@ export type MapControl2RequirementUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   processAreaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mandatory?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aiGenerated?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -338,6 +356,7 @@ export type MapControl2RequirementUncheckedUpdateManyInput = {
   requirementRId?: Prisma.IntFieldUpdateOperationsInput | number
   processAreaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mandatory?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aiGenerated?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -362,6 +381,7 @@ export type MapControl2RequirementCountOrderByAggregateInput = {
   requirementRId?: Prisma.SortOrder
   processAreaId?: Prisma.SortOrder
   mandatory?: Prisma.SortOrder
+  aiGenerated?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -375,6 +395,7 @@ export type MapControl2RequirementMaxOrderByAggregateInput = {
   requirementRId?: Prisma.SortOrder
   processAreaId?: Prisma.SortOrder
   mandatory?: Prisma.SortOrder
+  aiGenerated?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -384,6 +405,7 @@ export type MapControl2RequirementMinOrderByAggregateInput = {
   requirementRId?: Prisma.SortOrder
   processAreaId?: Prisma.SortOrder
   mandatory?: Prisma.SortOrder
+  aiGenerated?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -475,10 +497,15 @@ export type MapControl2RequirementUncheckedUpdateManyWithoutRequirementNestedInp
   deleteMany?: Prisma.MapControl2RequirementScalarWhereInput | Prisma.MapControl2RequirementScalarWhereInput[]
 }
 
+export type NullableBoolFieldUpdateOperationsInput = {
+  set?: boolean | null
+}
+
 export type MapControl2RequirementCreateWithoutControlInput = {
   id?: string
   processAreaId?: string | null
   mandatory?: boolean
+  aiGenerated?: boolean | null
   createdAt?: Date | string
   requirement: Prisma.RequirementCreateNestedOneWithoutControlMappingsInput
 }
@@ -488,6 +515,7 @@ export type MapControl2RequirementUncheckedCreateWithoutControlInput = {
   requirementRId: number
   processAreaId?: string | null
   mandatory?: boolean
+  aiGenerated?: boolean | null
   createdAt?: Date | string
 }
 
@@ -526,6 +554,7 @@ export type MapControl2RequirementScalarWhereInput = {
   requirementRId?: Prisma.IntFilter<"MapControl2Requirement"> | number
   processAreaId?: Prisma.StringNullableFilter<"MapControl2Requirement"> | string | null
   mandatory?: Prisma.BoolFilter<"MapControl2Requirement"> | boolean
+  aiGenerated?: Prisma.BoolNullableFilter<"MapControl2Requirement"> | boolean | null
   createdAt?: Prisma.DateTimeFilter<"MapControl2Requirement"> | Date | string
 }
 
@@ -533,6 +562,7 @@ export type MapControl2RequirementCreateWithoutRequirementInput = {
   id?: string
   processAreaId?: string | null
   mandatory?: boolean
+  aiGenerated?: boolean | null
   createdAt?: Date | string
   control: Prisma.ControlCreateNestedOneWithoutRequirementMappingsInput
 }
@@ -542,6 +572,7 @@ export type MapControl2RequirementUncheckedCreateWithoutRequirementInput = {
   controlId: string
   processAreaId?: string | null
   mandatory?: boolean
+  aiGenerated?: boolean | null
   createdAt?: Date | string
 }
 
@@ -576,6 +607,7 @@ export type MapControl2RequirementCreateManyControlInput = {
   requirementRId: number
   processAreaId?: string | null
   mandatory?: boolean
+  aiGenerated?: boolean | null
   createdAt?: Date | string
 }
 
@@ -583,6 +615,7 @@ export type MapControl2RequirementUpdateWithoutControlInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   processAreaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mandatory?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aiGenerated?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   requirement?: Prisma.RequirementUpdateOneRequiredWithoutControlMappingsNestedInput
 }
@@ -592,6 +625,7 @@ export type MapControl2RequirementUncheckedUpdateWithoutControlInput = {
   requirementRId?: Prisma.IntFieldUpdateOperationsInput | number
   processAreaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mandatory?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aiGenerated?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -600,6 +634,7 @@ export type MapControl2RequirementUncheckedUpdateManyWithoutControlInput = {
   requirementRId?: Prisma.IntFieldUpdateOperationsInput | number
   processAreaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mandatory?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aiGenerated?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -608,6 +643,7 @@ export type MapControl2RequirementCreateManyRequirementInput = {
   controlId: string
   processAreaId?: string | null
   mandatory?: boolean
+  aiGenerated?: boolean | null
   createdAt?: Date | string
 }
 
@@ -615,6 +651,7 @@ export type MapControl2RequirementUpdateWithoutRequirementInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   processAreaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mandatory?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aiGenerated?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   control?: Prisma.ControlUpdateOneRequiredWithoutRequirementMappingsNestedInput
 }
@@ -624,6 +661,7 @@ export type MapControl2RequirementUncheckedUpdateWithoutRequirementInput = {
   controlId?: Prisma.StringFieldUpdateOperationsInput | string
   processAreaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mandatory?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aiGenerated?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -632,6 +670,7 @@ export type MapControl2RequirementUncheckedUpdateManyWithoutRequirementInput = {
   controlId?: Prisma.StringFieldUpdateOperationsInput | string
   processAreaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mandatory?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  aiGenerated?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -643,6 +682,7 @@ export type MapControl2RequirementSelect<ExtArgs extends runtime.Types.Extension
   requirementRId?: boolean
   processAreaId?: boolean
   mandatory?: boolean
+  aiGenerated?: boolean
   createdAt?: boolean
   control?: boolean | Prisma.ControlDefaultArgs<ExtArgs>
   requirement?: boolean | Prisma.RequirementDefaultArgs<ExtArgs>
@@ -654,6 +694,7 @@ export type MapControl2RequirementSelectCreateManyAndReturn<ExtArgs extends runt
   requirementRId?: boolean
   processAreaId?: boolean
   mandatory?: boolean
+  aiGenerated?: boolean
   createdAt?: boolean
   control?: boolean | Prisma.ControlDefaultArgs<ExtArgs>
   requirement?: boolean | Prisma.RequirementDefaultArgs<ExtArgs>
@@ -665,6 +706,7 @@ export type MapControl2RequirementSelectUpdateManyAndReturn<ExtArgs extends runt
   requirementRId?: boolean
   processAreaId?: boolean
   mandatory?: boolean
+  aiGenerated?: boolean
   createdAt?: boolean
   control?: boolean | Prisma.ControlDefaultArgs<ExtArgs>
   requirement?: boolean | Prisma.RequirementDefaultArgs<ExtArgs>
@@ -676,10 +718,11 @@ export type MapControl2RequirementSelectScalar = {
   requirementRId?: boolean
   processAreaId?: boolean
   mandatory?: boolean
+  aiGenerated?: boolean
   createdAt?: boolean
 }
 
-export type MapControl2RequirementOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "controlId" | "requirementRId" | "processAreaId" | "mandatory" | "createdAt", ExtArgs["result"]["mapControl2Requirement"]>
+export type MapControl2RequirementOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "controlId" | "requirementRId" | "processAreaId" | "mandatory" | "aiGenerated" | "createdAt", ExtArgs["result"]["mapControl2Requirement"]>
 export type MapControl2RequirementInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   control?: boolean | Prisma.ControlDefaultArgs<ExtArgs>
   requirement?: boolean | Prisma.RequirementDefaultArgs<ExtArgs>
@@ -705,6 +748,7 @@ export type $MapControl2RequirementPayload<ExtArgs extends runtime.Types.Extensi
     requirementRId: number
     processAreaId: string | null
     mandatory: boolean
+    aiGenerated: boolean | null
     createdAt: Date
   }, ExtArgs["result"]["mapControl2Requirement"]>
   composites: {}
@@ -1136,6 +1180,7 @@ export interface MapControl2RequirementFieldRefs {
   readonly requirementRId: Prisma.FieldRef<"MapControl2Requirement", 'Int'>
   readonly processAreaId: Prisma.FieldRef<"MapControl2Requirement", 'String'>
   readonly mandatory: Prisma.FieldRef<"MapControl2Requirement", 'Boolean'>
+  readonly aiGenerated: Prisma.FieldRef<"MapControl2Requirement", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"MapControl2Requirement", 'DateTime'>
 }
     

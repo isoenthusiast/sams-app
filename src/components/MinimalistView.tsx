@@ -289,10 +289,16 @@ export default function MinimalistView({ assessment, allControls, controlsLoaded
                             f.severity === "Medium" ? "bg-yellow-100 text-yellow-800" :
                             "bg-slate-100 text-slate-600"
                           }`}>{f.severity}</span>
-                          <span className="text-sm text-slate-800 truncate">{f.description}</span>
+                          <span className="text-sm text-slate-800 whitespace-pre-wrap">{f.description}</span>
                         </div>
                         {f.riskDescription && (
-                          <p className="ml-1 mt-0.5 text-xs text-slate-500 line-clamp-2">{f.riskDescription}</p>
+                          <p className="ml-1 mt-0.5 text-xs text-slate-500">{f.riskDescription}</p>
+                        )}
+                        {f.details && (
+                          <p className="ml-1 mt-0.5 text-xs text-slate-500"><strong>Gap:</strong> {f.details}</p>
+                        )}
+                        {f.recommendation && !f.recommendation.startsWith("[RESOLVED") && (
+                          <p className="ml-1 mt-0.5 text-xs text-slate-600 rounded bg-blue-50 p-1"><strong>Proposed:</strong> {f.recommendation}</p>
                         )}
                         {f.recommendation && f.recommendation.startsWith("[RESOLVED") && (
                           <span className="ml-1 text-xs text-green-600">✓ Resolved</span>

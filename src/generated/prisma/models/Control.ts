@@ -45,6 +45,7 @@ export type ControlMinAggregateOutputType = {
   isHsseCritical: boolean | null
   ramRating: string | null
   riskWeight: number | null
+  mappedAt: Date | null
   rawHealthScore: number | null
   lastTestedDate: Date | null
   lastTestResult: string | null
@@ -84,6 +85,7 @@ export type ControlMaxAggregateOutputType = {
   isHsseCritical: boolean | null
   ramRating: string | null
   riskWeight: number | null
+  mappedAt: Date | null
   rawHealthScore: number | null
   lastTestedDate: Date | null
   lastTestResult: string | null
@@ -123,6 +125,7 @@ export type ControlCountAggregateOutputType = {
   isHsseCritical: number
   ramRating: number
   riskWeight: number
+  mappedAt: number
   rawHealthScore: number
   lastTestedDate: number
   lastTestResult: number
@@ -174,6 +177,7 @@ export type ControlMinAggregateInputType = {
   isHsseCritical?: true
   ramRating?: true
   riskWeight?: true
+  mappedAt?: true
   rawHealthScore?: true
   lastTestedDate?: true
   lastTestResult?: true
@@ -213,6 +217,7 @@ export type ControlMaxAggregateInputType = {
   isHsseCritical?: true
   ramRating?: true
   riskWeight?: true
+  mappedAt?: true
   rawHealthScore?: true
   lastTestedDate?: true
   lastTestResult?: true
@@ -252,6 +257,7 @@ export type ControlCountAggregateInputType = {
   isHsseCritical?: true
   ramRating?: true
   riskWeight?: true
+  mappedAt?: true
   rawHealthScore?: true
   lastTestedDate?: true
   lastTestResult?: true
@@ -378,6 +384,7 @@ export type ControlGroupByOutputType = {
   isHsseCritical: boolean
   ramRating: string | null
   riskWeight: number
+  mappedAt: Date | null
   rawHealthScore: number
   lastTestedDate: Date | null
   lastTestResult: string | null
@@ -440,6 +447,7 @@ export type ControlWhereInput = {
   isHsseCritical?: Prisma.BoolFilter<"Control"> | boolean
   ramRating?: Prisma.StringNullableFilter<"Control"> | string | null
   riskWeight?: Prisma.IntFilter<"Control"> | number
+  mappedAt?: Prisma.DateTimeNullableFilter<"Control"> | Date | string | null
   rawHealthScore?: Prisma.IntFilter<"Control"> | number
   lastTestedDate?: Prisma.DateTimeNullableFilter<"Control"> | Date | string | null
   lastTestResult?: Prisma.StringNullableFilter<"Control"> | string | null
@@ -488,6 +496,7 @@ export type ControlOrderByWithRelationInput = {
   isHsseCritical?: Prisma.SortOrder
   ramRating?: Prisma.SortOrderInput | Prisma.SortOrder
   riskWeight?: Prisma.SortOrder
+  mappedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   rawHealthScore?: Prisma.SortOrder
   lastTestedDate?: Prisma.SortOrderInput | Prisma.SortOrder
   lastTestResult?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -540,6 +549,7 @@ export type ControlWhereUniqueInput = Prisma.AtLeast<{
   isHsseCritical?: Prisma.BoolFilter<"Control"> | boolean
   ramRating?: Prisma.StringNullableFilter<"Control"> | string | null
   riskWeight?: Prisma.IntFilter<"Control"> | number
+  mappedAt?: Prisma.DateTimeNullableFilter<"Control"> | Date | string | null
   rawHealthScore?: Prisma.IntFilter<"Control"> | number
   lastTestedDate?: Prisma.DateTimeNullableFilter<"Control"> | Date | string | null
   lastTestResult?: Prisma.StringNullableFilter<"Control"> | string | null
@@ -588,6 +598,7 @@ export type ControlOrderByWithAggregationInput = {
   isHsseCritical?: Prisma.SortOrder
   ramRating?: Prisma.SortOrderInput | Prisma.SortOrder
   riskWeight?: Prisma.SortOrder
+  mappedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   rawHealthScore?: Prisma.SortOrder
   lastTestedDate?: Prisma.SortOrderInput | Prisma.SortOrder
   lastTestResult?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -635,6 +646,7 @@ export type ControlScalarWhereWithAggregatesInput = {
   isHsseCritical?: Prisma.BoolWithAggregatesFilter<"Control"> | boolean
   ramRating?: Prisma.StringNullableWithAggregatesFilter<"Control"> | string | null
   riskWeight?: Prisma.IntWithAggregatesFilter<"Control"> | number
+  mappedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Control"> | Date | string | null
   rawHealthScore?: Prisma.IntWithAggregatesFilter<"Control"> | number
   lastTestedDate?: Prisma.DateTimeNullableWithAggregatesFilter<"Control"> | Date | string | null
   lastTestResult?: Prisma.StringNullableWithAggregatesFilter<"Control"> | string | null
@@ -673,6 +685,7 @@ export type ControlCreateInput = {
   isHsseCritical?: boolean
   ramRating?: string | null
   riskWeight?: number
+  mappedAt?: Date | string | null
   rawHealthScore?: number
   lastTestedDate?: Date | string | null
   lastTestResult?: string | null
@@ -721,6 +734,7 @@ export type ControlUncheckedCreateInput = {
   isHsseCritical?: boolean
   ramRating?: string | null
   riskWeight?: number
+  mappedAt?: Date | string | null
   rawHealthScore?: number
   lastTestedDate?: Date | string | null
   lastTestResult?: string | null
@@ -767,6 +781,7 @@ export type ControlUpdateInput = {
   isHsseCritical?: Prisma.BoolFieldUpdateOperationsInput | boolean
   ramRating?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   riskWeight?: Prisma.IntFieldUpdateOperationsInput | number
+  mappedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   rawHealthScore?: Prisma.IntFieldUpdateOperationsInput | number
   lastTestedDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastTestResult?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -815,6 +830,7 @@ export type ControlUncheckedUpdateInput = {
   isHsseCritical?: Prisma.BoolFieldUpdateOperationsInput | boolean
   ramRating?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   riskWeight?: Prisma.IntFieldUpdateOperationsInput | number
+  mappedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   rawHealthScore?: Prisma.IntFieldUpdateOperationsInput | number
   lastTestedDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastTestResult?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -862,6 +878,7 @@ export type ControlCreateManyInput = {
   isHsseCritical?: boolean
   ramRating?: string | null
   riskWeight?: number
+  mappedAt?: Date | string | null
   rawHealthScore?: number
   lastTestedDate?: Date | string | null
   lastTestResult?: string | null
@@ -900,6 +917,7 @@ export type ControlUpdateManyMutationInput = {
   isHsseCritical?: Prisma.BoolFieldUpdateOperationsInput | boolean
   ramRating?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   riskWeight?: Prisma.IntFieldUpdateOperationsInput | number
+  mappedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   rawHealthScore?: Prisma.IntFieldUpdateOperationsInput | number
   lastTestedDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastTestResult?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -939,6 +957,7 @@ export type ControlUncheckedUpdateManyInput = {
   isHsseCritical?: Prisma.BoolFieldUpdateOperationsInput | boolean
   ramRating?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   riskWeight?: Prisma.IntFieldUpdateOperationsInput | number
+  mappedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   rawHealthScore?: Prisma.IntFieldUpdateOperationsInput | number
   lastTestedDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastTestResult?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -998,6 +1017,7 @@ export type ControlCountOrderByAggregateInput = {
   isHsseCritical?: Prisma.SortOrder
   ramRating?: Prisma.SortOrder
   riskWeight?: Prisma.SortOrder
+  mappedAt?: Prisma.SortOrder
   rawHealthScore?: Prisma.SortOrder
   lastTestedDate?: Prisma.SortOrder
   lastTestResult?: Prisma.SortOrder
@@ -1042,6 +1062,7 @@ export type ControlMaxOrderByAggregateInput = {
   isHsseCritical?: Prisma.SortOrder
   ramRating?: Prisma.SortOrder
   riskWeight?: Prisma.SortOrder
+  mappedAt?: Prisma.SortOrder
   rawHealthScore?: Prisma.SortOrder
   lastTestedDate?: Prisma.SortOrder
   lastTestResult?: Prisma.SortOrder
@@ -1081,6 +1102,7 @@ export type ControlMinOrderByAggregateInput = {
   isHsseCritical?: Prisma.SortOrder
   ramRating?: Prisma.SortOrder
   riskWeight?: Prisma.SortOrder
+  mappedAt?: Prisma.SortOrder
   rawHealthScore?: Prisma.SortOrder
   lastTestedDate?: Prisma.SortOrder
   lastTestResult?: Prisma.SortOrder
@@ -1289,6 +1311,7 @@ export type ControlCreateWithoutProcessAreaInput = {
   isHsseCritical?: boolean
   ramRating?: string | null
   riskWeight?: number
+  mappedAt?: Date | string | null
   rawHealthScore?: number
   lastTestedDate?: Date | string | null
   lastTestResult?: string | null
@@ -1335,6 +1358,7 @@ export type ControlUncheckedCreateWithoutProcessAreaInput = {
   isHsseCritical?: boolean
   ramRating?: string | null
   riskWeight?: number
+  mappedAt?: Date | string | null
   rawHealthScore?: number
   lastTestedDate?: Date | string | null
   lastTestResult?: string | null
@@ -1411,6 +1435,7 @@ export type ControlScalarWhereInput = {
   isHsseCritical?: Prisma.BoolFilter<"Control"> | boolean
   ramRating?: Prisma.StringNullableFilter<"Control"> | string | null
   riskWeight?: Prisma.IntFilter<"Control"> | number
+  mappedAt?: Prisma.DateTimeNullableFilter<"Control"> | Date | string | null
   rawHealthScore?: Prisma.IntFilter<"Control"> | number
   lastTestedDate?: Prisma.DateTimeNullableFilter<"Control"> | Date | string | null
   lastTestResult?: Prisma.StringNullableFilter<"Control"> | string | null
@@ -1449,6 +1474,7 @@ export type ControlCreateWithoutControlSubProcessesInput = {
   isHsseCritical?: boolean
   ramRating?: string | null
   riskWeight?: number
+  mappedAt?: Date | string | null
   rawHealthScore?: number
   lastTestedDate?: Date | string | null
   lastTestResult?: string | null
@@ -1496,6 +1522,7 @@ export type ControlUncheckedCreateWithoutControlSubProcessesInput = {
   isHsseCritical?: boolean
   ramRating?: string | null
   riskWeight?: number
+  mappedAt?: Date | string | null
   rawHealthScore?: number
   lastTestedDate?: Date | string | null
   lastTestResult?: string | null
@@ -1557,6 +1584,7 @@ export type ControlUpdateWithoutControlSubProcessesInput = {
   isHsseCritical?: Prisma.BoolFieldUpdateOperationsInput | boolean
   ramRating?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   riskWeight?: Prisma.IntFieldUpdateOperationsInput | number
+  mappedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   rawHealthScore?: Prisma.IntFieldUpdateOperationsInput | number
   lastTestedDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastTestResult?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1604,6 +1632,7 @@ export type ControlUncheckedUpdateWithoutControlSubProcessesInput = {
   isHsseCritical?: Prisma.BoolFieldUpdateOperationsInput | boolean
   ramRating?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   riskWeight?: Prisma.IntFieldUpdateOperationsInput | number
+  mappedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   rawHealthScore?: Prisma.IntFieldUpdateOperationsInput | number
   lastTestedDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastTestResult?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1649,6 +1678,7 @@ export type ControlCreateWithoutTemplateLinkagesInput = {
   isHsseCritical?: boolean
   ramRating?: string | null
   riskWeight?: number
+  mappedAt?: Date | string | null
   rawHealthScore?: number
   lastTestedDate?: Date | string | null
   lastTestResult?: string | null
@@ -1696,6 +1726,7 @@ export type ControlUncheckedCreateWithoutTemplateLinkagesInput = {
   isHsseCritical?: boolean
   ramRating?: string | null
   riskWeight?: number
+  mappedAt?: Date | string | null
   rawHealthScore?: number
   lastTestedDate?: Date | string | null
   lastTestResult?: string | null
@@ -1757,6 +1788,7 @@ export type ControlUpdateWithoutTemplateLinkagesInput = {
   isHsseCritical?: Prisma.BoolFieldUpdateOperationsInput | boolean
   ramRating?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   riskWeight?: Prisma.IntFieldUpdateOperationsInput | number
+  mappedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   rawHealthScore?: Prisma.IntFieldUpdateOperationsInput | number
   lastTestedDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastTestResult?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1804,6 +1836,7 @@ export type ControlUncheckedUpdateWithoutTemplateLinkagesInput = {
   isHsseCritical?: Prisma.BoolFieldUpdateOperationsInput | boolean
   ramRating?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   riskWeight?: Prisma.IntFieldUpdateOperationsInput | number
+  mappedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   rawHealthScore?: Prisma.IntFieldUpdateOperationsInput | number
   lastTestedDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastTestResult?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1849,6 +1882,7 @@ export type ControlCreateWithoutControlAssignmentsInput = {
   isHsseCritical?: boolean
   ramRating?: string | null
   riskWeight?: number
+  mappedAt?: Date | string | null
   rawHealthScore?: number
   lastTestedDate?: Date | string | null
   lastTestResult?: string | null
@@ -1896,6 +1930,7 @@ export type ControlUncheckedCreateWithoutControlAssignmentsInput = {
   isHsseCritical?: boolean
   ramRating?: string | null
   riskWeight?: number
+  mappedAt?: Date | string | null
   rawHealthScore?: number
   lastTestedDate?: Date | string | null
   lastTestResult?: string | null
@@ -1957,6 +1992,7 @@ export type ControlUpdateWithoutControlAssignmentsInput = {
   isHsseCritical?: Prisma.BoolFieldUpdateOperationsInput | boolean
   ramRating?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   riskWeight?: Prisma.IntFieldUpdateOperationsInput | number
+  mappedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   rawHealthScore?: Prisma.IntFieldUpdateOperationsInput | number
   lastTestedDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastTestResult?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2004,6 +2040,7 @@ export type ControlUncheckedUpdateWithoutControlAssignmentsInput = {
   isHsseCritical?: Prisma.BoolFieldUpdateOperationsInput | boolean
   ramRating?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   riskWeight?: Prisma.IntFieldUpdateOperationsInput | number
+  mappedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   rawHealthScore?: Prisma.IntFieldUpdateOperationsInput | number
   lastTestedDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastTestResult?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2049,6 +2086,7 @@ export type ControlCreateWithoutRequirementMappingsInput = {
   isHsseCritical?: boolean
   ramRating?: string | null
   riskWeight?: number
+  mappedAt?: Date | string | null
   rawHealthScore?: number
   lastTestedDate?: Date | string | null
   lastTestResult?: string | null
@@ -2096,6 +2134,7 @@ export type ControlUncheckedCreateWithoutRequirementMappingsInput = {
   isHsseCritical?: boolean
   ramRating?: string | null
   riskWeight?: number
+  mappedAt?: Date | string | null
   rawHealthScore?: number
   lastTestedDate?: Date | string | null
   lastTestResult?: string | null
@@ -2157,6 +2196,7 @@ export type ControlUpdateWithoutRequirementMappingsInput = {
   isHsseCritical?: Prisma.BoolFieldUpdateOperationsInput | boolean
   ramRating?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   riskWeight?: Prisma.IntFieldUpdateOperationsInput | number
+  mappedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   rawHealthScore?: Prisma.IntFieldUpdateOperationsInput | number
   lastTestedDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastTestResult?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2204,6 +2244,7 @@ export type ControlUncheckedUpdateWithoutRequirementMappingsInput = {
   isHsseCritical?: Prisma.BoolFieldUpdateOperationsInput | boolean
   ramRating?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   riskWeight?: Prisma.IntFieldUpdateOperationsInput | number
+  mappedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   rawHealthScore?: Prisma.IntFieldUpdateOperationsInput | number
   lastTestedDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastTestResult?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2249,6 +2290,7 @@ export type ControlCreateWithoutRiskMappingsInput = {
   isHsseCritical?: boolean
   ramRating?: string | null
   riskWeight?: number
+  mappedAt?: Date | string | null
   rawHealthScore?: number
   lastTestedDate?: Date | string | null
   lastTestResult?: string | null
@@ -2296,6 +2338,7 @@ export type ControlUncheckedCreateWithoutRiskMappingsInput = {
   isHsseCritical?: boolean
   ramRating?: string | null
   riskWeight?: number
+  mappedAt?: Date | string | null
   rawHealthScore?: number
   lastTestedDate?: Date | string | null
   lastTestResult?: string | null
@@ -2357,6 +2400,7 @@ export type ControlUpdateWithoutRiskMappingsInput = {
   isHsseCritical?: Prisma.BoolFieldUpdateOperationsInput | boolean
   ramRating?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   riskWeight?: Prisma.IntFieldUpdateOperationsInput | number
+  mappedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   rawHealthScore?: Prisma.IntFieldUpdateOperationsInput | number
   lastTestedDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastTestResult?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2404,6 +2448,7 @@ export type ControlUncheckedUpdateWithoutRiskMappingsInput = {
   isHsseCritical?: Prisma.BoolFieldUpdateOperationsInput | boolean
   ramRating?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   riskWeight?: Prisma.IntFieldUpdateOperationsInput | number
+  mappedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   rawHealthScore?: Prisma.IntFieldUpdateOperationsInput | number
   lastTestedDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastTestResult?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2449,6 +2494,7 @@ export type ControlCreateWithoutPipLinksInput = {
   isHsseCritical?: boolean
   ramRating?: string | null
   riskWeight?: number
+  mappedAt?: Date | string | null
   rawHealthScore?: number
   lastTestedDate?: Date | string | null
   lastTestResult?: string | null
@@ -2496,6 +2542,7 @@ export type ControlUncheckedCreateWithoutPipLinksInput = {
   isHsseCritical?: boolean
   ramRating?: string | null
   riskWeight?: number
+  mappedAt?: Date | string | null
   rawHealthScore?: number
   lastTestedDate?: Date | string | null
   lastTestResult?: string | null
@@ -2557,6 +2604,7 @@ export type ControlUpdateWithoutPipLinksInput = {
   isHsseCritical?: Prisma.BoolFieldUpdateOperationsInput | boolean
   ramRating?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   riskWeight?: Prisma.IntFieldUpdateOperationsInput | number
+  mappedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   rawHealthScore?: Prisma.IntFieldUpdateOperationsInput | number
   lastTestedDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastTestResult?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2604,6 +2652,7 @@ export type ControlUncheckedUpdateWithoutPipLinksInput = {
   isHsseCritical?: Prisma.BoolFieldUpdateOperationsInput | boolean
   ramRating?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   riskWeight?: Prisma.IntFieldUpdateOperationsInput | number
+  mappedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   rawHealthScore?: Prisma.IntFieldUpdateOperationsInput | number
   lastTestedDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastTestResult?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2649,6 +2698,7 @@ export type ControlCreateWithoutAuditMappingsInput = {
   isHsseCritical?: boolean
   ramRating?: string | null
   riskWeight?: number
+  mappedAt?: Date | string | null
   rawHealthScore?: number
   lastTestedDate?: Date | string | null
   lastTestResult?: string | null
@@ -2696,6 +2746,7 @@ export type ControlUncheckedCreateWithoutAuditMappingsInput = {
   isHsseCritical?: boolean
   ramRating?: string | null
   riskWeight?: number
+  mappedAt?: Date | string | null
   rawHealthScore?: number
   lastTestedDate?: Date | string | null
   lastTestResult?: string | null
@@ -2757,6 +2808,7 @@ export type ControlUpdateWithoutAuditMappingsInput = {
   isHsseCritical?: Prisma.BoolFieldUpdateOperationsInput | boolean
   ramRating?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   riskWeight?: Prisma.IntFieldUpdateOperationsInput | number
+  mappedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   rawHealthScore?: Prisma.IntFieldUpdateOperationsInput | number
   lastTestedDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastTestResult?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2804,6 +2856,7 @@ export type ControlUncheckedUpdateWithoutAuditMappingsInput = {
   isHsseCritical?: Prisma.BoolFieldUpdateOperationsInput | boolean
   ramRating?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   riskWeight?: Prisma.IntFieldUpdateOperationsInput | number
+  mappedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   rawHealthScore?: Prisma.IntFieldUpdateOperationsInput | number
   lastTestedDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastTestResult?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2849,6 +2902,7 @@ export type ControlCreateWithoutChecklistControlLinksInput = {
   isHsseCritical?: boolean
   ramRating?: string | null
   riskWeight?: number
+  mappedAt?: Date | string | null
   rawHealthScore?: number
   lastTestedDate?: Date | string | null
   lastTestResult?: string | null
@@ -2896,6 +2950,7 @@ export type ControlUncheckedCreateWithoutChecklistControlLinksInput = {
   isHsseCritical?: boolean
   ramRating?: string | null
   riskWeight?: number
+  mappedAt?: Date | string | null
   rawHealthScore?: number
   lastTestedDate?: Date | string | null
   lastTestResult?: string | null
@@ -2957,6 +3012,7 @@ export type ControlUpdateWithoutChecklistControlLinksInput = {
   isHsseCritical?: Prisma.BoolFieldUpdateOperationsInput | boolean
   ramRating?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   riskWeight?: Prisma.IntFieldUpdateOperationsInput | number
+  mappedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   rawHealthScore?: Prisma.IntFieldUpdateOperationsInput | number
   lastTestedDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastTestResult?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3004,6 +3060,7 @@ export type ControlUncheckedUpdateWithoutChecklistControlLinksInput = {
   isHsseCritical?: Prisma.BoolFieldUpdateOperationsInput | boolean
   ramRating?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   riskWeight?: Prisma.IntFieldUpdateOperationsInput | number
+  mappedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   rawHealthScore?: Prisma.IntFieldUpdateOperationsInput | number
   lastTestedDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastTestResult?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3049,6 +3106,7 @@ export type ControlCreateManyProcessAreaInput = {
   isHsseCritical?: boolean
   ramRating?: string | null
   riskWeight?: number
+  mappedAt?: Date | string | null
   rawHealthScore?: number
   lastTestedDate?: Date | string | null
   lastTestResult?: string | null
@@ -3087,6 +3145,7 @@ export type ControlUpdateWithoutProcessAreaInput = {
   isHsseCritical?: Prisma.BoolFieldUpdateOperationsInput | boolean
   ramRating?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   riskWeight?: Prisma.IntFieldUpdateOperationsInput | number
+  mappedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   rawHealthScore?: Prisma.IntFieldUpdateOperationsInput | number
   lastTestedDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastTestResult?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3133,6 +3192,7 @@ export type ControlUncheckedUpdateWithoutProcessAreaInput = {
   isHsseCritical?: Prisma.BoolFieldUpdateOperationsInput | boolean
   ramRating?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   riskWeight?: Prisma.IntFieldUpdateOperationsInput | number
+  mappedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   rawHealthScore?: Prisma.IntFieldUpdateOperationsInput | number
   lastTestedDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastTestResult?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3179,6 +3239,7 @@ export type ControlUncheckedUpdateManyWithoutProcessAreaInput = {
   isHsseCritical?: Prisma.BoolFieldUpdateOperationsInput | boolean
   ramRating?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   riskWeight?: Prisma.IntFieldUpdateOperationsInput | number
+  mappedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   rawHealthScore?: Prisma.IntFieldUpdateOperationsInput | number
   lastTestedDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   lastTestResult?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3312,6 +3373,7 @@ export type ControlSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   isHsseCritical?: boolean
   ramRating?: boolean
   riskWeight?: boolean
+  mappedAt?: boolean
   rawHealthScore?: boolean
   lastTestedDate?: boolean
   lastTestResult?: boolean
@@ -3361,6 +3423,7 @@ export type ControlSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   isHsseCritical?: boolean
   ramRating?: boolean
   riskWeight?: boolean
+  mappedAt?: boolean
   rawHealthScore?: boolean
   lastTestedDate?: boolean
   lastTestResult?: boolean
@@ -3401,6 +3464,7 @@ export type ControlSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   isHsseCritical?: boolean
   ramRating?: boolean
   riskWeight?: boolean
+  mappedAt?: boolean
   rawHealthScore?: boolean
   lastTestedDate?: boolean
   lastTestResult?: boolean
@@ -3441,6 +3505,7 @@ export type ControlSelectScalar = {
   isHsseCritical?: boolean
   ramRating?: boolean
   riskWeight?: boolean
+  mappedAt?: boolean
   rawHealthScore?: boolean
   lastTestedDate?: boolean
   lastTestResult?: boolean
@@ -3471,7 +3536,7 @@ export type ControlSelectScalar = {
   practiceDocumentId?: boolean
 }
 
-export type ControlOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "statement" | "controlType" | "processAreaId" | "isHsseCritical" | "ramRating" | "riskWeight" | "rawHealthScore" | "lastTestedDate" | "lastTestResult" | "createdAt" | "controlRef" | "sourceFile" | "practiceDocument" | "controlTypeDetail" | "csfWho" | "csfWhat" | "csfWhen" | "csfWhere" | "csfWhy" | "csfHow" | "csfEvidence" | "keyActivities" | "riskAddressed" | "testingApproach" | "uncertainFlags" | "knowledge" | "standard" | "pId" | "Requirements" | "companyId" | "controlOwner" | "assuranceCadence" | "effectivenessCriteria" | "practiceDocumentId", ExtArgs["result"]["control"]>
+export type ControlOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "statement" | "controlType" | "processAreaId" | "isHsseCritical" | "ramRating" | "riskWeight" | "mappedAt" | "rawHealthScore" | "lastTestedDate" | "lastTestResult" | "createdAt" | "controlRef" | "sourceFile" | "practiceDocument" | "controlTypeDetail" | "csfWho" | "csfWhat" | "csfWhen" | "csfWhere" | "csfWhy" | "csfHow" | "csfEvidence" | "keyActivities" | "riskAddressed" | "testingApproach" | "uncertainFlags" | "knowledge" | "standard" | "pId" | "Requirements" | "companyId" | "controlOwner" | "assuranceCadence" | "effectivenessCriteria" | "practiceDocumentId", ExtArgs["result"]["control"]>
 export type ControlInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   controlAssignments?: boolean | Prisma.Control$controlAssignmentsArgs<ExtArgs>
   controlSubProcesses?: boolean | Prisma.Control$controlSubProcessesArgs<ExtArgs>
@@ -3513,6 +3578,11 @@ export type $ControlPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     isHsseCritical: boolean
     ramRating: string | null
     riskWeight: number
+    /**
+     * Authoritative marker that this control was processed by the control →
+     * requirement mapping pipeline (stamped with 0..N mapping rows).
+     */
+    mappedAt: Date | null
     rawHealthScore: number
     lastTestedDate: Date | null
     lastTestResult: string | null
@@ -3981,6 +4051,7 @@ export interface ControlFieldRefs {
   readonly isHsseCritical: Prisma.FieldRef<"Control", 'Boolean'>
   readonly ramRating: Prisma.FieldRef<"Control", 'String'>
   readonly riskWeight: Prisma.FieldRef<"Control", 'Int'>
+  readonly mappedAt: Prisma.FieldRef<"Control", 'DateTime'>
   readonly rawHealthScore: Prisma.FieldRef<"Control", 'Int'>
   readonly lastTestedDate: Prisma.FieldRef<"Control", 'DateTime'>
   readonly lastTestResult: Prisma.FieldRef<"Control", 'String'>

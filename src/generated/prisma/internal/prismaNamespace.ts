@@ -446,7 +446,9 @@ export const ModelName = {
   AuditChecklistTemplate: 'AuditChecklistTemplate',
   AuditChecklistTemplateItem: 'AuditChecklistTemplateItem',
   AuditChecklistItem: 'AuditChecklistItem',
-  AssessmentChecklistControl: 'AssessmentChecklistControl'
+  AssessmentChecklistControl: 'AssessmentChecklistControl',
+  ReconcileClaim: 'ReconcileClaim',
+  RequirementCoverageAudit: 'RequirementCoverageAudit'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -462,7 +464,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "activityLog" | "activityLogType" | "assuranceActivityType" | "assuranceProtocol" | "standard" | "processArea" | "subProcess" | "controlSubProcess" | "control" | "assessmentTemplate" | "assessmentTemplateControlLinkage" | "assessmentTemplateActivityType" | "assessment" | "assessmentAssessor" | "controlAssignment" | "requirementConclusion" | "sampleType" | "recordSourceType" | "sample" | "finding" | "action" | "attachment" | "attachmentMapping" | "achievementBadge" | "userAchievement" | "pointTransaction" | "gameAttribute" | "gameAttributeRule" | "emotionalDriveMetric" | "milestone" | "userRole" | "userRoleMapping" | "company" | "department" | "position" | "userCompany" | "userFavorite" | "assessmentActType" | "aact" | "aActControls" | "aActUsers" | "aActDetails" | "knowledgebase" | "mapArt2Know" | "requirement" | "mapControl2Requirement" | "gamificationStage" | "webhookLog" | "document" | "mapRequirement2Document" | "riskCategory" | "risk" | "riskMetrics" | "controlRisk" | "backlogItem" | "backlogItemControl" | "auditEvidence" | "auditChecklist2Requirement" | "auditChecklistTemplate" | "auditChecklistTemplateItem" | "auditChecklistItem" | "assessmentChecklistControl"
+    modelProps: "user" | "activityLog" | "activityLogType" | "assuranceActivityType" | "assuranceProtocol" | "standard" | "processArea" | "subProcess" | "controlSubProcess" | "control" | "assessmentTemplate" | "assessmentTemplateControlLinkage" | "assessmentTemplateActivityType" | "assessment" | "assessmentAssessor" | "controlAssignment" | "requirementConclusion" | "sampleType" | "recordSourceType" | "sample" | "finding" | "action" | "attachment" | "attachmentMapping" | "achievementBadge" | "userAchievement" | "pointTransaction" | "gameAttribute" | "gameAttributeRule" | "emotionalDriveMetric" | "milestone" | "userRole" | "userRoleMapping" | "company" | "department" | "position" | "userCompany" | "userFavorite" | "assessmentActType" | "aact" | "aActControls" | "aActUsers" | "aActDetails" | "knowledgebase" | "mapArt2Know" | "requirement" | "mapControl2Requirement" | "gamificationStage" | "webhookLog" | "document" | "mapRequirement2Document" | "riskCategory" | "risk" | "riskMetrics" | "controlRisk" | "backlogItem" | "backlogItemControl" | "auditEvidence" | "auditChecklist2Requirement" | "auditChecklistTemplate" | "auditChecklistTemplateItem" | "auditChecklistItem" | "assessmentChecklistControl" | "reconcileClaim" | "requirementCoverageAudit"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -5128,6 +5130,154 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    ReconcileClaim: {
+      payload: Prisma.$ReconcileClaimPayload<ExtArgs>
+      fields: Prisma.ReconcileClaimFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ReconcileClaimFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReconcileClaimPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ReconcileClaimFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReconcileClaimPayload>
+        }
+        findFirst: {
+          args: Prisma.ReconcileClaimFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReconcileClaimPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ReconcileClaimFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReconcileClaimPayload>
+        }
+        findMany: {
+          args: Prisma.ReconcileClaimFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReconcileClaimPayload>[]
+        }
+        create: {
+          args: Prisma.ReconcileClaimCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReconcileClaimPayload>
+        }
+        createMany: {
+          args: Prisma.ReconcileClaimCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ReconcileClaimCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReconcileClaimPayload>[]
+        }
+        delete: {
+          args: Prisma.ReconcileClaimDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReconcileClaimPayload>
+        }
+        update: {
+          args: Prisma.ReconcileClaimUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReconcileClaimPayload>
+        }
+        deleteMany: {
+          args: Prisma.ReconcileClaimDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ReconcileClaimUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ReconcileClaimUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReconcileClaimPayload>[]
+        }
+        upsert: {
+          args: Prisma.ReconcileClaimUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ReconcileClaimPayload>
+        }
+        aggregate: {
+          args: Prisma.ReconcileClaimAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateReconcileClaim>
+        }
+        groupBy: {
+          args: Prisma.ReconcileClaimGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ReconcileClaimGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ReconcileClaimCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ReconcileClaimCountAggregateOutputType> | number
+        }
+      }
+    }
+    RequirementCoverageAudit: {
+      payload: Prisma.$RequirementCoverageAuditPayload<ExtArgs>
+      fields: Prisma.RequirementCoverageAuditFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.RequirementCoverageAuditFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RequirementCoverageAuditPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.RequirementCoverageAuditFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RequirementCoverageAuditPayload>
+        }
+        findFirst: {
+          args: Prisma.RequirementCoverageAuditFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RequirementCoverageAuditPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.RequirementCoverageAuditFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RequirementCoverageAuditPayload>
+        }
+        findMany: {
+          args: Prisma.RequirementCoverageAuditFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RequirementCoverageAuditPayload>[]
+        }
+        create: {
+          args: Prisma.RequirementCoverageAuditCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RequirementCoverageAuditPayload>
+        }
+        createMany: {
+          args: Prisma.RequirementCoverageAuditCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.RequirementCoverageAuditCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RequirementCoverageAuditPayload>[]
+        }
+        delete: {
+          args: Prisma.RequirementCoverageAuditDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RequirementCoverageAuditPayload>
+        }
+        update: {
+          args: Prisma.RequirementCoverageAuditUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RequirementCoverageAuditPayload>
+        }
+        deleteMany: {
+          args: Prisma.RequirementCoverageAuditDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.RequirementCoverageAuditUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.RequirementCoverageAuditUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RequirementCoverageAuditPayload>[]
+        }
+        upsert: {
+          args: Prisma.RequirementCoverageAuditUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RequirementCoverageAuditPayload>
+        }
+        aggregate: {
+          args: Prisma.RequirementCoverageAuditAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateRequirementCoverageAudit>
+        }
+        groupBy: {
+          args: Prisma.RequirementCoverageAuditGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.RequirementCoverageAuditGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.RequirementCoverageAuditCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.RequirementCoverageAuditCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -5319,6 +5469,7 @@ export const ControlScalarFieldEnum = {
   isHsseCritical: 'isHsseCritical',
   ramRating: 'ramRating',
   riskWeight: 'riskWeight',
+  mappedAt: 'mappedAt',
   rawHealthScore: 'rawHealthScore',
   lastTestedDate: 'lastTestedDate',
   lastTestResult: 'lastTestResult',
@@ -5394,6 +5545,7 @@ export const AssessmentScalarFieldEnum = {
   loa: 'loa',
   status: 'status',
   companyId: 'companyId',
+  processAreaId: 'processAreaId',
   createdAt: 'createdAt',
   objective: 'objective',
   scope: 'scope',
@@ -5817,7 +5969,8 @@ export const KnowledgebaseScalarFieldEnum = {
   createdDate: 'createdDate',
   addedBy: 'addedBy',
   companyId: 'companyId',
-  processAreaId: 'processAreaId'
+  processAreaId: 'processAreaId',
+  reconciledAt: 'reconciledAt'
 } as const
 
 export type KnowledgebaseScalarFieldEnum = (typeof KnowledgebaseScalarFieldEnum)[keyof typeof KnowledgebaseScalarFieldEnum]
@@ -5860,6 +6013,7 @@ export const MapControl2RequirementScalarFieldEnum = {
   requirementRId: 'requirementRId',
   processAreaId: 'processAreaId',
   mandatory: 'mandatory',
+  aiGenerated: 'aiGenerated',
   createdAt: 'createdAt'
 } as const
 
@@ -6127,6 +6281,37 @@ export const AssessmentChecklistControlScalarFieldEnum = {
 } as const
 
 export type AssessmentChecklistControlScalarFieldEnum = (typeof AssessmentChecklistControlScalarFieldEnum)[keyof typeof AssessmentChecklistControlScalarFieldEnum]
+
+
+export const ReconcileClaimScalarFieldEnum = {
+  kbId: 'kbId',
+  shard: 'shard',
+  claimedAt: 'claimedAt',
+  heartbeatAt: 'heartbeatAt'
+} as const
+
+export type ReconcileClaimScalarFieldEnum = (typeof ReconcileClaimScalarFieldEnum)[keyof typeof ReconcileClaimScalarFieldEnum]
+
+
+export const RequirementCoverageAuditScalarFieldEnum = {
+  id: 'id',
+  companyId: 'companyId',
+  processAreaId: 'processAreaId',
+  requirementRId: 'requirementRId',
+  requirementId: 'requirementId',
+  standard: 'standard',
+  verdict: 'verdict',
+  howMetEvidence: 'howMetEvidence',
+  gapAnalysis: 'gapAnalysis',
+  proposedControlStatement: 'proposedControlStatement',
+  mappedControlCount: 'mappedControlCount',
+  aiGenerated: 'aiGenerated',
+  modelName: 'modelName',
+  worker: 'worker',
+  covAt: 'covAt'
+} as const
+
+export type RequirementCoverageAuditScalarFieldEnum = (typeof RequirementCoverageAuditScalarFieldEnum)[keyof typeof RequirementCoverageAuditScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -6691,6 +6876,8 @@ export type GlobalOmitConfig = {
   auditChecklistTemplateItem?: Prisma.AuditChecklistTemplateItemOmit
   auditChecklistItem?: Prisma.AuditChecklistItemOmit
   assessmentChecklistControl?: Prisma.AssessmentChecklistControlOmit
+  reconcileClaim?: Prisma.ReconcileClaimOmit
+  requirementCoverageAudit?: Prisma.RequirementCoverageAuditOmit
 }
 
 /* Types for Logging */

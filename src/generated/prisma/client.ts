@@ -356,3 +356,13 @@ export type AuditChecklistItem = Prisma.AuditChecklistItemModel
  * 
  */
 export type AssessmentChecklistControl = Prisma.AssessmentChecklistControlModel
+/**
+ * Model ReconcileClaim
+ * 
+ */
+export type ReconcileClaim = Prisma.ReconcileClaimModel
+/**
+ * Model RequirementCoverageAudit
+ * 
+ */
+export type RequirementCoverageAudit = Prisma.RequirementCoverageAuditModel
