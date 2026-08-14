@@ -414,7 +414,7 @@ Verify that **all UI features render and behave as designed** (per `SAMS_APP_DES
 ### Cleanup Procedure (run AFTER testing + results recorded)
 
 ```powershell
-cd "C:\Users\edwar\Claude\Projects\Gamified Plant"
+cd "C:\Users\edwar\OneDrive\Documents\01 AI\02 Gamified Plant"
 python scripts/db/cleanup_test_data.py --dry-run   # preview what will be deleted
 python scripts/db/cleanup_test_data.py             # execute cleanup
 ```

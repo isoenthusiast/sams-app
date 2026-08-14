@@ -519,7 +519,7 @@ Shared Screens (all roles):
 
 All master data is exported and ready at:
 ```
-C:\Users\edwar\Claude\Projects\Gamified Plant\data\exports\
+C:\Users\edwar\OneDrive\Documents\01 AI\02 Gamified Plant\data\exports\
 ```
 
 ### 7.2 Loading Method

@@ -6,8 +6,8 @@ import hashlib, os, sys
 
 # ── 1. Schema identity ──
 def check_schema_identity():
-    seam_schema = r"C:\Users\edwar\Claude\Projects\Gamified Plant\seam-assurance-app\prisma\schema.prisma"
-    sams_schema = r"C:\Users\edwar\Claude\Projects\Gamified Plant\sams-app\prisma\schema.prisma"
+    seam_schema = r"C:\Users\edwar\OneDrive\Documents\01 AI\02 Gamified Plant\seam-assurance-app\prisma\schema.prisma"
+    sams_schema = r"C:\Users\edwar\OneDrive\Documents\01 AI\02 Gamified Plant\sams-app\prisma\schema.prisma"
     
     with open(seam_schema, "rb") as f:
         seam_hash = hashlib.sha256(f.read()).hexdigest()
@@ -19,8 +19,8 @@ def check_schema_identity():
 
 # ── 2. Auth config identity ──
 def check_auth_identity():
-    seam_config = r"C:\Users\edwar\Claude\Projects\Gamified Plant\seam-assurance-app\src\auth.config.ts"
-    sams_config = r"C:\Users\edwar\Claude\Projects\Gamified Plant\sams-app\src\auth.config.ts"
+    seam_config = r"C:\Users\edwar\OneDrive\Documents\01 AI\02 Gamified Plant\seam-assurance-app\src\auth.config.ts"
+    sams_config = r"C:\Users\edwar\OneDrive\Documents\01 AI\02 Gamified Plant\sams-app\src\auth.config.ts"
     
     with open(seam_config, "r") as f:
         seam_lines = [l.strip() for l in f if l.strip() and not l.strip().startswith("//")]
@@ -43,8 +43,8 @@ def check_source_identity():
         ("src/lib/activity-log.ts", "activity-log.ts"),
         ("src/types/next-auth.d.ts", "next-auth.d.ts"),
     ]
-    base_seam = r"C:\Users\edwar\Claude\Projects\Gamified Plant\seam-assurance-app"
-    base_sams = r"C:\Users\edwar\Claude\Projects\Gamified Plant\sams-app"
+    base_seam = r"C:\Users\edwar\OneDrive\Documents\01 AI\02 Gamified Plant\seam-assurance-app"
+    base_sams = r"C:\Users\edwar\OneDrive\Documents\01 AI\02 Gamified Plant\sams-app"
     
     for fname, _ in files:
         with open(os.path.join(base_seam, fname), "rb") as f:
@@ -60,8 +60,8 @@ def check_source_identity():
 
 # ── 4. Environment consistency ──
 def check_env():
-    seam_env = r"C:\Users\edwar\Claude\Projects\Gamified Plant\seam-assurance-app\.env"
-    sams_env = r"C:\Users\edwar\Claude\Projects\Gamified Plant\sams-app\.env"
+    seam_env = r"C:\Users\edwar\OneDrive\Documents\01 AI\02 Gamified Plant\seam-assurance-app\.env"
+    sams_env = r"C:\Users\edwar\OneDrive\Documents\01 AI\02 Gamified Plant\sams-app\.env"
     
     def extract_var(path, var):
         with open(path, "r") as f:

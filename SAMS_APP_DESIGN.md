@@ -2,7 +2,7 @@
 
 > **📐 Active alongside `CONAN_Design Philosophy.md` and `CONAN_App Design.md`.** CONAN docs are the narrative source of truth; this document is the technical specification (models, routes, components, APIs). Both are maintained.
 
-**Last Updated:** August 10, 2026 (v1.12.3 — report format v2: expandable rows, discipline filter badges, IMS merged report)
+**Last Updated:** August 14, 2026 (v1.13.2 — requirement coverage audit pipeline + FLA grouped by Standard → Process Area)
 
 ---
 
@@ -286,7 +286,7 @@ Client Component → fetch('/api/...', { method: 'POST', body })
 | **ProcessArea** | `ProcessArea` | id (cuid) | name, standardId (FK→Standard), companyId | `@@unique([name, companyId])` | — |
 | **SubProcess** | `SubProcess` | id (cuid) | name, processAreaId (FK→ProcessArea), companyId | No unique beyond PK | `onDelete: Cascade` (ProcessArea) |
 | **Requirement** | `Requirement` | rId (Int) | requirementId, standard, clauseContent, processAreaId, companyId | `@@unique([requirementId, processAreaId, companyId])` | — |
-| **Control** | `Control` | id (cuid) | name, statement, controlType, processAreaId (FK→ProcessArea, **nullable**), healthScore, companyId | `@@unique([name, companyId])` | — |
+| **Control** | `Control` | id (cuid) | name, statement, controlType, processAreaId (FK→ProcessArea, **nullable**), mappedAt (v1.13.0 — stamped when the mapping pipeline processed it), healthScore, companyId | `@@unique([name, companyId])` | — |
 | **AssuranceProtocol** | `AssuranceProtocol` | id (cuid) | requirementId, rId (FK→Requirement), keyQuestions, whatGoodLooksLike, controlPoints | No company unique | `onDelete: Cascade` (Requirement) |
 
 #### Junction / Mapping Models
@@ -305,6 +305,7 @@ Client Component → fetch('/api/...', { method: 'POST', body })
 | Table | Purpose | Key Fields |
 |-------|---------|------------|
 | **ReconcileClaim** | Coordination table for parallel AI pipelines (v1.13.0): per-unit claim gate + launcher lease. Workers claim a unit via `INSERT ON CONFLICT (kbId) DO NOTHING`; stale claims (>20 min) are reclaimed. The row `kbId='__launcher__'` is the single-instance launcher lease (5s heartbeat, stale-reclaim >120s). **v1.13.1:** pipelines use distinct lease ids (`__launcher__` for extraction, `__launcher_map__` for mapping) so two pipelines can run concurrently. | kbId (text PK), shard (int), claimedAt, heartbeatAt |
+| **RequirementCoverageAudit** | Coverage verdicts from the requirement-coverage audit pipeline (v1.13.2): one row per audited requirement with verdict **FullyMet/PartiallyMet/NotMet** (labels = `Conclusion` enum), howMetEvidence, gapAnalysis, proposedControlStatement (CSF format), mappedControlCount, aiGenerated. Mirrored into the app as one Assessment per PA + Findings/Actions for human review. | id `cov_<md5(rID)>` (text PK), companyId, processAreaId, requirementRId, standard, verdict, model (mapped from `model`), worker, covAt |
 
 #### Assessment & Workflow Models
 
@@ -313,7 +314,7 @@ Client Component → fetch('/api/...', { method: 'POST', body })
 | **User** | System user | name, username (unique), email, role (Admin/Superuser/Assessor/Interviewee), positionId (FK→Position), companyId, managerName, managerUsername, organisationIndicator. **v1.8.0:** Added managerName, organisationIdentifier fields. **v1.8.2:** Added managerUsername (resolved FK-like reference to User.username) |
 | **Department** | Org unit within a company | name, companyId, parentDepartmentId (self-referencing hierarchy, NULL = top-level) |
 | **Position** | Job title scoped to Department | title, departmentId (FK→Department). @@unique([title, departmentId]) |
-| **Assessment** | Frontline assurance check | status (Planned→InProgress→Completed/Cancelled), loa, assessorId (lead), activityTypeId. **TOR fields (v1.6.5):** objective, scope, sponsor, methodology, keyFocus, reportIssueDate |
+| **Assessment** | Frontline assurance check | status (Planned→InProgress→Completed/Cancelled), loa, assessorId (lead), activityTypeId, processAreaId (v1.13.2 — direct PA link for coverage audits + Standard→PA grouping; UI falls back to control assignments when null). **TOR fields (v1.6.5):** objective, scope, sponsor, methodology, keyFocus, reportIssueDate |
 | **ControlAssignment** | Controls assigned to assessment | effectiveness (Effective/NotEffective/null), effectiveUpdatedAt |
 | **Sample** | Record sample tested | status (Tested/NotTested), conclusion (Pass/Fail), controlEffective |
 | **Finding** | Finding raised during assessment | severity (Low/Medium/High/Serious), repeat, FID-xxxxxx ID, **checklistItemId (v1.10.0)** — optional FK to AuditChecklistItem for traceability |
@@ -773,6 +774,14 @@ Fan-out batch reconciliation of every SMDS Knowledgebase document into consolida
 
 **Supporting scripts:** `scripts/db/check_smds_state.py` (count verify), `scripts/db/purge_smds_controls.py` (full SMDS purge), `scripts/db/csf_extract_pro.py` + `scripts/db/pro_full_compare.py` (model comparison), `CSF_BATCH_BACKLOG.md` (batch status).
 
+### 9.5 Requirement Coverage Audit (v1.13.2)
+
+Multiworker AI verification that every applicable SMDS requirement is met by its mapped controls — runs on the same Postgres-claims coordination as 9.4 (distinct `--lease-id __launcher_cov__`). One row per requirement in `RequirementCoverageAudit` with a verdict — **FullyMet** (controls cover every substantive obligation), **PartiallyMet** (material gaps remain), **NotMet** (no substantive coverage) — plus `howMetEvidence`; every gap also gets a **proposed control statement in CSF format** that closes it. Results are mirrored for in-app review: one `Assessment` ("Coverage Audit — <PA>") per PA, one `Finding` per gapped requirement (severity High=NotMet / Medium=PartiallyMet), one `Action` per finding whose description is the proposed statement. Proposals never touch the live Control library — human review first.
+
+- Scripts: `cov_bootstrap.py` (tables + 69 PA assessments), `kb_cov_audit.py` (worker), `cov_aggregate.py`, `cov_monitor.py` (watchdog + audible alarms), `cov_svc.py` (surgical start/stop per role), `cov_recover.py` (one-command recovery); dashboards on port 8790.
+- Result (2026-08-14): 873/873 SMDS requirements audited — 293 FullyMet, 346 PartiallyMet, 234 NotMet, 580 gap proposals (~24 min, 30 workers). Priority: ISO block first, then foundations → process safety → WHSS → transport → carbon/environment.
+- Scope caveat: audits the AI-mapped documented control library, not on-the-ground implementation. Runbook: `docs/requirement-coverage-audit.md`.
+
 ---
 
 ## 10. Security & Authorization
@@ -941,6 +950,7 @@ Local Dev (localhost:3100)
 | v1.12.1 | 2026-08-09 | **PMS cross-PA control mapping.** Added `mandatory Boolean @default(false)` to `MapControl2Requirement` (added via idempotent raw `ALTER TABLE ADD COLUMN IF NOT EXISTS` to avoid Prisma drift-drop). Marks controls that are essential (non-substitutable) to a specific requirement. Used to map the 5,055-control SMDS library to the 42 statutory ICOP PMS clauses (controls from other PAs anchored to the PMS requirement; MCR `processAreaId` = the control's own PA). Produces `SMDS PMS Gaps.md` + Design Effectiveness report. |
 | v1.13.0 | 2026-08-13 | **KB→Control Parallel Reconciliation + Mapping v2 Design.** (1) **Parallel extraction pipeline** (`scripts/db/launch_shards.py`, `kb_control_reconcile.py`, `kb_reconcile_aggregate.py`, `parent_watchdog.py`): 20 shards × 2 process copies coordinated via new **`ReconcileClaim`** raw-SQL table (per-doc claim gate + `__launcher__` lease row with 5s heartbeat + stale reclaim; standby never exits; work-stealing sweep at tail; skip-don't-crash on network failures; per-doc commit). Result: SMDS control library grown to 23,586 controls (18,531 KB-derived NEW), 0 duplicate name rows, 0 × 429. (2) **`MapControl2Requirement.aiGenerated`** nullable boolean added via idempotent raw ALTER — flags AI-created mapping rows. (3) **Mapping v2 design grilled & confirmed:** backup + delete all 5,596 SMDS mappings, re-match all controls against all 881 SMDS requirements two-stage (token-overlap top-40 → AI confirm with justification, strong/weak tiering), mandatory boolean = mandatory/supporting, many-to-many, AI chunk 40 + commit per control, single supervisor with 30 workers, launch only after extraction completes. New docs: `docs/parallel-worker-coordination.md` (runbook) + `docs/adr/adr-coordinating-many-workers-db-claims.md`; 19-entry lessons log `/memories/lessons-learned-2026-08-13.md`. |
 | v1.13.1 | 2026-08-13 | **Reconciliation completion marker + Mapping v2 runner built.** (1) **`Knowledgebase.reconciledAt`** (idempotent raw ALTER) is now the authoritative "doc reconciled" marker — stamped in the same transaction after a doc completes with inserts AND/OR update-merges. `Control.practiceDocumentId` reverts to CREATOR-only semantics (stamped on INSERT, never on UPDATE) — update-stamping caused a 44-doc ownership ping-pong between docs that merge into the same controls. Backfill stamped 556/557 docs from evidence (control ownership or successful worklog); only 1 doc (SGN U1100 PRE-FURN) needed a real re-run. (2) **Mapping v2 runner built**: `scripts/db/kb_map_v2.py` (work unit = control; chunk 40/AI call with adaptive split; stage-1 token-overlap top-40 candidates from 873 eligible reqs; stage-2 AI strong/weak + justification; strong-only inserts capped at 5; weak → `kb_map_review.jsonl`; per-control claim/insert/commit/release; deterministic `map_smds_<md5>` ids; skip-don't-crash; DB reconnect-retry; work-stealing), `kb_map_aggregate.py` (unique-union + dbMapped), `kb_map_progress.html` rebuilt, `map_backup_clear.py` (export 5,596 rows to dbBackup/ then delete). `launch_shards.py` parameterized: `--worker-script/--aggregate-script/--log-prefix/--status-out/--dashboard-file/--extra-worker-args/--lease-id`. |
+| v1.13.2 | 2026-08-14 | **Requirement Coverage Audit + FLA Standard→PA grouping.** (1) New pipeline table `RequirementCoverageAudit` (registered Prisma model, §9.5): 873/873 SMDS requirements audited by 30 workers — 293 FullyMet / 346 PartiallyMet / 234 NotMet with evidence + 580 CSF gap-closure proposals, mirrored as Assessments/Findings/Actions for in-app review. (2) `Assessment.processAreaId` direct PA link — assessments group by Standard → Process Area on `/fla/all`; `/api/admin/assessments` returns the direct processArea with legacy control-assignment fallback. (3) Findings UI: clause/requirement box, gap details, and proposed control statement displayed on assessment + FLA pages; truncation removed (220-char cap lifted, data backfilled). (4) Schema drift-safety: pipeline tables + columns registered in Prisma so `db push` never drops them. New docs: `docs/requirement-coverage-audit.md`; lessons `/memories/lessons-learned-2026-08-14.md`. |
 | v1.0.1 | 2026-07-24 | Added `ProcessAreaList` component — groups PAs by Standard with collapsible sections on `/setup/process-areas` |
 | v1.0.2 | 2026-07-24 | Added `AssignedControlsList` component — 2-level PA→Req→Ctrl hierarchy for assessment assigned controls with inline effectiveness dropdowns, remove button, color-coded status, and mouseover tooltip showing full control statement |
 | v1.0.3 | 2026-07-24 | Sorting: Standards and ProcessAreas sorted alphabetically; Requirement IDs sorted by natural numeric order (1, 2, 3… not 1, 10, 11) with Unmapped Controls always last. Applied to both Select Controls and Assigned Controls panels. |
