@@ -28,6 +28,7 @@ type Props = {
     totalAssessments: number;
     lastAssessment: { id: string; startDate: string; assessorName: string | null; name: string | null } | null;
   };
+  requirementCoverage: { fully: number; partially: number; not: number; unset: number };
   pipItems: any[];
   assessmentActions: any[];
   currentUserName: string | null;
@@ -42,7 +43,7 @@ type PipProposal = { title: string; description: string; priority: string };
 type ChatMsg = { role: "user" | "assistant"; content: string; controls?: Array<{ name: string; statement: string; controlType: string }>; proposedPips?: PipProposal[] };
 
 export default function ProcessDetailsClient(props: Props) {
-  const { processArea, subProcesses, assessments, reqWithControls, allControls, healthMetrics, pipItems, assessmentActions, currentUserName, currentUserRole, companyId, masterCompanyId, kbEntries, documents } = props;
+  const { processArea, subProcesses, assessments, reqWithControls, allControls, healthMetrics, requirementCoverage, pipItems, assessmentActions, currentUserName, currentUserRole, companyId, masterCompanyId, kbEntries, documents } = props;
   const router = useRouter();
   const [activeTab, setActiveTab] = useState<"overview" | "requirements" | "assessments" | "knowledgebase" | "improvement" | "documents">("overview");
   const [pipData, setPipData] = useState(pipItems);
@@ -77,6 +78,8 @@ export default function ProcessDetailsClient(props: Props) {
   const { effective, partiallyEffective, ineffective, neverTested } = healthDistribution;
   const testedTotal = effective + partiallyEffective + ineffective;
   const effectivePct = testedTotal > 0 ? Math.round((effective / testedTotal) * 100) : null;
+  const covAssessed = requirementCoverage.fully + requirementCoverage.partially + requirementCoverage.not;
+  const coveragePct = covAssessed > 0 ? Math.round((requirementCoverage.fully / covAssessed) * 100) : null;
   const isSpoOrAdmin = currentUserRole === "Admin" || currentUserRole === "Superuser";
   const isAdmin = currentUserRole === "Admin";
 
@@ -350,6 +353,9 @@ export default function ProcessDetailsClient(props: Props) {
             </Card>
           </div>
 
+          {/* C + RC: Controls Health + Requirements Coverage donuts */}
+          <div className="grid gap-4 lg:grid-cols-2">
+
           {/* C: Controls Health Donut */}
           <Card padding="md">
             <h3 className="text-sm font-semibold text-slate-700 mb-4">🛡 Controls Health</h3>
@@ -389,6 +395,47 @@ export default function ProcessDetailsClient(props: Props) {
               </div>
             </div>
           </Card>
+
+          {/* RC: Requirements Coverage (SOC) Donut */}
+          <Card padding="md">
+            <h3 className="text-sm font-semibold text-slate-700 mb-4">📊 Requirements Coverage</h3>
+            <div className="flex flex-col sm:flex-row items-center gap-6">
+              <div className="relative w-40 h-40 flex-shrink-0">
+                <svg viewBox="0 0 120 120" className="w-full h-full -rotate-90">
+                  <circle cx="60" cy="60" r="48" fill="none" stroke="#e2e8f0" strokeWidth="12" />
+                  {covAssessed > 0 && (() => {
+                    const circumference = 2 * Math.PI * 48;
+                    const fullyLen = (requirementCoverage.fully / covAssessed) * circumference;
+                    const partLen = (requirementCoverage.partially / covAssessed) * circumference;
+                    const notLen = (requirementCoverage.not / covAssessed) * circumference;
+                    let offset = 0;
+                    const segments = [];
+                    if (requirementCoverage.fully > 0) { segments.push({ len: fullyLen, color: "#16a34a", offset }); offset += fullyLen; }
+                    if (requirementCoverage.partially > 0) { segments.push({ len: partLen, color: "#d97706", offset }); offset += partLen; }
+                    if (requirementCoverage.not > 0) { segments.push({ len: notLen, color: "#dc2626", offset }); }
+                    return segments.map((s, i) => (
+                      <circle key={i} cx="60" cy="60" r="48" fill="none" stroke={s.color} strokeWidth="12"
+                        strokeDasharray={`${s.len} ${circumference - s.len}`} strokeDashoffset={-s.offset} strokeLinecap="round" />
+                    ));
+                  })()}
+                </svg>
+                <div className="absolute inset-0 flex flex-col items-center justify-center">
+                  <span className="text-2xl font-bold text-slate-900">{coveragePct !== null ? `${coveragePct}%` : "—"}</span>
+                  <span className="text-xs text-slate-400">Coverage</span>
+                </div>
+              </div>
+              <div className="flex-1 space-y-2 text-sm">
+                <div className="flex items-center gap-2"><span className="w-3 h-3 rounded-full bg-green-600 inline-block"></span> Fully Comply: <strong>{requirementCoverage.fully}</strong> requirements</div>
+                <div className="flex items-center gap-2"><span className="w-3 h-3 rounded-full bg-amber-500 inline-block"></span> Partially Comply: <strong>{requirementCoverage.partially}</strong> requirements</div>
+                <div className="flex items-center gap-2"><span className="w-3 h-3 rounded-full bg-red-600 inline-block"></span> Not Comply: <strong>{requirementCoverage.not}</strong> requirements</div>
+                {requirementCoverage.unset > 0 && (
+                  <div className="flex items-center gap-2"><span className="w-3 h-3 rounded-full bg-slate-300 inline-block"></span> Not Assessed: <strong>{requirementCoverage.unset}</strong> requirements</div>
+                )}
+                <p className="text-xs text-slate-400 mt-1">Coverage = % of requirements Fully Comply ({covAssessed} assessed)</p>
+              </div>
+            </div>
+          </Card>
+          </div>
 
           {/* A: Assurance */}
           <Card padding="md">

@@ -59,7 +59,10 @@ export default async function ProcessDetailsPage({ params }: { params: Promise<{
   // plus any legacy sub-process-linked controls.
   const paControls = await prisma.control.findMany({
     where: { processAreaId: id },
-    select: { id: true, name: true, rawHealthScore: true, isHsseCritical: true },
+    select: {
+      id: true, name: true, rawHealthScore: true, isHsseCritical: true,
+      _count: { select: { controlAssignments: true } },
+    },
   });
   const allControlsFlat = Array.from(
     new Map(
@@ -172,8 +175,9 @@ export default async function ProcessDetailsPage({ params }: { params: Promise<{
   // ── Health Metrics for ORCA Overview ──
   const healthDistribution = { effective: 0, partiallyEffective: 0, ineffective: 0, neverTested: 0 };
   for (const c of allControlsFlat) {
+    const assignments = (c as any)._count?.controlAssignments ?? 0;
     const score = (c as any).rawHealthScore;
-    if (score == null || score === 0) healthDistribution.neverTested++;
+    if (assignments === 0 || score == null || score === 0) healthDistribution.neverTested++;
     else if (score >= 80) healthDistribution.effective++;
     else if (score >= 50) healthDistribution.partiallyEffective++;
     else healthDistribution.ineffective++;
@@ -182,6 +186,15 @@ export default async function ProcessDetailsPage({ params }: { params: Promise<{
   const avgHealth = testedCount > 0
     ? Math.round(allControlsFlat.reduce((s, c) => s + ((c as any).rawHealthScore || 0), 0) / testedCount)
     : null;
+
+  // ── Requirements Coverage (SOC distribution) ──
+  const requirementCoverage = { fully: 0, partially: 0, not: 0, unset: 0 };
+  for (const r of reqWithControls as any[]) {
+    if (r.socStatus === "FullyComply") requirementCoverage.fully++;
+    else if (r.socStatus === "PartiallyComply") requirementCoverage.partially++;
+    else if (r.socStatus === "NotComply") requirementCoverage.not++;
+    else requirementCoverage.unset++;
+  }
 
   // Findings & actions summary
   const openFindings = assessments.flatMap(a => a.findings || []).filter((f: any) => f.status !== 'Closed');
@@ -239,6 +252,7 @@ export default async function ProcessDetailsPage({ params }: { params: Promise<{
       reqWithControls={reqWithControls}
       allControls={allControlsFlat}
       healthMetrics={healthMetrics}
+      requirementCoverage={requirementCoverage}
       pipItems={JSON.parse(JSON.stringify(pipItems))}
       assessmentActions={JSON.parse(JSON.stringify(assessmentActions))}
       currentUserName={currentUserName}
