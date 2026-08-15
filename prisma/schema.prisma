@@ -356,6 +356,12 @@ enum Conclusion {
   NotMet
 }
 
+enum SocStatus {
+  FullyComply
+  PartiallyComply
+  NotComply
+}
+
 model RequirementConclusion {
   id               String     @id @default(cuid())
   assessmentId     String
@@ -852,6 +858,10 @@ model Requirement {
   clauseApplicability String
   references          String?
   applicable          Boolean                  @default(true)
+  /// Standing Statement of Compliance: whether the requirement's mapped controls
+  /// cover the requirement (design effectiveness), with a human summary (≤1000 chars).
+  socStatus           SocStatus?
+  socSummary          String?
   createdAt           DateTime                 @default(now())
   companyId           String?
   processArea         ProcessArea?             @relation(fields: [processAreaId], references: [id])
@@ -1374,6 +1384,30 @@ model RequirementCoverageAudit {
   modelName                String?  @map("model")
   worker                   String?
   covAt                    DateTime @default(now())
+
+  @@index([processAreaId])
+  @@index([requirementRId])
+}
+
+// SocStatementAudit: Statement of Compliance results from the SOC pipeline
+// (soc_bootstrap.py / soc_worker.py). Verdict labels match the SocStatus enum
+// (FullyComply / PartiallyComply / NotComply). The row IS the completion
+// marker; workers write-through to Requirement.socStatus/socSummary.
+model SocStatementAudit {
+  id                  String   @id
+  companyId           String?
+  processAreaId       String?
+  requirementRId      Int
+  requirementId       String?
+  standard            String?
+  verdict             String
+  summary             String?
+  source              String   @default("audit-bootstrap")
+  covAuditBackfilled  Boolean  @default(false)
+  aiGenerated         Boolean  @default(true)
+  modelName           String?  @map("model")
+  worker              String?
+  socAt               DateTime @default(now())
 
   @@index([processAreaId])
   @@index([requirementRId])

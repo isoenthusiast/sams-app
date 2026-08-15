@@ -13,16 +13,19 @@ export async function PUT(
 
     const { id } = await params;
     const body = await request.json();
-    const { requirementRId } = body;
+    const { requirementRId, mandatory } = body;
 
-    if (!requirementRId) {
-      return NextResponse.json({ error: "requirementRId required" }, { status: 400 });
+    if (requirementRId === undefined && mandatory === undefined) {
+      return NextResponse.json({ error: "requirementRId or mandatory required" }, { status: 400 });
     }
 
-    await prisma.$executeRawUnsafe(
-      `UPDATE "MapControl2Requirement" SET "requirementRId" = $1 WHERE id = $2`,
-      requirementRId, id
-    );
+    await prisma.mapControl2Requirement.update({
+      where: { id },
+      data: {
+        ...(requirementRId !== undefined ? { requirementRId } : {}),
+        ...(mandatory !== undefined ? { mandatory: Boolean(mandatory) } : {}),
+      },
+    });
 
     return NextResponse.json({ success: true });
   } catch (error) {

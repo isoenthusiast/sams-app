@@ -26,6 +26,15 @@ export const Conclusion = {
 export type Conclusion = (typeof Conclusion)[keyof typeof Conclusion]
 
 
+export const SocStatus = {
+  FullyComply: 'FullyComply',
+  PartiallyComply: 'PartiallyComply',
+  NotComply: 'NotComply'
+} as const
+
+export type SocStatus = (typeof SocStatus)[keyof typeof SocStatus]
+
+
 export const FindingSeverity = {
   Low: 'Low',
   Medium: 'Medium',

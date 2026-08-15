@@ -2,9 +2,24 @@ import { prisma } from "@/lib/prisma";
 import { getSelectedCompanyId } from "@/lib/authz";
 import { auth } from "@/auth";
 import { notFound } from "next/navigation";
+import type { Metadata } from "next";
 import ProcessDetailsClient from "./ProcessDetailsClient";
 
 export const dynamic = "force-dynamic";
+
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
+  const { id } = await params;
+  try {
+    const pa = await prisma.processArea.findUnique({
+      where: { id },
+      select: { name: true },
+    });
+    if (pa?.name) return { title: pa.name };
+  } catch {
+    // fall through to default title
+  }
+  return { title: "Process Area" };
+}
 
 export default async function ProcessDetailsPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -40,6 +55,18 @@ export default async function ProcessDetailsPage({ params }: { params: Promise<{
       .sort((a, b) => a.name.localeCompare(b.name)),
   }));
 
+  // All PA controls = direct links (SMDS controls are linked directly, not via sub-processes)
+  // plus any legacy sub-process-linked controls.
+  const paControls = await prisma.control.findMany({
+    where: { processAreaId: id },
+    select: { id: true, name: true, rawHealthScore: true, isHsseCritical: true },
+  });
+  const allControlsFlat = Array.from(
+    new Map(
+      [...paControls, ...mergedSubProcesses.flatMap((sp) => sp.controls)].map((c) => [c.id, c])
+    ).values()
+  );
+
   // Requirements with their controls
   const requirementsWithControls = await prisma.requirement.findMany({
     where: { processAreaId: id },
@@ -58,33 +85,43 @@ export default async function ProcessDetailsPage({ params }: { params: Promise<{
       rId: req.rId,
       requirementId: req.requirementId,
       clauseContent: req.clauseContent,
+      socStatus: req.socStatus,
+      socSummary: req.socSummary,
       controls: req.controlMappings
-        .map((m) => m.control)
+        .map((m) => ({ ...m.control, mandatory: m.mandatory, mcrId: m.id }))
         .sort((a, b) => a.name.localeCompare(b.name)),
     }));
 
-  // Assessments
-  const spControlIds = mergedSubProcesses.flatMap((sp) => sp.controls.map((c) => c.id));
-  const controlAssignments = spControlIds.length > 0
+  // Assessments — direct PA link first (v1.13.2+), then legacy control-assignment chain
+  const assessmentInclude = {
+    activityType: true,
+    assessor: true,
+    samples: true,
+    findings: { include: { _count: { select: { actions: true } } } },
+  };
+  const directAssessments = await prisma.assessment.findMany({
+    where: { processAreaId: id },
+    include: assessmentInclude,
+  });
+
+  const controlIds = allControlsFlat.map((c) => c.id);
+  const controlAssignments = controlIds.length > 0
     ? await prisma.controlAssignment.findMany({
-        where: { controlId: { in: spControlIds } },
+        where: { controlId: { in: controlIds } },
         select: { assessmentId: true, effective: true, controlId: true },
       })
     : [];
-
-  const assessmentIds = [...new Set(controlAssignments.map((ca) => ca.assessmentId))];
-  const assessments = assessmentIds.length > 0
+  const legacyAssessmentIds = [...new Set(controlAssignments.map((ca) => ca.assessmentId))];
+  const legacyAssessments = legacyAssessmentIds.length > 0
     ? await prisma.assessment.findMany({
-        where: { id: { in: assessmentIds } },
-        orderBy: { startDate: "desc" },
-        include: {
-          activityType: true,
-          assessor: true,
-          samples: true,
-          findings: { include: { _count: { select: { actions: true } } } },
-        },
+        where: { id: { in: legacyAssessmentIds }, processAreaId: null },
+        include: assessmentInclude,
       })
     : [];
+
+  const assessments = [...directAssessments, ...legacyAssessments]
+    .filter((a, i, arr) => arr.findIndex((x) => x.id === a.id) === i)
+    .sort((a, b) => new Date(b.startDate).getTime() - new Date(a.startDate).getTime());
 
   // KB entries
   const kbEntries = await prisma.$queryRawUnsafe<any[]>(
@@ -106,7 +143,7 @@ export default async function ProcessDetailsPage({ params }: { params: Promise<{
 
   // ── Assessment Actions (auto-synced to Kanban) ──
   // Find actions linked to this PA via Finding → Assessment → ControlAssignment → Control
-  const assessmentActions = spControlIds.length > 0 ? await prisma.$queryRawUnsafe<Array<{
+  const assessmentActions = allControlsFlat.length > 0 ? await prisma.$queryRawUnsafe<Array<{
     id: string; actionId: string; "actionDescription": string; "actionParty": string;
     "targetDate": string; "apAgreed": boolean; "closureDate": string | null;
     findingId: string; "findingDescription": string;
@@ -124,14 +161,15 @@ export default async function ProcessDetailsPage({ params }: { params: Promise<{
      JOIN "Assessment" ass ON ass.id = f."assessmentId"
      JOIN "ControlAssignment" ca ON ca."assessmentId" = ass.id
      JOIN "Control" c ON c.id = ca."controlId"
-     WHERE c."processAreaId" = $1
+     LEFT JOIN "ControlSubProcess" csp ON csp."controlId" = ca."controlId"
+     WHERE (c."processAreaId" = $1
+        OR csp."subProcessId" IN (SELECT id FROM "SubProcess" WHERE "processAreaId" = $1))
        AND a."apAgreed" = true
      ORDER BY a."closureDate" NULLS FIRST, a."targetDate" ASC`,
     id
   ) : [];
 
   // ── Health Metrics for ORCA Overview ──
-  const allControlsFlat = mergedSubProcesses.flatMap((sp) => sp.controls);
   const healthDistribution = { effective: 0, partiallyEffective: 0, ineffective: 0, neverTested: 0 };
   for (const c of allControlsFlat) {
     const score = (c as any).rawHealthScore;
@@ -199,7 +237,7 @@ export default async function ProcessDetailsPage({ params }: { params: Promise<{
       subProcesses={mergedSubProcesses}
       assessments={assessments}
       reqWithControls={reqWithControls}
-      allControls={mergedSubProcesses.flatMap((sp) => sp.controls)}
+      allControls={allControlsFlat}
       healthMetrics={healthMetrics}
       pipItems={JSON.parse(JSON.stringify(pipItems))}
       assessmentActions={JSON.parse(JSON.stringify(assessmentActions))}

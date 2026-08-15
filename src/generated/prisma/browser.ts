@@ -342,3 +342,8 @@ export type ReconcileClaim = Prisma.ReconcileClaimModel
  * 
  */
 export type RequirementCoverageAudit = Prisma.RequirementCoverageAuditModel
+/**
+ * Model SocStatementAudit
+ * 
+ */
+export type SocStatementAudit = Prisma.SocStatementAuditModel

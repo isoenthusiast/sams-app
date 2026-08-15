@@ -239,6 +239,24 @@ export default function ProcessDetailsClient(props: Props) {
     router.refresh();
   };
 
+  const handleToggleMandatory = async (mcrId: string, next: boolean) => {
+    const res = await fetch(`/api/admin/table/MapControl2Requirement/${mcrId}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ mandatory: next }),
+    });
+    if (res.ok) router.refresh();
+  };
+
+  const handleSaveSoc = async (rId: number, status: string | null, summary: string) => {
+    const res = await fetch(`/api/admin/table/Requirement/${rId}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ socStatus: status, socSummary: summary }),
+    });
+    if (res.ok) router.refresh();
+  };
+
   const handleSendChat = async () => {
     const msg = chatInput.trim();
     if (!msg && !attachedFile) return;
@@ -593,8 +611,9 @@ export default function ProcessDetailsClient(props: Props) {
                 dragOverReqId={dragOverReqId}
                 setDragCtrlId={setDragCtrlId}
                 setDragOverReqId={setDragOverReqId}
-                allReqs={reqData}
-                onMoveControl={handleDropControl}
+                canEdit={isSpoOrAdmin}
+                onToggleMandatory={handleToggleMandatory}
+                onSaveSoc={handleSaveSoc}
               />
             ))
           )}

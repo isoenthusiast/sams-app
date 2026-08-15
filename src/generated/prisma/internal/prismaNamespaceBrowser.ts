@@ -115,7 +115,8 @@ export const ModelName = {
   AuditChecklistItem: 'AuditChecklistItem',
   AssessmentChecklistControl: 'AssessmentChecklistControl',
   ReconcileClaim: 'ReconcileClaim',
-  RequirementCoverageAudit: 'RequirementCoverageAudit'
+  RequirementCoverageAudit: 'RequirementCoverageAudit',
+  SocStatementAudit: 'SocStatementAudit'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -817,6 +818,8 @@ export const RequirementScalarFieldEnum = {
   clauseApplicability: 'clauseApplicability',
   references: 'references',
   applicable: 'applicable',
+  socStatus: 'socStatus',
+  socSummary: 'socSummary',
   createdAt: 'createdAt',
   companyId: 'companyId'
 } as const
@@ -1129,6 +1132,26 @@ export const RequirementCoverageAuditScalarFieldEnum = {
 } as const
 
 export type RequirementCoverageAuditScalarFieldEnum = (typeof RequirementCoverageAuditScalarFieldEnum)[keyof typeof RequirementCoverageAuditScalarFieldEnum]
+
+
+export const SocStatementAuditScalarFieldEnum = {
+  id: 'id',
+  companyId: 'companyId',
+  processAreaId: 'processAreaId',
+  requirementRId: 'requirementRId',
+  requirementId: 'requirementId',
+  standard: 'standard',
+  verdict: 'verdict',
+  summary: 'summary',
+  source: 'source',
+  covAuditBackfilled: 'covAuditBackfilled',
+  aiGenerated: 'aiGenerated',
+  modelName: 'modelName',
+  worker: 'worker',
+  socAt: 'socAt'
+} as const
+
+export type SocStatementAuditScalarFieldEnum = (typeof SocStatementAuditScalarFieldEnum)[keyof typeof SocStatementAuditScalarFieldEnum]
 
 
 export const SortOrder = {

@@ -45,6 +45,8 @@ export type RequirementMinAggregateOutputType = {
   clauseApplicability: string | null
   references: string | null
   applicable: boolean | null
+  socStatus: $Enums.SocStatus | null
+  socSummary: string | null
   createdAt: Date | null
   companyId: string | null
 }
@@ -60,6 +62,8 @@ export type RequirementMaxAggregateOutputType = {
   clauseApplicability: string | null
   references: string | null
   applicable: boolean | null
+  socStatus: $Enums.SocStatus | null
+  socSummary: string | null
   createdAt: Date | null
   companyId: string | null
 }
@@ -75,6 +79,8 @@ export type RequirementCountAggregateOutputType = {
   clauseApplicability: number
   references: number
   applicable: number
+  socStatus: number
+  socSummary: number
   createdAt: number
   companyId: number
   _all: number
@@ -100,6 +106,8 @@ export type RequirementMinAggregateInputType = {
   clauseApplicability?: true
   references?: true
   applicable?: true
+  socStatus?: true
+  socSummary?: true
   createdAt?: true
   companyId?: true
 }
@@ -115,6 +123,8 @@ export type RequirementMaxAggregateInputType = {
   clauseApplicability?: true
   references?: true
   applicable?: true
+  socStatus?: true
+  socSummary?: true
   createdAt?: true
   companyId?: true
 }
@@ -130,6 +140,8 @@ export type RequirementCountAggregateInputType = {
   clauseApplicability?: true
   references?: true
   applicable?: true
+  socStatus?: true
+  socSummary?: true
   createdAt?: true
   companyId?: true
   _all?: true
@@ -232,6 +244,8 @@ export type RequirementGroupByOutputType = {
   clauseApplicability: string
   references: string | null
   applicable: boolean
+  socStatus: $Enums.SocStatus | null
+  socSummary: string | null
   createdAt: Date
   companyId: string | null
   _count: RequirementCountAggregateOutputType | null
@@ -270,6 +284,8 @@ export type RequirementWhereInput = {
   clauseApplicability?: Prisma.StringFilter<"Requirement"> | string
   references?: Prisma.StringNullableFilter<"Requirement"> | string | null
   applicable?: Prisma.BoolFilter<"Requirement"> | boolean
+  socStatus?: Prisma.EnumSocStatusNullableFilter<"Requirement"> | $Enums.SocStatus | null
+  socSummary?: Prisma.StringNullableFilter<"Requirement"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Requirement"> | Date | string
   companyId?: Prisma.StringNullableFilter<"Requirement"> | string | null
   processArea?: Prisma.XOR<Prisma.ProcessAreaNullableScalarRelationFilter, Prisma.ProcessAreaWhereInput> | null
@@ -291,6 +307,8 @@ export type RequirementOrderByWithRelationInput = {
   clauseApplicability?: Prisma.SortOrder
   references?: Prisma.SortOrderInput | Prisma.SortOrder
   applicable?: Prisma.SortOrder
+  socStatus?: Prisma.SortOrderInput | Prisma.SortOrder
+  socSummary?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   companyId?: Prisma.SortOrderInput | Prisma.SortOrder
   processArea?: Prisma.ProcessAreaOrderByWithRelationInput
@@ -316,6 +334,8 @@ export type RequirementWhereUniqueInput = Prisma.AtLeast<{
   clauseApplicability?: Prisma.StringFilter<"Requirement"> | string
   references?: Prisma.StringNullableFilter<"Requirement"> | string | null
   applicable?: Prisma.BoolFilter<"Requirement"> | boolean
+  socStatus?: Prisma.EnumSocStatusNullableFilter<"Requirement"> | $Enums.SocStatus | null
+  socSummary?: Prisma.StringNullableFilter<"Requirement"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Requirement"> | Date | string
   companyId?: Prisma.StringNullableFilter<"Requirement"> | string | null
   processArea?: Prisma.XOR<Prisma.ProcessAreaNullableScalarRelationFilter, Prisma.ProcessAreaWhereInput> | null
@@ -337,6 +357,8 @@ export type RequirementOrderByWithAggregationInput = {
   clauseApplicability?: Prisma.SortOrder
   references?: Prisma.SortOrderInput | Prisma.SortOrder
   applicable?: Prisma.SortOrder
+  socStatus?: Prisma.SortOrderInput | Prisma.SortOrder
+  socSummary?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   companyId?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.RequirementCountOrderByAggregateInput
@@ -360,6 +382,8 @@ export type RequirementScalarWhereWithAggregatesInput = {
   clauseApplicability?: Prisma.StringWithAggregatesFilter<"Requirement"> | string
   references?: Prisma.StringNullableWithAggregatesFilter<"Requirement"> | string | null
   applicable?: Prisma.BoolWithAggregatesFilter<"Requirement"> | boolean
+  socStatus?: Prisma.EnumSocStatusNullableWithAggregatesFilter<"Requirement"> | $Enums.SocStatus | null
+  socSummary?: Prisma.StringNullableWithAggregatesFilter<"Requirement"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Requirement"> | Date | string
   companyId?: Prisma.StringNullableWithAggregatesFilter<"Requirement"> | string | null
 }
@@ -374,6 +398,8 @@ export type RequirementCreateInput = {
   clauseApplicability: string
   references?: string | null
   applicable?: boolean
+  socStatus?: $Enums.SocStatus | null
+  socSummary?: string | null
   createdAt?: Date | string
   companyId?: string | null
   processArea?: Prisma.ProcessAreaCreateNestedOneWithoutRequirementsInput
@@ -395,6 +421,8 @@ export type RequirementUncheckedCreateInput = {
   clauseApplicability: string
   references?: string | null
   applicable?: boolean
+  socStatus?: $Enums.SocStatus | null
+  socSummary?: string | null
   createdAt?: Date | string
   companyId?: string | null
   controlMappings?: Prisma.MapControl2RequirementUncheckedCreateNestedManyWithoutRequirementInput
@@ -414,6 +442,8 @@ export type RequirementUpdateInput = {
   clauseApplicability?: Prisma.StringFieldUpdateOperationsInput | string
   references?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   applicable?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  socStatus?: Prisma.NullableEnumSocStatusFieldUpdateOperationsInput | $Enums.SocStatus | null
+  socSummary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   processArea?: Prisma.ProcessAreaUpdateOneWithoutRequirementsNestedInput
@@ -435,6 +465,8 @@ export type RequirementUncheckedUpdateInput = {
   clauseApplicability?: Prisma.StringFieldUpdateOperationsInput | string
   references?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   applicable?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  socStatus?: Prisma.NullableEnumSocStatusFieldUpdateOperationsInput | $Enums.SocStatus | null
+  socSummary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   controlMappings?: Prisma.MapControl2RequirementUncheckedUpdateManyWithoutRequirementNestedInput
@@ -455,6 +487,8 @@ export type RequirementCreateManyInput = {
   clauseApplicability: string
   references?: string | null
   applicable?: boolean
+  socStatus?: $Enums.SocStatus | null
+  socSummary?: string | null
   createdAt?: Date | string
   companyId?: string | null
 }
@@ -469,6 +503,8 @@ export type RequirementUpdateManyMutationInput = {
   clauseApplicability?: Prisma.StringFieldUpdateOperationsInput | string
   references?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   applicable?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  socStatus?: Prisma.NullableEnumSocStatusFieldUpdateOperationsInput | $Enums.SocStatus | null
+  socSummary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
@@ -484,6 +520,8 @@ export type RequirementUncheckedUpdateManyInput = {
   clauseApplicability?: Prisma.StringFieldUpdateOperationsInput | string
   references?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   applicable?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  socStatus?: Prisma.NullableEnumSocStatusFieldUpdateOperationsInput | $Enums.SocStatus | null
+  socSummary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
@@ -520,6 +558,8 @@ export type RequirementCountOrderByAggregateInput = {
   clauseApplicability?: Prisma.SortOrder
   references?: Prisma.SortOrder
   applicable?: Prisma.SortOrder
+  socStatus?: Prisma.SortOrder
+  socSummary?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   companyId?: Prisma.SortOrder
 }
@@ -539,6 +579,8 @@ export type RequirementMaxOrderByAggregateInput = {
   clauseApplicability?: Prisma.SortOrder
   references?: Prisma.SortOrder
   applicable?: Prisma.SortOrder
+  socStatus?: Prisma.SortOrder
+  socSummary?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   companyId?: Prisma.SortOrder
 }
@@ -554,6 +596,8 @@ export type RequirementMinOrderByAggregateInput = {
   clauseApplicability?: Prisma.SortOrder
   references?: Prisma.SortOrder
   applicable?: Prisma.SortOrder
+  socStatus?: Prisma.SortOrder
+  socSummary?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   companyId?: Prisma.SortOrder
 }
@@ -637,6 +681,10 @@ export type RequirementUpdateOneRequiredWithoutConclusionsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.RequirementUpdateToOneWithWhereWithoutConclusionsInput, Prisma.RequirementUpdateWithoutConclusionsInput>, Prisma.RequirementUncheckedUpdateWithoutConclusionsInput>
 }
 
+export type NullableEnumSocStatusFieldUpdateOperationsInput = {
+  set?: $Enums.SocStatus | null
+}
+
 export type RequirementCreateNestedOneWithoutControlMappingsInput = {
   create?: Prisma.XOR<Prisma.RequirementCreateWithoutControlMappingsInput, Prisma.RequirementUncheckedCreateWithoutControlMappingsInput>
   connectOrCreate?: Prisma.RequirementCreateOrConnectWithoutControlMappingsInput
@@ -691,6 +739,8 @@ export type RequirementCreateWithoutAssuranceProtocolsInput = {
   clauseApplicability: string
   references?: string | null
   applicable?: boolean
+  socStatus?: $Enums.SocStatus | null
+  socSummary?: string | null
   createdAt?: Date | string
   companyId?: string | null
   processArea?: Prisma.ProcessAreaCreateNestedOneWithoutRequirementsInput
@@ -711,6 +761,8 @@ export type RequirementUncheckedCreateWithoutAssuranceProtocolsInput = {
   clauseApplicability: string
   references?: string | null
   applicable?: boolean
+  socStatus?: $Enums.SocStatus | null
+  socSummary?: string | null
   createdAt?: Date | string
   companyId?: string | null
   controlMappings?: Prisma.MapControl2RequirementUncheckedCreateNestedManyWithoutRequirementInput
@@ -745,6 +797,8 @@ export type RequirementUpdateWithoutAssuranceProtocolsInput = {
   clauseApplicability?: Prisma.StringFieldUpdateOperationsInput | string
   references?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   applicable?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  socStatus?: Prisma.NullableEnumSocStatusFieldUpdateOperationsInput | $Enums.SocStatus | null
+  socSummary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   processArea?: Prisma.ProcessAreaUpdateOneWithoutRequirementsNestedInput
@@ -765,6 +819,8 @@ export type RequirementUncheckedUpdateWithoutAssuranceProtocolsInput = {
   clauseApplicability?: Prisma.StringFieldUpdateOperationsInput | string
   references?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   applicable?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  socStatus?: Prisma.NullableEnumSocStatusFieldUpdateOperationsInput | $Enums.SocStatus | null
+  socSummary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   controlMappings?: Prisma.MapControl2RequirementUncheckedUpdateManyWithoutRequirementNestedInput
@@ -783,6 +839,8 @@ export type RequirementCreateWithoutProcessAreaInput = {
   clauseApplicability: string
   references?: string | null
   applicable?: boolean
+  socStatus?: $Enums.SocStatus | null
+  socSummary?: string | null
   createdAt?: Date | string
   companyId?: string | null
   controlMappings?: Prisma.MapControl2RequirementCreateNestedManyWithoutRequirementInput
@@ -802,6 +860,8 @@ export type RequirementUncheckedCreateWithoutProcessAreaInput = {
   clauseApplicability: string
   references?: string | null
   applicable?: boolean
+  socStatus?: $Enums.SocStatus | null
+  socSummary?: string | null
   createdAt?: Date | string
   companyId?: string | null
   controlMappings?: Prisma.MapControl2RequirementUncheckedCreateNestedManyWithoutRequirementInput
@@ -851,6 +911,8 @@ export type RequirementScalarWhereInput = {
   clauseApplicability?: Prisma.StringFilter<"Requirement"> | string
   references?: Prisma.StringNullableFilter<"Requirement"> | string | null
   applicable?: Prisma.BoolFilter<"Requirement"> | boolean
+  socStatus?: Prisma.EnumSocStatusNullableFilter<"Requirement"> | $Enums.SocStatus | null
+  socSummary?: Prisma.StringNullableFilter<"Requirement"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Requirement"> | Date | string
   companyId?: Prisma.StringNullableFilter<"Requirement"> | string | null
 }
@@ -865,6 +927,8 @@ export type RequirementCreateWithoutConclusionsInput = {
   clauseApplicability: string
   references?: string | null
   applicable?: boolean
+  socStatus?: $Enums.SocStatus | null
+  socSummary?: string | null
   createdAt?: Date | string
   companyId?: string | null
   processArea?: Prisma.ProcessAreaCreateNestedOneWithoutRequirementsInput
@@ -885,6 +949,8 @@ export type RequirementUncheckedCreateWithoutConclusionsInput = {
   clauseApplicability: string
   references?: string | null
   applicable?: boolean
+  socStatus?: $Enums.SocStatus | null
+  socSummary?: string | null
   createdAt?: Date | string
   companyId?: string | null
   controlMappings?: Prisma.MapControl2RequirementUncheckedCreateNestedManyWithoutRequirementInput
@@ -919,6 +985,8 @@ export type RequirementUpdateWithoutConclusionsInput = {
   clauseApplicability?: Prisma.StringFieldUpdateOperationsInput | string
   references?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   applicable?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  socStatus?: Prisma.NullableEnumSocStatusFieldUpdateOperationsInput | $Enums.SocStatus | null
+  socSummary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   processArea?: Prisma.ProcessAreaUpdateOneWithoutRequirementsNestedInput
@@ -939,6 +1007,8 @@ export type RequirementUncheckedUpdateWithoutConclusionsInput = {
   clauseApplicability?: Prisma.StringFieldUpdateOperationsInput | string
   references?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   applicable?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  socStatus?: Prisma.NullableEnumSocStatusFieldUpdateOperationsInput | $Enums.SocStatus | null
+  socSummary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   controlMappings?: Prisma.MapControl2RequirementUncheckedUpdateManyWithoutRequirementNestedInput
@@ -957,6 +1027,8 @@ export type RequirementCreateWithoutControlMappingsInput = {
   clauseApplicability: string
   references?: string | null
   applicable?: boolean
+  socStatus?: $Enums.SocStatus | null
+  socSummary?: string | null
   createdAt?: Date | string
   companyId?: string | null
   processArea?: Prisma.ProcessAreaCreateNestedOneWithoutRequirementsInput
@@ -977,6 +1049,8 @@ export type RequirementUncheckedCreateWithoutControlMappingsInput = {
   clauseApplicability: string
   references?: string | null
   applicable?: boolean
+  socStatus?: $Enums.SocStatus | null
+  socSummary?: string | null
   createdAt?: Date | string
   companyId?: string | null
   assuranceProtocols?: Prisma.AssuranceProtocolUncheckedCreateNestedManyWithoutRequirementRelInput
@@ -1011,6 +1085,8 @@ export type RequirementUpdateWithoutControlMappingsInput = {
   clauseApplicability?: Prisma.StringFieldUpdateOperationsInput | string
   references?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   applicable?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  socStatus?: Prisma.NullableEnumSocStatusFieldUpdateOperationsInput | $Enums.SocStatus | null
+  socSummary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   processArea?: Prisma.ProcessAreaUpdateOneWithoutRequirementsNestedInput
@@ -1031,6 +1107,8 @@ export type RequirementUncheckedUpdateWithoutControlMappingsInput = {
   clauseApplicability?: Prisma.StringFieldUpdateOperationsInput | string
   references?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   applicable?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  socStatus?: Prisma.NullableEnumSocStatusFieldUpdateOperationsInput | $Enums.SocStatus | null
+  socSummary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   assuranceProtocols?: Prisma.AssuranceProtocolUncheckedUpdateManyWithoutRequirementRelNestedInput
@@ -1049,6 +1127,8 @@ export type RequirementCreateWithoutDocumentMappingsInput = {
   clauseApplicability: string
   references?: string | null
   applicable?: boolean
+  socStatus?: $Enums.SocStatus | null
+  socSummary?: string | null
   createdAt?: Date | string
   companyId?: string | null
   processArea?: Prisma.ProcessAreaCreateNestedOneWithoutRequirementsInput
@@ -1069,6 +1149,8 @@ export type RequirementUncheckedCreateWithoutDocumentMappingsInput = {
   clauseApplicability: string
   references?: string | null
   applicable?: boolean
+  socStatus?: $Enums.SocStatus | null
+  socSummary?: string | null
   createdAt?: Date | string
   companyId?: string | null
   controlMappings?: Prisma.MapControl2RequirementUncheckedCreateNestedManyWithoutRequirementInput
@@ -1103,6 +1185,8 @@ export type RequirementUpdateWithoutDocumentMappingsInput = {
   clauseApplicability?: Prisma.StringFieldUpdateOperationsInput | string
   references?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   applicable?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  socStatus?: Prisma.NullableEnumSocStatusFieldUpdateOperationsInput | $Enums.SocStatus | null
+  socSummary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   processArea?: Prisma.ProcessAreaUpdateOneWithoutRequirementsNestedInput
@@ -1123,6 +1207,8 @@ export type RequirementUncheckedUpdateWithoutDocumentMappingsInput = {
   clauseApplicability?: Prisma.StringFieldUpdateOperationsInput | string
   references?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   applicable?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  socStatus?: Prisma.NullableEnumSocStatusFieldUpdateOperationsInput | $Enums.SocStatus | null
+  socSummary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   controlMappings?: Prisma.MapControl2RequirementUncheckedUpdateManyWithoutRequirementNestedInput
@@ -1141,6 +1227,8 @@ export type RequirementCreateWithoutAuditMappingsInput = {
   clauseApplicability: string
   references?: string | null
   applicable?: boolean
+  socStatus?: $Enums.SocStatus | null
+  socSummary?: string | null
   createdAt?: Date | string
   companyId?: string | null
   processArea?: Prisma.ProcessAreaCreateNestedOneWithoutRequirementsInput
@@ -1161,6 +1249,8 @@ export type RequirementUncheckedCreateWithoutAuditMappingsInput = {
   clauseApplicability: string
   references?: string | null
   applicable?: boolean
+  socStatus?: $Enums.SocStatus | null
+  socSummary?: string | null
   createdAt?: Date | string
   companyId?: string | null
   controlMappings?: Prisma.MapControl2RequirementUncheckedCreateNestedManyWithoutRequirementInput
@@ -1195,6 +1285,8 @@ export type RequirementUpdateWithoutAuditMappingsInput = {
   clauseApplicability?: Prisma.StringFieldUpdateOperationsInput | string
   references?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   applicable?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  socStatus?: Prisma.NullableEnumSocStatusFieldUpdateOperationsInput | $Enums.SocStatus | null
+  socSummary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   processArea?: Prisma.ProcessAreaUpdateOneWithoutRequirementsNestedInput
@@ -1215,6 +1307,8 @@ export type RequirementUncheckedUpdateWithoutAuditMappingsInput = {
   clauseApplicability?: Prisma.StringFieldUpdateOperationsInput | string
   references?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   applicable?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  socStatus?: Prisma.NullableEnumSocStatusFieldUpdateOperationsInput | $Enums.SocStatus | null
+  socSummary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   controlMappings?: Prisma.MapControl2RequirementUncheckedUpdateManyWithoutRequirementNestedInput
@@ -1233,6 +1327,8 @@ export type RequirementCreateManyProcessAreaInput = {
   clauseApplicability: string
   references?: string | null
   applicable?: boolean
+  socStatus?: $Enums.SocStatus | null
+  socSummary?: string | null
   createdAt?: Date | string
   companyId?: string | null
 }
@@ -1247,6 +1343,8 @@ export type RequirementUpdateWithoutProcessAreaInput = {
   clauseApplicability?: Prisma.StringFieldUpdateOperationsInput | string
   references?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   applicable?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  socStatus?: Prisma.NullableEnumSocStatusFieldUpdateOperationsInput | $Enums.SocStatus | null
+  socSummary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   controlMappings?: Prisma.MapControl2RequirementUpdateManyWithoutRequirementNestedInput
@@ -1266,6 +1364,8 @@ export type RequirementUncheckedUpdateWithoutProcessAreaInput = {
   clauseApplicability?: Prisma.StringFieldUpdateOperationsInput | string
   references?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   applicable?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  socStatus?: Prisma.NullableEnumSocStatusFieldUpdateOperationsInput | $Enums.SocStatus | null
+  socSummary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   controlMappings?: Prisma.MapControl2RequirementUncheckedUpdateManyWithoutRequirementNestedInput
@@ -1285,6 +1385,8 @@ export type RequirementUncheckedUpdateManyWithoutProcessAreaInput = {
   clauseApplicability?: Prisma.StringFieldUpdateOperationsInput | string
   references?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   applicable?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  socStatus?: Prisma.NullableEnumSocStatusFieldUpdateOperationsInput | $Enums.SocStatus | null
+  socSummary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
@@ -1367,6 +1469,8 @@ export type RequirementSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   clauseApplicability?: boolean
   references?: boolean
   applicable?: boolean
+  socStatus?: boolean
+  socSummary?: boolean
   createdAt?: boolean
   companyId?: boolean
   processArea?: boolean | Prisma.Requirement$processAreaArgs<ExtArgs>
@@ -1389,6 +1493,8 @@ export type RequirementSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
   clauseApplicability?: boolean
   references?: boolean
   applicable?: boolean
+  socStatus?: boolean
+  socSummary?: boolean
   createdAt?: boolean
   companyId?: boolean
   processArea?: boolean | Prisma.Requirement$processAreaArgs<ExtArgs>
@@ -1405,6 +1511,8 @@ export type RequirementSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
   clauseApplicability?: boolean
   references?: boolean
   applicable?: boolean
+  socStatus?: boolean
+  socSummary?: boolean
   createdAt?: boolean
   companyId?: boolean
   processArea?: boolean | Prisma.Requirement$processAreaArgs<ExtArgs>
@@ -1421,11 +1529,13 @@ export type RequirementSelectScalar = {
   clauseApplicability?: boolean
   references?: boolean
   applicable?: boolean
+  socStatus?: boolean
+  socSummary?: boolean
   createdAt?: boolean
   companyId?: boolean
 }
 
-export type RequirementOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"rId" | "standard" | "pId" | "processAreaId" | "requirementId" | "clauseContent" | "intentOutcome" | "clauseApplicability" | "references" | "applicable" | "createdAt" | "companyId", ExtArgs["result"]["requirement"]>
+export type RequirementOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"rId" | "standard" | "pId" | "processAreaId" | "requirementId" | "clauseContent" | "intentOutcome" | "clauseApplicability" | "references" | "applicable" | "socStatus" | "socSummary" | "createdAt" | "companyId", ExtArgs["result"]["requirement"]>
 export type RequirementInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   processArea?: boolean | Prisma.Requirement$processAreaArgs<ExtArgs>
   controlMappings?: boolean | Prisma.Requirement$controlMappingsArgs<ExtArgs>
@@ -1463,6 +1573,12 @@ export type $RequirementPayload<ExtArgs extends runtime.Types.Extensions.Interna
     clauseApplicability: string
     references: string | null
     applicable: boolean
+    /**
+     * Standing Statement of Compliance: whether the requirement's mapped controls
+     * cover the requirement (design effectiveness), with a human summary (≤1000 chars).
+     */
+    socStatus: $Enums.SocStatus | null
+    socSummary: string | null
     createdAt: Date
     companyId: string | null
   }, ExtArgs["result"]["requirement"]>
@@ -1904,6 +2020,8 @@ export interface RequirementFieldRefs {
   readonly clauseApplicability: Prisma.FieldRef<"Requirement", 'String'>
   readonly references: Prisma.FieldRef<"Requirement", 'String'>
   readonly applicable: Prisma.FieldRef<"Requirement", 'Boolean'>
+  readonly socStatus: Prisma.FieldRef<"Requirement", 'SocStatus'>
+  readonly socSummary: Prisma.FieldRef<"Requirement", 'String'>
   readonly createdAt: Prisma.FieldRef<"Requirement", 'DateTime'>
   readonly companyId: Prisma.FieldRef<"Requirement", 'String'>
 }

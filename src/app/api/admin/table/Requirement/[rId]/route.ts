@@ -20,6 +20,25 @@ export async function PUT(
 
     if (body.requirementId !== undefined) { fields.push(`"requirementId" = $${idx++}`); values.push(body.requirementId); }
     if (body.clauseContent !== undefined) { fields.push(`"clauseContent" = $${idx++}`); values.push(body.clauseContent); }
+    if (body.socStatus !== undefined) {
+      const v = body.socStatus;
+      if (v === null || v === "") {
+        fields.push(`"socStatus" = NULL`);
+      } else if (["FullyComply", "PartiallyComply", "NotComply"].includes(v)) {
+        fields.push(`"socStatus" = $${idx++}::"SocStatus"`);
+        values.push(v);
+      } else {
+        return NextResponse.json({ error: "Invalid socStatus" }, { status: 400 });
+      }
+    }
+    if (body.socSummary !== undefined) {
+      if (body.socSummary === null || body.socSummary === "") {
+        fields.push(`"socSummary" = NULL`);
+      } else {
+        fields.push(`"socSummary" = $${idx++}`);
+        values.push(String(body.socSummary).slice(0, 1000));
+      }
+    }
 
     if (fields.length === 0) {
       return NextResponse.json({ error: "No fields to update" }, { status: 400 });

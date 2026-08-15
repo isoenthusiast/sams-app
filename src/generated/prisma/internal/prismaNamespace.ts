@@ -448,7 +448,8 @@ export const ModelName = {
   AuditChecklistItem: 'AuditChecklistItem',
   AssessmentChecklistControl: 'AssessmentChecklistControl',
   ReconcileClaim: 'ReconcileClaim',
-  RequirementCoverageAudit: 'RequirementCoverageAudit'
+  RequirementCoverageAudit: 'RequirementCoverageAudit',
+  SocStatementAudit: 'SocStatementAudit'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -464,7 +465,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "activityLog" | "activityLogType" | "assuranceActivityType" | "assuranceProtocol" | "standard" | "processArea" | "subProcess" | "controlSubProcess" | "control" | "assessmentTemplate" | "assessmentTemplateControlLinkage" | "assessmentTemplateActivityType" | "assessment" | "assessmentAssessor" | "controlAssignment" | "requirementConclusion" | "sampleType" | "recordSourceType" | "sample" | "finding" | "action" | "attachment" | "attachmentMapping" | "achievementBadge" | "userAchievement" | "pointTransaction" | "gameAttribute" | "gameAttributeRule" | "emotionalDriveMetric" | "milestone" | "userRole" | "userRoleMapping" | "company" | "department" | "position" | "userCompany" | "userFavorite" | "assessmentActType" | "aact" | "aActControls" | "aActUsers" | "aActDetails" | "knowledgebase" | "mapArt2Know" | "requirement" | "mapControl2Requirement" | "gamificationStage" | "webhookLog" | "document" | "mapRequirement2Document" | "riskCategory" | "risk" | "riskMetrics" | "controlRisk" | "backlogItem" | "backlogItemControl" | "auditEvidence" | "auditChecklist2Requirement" | "auditChecklistTemplate" | "auditChecklistTemplateItem" | "auditChecklistItem" | "assessmentChecklistControl" | "reconcileClaim" | "requirementCoverageAudit"
+    modelProps: "user" | "activityLog" | "activityLogType" | "assuranceActivityType" | "assuranceProtocol" | "standard" | "processArea" | "subProcess" | "controlSubProcess" | "control" | "assessmentTemplate" | "assessmentTemplateControlLinkage" | "assessmentTemplateActivityType" | "assessment" | "assessmentAssessor" | "controlAssignment" | "requirementConclusion" | "sampleType" | "recordSourceType" | "sample" | "finding" | "action" | "attachment" | "attachmentMapping" | "achievementBadge" | "userAchievement" | "pointTransaction" | "gameAttribute" | "gameAttributeRule" | "emotionalDriveMetric" | "milestone" | "userRole" | "userRoleMapping" | "company" | "department" | "position" | "userCompany" | "userFavorite" | "assessmentActType" | "aact" | "aActControls" | "aActUsers" | "aActDetails" | "knowledgebase" | "mapArt2Know" | "requirement" | "mapControl2Requirement" | "gamificationStage" | "webhookLog" | "document" | "mapRequirement2Document" | "riskCategory" | "risk" | "riskMetrics" | "controlRisk" | "backlogItem" | "backlogItemControl" | "auditEvidence" | "auditChecklist2Requirement" | "auditChecklistTemplate" | "auditChecklistTemplateItem" | "auditChecklistItem" | "assessmentChecklistControl" | "reconcileClaim" | "requirementCoverageAudit" | "socStatementAudit"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -5278,6 +5279,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    SocStatementAudit: {
+      payload: Prisma.$SocStatementAuditPayload<ExtArgs>
+      fields: Prisma.SocStatementAuditFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.SocStatementAuditFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SocStatementAuditPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.SocStatementAuditFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SocStatementAuditPayload>
+        }
+        findFirst: {
+          args: Prisma.SocStatementAuditFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SocStatementAuditPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.SocStatementAuditFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SocStatementAuditPayload>
+        }
+        findMany: {
+          args: Prisma.SocStatementAuditFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SocStatementAuditPayload>[]
+        }
+        create: {
+          args: Prisma.SocStatementAuditCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SocStatementAuditPayload>
+        }
+        createMany: {
+          args: Prisma.SocStatementAuditCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.SocStatementAuditCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SocStatementAuditPayload>[]
+        }
+        delete: {
+          args: Prisma.SocStatementAuditDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SocStatementAuditPayload>
+        }
+        update: {
+          args: Prisma.SocStatementAuditUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SocStatementAuditPayload>
+        }
+        deleteMany: {
+          args: Prisma.SocStatementAuditDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.SocStatementAuditUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.SocStatementAuditUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SocStatementAuditPayload>[]
+        }
+        upsert: {
+          args: Prisma.SocStatementAuditUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SocStatementAuditPayload>
+        }
+        aggregate: {
+          args: Prisma.SocStatementAuditAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateSocStatementAudit>
+        }
+        groupBy: {
+          args: Prisma.SocStatementAuditGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SocStatementAuditGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.SocStatementAuditCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SocStatementAuditCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -6000,6 +6075,8 @@ export const RequirementScalarFieldEnum = {
   clauseApplicability: 'clauseApplicability',
   references: 'references',
   applicable: 'applicable',
+  socStatus: 'socStatus',
+  socSummary: 'socSummary',
   createdAt: 'createdAt',
   companyId: 'companyId'
 } as const
@@ -6314,6 +6391,26 @@ export const RequirementCoverageAuditScalarFieldEnum = {
 export type RequirementCoverageAuditScalarFieldEnum = (typeof RequirementCoverageAuditScalarFieldEnum)[keyof typeof RequirementCoverageAuditScalarFieldEnum]
 
 
+export const SocStatementAuditScalarFieldEnum = {
+  id: 'id',
+  companyId: 'companyId',
+  processAreaId: 'processAreaId',
+  requirementRId: 'requirementRId',
+  requirementId: 'requirementId',
+  standard: 'standard',
+  verdict: 'verdict',
+  summary: 'summary',
+  source: 'source',
+  covAuditBackfilled: 'covAuditBackfilled',
+  aiGenerated: 'aiGenerated',
+  modelName: 'modelName',
+  worker: 'worker',
+  socAt: 'socAt'
+} as const
+
+export type SocStatementAuditScalarFieldEnum = (typeof SocStatementAuditScalarFieldEnum)[keyof typeof SocStatementAuditScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -6589,6 +6686,20 @@ export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, '
  * Reference to a field of type 'Float[]'
  */
 export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
+    
+
+
+/**
+ * Reference to a field of type 'SocStatus'
+ */
+export type EnumSocStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SocStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'SocStatus[]'
+ */
+export type ListEnumSocStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SocStatus[]'>
     
 
 
@@ -6878,6 +6989,7 @@ export type GlobalOmitConfig = {
   assessmentChecklistControl?: Prisma.AssessmentChecklistControlOmit
   reconcileClaim?: Prisma.ReconcileClaimOmit
   requirementCoverageAudit?: Prisma.RequirementCoverageAuditOmit
+  socStatementAudit?: Prisma.SocStatementAuditOmit
 }
 
 /* Types for Logging */
