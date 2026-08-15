@@ -4,7 +4,6 @@ import { getSelectedCompanyId } from "@/lib/authz";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { Card } from "@/components/Card";
-import { HealthIndicator } from "@/components/HealthIndicator";
 import { CollapsibleSection } from "@/components/CollapsibleSection";
 import { StatusBadge } from "@/components/StatusBadge";
 import { GamificationPanel } from "@/components/GamificationPanel";
@@ -30,21 +29,16 @@ export default async function DashboardPage({
   const cookieCompanyId = await getSelectedCompanyId();
   const companyId = sp.companyId || cookieCompanyId;
 
-  // Process areas with health data — safe fallback
+  // Process areas with coverage data (SOC-based, light query)
   let processAreas: any[] = [];
   try {
     processAreas = await prisma.processArea.findMany({
       where: companyId ? { companyId } : {},
       include: {
         standardRef: true,
-        controls: {
-          include: {
-            controlAssignments: {
-              where: { effective: { not: null } },
-              orderBy: { createdAt: "desc" },
-              take: 100,
-            },
-          },
+        requirements: {
+          where: { applicable: true },
+          select: { rId: true, socStatus: true },
         },
       },
       orderBy: { name: "asc" },
@@ -61,14 +55,13 @@ export default async function DashboardPage({
     byStandard.get(std)!.push(pa);
   }
 
-  // Compute health per PA
-  const paHealth = processAreas.map((pa: any) => {
-    const total = pa.controls.length;
-    const effective = pa.controls.filter((c: any) =>
-      c.controlAssignments.some((ca: any) => ca.effective === "Effective")
-    ).length;
-    const pct = total > 0 ? Math.round((effective / total) * 100) : 0;
-    return { ...pa, total, effective, pct };
+  // Compliance coverage per PA = % of requirements Fully Comply (SOC)
+  const paCoverage = processAreas.map((pa: any) => {
+    const reqs = pa.requirements ?? [];
+    const fully = reqs.filter((r: any) => r.socStatus === "FullyComply").length;
+    const assessed = reqs.filter((r: any) => r.socStatus !== null).length;
+    const pct = assessed > 0 ? Math.round((fully / assessed) * 100) : null;
+    return { ...pa, fully, assessed, pct };
   });
 
   // My assessments — via assessor junction (multi-assessor support)
@@ -190,11 +183,11 @@ export default async function DashboardPage({
       <div className="grid gap-6 lg:grid-cols-2">
         {/* Left: Process Health */}
         <div>
-          <Card title="📊 Process Health" subtitle="Control effectiveness by process area" className="h-full">
+          <Card title="📊 Process Health" subtitle="Requirements coverage by process area (% Fully Comply)" className="h-full">
             {[...byStandard.entries()].map(([std, pas]) => (
               <CollapsibleSection key={std} title={std} count={pas.length}>
                 {pas.map((pa) => {
-                  const h = paHealth.find((p: any) => p.id === pa.id)!;
+                  const h = paCoverage.find((p: any) => p.id === pa.id)!;
                   return (
                     <Link
                       key={pa.id}
@@ -203,9 +196,15 @@ export default async function DashboardPage({
                       className="flex items-center justify-between rounded-md border border-slate-100 px-3 py-2 hover:bg-slate-50"
                     >
                       <span className="text-sm text-slate-800">{pa.name}</span>
-                      <span className="flex items-center gap-2 text-xs text-slate-500">
-                        {h.effective}/{h.total}
-                        <HealthIndicator score={h.pct} size="sm" />
+                      <span className="flex items-center gap-2 text-xs">
+                        <span className="text-slate-500">{h.fully}/{h.assessed} fully comply</span>
+                        {h.pct !== null ? (
+                          <span className={`rounded-full px-2 py-0.5 font-semibold ${h.pct >= 80 ? "bg-green-100 text-green-800" : h.pct >= 50 ? "bg-amber-100 text-amber-800" : "bg-red-100 text-red-800"}`}>
+                            {h.pct}%
+                          </span>
+                        ) : (
+                          <span className="rounded-full px-2 py-0.5 font-semibold bg-slate-100 text-slate-500">—</span>
+                        )}
                       </span>
                     </Link>
                   );
