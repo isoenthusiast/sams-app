@@ -2,6 +2,20 @@
 """Parity verification between sams-app and seam-assurance-app.
 Checks: schema identity, company isolation, cascade integrity, unmapped controls, health scores.
 """
+import os
+# --- env loader: secrets live in .env, not in code ---
+import os as _os
+_here = _os.path.dirname(_os.path.abspath(__file__))
+for _i in range(5):
+    _p = _os.path.join(_here, '.env')
+    if _os.path.exists(_p):
+        for _l in open(_p):
+            _l = _l.strip()
+            if _l and not _l.startswith('#') and '=' in _l:
+                _k, _v = _l.split('=', 1)
+                _os.environ.setdefault(_k, _v.strip().strip('"').strip("'"))
+        break
+    _here = _os.path.dirname(_here)
 import hashlib, os, sys
 
 # ── 1. Schema identity ──
@@ -81,7 +95,7 @@ def check_env():
 
 # ── 5. Company isolation (DB query) ──
 def check_company_isolation():
-    DATABASE_URL = "postgresql://postgres:kCTwHlHQEOrrQZGiTMWihARJUavIaFUV@hayabusa.proxy.rlwy.net:54471/railway"
+    DATABASE_URL = os.environ['DATABASE_URL']
     try:
         import psycopg2
         conn = psycopg2.connect(DATABASE_URL)

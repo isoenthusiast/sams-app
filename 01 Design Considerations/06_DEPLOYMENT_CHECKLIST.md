@@ -29,8 +29,8 @@ In Railway dashboard:
 
 ### 2. Environment Variables
 ```
-DATABASE_URL="postgresql://postgres:kCTwHlHQEOrrQZGiTMWihARJUavIaFUV@hayabusa.proxy.rlwy.net:54471/railway"
-AUTH_SECRET="2oibyfw7i5mb30f5542bw9eixurqvqb7"
+DATABASE_URL="postgresql://postgres:***@hayabusa.proxy.rlwy.net:54471/railway"
+AUTH_SECRET="***"
 NEXTAUTH_URL="https://sams-app.railway.app"
 ```
 
