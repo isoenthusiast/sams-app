@@ -6,7 +6,10 @@ const globalForPrisma = globalThis as unknown as {
 };
 
 function createPrismaClient(): PrismaClient {
-  const connectionString = process.env.DATABASE_URL ?? "postgresql://seam:seam123@localhost:5432/seam_assurance";
+  const connectionString = process.env.DATABASE_URL;
+  if (!connectionString) {
+    throw new Error("DATABASE_URL is not set — add it to .env / .env.local");
+  }
   const adapter = new PrismaPg({ connectionString });
   return new PrismaClient({ adapter });
 }
