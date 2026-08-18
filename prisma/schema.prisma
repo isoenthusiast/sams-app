@@ -821,6 +821,12 @@ model Knowledgebase {
   /// Authoritative marker that this KB doc was processed by the control
   /// reconciliation pipeline (set after inserts AND update-merges).
   reconciledAt     DateTime?
+  /// LMS metadata backfilled from lms.csv (kb_lms_backfill.py).
+  documentNumber   String?
+  nextReviewDate   String?
+  custodianOwner   String?
+  authorizer       String?
+  department       String?
 
   @@unique([knowledgeName, companyId])
   @@index([knowledgeName])

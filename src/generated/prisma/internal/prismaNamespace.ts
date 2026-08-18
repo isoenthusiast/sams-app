@@ -6045,7 +6045,12 @@ export const KnowledgebaseScalarFieldEnum = {
   addedBy: 'addedBy',
   companyId: 'companyId',
   processAreaId: 'processAreaId',
-  reconciledAt: 'reconciledAt'
+  reconciledAt: 'reconciledAt',
+  documentNumber: 'documentNumber',
+  nextReviewDate: 'nextReviewDate',
+  custodianOwner: 'custodianOwner',
+  authorizer: 'authorizer',
+  department: 'department'
 } as const
 
 export type KnowledgebaseScalarFieldEnum = (typeof KnowledgebaseScalarFieldEnum)[keyof typeof KnowledgebaseScalarFieldEnum]
