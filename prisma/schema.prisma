@@ -1418,3 +1418,32 @@ model SocStatementAudit {
   @@index([processAreaId])
   @@index([requirementRId])
 }
+
+// TestClaim: test-plan orchestration claim gate (test_plan_supervisor.py /
+// test_plan_worker.py). Every test is a unit of work; tests group into chains
+// claimed whole by one worker. status: available|claimed|deferred|done|blocked.
+model TestClaim {
+  testId     String   @id
+  chainId    String
+  area       String
+  mode       String   @default("ui")
+  status     String   @default("available")
+  workerId   String?
+  leaseUntil DateTime?
+  attempts   Int      @default(0)
+  result     String?
+  evidence   String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @default(now())
+
+  @@index([status])
+  @@index([chainId])
+}
+
+// TestWorker: worker liveness rows (heartbeat) for the test-plan watchdog.
+model TestWorker {
+  workerId  String   @id
+  pid       Int?
+  startedAt DateTime @default(now())
+  lastBeat  DateTime @default(now())
+}
