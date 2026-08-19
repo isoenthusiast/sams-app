@@ -4,12 +4,14 @@ import { useState } from "react";
 import { UserManager } from "@/components/UserManager";
 import { CompanyManagementView } from "./CompanyManagementView";
 import { GamificationManagementView } from "./GamificationManagementView";
+import { ExportDataView } from "./ExportDataView";
 
 const MENU_ITEMS = [
   { key: "users", label: "👥 Users" },
   { key: "companies", label: "🏢 Companies" },
   { key: "gamification", label: "🎮 Gamification" },
   { key: "activity", label: "📜 Activity Log" },
+  { key: "export", label: "📤 Export Data" },
 ] as const;
 
 export function SysAdminManagementView({
@@ -19,6 +21,7 @@ export function SysAdminManagementView({
   currentUserId,
   departments,
   positions,
+  selectedCompanyId = "",
 }: {
   activityLog: any[];
   users: any[];
@@ -26,6 +29,7 @@ export function SysAdminManagementView({
   currentUserId: string;
   departments: any[];
   positions: any[];
+  selectedCompanyId?: string;
 }) {
   const [activeTab, setActiveTab] = useState<string>("users");
 
@@ -90,6 +94,9 @@ export function SysAdminManagementView({
             </div>
             {activityLog.length === 0 && <p className="py-8 text-center text-sm text-slate-400">No activity recorded yet.</p>}
           </div>
+        )}
+        {activeTab === "export" && (
+          <ExportDataView selectedCompanyId={selectedCompanyId} companies={companies} />
         )}
       </div>
     </div>

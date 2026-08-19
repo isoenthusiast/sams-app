@@ -381,6 +381,7 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
           currentUserId={(session.user as any)?.id}
           departments={JSON.parse(JSON.stringify(departments))}
           positions={JSON.parse(JSON.stringify(positions))}
+          selectedCompanyId={companyId ?? ""}
         />
       )}
 
