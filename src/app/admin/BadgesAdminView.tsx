@@ -180,7 +180,7 @@ export function BadgesAdminView() {
         ))}
         {filtered.length === 0 && (
           <p className="py-8 text-center text-sm text-slate-400">
-            No {activeTab} badges yet. Click "+ Add Badge" to create one.
+            No {activeTab} badges yet. Click &quot;+ Add Badge&quot; to create one.
           </p>
         )}
       </div>

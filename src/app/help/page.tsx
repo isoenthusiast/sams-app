@@ -283,7 +283,7 @@ function DemoContent() {
       <div className="my-8 rounded-xl border border-amber-200 bg-amber-50 p-5">
         <p className="text-amber-900 text-sm leading-relaxed">
           <strong>🎯 The core problem:</strong> We have assurance activities happening. We have findings being raised. We have actions being closed. But we have no way to answer the most important question:<br />
-          <em className="text-base">"Are our barriers holding — right now, across every process?"</em>
+          <em className="text-base">&quot;Are our barriers holding — right now, across every process?&quot;</em>
         </p>
       </div>
 
@@ -357,7 +357,7 @@ function DemoContent() {
         <div className="rounded-lg border border-blue-200 bg-blue-50 p-5">
           <h3 className="font-semibold text-slate-900 mb-2">📝 Management in Control (MIC) Statement</h3>
           <p className="text-sm text-slate-600 leading-relaxed">
-            At the end of each quarter, the Site Process Owner (SPO) or Site Process Focal Point (SPFP) reviews the process health data — controls tested, findings raised, actions closed — and writes a MIC Statement. This is their professional assessment: <em>"Based on the assurance activities conducted this quarter, I confirm that the barriers for Permit to Work are holding / need attention."</em>
+            At the end of each quarter, the Site Process Owner (SPO) or Site Process Focal Point (SPFP) reviews the process health data — controls tested, findings raised, actions closed — and writes a MIC Statement. This is their professional assessment: <em>&quot;Based on the assurance activities conducted this quarter, I confirm that the barriers for Permit to Work are holding / need attention.&quot;</em>
           </p>
           <p className="text-sm text-slate-600 mt-2">
             The MIC Statement is discussed at the next Business Assurance Committee (BAC) meeting. It transforms assurance from a paperwork exercise into a leadership conversation about real barrier health.

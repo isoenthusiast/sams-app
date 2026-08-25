@@ -76,7 +76,7 @@ export function MyInterviewsClient() {
             <p className="text-2xl mb-2">📅</p>
             <p className="text-sm font-medium text-slate-700">No Interviews Assigned</p>
             <p className="text-xs text-slate-400 mt-1">
-              You haven't been assigned to any assessment interviews yet.
+              You haven&apos;t been assigned to any assessment interviews yet.
             </p>
             <Link
               href="/fla"

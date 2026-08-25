@@ -759,7 +759,7 @@ export default function AssessmentClient({ assessment, initialControls = [], pro
           )}
 
           {assessment.samples?.length === 0 && !showAddSample ? (
-            <p className="py-12 text-center text-sm text-slate-400">No samples recorded. Click "+ Add Sample" to begin.</p>
+            <p className="py-12 text-center text-sm text-slate-400">No samples recorded. Click &quot;+ Add Sample&quot; to begin.</p>
           ) : (
             assessment.samples?.map((s: any) => (
               <Card key={s.id} padding="sm">
@@ -961,7 +961,7 @@ export default function AssessmentClient({ assessment, initialControls = [], pro
           )}
 
           {assessment.findings?.length === 0 && !showAddFinding ? (
-            <p className="py-12 text-center text-sm text-slate-400">No findings recorded. Click "+ Add Finding" to begin.</p>
+            <p className="py-12 text-center text-sm text-slate-400">No findings recorded. Click &quot;+ Add Finding&quot; to begin.</p>
           ) : (
             assessment.findings?.map((f: any) => (
               <Card key={f.id} padding="sm">

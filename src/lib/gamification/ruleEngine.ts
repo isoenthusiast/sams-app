@@ -64,7 +64,7 @@ export function calculatePoints(
   unitCount: number = 1,
   playerLevel?: string,
 ): RuleMatch {
-  let multiplier = rule.multiplier ?? 1.0;
+  const multiplier = rule.multiplier ?? 1.0;
 
   // Apply contextual conditions (Level 2)
   const conditions = (rule.conditions as any[]) || [];

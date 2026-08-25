@@ -513,7 +513,7 @@ export default function ProcessDetailsClient(props: Props) {
                 <p><strong>Controls Health Donut:</strong> Shows the proportion of tested controls that are Effective (≥80%), Partially Effective (50–79%), or Ineffective (&lt;50%). Controls that have never been tested appear in grey.</p>
                 <p><strong>Never Tested:</strong> Controls with a health score of 0 or null. The health reset mechanism resets untested controls to 0 — these need assessment coverage.</p>
                 <p><strong>Assurance:</strong> Tracks when this process area was last formally assessed and whether findings are being closed. Overdue actions indicate gaps in the improvement cycle.</p>
-                <p><strong>Improvement:</strong> The CI principle: "If the process is not performing, it is either because the standard is not being followed, or needs improving." This section will track planned improvements.</p>
+                <p><strong>Improvement:</strong> The CI principle: &quot;If the process is not performing, it is either because the standard is not being followed, or needs improving.&quot; This section will track planned improvements.</p>
               </div>
             )}
           </div>

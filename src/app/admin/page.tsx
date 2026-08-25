@@ -238,7 +238,7 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
 
   // Process Health data (for dashboard view)
   let paHealth: any[] = [];
-  let paByStandard = new Map<string, any[]>();
+  const paByStandard = new Map<string, any[]>();
   let myAssessments: any[] = [];
   let myActions: any[] = [];
   if (view === "dashboard") {

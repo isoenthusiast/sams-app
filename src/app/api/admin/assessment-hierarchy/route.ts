@@ -83,7 +83,7 @@ export async function GET() {
         .filter((r: any) => r.controlCount > 0) // Only show requirements with mapped controls
         .sort((a: any, b: any) => {
           const parse = (id: string) => {
-            let n = id.replace(/^[A-Za-z]+-/, "").split(/[&\- ]/)[0].trim();
+            const n = id.replace(/^[A-Za-z]+-/, "").split(/[&\- ]/)[0].trim();
             return n.split(".").map((s) => { const num = Number(s); return isNaN(num) ? s : num; });
           };
           const va = parse(a.requirementId), vb = parse(b.requirementId);

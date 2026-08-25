@@ -189,7 +189,7 @@ export function ImprovementKanban({ pipItems: initial, assessmentActions, proces
               </div>
               <div>
                 <h4 className="font-semibold text-slate-800 mb-1">ORCA Context</h4>
-                <p>PIP is the <strong>Improvement</strong> output of the ORCA cycle (Objectives → Risk → Controls → Assurance). After reviewing controls health and assurance, PIP captures "what are we doing about it?"</p>
+                <p>PIP is the <strong>Improvement</strong> output of the ORCA cycle (Objectives → Risk → Controls → Assurance). After reviewing controls health and assurance, PIP captures &quot;what are we doing about it?&quot;</p>
               </div>
             </div>
             <div className="px-6 py-3 border-t border-slate-100 text-right">

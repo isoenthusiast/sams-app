@@ -356,7 +356,7 @@ export function AuditChecklistTemplateAdminView() {
                   )}
                   {!isLocal && (
                     <p className="text-xs text-slate-400 pt-1 italic">
-                      📥 Use "Copy to Local" to create an editable copy for your company.
+                      📥 Use &quot;Copy to Local&quot; to create an editable copy for your company.
                     </p>
                   )}
                 </div>

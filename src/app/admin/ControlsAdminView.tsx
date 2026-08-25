@@ -354,7 +354,7 @@ function CSFSec({ label, c }: { label: string; c: Control }) {
 
 function CSFExt({ label, c }: { label: string; c: Control }) {
   return <div className="border-t border-slate-200 pt-3 mt-1"><dt className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-2">{label}</dt><div className="space-y-2">
-    <div><dd className="text-[10px] font-medium text-slate-400 uppercase">Control Owner (RASCI "A")</dd><dd className="text-slate-800 text-xs">{NONE(c.controlOwner)}</dd></div>
+    <div><dd className="text-[10px] font-medium text-slate-400 uppercase">Control Owner (RASCI &quot;A&quot;)</dd><dd className="text-slate-800 text-xs">{NONE(c.controlOwner)}</dd></div>
     <div><dd className="text-[10px] font-medium text-slate-400 uppercase">Assurance Cadence</dd><dd className="text-slate-800 text-xs">{NONE(c.assuranceCadence)}</dd></div>
     <div><dd className="text-[10px] font-medium text-slate-400 uppercase">Effectiveness Criteria</dd><dd className="text-slate-800 text-xs whitespace-pre-wrap">{NONE(c.effectivenessCriteria)}</dd></div>
   </div></div>;

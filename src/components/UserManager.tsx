@@ -500,7 +500,7 @@ export function UserManager({ initialUsers, companies, currentUserId, department
           </>
         ) : (
           <div className="flex-1 flex items-center justify-center text-sm text-slate-400">
-            Select a user from the left panel or click "+ Add User" to create one.
+            Select a user from the left panel or click &quot;+ Add User&quot; to create one.
           </div>
         )}
       </div>

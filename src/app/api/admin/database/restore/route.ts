@@ -24,7 +24,7 @@ export async function POST(request: Request) {
     const statements = splitSQL(sqlText);
 
     let executed = 0;
-    let errors: string[] = [];
+    const errors: string[] = [];
     const skipped: string[] = [];
 
     for (const stmt of statements) {
