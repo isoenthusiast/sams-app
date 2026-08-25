@@ -1,0 +1,61 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+env:
+  # prisma generate / next build only need the variable to be *present* —
+  # no database connection is made during CI (verified locally). Real
+  # connections happen at runtime (Railway) via DATABASE_URL.
+  DATABASE_URL: postgresql://ci:ci@localhost:5432/ci
+
+jobs:
+  lint:
+    name: Lint (ESLint)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm run lint
+
+  build:
+    name: Build (next build)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - name: Generate Prisma client
+        run: npx prisma generate
+      - name: Build
+        run: npm run build
+
+  audit:
+    name: Audit (npm audit)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      # Non-blocking (continue-on-error) for now: 18 known advisories
+      # (11 high, 2 critical) with no upstream fix available yet.
+      # Dependabot PRs (dependabot.yml) track these; once the advisory
+      # count clears, remove continue-on-error to make audit a hard gate.
+      - name: npm audit (high+)
+        run: npm audit --audit-level=high
+        continue-on-error: true
