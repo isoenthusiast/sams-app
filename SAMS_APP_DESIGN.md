@@ -2,7 +2,7 @@
 
 > **📐 Active alongside `CONAN_Design Philosophy.md` and `CONAN_App Design.md`.** CONAN docs are the narrative source of truth; this document is the technical specification (models, routes, components, APIs). Both are maintained.
 
-**Last Updated:** August 15, 2026 (v1.13.10 — Dashboard Process Health = SOC compliance coverage per PA)
+**Last Updated:** August 25, 2026 (v1.13.12 — reconciled: SysAdmin Export Data, Knowledgebase LMS metadata, TestClaim/TestWorker registration, dependency security patch)
 
 ---
 
@@ -100,7 +100,7 @@ SAMS is an **assurance management system** — not an audit tool, not a checklis
                           │
 ┌─────────────────────────▼───────────────────────────┐
 │              PostgreSQL (Railway)                     │
-│  hayabusa.proxy.rlwy.net:54471/railway               │
+│  <DB host — see .env>                            │
 │  50+ tables · 18,000+ rows · Shared with SA App      │
 └─────────────────────────────────────────────────────┘
 ```
@@ -299,6 +299,7 @@ Client Component → fetch('/api/...', { method: 'POST', body })
 | **AssessmentAssessor** | Assessment ↔ User (additional assessors) | `@@unique([assessmentId, userId])` |
 | **AssessmentTemplateControlLinkage** | Template ↔ Control | `@@unique([templateId, controlId])` |
 | **AssessmentTemplateActivityType** | Template ↔ ActivityType | `@@unique([templateId, activityTypeId])` |
+| **BacklogItemControl** | Backlog item ↔ Control | `@@unique([backlogItemId, controlId])` |
 
 #### Operational Tables (raw SQL, not Prisma-managed)
 
@@ -307,6 +308,8 @@ Client Component → fetch('/api/...', { method: 'POST', body })
 | **ReconcileClaim** | Coordination table for parallel AI pipelines (v1.13.0): per-unit claim gate + launcher lease. Workers claim a unit via `INSERT ON CONFLICT (kbId) DO NOTHING`; stale claims (>20 min) are reclaimed. The row `kbId='__launcher__'` is the single-instance launcher lease (5s heartbeat, stale-reclaim >120s). **v1.13.1:** pipelines use distinct lease ids (`__launcher__` for extraction, `__launcher_map__` for mapping) so two pipelines can run concurrently. | kbId (text PK), shard (int), claimedAt, heartbeatAt |
 | **RequirementCoverageAudit** | Coverage verdicts from the requirement-coverage audit pipeline (v1.13.2): one row per audited requirement with verdict **FullyMet/PartiallyMet/NotMet** (labels = `Conclusion` enum), howMetEvidence, gapAnalysis, proposedControlStatement (CSF format), mappedControlCount, aiGenerated. Mirrored into the app as one Assessment per PA + Findings/Actions for human review. | id `cov_<md5(rID)>` (text PK), companyId, processAreaId, requirementRId, standard, verdict, model (mapped from `model`), worker, covAt |
 | **SocStatementAudit** | Statement-of-Compliance results from the SOC pipeline (v1.13.8): one row per requirement with verdict **FullyComply/PartiallyComply/NotComply** (labels = `SocStatus` enum), the ≤1000-char human summary, `source` (audit-bootstrap / mini-analysis), `covAuditBackfilled`. The row IS the completion marker; workers write-through `Requirement.socStatus`/`socSummary` in the same transaction. | id `soc_<md5(rID)>` (text PK), companyId, processAreaId, requirementRId, standard, verdict, summary, model, worker, socAt |
+| **TestClaim** | Test-plan orchestration claim gate (`test_plan_supervisor.py`/`test_plan_worker.py`, v1.13.11): every test is a unit of work; tests group into chains claimed whole by one worker. status: `available|claimed|deferred|done|blocked`. | testId (text PK), chainId, area, mode (default `ui`), status (default `available`), workerId, leaseUntil, attempts, result, evidence, createdAt, updatedAt |
+| **TestWorker** | Worker liveness rows (heartbeat) for the test-plan watchdog (v1.13.11). | workerId (text PK), pid, startedAt, lastBeat |
 
 #### Assessment & Workflow Models
 
@@ -334,6 +337,8 @@ Client Component → fetch('/api/...', { method: 'POST', body })
 | **AuditChecklistTemplate** | Reusable checklist template | name, description, auditStandard (ISO9001/ISO14001/ISO45001/PMS), companyId (FK→Company). @@unique([name, companyId]). **v1.10.3:** `isGlobal` computed flag — templates owned by SAMS001 (comp_1783989395315) are global, visible to all companies via OR query. Non-SAMS001 templates are local. |
 | **AuditChecklistTemplateItem** | Template line item (adopted by assessment) | checklistItemId (unique ID like QMS-7.1.5), checklistText, auditStandard, sortOrder, templateId (FK). @@unique([checklistItemId, templateId]) |
 | **AuditChecklistItem** | Assessment-specific checklist instance | checklistItemId (copied from template), checklistText, auditStandard, complianceStatus (NotTested/Compliant/NonCompliant/NotApplicable/Observation), auditorNotes, testedDate, testedBy, evidenceMethod, sortOrder, assessmentId (FK), templateItemId (FK→AuditChecklistTemplateItem, nullable). @@unique([checklistItemId, assessmentId]) |
+| **AssessmentChecklistControl** | Explicit junction: checklist item ↔ control ↔ assessment | @@unique([checklistItemId, controlId]) |
+| **RequirementConclusion** | Per-assessment per-requirement auditor judgment | conclusion (FullyMet/PartiallyMet/NotMet), narrative, lastAssessedDate |
 
 #### Gamification Models
 
@@ -346,6 +351,7 @@ Client Component → fetch('/api/...', { method: 'POST', body })
 | **UserAchievement** | Earned badges | `@@unique([userId, badgeId])` |
 | **EmotionalDriveMetric** | Octalysis 8-drive scores | per-user per-period, overallEngagement |
 | **Milestone** | Goal tracking | targetValue, currentValue, type, completedAt |
+| **GamificationStage** | Per-company gamification stage activation / advancement | companyId, stage, activatedAt, advancedAt, advancedBy |
 
 #### Organizational Models
 
@@ -363,12 +369,14 @@ Client Component → fetch('/api/...', { method: 'POST', body })
 
 | Model | Purpose | Key Fields |
 |-------|---------|------------|
-| **Knowledgebase** | Knowledge entries | knowledgeName, knowledgeContent, companyId, processAreaId, **reconciledAt (v1.13.1)** — timestamptz, authoritative "doc reconciled" marker stamped by the reconciliation pipeline after a doc completes (inserts AND update-merges) |
+| **Knowledgebase** | Knowledge entries | knowledgeName, knowledgeContent, companyId, processAreaId, **reconciledAt (v1.13.1)** — timestamptz, authoritative "doc reconciled" marker stamped by the reconciliation pipeline after a doc completes (inserts AND update-merges); **LMS metadata** (v1.13.11 — `documentNumber`, `nextReviewDate`, `custodianOwner`, `authorizer`, `department`; backfilled from `lms.csv` via `scripts/db/kb_lms_backfill.py`) |
 | **MapArt2Know** | Article ↔ Knowledge mapping | artName, artID, kID, whyToMap |
 | **DocumentExtract** | Uploaded source document | documentTitle, content (extracted text), status |
 | **ControlFromDocument** | AI-extracted control candidate | CSF fields, status (Pending→Approved/Rejected) |
 | **Attachment** | File attachment | fileName, filePath, fileSize, uploadedBy |
 | **AttachmentMapping** | Polymorphic FK to any entity | destTable, recId |
+| **Document** | Document record — versioned, PA-linked | documentNo, version, isLatest, archivedAt, companyId, source, folder, filename, processAreaId, summary, documentContent |
+| **MapRequirement2Document** | M:N requirement ↔ document (traceability) | requirementRId, linkedBy, linkedAt |
 
 #### Supporting Models
 
@@ -382,6 +390,16 @@ Client Component → fetch('/api/...', { method: 'POST', body })
 | **SampleType** | Sample type lookup |
 | **RecordSourceType** | Record source type lookup |
 | **BacklogItem** | Kanban backlog items |
+| **WebhookLog** | Inbound webhook event log |
+
+#### Risk Models (v1.12.0)
+
+| Model | Purpose | Key Fields |
+|-------|---------|------------|
+| **RiskCategory** | Standard Risk Library taxonomy (3-level hierarchy, 204 risks / 34 categories / 15 domains) | externalId, title, level, parentId, domain, category, categoryCode, ranking, processAreaId |
+| **Risk** | Specific business risk | riskID (RSK-xxx, editable), currentImpact/currentLikelihood, unmitigatedImpact/unmitigatedLikelihood, objectives, riskEvent, rootCauses, consequences, riskCategoryId |
+| **RiskMetrics** | 1 Risk → Many Metrics (time-series appetite tracking) | defWithinAppetite/defNearAppetite/defOutsideAppetite, currentStatus, statusUpdatedOn |
+| **ControlRisk** | M:N Risk ↔ Control | role (Primary/Secondary/Supporting), riskWeight |
 
 ### 4.3 Key Design Decisions
 
@@ -443,18 +461,13 @@ All company-scoped tables use `@@unique([businessKey, companyId])` rather than s
 | `/api/admin/backlog` | GET/POST | Admin | List backlog / Add item |
 | `/api/admin/backlog` | PATCH | Admin | Update backlog item status |
 | `/api/admin/backfill-activities` | POST | Admin | Backfill missing assessment activities |
-| `/api/admin/company/[id]/clean-templates` | POST | Admin | Remove adopted templates for a company |
-| `/api/admin/company/[id]/adopt-templates` | POST | Admin | Adopt SAMS001 templates into a company |
 | `/api/admin/database/backup` | GET | Admin | Download full SQL dump |
 | `/api/admin/database/restore` | POST | Admin | Restore from SQL file upload |
-| `/api/admin/database/execute-sql` | POST | Admin | Execute raw SQL (diagnostics) |
-| `/api/admin/database/diagnose` | GET | Admin | DB health checks |
 | `/api/admin/manager-assignment` | POST | Admin | Bulk-update `managerUsername` for all users with given `managerName` |
 | `/api/admin/extraction` | POST | Admin | Upload + AI-extract controls from document |
 | `/api/admin/assurance-protocols` | GET | Auth | Search/filter/paginate assurance protocols |
-| `/api/admin/table/[table]/data` | GET | Auth | Generic table data API (company-scoped) |
-| `/api/admin/table/[table]/data` | POST/PUT/DELETE | Admin/Assessor | Write to tables (Admin: all, Assessor: Aact tables only) |
-| `/api/admin/table/[table]/template` | GET | Admin | Download CSV template for import |
+| `/api/admin/table/Knowledgebase/data` | POST | Admin | Knowledgebase table data (specific route — generic `table/[table]/data` removed) |
+| `/api/admin/table/MapControl2Requirement/data` | GET/POST | Admin | MapControl2Requirement table data (specific route — generic `table/[table]/data` removed) |
 | `/api/admin/table/Assessment/[id]/assessors` | PUT | Admin | Sync assessment assessors |
 | `/api/admin/table/MapControl2Requirement/[id]` | DELETE | Admin | Remove control-requirement mapping |
 | `/api/admin/table/Requirement/[rId]` | PUT | Admin | Update requirement fields (`requirementId`, `clauseContent`, `socStatus`, `socSummary` — v1.13.7) |
@@ -472,6 +485,70 @@ All company-scoped tables use `@@unique([businessKey, companyId])` rather than s
 | `/api/admin/assessments/[id]/requirement-tree` | GET | Assessor | **v1.11.3:** Returns Standard → ProcessArea → Requirement → Control tree with `assignedControlIds`, `controlLocations` (multi-requirement awareness), and `unmappedControls`. Shows ALL requirements including zero-control gaps. |
 | `/api/admin/assessments/[id]/controls/remove` | POST | Assessor | **v1.11.3:** Bulk-remove control assignments by `controlIds[]` array. Returns `{ removed, requested }`. |
 | `/api/admin/export/controls` | GET | Admin | **v1.13.11:** Company-scoped controls CSV export — `?companyId=`. One row per Control×Requirement mapping (many-to-many duplicates), unmapped controls included once; all business Control columns (introspected) + requirement_id/clause/intent/applicability + both PA/Standard pairs + mapping_mandatory. |
+| `/api/admin/assessments/[id]/checklist-controls` | GET/POST | Assessor | List / link controls to checklist items |
+| `/api/admin/assessments/[id]/checklist-controls/[junctionId]` | DELETE | Assessor | Unlink a checklist-control junction |
+| `/api/admin/assessments/[id]/checklist-requirements` | DELETE/POST | Assessor | Link / unlink checklist items to requirements |
+| `/api/admin/assessments/[id]/control-effectiveness` | PUT | Assessor | Set a control's effectiveness in the assessment |
+| `/api/admin/assessments/[id]/controls` | GET/POST | Assessor | List / assign controls in an assessment |
+| `/api/admin/assessments/[id]/recalculate-health` | POST | Admin | Recompute control health for the assessment |
+| `/api/admin/assessments/[id]/requirement-conclusions` | PUT | Assessor | Persist `RequirementConclusion` (v1.11.4) |
+| `/api/admin/assessments/[id]/ai-analysis` | POST | Assessor | DeepSeek v4 full-audit analysis (Executive Summary, Patterns, Risk, Recommendations) |
+| `/api/admin/assessment-hierarchy` | GET | Admin | Full assessment hierarchy |
+| `/api/admin/requirement-documents` | GET | Admin | Requirements with linked documents |
+| `/api/admin/documents` | GET | Admin | List documents |
+| `/api/admin/control-assignments` | POST | Assessor | Create a control assignment |
+| `/api/admin/control-assignments/[id]` | DELETE/PUT | Assessor | Update / remove a control assignment (moved to top-level) |
+| `/api/admin/standards` | GET | Admin | List standards |
+| `/api/admin/standards/[id]` | DELETE/PUT | Admin | Update / delete a standard |
+| `/api/admin/standards-list` | GET | Admin | List standards |
+| `/api/admin/processareas` | GET | Admin | List process areas |
+| `/api/admin/processareas/[id]` | DELETE/PUT | Admin | Update / delete a process area |
+| `/api/admin/requirements` | GET | Admin | List requirements |
+| `/api/admin/controls` | GET | Admin | List controls |
+| `/api/admin/controls/[id]` | DELETE/PUT | Admin | Update / delete a control |
+| `/api/admin/controls/tree` | GET | Admin | Control hierarchy tree |
+| `/api/admin/map-control-requirement` | POST | Admin | Map a control to a requirement |
+| `/api/admin/companies` | GET/POST | Admin | List / create companies |
+| `/api/admin/companies/[id]` | DELETE/PUT | Admin | Update / delete a company |
+| `/api/admin/company/[id]/bootstrap` | POST | Admin | Bootstrap a new company from SAMS001 master data |
+| `/api/admin/org-chart` | GET | Admin | Recursive CTE org tree |
+| `/api/admin/departments` | GET/POST | Admin | List / create departments |
+| `/api/admin/departments/[id]` | DELETE/PUT | Admin | Update / delete a department |
+| `/api/admin/findings` | POST | Assessor | Create a finding |
+| `/api/admin/findings/[id]` | DELETE/PUT | Assessor | Update / delete a finding |
+| `/api/admin/samples` | POST | Assessor | Create a sample |
+| `/api/admin/samples/[id]` | DELETE/PUT | Assessor | Update / delete a sample |
+| `/api/admin/gamification/readiness` | GET | Admin | Gamification readiness check |
+| `/api/admin/gamification/advance` | POST | Admin | Advance a gamification stage |
+| `/api/admin/gamification/core-drives` | GET | Admin | Octalysis 8-drive calculator |
+| `/api/admin/gamification/import-csv` | POST | Admin | Import gamification data from CSV |
+| `/api/admin/badges` | GET | Admin | List badges |
+| `/api/admin/badges/[id]` | DELETE/PUT | Admin | Update / delete a badge |
+| `/api/admin/badges/generate` | POST | Admin | Generate a badge image |
+| `/api/admin/assessment-templates/[id]` | PUT | Admin | Update an assessment template |
+| `/api/admin/assessment-templates/[id]/adopt` | POST | Admin | Adopt an assessment template |
+| `/api/admin/assessment-templates/[id]/share` | POST | Admin | Share an assessment template |
+| `/api/admin/actions` | POST | Admin | Create an action |
+| `/api/admin/actions/[id]` | DELETE/PUT | Admin | Update / delete an action |
+| `/api/admin/activities` | GET/POST | Admin | List / create activities |
+| `/api/admin/activities/[id]` | DELETE/PUT | Admin | Update / delete an activity |
+| `/api/admin/activity-controls` | POST | Admin | Link an activity to a control |
+| `/api/admin/activity-controls/[id]` | DELETE | Admin | Unlink an activity-control |
+| `/api/admin/activity-details` | POST | Admin | Create activity details |
+| `/api/admin/activity-users` | POST | Admin | Link an activity to a user |
+| `/api/admin/activity-users/[id]` | DELETE | Admin | Unlink an activity-user |
+| `/api/admin/template-activities/[id]` | PUT | Admin | Update a template activity |
+| `/api/admin/pip` | GET/POST | Admin | PIP Kanban list / create |
+| `/api/admin/pip/[id]` | DELETE/PATCH | Admin | Update / delete a PIP item |
+| `/api/admin/pip/mic` | POST | Admin | Save a MIC statement |
+| `/api/admin/reset-health` | GET/POST | Admin | Reset control health scores |
+| `/api/admin/users/[id]/reorder` | PUT | Admin | Reorder org-chart siblings |
+| `/api/admin/extraction/documents` | GET | Admin | List extraction documents |
+| `/api/admin/extraction/extract` | POST | Admin | Run AI extraction |
+| `/api/admin/extraction/upload` | POST | Admin | Upload a source document for extraction |
+| `/api/admin/database/export-controls` | GET | Admin | Export controls CSV (legacy SAMS001-hardcoded, deduped) |
+| `/api/admin/database/export-requirements` | GET | Admin | Export requirements CSV |
+| `/api/admin/table/Assessment/[id]` | PUT | Admin | Update an Assessment row |
 
 #### Assessor APIs (`/api/*`)
 
@@ -481,6 +558,7 @@ All company-scoped tables use `@@unique([businessKey, companyId])` rather than s
 | `/api/attachments/[id]` | DELETE | Assessor | Delete attachment + mappings |
 | `/api/health` | GET | Public | Health check |
 | `/api/my/interviews` | GET | Auth | List user's assigned interviews |
+| `/api/my/interviews/[assignmentId]` | PUT | Auth | Update an assigned interview for the current user |
 
 #### AI APIs
 
@@ -490,15 +568,17 @@ All company-scoped tables use `@@unique([businessKey, companyId])` rather than s
 | `/api/chat/knowledge/upload` | POST | Auth | Upload doc/image → text extraction or vision → Document row (optional `folder` field: `Uploaded` from Documents tab, default `AI Chat`) |
 | `/api/documents/[id]` | PATCH | Assessor+ | Edit document summary |
 | `/api/documents/[id]` | DELETE | Admin | Soft-delete (archive) document; shared (SAMS001) docs only while SAMS001 selected |
-| `/api/chat/update-control` | POST | Admin | Create Control from AI-suggested `___CONTROL___` block |
+
 
 #### Gamification APIs
 
 | Route | Method | Auth | Description |
 |-------|--------|------|-------------|
 | `/api/gamification/award` | POST | Auth | Award points via rule engine + evaluate badges |
+| `/api/gamification/certificate` | POST | Auth | Generate a competency certificate |
 | `/api/gamification/events` | POST | Auth | Generic event ingestion — single entry point for all gamification events (internal + external) |
 | `/api/gamification/stats` | GET | Auth | User gamification stats (overallXP, tracks, levels) |
+| `/api/webhooks/[source]` | POST | Auth | External webhook receiver |
 
 #### Auth API
 
@@ -959,7 +1039,7 @@ Local Dev (localhost:3100)
 |---|---|---|
 | v1.13.12 | 2026-08-25 | **Dependency security patch (audit-driven).** `next-auth` bumped `^5.0.0-beta.31` → `^5.0.0-beta.32` (fixes Auth.js fail-open auth checks + homoglyph bypass + @auth/core advisories; bundles `@auth/core@0.41.3`). Lockfile regenerated: next 16.3.2, postcss 8.5.26, nanoid 3.3.18, sharp 0.35.3, prisma 7.9.1, fast-uri 3.1.6. `npm audit` 18 (2 crit) → 3 high (Prisma CLI dev-tooling chain, no upstream fix). Added `scripts/requirements.txt` (`psycopg2-binary==2.9.12`) for `verify_parity.py`. No schema/route/component changes. |
 |---------|------|---------|
-| v1.13.11 | 2026-08-19 | **SysAdmin → Export Data (company-scoped controls CSV).** New `ExportDataView` submenu under SysAdmin (📤 Export Data) + new endpoint `GET /api/admin/export/controls?companyId=<id>` (Admin). Exports the selected company's controls as CSV: one row per Control × Requirement mapping (many-to-many → duplicated control rows; verified 43,059 rows / 24,883 distinct for SMDS), unmapped controls included once with blank requirement columns. Columns (grilled 2026-08-19): all business Control columns (introspected at runtime via information_schema, internal id/companyId/timestamps excluded), requirement_id + requirement_clause (full text) + intent (`intentOutcome`) + applicability (`clauseApplicability`), control_process_area/control_standard and requirement_process_area/requirement_standard (both pairs), and mapping_mandatory. The pre-existing `/api/admin/database/export-controls` (SAMS001-hardcoded, deduped) is unchanged. |
+| v1.13.11 | 2026-08-19 | **SysAdmin → Export Data + Knowledgebase LMS metadata + TestClaim/TestWorker registration.** (1) `Knowledgebase` gains LMS metadata columns (`documentNumber`, `nextReviewDate`, `custodianOwner`, `authorizer`, `department`, backfilled from `lms.csv` via `kb_lms_backfill.py`). (2) `TestClaim` + `TestWorker` registered as Prisma models (drift-safety) for the test-plan orchestrator. (3) New `ExportDataView` submenu under SysAdmin (📤 Export Data) + new endpoint `GET /api/admin/export/controls?companyId=<id>` (Admin). Exports the selected company's controls as CSV: one row per Control × Requirement mapping (many-to-many → duplicated control rows; verified 43,059 rows / 24,883 distinct for SMDS), unmapped controls included once with blank requirement columns. Columns (grilled 2026-08-19): all business Control columns (introspected at runtime via information_schema, internal id/companyId/timestamps excluded), requirement_id + requirement_clause (full text) + intent (`intentOutcome`) + applicability (`clauseApplicability`), control_process_area/control_standard and requirement_process_area/requirement_standard (both pairs), and mapping_mandatory. The pre-existing `/api/admin/database/export-controls` (SAMS001-hardcoded, deduped) is unchanged. |
 | v1.12.3 | 2026-08-10 | **Report format v2 + discipline filter badges + IMS merged report.** Design-effectiveness reports refactored from separate-sections format (Summary TOC → What-went-well → Gaps) to a single expandable-row table with clickable filter badges (comply status + standard + discipline). Discipline badges (Everyone/AI/PS/OSH for PMS; QMS/EMS/OHSMS for ISO) are now interactive filters — clicking narrows the table to one discipline's clauses. Badges work in legend bars, cat-summary bars, and table cells via `toggleFilter` JS with `el.closest('table.summary')` fallback. IMS merged report (`IMS_DESIGN_EFFECTIVENESS.html`) consolidates all 4 standards into 7 IMS category tables with per-category filter badges and a consolidated Find & Act section. Design Philosophy principles #46–48 updated; IMS Audit Philosophy §9.2–9.4 updated. |
 | v1.12.1 | 2026-08-09 | **PMS cross-PA control mapping.** Added `mandatory Boolean @default(false)` to `MapControl2Requirement` (added via idempotent raw `ALTER TABLE ADD COLUMN IF NOT EXISTS` to avoid Prisma drift-drop). Marks controls that are essential (non-substitutable) to a specific requirement. Used to map the 5,055-control SMDS library to the 42 statutory ICOP PMS clauses (controls from other PAs anchored to the PMS requirement; MCR `processAreaId` = the control's own PA). Produces `SMDS PMS Gaps.md` + Design Effectiveness report. |
 | v1.13.0 | 2026-08-13 | **KB→Control Parallel Reconciliation + Mapping v2 Design.** (1) **Parallel extraction pipeline** (`scripts/db/launch_shards.py`, `kb_control_reconcile.py`, `kb_reconcile_aggregate.py`, `parent_watchdog.py`): 20 shards × 2 process copies coordinated via new **`ReconcileClaim`** raw-SQL table (per-doc claim gate + `__launcher__` lease row with 5s heartbeat + stale reclaim; standby never exits; work-stealing sweep at tail; skip-don't-crash on network failures; per-doc commit). Result: SMDS control library grown to 23,586 controls (18,531 KB-derived NEW), 0 duplicate name rows, 0 × 429. (2) **`MapControl2Requirement.aiGenerated`** nullable boolean added via idempotent raw ALTER — flags AI-created mapping rows. (3) **Mapping v2 design grilled & confirmed:** backup + delete all 5,596 SMDS mappings, re-match all controls against all 881 SMDS requirements two-stage (token-overlap top-40 → AI confirm with justification, strong/weak tiering), mandatory boolean = mandatory/supporting, many-to-many, AI chunk 40 + commit per control, single supervisor with 30 workers, launch only after extraction completes. New docs: `docs/parallel-worker-coordination.md` (runbook) + `docs/adr/adr-coordinating-many-workers-db-claims.md`; 19-entry lessons log `/memories/lessons-learned-2026-08-13.md`. |
