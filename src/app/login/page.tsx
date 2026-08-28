@@ -38,6 +38,7 @@ export default function LoginPage() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-slate-50">
       <form
+        method="post"
         onSubmit={handleSubmit}
         className="w-full max-w-sm space-y-4 rounded-lg border border-slate-200 bg-white p-8 shadow-sm"
       >

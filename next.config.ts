@@ -24,6 +24,19 @@ const nextConfig: NextConfig = {
           },
         ],
       },
+      {
+        // Content-hashed JS/CSS chunks should be cached, not no-store. The rule
+        // above would otherwise force the browser to re-fetch every chunk on each
+        // load, which breaks client hydration on high-latency links (e.g. Tailscale).
+        // Later rules win for the same header key, so this restores immutable caching.
+        source: "/_next/static/:path*",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=31536000, immutable",
+          },
+        ],
+      },
     ];
   },
 
