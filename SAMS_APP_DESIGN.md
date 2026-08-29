@@ -369,7 +369,9 @@ Client Component → fetch('/api/...', { method: 'POST', body })
 
 | Model | Purpose | Key Fields |
 |-------|---------|------------|
-| **Knowledgebase** | Knowledge entries | knowledgeName, knowledgeContent, companyId, processAreaId, **reconciledAt (v1.13.1)** — timestamptz, authoritative "doc reconciled" marker stamped by the reconciliation pipeline after a doc completes (inserts AND update-merges); **LMS metadata** (v1.13.11 — `documentNumber`, `nextReviewDate`, `custodianOwner`, `authorizer`, `department`; backfilled from `lms.csv` via `scripts/db/kb_lms_backfill.py`) |
+| **Knowledgebase** | Knowledge entries | knowledgeName, knowledgeContent, companyId, processAreaId, **reconciledAt (v1.13.1)** — timestamptz, authoritative "doc reconciled" marker stamped by the reconciliation pipeline after a doc completes (inserts AND update-merges); **LMS metadata** (v1.13.11 — `documentNumber`, `nextReviewDate`, `custodianOwner`, `authorizer`, `department`; backfilled from `lms.csv` via `scripts/db/kb_lms_backfill.py`); **transcript fields (2026-08-29)** — `entryType` enum `{Knowledge\|Transcript}` (authoritative transcript discriminator, default `Knowledge`), `meetingDate`, `participants` (nullable, transcript-only) |
+| **Tag** | Company-scoped reusable label | name, companyId, `@@unique([name, companyId])` (2026-08-29) |
+| **KnowledgebaseTag** | KB entry ↔ Tag (M:N junction) | kID, tagId, `@@unique([kID, tagId])` (2026-08-29) |
 | **MapArt2Know** | Article ↔ Knowledge mapping | artName, artID, kID, whyToMap |
 | **DocumentExtract** | Uploaded source document | documentTitle, content (extracted text), status |
 | **ControlFromDocument** | AI-extracted control candidate | CSF fields, status (Pending→Approved/Rejected) |
