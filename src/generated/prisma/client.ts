@@ -262,6 +262,16 @@ export type AActDetails = Prisma.AActDetailsModel
  */
 export type Knowledgebase = Prisma.KnowledgebaseModel
 /**
+ * Model Tag
+ * 
+ */
+export type Tag = Prisma.TagModel
+/**
+ * Model KnowledgebaseTag
+ * 
+ */
+export type KnowledgebaseTag = Prisma.KnowledgebaseTagModel
+/**
  * Model MapArt2Know
  * 
  */
@@ -371,3 +381,13 @@ export type RequirementCoverageAudit = Prisma.RequirementCoverageAuditModel
  * 
  */
 export type SocStatementAudit = Prisma.SocStatementAuditModel
+/**
+ * Model TestClaim
+ * 
+ */
+export type TestClaim = Prisma.TestClaimModel
+/**
+ * Model TestWorker
+ * 
+ */
+export type TestWorker = Prisma.TestWorkerModel

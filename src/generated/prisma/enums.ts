@@ -55,6 +55,14 @@ export const Role = {
 export type Role = (typeof Role)[keyof typeof Role]
 
 
+export const KnowledgeEntryType = {
+  Knowledge: 'Knowledge',
+  Transcript: 'Transcript'
+} as const
+
+export type KnowledgeEntryType = (typeof KnowledgeEntryType)[keyof typeof KnowledgeEntryType]
+
+
 export const ControlRiskRole = {
   Primary: 'Primary',
   Secondary: 'Secondary',

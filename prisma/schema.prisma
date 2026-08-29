@@ -827,6 +827,12 @@ model Knowledgebase {
   custodianOwner   String?
   authorizer       String?
   department       String?
+  /// Knowledge vs Transcript discriminator (ADR-0004). Default Knowledge.
+  entryType        KnowledgeEntryType @default(Knowledge)
+  /// Transcript-only metadata (null for non-transcripts).
+  meetingDate      DateTime?
+  participants     String?
+  tags             KnowledgebaseTag[]
 
   @@unique([knowledgeName, companyId])
   @@index([knowledgeName])
@@ -834,6 +840,39 @@ model Knowledgebase {
   @@index([addedBy])
   @@index([companyId])
   @@index([processAreaId])
+  @@index([entryType])
+}
+
+// ── Knowledge entry type — Knowledge vs Transcript (ADR-0004) ──────
+enum KnowledgeEntryType {
+  Knowledge
+  Transcript
+}
+
+// ── Tagging — company-scoped, reusable across KB entries ──────────
+model Tag {
+  id        String            @id @default(cuid())
+  name      String
+  companyId String?
+  createdAt DateTime          @default(now())
+  knowledge KnowledgebaseTag[]
+
+  @@unique([name, companyId])
+  @@index([name])
+  @@index([companyId])
+}
+
+// M:N junction Knowledgebase <-> Tag
+model KnowledgebaseTag {
+  id        String        @id @default(cuid())
+  kID       String
+  tagId     String
+  createdAt DateTime      @default(now())
+  kbase     Knowledgebase @relation(fields: [kID], references: [kID], onDelete: Cascade)
+  tag       Tag           @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@unique([kID, tagId])
+  @@index([tagId])
 }
 
 model MapArt2Know {

@@ -95,6 +95,8 @@ export const ModelName = {
   AActUsers: 'AActUsers',
   AActDetails: 'AActDetails',
   Knowledgebase: 'Knowledgebase',
+  Tag: 'Tag',
+  KnowledgebaseTag: 'KnowledgebaseTag',
   MapArt2Know: 'MapArt2Know',
   Requirement: 'Requirement',
   MapControl2Requirement: 'MapControl2Requirement',
@@ -116,7 +118,9 @@ export const ModelName = {
   AssessmentChecklistControl: 'AssessmentChecklistControl',
   ReconcileClaim: 'ReconcileClaim',
   RequirementCoverageAudit: 'RequirementCoverageAudit',
-  SocStatementAudit: 'SocStatementAudit'
+  SocStatementAudit: 'SocStatementAudit',
+  TestClaim: 'TestClaim',
+  TestWorker: 'TestWorker'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -793,10 +797,33 @@ export const KnowledgebaseScalarFieldEnum = {
   nextReviewDate: 'nextReviewDate',
   custodianOwner: 'custodianOwner',
   authorizer: 'authorizer',
-  department: 'department'
+  department: 'department',
+  entryType: 'entryType',
+  meetingDate: 'meetingDate',
+  participants: 'participants'
 } as const
 
 export type KnowledgebaseScalarFieldEnum = (typeof KnowledgebaseScalarFieldEnum)[keyof typeof KnowledgebaseScalarFieldEnum]
+
+
+export const TagScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  companyId: 'companyId',
+  createdAt: 'createdAt'
+} as const
+
+export type TagScalarFieldEnum = (typeof TagScalarFieldEnum)[keyof typeof TagScalarFieldEnum]
+
+
+export const KnowledgebaseTagScalarFieldEnum = {
+  id: 'id',
+  kID: 'kID',
+  tagId: 'tagId',
+  createdAt: 'createdAt'
+} as const
+
+export type KnowledgebaseTagScalarFieldEnum = (typeof KnowledgebaseTagScalarFieldEnum)[keyof typeof KnowledgebaseTagScalarFieldEnum]
 
 
 export const MapArt2KnowScalarFieldEnum = {
@@ -1157,6 +1184,34 @@ export const SocStatementAuditScalarFieldEnum = {
 } as const
 
 export type SocStatementAuditScalarFieldEnum = (typeof SocStatementAuditScalarFieldEnum)[keyof typeof SocStatementAuditScalarFieldEnum]
+
+
+export const TestClaimScalarFieldEnum = {
+  testId: 'testId',
+  chainId: 'chainId',
+  area: 'area',
+  mode: 'mode',
+  status: 'status',
+  workerId: 'workerId',
+  leaseUntil: 'leaseUntil',
+  attempts: 'attempts',
+  result: 'result',
+  evidence: 'evidence',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type TestClaimScalarFieldEnum = (typeof TestClaimScalarFieldEnum)[keyof typeof TestClaimScalarFieldEnum]
+
+
+export const TestWorkerScalarFieldEnum = {
+  workerId: 'workerId',
+  pid: 'pid',
+  startedAt: 'startedAt',
+  lastBeat: 'lastBeat'
+} as const
+
+export type TestWorkerScalarFieldEnum = (typeof TestWorkerScalarFieldEnum)[keyof typeof TestWorkerScalarFieldEnum]
 
 
 export const SortOrder = {

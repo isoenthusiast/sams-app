@@ -212,7 +212,7 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
          FROM "Knowledgebase" kb
          LEFT JOIN "ProcessArea" pa ON pa.id = kb."processAreaId"
          LEFT JOIN "Standard" s ON pa."StandardID" = s.id
-         ${companyId ? `WHERE kb."companyId" = '${companyId}'` : ""}
+         ${companyId ? `WHERE kb."companyId" = '${companyId}' AND kb."entryType" = 'Knowledge'` : `WHERE kb."entryType" = 'Knowledge'`}
          ORDER BY kb."createdDate" DESC`
       ))
     : [];

@@ -131,6 +131,7 @@ export default async function ProcessDetailsPage({ params }: { params: Promise<{
     `SELECT "kID", "knowledgeName", "knowledgeContent", "remarks", "createdDate", "addedBy"
      FROM "Knowledgebase"
      WHERE "processAreaId" = $1
+     AND "entryType" = 'Knowledge'
      ORDER BY "createdDate" DESC`,
     id
   );

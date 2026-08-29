@@ -39,6 +39,9 @@ export type KnowledgebaseMinAggregateOutputType = {
   custodianOwner: string | null
   authorizer: string | null
   department: string | null
+  entryType: $Enums.KnowledgeEntryType | null
+  meetingDate: Date | null
+  participants: string | null
 }
 
 export type KnowledgebaseMaxAggregateOutputType = {
@@ -56,6 +59,9 @@ export type KnowledgebaseMaxAggregateOutputType = {
   custodianOwner: string | null
   authorizer: string | null
   department: string | null
+  entryType: $Enums.KnowledgeEntryType | null
+  meetingDate: Date | null
+  participants: string | null
 }
 
 export type KnowledgebaseCountAggregateOutputType = {
@@ -73,6 +79,9 @@ export type KnowledgebaseCountAggregateOutputType = {
   custodianOwner: number
   authorizer: number
   department: number
+  entryType: number
+  meetingDate: number
+  participants: number
   _all: number
 }
 
@@ -92,6 +101,9 @@ export type KnowledgebaseMinAggregateInputType = {
   custodianOwner?: true
   authorizer?: true
   department?: true
+  entryType?: true
+  meetingDate?: true
+  participants?: true
 }
 
 export type KnowledgebaseMaxAggregateInputType = {
@@ -109,6 +121,9 @@ export type KnowledgebaseMaxAggregateInputType = {
   custodianOwner?: true
   authorizer?: true
   department?: true
+  entryType?: true
+  meetingDate?: true
+  participants?: true
 }
 
 export type KnowledgebaseCountAggregateInputType = {
@@ -126,6 +141,9 @@ export type KnowledgebaseCountAggregateInputType = {
   custodianOwner?: true
   authorizer?: true
   department?: true
+  entryType?: true
+  meetingDate?: true
+  participants?: true
   _all?: true
 }
 
@@ -216,6 +234,9 @@ export type KnowledgebaseGroupByOutputType = {
   custodianOwner: string | null
   authorizer: string | null
   department: string | null
+  entryType: $Enums.KnowledgeEntryType
+  meetingDate: Date | null
+  participants: string | null
   _count: KnowledgebaseCountAggregateOutputType | null
   _min: KnowledgebaseMinAggregateOutputType | null
   _max: KnowledgebaseMaxAggregateOutputType | null
@@ -254,6 +275,10 @@ export type KnowledgebaseWhereInput = {
   custodianOwner?: Prisma.StringNullableFilter<"Knowledgebase"> | string | null
   authorizer?: Prisma.StringNullableFilter<"Knowledgebase"> | string | null
   department?: Prisma.StringNullableFilter<"Knowledgebase"> | string | null
+  entryType?: Prisma.EnumKnowledgeEntryTypeFilter<"Knowledgebase"> | $Enums.KnowledgeEntryType
+  meetingDate?: Prisma.DateTimeNullableFilter<"Knowledgebase"> | Date | string | null
+  participants?: Prisma.StringNullableFilter<"Knowledgebase"> | string | null
+  tags?: Prisma.KnowledgebaseTagListRelationFilter
 }
 
 export type KnowledgebaseOrderByWithRelationInput = {
@@ -271,6 +296,10 @@ export type KnowledgebaseOrderByWithRelationInput = {
   custodianOwner?: Prisma.SortOrderInput | Prisma.SortOrder
   authorizer?: Prisma.SortOrderInput | Prisma.SortOrder
   department?: Prisma.SortOrderInput | Prisma.SortOrder
+  entryType?: Prisma.SortOrder
+  meetingDate?: Prisma.SortOrderInput | Prisma.SortOrder
+  participants?: Prisma.SortOrderInput | Prisma.SortOrder
+  tags?: Prisma.KnowledgebaseTagOrderByRelationAggregateInput
 }
 
 export type KnowledgebaseWhereUniqueInput = Prisma.AtLeast<{
@@ -292,6 +321,10 @@ export type KnowledgebaseWhereUniqueInput = Prisma.AtLeast<{
   custodianOwner?: Prisma.StringNullableFilter<"Knowledgebase"> | string | null
   authorizer?: Prisma.StringNullableFilter<"Knowledgebase"> | string | null
   department?: Prisma.StringNullableFilter<"Knowledgebase"> | string | null
+  entryType?: Prisma.EnumKnowledgeEntryTypeFilter<"Knowledgebase"> | $Enums.KnowledgeEntryType
+  meetingDate?: Prisma.DateTimeNullableFilter<"Knowledgebase"> | Date | string | null
+  participants?: Prisma.StringNullableFilter<"Knowledgebase"> | string | null
+  tags?: Prisma.KnowledgebaseTagListRelationFilter
 }, "kID" | "knowledgeName_companyId">
 
 export type KnowledgebaseOrderByWithAggregationInput = {
@@ -309,6 +342,9 @@ export type KnowledgebaseOrderByWithAggregationInput = {
   custodianOwner?: Prisma.SortOrderInput | Prisma.SortOrder
   authorizer?: Prisma.SortOrderInput | Prisma.SortOrder
   department?: Prisma.SortOrderInput | Prisma.SortOrder
+  entryType?: Prisma.SortOrder
+  meetingDate?: Prisma.SortOrderInput | Prisma.SortOrder
+  participants?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.KnowledgebaseCountOrderByAggregateInput
   _max?: Prisma.KnowledgebaseMaxOrderByAggregateInput
   _min?: Prisma.KnowledgebaseMinOrderByAggregateInput
@@ -332,6 +368,9 @@ export type KnowledgebaseScalarWhereWithAggregatesInput = {
   custodianOwner?: Prisma.StringNullableWithAggregatesFilter<"Knowledgebase"> | string | null
   authorizer?: Prisma.StringNullableWithAggregatesFilter<"Knowledgebase"> | string | null
   department?: Prisma.StringNullableWithAggregatesFilter<"Knowledgebase"> | string | null
+  entryType?: Prisma.EnumKnowledgeEntryTypeWithAggregatesFilter<"Knowledgebase"> | $Enums.KnowledgeEntryType
+  meetingDate?: Prisma.DateTimeNullableWithAggregatesFilter<"Knowledgebase"> | Date | string | null
+  participants?: Prisma.StringNullableWithAggregatesFilter<"Knowledgebase"> | string | null
 }
 
 export type KnowledgebaseCreateInput = {
@@ -349,6 +388,10 @@ export type KnowledgebaseCreateInput = {
   custodianOwner?: string | null
   authorizer?: string | null
   department?: string | null
+  entryType?: $Enums.KnowledgeEntryType
+  meetingDate?: Date | string | null
+  participants?: string | null
+  tags?: Prisma.KnowledgebaseTagCreateNestedManyWithoutKbaseInput
 }
 
 export type KnowledgebaseUncheckedCreateInput = {
@@ -366,6 +409,10 @@ export type KnowledgebaseUncheckedCreateInput = {
   custodianOwner?: string | null
   authorizer?: string | null
   department?: string | null
+  entryType?: $Enums.KnowledgeEntryType
+  meetingDate?: Date | string | null
+  participants?: string | null
+  tags?: Prisma.KnowledgebaseTagUncheckedCreateNestedManyWithoutKbaseInput
 }
 
 export type KnowledgebaseUpdateInput = {
@@ -383,6 +430,10 @@ export type KnowledgebaseUpdateInput = {
   custodianOwner?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   authorizer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   department?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  entryType?: Prisma.EnumKnowledgeEntryTypeFieldUpdateOperationsInput | $Enums.KnowledgeEntryType
+  meetingDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  participants?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tags?: Prisma.KnowledgebaseTagUpdateManyWithoutKbaseNestedInput
 }
 
 export type KnowledgebaseUncheckedUpdateInput = {
@@ -400,6 +451,10 @@ export type KnowledgebaseUncheckedUpdateInput = {
   custodianOwner?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   authorizer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   department?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  entryType?: Prisma.EnumKnowledgeEntryTypeFieldUpdateOperationsInput | $Enums.KnowledgeEntryType
+  meetingDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  participants?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tags?: Prisma.KnowledgebaseTagUncheckedUpdateManyWithoutKbaseNestedInput
 }
 
 export type KnowledgebaseCreateManyInput = {
@@ -417,6 +472,9 @@ export type KnowledgebaseCreateManyInput = {
   custodianOwner?: string | null
   authorizer?: string | null
   department?: string | null
+  entryType?: $Enums.KnowledgeEntryType
+  meetingDate?: Date | string | null
+  participants?: string | null
 }
 
 export type KnowledgebaseUpdateManyMutationInput = {
@@ -434,6 +492,9 @@ export type KnowledgebaseUpdateManyMutationInput = {
   custodianOwner?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   authorizer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   department?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  entryType?: Prisma.EnumKnowledgeEntryTypeFieldUpdateOperationsInput | $Enums.KnowledgeEntryType
+  meetingDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  participants?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type KnowledgebaseUncheckedUpdateManyInput = {
@@ -451,6 +512,9 @@ export type KnowledgebaseUncheckedUpdateManyInput = {
   custodianOwner?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   authorizer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   department?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  entryType?: Prisma.EnumKnowledgeEntryTypeFieldUpdateOperationsInput | $Enums.KnowledgeEntryType
+  meetingDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  participants?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type KnowledgebaseKnowledgeNameCompanyIdCompoundUniqueInput = {
@@ -473,6 +537,9 @@ export type KnowledgebaseCountOrderByAggregateInput = {
   custodianOwner?: Prisma.SortOrder
   authorizer?: Prisma.SortOrder
   department?: Prisma.SortOrder
+  entryType?: Prisma.SortOrder
+  meetingDate?: Prisma.SortOrder
+  participants?: Prisma.SortOrder
 }
 
 export type KnowledgebaseMaxOrderByAggregateInput = {
@@ -490,6 +557,9 @@ export type KnowledgebaseMaxOrderByAggregateInput = {
   custodianOwner?: Prisma.SortOrder
   authorizer?: Prisma.SortOrder
   department?: Prisma.SortOrder
+  entryType?: Prisma.SortOrder
+  meetingDate?: Prisma.SortOrder
+  participants?: Prisma.SortOrder
 }
 
 export type KnowledgebaseMinOrderByAggregateInput = {
@@ -507,8 +577,159 @@ export type KnowledgebaseMinOrderByAggregateInput = {
   custodianOwner?: Prisma.SortOrder
   authorizer?: Prisma.SortOrder
   department?: Prisma.SortOrder
+  entryType?: Prisma.SortOrder
+  meetingDate?: Prisma.SortOrder
+  participants?: Prisma.SortOrder
 }
 
+export type KnowledgebaseScalarRelationFilter = {
+  is?: Prisma.KnowledgebaseWhereInput
+  isNot?: Prisma.KnowledgebaseWhereInput
+}
+
+export type EnumKnowledgeEntryTypeFieldUpdateOperationsInput = {
+  set?: $Enums.KnowledgeEntryType
+}
+
+export type KnowledgebaseCreateNestedOneWithoutTagsInput = {
+  create?: Prisma.XOR<Prisma.KnowledgebaseCreateWithoutTagsInput, Prisma.KnowledgebaseUncheckedCreateWithoutTagsInput>
+  connectOrCreate?: Prisma.KnowledgebaseCreateOrConnectWithoutTagsInput
+  connect?: Prisma.KnowledgebaseWhereUniqueInput
+}
+
+export type KnowledgebaseUpdateOneRequiredWithoutTagsNestedInput = {
+  create?: Prisma.XOR<Prisma.KnowledgebaseCreateWithoutTagsInput, Prisma.KnowledgebaseUncheckedCreateWithoutTagsInput>
+  connectOrCreate?: Prisma.KnowledgebaseCreateOrConnectWithoutTagsInput
+  upsert?: Prisma.KnowledgebaseUpsertWithoutTagsInput
+  connect?: Prisma.KnowledgebaseWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.KnowledgebaseUpdateToOneWithWhereWithoutTagsInput, Prisma.KnowledgebaseUpdateWithoutTagsInput>, Prisma.KnowledgebaseUncheckedUpdateWithoutTagsInput>
+}
+
+export type KnowledgebaseCreateWithoutTagsInput = {
+  kID?: string
+  knowledgeName: string
+  knowledgeContent: string
+  remarks?: string | null
+  createdDate?: Date | string
+  addedBy: string
+  companyId?: string | null
+  processAreaId?: string | null
+  reconciledAt?: Date | string | null
+  documentNumber?: string | null
+  nextReviewDate?: string | null
+  custodianOwner?: string | null
+  authorizer?: string | null
+  department?: string | null
+  entryType?: $Enums.KnowledgeEntryType
+  meetingDate?: Date | string | null
+  participants?: string | null
+}
+
+export type KnowledgebaseUncheckedCreateWithoutTagsInput = {
+  kID?: string
+  knowledgeName: string
+  knowledgeContent: string
+  remarks?: string | null
+  createdDate?: Date | string
+  addedBy: string
+  companyId?: string | null
+  processAreaId?: string | null
+  reconciledAt?: Date | string | null
+  documentNumber?: string | null
+  nextReviewDate?: string | null
+  custodianOwner?: string | null
+  authorizer?: string | null
+  department?: string | null
+  entryType?: $Enums.KnowledgeEntryType
+  meetingDate?: Date | string | null
+  participants?: string | null
+}
+
+export type KnowledgebaseCreateOrConnectWithoutTagsInput = {
+  where: Prisma.KnowledgebaseWhereUniqueInput
+  create: Prisma.XOR<Prisma.KnowledgebaseCreateWithoutTagsInput, Prisma.KnowledgebaseUncheckedCreateWithoutTagsInput>
+}
+
+export type KnowledgebaseUpsertWithoutTagsInput = {
+  update: Prisma.XOR<Prisma.KnowledgebaseUpdateWithoutTagsInput, Prisma.KnowledgebaseUncheckedUpdateWithoutTagsInput>
+  create: Prisma.XOR<Prisma.KnowledgebaseCreateWithoutTagsInput, Prisma.KnowledgebaseUncheckedCreateWithoutTagsInput>
+  where?: Prisma.KnowledgebaseWhereInput
+}
+
+export type KnowledgebaseUpdateToOneWithWhereWithoutTagsInput = {
+  where?: Prisma.KnowledgebaseWhereInput
+  data: Prisma.XOR<Prisma.KnowledgebaseUpdateWithoutTagsInput, Prisma.KnowledgebaseUncheckedUpdateWithoutTagsInput>
+}
+
+export type KnowledgebaseUpdateWithoutTagsInput = {
+  kID?: Prisma.StringFieldUpdateOperationsInput | string
+  knowledgeName?: Prisma.StringFieldUpdateOperationsInput | string
+  knowledgeContent?: Prisma.StringFieldUpdateOperationsInput | string
+  remarks?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  addedBy?: Prisma.StringFieldUpdateOperationsInput | string
+  companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  processAreaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reconciledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  documentNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nextReviewDate?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  custodianOwner?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  authorizer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  department?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  entryType?: Prisma.EnumKnowledgeEntryTypeFieldUpdateOperationsInput | $Enums.KnowledgeEntryType
+  meetingDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  participants?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type KnowledgebaseUncheckedUpdateWithoutTagsInput = {
+  kID?: Prisma.StringFieldUpdateOperationsInput | string
+  knowledgeName?: Prisma.StringFieldUpdateOperationsInput | string
+  knowledgeContent?: Prisma.StringFieldUpdateOperationsInput | string
+  remarks?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  addedBy?: Prisma.StringFieldUpdateOperationsInput | string
+  companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  processAreaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reconciledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  documentNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nextReviewDate?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  custodianOwner?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  authorizer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  department?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  entryType?: Prisma.EnumKnowledgeEntryTypeFieldUpdateOperationsInput | $Enums.KnowledgeEntryType
+  meetingDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  participants?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+
+/**
+ * Count Type KnowledgebaseCountOutputType
+ */
+
+export type KnowledgebaseCountOutputType = {
+  tags: number
+}
+
+export type KnowledgebaseCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  tags?: boolean | KnowledgebaseCountOutputTypeCountTagsArgs
+}
+
+/**
+ * KnowledgebaseCountOutputType without action
+ */
+export type KnowledgebaseCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the KnowledgebaseCountOutputType
+   */
+  select?: Prisma.KnowledgebaseCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * KnowledgebaseCountOutputType without action
+ */
+export type KnowledgebaseCountOutputTypeCountTagsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.KnowledgebaseTagWhereInput
+}
 
 
 export type KnowledgebaseSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -526,6 +747,11 @@ export type KnowledgebaseSelect<ExtArgs extends runtime.Types.Extensions.Interna
   custodianOwner?: boolean
   authorizer?: boolean
   department?: boolean
+  entryType?: boolean
+  meetingDate?: boolean
+  participants?: boolean
+  tags?: boolean | Prisma.Knowledgebase$tagsArgs<ExtArgs>
+  _count?: boolean | Prisma.KnowledgebaseCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["knowledgebase"]>
 
 export type KnowledgebaseSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -543,6 +769,9 @@ export type KnowledgebaseSelectCreateManyAndReturn<ExtArgs extends runtime.Types
   custodianOwner?: boolean
   authorizer?: boolean
   department?: boolean
+  entryType?: boolean
+  meetingDate?: boolean
+  participants?: boolean
 }, ExtArgs["result"]["knowledgebase"]>
 
 export type KnowledgebaseSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -560,6 +789,9 @@ export type KnowledgebaseSelectUpdateManyAndReturn<ExtArgs extends runtime.Types
   custodianOwner?: boolean
   authorizer?: boolean
   department?: boolean
+  entryType?: boolean
+  meetingDate?: boolean
+  participants?: boolean
 }, ExtArgs["result"]["knowledgebase"]>
 
 export type KnowledgebaseSelectScalar = {
@@ -577,13 +809,24 @@ export type KnowledgebaseSelectScalar = {
   custodianOwner?: boolean
   authorizer?: boolean
   department?: boolean
+  entryType?: boolean
+  meetingDate?: boolean
+  participants?: boolean
 }
 
-export type KnowledgebaseOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"kID" | "knowledgeName" | "knowledgeContent" | "remarks" | "createdDate" | "addedBy" | "companyId" | "processAreaId" | "reconciledAt" | "documentNumber" | "nextReviewDate" | "custodianOwner" | "authorizer" | "department", ExtArgs["result"]["knowledgebase"]>
+export type KnowledgebaseOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"kID" | "knowledgeName" | "knowledgeContent" | "remarks" | "createdDate" | "addedBy" | "companyId" | "processAreaId" | "reconciledAt" | "documentNumber" | "nextReviewDate" | "custodianOwner" | "authorizer" | "department" | "entryType" | "meetingDate" | "participants", ExtArgs["result"]["knowledgebase"]>
+export type KnowledgebaseInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  tags?: boolean | Prisma.Knowledgebase$tagsArgs<ExtArgs>
+  _count?: boolean | Prisma.KnowledgebaseCountOutputTypeDefaultArgs<ExtArgs>
+}
+export type KnowledgebaseIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
+export type KnowledgebaseIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
 
 export type $KnowledgebasePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Knowledgebase"
-  objects: {}
+  objects: {
+    tags: Prisma.$KnowledgebaseTagPayload<ExtArgs>[]
+  }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     kID: string
     knowledgeName: string
@@ -606,6 +849,15 @@ export type $KnowledgebasePayload<ExtArgs extends runtime.Types.Extensions.Inter
     custodianOwner: string | null
     authorizer: string | null
     department: string | null
+    /**
+     * Knowledge vs Transcript discriminator (ADR-0004). Default Knowledge.
+     */
+    entryType: $Enums.KnowledgeEntryType
+    /**
+     * Transcript-only metadata (null for non-transcripts).
+     */
+    meetingDate: Date | null
+    participants: string | null
   }, ExtArgs["result"]["knowledgebase"]>
   composites: {}
 }
@@ -1000,6 +1252,7 @@ readonly fields: KnowledgebaseFieldRefs;
  */
 export interface Prisma__KnowledgebaseClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  tags<T extends Prisma.Knowledgebase$tagsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Knowledgebase$tagsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$KnowledgebaseTagPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1043,6 +1296,9 @@ export interface KnowledgebaseFieldRefs {
   readonly custodianOwner: Prisma.FieldRef<"Knowledgebase", 'String'>
   readonly authorizer: Prisma.FieldRef<"Knowledgebase", 'String'>
   readonly department: Prisma.FieldRef<"Knowledgebase", 'String'>
+  readonly entryType: Prisma.FieldRef<"Knowledgebase", 'KnowledgeEntryType'>
+  readonly meetingDate: Prisma.FieldRef<"Knowledgebase", 'DateTime'>
+  readonly participants: Prisma.FieldRef<"Knowledgebase", 'String'>
 }
     
 
@@ -1059,6 +1315,10 @@ export type KnowledgebaseFindUniqueArgs<ExtArgs extends runtime.Types.Extensions
    * Omit specific fields from the Knowledgebase
    */
   omit?: Prisma.KnowledgebaseOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.KnowledgebaseInclude<ExtArgs> | null
   /**
    * Filter, which Knowledgebase to fetch.
    */
@@ -1078,6 +1338,10 @@ export type KnowledgebaseFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Ext
    */
   omit?: Prisma.KnowledgebaseOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.KnowledgebaseInclude<ExtArgs> | null
+  /**
    * Filter, which Knowledgebase to fetch.
    */
   where: Prisma.KnowledgebaseWhereUniqueInput
@@ -1095,6 +1359,10 @@ export type KnowledgebaseFindFirstArgs<ExtArgs extends runtime.Types.Extensions.
    * Omit specific fields from the Knowledgebase
    */
   omit?: Prisma.KnowledgebaseOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.KnowledgebaseInclude<ExtArgs> | null
   /**
    * Filter, which Knowledgebase to fetch.
    */
@@ -1144,6 +1412,10 @@ export type KnowledgebaseFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Exte
    */
   omit?: Prisma.KnowledgebaseOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.KnowledgebaseInclude<ExtArgs> | null
+  /**
    * Filter, which Knowledgebase to fetch.
    */
   where?: Prisma.KnowledgebaseWhereInput
@@ -1191,6 +1463,10 @@ export type KnowledgebaseFindManyArgs<ExtArgs extends runtime.Types.Extensions.I
    * Omit specific fields from the Knowledgebase
    */
   omit?: Prisma.KnowledgebaseOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.KnowledgebaseInclude<ExtArgs> | null
   /**
    * Filter, which Knowledgebases to fetch.
    */
@@ -1240,6 +1516,10 @@ export type KnowledgebaseCreateArgs<ExtArgs extends runtime.Types.Extensions.Int
    */
   omit?: Prisma.KnowledgebaseOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.KnowledgebaseInclude<ExtArgs> | null
+  /**
    * The data needed to create a Knowledgebase.
    */
   data: Prisma.XOR<Prisma.KnowledgebaseCreateInput, Prisma.KnowledgebaseUncheckedCreateInput>
@@ -1287,6 +1567,10 @@ export type KnowledgebaseUpdateArgs<ExtArgs extends runtime.Types.Extensions.Int
    * Omit specific fields from the Knowledgebase
    */
   omit?: Prisma.KnowledgebaseOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.KnowledgebaseInclude<ExtArgs> | null
   /**
    * The data needed to update a Knowledgebase.
    */
@@ -1354,6 +1638,10 @@ export type KnowledgebaseUpsertArgs<ExtArgs extends runtime.Types.Extensions.Int
    */
   omit?: Prisma.KnowledgebaseOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.KnowledgebaseInclude<ExtArgs> | null
+  /**
    * The filter to search for the Knowledgebase to update in case it exists.
    */
   where: Prisma.KnowledgebaseWhereUniqueInput
@@ -1380,6 +1668,10 @@ export type KnowledgebaseDeleteArgs<ExtArgs extends runtime.Types.Extensions.Int
    */
   omit?: Prisma.KnowledgebaseOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.KnowledgebaseInclude<ExtArgs> | null
+  /**
    * Filter which Knowledgebase to delete.
    */
   where: Prisma.KnowledgebaseWhereUniqueInput
@@ -1400,6 +1692,30 @@ export type KnowledgebaseDeleteManyArgs<ExtArgs extends runtime.Types.Extensions
 }
 
 /**
+ * Knowledgebase.tags
+ */
+export type Knowledgebase$tagsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the KnowledgebaseTag
+   */
+  select?: Prisma.KnowledgebaseTagSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the KnowledgebaseTag
+   */
+  omit?: Prisma.KnowledgebaseTagOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.KnowledgebaseTagInclude<ExtArgs> | null
+  where?: Prisma.KnowledgebaseTagWhereInput
+  orderBy?: Prisma.KnowledgebaseTagOrderByWithRelationInput | Prisma.KnowledgebaseTagOrderByWithRelationInput[]
+  cursor?: Prisma.KnowledgebaseTagWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.KnowledgebaseTagScalarFieldEnum | Prisma.KnowledgebaseTagScalarFieldEnum[]
+}
+
+/**
  * Knowledgebase without action
  */
 export type KnowledgebaseDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1411,4 +1727,8 @@ export type KnowledgebaseDefaultArgs<ExtArgs extends runtime.Types.Extensions.In
    * Omit specific fields from the Knowledgebase
    */
   omit?: Prisma.KnowledgebaseOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.KnowledgebaseInclude<ExtArgs> | null
 }

@@ -93,7 +93,8 @@ export async function POST(request: Request) {
       prisma.$queryRawUnsafe<Array<{ count: bigint }>>(
         `SELECT COUNT(*)::int as count FROM "Knowledgebase"
          WHERE ("processAreaId" = $1 OR "processAreaId" IS NULL)
-         AND ("companyId" = $2 OR "companyId" = 'SAMS001')`,
+         AND ("companyId" = $2 OR "companyId" = 'SAMS001')
+         AND "entryType" = 'Knowledge'`,
         processAreaId, companyId || "SAMS001"
       ).then(r => Number(r[0]?.count ?? 0)),
     ]);
@@ -218,6 +219,7 @@ Process Area: "${paName}"${paDesc ? ` — ${paDesc}` : ""}
        FROM "Knowledgebase"
        WHERE ("processAreaId" = $1 OR "processAreaId" IS NULL)
        AND ("companyId" = $2 OR "companyId" = 'SAMS001')
+       AND "entryType" = 'Knowledge'
        ORDER BY "createdDate" DESC LIMIT 10`,
       processAreaId, companyId || "SAMS001"
     );

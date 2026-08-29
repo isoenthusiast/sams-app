@@ -5,12 +5,14 @@ import { KnowledgebaseView } from "./KnowledgebaseView";
 import { ListKnowledgeView } from "./ListKnowledgeView";
 import { MapKnowledgeView } from "./MapKnowledgeView";
 import { DocumentsAdminView } from "./DocumentsAdminView";
+import { TranscriptView } from "./TranscriptView";
 
 const MENU_ITEMS = [
   { key: "entry", label: "📝 Knowledge Entry" },
   { key: "list", label: "📋 List Knowledge" },
   { key: "map", label: "🗺️ Map Standard/PA" },
   { key: "documents", label: "📄 Documents" },
+  { key: "transcript", label: "🎙️ Transcripts" },
 ] as const;
 
 export function KnowledgebaseManagementView({
@@ -44,6 +46,7 @@ export function KnowledgebaseManagementView({
         {activeTab === "list" && <ListKnowledgeView entries={entries} />}
         {activeTab === "map" && <MapKnowledgeView entries={entries} processAreas={processAreas} standards={standards} />}
         {activeTab === "documents" && <DocumentsAdminView companies={companies} standards={standards} processAreas={processAreas} />}
+        {activeTab === "transcript" && <TranscriptView companyId={companyId} companies={companies} processAreas={processAreas} />}
       </div>
     </div>
   );
