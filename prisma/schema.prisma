@@ -850,6 +850,13 @@ enum KnowledgeEntryType {
 }
 
 // ── Tagging — company-scoped, reusable across KB entries ──────────
+// DEFERRED (ADR-0004 post-deploy, 2026-08-29): `companyId` is nullable, so
+// @@unique([name, companyId]) lets duplicate (name, NULL) rows through (Postgres
+// treats NULLs as distinct in a unique index). Non-null enforcement is deferred
+// (shared prod DB, additive-only — a NOT NULL could fail on existing rows).
+// Contract: the transcript upload route always sets companyId (400s without it),
+// so tags are always company-scoped at the app layer. Verified 2026-08-29: 0
+// NULL-companyId Tag rows in prod.
 model Tag {
   id        String            @id @default(cuid())
   name      String
@@ -863,6 +870,13 @@ model Tag {
 }
 
 // M:N junction Knowledgebase <-> Tag
+// DEFERRED (ADR-0004 post-deploy, 2026-08-29): `onDelete: Cascade` on kbase/tag
+// is declared here but NOT materialized as a DB FK — scripts/add_transcript_tagging.ts
+// adds no FK (shared prod DB, additive-only rule). The generated Prisma client
+// therefore *thinks* cascade exists while Postgres has none. The DELETE route
+// compensates with an explicit knowledgebaseTag.deleteMany(...) before deleting
+// the entry ("no DB cascade assumed"). Run `npm run db:parity` to surface drift —
+// the two KnowledgebaseTag `AddForeignKey` statements are the known, deferred gap.
 model KnowledgebaseTag {
   id        String        @id @default(cuid())
   kID       String
