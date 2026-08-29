@@ -55,19 +55,30 @@ export async function POST(request: Request) {
       if (!isNaN(d.getTime())) meetingDate = d;
     }
 
-    // Create the KB entry as a Transcript
-    const created = await prisma.knowledgebase.create({
-      data: {
-        knowledgeName: name,
-        knowledgeContent: text,
-        entryType: "Transcript",
-        meetingDate,
-        participants: participants.trim() || null,
-        companyId,
-        processAreaId,
-        addedBy: (session as any)?.user?.name || "Admin",
-      },
-    });
+    // Create the KB entry as a Transcript (friendly 409 on duplicate title)
+    let created;
+    try {
+      created = await prisma.knowledgebase.create({
+        data: {
+          knowledgeName: name,
+          knowledgeContent: text,
+          entryType: "Transcript",
+          meetingDate,
+          participants: participants.trim() || null,
+          companyId,
+          processAreaId,
+          addedBy: (session as any)?.user?.name || "Admin",
+        },
+      });
+    } catch (err: any) {
+      if (err?.code === "P2002") {
+        return NextResponse.json(
+          { error: "A transcript with this title already exists for this company." },
+          { status: 409 }
+        );
+      }
+      throw err;
+    }
 
     // Upsert + link company-scoped tags
     const tagNames = [

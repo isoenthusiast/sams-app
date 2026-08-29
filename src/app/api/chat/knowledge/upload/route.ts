@@ -1,8 +1,7 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/auth";
-import { writeFile, unlink, readFile, mkdir } from "fs/promises";
-import { join } from "path";
+import { extractText } from "@/lib/extractText";
 import { randomUUID } from "crypto";
 
 const ALLOWED_TYPES: Record<string, string[]> = {
@@ -76,39 +75,8 @@ export async function POST(request: Request) {
       const visionData = await visionResp.json();
       content = visionData.choices?.[0]?.message?.content || "[Image could not be analyzed]";
     } else {
-      // ── Document: text extraction ──
-      const tempDir = join(process.cwd(), "uploads");
-      try { await mkdir(tempDir, { recursive: true }); } catch { /* exists */ }
-      const tempPath = join(tempDir, `${randomUUID()}${ext}`);
-      await writeFile(tempPath, buffer);
-
-      try {
-        if (ext === ".pdf") {
-          const { PDFParse } = await import("pdf-parse");
-          const pdfBuffer = await readFile(tempPath);
-          const pdfParser = new PDFParse({ data: new Uint8Array(pdfBuffer) });
-          content = (await pdfParser.getText()).text;
-          await pdfParser.destroy();
-        } else if (ext === ".docx") {
-          const mammoth = await import("mammoth");
-          const result = await mammoth.extractRawText({ path: tempPath });
-          content = result.value;
-        } else if (ext === ".csv") {
-          const csvText = await readFile(tempPath, "utf-8");
-          const lines = csvText.trim().split("\n");
-          if (lines.length > 0) {
-            const headers = lines[0].split(",").map(h => h.trim());
-            content = `| ${headers.join(" | ")} |\n| ${headers.map(() => "---").join(" | ")} |\n`;
-            for (let i = 1; i < Math.min(lines.length, 500); i++) {
-              content += `| ${lines[i].split(",").map(c => c.trim()).join(" | ")} |\n`;
-            }
-          }
-        } else {
-          content = await readFile(tempPath, "utf-8");
-        }
-      } finally {
-        try { await unlink(tempPath); } catch { /* ignore */ }
-      }
+      // ── Document: text extraction (shared helper) ──
+      content = await extractText(buffer, file.name);
     }
 
     if (!content || content.trim().length < 10) {
