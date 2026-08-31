@@ -180,7 +180,7 @@ export function TranscriptView({ companyId, companies, processAreas }: Props) {
             </div>
           </div>
 
-          <Button variant="primary" size="sm" disabled={uploading}>
+          <Button variant="primary" size="sm" disabled={uploading} type="submit">
             {uploading ? "Uploading…" : "📎 Add Transcript"}
           </Button>
         </form>

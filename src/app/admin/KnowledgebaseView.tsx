@@ -136,7 +136,7 @@ export function KnowledgebaseView({ entries, processAreas, companyId }: Props) {
               ))}
             </select>
           </div>
-          <Button variant="primary" size="sm" disabled={uploading || (!name.trim() && !content.trim())}>
+          <Button variant="primary" size="sm" disabled={uploading || (!name.trim() && !content.trim())} type="submit">
             {uploading ? "Uploading…" : "📎 Add Entry"}
           </Button>
         </form>
