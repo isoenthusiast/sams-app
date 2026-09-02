@@ -1,5 +1,6 @@
-import { writeFile, unlink, mkdir } from "fs/promises";
+import { writeFile, unlink } from "fs/promises";
 import { join } from "path";
+import { tmpdir } from "os";
 import { randomUUID } from "crypto";
 
 /**
@@ -11,20 +12,21 @@ export async function extractText(buffer: Buffer, filename: string): Promise<str
   const lower = filename.toLowerCase();
   const ext = lower.substring(lower.lastIndexOf("."));
 
-  if (ext === ".pdf" || ext === ".docx") {
-    const tempDir = join(process.cwd(), "uploads");
-    await mkdir(tempDir, { recursive: true }).catch(() => {});
-    const tempPath = join(tempDir, `${randomUUID()}${ext}`);
+  if (ext === ".pdf") {
+    const { PDFParse } = await import("pdf-parse");
+    const pdfParser = new PDFParse({ data: new Uint8Array(buffer) });
+    const text = (await pdfParser.getText()).text;
+    await pdfParser.destroy();
+    return text;
+  }
+
+  // .docx — mammoth needs a file path (not a raw buffer), so spill to the OS
+  // temp dir (avoids writing into process.cwd()/uploads, which fails on Railway
+  // read-only ephemeral FS) and clean it up on the way out.
+  if (ext === ".docx") {
+    const tempPath = join(tmpdir(), `${randomUUID()}${ext}`);
     await writeFile(tempPath, buffer);
     try {
-      if (ext === ".pdf") {
-        const { PDFParse } = await import("pdf-parse");
-        const pdfParser = new PDFParse({ data: new Uint8Array(buffer) });
-        const text = (await pdfParser.getText()).text;
-        await pdfParser.destroy();
-        return text;
-      }
-      // .docx
       const mammoth = await import("mammoth");
       const result = await mammoth.extractRawText({ path: tempPath });
       return result.value;

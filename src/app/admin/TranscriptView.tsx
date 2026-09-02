@@ -94,7 +94,11 @@ export function TranscriptView({ companyId, companies, processAreas }: Props) {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Upload failed");
 
-      showToast("Transcript added", "success");
+      if (data.truncated) {
+        showToast("Transcript was too long and was truncated — content may be incomplete.", "warning");
+      } else {
+        showToast("Transcript added", "success");
+      }
       setFile(null); setContent(""); setTitle(""); setPaId("");
       setMeetingDate(""); setParticipants(""); setTags("");
       if (fileRef.current) fileRef.current.value = "";

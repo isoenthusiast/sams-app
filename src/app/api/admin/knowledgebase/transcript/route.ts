@@ -9,11 +9,25 @@ const MAX_TEXT_LENGTH = 500_000;
  * POST /api/admin/knowledgebase/transcript
  * Admin-only meeting-transcript upload: file (or pasted text) → extract text →
  * Knowledgebase entry (entryType=Transcript) with company-scoped tags.
+ *
+ * Hardening (v1.13.14): content over MAX_TEXT_LENGTH is truncated and the
+ * response flags `truncated: true` (the Transcript UI surfaces a warning);
+ * attribution uses the typed Admin session name and fails 403 if absent rather
+ * than silently defaulting to "Admin".
  */
 export async function POST(request: Request) {
   try {
     const { session, response } = await requireAdmin();
     if (response) return response;
+
+    // G4 — typed Admin attribution: never silently fall back to "Admin".
+    const addedByName = session?.user?.name?.trim();
+    if (!addedByName) {
+      return NextResponse.json(
+        { error: "Admin session is missing a display name; cannot attribute the transcript." },
+        { status: 403 }
+      );
+    }
 
     const formData = await request.formData();
     const file = formData.get("file") as File | null;
@@ -46,7 +60,9 @@ export async function POST(request: Request) {
     if (!text || text.trim().length < 10) {
       return NextResponse.json({ error: "Could not extract sufficient content" }, { status: 422 });
     }
-    if (text.length > MAX_TEXT_LENGTH) text = text.slice(0, MAX_TEXT_LENGTH);
+    // G1 — cap long transcripts WITHOUT silently dropping the rest: flag it.
+    const truncated = text.length > MAX_TEXT_LENGTH;
+    if (truncated) text = text.slice(0, MAX_TEXT_LENGTH);
 
     // Parse optional meeting date
     let meetingDate: Date | null = null;
@@ -67,7 +83,7 @@ export async function POST(request: Request) {
           participants: participants.trim() || null,
           companyId,
           processAreaId,
-          addedBy: (session as any)?.user?.name || "Admin",
+          addedBy: addedByName,
         },
       });
     } catch (err: any) {
@@ -98,7 +114,7 @@ export async function POST(request: Request) {
     }
 
     return NextResponse.json(
-      { kID: created.kID, knowledgeName: created.knowledgeName },
+      { kID: created.kID, knowledgeName: created.knowledgeName, truncated },
       { status: 201 }
     );
   } catch (err: any) {
