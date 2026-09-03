@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Suspense } from "react";
 import { CompanySelector } from "./CompanySelector";
 import { SignOutButton } from "./SignOutButton";
+import { NotificationBell } from "./NotificationBell";
 
 export async function NavBar() {
   const session = await auth();
@@ -67,7 +68,8 @@ export async function NavBar() {
             {providerRole ? <NavLink href="/operator">Operator</NavLink> : null}
           </nav>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2">
+          <NotificationBell />
           <Link href="/profile" className="text-sm text-slate-600 hover:text-slate-900 hover:underline transition-colors">
             {(session.user as { name?: string }).name} ({role})
           </Link>
