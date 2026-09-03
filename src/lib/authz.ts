@@ -55,6 +55,23 @@ export async function requireAuth() {
   return { session, response: null };
 }
 
+/** Require the provider plane: session.user.providerRole must be set. */
+export function isProvider(session: { user?: object } | null) {
+  return !!(session?.user && (session.user as { providerRole?: string | null }).providerRole);
+}
+
+export async function requireProvider() {
+  const session = await auth();
+  if (!session?.user) {
+    return { session: null, response: NextResponse.json({ error: "Not authenticated" }, { status: 401 }) };
+  }
+  const providerRole = (session.user as { providerRole?: string | null }).providerRole;
+  if (!providerRole) {
+    return { session: null, response: NextResponse.json({ error: "Provider access required" }, { status: 403 }) };
+  }
+  return { session, response: null };
+}
+
 export async function getSelectedCompanyId(): Promise<string | null> {
   try {
     const cookieStore = await cookies();

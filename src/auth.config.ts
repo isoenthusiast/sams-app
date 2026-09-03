@@ -23,16 +23,18 @@ export const authConfig: NextAuthConfig = {
     },
     jwt: ({ token, user }) => {
       if (user) {
-        const u = user as { id: string; role: string };
+        const u = user as { id: string; role: string; providerRole?: string | null };
         token.id = u.id;
         const validRoles = ["Admin", "Superuser", "Assessor", "Interviewee"];
         token.role = validRoles.includes(u.role) ? u.role : "Assessor";
+        token.providerRole = u.providerRole ?? null;
       }
       return token;
     },
     session: ({ session, token }) => {
       if (session.user) {
         (session.user as { role?: string }).role = token.role as string | undefined;
+        (session.user as { providerRole?: string | null }).providerRole = (token.providerRole as string | null | undefined) ?? null;
         (session.user as { id?: string }).id = (token.id as string) || token.sub;
       }
       return session;

@@ -6,7 +6,15 @@ import { setSelectedCompanyCookie } from "@/lib/useCompany";
 
 type Company = { id: string; companyID: string; companyName: string };
 
-export function CompanySelector({ companies, isAdmin }: { companies: Company[]; isAdmin: boolean }) {
+export function CompanySelector({
+  companies,
+  isAdmin,
+  providerRole,
+}: {
+  companies: Company[];
+  isAdmin: boolean;
+  providerRole?: string | null;
+}) {
   const [selected, setSelected] = useState<string>("");
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -42,6 +50,15 @@ export function CompanySelector({ companies, isAdmin }: { companies: Company[]; 
         const newCompanyId = e.target.value;
         setSelected(newCompanyId);
         setSelectedCompanyCookie(newCompanyId);
+        // Provider context switches are audit-logged server-side (SAMS-002).
+        // Never block the switch on the audit write.
+        if (providerRole) {
+          fetch("/api/operator/context-switch", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ companyId: newCompanyId }),
+          }).catch(() => {});
+        }
         // Navigate with URL param — more reliable than cookie-only reload
         const params = new URLSearchParams(searchParams.toString());
         params.set("companyId", newCompanyId);
