@@ -18,9 +18,11 @@ import { prisma } from "@/lib/prisma";
  * duplicate_object / IF NOT EXISTS / IF NOT EXISTS on indexes, so it can be run
  * repeatedly (verified x2).
  *
- * Deploy order (§deploy): migration → generate → build → E2E. Conan applies
- * this manually (`npx tsx scripts/db/migrations/20260904_add_notifications.ts`)
- * before the Railway build runs `prisma generate && npm run build`.
+ * Deploy order (§deploy): migration → generate → build → E2E. Per the executor
+ * authority update, Cody (executor) applies this manually at landing
+ * (`npx tsx scripts/db/migrations/20260904_add_notifications.ts`) against the
+ * repo `.env` prod URL — never `prisma db push` — before the Railway build runs
+ * `prisma generate && npm run build`.
  */
 async function main() {
   console.log("Adding In-App Notifications schema (SAMS-006)…");
