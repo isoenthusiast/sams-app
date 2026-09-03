@@ -10,6 +10,8 @@ import { FindingCard } from "@/components/FindingCard";
 import { showToast } from "@/components/Toast";
 import { VoiceInput } from "@/components/VoiceInput";
 import { AttachmentList } from "@/components/AttachmentList";
+import { CommentThread } from "@/components/CommentThread";
+import { EvidenceTab } from "@/components/EvidenceTab";
 import AssessmentActivitiesPanel from "@/components/AssessmentActivitiesPanel";
 import ControlTreePanel from "@/components/ControlTreePanel";
 import { GamificationWidget } from "@/components/GamificationWidget";
@@ -36,7 +38,7 @@ type Props = {
 export default function AssessmentClient({ assessment, initialControls = [], processAreas, activityTypes, users, sampleTypes, recordSources, currentUserId, linkedAssessorIds = [], adoptChecklist = false, initialView = "minimalist" }: Props) {
   const router = useRouter();
   const [view, setView] = useState<"minimalist" | "classic">(initialView as "minimalist" | "classic" || "minimalist");
-  const [activeTab, setActiveTab] = useState<"overview" | "controls" | "samples" | "findings" | "activities" | "checklist" | "report">(adoptChecklist ? "checklist" : "overview");
+  const [activeTab, setActiveTab] = useState<"overview" | "controls" | "samples" | "findings" | "activities" | "checklist" | "report" | "evidence">(adoptChecklist ? "checklist" : "overview");
   const [saving, setSaving] = useState(false);
   const [editing, setEditing] = useState(false);
   const [showAddSample, setShowAddSample] = useState(false);
@@ -156,6 +158,7 @@ export default function AssessmentClient({ assessment, initialControls = [], pro
     { key: "findings" as const, label: "Finding & Actions" },
     { key: "activities" as const, label: "Activities" },
     { key: "checklist" as const, label: "📋 Checklist" },
+    { key: "evidence" as const, label: "📨 Evidence" },
     { key: "report" as const, label: "📄 Report" },
   ];
 
@@ -1102,6 +1105,7 @@ export default function AssessmentClient({ assessment, initialControls = [], pro
                 </div>
                 <div className="mt-3 pt-3 border-t border-slate-100">
                   <AttachmentList destTable="Finding" recId={f.id} />
+                  <CommentThread entityType="Finding" entityId={f.id} />
                 </div>
               </Card>
             ))
@@ -1136,7 +1140,17 @@ export default function AssessmentClient({ assessment, initialControls = [], pro
         </div>
       )}
 
-      {/* ─── TAB 7: Report ─── */}
+      {/* ─── TAB 7: Evidence ─── */}
+      {activeTab === "evidence" && (
+        <EvidenceTab
+          assessmentId={assessment.id}
+          assessmentName={assessment.name}
+          users={users}
+          currentUserId={currentUserId}
+        />
+      )}
+
+      {/* ─── TAB 8: Report ─── */}
       {activeTab === "report" && (
         <div className="mt-6">
           <AuditReportTab assessment={assessment} assessmentId={assessment.id} />

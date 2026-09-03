@@ -53,12 +53,14 @@ export async function NavBar() {
               <>
                 <NavLink href="/fla">Dashboard</NavLink>
                 <NavLink href="/admin">Admin</NavLink>
+                <NavLink href="/fla/my-evidence-requests">Evidence</NavLink>
                 <NavLink href="/help">Help</NavLink>
               </>
             ) : (
               <>
                 <NavLink href="/fla">Dashboard</NavLink>
                 <NavLink href="/fla">My Work</NavLink>
+                <NavLink href="/fla/my-evidence-requests">Evidence</NavLink>
                 <NavLink href="/help">Help</NavLink>
               </>
             )}
