@@ -24,14 +24,18 @@ export default auth(function proxy(req) {
     return NextResponse.redirect(homeUrl);
   }
 
+  // SAMS-005: the Client Portal uses simplified chrome (no admin/operator nav).
+  // Signal to the root layout (server) that the request is a portal route so it
+  // can skip the NavBar/MobileNav; the portal layout renders its own header.
+  const requestHeaders = new Headers(req.headers);
+  if (req.nextUrl.pathname.startsWith("/portal")) {
+    requestHeaders.set("x-portal-route", "1");
+  }
   const forwardedHost = req.headers.get("x-forwarded-host");
   if (forwardedHost) {
-    const requestHeaders = new Headers(req.headers);
     requestHeaders.set("host", forwardedHost);
-    return NextResponse.next({ request: { headers: requestHeaders } });
   }
-
-  return NextResponse.next();
+  return NextResponse.next({ request: { headers: requestHeaders } });
 });
 
 export const config = {

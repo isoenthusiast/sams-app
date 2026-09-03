@@ -25,6 +25,9 @@
     "User":                   { "scope": { "kind": "direct", "field": "companyId" }, "label": "Users (companyId membership)" },
     "UserCompany":            { "scope": { "kind": "direct", "field": "companyId" }, "label": "User-company mappings" },
 
+    "Comment":                { "scope": { "kind": "direct", "field": "companyId" }, "label": "Comments (fabric, visibility-filtered)" },
+    "EvidenceRequest":        { "scope": { "kind": "direct", "field": "companyId" }, "label": "Evidence requests (fabric)" },
+
     "Finding":                { "scope": { "kind": "traverse", "path": ["assessment", "companyId"] }, "label": "Findings (via Assessment)" },
     "Action":                 { "scope": { "kind": "traverse", "path": ["finding", "assessment", "companyId"] }, "label": "Actions (via Finding → Assessment)" },
     "Sample":                 { "scope": { "kind": "traverse", "path": ["assessment", "companyId"] }, "label": "Samples (via Assessment)" },

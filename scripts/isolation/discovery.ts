@@ -37,13 +37,31 @@ function walkRouteFiles(dir: string): string[] {
   return out;
 }
 
+/** Detect portal PAGE routes (server components serving company-scoped data). */
+function walkPortalPageFiles(dir: string): string[] {
+  const out: string[] = [];
+  if (!fs.existsSync(dir)) return out;
+  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+    const p = path.join(dir, entry.name);
+    if (entry.isDirectory()) out.push(...walkPortalPageFiles(p));
+    else if (entry.name === "page.tsx") out.push(p);
+  }
+  return out;
+}
+
 export function detectScopedRoutes(): string[] {
   const root = apiRoot();
+  const portalRoot = path.resolve(__dirname, "../../src/app/portal");
   const fullExempt = new Set<string>(readJson<{ globalExempt: string[] }>("route_matrix.json").globalExempt);
-  const routes = walkRouteFiles(root)
+  const apiRoutes = walkRouteFiles(root)
     .map((p) => path.relative(root, p).replace(/\/route\.ts$/, "").replace(/\\/g, "/"))
     .sort();
-  return routes.filter((r) => {
+  // Portal page routes ("portal", "portal/findings", …) — client-company scoped.
+  const portalRoutes = walkPortalPageFiles(portalRoot)
+    .map((p) => path.relative(portalRoot, p).replace(/\/?page\.tsx$/, "").replace(/\\/g, "/"))
+    .map((r) => (r === "" || r === "." ? "portal" : `portal/${r}`))
+    .sort();
+  return [...apiRoutes, ...portalRoutes].filter((r) => {
     const seg = r.split("/")[0];
     if (GLOBAL_PREFIXES.includes(seg)) return false;
     if (fullExempt.has(r)) return false;

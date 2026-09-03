@@ -450,6 +450,61 @@
       "route": "admin/users/quick-add",
       "companyResource": "quick-add",
       "crossTenantExpectation": "403/404/empty"
+    },
+
+    {
+      "route": "portal",
+      "companyResource": "portal-dashboard",
+      "scope": "session company",
+      "crossTenantExpectation": "403/empty"
+    },
+    {
+      "route": "portal/findings",
+      "companyResource": "findings",
+      "scope": "session company",
+      "crossTenantExpectation": "403/empty"
+    },
+    {
+      "route": "portal/actions",
+      "companyResource": "actions",
+      "scope": "session company",
+      "crossTenantExpectation": "403/empty"
+    },
+    {
+      "route": "portal/requests",
+      "companyResource": "evidence-requests",
+      "scope": "session company + caller user",
+      "crossTenantExpectation": "403/empty"
+    },
+    {
+      "route": "portal/activity",
+      "companyResource": "activity",
+      "scope": "session company",
+      "crossTenantExpectation": "403/empty"
+    },
+    {
+      "route": "portal/findings/[id]/management-response",
+      "companyResource": "management-response",
+      "scope": "finding assessment company",
+      "crossTenantExpectation": "403"
+    },
+    {
+      "route": "comments",
+      "companyResource": "comments",
+      "scope": "entity company (fabric)",
+      "crossTenantExpectation": "403/empty"
+    },
+    {
+      "route": "evidence-requests",
+      "companyResource": "evidence-requests",
+      "scope": "company / requestee user (fabric)",
+      "crossTenantExpectation": "403/empty"
+    },
+    {
+      "route": "evidence-requests/[id]",
+      "companyResource": "evidence-requests",
+      "scope": "company / requestee user (fabric)",
+      "crossTenantExpectation": "403/empty"
     }
   ]
 }

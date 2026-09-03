@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { SessionProvider } from "next-auth/react";
 import { auth } from "@/auth";
+import { headers } from "next/headers";
 import { NavBar } from "@/components/NavBar";
 import { MobileNav } from "@/components/MobileNav";
 import { OfflineBanner } from "@/components/OfflineBanner";
@@ -24,6 +25,15 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   const session = await auth();
+  // SAMS-005: portal routes get simplified chrome — the root NavBar/MobileNav
+  // are suppressed (the portal layout renders its own header).
+  let isPortalRoute = false;
+  try {
+    const h = await headers();
+    isPortalRoute = h.get("x-portal-route") === "1";
+  } catch {
+    isPortalRoute = false;
+  }
   return (
     <html lang="en">
       <body className="min-h-screen pb-16 md:pb-0">
@@ -32,9 +42,9 @@ export default async function RootLayout({
             Skip to main content
           </a>
           <OfflineBanner />
-          <NavBar />
+          {!isPortalRoute ? <NavBar /> : null}
           <main id="main-content" tabIndex={-1} className="px-4 sm:px-6 lg:px-8">{children}</main>
-          <MobileNav />
+          {!isPortalRoute ? <MobileNav /> : null}
           <ToastContainer />
         </SessionProvider>
       </body>

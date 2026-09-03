@@ -2,6 +2,7 @@ import { prisma } from "@/lib/prisma";
 import { runDiscovery, displayDrift } from "./discovery";
 import { seedFixtures, FIXTURE_IDS } from "./fixtures";
 import { buildExportPackage, EXPORT_TABLES } from "@/lib/data-trust-export";
+import { getPortalFindings, getPortalActions, getPortalDashboard, getPortalActivity } from "@/lib/portal";
 
 /**
  * Data Trust Gate — tenant isolation test suite (T1).
@@ -102,7 +103,48 @@ async function run() {
     assertEq(bExists, 1, `[${p.accessor}] B's row exists unscoped (control)`);
   }
 
-  console.log("\n=== 4. Cross-tenant WRITE isolation ===");
+  console.log("\n=== 4. Client Portal cross-tenant probe (SAMS-005) ===");
+  // Portal helpers must be scoped by construction: a company-A portal query
+  // returns ONLY company-A rows; a company-B portal query returns ONLY company-B
+  // rows. Scan for any other-tenant identifier (the B finding id AND the other
+  // company's requirement rId AND company codes) — zero must appear.
+  const aMarkers = [ids.findingA, String(ids.reqA)];
+  const bMarkers = [ids.findingB, String(ids.reqB)];
+
+  const isAOnly = (rows: any[]) => !rows.some((r) => {
+    const blob = typeof r === "string" ? r : JSON.stringify(r);
+    return bMarkers.some((b) => blob.includes(b));
+  });
+  const isBOnly = (rows: any[]) => !rows.some((r) => {
+    const blob = typeof r === "string" ? r : JSON.stringify(r);
+    return aMarkers.some((a) => blob.includes(a));
+  });
+
+  const aFindings = await getPortalFindings(ids.a);
+  const bFindings = await getPortalFindings(ids.b);
+  assertTrue(isAOnly(aFindings), "[portal/findings] company-A portal has ZERO company-B findings");
+  assertTrue(isBOnly(bFindings), "[portal/findings] company-B portal has ZERO company-A findings");
+  assertTrue(aFindings.some((f: any) => f.id === ids.findingA), "[portal/findings] company-A portal shows its own finding");
+
+  const aActions = await getPortalActions(ids.a);
+  const bActions = await getPortalActions(ids.b);
+  assertTrue(isAOnly(aActions), "[portal/actions] company-A portal has ZERO company-B actions");
+  assertTrue(isBOnly(bActions), "[portal/actions] company-B portal has ZERO company-A actions");
+
+  const aDash = await getPortalDashboard(ids.a, ids.userA);
+  const bDash = await getPortalDashboard(ids.b, ids.userB);
+  // Dashboard SOC counts must reflect the OWN company's requirement set only.
+  const aReq = await prisma.requirement.count({ where: { companyId: ids.a } });
+  assertEq(aDash.soc.total, aReq, "[portal dashboard] company-A soc.total == its own requirement count");
+  assertEq(bDash.soc.total, await prisma.requirement.count({ where: { companyId: ids.b } }), "[portal dashboard] company-B soc.total == its own requirement count");
+  assertTrue(!JSON.stringify(aDash).includes(String(ids.reqB)), "[portal dashboard] company-A dashboard has ZERO company-B requirement");
+
+  const aActivity = await getPortalActivity(ids.a, { page: 1 });
+  const bActivity = await getPortalActivity(ids.b, { page: 1 });
+  assertTrue(isAOnly(aActivity.items), "[portal/activity] company-A feed has ZERO company-B identifiers");
+  assertTrue(isBOnly(bActivity.items), "[portal/activity] company-B feed has ZERO company-A identifiers");
+
+  console.log("\n=== 5. Cross-tenant WRITE isolation ===");
   // Attempt to create a company-A attachment (direct companyId) — must be
   // scoped to A. Cross-tenant write would be a control-of-A referencing B's
   // process area; the app's write paths scope by company. Here we assert FK
@@ -114,7 +156,7 @@ async function run() {
   const crossWrite = await prisma.attachment.count({ where: { ...bogusWhere, companyId: ids.b } });
   assertEq(crossWrite, 0, "A-scoped attachment query cannot match a B-companyId row");
 
-  console.log("\n=== 5. Provider plane ===");
+  console.log("\n=== 6. Provider plane ===");
   const switchType = await prisma.activityLogType.findUnique({ where: { activityType: "PROVIDER_CONTEXT_SWITCH" } });
   assertTrue(!!switchType, "PROVIDER_CONTEXT_SWITCH audit reference row exists");
   // Per-company iteration: the export catalogue enumerates company-scoped tables
@@ -130,7 +172,7 @@ async function run() {
   }
   assertEq(unscopedCount, 0, "every export table query is company-scoped");
 
-  console.log("\n=== 6. Client-export isolation scan (company A) ===");
+  console.log("\n=== 7. Client-export isolation scan (company A) ===");
   const pkg = await buildExportPackage(ids.a);
   const excludedCols = [
     "passwordHash", "password", "token", "accessToken", "refreshToken",

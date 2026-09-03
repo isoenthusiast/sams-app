@@ -49,6 +49,17 @@ async function main() {
   await prisma.$executeRawUnsafe('CREATE INDEX IF NOT EXISTS "Finding_managementResponseById_idx" ON "Finding"("managementResponseById");');
   console.log("✓ Finding_managementResponseById_idx index");
 
+  // 4. ActivityLogType reference row (audit trail; SAMS-002/004 convention).
+  await prisma.$executeRawUnsafe(
+    `INSERT INTO "ActivityLogType" ("id", "activityType", "description", "createdAt")
+     VALUES ($1, $2, $3, NOW())
+     ON CONFLICT ("activityType") DO NOTHING`,
+    `type_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`,
+    "MANAGEMENT_RESPONSE_SAVE",
+    "Client management response saved on a finding"
+  );
+  console.log("✓ ActivityLogType MANAGEMENT_RESPONSE_SAVE row");
+
   console.log("Done.");
 }
 
