@@ -64,11 +64,20 @@ export async function emitNotification(opts: {
   }
 }
 
-/** Resolve a user's display name (for notification bodies); id fallback. */
+/**
+ * Resolve a user's display name (for notification bodies). NEVER throws: any
+ * pre-emission DB failure (e.g. a transient `prisma.user` error) is caught and
+ * falls back to "Someone", so emission can never reject the caller's parent
+ * write (settled decision #4). Id fallback otherwise.
+ */
 async function userName(userId: string): Promise<string> {
   if (!userId) return "Someone";
-  const u = await prisma.user.findUnique({ where: { id: userId }, select: { name: true } });
-  return u?.name ?? userId;
+  try {
+    const u = await prisma.user.findUnique({ where: { id: userId }, select: { name: true } });
+    return u?.name ?? userId;
+  } catch {
+    return "Someone";
+  }
 }
 
 /** EvidenceRequested — to the requestee. */

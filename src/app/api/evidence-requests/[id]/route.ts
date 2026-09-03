@@ -125,31 +125,40 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
     });
 
     // ── In-App Notifications (SAMS-006) ─────────────────────────────────────
-    // Emission is fired-and-forgotten (emitNotification NEVER throws), so a
-    // notification failure can NEVER fail the parent state transition —
-    // proven by fault-injection in the owner test plan (c).
-    if (nextStatus === "Requested") {
-      await emitEvidenceRequested({
-        requestId: id,
-        requesteeUserId: current.requestedFromUserId,
-        requesterUserId: current.requestedByUserId,
-        companyId: current.companyId,
-      });
-    } else if (nextStatus === "Submitted") {
-      await emitEvidenceSubmitted({
-        requestId: id,
-        requesterUserId: current.requestedByUserId,
-        requesteeUserId: current.requestedFromUserId,
-        companyId: current.companyId,
-      });
-    } else if (nextStatus === "Accepted" || nextStatus === "Rejected") {
-      await emitEvidenceReviewed({
-        requestId: id,
-        requesteeUserId: current.requestedFromUserId,
-        status: nextStatus as "Accepted" | "Rejected",
-        reviewNote: body.reviewNote,
-        companyId: current.companyId,
-      });
+    // Emission is fired-and-forgotten. Every emitter is internally guarded
+    // (emitNotification / userName NEVER throw) and this call-site is ALSO
+    // wrapped, so a notification failure can NEVER fail the parent state
+    // transition (settled decision #4) — proven by fault-injection in the
+    // owner test plan (c): a broken pre-emission query (userName) or a broken
+    // Notification write both leave the PATCH at 200 + Requested.
+    try {
+      if (nextStatus === "Requested") {
+        await emitEvidenceRequested({
+          requestId: id,
+          requesteeUserId: current.requestedFromUserId,
+          requesterUserId: current.requestedByUserId,
+          companyId: current.companyId,
+        });
+      } else if (nextStatus === "Submitted") {
+        await emitEvidenceSubmitted({
+          requestId: id,
+          requesterUserId: current.requestedByUserId,
+          requesteeUserId: current.requestedFromUserId,
+          companyId: current.companyId,
+        });
+      } else if (nextStatus === "Accepted" || nextStatus === "Rejected") {
+        await emitEvidenceReviewed({
+          requestId: id,
+          requesteeUserId: current.requestedFromUserId,
+          status: nextStatus as "Accepted" | "Rejected",
+          reviewNote: body.reviewNote,
+          companyId: current.companyId,
+        });
+      }
+    } catch (e) {
+      // Belt-and-suspenders: even if a future emitter path throws, the parent
+      // write already committed — swallow so the transition response is 200.
+      console.error("[notifications] post-transition emission failed (parent write already committed):", e);
     }
 
     return NextResponse.json({ evidenceRequest: updated });
