@@ -1,0 +1,455 @@
+{
+  "version": "1.0.0",
+  "note": "Route matrix for the Data Trust Gate isolation suite. Every company-scoped API route must appear here. A company-scoped route missing from this matrix FAILS the suite (coverage by construction). Detection rule: any route under src/app/api/admin/** is isolation-relevant unless explicitly exempted (global/infra).",
+  "detectionRule": "path-based: admin/** minus GLOBAL_FULL exemptions",
+  "globalExempt": [
+    "gamification/award",
+    "gamification/certificate",
+    "gamification/events",
+    "gamification/stats",
+    "documents/[id]",
+    "attachments",
+    "attachments/[id]",
+    "admin/database/backup",
+    "admin/database/restore",
+    "admin/companies",
+    "admin/companies/[id]",
+    "admin/company/[id]/bootstrap",
+    "admin/backfill-activities",
+    "admin/reset-health",
+    "admin/gamification/core-drives",
+    "admin/gamification/import-csv",
+    "admin/badges/generate",
+    "admin/extraction",
+    "admin/extraction/documents",
+    "admin/extraction/extract",
+    "admin/extraction/upload"
+  ],
+  "routes": [
+    {
+      "route": "admin/actions",
+      "companyResource": "actions",
+      "crossTenantExpectation": "403/404/empty"
+    },
+    {
+      "route": "admin/actions/[id]",
+      "companyResource": "actions",
+      "crossTenantExpectation": "403/404/empty"
+    },
+    {
+      "route": "admin/activities",
+      "companyResource": "activities",
+      "crossTenantExpectation": "403/404/empty"
+    },
+    {
+      "route": "admin/activities/[id]",
+      "companyResource": "activities",
+      "crossTenantExpectation": "403/404/empty"
+    },
+    {
+      "route": "admin/activity-controls",
+      "companyResource": "activity-controls",
+      "crossTenantExpectation": "403/404/empty"
+    },
+    {
+      "route": "admin/activity-controls/[id]",
+      "companyResource": "activity-controls",
+      "crossTenantExpectation": "403/404/empty"
+    },
+    {
+      "route": "admin/activity-details",
+      "companyResource": "activity-details",
+      "crossTenantExpectation": "403/404/empty"
+    },
+    {
+      "route": "admin/activity-users",
+      "companyResource": "activity-users",
+      "crossTenantExpectation": "403/404/empty"
+    },
+    {
+      "route": "admin/activity-users/[id]",
+      "companyResource": "activity-users",
+      "crossTenantExpectation": "403/404/empty"
+    },
+    {
+      "route": "admin/assessment-hierarchy",
+      "companyResource": "assessment-hierarchy",
+      "crossTenantExpectation": "403/404/empty"
+    },
+    {
+      "route": "admin/assessment-templates/[id]",
+      "companyResource": "assessment-templates",
+      "crossTenantExpectation": "403/404/empty"
+    },
+    {
+      "route": "admin/assessment-templates/[id]/adopt",
+      "companyResource": "adopt",
+      "crossTenantExpectation": "403/404/empty"
+    },
+    {
+      "route": "admin/assessment-templates/[id]/share",
+      "companyResource": "share",
+      "crossTenantExpectation": "403/404/empty"
+    },
+    {
+      "route": "admin/assessments",
+      "companyResource": "assessments",
+      "crossTenantExpectation": "403/404/empty"
+    },
+    {
+      "route": "admin/assessments/[id]",
+      "companyResource": "assessments",
+      "crossTenantExpectation": "403/404/empty"
+    },
+    {
+      "route": "admin/assessments/[id]/adopt-checklist",
+      "companyResource": "adopt-checklist",
+      "crossTenantExpectation": "403/404/empty"
+    },
+    {
+      "route": "admin/assessments/[id]/ai-analysis",
+      "companyResource": "ai-analysis",
+      "crossTenantExpectation": "403/404/empty"
+    },
+    {
+      "route": "admin/assessments/[id]/checklist",
+      "companyResource": "checklist",
+      "crossTenantExpectation": "403/404/empty"
+    },
+    {
+      "route": "admin/assessments/[id]/checklist-controls",
+      "companyResource": "checklist-controls",
+      "crossTenantExpectation": "403/404/empty"
+    },
+    {
+      "route": "admin/assessments/[id]/checklist-controls/[junctionId]",
+      "companyResource": "checklist-controls",
+      "crossTenantExpectation": "403/404/empty"
+    },
+    {
+      "route": "admin/assessments/[id]/checklist-requirements",
+      "companyResource": "checklist-requirements",
+      "crossTenantExpectation": "403/404/empty"
+    },
+    {
+      "route": "admin/assessments/[id]/checklist/[itemId]",
+      "companyResource": "checklist",
+      "crossTenantExpectation": "403/404/empty"
+    },
+    {
+      "route": "admin/assessments/[id]/control-effectiveness",
+      "companyResource": "control-effectiveness",
+      "crossTenantExpectation": "403/404/empty"
+    },
+    {
+      "route": "admin/assessments/[id]/controls",
+      "companyResource": "controls",
+      "crossTenantExpectation": "403/404/empty"
+    },
+    {
+      "route": "admin/assessments/[id]/controls/remove",
+      "companyResource": "remove",
+      "crossTenantExpectation": "403/404/empty"
+    },
+    {
+      "route": "admin/assessments/[id]/recalculate-health",
+      "companyResource": "recalculate-health",
+      "crossTenantExpectation": "403/404/empty"
+    },
+    {
+      "route": "admin/assessments/[id]/requirement-conclusions",
+      "companyResource": "requirement-conclusions",
+      "crossTenantExpectation": "403/404/empty"
+    },
+    {
+      "route": "admin/assessments/[id]/requirement-tree",
+      "companyResource": "requirement-tree",
+      "crossTenantExpectation": "403/404/empty"
+    },
+    {
+      "route": "admin/assessments/checklist-templates",
+      "companyResource": "checklist-templates",
+      "crossTenantExpectation": "403/404/empty"
+    },
+    {
+      "route": "admin/assurance-protocols",
+      "companyResource": "assurance-protocols",
+      "crossTenantExpectation": "403/404/empty"
+    },
+    {
+      "route": "admin/audit-checklist-templates",
+      "companyResource": "audit-checklist-templates",
+      "crossTenantExpectation": "403/404/empty"
+    },
+    {
+      "route": "admin/audit-checklist-templates/[id]",
+      "companyResource": "audit-checklist-templates",
+      "crossTenantExpectation": "403/404/empty"
+    },
+    {
+      "route": "admin/audit-checklist-templates/[id]/adopt",
+      "companyResource": "adopt",
+      "crossTenantExpectation": "403/404/empty"
+    },
+    {
+      "route": "admin/audit-checklist-templates/[id]/items",
+      "companyResource": "items",
+      "crossTenantExpectation": "403/404/empty"
+    },
+    {
+      "route": "admin/audit-checklist-templates/[id]/items/[itemId]",
+      "companyResource": "items",
+      "crossTenantExpectation": "403/404/empty"
+    },
+    {
+      "route": "admin/backlog",
+      "companyResource": "backlog",
+      "crossTenantExpectation": "403/404/empty"
+    },
+    {
+      "route": "admin/badges",
+      "companyResource": "badges",
+      "crossTenantExpectation": "403/404/empty"
+    },
+    {
+      "route": "admin/badges/[id]",
+      "companyResource": "badges",
+      "crossTenantExpectation": "403/404/empty"
+    },
+    {
+      "route": "admin/companies/[id]/export",
+      "companyResource": "export",
+      "crossTenantExpectation": "403/404/empty"
+    },
+    {
+      "route": "admin/companies/[id]/retention",
+      "companyResource": "retention",
+      "crossTenantExpectation": "403/404/empty"
+    },
+    {
+      "route": "admin/control-assignments",
+      "companyResource": "control-assignments",
+      "crossTenantExpectation": "403/404/empty"
+    },
+    {
+      "route": "admin/control-assignments/[id]",
+      "companyResource": "control-assignments",
+      "crossTenantExpectation": "403/404/empty"
+    },
+    {
+      "route": "admin/controls",
+      "companyResource": "controls",
+      "crossTenantExpectation": "403/404/empty"
+    },
+    {
+      "route": "admin/controls/[id]",
+      "companyResource": "controls",
+      "crossTenantExpectation": "403/404/empty"
+    },
+    {
+      "route": "admin/controls/tree",
+      "companyResource": "tree",
+      "crossTenantExpectation": "403/404/empty"
+    },
+    {
+      "route": "admin/database/export-controls",
+      "companyResource": "export-controls",
+      "crossTenantExpectation": "403/404/empty"
+    },
+    {
+      "route": "admin/database/export-requirements",
+      "companyResource": "export-requirements",
+      "crossTenantExpectation": "403/404/empty"
+    },
+    {
+      "route": "admin/departments",
+      "companyResource": "departments",
+      "crossTenantExpectation": "403/404/empty"
+    },
+    {
+      "route": "admin/departments/[id]",
+      "companyResource": "departments",
+      "crossTenantExpectation": "403/404/empty"
+    },
+    {
+      "route": "admin/documents",
+      "companyResource": "documents",
+      "crossTenantExpectation": "403/404/empty"
+    },
+    {
+      "route": "admin/export/controls",
+      "companyResource": "controls",
+      "crossTenantExpectation": "403/404/empty"
+    },
+    {
+      "route": "admin/findings",
+      "companyResource": "findings",
+      "crossTenantExpectation": "403/404/empty"
+    },
+    {
+      "route": "admin/findings/[id]",
+      "companyResource": "findings",
+      "crossTenantExpectation": "403/404/empty"
+    },
+    {
+      "route": "admin/gamification/advance",
+      "companyResource": "advance",
+      "crossTenantExpectation": "403/404/empty"
+    },
+    {
+      "route": "admin/gamification/readiness",
+      "companyResource": "readiness",
+      "crossTenantExpectation": "403/404/empty"
+    },
+    {
+      "route": "admin/knowledgebase/transcript",
+      "companyResource": "transcript",
+      "crossTenantExpectation": "403/404/empty"
+    },
+    {
+      "route": "admin/knowledgebase/transcript/[id]",
+      "companyResource": "transcript",
+      "crossTenantExpectation": "403/404/empty"
+    },
+    {
+      "route": "admin/manager-assignment",
+      "companyResource": "manager-assignment",
+      "crossTenantExpectation": "403/404/empty"
+    },
+    {
+      "route": "admin/map-control-requirement",
+      "companyResource": "map-control-requirement",
+      "crossTenantExpectation": "403/404/empty"
+    },
+    {
+      "route": "admin/org-chart",
+      "companyResource": "org-chart",
+      "crossTenantExpectation": "403/404/empty"
+    },
+    {
+      "route": "admin/pip",
+      "companyResource": "pip",
+      "crossTenantExpectation": "403/404/empty"
+    },
+    {
+      "route": "admin/pip/[id]",
+      "companyResource": "pip",
+      "crossTenantExpectation": "403/404/empty"
+    },
+    {
+      "route": "admin/pip/mic",
+      "companyResource": "mic",
+      "crossTenantExpectation": "403/404/empty"
+    },
+    {
+      "route": "admin/processareas",
+      "companyResource": "processareas",
+      "crossTenantExpectation": "403/404/empty"
+    },
+    {
+      "route": "admin/processareas/[id]",
+      "companyResource": "processareas",
+      "crossTenantExpectation": "403/404/empty"
+    },
+    {
+      "route": "admin/requirement-documents",
+      "companyResource": "requirement-documents",
+      "crossTenantExpectation": "403/404/empty"
+    },
+    {
+      "route": "admin/requirements",
+      "companyResource": "requirements",
+      "crossTenantExpectation": "403/404/empty"
+    },
+    {
+      "route": "admin/samples",
+      "companyResource": "samples",
+      "crossTenantExpectation": "403/404/empty"
+    },
+    {
+      "route": "admin/samples/[id]",
+      "companyResource": "samples",
+      "crossTenantExpectation": "403/404/empty"
+    },
+    {
+      "route": "admin/standards",
+      "companyResource": "standards",
+      "crossTenantExpectation": "403/404/empty"
+    },
+    {
+      "route": "admin/standards-list",
+      "companyResource": "standards-list",
+      "crossTenantExpectation": "403/404/empty"
+    },
+    {
+      "route": "admin/standards/[id]",
+      "companyResource": "standards",
+      "crossTenantExpectation": "403/404/empty"
+    },
+    {
+      "route": "admin/table/Assessment/[id]",
+      "companyResource": "Assessment",
+      "crossTenantExpectation": "403/404/empty"
+    },
+    {
+      "route": "admin/table/Assessment/[id]/assessors",
+      "companyResource": "assessors",
+      "crossTenantExpectation": "403/404/empty"
+    },
+    {
+      "route": "admin/table/Knowledgebase/[id]",
+      "companyResource": "Knowledgebase",
+      "crossTenantExpectation": "403/404/empty"
+    },
+    {
+      "route": "admin/table/Knowledgebase/data",
+      "companyResource": "data",
+      "crossTenantExpectation": "403/404/empty"
+    },
+    {
+      "route": "admin/table/Knowledgebase/map",
+      "companyResource": "map",
+      "crossTenantExpectation": "403/404/empty"
+    },
+    {
+      "route": "admin/table/MapControl2Requirement/[id]",
+      "companyResource": "MapControl2Requirement",
+      "crossTenantExpectation": "403/404/empty"
+    },
+    {
+      "route": "admin/table/MapControl2Requirement/data",
+      "companyResource": "data",
+      "crossTenantExpectation": "403/404/empty"
+    },
+    {
+      "route": "admin/table/Requirement/[rId]",
+      "companyResource": "Requirement",
+      "crossTenantExpectation": "403/404/empty"
+    },
+    {
+      "route": "admin/template-activities/[id]",
+      "companyResource": "template-activities",
+      "crossTenantExpectation": "403/404/empty"
+    },
+    {
+      "route": "admin/users",
+      "companyResource": "users",
+      "crossTenantExpectation": "403/404/empty"
+    },
+    {
+      "route": "admin/users/[id]",
+      "companyResource": "users",
+      "crossTenantExpectation": "403/404/empty"
+    },
+    {
+      "route": "admin/users/[id]/reorder",
+      "companyResource": "reorder",
+      "crossTenantExpectation": "403/404/empty"
+    },
+    {
+      "route": "admin/users/quick-add",
+      "companyResource": "quick-add",
+      "crossTenantExpectation": "403/404/empty"
+    }
+  ]
+}
