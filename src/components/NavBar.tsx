@@ -14,16 +14,30 @@ export async function NavBar() {
   const isAdmin = role === "Admin";
   const providerRole = (session.user as { providerRole?: string | null }).providerRole;
 
-  const userCompanies = userId
-    ? await prisma.userCompany.findMany({ where: { userId }, include: { company: true } })
-    : [];
-  const companies = userCompanies
-    .filter((uc) => uc.company != null)
-    .map((uc) => ({
-      id: uc.company.id,
-      companyID: uc.company.companyID,
-      companyName: uc.company.companyName,
-    }));
+  // Providers span all clients: list EVERY company (ordered by companyID) in the
+  // selector so a provider with few or no UserCompany mappings can still switch
+  // via the in-app selector (SAMS-002b). Server-side access enforcement is
+  // unchanged — the provider plane is read-only and mutations stay role-gated.
+  // Non-providers keep the UserCompany-mapping list, byte-for-byte as before.
+  let companies: { id: string; companyID: string; companyName: string }[] = [];
+  if (providerRole) {
+    const all = await prisma.company.findMany({
+      orderBy: { companyID: "asc" },
+      select: { id: true, companyID: true, companyName: true },
+    });
+    companies = all.map((c) => ({ id: c.id, companyID: c.companyID, companyName: c.companyName }));
+  } else {
+    const userCompanies = userId
+      ? await prisma.userCompany.findMany({ where: { userId }, include: { company: true } })
+      : [];
+    companies = userCompanies
+      .filter((uc) => uc.company != null)
+      .map((uc) => ({
+        id: uc.company.id,
+        companyID: uc.company.companyID,
+        companyName: uc.company.companyName,
+      }));
+  }
 
   return (
     <header className="border-b border-slate-200 bg-white">
