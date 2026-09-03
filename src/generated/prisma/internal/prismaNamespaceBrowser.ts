@@ -473,7 +473,10 @@ export const FindingScalarFieldEnum = {
   riskDescription: 'riskDescription',
   rootCause: 'rootCause',
   recommendation: 'recommendation',
-  riskID: 'riskID'
+  riskID: 'riskID',
+  managementResponse: 'managementResponse',
+  managementResponseAt: 'managementResponseAt',
+  managementResponseById: 'managementResponseById'
 } as const
 
 export type FindingScalarFieldEnum = (typeof FindingScalarFieldEnum)[keyof typeof FindingScalarFieldEnum]

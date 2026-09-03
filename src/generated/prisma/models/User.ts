@@ -356,6 +356,7 @@ export type UserWhereInput = {
   comments?: Prisma.CommentListRelationFilter
   evidenceRequestsBy?: Prisma.EvidenceRequestListRelationFilter
   evidenceRequestsFrom?: Prisma.EvidenceRequestListRelationFilter
+  managementResponses?: Prisma.FindingListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -391,6 +392,7 @@ export type UserOrderByWithRelationInput = {
   comments?: Prisma.CommentOrderByRelationAggregateInput
   evidenceRequestsBy?: Prisma.EvidenceRequestOrderByRelationAggregateInput
   evidenceRequestsFrom?: Prisma.EvidenceRequestOrderByRelationAggregateInput
+  managementResponses?: Prisma.FindingOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -429,6 +431,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   comments?: Prisma.CommentListRelationFilter
   evidenceRequestsBy?: Prisma.EvidenceRequestListRelationFilter
   evidenceRequestsFrom?: Prisma.EvidenceRequestListRelationFilter
+  managementResponses?: Prisma.FindingListRelationFilter
 }, "id" | "username">
 
 export type UserOrderByWithAggregationInput = {
@@ -517,6 +520,7 @@ export type UserCreateInput = {
   comments?: Prisma.CommentCreateNestedManyWithoutAuthorInput
   evidenceRequestsBy?: Prisma.EvidenceRequestCreateNestedManyWithoutRequestedByInput
   evidenceRequestsFrom?: Prisma.EvidenceRequestCreateNestedManyWithoutRequestedFromInput
+  managementResponses?: Prisma.FindingCreateNestedManyWithoutManagementResponseByInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -551,6 +555,7 @@ export type UserUncheckedCreateInput = {
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutAuthorInput
   evidenceRequestsBy?: Prisma.EvidenceRequestUncheckedCreateNestedManyWithoutRequestedByInput
   evidenceRequestsFrom?: Prisma.EvidenceRequestUncheckedCreateNestedManyWithoutRequestedFromInput
+  managementResponses?: Prisma.FindingUncheckedCreateNestedManyWithoutManagementResponseByInput
 }
 
 export type UserUpdateInput = {
@@ -585,6 +590,7 @@ export type UserUpdateInput = {
   comments?: Prisma.CommentUpdateManyWithoutAuthorNestedInput
   evidenceRequestsBy?: Prisma.EvidenceRequestUpdateManyWithoutRequestedByNestedInput
   evidenceRequestsFrom?: Prisma.EvidenceRequestUpdateManyWithoutRequestedFromNestedInput
+  managementResponses?: Prisma.FindingUpdateManyWithoutManagementResponseByNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -619,6 +625,7 @@ export type UserUncheckedUpdateInput = {
   comments?: Prisma.CommentUncheckedUpdateManyWithoutAuthorNestedInput
   evidenceRequestsBy?: Prisma.EvidenceRequestUncheckedUpdateManyWithoutRequestedByNestedInput
   evidenceRequestsFrom?: Prisma.EvidenceRequestUncheckedUpdateManyWithoutRequestedFromNestedInput
+  managementResponses?: Prisma.FindingUncheckedUpdateManyWithoutManagementResponseByNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -775,6 +782,11 @@ export type UserScalarRelationFilter = {
   isNot?: Prisma.UserWhereInput
 }
 
+export type UserNullableScalarRelationFilter = {
+  is?: Prisma.UserWhereInput | null
+  isNot?: Prisma.UserWhereInput | null
+}
+
 export type UserListRelationFilter = {
   every?: Prisma.UserWhereInput
   some?: Prisma.UserWhereInput
@@ -847,6 +859,22 @@ export type UserUpdateOneRequiredWithoutAssessmentRolesNestedInput = {
   upsert?: Prisma.UserUpsertWithoutAssessmentRolesInput
   connect?: Prisma.UserWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutAssessmentRolesInput, Prisma.UserUpdateWithoutAssessmentRolesInput>, Prisma.UserUncheckedUpdateWithoutAssessmentRolesInput>
+}
+
+export type UserCreateNestedOneWithoutManagementResponsesInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutManagementResponsesInput, Prisma.UserUncheckedCreateWithoutManagementResponsesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutManagementResponsesInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneWithoutManagementResponsesNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutManagementResponsesInput, Prisma.UserUncheckedCreateWithoutManagementResponsesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutManagementResponsesInput
+  upsert?: Prisma.UserUpsertWithoutManagementResponsesInput
+  disconnect?: Prisma.UserWhereInput | boolean
+  delete?: Prisma.UserWhereInput | boolean
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutManagementResponsesInput, Prisma.UserUpdateWithoutManagementResponsesInput>, Prisma.UserUncheckedUpdateWithoutManagementResponsesInput>
 }
 
 export type UserCreateNestedOneWithoutAchievementsInput = {
@@ -1048,6 +1076,7 @@ export type UserCreateWithoutAssessmentsInput = {
   comments?: Prisma.CommentCreateNestedManyWithoutAuthorInput
   evidenceRequestsBy?: Prisma.EvidenceRequestCreateNestedManyWithoutRequestedByInput
   evidenceRequestsFrom?: Prisma.EvidenceRequestCreateNestedManyWithoutRequestedFromInput
+  managementResponses?: Prisma.FindingCreateNestedManyWithoutManagementResponseByInput
 }
 
 export type UserUncheckedCreateWithoutAssessmentsInput = {
@@ -1081,6 +1110,7 @@ export type UserUncheckedCreateWithoutAssessmentsInput = {
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutAuthorInput
   evidenceRequestsBy?: Prisma.EvidenceRequestUncheckedCreateNestedManyWithoutRequestedByInput
   evidenceRequestsFrom?: Prisma.EvidenceRequestUncheckedCreateNestedManyWithoutRequestedFromInput
+  managementResponses?: Prisma.FindingUncheckedCreateNestedManyWithoutManagementResponseByInput
 }
 
 export type UserCreateOrConnectWithoutAssessmentsInput = {
@@ -1130,6 +1160,7 @@ export type UserUpdateWithoutAssessmentsInput = {
   comments?: Prisma.CommentUpdateManyWithoutAuthorNestedInput
   evidenceRequestsBy?: Prisma.EvidenceRequestUpdateManyWithoutRequestedByNestedInput
   evidenceRequestsFrom?: Prisma.EvidenceRequestUpdateManyWithoutRequestedFromNestedInput
+  managementResponses?: Prisma.FindingUpdateManyWithoutManagementResponseByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAssessmentsInput = {
@@ -1163,6 +1194,7 @@ export type UserUncheckedUpdateWithoutAssessmentsInput = {
   comments?: Prisma.CommentUncheckedUpdateManyWithoutAuthorNestedInput
   evidenceRequestsBy?: Prisma.EvidenceRequestUncheckedUpdateManyWithoutRequestedByNestedInput
   evidenceRequestsFrom?: Prisma.EvidenceRequestUncheckedUpdateManyWithoutRequestedFromNestedInput
+  managementResponses?: Prisma.FindingUncheckedUpdateManyWithoutManagementResponseByNestedInput
 }
 
 export type UserCreateWithoutAssessmentRolesInput = {
@@ -1196,6 +1228,7 @@ export type UserCreateWithoutAssessmentRolesInput = {
   comments?: Prisma.CommentCreateNestedManyWithoutAuthorInput
   evidenceRequestsBy?: Prisma.EvidenceRequestCreateNestedManyWithoutRequestedByInput
   evidenceRequestsFrom?: Prisma.EvidenceRequestCreateNestedManyWithoutRequestedFromInput
+  managementResponses?: Prisma.FindingCreateNestedManyWithoutManagementResponseByInput
 }
 
 export type UserUncheckedCreateWithoutAssessmentRolesInput = {
@@ -1229,6 +1262,7 @@ export type UserUncheckedCreateWithoutAssessmentRolesInput = {
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutAuthorInput
   evidenceRequestsBy?: Prisma.EvidenceRequestUncheckedCreateNestedManyWithoutRequestedByInput
   evidenceRequestsFrom?: Prisma.EvidenceRequestUncheckedCreateNestedManyWithoutRequestedFromInput
+  managementResponses?: Prisma.FindingUncheckedCreateNestedManyWithoutManagementResponseByInput
 }
 
 export type UserCreateOrConnectWithoutAssessmentRolesInput = {
@@ -1278,6 +1312,7 @@ export type UserUpdateWithoutAssessmentRolesInput = {
   comments?: Prisma.CommentUpdateManyWithoutAuthorNestedInput
   evidenceRequestsBy?: Prisma.EvidenceRequestUpdateManyWithoutRequestedByNestedInput
   evidenceRequestsFrom?: Prisma.EvidenceRequestUpdateManyWithoutRequestedFromNestedInput
+  managementResponses?: Prisma.FindingUpdateManyWithoutManagementResponseByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAssessmentRolesInput = {
@@ -1302,6 +1337,159 @@ export type UserUncheckedUpdateWithoutAssessmentRolesInput = {
   lastActivityDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   confidenceInfluencer?: Prisma.BoolFieldUpdateOperationsInput | boolean
   assessments?: Prisma.AssessmentUncheckedUpdateManyWithoutAssessorNestedInput
+  emotionalDrives?: Prisma.EmotionalDriveMetricUncheckedUpdateManyWithoutUserNestedInput
+  milestones?: Prisma.MilestoneUncheckedUpdateManyWithoutUserNestedInput
+  points?: Prisma.PointTransactionUncheckedUpdateManyWithoutUserNestedInput
+  achievements?: Prisma.UserAchievementUncheckedUpdateManyWithoutUserNestedInput
+  roleMappings?: Prisma.UserRoleMappingUncheckedUpdateManyWithoutUserNestedInput
+  userCompanies?: Prisma.UserCompanyUncheckedUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutAuthorNestedInput
+  evidenceRequestsBy?: Prisma.EvidenceRequestUncheckedUpdateManyWithoutRequestedByNestedInput
+  evidenceRequestsFrom?: Prisma.EvidenceRequestUncheckedUpdateManyWithoutRequestedFromNestedInput
+  managementResponses?: Prisma.FindingUncheckedUpdateManyWithoutManagementResponseByNestedInput
+}
+
+export type UserCreateWithoutManagementResponsesInput = {
+  id?: string
+  name: string
+  username: string
+  email?: string | null
+  passwordHash: string
+  role?: $Enums.Role
+  providerRole?: $Enums.ProviderRole | null
+  companyId?: string | null
+  managerName?: string | null
+  managerUsername?: string | null
+  organisationIndicator?: string | null
+  preferredName?: string | null
+  active?: boolean
+  sortOrder?: number
+  createdAt?: Date | string
+  totalPoints?: number
+  dailyPointStreak?: number
+  lastActivityDate?: Date | string | null
+  confidenceInfluencer?: boolean
+  position?: Prisma.PositionCreateNestedOneWithoutUsersInput
+  assessments?: Prisma.AssessmentCreateNestedManyWithoutAssessorInput
+  assessmentRoles?: Prisma.AssessmentAssessorCreateNestedManyWithoutUserInput
+  emotionalDrives?: Prisma.EmotionalDriveMetricCreateNestedManyWithoutUserInput
+  milestones?: Prisma.MilestoneCreateNestedManyWithoutUserInput
+  points?: Prisma.PointTransactionCreateNestedManyWithoutUserInput
+  achievements?: Prisma.UserAchievementCreateNestedManyWithoutUserInput
+  roleMappings?: Prisma.UserRoleMappingCreateNestedManyWithoutUserInput
+  userCompanies?: Prisma.UserCompanyCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentCreateNestedManyWithoutAuthorInput
+  evidenceRequestsBy?: Prisma.EvidenceRequestCreateNestedManyWithoutRequestedByInput
+  evidenceRequestsFrom?: Prisma.EvidenceRequestCreateNestedManyWithoutRequestedFromInput
+}
+
+export type UserUncheckedCreateWithoutManagementResponsesInput = {
+  id?: string
+  name: string
+  username: string
+  email?: string | null
+  passwordHash: string
+  role?: $Enums.Role
+  providerRole?: $Enums.ProviderRole | null
+  positionId?: string | null
+  companyId?: string | null
+  managerName?: string | null
+  managerUsername?: string | null
+  organisationIndicator?: string | null
+  preferredName?: string | null
+  active?: boolean
+  sortOrder?: number
+  createdAt?: Date | string
+  totalPoints?: number
+  dailyPointStreak?: number
+  lastActivityDate?: Date | string | null
+  confidenceInfluencer?: boolean
+  assessments?: Prisma.AssessmentUncheckedCreateNestedManyWithoutAssessorInput
+  assessmentRoles?: Prisma.AssessmentAssessorUncheckedCreateNestedManyWithoutUserInput
+  emotionalDrives?: Prisma.EmotionalDriveMetricUncheckedCreateNestedManyWithoutUserInput
+  milestones?: Prisma.MilestoneUncheckedCreateNestedManyWithoutUserInput
+  points?: Prisma.PointTransactionUncheckedCreateNestedManyWithoutUserInput
+  achievements?: Prisma.UserAchievementUncheckedCreateNestedManyWithoutUserInput
+  roleMappings?: Prisma.UserRoleMappingUncheckedCreateNestedManyWithoutUserInput
+  userCompanies?: Prisma.UserCompanyUncheckedCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutAuthorInput
+  evidenceRequestsBy?: Prisma.EvidenceRequestUncheckedCreateNestedManyWithoutRequestedByInput
+  evidenceRequestsFrom?: Prisma.EvidenceRequestUncheckedCreateNestedManyWithoutRequestedFromInput
+}
+
+export type UserCreateOrConnectWithoutManagementResponsesInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutManagementResponsesInput, Prisma.UserUncheckedCreateWithoutManagementResponsesInput>
+}
+
+export type UserUpsertWithoutManagementResponsesInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutManagementResponsesInput, Prisma.UserUncheckedUpdateWithoutManagementResponsesInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutManagementResponsesInput, Prisma.UserUncheckedCreateWithoutManagementResponsesInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutManagementResponsesInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutManagementResponsesInput, Prisma.UserUncheckedUpdateWithoutManagementResponsesInput>
+}
+
+export type UserUpdateWithoutManagementResponsesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  providerRole?: Prisma.NullableEnumProviderRoleFieldUpdateOperationsInput | $Enums.ProviderRole | null
+  companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  managerName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  managerUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  organisationIndicator?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  preferredName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  totalPoints?: Prisma.IntFieldUpdateOperationsInput | number
+  dailyPointStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  lastActivityDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  confidenceInfluencer?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  position?: Prisma.PositionUpdateOneWithoutUsersNestedInput
+  assessments?: Prisma.AssessmentUpdateManyWithoutAssessorNestedInput
+  assessmentRoles?: Prisma.AssessmentAssessorUpdateManyWithoutUserNestedInput
+  emotionalDrives?: Prisma.EmotionalDriveMetricUpdateManyWithoutUserNestedInput
+  milestones?: Prisma.MilestoneUpdateManyWithoutUserNestedInput
+  points?: Prisma.PointTransactionUpdateManyWithoutUserNestedInput
+  achievements?: Prisma.UserAchievementUpdateManyWithoutUserNestedInput
+  roleMappings?: Prisma.UserRoleMappingUpdateManyWithoutUserNestedInput
+  userCompanies?: Prisma.UserCompanyUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutAuthorNestedInput
+  evidenceRequestsBy?: Prisma.EvidenceRequestUpdateManyWithoutRequestedByNestedInput
+  evidenceRequestsFrom?: Prisma.EvidenceRequestUpdateManyWithoutRequestedFromNestedInput
+}
+
+export type UserUncheckedUpdateWithoutManagementResponsesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  providerRole?: Prisma.NullableEnumProviderRoleFieldUpdateOperationsInput | $Enums.ProviderRole | null
+  positionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  managerName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  managerUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  organisationIndicator?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  preferredName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  totalPoints?: Prisma.IntFieldUpdateOperationsInput | number
+  dailyPointStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  lastActivityDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  confidenceInfluencer?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  assessments?: Prisma.AssessmentUncheckedUpdateManyWithoutAssessorNestedInput
+  assessmentRoles?: Prisma.AssessmentAssessorUncheckedUpdateManyWithoutUserNestedInput
   emotionalDrives?: Prisma.EmotionalDriveMetricUncheckedUpdateManyWithoutUserNestedInput
   milestones?: Prisma.MilestoneUncheckedUpdateManyWithoutUserNestedInput
   points?: Prisma.PointTransactionUncheckedUpdateManyWithoutUserNestedInput
@@ -1344,6 +1532,7 @@ export type UserCreateWithoutAchievementsInput = {
   comments?: Prisma.CommentCreateNestedManyWithoutAuthorInput
   evidenceRequestsBy?: Prisma.EvidenceRequestCreateNestedManyWithoutRequestedByInput
   evidenceRequestsFrom?: Prisma.EvidenceRequestCreateNestedManyWithoutRequestedFromInput
+  managementResponses?: Prisma.FindingCreateNestedManyWithoutManagementResponseByInput
 }
 
 export type UserUncheckedCreateWithoutAchievementsInput = {
@@ -1377,6 +1566,7 @@ export type UserUncheckedCreateWithoutAchievementsInput = {
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutAuthorInput
   evidenceRequestsBy?: Prisma.EvidenceRequestUncheckedCreateNestedManyWithoutRequestedByInput
   evidenceRequestsFrom?: Prisma.EvidenceRequestUncheckedCreateNestedManyWithoutRequestedFromInput
+  managementResponses?: Prisma.FindingUncheckedCreateNestedManyWithoutManagementResponseByInput
 }
 
 export type UserCreateOrConnectWithoutAchievementsInput = {
@@ -1426,6 +1616,7 @@ export type UserUpdateWithoutAchievementsInput = {
   comments?: Prisma.CommentUpdateManyWithoutAuthorNestedInput
   evidenceRequestsBy?: Prisma.EvidenceRequestUpdateManyWithoutRequestedByNestedInput
   evidenceRequestsFrom?: Prisma.EvidenceRequestUpdateManyWithoutRequestedFromNestedInput
+  managementResponses?: Prisma.FindingUpdateManyWithoutManagementResponseByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAchievementsInput = {
@@ -1459,6 +1650,7 @@ export type UserUncheckedUpdateWithoutAchievementsInput = {
   comments?: Prisma.CommentUncheckedUpdateManyWithoutAuthorNestedInput
   evidenceRequestsBy?: Prisma.EvidenceRequestUncheckedUpdateManyWithoutRequestedByNestedInput
   evidenceRequestsFrom?: Prisma.EvidenceRequestUncheckedUpdateManyWithoutRequestedFromNestedInput
+  managementResponses?: Prisma.FindingUncheckedUpdateManyWithoutManagementResponseByNestedInput
 }
 
 export type UserCreateWithoutPointsInput = {
@@ -1492,6 +1684,7 @@ export type UserCreateWithoutPointsInput = {
   comments?: Prisma.CommentCreateNestedManyWithoutAuthorInput
   evidenceRequestsBy?: Prisma.EvidenceRequestCreateNestedManyWithoutRequestedByInput
   evidenceRequestsFrom?: Prisma.EvidenceRequestCreateNestedManyWithoutRequestedFromInput
+  managementResponses?: Prisma.FindingCreateNestedManyWithoutManagementResponseByInput
 }
 
 export type UserUncheckedCreateWithoutPointsInput = {
@@ -1525,6 +1718,7 @@ export type UserUncheckedCreateWithoutPointsInput = {
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutAuthorInput
   evidenceRequestsBy?: Prisma.EvidenceRequestUncheckedCreateNestedManyWithoutRequestedByInput
   evidenceRequestsFrom?: Prisma.EvidenceRequestUncheckedCreateNestedManyWithoutRequestedFromInput
+  managementResponses?: Prisma.FindingUncheckedCreateNestedManyWithoutManagementResponseByInput
 }
 
 export type UserCreateOrConnectWithoutPointsInput = {
@@ -1574,6 +1768,7 @@ export type UserUpdateWithoutPointsInput = {
   comments?: Prisma.CommentUpdateManyWithoutAuthorNestedInput
   evidenceRequestsBy?: Prisma.EvidenceRequestUpdateManyWithoutRequestedByNestedInput
   evidenceRequestsFrom?: Prisma.EvidenceRequestUpdateManyWithoutRequestedFromNestedInput
+  managementResponses?: Prisma.FindingUpdateManyWithoutManagementResponseByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutPointsInput = {
@@ -1607,6 +1802,7 @@ export type UserUncheckedUpdateWithoutPointsInput = {
   comments?: Prisma.CommentUncheckedUpdateManyWithoutAuthorNestedInput
   evidenceRequestsBy?: Prisma.EvidenceRequestUncheckedUpdateManyWithoutRequestedByNestedInput
   evidenceRequestsFrom?: Prisma.EvidenceRequestUncheckedUpdateManyWithoutRequestedFromNestedInput
+  managementResponses?: Prisma.FindingUncheckedUpdateManyWithoutManagementResponseByNestedInput
 }
 
 export type UserCreateWithoutEmotionalDrivesInput = {
@@ -1640,6 +1836,7 @@ export type UserCreateWithoutEmotionalDrivesInput = {
   comments?: Prisma.CommentCreateNestedManyWithoutAuthorInput
   evidenceRequestsBy?: Prisma.EvidenceRequestCreateNestedManyWithoutRequestedByInput
   evidenceRequestsFrom?: Prisma.EvidenceRequestCreateNestedManyWithoutRequestedFromInput
+  managementResponses?: Prisma.FindingCreateNestedManyWithoutManagementResponseByInput
 }
 
 export type UserUncheckedCreateWithoutEmotionalDrivesInput = {
@@ -1673,6 +1870,7 @@ export type UserUncheckedCreateWithoutEmotionalDrivesInput = {
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutAuthorInput
   evidenceRequestsBy?: Prisma.EvidenceRequestUncheckedCreateNestedManyWithoutRequestedByInput
   evidenceRequestsFrom?: Prisma.EvidenceRequestUncheckedCreateNestedManyWithoutRequestedFromInput
+  managementResponses?: Prisma.FindingUncheckedCreateNestedManyWithoutManagementResponseByInput
 }
 
 export type UserCreateOrConnectWithoutEmotionalDrivesInput = {
@@ -1722,6 +1920,7 @@ export type UserUpdateWithoutEmotionalDrivesInput = {
   comments?: Prisma.CommentUpdateManyWithoutAuthorNestedInput
   evidenceRequestsBy?: Prisma.EvidenceRequestUpdateManyWithoutRequestedByNestedInput
   evidenceRequestsFrom?: Prisma.EvidenceRequestUpdateManyWithoutRequestedFromNestedInput
+  managementResponses?: Prisma.FindingUpdateManyWithoutManagementResponseByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutEmotionalDrivesInput = {
@@ -1755,6 +1954,7 @@ export type UserUncheckedUpdateWithoutEmotionalDrivesInput = {
   comments?: Prisma.CommentUncheckedUpdateManyWithoutAuthorNestedInput
   evidenceRequestsBy?: Prisma.EvidenceRequestUncheckedUpdateManyWithoutRequestedByNestedInput
   evidenceRequestsFrom?: Prisma.EvidenceRequestUncheckedUpdateManyWithoutRequestedFromNestedInput
+  managementResponses?: Prisma.FindingUncheckedUpdateManyWithoutManagementResponseByNestedInput
 }
 
 export type UserCreateWithoutMilestonesInput = {
@@ -1788,6 +1988,7 @@ export type UserCreateWithoutMilestonesInput = {
   comments?: Prisma.CommentCreateNestedManyWithoutAuthorInput
   evidenceRequestsBy?: Prisma.EvidenceRequestCreateNestedManyWithoutRequestedByInput
   evidenceRequestsFrom?: Prisma.EvidenceRequestCreateNestedManyWithoutRequestedFromInput
+  managementResponses?: Prisma.FindingCreateNestedManyWithoutManagementResponseByInput
 }
 
 export type UserUncheckedCreateWithoutMilestonesInput = {
@@ -1821,6 +2022,7 @@ export type UserUncheckedCreateWithoutMilestonesInput = {
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutAuthorInput
   evidenceRequestsBy?: Prisma.EvidenceRequestUncheckedCreateNestedManyWithoutRequestedByInput
   evidenceRequestsFrom?: Prisma.EvidenceRequestUncheckedCreateNestedManyWithoutRequestedFromInput
+  managementResponses?: Prisma.FindingUncheckedCreateNestedManyWithoutManagementResponseByInput
 }
 
 export type UserCreateOrConnectWithoutMilestonesInput = {
@@ -1870,6 +2072,7 @@ export type UserUpdateWithoutMilestonesInput = {
   comments?: Prisma.CommentUpdateManyWithoutAuthorNestedInput
   evidenceRequestsBy?: Prisma.EvidenceRequestUpdateManyWithoutRequestedByNestedInput
   evidenceRequestsFrom?: Prisma.EvidenceRequestUpdateManyWithoutRequestedFromNestedInput
+  managementResponses?: Prisma.FindingUpdateManyWithoutManagementResponseByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutMilestonesInput = {
@@ -1903,6 +2106,7 @@ export type UserUncheckedUpdateWithoutMilestonesInput = {
   comments?: Prisma.CommentUncheckedUpdateManyWithoutAuthorNestedInput
   evidenceRequestsBy?: Prisma.EvidenceRequestUncheckedUpdateManyWithoutRequestedByNestedInput
   evidenceRequestsFrom?: Prisma.EvidenceRequestUncheckedUpdateManyWithoutRequestedFromNestedInput
+  managementResponses?: Prisma.FindingUncheckedUpdateManyWithoutManagementResponseByNestedInput
 }
 
 export type UserCreateWithoutRoleMappingsInput = {
@@ -1936,6 +2140,7 @@ export type UserCreateWithoutRoleMappingsInput = {
   comments?: Prisma.CommentCreateNestedManyWithoutAuthorInput
   evidenceRequestsBy?: Prisma.EvidenceRequestCreateNestedManyWithoutRequestedByInput
   evidenceRequestsFrom?: Prisma.EvidenceRequestCreateNestedManyWithoutRequestedFromInput
+  managementResponses?: Prisma.FindingCreateNestedManyWithoutManagementResponseByInput
 }
 
 export type UserUncheckedCreateWithoutRoleMappingsInput = {
@@ -1969,6 +2174,7 @@ export type UserUncheckedCreateWithoutRoleMappingsInput = {
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutAuthorInput
   evidenceRequestsBy?: Prisma.EvidenceRequestUncheckedCreateNestedManyWithoutRequestedByInput
   evidenceRequestsFrom?: Prisma.EvidenceRequestUncheckedCreateNestedManyWithoutRequestedFromInput
+  managementResponses?: Prisma.FindingUncheckedCreateNestedManyWithoutManagementResponseByInput
 }
 
 export type UserCreateOrConnectWithoutRoleMappingsInput = {
@@ -2018,6 +2224,7 @@ export type UserUpdateWithoutRoleMappingsInput = {
   comments?: Prisma.CommentUpdateManyWithoutAuthorNestedInput
   evidenceRequestsBy?: Prisma.EvidenceRequestUpdateManyWithoutRequestedByNestedInput
   evidenceRequestsFrom?: Prisma.EvidenceRequestUpdateManyWithoutRequestedFromNestedInput
+  managementResponses?: Prisma.FindingUpdateManyWithoutManagementResponseByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutRoleMappingsInput = {
@@ -2051,6 +2258,7 @@ export type UserUncheckedUpdateWithoutRoleMappingsInput = {
   comments?: Prisma.CommentUncheckedUpdateManyWithoutAuthorNestedInput
   evidenceRequestsBy?: Prisma.EvidenceRequestUncheckedUpdateManyWithoutRequestedByNestedInput
   evidenceRequestsFrom?: Prisma.EvidenceRequestUncheckedUpdateManyWithoutRequestedFromNestedInput
+  managementResponses?: Prisma.FindingUncheckedUpdateManyWithoutManagementResponseByNestedInput
 }
 
 export type UserCreateWithoutPositionInput = {
@@ -2084,6 +2292,7 @@ export type UserCreateWithoutPositionInput = {
   comments?: Prisma.CommentCreateNestedManyWithoutAuthorInput
   evidenceRequestsBy?: Prisma.EvidenceRequestCreateNestedManyWithoutRequestedByInput
   evidenceRequestsFrom?: Prisma.EvidenceRequestCreateNestedManyWithoutRequestedFromInput
+  managementResponses?: Prisma.FindingCreateNestedManyWithoutManagementResponseByInput
 }
 
 export type UserUncheckedCreateWithoutPositionInput = {
@@ -2117,6 +2326,7 @@ export type UserUncheckedCreateWithoutPositionInput = {
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutAuthorInput
   evidenceRequestsBy?: Prisma.EvidenceRequestUncheckedCreateNestedManyWithoutRequestedByInput
   evidenceRequestsFrom?: Prisma.EvidenceRequestUncheckedCreateNestedManyWithoutRequestedFromInput
+  managementResponses?: Prisma.FindingUncheckedCreateNestedManyWithoutManagementResponseByInput
 }
 
 export type UserCreateOrConnectWithoutPositionInput = {
@@ -2202,6 +2412,7 @@ export type UserCreateWithoutUserCompaniesInput = {
   comments?: Prisma.CommentCreateNestedManyWithoutAuthorInput
   evidenceRequestsBy?: Prisma.EvidenceRequestCreateNestedManyWithoutRequestedByInput
   evidenceRequestsFrom?: Prisma.EvidenceRequestCreateNestedManyWithoutRequestedFromInput
+  managementResponses?: Prisma.FindingCreateNestedManyWithoutManagementResponseByInput
 }
 
 export type UserUncheckedCreateWithoutUserCompaniesInput = {
@@ -2235,6 +2446,7 @@ export type UserUncheckedCreateWithoutUserCompaniesInput = {
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutAuthorInput
   evidenceRequestsBy?: Prisma.EvidenceRequestUncheckedCreateNestedManyWithoutRequestedByInput
   evidenceRequestsFrom?: Prisma.EvidenceRequestUncheckedCreateNestedManyWithoutRequestedFromInput
+  managementResponses?: Prisma.FindingUncheckedCreateNestedManyWithoutManagementResponseByInput
 }
 
 export type UserCreateOrConnectWithoutUserCompaniesInput = {
@@ -2284,6 +2496,7 @@ export type UserUpdateWithoutUserCompaniesInput = {
   comments?: Prisma.CommentUpdateManyWithoutAuthorNestedInput
   evidenceRequestsBy?: Prisma.EvidenceRequestUpdateManyWithoutRequestedByNestedInput
   evidenceRequestsFrom?: Prisma.EvidenceRequestUpdateManyWithoutRequestedFromNestedInput
+  managementResponses?: Prisma.FindingUpdateManyWithoutManagementResponseByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutUserCompaniesInput = {
@@ -2317,6 +2530,7 @@ export type UserUncheckedUpdateWithoutUserCompaniesInput = {
   comments?: Prisma.CommentUncheckedUpdateManyWithoutAuthorNestedInput
   evidenceRequestsBy?: Prisma.EvidenceRequestUncheckedUpdateManyWithoutRequestedByNestedInput
   evidenceRequestsFrom?: Prisma.EvidenceRequestUncheckedUpdateManyWithoutRequestedFromNestedInput
+  managementResponses?: Prisma.FindingUncheckedUpdateManyWithoutManagementResponseByNestedInput
 }
 
 export type UserCreateWithoutCommentsInput = {
@@ -2350,6 +2564,7 @@ export type UserCreateWithoutCommentsInput = {
   userCompanies?: Prisma.UserCompanyCreateNestedManyWithoutUserInput
   evidenceRequestsBy?: Prisma.EvidenceRequestCreateNestedManyWithoutRequestedByInput
   evidenceRequestsFrom?: Prisma.EvidenceRequestCreateNestedManyWithoutRequestedFromInput
+  managementResponses?: Prisma.FindingCreateNestedManyWithoutManagementResponseByInput
 }
 
 export type UserUncheckedCreateWithoutCommentsInput = {
@@ -2383,6 +2598,7 @@ export type UserUncheckedCreateWithoutCommentsInput = {
   userCompanies?: Prisma.UserCompanyUncheckedCreateNestedManyWithoutUserInput
   evidenceRequestsBy?: Prisma.EvidenceRequestUncheckedCreateNestedManyWithoutRequestedByInput
   evidenceRequestsFrom?: Prisma.EvidenceRequestUncheckedCreateNestedManyWithoutRequestedFromInput
+  managementResponses?: Prisma.FindingUncheckedCreateNestedManyWithoutManagementResponseByInput
 }
 
 export type UserCreateOrConnectWithoutCommentsInput = {
@@ -2432,6 +2648,7 @@ export type UserUpdateWithoutCommentsInput = {
   userCompanies?: Prisma.UserCompanyUpdateManyWithoutUserNestedInput
   evidenceRequestsBy?: Prisma.EvidenceRequestUpdateManyWithoutRequestedByNestedInput
   evidenceRequestsFrom?: Prisma.EvidenceRequestUpdateManyWithoutRequestedFromNestedInput
+  managementResponses?: Prisma.FindingUpdateManyWithoutManagementResponseByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCommentsInput = {
@@ -2465,6 +2682,7 @@ export type UserUncheckedUpdateWithoutCommentsInput = {
   userCompanies?: Prisma.UserCompanyUncheckedUpdateManyWithoutUserNestedInput
   evidenceRequestsBy?: Prisma.EvidenceRequestUncheckedUpdateManyWithoutRequestedByNestedInput
   evidenceRequestsFrom?: Prisma.EvidenceRequestUncheckedUpdateManyWithoutRequestedFromNestedInput
+  managementResponses?: Prisma.FindingUncheckedUpdateManyWithoutManagementResponseByNestedInput
 }
 
 export type UserCreateWithoutEvidenceRequestsByInput = {
@@ -2498,6 +2716,7 @@ export type UserCreateWithoutEvidenceRequestsByInput = {
   userCompanies?: Prisma.UserCompanyCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentCreateNestedManyWithoutAuthorInput
   evidenceRequestsFrom?: Prisma.EvidenceRequestCreateNestedManyWithoutRequestedFromInput
+  managementResponses?: Prisma.FindingCreateNestedManyWithoutManagementResponseByInput
 }
 
 export type UserUncheckedCreateWithoutEvidenceRequestsByInput = {
@@ -2531,6 +2750,7 @@ export type UserUncheckedCreateWithoutEvidenceRequestsByInput = {
   userCompanies?: Prisma.UserCompanyUncheckedCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutAuthorInput
   evidenceRequestsFrom?: Prisma.EvidenceRequestUncheckedCreateNestedManyWithoutRequestedFromInput
+  managementResponses?: Prisma.FindingUncheckedCreateNestedManyWithoutManagementResponseByInput
 }
 
 export type UserCreateOrConnectWithoutEvidenceRequestsByInput = {
@@ -2569,6 +2789,7 @@ export type UserCreateWithoutEvidenceRequestsFromInput = {
   userCompanies?: Prisma.UserCompanyCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentCreateNestedManyWithoutAuthorInput
   evidenceRequestsBy?: Prisma.EvidenceRequestCreateNestedManyWithoutRequestedByInput
+  managementResponses?: Prisma.FindingCreateNestedManyWithoutManagementResponseByInput
 }
 
 export type UserUncheckedCreateWithoutEvidenceRequestsFromInput = {
@@ -2602,6 +2823,7 @@ export type UserUncheckedCreateWithoutEvidenceRequestsFromInput = {
   userCompanies?: Prisma.UserCompanyUncheckedCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutAuthorInput
   evidenceRequestsBy?: Prisma.EvidenceRequestUncheckedCreateNestedManyWithoutRequestedByInput
+  managementResponses?: Prisma.FindingUncheckedCreateNestedManyWithoutManagementResponseByInput
 }
 
 export type UserCreateOrConnectWithoutEvidenceRequestsFromInput = {
@@ -2651,6 +2873,7 @@ export type UserUpdateWithoutEvidenceRequestsByInput = {
   userCompanies?: Prisma.UserCompanyUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUpdateManyWithoutAuthorNestedInput
   evidenceRequestsFrom?: Prisma.EvidenceRequestUpdateManyWithoutRequestedFromNestedInput
+  managementResponses?: Prisma.FindingUpdateManyWithoutManagementResponseByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutEvidenceRequestsByInput = {
@@ -2684,6 +2907,7 @@ export type UserUncheckedUpdateWithoutEvidenceRequestsByInput = {
   userCompanies?: Prisma.UserCompanyUncheckedUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutAuthorNestedInput
   evidenceRequestsFrom?: Prisma.EvidenceRequestUncheckedUpdateManyWithoutRequestedFromNestedInput
+  managementResponses?: Prisma.FindingUncheckedUpdateManyWithoutManagementResponseByNestedInput
 }
 
 export type UserUpsertWithoutEvidenceRequestsFromInput = {
@@ -2728,6 +2952,7 @@ export type UserUpdateWithoutEvidenceRequestsFromInput = {
   userCompanies?: Prisma.UserCompanyUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUpdateManyWithoutAuthorNestedInput
   evidenceRequestsBy?: Prisma.EvidenceRequestUpdateManyWithoutRequestedByNestedInput
+  managementResponses?: Prisma.FindingUpdateManyWithoutManagementResponseByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutEvidenceRequestsFromInput = {
@@ -2761,6 +2986,7 @@ export type UserUncheckedUpdateWithoutEvidenceRequestsFromInput = {
   userCompanies?: Prisma.UserCompanyUncheckedUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutAuthorNestedInput
   evidenceRequestsBy?: Prisma.EvidenceRequestUncheckedUpdateManyWithoutRequestedByNestedInput
+  managementResponses?: Prisma.FindingUncheckedUpdateManyWithoutManagementResponseByNestedInput
 }
 
 export type UserCreateManyPositionInput = {
@@ -2816,6 +3042,7 @@ export type UserUpdateWithoutPositionInput = {
   comments?: Prisma.CommentUpdateManyWithoutAuthorNestedInput
   evidenceRequestsBy?: Prisma.EvidenceRequestUpdateManyWithoutRequestedByNestedInput
   evidenceRequestsFrom?: Prisma.EvidenceRequestUpdateManyWithoutRequestedFromNestedInput
+  managementResponses?: Prisma.FindingUpdateManyWithoutManagementResponseByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutPositionInput = {
@@ -2849,6 +3076,7 @@ export type UserUncheckedUpdateWithoutPositionInput = {
   comments?: Prisma.CommentUncheckedUpdateManyWithoutAuthorNestedInput
   evidenceRequestsBy?: Prisma.EvidenceRequestUncheckedUpdateManyWithoutRequestedByNestedInput
   evidenceRequestsFrom?: Prisma.EvidenceRequestUncheckedUpdateManyWithoutRequestedFromNestedInput
+  managementResponses?: Prisma.FindingUncheckedUpdateManyWithoutManagementResponseByNestedInput
 }
 
 export type UserUncheckedUpdateManyWithoutPositionInput = {
@@ -2890,6 +3118,7 @@ export type UserCountOutputType = {
   comments: number
   evidenceRequestsBy: number
   evidenceRequestsFrom: number
+  managementResponses: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2904,6 +3133,7 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   comments?: boolean | UserCountOutputTypeCountCommentsArgs
   evidenceRequestsBy?: boolean | UserCountOutputTypeCountEvidenceRequestsByArgs
   evidenceRequestsFrom?: boolean | UserCountOutputTypeCountEvidenceRequestsFromArgs
+  managementResponses?: boolean | UserCountOutputTypeCountManagementResponsesArgs
 }
 
 /**
@@ -2993,6 +3223,13 @@ export type UserCountOutputTypeCountEvidenceRequestsFromArgs<ExtArgs extends run
   where?: Prisma.EvidenceRequestWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountManagementResponsesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.FindingWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -3027,6 +3264,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   comments?: boolean | Prisma.User$commentsArgs<ExtArgs>
   evidenceRequestsBy?: boolean | Prisma.User$evidenceRequestsByArgs<ExtArgs>
   evidenceRequestsFrom?: boolean | Prisma.User$evidenceRequestsFromArgs<ExtArgs>
+  managementResponses?: boolean | Prisma.User$managementResponsesArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -3115,6 +3353,7 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   comments?: boolean | Prisma.User$commentsArgs<ExtArgs>
   evidenceRequestsBy?: boolean | Prisma.User$evidenceRequestsByArgs<ExtArgs>
   evidenceRequestsFrom?: boolean | Prisma.User$evidenceRequestsFromArgs<ExtArgs>
+  managementResponses?: boolean | Prisma.User$managementResponsesArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -3139,6 +3378,10 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     comments: Prisma.$CommentPayload<ExtArgs>[]
     evidenceRequestsBy: Prisma.$EvidenceRequestPayload<ExtArgs>[]
     evidenceRequestsFrom: Prisma.$EvidenceRequestPayload<ExtArgs>[]
+    /**
+     * Client Management Responses authored by this user (SAMS-005).
+     */
+    managementResponses: Prisma.$FindingPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -3571,6 +3814,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   comments<T extends Prisma.User$commentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$commentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CommentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   evidenceRequestsBy<T extends Prisma.User$evidenceRequestsByArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$evidenceRequestsByArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EvidenceRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   evidenceRequestsFrom<T extends Prisma.User$evidenceRequestsFromArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$evidenceRequestsFromArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EvidenceRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  managementResponses<T extends Prisma.User$managementResponsesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$managementResponsesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FindingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4301,6 +4545,30 @@ export type User$evidenceRequestsFromArgs<ExtArgs extends runtime.Types.Extensio
   take?: number
   skip?: number
   distinct?: Prisma.EvidenceRequestScalarFieldEnum | Prisma.EvidenceRequestScalarFieldEnum[]
+}
+
+/**
+ * User.managementResponses
+ */
+export type User$managementResponsesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Finding
+   */
+  select?: Prisma.FindingSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Finding
+   */
+  omit?: Prisma.FindingOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.FindingInclude<ExtArgs> | null
+  where?: Prisma.FindingWhereInput
+  orderBy?: Prisma.FindingOrderByWithRelationInput | Prisma.FindingOrderByWithRelationInput[]
+  cursor?: Prisma.FindingWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.FindingScalarFieldEnum | Prisma.FindingScalarFieldEnum[]
 }
 
 /**

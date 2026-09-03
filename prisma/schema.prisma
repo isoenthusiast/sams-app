@@ -42,6 +42,8 @@ model User {
   comments             Comment[]
   evidenceRequestsBy   EvidenceRequest[]  @relation("EvidenceRequestRequestedBy")
   evidenceRequestsFrom EvidenceRequest[]  @relation("EvidenceRequestRequestedFrom")
+  /// Client Management Responses authored by this user (SAMS-005).
+  managementResponses  Finding[]          @relation("FindingManagementResponse")
 }
 
 model ActivityLog {
@@ -443,10 +445,17 @@ model Finding {
   recommendation  String?
   // ── Risk-based findings (v1.12.0) ────────────────────────────────────
   riskID          String?         // FK → Risk.riskID (three-way traceability, plain scalar)
+  // ── Management Response (SAMS-005, Client Portal) ─────────────────────
+  // A named, dated, attributable client response to a finding. Additive +
+  // nullable, no backfill. Editable by client Assessor+ roles of that company.
+  managementResponse     String?    // ≤2000 chars — the client's response body
+  managementResponseAt   DateTime?  // when the response was saved
+  managementResponseById String?    // FK → User (who responded)
   // ──────────────────────────────────────────────────────────────────────
   assessment      Assessment      @relation(fields: [assessmentId], references: [id], onDelete: Cascade)
   sample          Sample?         @relation(fields: [sampleId], references: [id], onDelete: SetNull)
   checklistItem   AuditChecklistItem? @relation(fields: [checklistItemId], references: [id], onDelete: SetNull)
+  managementResponseBy User?      @relation("FindingManagementResponse", fields: [managementResponseById], references: [id], onDelete: SetNull)
   actions         Action[]
 
   @@index([assessmentId])
@@ -454,6 +463,7 @@ model Finding {
   @@index([checklistItemId])
   @@index([requirementRId])
   @@index([processAreaId])
+  @@index([managementResponseById])
 }
 
 // An Action is a remediation item tied to exactly one Finding.
