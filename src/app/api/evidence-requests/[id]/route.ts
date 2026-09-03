@@ -2,6 +2,7 @@ import { prisma } from "@/lib/prisma";
 import { requireAuth, requireAssessorOrProvider, hasCompanyAccess } from "@/lib/authz";
 import { logActivity } from "@/lib/activity-log";
 import { sessionPlane, sessionUserId, sessionName, allowedTransition, canTakeAction } from "@/lib/conversation";
+import { emitEvidenceRequested, emitEvidenceSubmitted, emitEvidenceReviewed } from "@/lib/notifications";
 import { NextResponse } from "next/server";
 
 export const dynamic = "force-dynamic";
@@ -45,7 +46,7 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
 
   const current = await prisma.evidenceRequest.findUnique({
     where: { id },
-    select: { id: true, status: true, requestedFromUserId: true, companyId: true },
+    select: { id: true, status: true, requestedFromUserId: true, requestedByUserId: true, title: true, assessmentId: true, companyId: true },
   });
   if (!current) {
     return NextResponse.json({ error: "Evidence request not found" }, { status: 404 });
@@ -122,6 +123,34 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
       beforeData: { status: current.status },
       afterData: { status: nextStatus },
     });
+
+    // ── In-App Notifications (SAMS-006) ─────────────────────────────────────
+    // Emission is fired-and-forgotten (emitNotification NEVER throws), so a
+    // notification failure can NEVER fail the parent state transition —
+    // proven by fault-injection in the owner test plan (c).
+    if (nextStatus === "Requested") {
+      await emitEvidenceRequested({
+        requestId: id,
+        requesteeUserId: current.requestedFromUserId,
+        requesterUserId: current.requestedByUserId,
+        companyId: current.companyId,
+      });
+    } else if (nextStatus === "Submitted") {
+      await emitEvidenceSubmitted({
+        requestId: id,
+        requesterUserId: current.requestedByUserId,
+        requesteeUserId: current.requestedFromUserId,
+        companyId: current.companyId,
+      });
+    } else if (nextStatus === "Accepted" || nextStatus === "Rejected") {
+      await emitEvidenceReviewed({
+        requestId: id,
+        requesteeUserId: current.requestedFromUserId,
+        status: nextStatus as "Accepted" | "Rejected",
+        reviewNote: body.reviewNote,
+        companyId: current.companyId,
+      });
+    }
 
     return NextResponse.json({ evidenceRequest: updated });
   } catch (error) {

@@ -11,6 +11,7 @@ import {
   COMMENT_ENTITY_EVIDENCE_REQUEST,
 } from "@/lib/conversation";
 import { NextResponse } from "next/server";
+import { notifyCommentShared } from "@/lib/notifications";
 
 export const dynamic = "force-dynamic";
 
@@ -181,6 +182,22 @@ export async function POST(request: Request) {
       },
       include: { author: { select: { id: true, name: true, username: true } } },
     });
+
+    // ── In-App Notifications (SAMS-006) ─────────────────────────────────────
+    // A comment becomes client-visible when it is SharedWithClient (client
+    // authors are always coerced to SharedWithClient, so ANY client-authored
+    // comment qualifies). Notify the entity participants (finding's assessment
+    // assessor / request participants), excluding the author. notifyCommentShared
+    // never throws, so a notification failure can NEVER fail the comment write.
+    if (effectiveVisibility === "SharedWithClient") {
+      await notifyCommentShared({
+        entityType,
+        entityId,
+        authorUserId: userId,
+        companyId: target.companyId,
+        body: text,
+      });
+    }
 
     return NextResponse.json(
       {

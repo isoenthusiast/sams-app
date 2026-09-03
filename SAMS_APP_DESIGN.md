@@ -2,7 +2,7 @@
 
 > **📐 Active alongside `CONAN_Design Philosophy.md` and `CONAN_App Design.md`.** CONAN docs are the narrative source of truth; this document is the technical specification (models, routes, components, APIs). Both are maintained.
 
-**Last Updated:** September 04, 2026 (v1.14.0 — Client Portal, SAMS-005 Phase 2b)
+**Last Updated:** September 04, 2026 (v1.15.0 — In-App Notifications, SAMS-006 Phase 2c)
 
 ---
 
@@ -347,6 +347,12 @@ Client Component → fetch('/api/...', { method: 'POST', body })
 | **Comment** | One polymorphic comment entity (thread target = `entityType` + `entityId`, mirroring the AttachmentMapping destTable/recId convention). Entities v1: `Finding`, `EvidenceRequest`. Flat threads (`parentCommentId`, one level). Append-only v1 (no edit/delete). `authorPlane` (Provider/Client) derived from the session, never client-supplied; per-comment `visibility` (Internal/SharedWithClient). Default authorPlane=Provider, visibility=Internal. | id (cuid), entityType (String), entityId, parentCommentId (self-ref → Comment, `onDelete: SetNull`), authorUserId (FK→User), authorPlane (`CommentAuthorPlane` enum, default Provider), visibility (`CommentVisibility` enum, default Internal), body (≤4000), companyId, createdAt. Indexes: (entityType, entityId), (companyId), (authorUserId). |
 | **EvidenceRequest** | DRL unit — the structured evidence-request pipeline. State machine `Draft→Requested→Submitted→Accepted\|Rejected(→Submitted again)\|NotApplicable`. Files via the EXISTING polymorphic Attachment system (`destTable='EvidenceRequest'`). Requestees see only their own (`?mine=1`); assessors/provider see all company requests. | id (cuid), companyId, assessmentId (FK→Assessment, optional, `onDelete: SetNull`), requirementRId (Int, optional), controlId (optional), title (≤200), instructions (≤2000), requestedByUserId (FK→User), requestedFromUserId (FK→User), dueDate, status (`EvidenceRequestStatus` enum, default Draft), submittedNote, reviewNote, submittedAt, reviewedAt, createdAt, updatedAt. Indexes: (companyId, status), (requestedFromUserId, status). |
 
+#### In-App Notification Models (v1.15.0, SAMS-006 Phase 2c)
+
+| Model | Purpose | Key Fields |
+|-------|---------|------------|
+| **Notification** | Stored fabric event for the in-app center (v1), NO outbound transport (email/webhook is Phase 3). Event set v1: `EvidenceRequested` (→ requestee), `EvidenceSubmitted` (→ requester), `EvidenceReviewed` (→ requestee), `CommentShared` (→ entity participants: a finding's assessment assessor / request participants, excluding the author). Emission points live INSIDE the fabric's write handlers (evidence-request PATCH transitions + SharedWithClient comment POST), fired-and-forgotten so an emission failure can NEVER fail the parent write (fault-injected). **Overdue actions are computed at READ time** (Action.targetDate < now AND closureDate null, company-scoped) as a synthetic banner in the bell-count response — NEVER stored as Notification rows (so no scheduler). Reads are strictly `recipientUserId`-scoped; `POST /api/notifications/mark-read` explicitly verifies each id belongs to the session user (batch ids are the classic cross-tenant leak → foreign id ⇒ 403, row unchanged). | id (cuid), recipientUserId (FK→User, `onDelete: Cascade`), type (`NotificationType` enum), entityType/entityId (polymorphic target, mirrors Comment; deep-links resolved at read-time), title (≤200), body (≤500), readAt?, companyId, createdAt. Indexes: (recipientUserId, readAt), (companyId). |
+
 #### Gamification Models
 
 | Model | Purpose | Key Fields |
@@ -444,6 +450,7 @@ All company-scoped tables use `@@unique([businessKey, companyId])` rather than s
 | `/fla/[id]` | Client | Assessor+ | Assessment detail with tabs |
 | `/fla/my-interviews` | Client | Auth | Interviewee's assigned interviews |
 | `/fla/my-evidence-requests` | Client | Auth | **v1.13.18:** Requestee evidence-request home — cards per request (instructions, due date w/ overdue flag, status, submit box note + attachment, resubmit after rejection with review note visible). Loads `GET /api/evidence-requests?mine=1`; requestee sees only their own. |
+| `/notifications` | Client | Auth | **v1.15.0:** In-app notification center (SAMS-006) — renders the COMPUTED overdue banner (read-time, synthetic), per-type icons (📨 requested / 📤 submitted / 📋 reviewed / 💬 shared), deep-links (href resolved server-side to the right surface), mark-read / mark-all. Loads `GET /api/notifications`; reads are strictly `recipientUserId`-scoped. |
 | `/fla/new` | Client | Assessor+ | New assessment form |
 | `/help` | Static | Auth | In-app help with screenshots |
 | `/admin` | Client | Admin | Admin dashboard with view switching |
@@ -588,6 +595,13 @@ All company-scoped tables use `@@unique([businessKey, companyId])` rather than s
 | `/api/evidence-requests` | GET | Auth | Role-scoped listing. `?mine=1` → the caller's OWN requests (any status), any authenticated user. Without `?mine=1` → all company requests, assessor/provider only, scoped to the caller's company. |
 | `/api/evidence-requests/[id]` | PATCH | Auth | Drive the DRL state machine. `send` (Draft→Requested), `submit` (Requested/Rejected→Submitted; requestee only; 422 if neither note nor attachment), `accept` (→Accepted, terminal), `reject`+`reviewNote` (→Rejected), `na` (→NotApplicable). Invalid transitions → 409. Every transition writes an `EVIDENCE_REQUEST_STATUS` ActivityLog row with before/after status. Requestee can only act on their own request; requestee cannot `submit` for another; assessor/provider cannot `submit`. |
 
+#### Notification APIs — v1.15.0 (SAMS-006, Phase 2c)
+
+| Route | Method | Auth | Description |
+|-------|--------|------|-------------|
+| `/api/notifications` | GET | Auth | Current user's notifications, NEWEST first. Strictly `recipientUserId`-scoped. `?unread=1` → unread (readAt null) rows only. Response also carries the READ-TIME bell counts: `unreadCount` (unread rows) and `overdueCount` (COMPUTED company-scoped overdue actions — `Action.targetDate < now AND closureDate null` — as a synthetic banner, never a stored row). Each row is enriched with a resolved `href` (deep-link to the right surface; requestee → `/fla/my-evidence-requests`, requester → `/fla/[assessmentId]`, finding → `/fla/[assessmentId]`). |
+| `/api/notifications/mark-read` | POST | Auth | Mark the current user's notifications read: `{ all: true }` (all unread) or `{ ids: [] }`. EXPLICITLY verifies each supplied id belongs to the SESSION user before touching anything — an id that is another user's notification (or does not exist) yields **403** and leaves every row unchanged (batch ids are the classic cross-tenant leak; the `updateMany` is additionally pinned to `recipientUserId`). Empty ids / neither all nor ids → 400. |
+
 #### AI APIs
 
 | Route | Method | Auth | Description |
@@ -657,6 +671,8 @@ All company-scoped tables use `@@unique([businessKey, companyId])` rather than s
 | **CommentThread** | Client | **v1.13.18:** Reusable flat comment thread for a polymorphic target. Renders author name + 🛡 provider badge, visibility badge on provider comments (🔒 Internal / 🌐 Shared), and a composer with a visibility toggle (provider authors only). Client authors cannot pick Internal (toggle hidden; server 400s). Mounted on Finding cards + EvidenceRequest detail. |
 | **EvidenceTab** | Client | **v1.13.18:** 📨 Evidence tab on `/fla/[id]` — evidence-request list w/ status chips + overdue flag, create form (title, instructions, `UserSearchSelect` requestee picker, due date), accept / reject (review note) / not-applicable transitions, requestee submit surface, reuses `AttachmentList` + `CommentThread` per request. |
 | **MyEvidenceRequestsClient** | Client | **v1.13.18:** Requestee home on `/fla/my-evidence-requests` — cards per request (instructions, due date overdue red, status, submit note + attachment, resubmit after rejection with review note visible). |
+| **NotificationBell** | Client | **v1.15.0:** NavBar bell (SAMS-006) — fetches `GET /api/notifications?unread=1` (mount + light poll), shows an unread-count badge (red, amber when overdue>0) and links to `/notifications`. Rendered only on the shared app chrome (NavBar), NOT on portal/operator surfaces (out of scope). |
+| **NotificationsClient** | Client | **v1.15.0:** `/notifications` center — overdue banner (computed), per-type icons (📨/📤/📋/💬), deep-link (`View →` uses the server-resolved href), mark-read, mark-all; empty + error states. |
 | **GamificationPanel** | Server | Points + badges display |
 | **KnowledgebasePanel** | Client | KB entry tree + content viewer/editor |
 | **KanbanBoard** | Client | Drag-and-drop backlog board |
