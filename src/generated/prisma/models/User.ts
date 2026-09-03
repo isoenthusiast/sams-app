@@ -353,6 +353,9 @@ export type UserWhereInput = {
   achievements?: Prisma.UserAchievementListRelationFilter
   roleMappings?: Prisma.UserRoleMappingListRelationFilter
   userCompanies?: Prisma.UserCompanyListRelationFilter
+  comments?: Prisma.CommentListRelationFilter
+  evidenceRequestsBy?: Prisma.EvidenceRequestListRelationFilter
+  evidenceRequestsFrom?: Prisma.EvidenceRequestListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -385,6 +388,9 @@ export type UserOrderByWithRelationInput = {
   achievements?: Prisma.UserAchievementOrderByRelationAggregateInput
   roleMappings?: Prisma.UserRoleMappingOrderByRelationAggregateInput
   userCompanies?: Prisma.UserCompanyOrderByRelationAggregateInput
+  comments?: Prisma.CommentOrderByRelationAggregateInput
+  evidenceRequestsBy?: Prisma.EvidenceRequestOrderByRelationAggregateInput
+  evidenceRequestsFrom?: Prisma.EvidenceRequestOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -420,6 +426,9 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   achievements?: Prisma.UserAchievementListRelationFilter
   roleMappings?: Prisma.UserRoleMappingListRelationFilter
   userCompanies?: Prisma.UserCompanyListRelationFilter
+  comments?: Prisma.CommentListRelationFilter
+  evidenceRequestsBy?: Prisma.EvidenceRequestListRelationFilter
+  evidenceRequestsFrom?: Prisma.EvidenceRequestListRelationFilter
 }, "id" | "username">
 
 export type UserOrderByWithAggregationInput = {
@@ -505,6 +514,9 @@ export type UserCreateInput = {
   achievements?: Prisma.UserAchievementCreateNestedManyWithoutUserInput
   roleMappings?: Prisma.UserRoleMappingCreateNestedManyWithoutUserInput
   userCompanies?: Prisma.UserCompanyCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentCreateNestedManyWithoutAuthorInput
+  evidenceRequestsBy?: Prisma.EvidenceRequestCreateNestedManyWithoutRequestedByInput
+  evidenceRequestsFrom?: Prisma.EvidenceRequestCreateNestedManyWithoutRequestedFromInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -536,6 +548,9 @@ export type UserUncheckedCreateInput = {
   achievements?: Prisma.UserAchievementUncheckedCreateNestedManyWithoutUserInput
   roleMappings?: Prisma.UserRoleMappingUncheckedCreateNestedManyWithoutUserInput
   userCompanies?: Prisma.UserCompanyUncheckedCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutAuthorInput
+  evidenceRequestsBy?: Prisma.EvidenceRequestUncheckedCreateNestedManyWithoutRequestedByInput
+  evidenceRequestsFrom?: Prisma.EvidenceRequestUncheckedCreateNestedManyWithoutRequestedFromInput
 }
 
 export type UserUpdateInput = {
@@ -567,6 +582,9 @@ export type UserUpdateInput = {
   achievements?: Prisma.UserAchievementUpdateManyWithoutUserNestedInput
   roleMappings?: Prisma.UserRoleMappingUpdateManyWithoutUserNestedInput
   userCompanies?: Prisma.UserCompanyUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutAuthorNestedInput
+  evidenceRequestsBy?: Prisma.EvidenceRequestUpdateManyWithoutRequestedByNestedInput
+  evidenceRequestsFrom?: Prisma.EvidenceRequestUpdateManyWithoutRequestedFromNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -598,6 +616,9 @@ export type UserUncheckedUpdateInput = {
   achievements?: Prisma.UserAchievementUncheckedUpdateManyWithoutUserNestedInput
   roleMappings?: Prisma.UserRoleMappingUncheckedUpdateManyWithoutUserNestedInput
   userCompanies?: Prisma.UserCompanyUncheckedUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutAuthorNestedInput
+  evidenceRequestsBy?: Prisma.EvidenceRequestUncheckedUpdateManyWithoutRequestedByNestedInput
+  evidenceRequestsFrom?: Prisma.EvidenceRequestUncheckedUpdateManyWithoutRequestedFromNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -954,6 +975,48 @@ export type UserUpdateOneRequiredWithoutUserCompaniesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutUserCompaniesInput, Prisma.UserUpdateWithoutUserCompaniesInput>, Prisma.UserUncheckedUpdateWithoutUserCompaniesInput>
 }
 
+export type UserCreateNestedOneWithoutCommentsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutCommentsInput, Prisma.UserUncheckedCreateWithoutCommentsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutCommentsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutCommentsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutCommentsInput, Prisma.UserUncheckedCreateWithoutCommentsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutCommentsInput
+  upsert?: Prisma.UserUpsertWithoutCommentsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutCommentsInput, Prisma.UserUpdateWithoutCommentsInput>, Prisma.UserUncheckedUpdateWithoutCommentsInput>
+}
+
+export type UserCreateNestedOneWithoutEvidenceRequestsByInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutEvidenceRequestsByInput, Prisma.UserUncheckedCreateWithoutEvidenceRequestsByInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutEvidenceRequestsByInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserCreateNestedOneWithoutEvidenceRequestsFromInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutEvidenceRequestsFromInput, Prisma.UserUncheckedCreateWithoutEvidenceRequestsFromInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutEvidenceRequestsFromInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutEvidenceRequestsByNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutEvidenceRequestsByInput, Prisma.UserUncheckedCreateWithoutEvidenceRequestsByInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutEvidenceRequestsByInput
+  upsert?: Prisma.UserUpsertWithoutEvidenceRequestsByInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutEvidenceRequestsByInput, Prisma.UserUpdateWithoutEvidenceRequestsByInput>, Prisma.UserUncheckedUpdateWithoutEvidenceRequestsByInput>
+}
+
+export type UserUpdateOneRequiredWithoutEvidenceRequestsFromNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutEvidenceRequestsFromInput, Prisma.UserUncheckedCreateWithoutEvidenceRequestsFromInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutEvidenceRequestsFromInput
+  upsert?: Prisma.UserUpsertWithoutEvidenceRequestsFromInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutEvidenceRequestsFromInput, Prisma.UserUpdateWithoutEvidenceRequestsFromInput>, Prisma.UserUncheckedUpdateWithoutEvidenceRequestsFromInput>
+}
+
 export type UserCreateWithoutAssessmentsInput = {
   id?: string
   name: string
@@ -982,6 +1045,9 @@ export type UserCreateWithoutAssessmentsInput = {
   achievements?: Prisma.UserAchievementCreateNestedManyWithoutUserInput
   roleMappings?: Prisma.UserRoleMappingCreateNestedManyWithoutUserInput
   userCompanies?: Prisma.UserCompanyCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentCreateNestedManyWithoutAuthorInput
+  evidenceRequestsBy?: Prisma.EvidenceRequestCreateNestedManyWithoutRequestedByInput
+  evidenceRequestsFrom?: Prisma.EvidenceRequestCreateNestedManyWithoutRequestedFromInput
 }
 
 export type UserUncheckedCreateWithoutAssessmentsInput = {
@@ -1012,6 +1078,9 @@ export type UserUncheckedCreateWithoutAssessmentsInput = {
   achievements?: Prisma.UserAchievementUncheckedCreateNestedManyWithoutUserInput
   roleMappings?: Prisma.UserRoleMappingUncheckedCreateNestedManyWithoutUserInput
   userCompanies?: Prisma.UserCompanyUncheckedCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutAuthorInput
+  evidenceRequestsBy?: Prisma.EvidenceRequestUncheckedCreateNestedManyWithoutRequestedByInput
+  evidenceRequestsFrom?: Prisma.EvidenceRequestUncheckedCreateNestedManyWithoutRequestedFromInput
 }
 
 export type UserCreateOrConnectWithoutAssessmentsInput = {
@@ -1058,6 +1127,9 @@ export type UserUpdateWithoutAssessmentsInput = {
   achievements?: Prisma.UserAchievementUpdateManyWithoutUserNestedInput
   roleMappings?: Prisma.UserRoleMappingUpdateManyWithoutUserNestedInput
   userCompanies?: Prisma.UserCompanyUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutAuthorNestedInput
+  evidenceRequestsBy?: Prisma.EvidenceRequestUpdateManyWithoutRequestedByNestedInput
+  evidenceRequestsFrom?: Prisma.EvidenceRequestUpdateManyWithoutRequestedFromNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAssessmentsInput = {
@@ -1088,6 +1160,9 @@ export type UserUncheckedUpdateWithoutAssessmentsInput = {
   achievements?: Prisma.UserAchievementUncheckedUpdateManyWithoutUserNestedInput
   roleMappings?: Prisma.UserRoleMappingUncheckedUpdateManyWithoutUserNestedInput
   userCompanies?: Prisma.UserCompanyUncheckedUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutAuthorNestedInput
+  evidenceRequestsBy?: Prisma.EvidenceRequestUncheckedUpdateManyWithoutRequestedByNestedInput
+  evidenceRequestsFrom?: Prisma.EvidenceRequestUncheckedUpdateManyWithoutRequestedFromNestedInput
 }
 
 export type UserCreateWithoutAssessmentRolesInput = {
@@ -1118,6 +1193,9 @@ export type UserCreateWithoutAssessmentRolesInput = {
   achievements?: Prisma.UserAchievementCreateNestedManyWithoutUserInput
   roleMappings?: Prisma.UserRoleMappingCreateNestedManyWithoutUserInput
   userCompanies?: Prisma.UserCompanyCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentCreateNestedManyWithoutAuthorInput
+  evidenceRequestsBy?: Prisma.EvidenceRequestCreateNestedManyWithoutRequestedByInput
+  evidenceRequestsFrom?: Prisma.EvidenceRequestCreateNestedManyWithoutRequestedFromInput
 }
 
 export type UserUncheckedCreateWithoutAssessmentRolesInput = {
@@ -1148,6 +1226,9 @@ export type UserUncheckedCreateWithoutAssessmentRolesInput = {
   achievements?: Prisma.UserAchievementUncheckedCreateNestedManyWithoutUserInput
   roleMappings?: Prisma.UserRoleMappingUncheckedCreateNestedManyWithoutUserInput
   userCompanies?: Prisma.UserCompanyUncheckedCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutAuthorInput
+  evidenceRequestsBy?: Prisma.EvidenceRequestUncheckedCreateNestedManyWithoutRequestedByInput
+  evidenceRequestsFrom?: Prisma.EvidenceRequestUncheckedCreateNestedManyWithoutRequestedFromInput
 }
 
 export type UserCreateOrConnectWithoutAssessmentRolesInput = {
@@ -1194,6 +1275,9 @@ export type UserUpdateWithoutAssessmentRolesInput = {
   achievements?: Prisma.UserAchievementUpdateManyWithoutUserNestedInput
   roleMappings?: Prisma.UserRoleMappingUpdateManyWithoutUserNestedInput
   userCompanies?: Prisma.UserCompanyUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutAuthorNestedInput
+  evidenceRequestsBy?: Prisma.EvidenceRequestUpdateManyWithoutRequestedByNestedInput
+  evidenceRequestsFrom?: Prisma.EvidenceRequestUpdateManyWithoutRequestedFromNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAssessmentRolesInput = {
@@ -1224,6 +1308,9 @@ export type UserUncheckedUpdateWithoutAssessmentRolesInput = {
   achievements?: Prisma.UserAchievementUncheckedUpdateManyWithoutUserNestedInput
   roleMappings?: Prisma.UserRoleMappingUncheckedUpdateManyWithoutUserNestedInput
   userCompanies?: Prisma.UserCompanyUncheckedUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutAuthorNestedInput
+  evidenceRequestsBy?: Prisma.EvidenceRequestUncheckedUpdateManyWithoutRequestedByNestedInput
+  evidenceRequestsFrom?: Prisma.EvidenceRequestUncheckedUpdateManyWithoutRequestedFromNestedInput
 }
 
 export type UserCreateWithoutAchievementsInput = {
@@ -1254,6 +1341,9 @@ export type UserCreateWithoutAchievementsInput = {
   points?: Prisma.PointTransactionCreateNestedManyWithoutUserInput
   roleMappings?: Prisma.UserRoleMappingCreateNestedManyWithoutUserInput
   userCompanies?: Prisma.UserCompanyCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentCreateNestedManyWithoutAuthorInput
+  evidenceRequestsBy?: Prisma.EvidenceRequestCreateNestedManyWithoutRequestedByInput
+  evidenceRequestsFrom?: Prisma.EvidenceRequestCreateNestedManyWithoutRequestedFromInput
 }
 
 export type UserUncheckedCreateWithoutAchievementsInput = {
@@ -1284,6 +1374,9 @@ export type UserUncheckedCreateWithoutAchievementsInput = {
   points?: Prisma.PointTransactionUncheckedCreateNestedManyWithoutUserInput
   roleMappings?: Prisma.UserRoleMappingUncheckedCreateNestedManyWithoutUserInput
   userCompanies?: Prisma.UserCompanyUncheckedCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutAuthorInput
+  evidenceRequestsBy?: Prisma.EvidenceRequestUncheckedCreateNestedManyWithoutRequestedByInput
+  evidenceRequestsFrom?: Prisma.EvidenceRequestUncheckedCreateNestedManyWithoutRequestedFromInput
 }
 
 export type UserCreateOrConnectWithoutAchievementsInput = {
@@ -1330,6 +1423,9 @@ export type UserUpdateWithoutAchievementsInput = {
   points?: Prisma.PointTransactionUpdateManyWithoutUserNestedInput
   roleMappings?: Prisma.UserRoleMappingUpdateManyWithoutUserNestedInput
   userCompanies?: Prisma.UserCompanyUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutAuthorNestedInput
+  evidenceRequestsBy?: Prisma.EvidenceRequestUpdateManyWithoutRequestedByNestedInput
+  evidenceRequestsFrom?: Prisma.EvidenceRequestUpdateManyWithoutRequestedFromNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAchievementsInput = {
@@ -1360,6 +1456,9 @@ export type UserUncheckedUpdateWithoutAchievementsInput = {
   points?: Prisma.PointTransactionUncheckedUpdateManyWithoutUserNestedInput
   roleMappings?: Prisma.UserRoleMappingUncheckedUpdateManyWithoutUserNestedInput
   userCompanies?: Prisma.UserCompanyUncheckedUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutAuthorNestedInput
+  evidenceRequestsBy?: Prisma.EvidenceRequestUncheckedUpdateManyWithoutRequestedByNestedInput
+  evidenceRequestsFrom?: Prisma.EvidenceRequestUncheckedUpdateManyWithoutRequestedFromNestedInput
 }
 
 export type UserCreateWithoutPointsInput = {
@@ -1390,6 +1489,9 @@ export type UserCreateWithoutPointsInput = {
   achievements?: Prisma.UserAchievementCreateNestedManyWithoutUserInput
   roleMappings?: Prisma.UserRoleMappingCreateNestedManyWithoutUserInput
   userCompanies?: Prisma.UserCompanyCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentCreateNestedManyWithoutAuthorInput
+  evidenceRequestsBy?: Prisma.EvidenceRequestCreateNestedManyWithoutRequestedByInput
+  evidenceRequestsFrom?: Prisma.EvidenceRequestCreateNestedManyWithoutRequestedFromInput
 }
 
 export type UserUncheckedCreateWithoutPointsInput = {
@@ -1420,6 +1522,9 @@ export type UserUncheckedCreateWithoutPointsInput = {
   achievements?: Prisma.UserAchievementUncheckedCreateNestedManyWithoutUserInput
   roleMappings?: Prisma.UserRoleMappingUncheckedCreateNestedManyWithoutUserInput
   userCompanies?: Prisma.UserCompanyUncheckedCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutAuthorInput
+  evidenceRequestsBy?: Prisma.EvidenceRequestUncheckedCreateNestedManyWithoutRequestedByInput
+  evidenceRequestsFrom?: Prisma.EvidenceRequestUncheckedCreateNestedManyWithoutRequestedFromInput
 }
 
 export type UserCreateOrConnectWithoutPointsInput = {
@@ -1466,6 +1571,9 @@ export type UserUpdateWithoutPointsInput = {
   achievements?: Prisma.UserAchievementUpdateManyWithoutUserNestedInput
   roleMappings?: Prisma.UserRoleMappingUpdateManyWithoutUserNestedInput
   userCompanies?: Prisma.UserCompanyUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutAuthorNestedInput
+  evidenceRequestsBy?: Prisma.EvidenceRequestUpdateManyWithoutRequestedByNestedInput
+  evidenceRequestsFrom?: Prisma.EvidenceRequestUpdateManyWithoutRequestedFromNestedInput
 }
 
 export type UserUncheckedUpdateWithoutPointsInput = {
@@ -1496,6 +1604,9 @@ export type UserUncheckedUpdateWithoutPointsInput = {
   achievements?: Prisma.UserAchievementUncheckedUpdateManyWithoutUserNestedInput
   roleMappings?: Prisma.UserRoleMappingUncheckedUpdateManyWithoutUserNestedInput
   userCompanies?: Prisma.UserCompanyUncheckedUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutAuthorNestedInput
+  evidenceRequestsBy?: Prisma.EvidenceRequestUncheckedUpdateManyWithoutRequestedByNestedInput
+  evidenceRequestsFrom?: Prisma.EvidenceRequestUncheckedUpdateManyWithoutRequestedFromNestedInput
 }
 
 export type UserCreateWithoutEmotionalDrivesInput = {
@@ -1526,6 +1637,9 @@ export type UserCreateWithoutEmotionalDrivesInput = {
   achievements?: Prisma.UserAchievementCreateNestedManyWithoutUserInput
   roleMappings?: Prisma.UserRoleMappingCreateNestedManyWithoutUserInput
   userCompanies?: Prisma.UserCompanyCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentCreateNestedManyWithoutAuthorInput
+  evidenceRequestsBy?: Prisma.EvidenceRequestCreateNestedManyWithoutRequestedByInput
+  evidenceRequestsFrom?: Prisma.EvidenceRequestCreateNestedManyWithoutRequestedFromInput
 }
 
 export type UserUncheckedCreateWithoutEmotionalDrivesInput = {
@@ -1556,6 +1670,9 @@ export type UserUncheckedCreateWithoutEmotionalDrivesInput = {
   achievements?: Prisma.UserAchievementUncheckedCreateNestedManyWithoutUserInput
   roleMappings?: Prisma.UserRoleMappingUncheckedCreateNestedManyWithoutUserInput
   userCompanies?: Prisma.UserCompanyUncheckedCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutAuthorInput
+  evidenceRequestsBy?: Prisma.EvidenceRequestUncheckedCreateNestedManyWithoutRequestedByInput
+  evidenceRequestsFrom?: Prisma.EvidenceRequestUncheckedCreateNestedManyWithoutRequestedFromInput
 }
 
 export type UserCreateOrConnectWithoutEmotionalDrivesInput = {
@@ -1602,6 +1719,9 @@ export type UserUpdateWithoutEmotionalDrivesInput = {
   achievements?: Prisma.UserAchievementUpdateManyWithoutUserNestedInput
   roleMappings?: Prisma.UserRoleMappingUpdateManyWithoutUserNestedInput
   userCompanies?: Prisma.UserCompanyUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutAuthorNestedInput
+  evidenceRequestsBy?: Prisma.EvidenceRequestUpdateManyWithoutRequestedByNestedInput
+  evidenceRequestsFrom?: Prisma.EvidenceRequestUpdateManyWithoutRequestedFromNestedInput
 }
 
 export type UserUncheckedUpdateWithoutEmotionalDrivesInput = {
@@ -1632,6 +1752,9 @@ export type UserUncheckedUpdateWithoutEmotionalDrivesInput = {
   achievements?: Prisma.UserAchievementUncheckedUpdateManyWithoutUserNestedInput
   roleMappings?: Prisma.UserRoleMappingUncheckedUpdateManyWithoutUserNestedInput
   userCompanies?: Prisma.UserCompanyUncheckedUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutAuthorNestedInput
+  evidenceRequestsBy?: Prisma.EvidenceRequestUncheckedUpdateManyWithoutRequestedByNestedInput
+  evidenceRequestsFrom?: Prisma.EvidenceRequestUncheckedUpdateManyWithoutRequestedFromNestedInput
 }
 
 export type UserCreateWithoutMilestonesInput = {
@@ -1662,6 +1785,9 @@ export type UserCreateWithoutMilestonesInput = {
   achievements?: Prisma.UserAchievementCreateNestedManyWithoutUserInput
   roleMappings?: Prisma.UserRoleMappingCreateNestedManyWithoutUserInput
   userCompanies?: Prisma.UserCompanyCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentCreateNestedManyWithoutAuthorInput
+  evidenceRequestsBy?: Prisma.EvidenceRequestCreateNestedManyWithoutRequestedByInput
+  evidenceRequestsFrom?: Prisma.EvidenceRequestCreateNestedManyWithoutRequestedFromInput
 }
 
 export type UserUncheckedCreateWithoutMilestonesInput = {
@@ -1692,6 +1818,9 @@ export type UserUncheckedCreateWithoutMilestonesInput = {
   achievements?: Prisma.UserAchievementUncheckedCreateNestedManyWithoutUserInput
   roleMappings?: Prisma.UserRoleMappingUncheckedCreateNestedManyWithoutUserInput
   userCompanies?: Prisma.UserCompanyUncheckedCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutAuthorInput
+  evidenceRequestsBy?: Prisma.EvidenceRequestUncheckedCreateNestedManyWithoutRequestedByInput
+  evidenceRequestsFrom?: Prisma.EvidenceRequestUncheckedCreateNestedManyWithoutRequestedFromInput
 }
 
 export type UserCreateOrConnectWithoutMilestonesInput = {
@@ -1738,6 +1867,9 @@ export type UserUpdateWithoutMilestonesInput = {
   achievements?: Prisma.UserAchievementUpdateManyWithoutUserNestedInput
   roleMappings?: Prisma.UserRoleMappingUpdateManyWithoutUserNestedInput
   userCompanies?: Prisma.UserCompanyUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutAuthorNestedInput
+  evidenceRequestsBy?: Prisma.EvidenceRequestUpdateManyWithoutRequestedByNestedInput
+  evidenceRequestsFrom?: Prisma.EvidenceRequestUpdateManyWithoutRequestedFromNestedInput
 }
 
 export type UserUncheckedUpdateWithoutMilestonesInput = {
@@ -1768,6 +1900,9 @@ export type UserUncheckedUpdateWithoutMilestonesInput = {
   achievements?: Prisma.UserAchievementUncheckedUpdateManyWithoutUserNestedInput
   roleMappings?: Prisma.UserRoleMappingUncheckedUpdateManyWithoutUserNestedInput
   userCompanies?: Prisma.UserCompanyUncheckedUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutAuthorNestedInput
+  evidenceRequestsBy?: Prisma.EvidenceRequestUncheckedUpdateManyWithoutRequestedByNestedInput
+  evidenceRequestsFrom?: Prisma.EvidenceRequestUncheckedUpdateManyWithoutRequestedFromNestedInput
 }
 
 export type UserCreateWithoutRoleMappingsInput = {
@@ -1798,6 +1933,9 @@ export type UserCreateWithoutRoleMappingsInput = {
   points?: Prisma.PointTransactionCreateNestedManyWithoutUserInput
   achievements?: Prisma.UserAchievementCreateNestedManyWithoutUserInput
   userCompanies?: Prisma.UserCompanyCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentCreateNestedManyWithoutAuthorInput
+  evidenceRequestsBy?: Prisma.EvidenceRequestCreateNestedManyWithoutRequestedByInput
+  evidenceRequestsFrom?: Prisma.EvidenceRequestCreateNestedManyWithoutRequestedFromInput
 }
 
 export type UserUncheckedCreateWithoutRoleMappingsInput = {
@@ -1828,6 +1966,9 @@ export type UserUncheckedCreateWithoutRoleMappingsInput = {
   points?: Prisma.PointTransactionUncheckedCreateNestedManyWithoutUserInput
   achievements?: Prisma.UserAchievementUncheckedCreateNestedManyWithoutUserInput
   userCompanies?: Prisma.UserCompanyUncheckedCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutAuthorInput
+  evidenceRequestsBy?: Prisma.EvidenceRequestUncheckedCreateNestedManyWithoutRequestedByInput
+  evidenceRequestsFrom?: Prisma.EvidenceRequestUncheckedCreateNestedManyWithoutRequestedFromInput
 }
 
 export type UserCreateOrConnectWithoutRoleMappingsInput = {
@@ -1874,6 +2015,9 @@ export type UserUpdateWithoutRoleMappingsInput = {
   points?: Prisma.PointTransactionUpdateManyWithoutUserNestedInput
   achievements?: Prisma.UserAchievementUpdateManyWithoutUserNestedInput
   userCompanies?: Prisma.UserCompanyUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutAuthorNestedInput
+  evidenceRequestsBy?: Prisma.EvidenceRequestUpdateManyWithoutRequestedByNestedInput
+  evidenceRequestsFrom?: Prisma.EvidenceRequestUpdateManyWithoutRequestedFromNestedInput
 }
 
 export type UserUncheckedUpdateWithoutRoleMappingsInput = {
@@ -1904,6 +2048,9 @@ export type UserUncheckedUpdateWithoutRoleMappingsInput = {
   points?: Prisma.PointTransactionUncheckedUpdateManyWithoutUserNestedInput
   achievements?: Prisma.UserAchievementUncheckedUpdateManyWithoutUserNestedInput
   userCompanies?: Prisma.UserCompanyUncheckedUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutAuthorNestedInput
+  evidenceRequestsBy?: Prisma.EvidenceRequestUncheckedUpdateManyWithoutRequestedByNestedInput
+  evidenceRequestsFrom?: Prisma.EvidenceRequestUncheckedUpdateManyWithoutRequestedFromNestedInput
 }
 
 export type UserCreateWithoutPositionInput = {
@@ -1934,6 +2081,9 @@ export type UserCreateWithoutPositionInput = {
   achievements?: Prisma.UserAchievementCreateNestedManyWithoutUserInput
   roleMappings?: Prisma.UserRoleMappingCreateNestedManyWithoutUserInput
   userCompanies?: Prisma.UserCompanyCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentCreateNestedManyWithoutAuthorInput
+  evidenceRequestsBy?: Prisma.EvidenceRequestCreateNestedManyWithoutRequestedByInput
+  evidenceRequestsFrom?: Prisma.EvidenceRequestCreateNestedManyWithoutRequestedFromInput
 }
 
 export type UserUncheckedCreateWithoutPositionInput = {
@@ -1964,6 +2114,9 @@ export type UserUncheckedCreateWithoutPositionInput = {
   achievements?: Prisma.UserAchievementUncheckedCreateNestedManyWithoutUserInput
   roleMappings?: Prisma.UserRoleMappingUncheckedCreateNestedManyWithoutUserInput
   userCompanies?: Prisma.UserCompanyUncheckedCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutAuthorInput
+  evidenceRequestsBy?: Prisma.EvidenceRequestUncheckedCreateNestedManyWithoutRequestedByInput
+  evidenceRequestsFrom?: Prisma.EvidenceRequestUncheckedCreateNestedManyWithoutRequestedFromInput
 }
 
 export type UserCreateOrConnectWithoutPositionInput = {
@@ -2046,6 +2199,9 @@ export type UserCreateWithoutUserCompaniesInput = {
   points?: Prisma.PointTransactionCreateNestedManyWithoutUserInput
   achievements?: Prisma.UserAchievementCreateNestedManyWithoutUserInput
   roleMappings?: Prisma.UserRoleMappingCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentCreateNestedManyWithoutAuthorInput
+  evidenceRequestsBy?: Prisma.EvidenceRequestCreateNestedManyWithoutRequestedByInput
+  evidenceRequestsFrom?: Prisma.EvidenceRequestCreateNestedManyWithoutRequestedFromInput
 }
 
 export type UserUncheckedCreateWithoutUserCompaniesInput = {
@@ -2076,6 +2232,9 @@ export type UserUncheckedCreateWithoutUserCompaniesInput = {
   points?: Prisma.PointTransactionUncheckedCreateNestedManyWithoutUserInput
   achievements?: Prisma.UserAchievementUncheckedCreateNestedManyWithoutUserInput
   roleMappings?: Prisma.UserRoleMappingUncheckedCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutAuthorInput
+  evidenceRequestsBy?: Prisma.EvidenceRequestUncheckedCreateNestedManyWithoutRequestedByInput
+  evidenceRequestsFrom?: Prisma.EvidenceRequestUncheckedCreateNestedManyWithoutRequestedFromInput
 }
 
 export type UserCreateOrConnectWithoutUserCompaniesInput = {
@@ -2122,6 +2281,9 @@ export type UserUpdateWithoutUserCompaniesInput = {
   points?: Prisma.PointTransactionUpdateManyWithoutUserNestedInput
   achievements?: Prisma.UserAchievementUpdateManyWithoutUserNestedInput
   roleMappings?: Prisma.UserRoleMappingUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutAuthorNestedInput
+  evidenceRequestsBy?: Prisma.EvidenceRequestUpdateManyWithoutRequestedByNestedInput
+  evidenceRequestsFrom?: Prisma.EvidenceRequestUpdateManyWithoutRequestedFromNestedInput
 }
 
 export type UserUncheckedUpdateWithoutUserCompaniesInput = {
@@ -2152,6 +2314,453 @@ export type UserUncheckedUpdateWithoutUserCompaniesInput = {
   points?: Prisma.PointTransactionUncheckedUpdateManyWithoutUserNestedInput
   achievements?: Prisma.UserAchievementUncheckedUpdateManyWithoutUserNestedInput
   roleMappings?: Prisma.UserRoleMappingUncheckedUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutAuthorNestedInput
+  evidenceRequestsBy?: Prisma.EvidenceRequestUncheckedUpdateManyWithoutRequestedByNestedInput
+  evidenceRequestsFrom?: Prisma.EvidenceRequestUncheckedUpdateManyWithoutRequestedFromNestedInput
+}
+
+export type UserCreateWithoutCommentsInput = {
+  id?: string
+  name: string
+  username: string
+  email?: string | null
+  passwordHash: string
+  role?: $Enums.Role
+  providerRole?: $Enums.ProviderRole | null
+  companyId?: string | null
+  managerName?: string | null
+  managerUsername?: string | null
+  organisationIndicator?: string | null
+  preferredName?: string | null
+  active?: boolean
+  sortOrder?: number
+  createdAt?: Date | string
+  totalPoints?: number
+  dailyPointStreak?: number
+  lastActivityDate?: Date | string | null
+  confidenceInfluencer?: boolean
+  position?: Prisma.PositionCreateNestedOneWithoutUsersInput
+  assessments?: Prisma.AssessmentCreateNestedManyWithoutAssessorInput
+  assessmentRoles?: Prisma.AssessmentAssessorCreateNestedManyWithoutUserInput
+  emotionalDrives?: Prisma.EmotionalDriveMetricCreateNestedManyWithoutUserInput
+  milestones?: Prisma.MilestoneCreateNestedManyWithoutUserInput
+  points?: Prisma.PointTransactionCreateNestedManyWithoutUserInput
+  achievements?: Prisma.UserAchievementCreateNestedManyWithoutUserInput
+  roleMappings?: Prisma.UserRoleMappingCreateNestedManyWithoutUserInput
+  userCompanies?: Prisma.UserCompanyCreateNestedManyWithoutUserInput
+  evidenceRequestsBy?: Prisma.EvidenceRequestCreateNestedManyWithoutRequestedByInput
+  evidenceRequestsFrom?: Prisma.EvidenceRequestCreateNestedManyWithoutRequestedFromInput
+}
+
+export type UserUncheckedCreateWithoutCommentsInput = {
+  id?: string
+  name: string
+  username: string
+  email?: string | null
+  passwordHash: string
+  role?: $Enums.Role
+  providerRole?: $Enums.ProviderRole | null
+  positionId?: string | null
+  companyId?: string | null
+  managerName?: string | null
+  managerUsername?: string | null
+  organisationIndicator?: string | null
+  preferredName?: string | null
+  active?: boolean
+  sortOrder?: number
+  createdAt?: Date | string
+  totalPoints?: number
+  dailyPointStreak?: number
+  lastActivityDate?: Date | string | null
+  confidenceInfluencer?: boolean
+  assessments?: Prisma.AssessmentUncheckedCreateNestedManyWithoutAssessorInput
+  assessmentRoles?: Prisma.AssessmentAssessorUncheckedCreateNestedManyWithoutUserInput
+  emotionalDrives?: Prisma.EmotionalDriveMetricUncheckedCreateNestedManyWithoutUserInput
+  milestones?: Prisma.MilestoneUncheckedCreateNestedManyWithoutUserInput
+  points?: Prisma.PointTransactionUncheckedCreateNestedManyWithoutUserInput
+  achievements?: Prisma.UserAchievementUncheckedCreateNestedManyWithoutUserInput
+  roleMappings?: Prisma.UserRoleMappingUncheckedCreateNestedManyWithoutUserInput
+  userCompanies?: Prisma.UserCompanyUncheckedCreateNestedManyWithoutUserInput
+  evidenceRequestsBy?: Prisma.EvidenceRequestUncheckedCreateNestedManyWithoutRequestedByInput
+  evidenceRequestsFrom?: Prisma.EvidenceRequestUncheckedCreateNestedManyWithoutRequestedFromInput
+}
+
+export type UserCreateOrConnectWithoutCommentsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutCommentsInput, Prisma.UserUncheckedCreateWithoutCommentsInput>
+}
+
+export type UserUpsertWithoutCommentsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutCommentsInput, Prisma.UserUncheckedUpdateWithoutCommentsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutCommentsInput, Prisma.UserUncheckedCreateWithoutCommentsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutCommentsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutCommentsInput, Prisma.UserUncheckedUpdateWithoutCommentsInput>
+}
+
+export type UserUpdateWithoutCommentsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  providerRole?: Prisma.NullableEnumProviderRoleFieldUpdateOperationsInput | $Enums.ProviderRole | null
+  companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  managerName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  managerUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  organisationIndicator?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  preferredName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  totalPoints?: Prisma.IntFieldUpdateOperationsInput | number
+  dailyPointStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  lastActivityDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  confidenceInfluencer?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  position?: Prisma.PositionUpdateOneWithoutUsersNestedInput
+  assessments?: Prisma.AssessmentUpdateManyWithoutAssessorNestedInput
+  assessmentRoles?: Prisma.AssessmentAssessorUpdateManyWithoutUserNestedInput
+  emotionalDrives?: Prisma.EmotionalDriveMetricUpdateManyWithoutUserNestedInput
+  milestones?: Prisma.MilestoneUpdateManyWithoutUserNestedInput
+  points?: Prisma.PointTransactionUpdateManyWithoutUserNestedInput
+  achievements?: Prisma.UserAchievementUpdateManyWithoutUserNestedInput
+  roleMappings?: Prisma.UserRoleMappingUpdateManyWithoutUserNestedInput
+  userCompanies?: Prisma.UserCompanyUpdateManyWithoutUserNestedInput
+  evidenceRequestsBy?: Prisma.EvidenceRequestUpdateManyWithoutRequestedByNestedInput
+  evidenceRequestsFrom?: Prisma.EvidenceRequestUpdateManyWithoutRequestedFromNestedInput
+}
+
+export type UserUncheckedUpdateWithoutCommentsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  providerRole?: Prisma.NullableEnumProviderRoleFieldUpdateOperationsInput | $Enums.ProviderRole | null
+  positionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  managerName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  managerUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  organisationIndicator?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  preferredName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  totalPoints?: Prisma.IntFieldUpdateOperationsInput | number
+  dailyPointStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  lastActivityDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  confidenceInfluencer?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  assessments?: Prisma.AssessmentUncheckedUpdateManyWithoutAssessorNestedInput
+  assessmentRoles?: Prisma.AssessmentAssessorUncheckedUpdateManyWithoutUserNestedInput
+  emotionalDrives?: Prisma.EmotionalDriveMetricUncheckedUpdateManyWithoutUserNestedInput
+  milestones?: Prisma.MilestoneUncheckedUpdateManyWithoutUserNestedInput
+  points?: Prisma.PointTransactionUncheckedUpdateManyWithoutUserNestedInput
+  achievements?: Prisma.UserAchievementUncheckedUpdateManyWithoutUserNestedInput
+  roleMappings?: Prisma.UserRoleMappingUncheckedUpdateManyWithoutUserNestedInput
+  userCompanies?: Prisma.UserCompanyUncheckedUpdateManyWithoutUserNestedInput
+  evidenceRequestsBy?: Prisma.EvidenceRequestUncheckedUpdateManyWithoutRequestedByNestedInput
+  evidenceRequestsFrom?: Prisma.EvidenceRequestUncheckedUpdateManyWithoutRequestedFromNestedInput
+}
+
+export type UserCreateWithoutEvidenceRequestsByInput = {
+  id?: string
+  name: string
+  username: string
+  email?: string | null
+  passwordHash: string
+  role?: $Enums.Role
+  providerRole?: $Enums.ProviderRole | null
+  companyId?: string | null
+  managerName?: string | null
+  managerUsername?: string | null
+  organisationIndicator?: string | null
+  preferredName?: string | null
+  active?: boolean
+  sortOrder?: number
+  createdAt?: Date | string
+  totalPoints?: number
+  dailyPointStreak?: number
+  lastActivityDate?: Date | string | null
+  confidenceInfluencer?: boolean
+  position?: Prisma.PositionCreateNestedOneWithoutUsersInput
+  assessments?: Prisma.AssessmentCreateNestedManyWithoutAssessorInput
+  assessmentRoles?: Prisma.AssessmentAssessorCreateNestedManyWithoutUserInput
+  emotionalDrives?: Prisma.EmotionalDriveMetricCreateNestedManyWithoutUserInput
+  milestones?: Prisma.MilestoneCreateNestedManyWithoutUserInput
+  points?: Prisma.PointTransactionCreateNestedManyWithoutUserInput
+  achievements?: Prisma.UserAchievementCreateNestedManyWithoutUserInput
+  roleMappings?: Prisma.UserRoleMappingCreateNestedManyWithoutUserInput
+  userCompanies?: Prisma.UserCompanyCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentCreateNestedManyWithoutAuthorInput
+  evidenceRequestsFrom?: Prisma.EvidenceRequestCreateNestedManyWithoutRequestedFromInput
+}
+
+export type UserUncheckedCreateWithoutEvidenceRequestsByInput = {
+  id?: string
+  name: string
+  username: string
+  email?: string | null
+  passwordHash: string
+  role?: $Enums.Role
+  providerRole?: $Enums.ProviderRole | null
+  positionId?: string | null
+  companyId?: string | null
+  managerName?: string | null
+  managerUsername?: string | null
+  organisationIndicator?: string | null
+  preferredName?: string | null
+  active?: boolean
+  sortOrder?: number
+  createdAt?: Date | string
+  totalPoints?: number
+  dailyPointStreak?: number
+  lastActivityDate?: Date | string | null
+  confidenceInfluencer?: boolean
+  assessments?: Prisma.AssessmentUncheckedCreateNestedManyWithoutAssessorInput
+  assessmentRoles?: Prisma.AssessmentAssessorUncheckedCreateNestedManyWithoutUserInput
+  emotionalDrives?: Prisma.EmotionalDriveMetricUncheckedCreateNestedManyWithoutUserInput
+  milestones?: Prisma.MilestoneUncheckedCreateNestedManyWithoutUserInput
+  points?: Prisma.PointTransactionUncheckedCreateNestedManyWithoutUserInput
+  achievements?: Prisma.UserAchievementUncheckedCreateNestedManyWithoutUserInput
+  roleMappings?: Prisma.UserRoleMappingUncheckedCreateNestedManyWithoutUserInput
+  userCompanies?: Prisma.UserCompanyUncheckedCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutAuthorInput
+  evidenceRequestsFrom?: Prisma.EvidenceRequestUncheckedCreateNestedManyWithoutRequestedFromInput
+}
+
+export type UserCreateOrConnectWithoutEvidenceRequestsByInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutEvidenceRequestsByInput, Prisma.UserUncheckedCreateWithoutEvidenceRequestsByInput>
+}
+
+export type UserCreateWithoutEvidenceRequestsFromInput = {
+  id?: string
+  name: string
+  username: string
+  email?: string | null
+  passwordHash: string
+  role?: $Enums.Role
+  providerRole?: $Enums.ProviderRole | null
+  companyId?: string | null
+  managerName?: string | null
+  managerUsername?: string | null
+  organisationIndicator?: string | null
+  preferredName?: string | null
+  active?: boolean
+  sortOrder?: number
+  createdAt?: Date | string
+  totalPoints?: number
+  dailyPointStreak?: number
+  lastActivityDate?: Date | string | null
+  confidenceInfluencer?: boolean
+  position?: Prisma.PositionCreateNestedOneWithoutUsersInput
+  assessments?: Prisma.AssessmentCreateNestedManyWithoutAssessorInput
+  assessmentRoles?: Prisma.AssessmentAssessorCreateNestedManyWithoutUserInput
+  emotionalDrives?: Prisma.EmotionalDriveMetricCreateNestedManyWithoutUserInput
+  milestones?: Prisma.MilestoneCreateNestedManyWithoutUserInput
+  points?: Prisma.PointTransactionCreateNestedManyWithoutUserInput
+  achievements?: Prisma.UserAchievementCreateNestedManyWithoutUserInput
+  roleMappings?: Prisma.UserRoleMappingCreateNestedManyWithoutUserInput
+  userCompanies?: Prisma.UserCompanyCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentCreateNestedManyWithoutAuthorInput
+  evidenceRequestsBy?: Prisma.EvidenceRequestCreateNestedManyWithoutRequestedByInput
+}
+
+export type UserUncheckedCreateWithoutEvidenceRequestsFromInput = {
+  id?: string
+  name: string
+  username: string
+  email?: string | null
+  passwordHash: string
+  role?: $Enums.Role
+  providerRole?: $Enums.ProviderRole | null
+  positionId?: string | null
+  companyId?: string | null
+  managerName?: string | null
+  managerUsername?: string | null
+  organisationIndicator?: string | null
+  preferredName?: string | null
+  active?: boolean
+  sortOrder?: number
+  createdAt?: Date | string
+  totalPoints?: number
+  dailyPointStreak?: number
+  lastActivityDate?: Date | string | null
+  confidenceInfluencer?: boolean
+  assessments?: Prisma.AssessmentUncheckedCreateNestedManyWithoutAssessorInput
+  assessmentRoles?: Prisma.AssessmentAssessorUncheckedCreateNestedManyWithoutUserInput
+  emotionalDrives?: Prisma.EmotionalDriveMetricUncheckedCreateNestedManyWithoutUserInput
+  milestones?: Prisma.MilestoneUncheckedCreateNestedManyWithoutUserInput
+  points?: Prisma.PointTransactionUncheckedCreateNestedManyWithoutUserInput
+  achievements?: Prisma.UserAchievementUncheckedCreateNestedManyWithoutUserInput
+  roleMappings?: Prisma.UserRoleMappingUncheckedCreateNestedManyWithoutUserInput
+  userCompanies?: Prisma.UserCompanyUncheckedCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutAuthorInput
+  evidenceRequestsBy?: Prisma.EvidenceRequestUncheckedCreateNestedManyWithoutRequestedByInput
+}
+
+export type UserCreateOrConnectWithoutEvidenceRequestsFromInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutEvidenceRequestsFromInput, Prisma.UserUncheckedCreateWithoutEvidenceRequestsFromInput>
+}
+
+export type UserUpsertWithoutEvidenceRequestsByInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutEvidenceRequestsByInput, Prisma.UserUncheckedUpdateWithoutEvidenceRequestsByInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutEvidenceRequestsByInput, Prisma.UserUncheckedCreateWithoutEvidenceRequestsByInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutEvidenceRequestsByInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutEvidenceRequestsByInput, Prisma.UserUncheckedUpdateWithoutEvidenceRequestsByInput>
+}
+
+export type UserUpdateWithoutEvidenceRequestsByInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  providerRole?: Prisma.NullableEnumProviderRoleFieldUpdateOperationsInput | $Enums.ProviderRole | null
+  companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  managerName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  managerUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  organisationIndicator?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  preferredName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  totalPoints?: Prisma.IntFieldUpdateOperationsInput | number
+  dailyPointStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  lastActivityDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  confidenceInfluencer?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  position?: Prisma.PositionUpdateOneWithoutUsersNestedInput
+  assessments?: Prisma.AssessmentUpdateManyWithoutAssessorNestedInput
+  assessmentRoles?: Prisma.AssessmentAssessorUpdateManyWithoutUserNestedInput
+  emotionalDrives?: Prisma.EmotionalDriveMetricUpdateManyWithoutUserNestedInput
+  milestones?: Prisma.MilestoneUpdateManyWithoutUserNestedInput
+  points?: Prisma.PointTransactionUpdateManyWithoutUserNestedInput
+  achievements?: Prisma.UserAchievementUpdateManyWithoutUserNestedInput
+  roleMappings?: Prisma.UserRoleMappingUpdateManyWithoutUserNestedInput
+  userCompanies?: Prisma.UserCompanyUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutAuthorNestedInput
+  evidenceRequestsFrom?: Prisma.EvidenceRequestUpdateManyWithoutRequestedFromNestedInput
+}
+
+export type UserUncheckedUpdateWithoutEvidenceRequestsByInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  providerRole?: Prisma.NullableEnumProviderRoleFieldUpdateOperationsInput | $Enums.ProviderRole | null
+  positionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  managerName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  managerUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  organisationIndicator?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  preferredName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  totalPoints?: Prisma.IntFieldUpdateOperationsInput | number
+  dailyPointStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  lastActivityDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  confidenceInfluencer?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  assessments?: Prisma.AssessmentUncheckedUpdateManyWithoutAssessorNestedInput
+  assessmentRoles?: Prisma.AssessmentAssessorUncheckedUpdateManyWithoutUserNestedInput
+  emotionalDrives?: Prisma.EmotionalDriveMetricUncheckedUpdateManyWithoutUserNestedInput
+  milestones?: Prisma.MilestoneUncheckedUpdateManyWithoutUserNestedInput
+  points?: Prisma.PointTransactionUncheckedUpdateManyWithoutUserNestedInput
+  achievements?: Prisma.UserAchievementUncheckedUpdateManyWithoutUserNestedInput
+  roleMappings?: Prisma.UserRoleMappingUncheckedUpdateManyWithoutUserNestedInput
+  userCompanies?: Prisma.UserCompanyUncheckedUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutAuthorNestedInput
+  evidenceRequestsFrom?: Prisma.EvidenceRequestUncheckedUpdateManyWithoutRequestedFromNestedInput
+}
+
+export type UserUpsertWithoutEvidenceRequestsFromInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutEvidenceRequestsFromInput, Prisma.UserUncheckedUpdateWithoutEvidenceRequestsFromInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutEvidenceRequestsFromInput, Prisma.UserUncheckedCreateWithoutEvidenceRequestsFromInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutEvidenceRequestsFromInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutEvidenceRequestsFromInput, Prisma.UserUncheckedUpdateWithoutEvidenceRequestsFromInput>
+}
+
+export type UserUpdateWithoutEvidenceRequestsFromInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  providerRole?: Prisma.NullableEnumProviderRoleFieldUpdateOperationsInput | $Enums.ProviderRole | null
+  companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  managerName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  managerUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  organisationIndicator?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  preferredName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  totalPoints?: Prisma.IntFieldUpdateOperationsInput | number
+  dailyPointStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  lastActivityDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  confidenceInfluencer?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  position?: Prisma.PositionUpdateOneWithoutUsersNestedInput
+  assessments?: Prisma.AssessmentUpdateManyWithoutAssessorNestedInput
+  assessmentRoles?: Prisma.AssessmentAssessorUpdateManyWithoutUserNestedInput
+  emotionalDrives?: Prisma.EmotionalDriveMetricUpdateManyWithoutUserNestedInput
+  milestones?: Prisma.MilestoneUpdateManyWithoutUserNestedInput
+  points?: Prisma.PointTransactionUpdateManyWithoutUserNestedInput
+  achievements?: Prisma.UserAchievementUpdateManyWithoutUserNestedInput
+  roleMappings?: Prisma.UserRoleMappingUpdateManyWithoutUserNestedInput
+  userCompanies?: Prisma.UserCompanyUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutAuthorNestedInput
+  evidenceRequestsBy?: Prisma.EvidenceRequestUpdateManyWithoutRequestedByNestedInput
+}
+
+export type UserUncheckedUpdateWithoutEvidenceRequestsFromInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  providerRole?: Prisma.NullableEnumProviderRoleFieldUpdateOperationsInput | $Enums.ProviderRole | null
+  positionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  managerName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  managerUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  organisationIndicator?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  preferredName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  totalPoints?: Prisma.IntFieldUpdateOperationsInput | number
+  dailyPointStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  lastActivityDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  confidenceInfluencer?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  assessments?: Prisma.AssessmentUncheckedUpdateManyWithoutAssessorNestedInput
+  assessmentRoles?: Prisma.AssessmentAssessorUncheckedUpdateManyWithoutUserNestedInput
+  emotionalDrives?: Prisma.EmotionalDriveMetricUncheckedUpdateManyWithoutUserNestedInput
+  milestones?: Prisma.MilestoneUncheckedUpdateManyWithoutUserNestedInput
+  points?: Prisma.PointTransactionUncheckedUpdateManyWithoutUserNestedInput
+  achievements?: Prisma.UserAchievementUncheckedUpdateManyWithoutUserNestedInput
+  roleMappings?: Prisma.UserRoleMappingUncheckedUpdateManyWithoutUserNestedInput
+  userCompanies?: Prisma.UserCompanyUncheckedUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutAuthorNestedInput
+  evidenceRequestsBy?: Prisma.EvidenceRequestUncheckedUpdateManyWithoutRequestedByNestedInput
 }
 
 export type UserCreateManyPositionInput = {
@@ -2204,6 +2813,9 @@ export type UserUpdateWithoutPositionInput = {
   achievements?: Prisma.UserAchievementUpdateManyWithoutUserNestedInput
   roleMappings?: Prisma.UserRoleMappingUpdateManyWithoutUserNestedInput
   userCompanies?: Prisma.UserCompanyUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutAuthorNestedInput
+  evidenceRequestsBy?: Prisma.EvidenceRequestUpdateManyWithoutRequestedByNestedInput
+  evidenceRequestsFrom?: Prisma.EvidenceRequestUpdateManyWithoutRequestedFromNestedInput
 }
 
 export type UserUncheckedUpdateWithoutPositionInput = {
@@ -2234,6 +2846,9 @@ export type UserUncheckedUpdateWithoutPositionInput = {
   achievements?: Prisma.UserAchievementUncheckedUpdateManyWithoutUserNestedInput
   roleMappings?: Prisma.UserRoleMappingUncheckedUpdateManyWithoutUserNestedInput
   userCompanies?: Prisma.UserCompanyUncheckedUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutAuthorNestedInput
+  evidenceRequestsBy?: Prisma.EvidenceRequestUncheckedUpdateManyWithoutRequestedByNestedInput
+  evidenceRequestsFrom?: Prisma.EvidenceRequestUncheckedUpdateManyWithoutRequestedFromNestedInput
 }
 
 export type UserUncheckedUpdateManyWithoutPositionInput = {
@@ -2272,6 +2887,9 @@ export type UserCountOutputType = {
   achievements: number
   roleMappings: number
   userCompanies: number
+  comments: number
+  evidenceRequestsBy: number
+  evidenceRequestsFrom: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2283,6 +2901,9 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   achievements?: boolean | UserCountOutputTypeCountAchievementsArgs
   roleMappings?: boolean | UserCountOutputTypeCountRoleMappingsArgs
   userCompanies?: boolean | UserCountOutputTypeCountUserCompaniesArgs
+  comments?: boolean | UserCountOutputTypeCountCommentsArgs
+  evidenceRequestsBy?: boolean | UserCountOutputTypeCountEvidenceRequestsByArgs
+  evidenceRequestsFrom?: boolean | UserCountOutputTypeCountEvidenceRequestsFromArgs
 }
 
 /**
@@ -2351,6 +2972,27 @@ export type UserCountOutputTypeCountUserCompaniesArgs<ExtArgs extends runtime.Ty
   where?: Prisma.UserCompanyWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountCommentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.CommentWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountEvidenceRequestsByArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.EvidenceRequestWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountEvidenceRequestsFromArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.EvidenceRequestWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -2382,6 +3024,9 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   achievements?: boolean | Prisma.User$achievementsArgs<ExtArgs>
   roleMappings?: boolean | Prisma.User$roleMappingsArgs<ExtArgs>
   userCompanies?: boolean | Prisma.User$userCompaniesArgs<ExtArgs>
+  comments?: boolean | Prisma.User$commentsArgs<ExtArgs>
+  evidenceRequestsBy?: boolean | Prisma.User$evidenceRequestsByArgs<ExtArgs>
+  evidenceRequestsFrom?: boolean | Prisma.User$evidenceRequestsFromArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -2467,6 +3112,9 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   achievements?: boolean | Prisma.User$achievementsArgs<ExtArgs>
   roleMappings?: boolean | Prisma.User$roleMappingsArgs<ExtArgs>
   userCompanies?: boolean | Prisma.User$userCompaniesArgs<ExtArgs>
+  comments?: boolean | Prisma.User$commentsArgs<ExtArgs>
+  evidenceRequestsBy?: boolean | Prisma.User$evidenceRequestsByArgs<ExtArgs>
+  evidenceRequestsFrom?: boolean | Prisma.User$evidenceRequestsFromArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2488,6 +3136,9 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     achievements: Prisma.$UserAchievementPayload<ExtArgs>[]
     roleMappings: Prisma.$UserRoleMappingPayload<ExtArgs>[]
     userCompanies: Prisma.$UserCompanyPayload<ExtArgs>[]
+    comments: Prisma.$CommentPayload<ExtArgs>[]
+    evidenceRequestsBy: Prisma.$EvidenceRequestPayload<ExtArgs>[]
+    evidenceRequestsFrom: Prisma.$EvidenceRequestPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -2917,6 +3568,9 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   achievements<T extends Prisma.User$achievementsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$achievementsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserAchievementPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   roleMappings<T extends Prisma.User$roleMappingsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$roleMappingsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserRoleMappingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   userCompanies<T extends Prisma.User$userCompaniesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$userCompaniesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserCompanyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  comments<T extends Prisma.User$commentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$commentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CommentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  evidenceRequestsBy<T extends Prisma.User$evidenceRequestsByArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$evidenceRequestsByArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EvidenceRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  evidenceRequestsFrom<T extends Prisma.User$evidenceRequestsFromArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$evidenceRequestsFromArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EvidenceRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3575,6 +4229,78 @@ export type User$userCompaniesArgs<ExtArgs extends runtime.Types.Extensions.Inte
   take?: number
   skip?: number
   distinct?: Prisma.UserCompanyScalarFieldEnum | Prisma.UserCompanyScalarFieldEnum[]
+}
+
+/**
+ * User.comments
+ */
+export type User$commentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Comment
+   */
+  select?: Prisma.CommentSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Comment
+   */
+  omit?: Prisma.CommentOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CommentInclude<ExtArgs> | null
+  where?: Prisma.CommentWhereInput
+  orderBy?: Prisma.CommentOrderByWithRelationInput | Prisma.CommentOrderByWithRelationInput[]
+  cursor?: Prisma.CommentWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.CommentScalarFieldEnum | Prisma.CommentScalarFieldEnum[]
+}
+
+/**
+ * User.evidenceRequestsBy
+ */
+export type User$evidenceRequestsByArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the EvidenceRequest
+   */
+  select?: Prisma.EvidenceRequestSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the EvidenceRequest
+   */
+  omit?: Prisma.EvidenceRequestOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.EvidenceRequestInclude<ExtArgs> | null
+  where?: Prisma.EvidenceRequestWhereInput
+  orderBy?: Prisma.EvidenceRequestOrderByWithRelationInput | Prisma.EvidenceRequestOrderByWithRelationInput[]
+  cursor?: Prisma.EvidenceRequestWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.EvidenceRequestScalarFieldEnum | Prisma.EvidenceRequestScalarFieldEnum[]
+}
+
+/**
+ * User.evidenceRequestsFrom
+ */
+export type User$evidenceRequestsFromArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the EvidenceRequest
+   */
+  select?: Prisma.EvidenceRequestSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the EvidenceRequest
+   */
+  omit?: Prisma.EvidenceRequestOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.EvidenceRequestInclude<ExtArgs> | null
+  where?: Prisma.EvidenceRequestWhereInput
+  orderBy?: Prisma.EvidenceRequestOrderByWithRelationInput | Prisma.EvidenceRequestOrderByWithRelationInput[]
+  cursor?: Prisma.EvidenceRequestWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.EvidenceRequestScalarFieldEnum | Prisma.EvidenceRequestScalarFieldEnum[]
 }
 
 /**

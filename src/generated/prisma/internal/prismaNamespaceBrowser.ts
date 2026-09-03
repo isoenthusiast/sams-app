@@ -120,7 +120,9 @@ export const ModelName = {
   RequirementCoverageAudit: 'RequirementCoverageAudit',
   SocStatementAudit: 'SocStatementAudit',
   TestClaim: 'TestClaim',
-  TestWorker: 'TestWorker'
+  TestWorker: 'TestWorker',
+  Comment: 'Comment',
+  EvidenceRequest: 'EvidenceRequest'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1215,6 +1217,45 @@ export const TestWorkerScalarFieldEnum = {
 } as const
 
 export type TestWorkerScalarFieldEnum = (typeof TestWorkerScalarFieldEnum)[keyof typeof TestWorkerScalarFieldEnum]
+
+
+export const CommentScalarFieldEnum = {
+  id: 'id',
+  entityType: 'entityType',
+  entityId: 'entityId',
+  parentCommentId: 'parentCommentId',
+  authorUserId: 'authorUserId',
+  authorPlane: 'authorPlane',
+  visibility: 'visibility',
+  body: 'body',
+  companyId: 'companyId',
+  createdAt: 'createdAt'
+} as const
+
+export type CommentScalarFieldEnum = (typeof CommentScalarFieldEnum)[keyof typeof CommentScalarFieldEnum]
+
+
+export const EvidenceRequestScalarFieldEnum = {
+  id: 'id',
+  companyId: 'companyId',
+  assessmentId: 'assessmentId',
+  requirementRId: 'requirementRId',
+  controlId: 'controlId',
+  title: 'title',
+  instructions: 'instructions',
+  requestedByUserId: 'requestedByUserId',
+  requestedFromUserId: 'requestedFromUserId',
+  dueDate: 'dueDate',
+  status: 'status',
+  submittedNote: 'submittedNote',
+  reviewNote: 'reviewNote',
+  submittedAt: 'submittedAt',
+  reviewedAt: 'reviewedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type EvidenceRequestScalarFieldEnum = (typeof EvidenceRequestScalarFieldEnum)[keyof typeof EvidenceRequestScalarFieldEnum]
 
 
 export const SortOrder = {

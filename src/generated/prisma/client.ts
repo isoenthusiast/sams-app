@@ -391,3 +391,13 @@ export type TestClaim = Prisma.TestClaimModel
  * 
  */
 export type TestWorker = Prisma.TestWorkerModel
+/**
+ * Model Comment
+ * 
+ */
+export type Comment = Prisma.CommentModel
+/**
+ * Model EvidenceRequest
+ * 
+ */
+export type EvidenceRequest = Prisma.EvidenceRequestModel

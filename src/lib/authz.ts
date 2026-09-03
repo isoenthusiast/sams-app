@@ -72,6 +72,27 @@ export async function requireProvider() {
   return { session, response: null };
 }
 
+/**
+ * Require the caller be an assessor OR provider-plane staff. Assessors drive the
+ * evidence-request lifecycle (send/accept/reject/na) and post provider-plane
+ * comments; provider staff (Operator Console) hold this authority regardless of
+ * their client `role`. Interviewees are excluded — they are requestees who only
+ * `submit`.
+ */
+export async function requireAssessorOrProvider() {
+  const session = await auth();
+  if (!session?.user) {
+    return { session: null, response: NextResponse.json({ error: "Not authenticated" }, { status: 401 }) };
+  }
+  const role = session.user.role;
+  const isAssessorRole = role === "Admin" || role === "Superuser" || role === "Assessor";
+  const isProviderPlane = !!(session.user as { providerRole?: string | null }).providerRole;
+  if (!isAssessorRole && !isProviderPlane) {
+    return { session: null, response: NextResponse.json({ error: "Assessor or provider access required" }, { status: 403 }) };
+  }
+  return { session, response: null };
+}
+
 export async function getSelectedCompanyId(): Promise<string | null> {
   try {
     const cookieStore = await cookies();

@@ -39,6 +39,9 @@ model User {
   achievements         UserAchievement[]
   roleMappings         UserRoleMapping[]
   userCompanies        UserCompany[]
+  comments             Comment[]
+  evidenceRequestsBy   EvidenceRequest[]  @relation("EvidenceRequestRequestedBy")
+  evidenceRequestsFrom EvidenceRequest[]  @relation("EvidenceRequestRequestedFrom")
 }
 
 model ActivityLog {
@@ -308,6 +311,7 @@ model Assessment {
   checklistItems     AuditChecklistItem[]
   checklistControlLinks AssessmentChecklistControl[] // v1.10.1
   requirementConclusions RequirementConclusion[]
+  evidenceRequests       EvidenceRequest[]
 }
 
 // Many-to-many: an Assessment can have multiple Assessors.
@@ -1517,4 +1521,80 @@ model TestWorker {
   pid       Int?
   startedAt DateTime @default(now())
   lastBeat  DateTime @default(now())
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Conversation Fabric (SAMS-004, Phase 2a): threaded comments + evidence-request
+// pipeline. One polymorphic `Comment` model (entityType+entityId, mirroring the
+// AttachmentMapping destTable/recId convention) + a structured EvidenceRequest
+// DRL unit with its own state machine. Append-only v1 (no edit/delete).
+// ─────────────────────────────────────────────────────────────────────────────
+
+enum CommentAuthorPlane {
+  Provider
+  Client
+}
+
+enum CommentVisibility {
+  Internal
+  SharedWithClient
+}
+
+model Comment {
+  id              String              @id @default(cuid())
+  /// Polymorphic target: `Finding` | `EvidenceRequest` (v1). Enum extension later.
+  entityType      String
+  entityId        String
+  /// Flat threads — one level. Root comments have null here; replies reference
+  /// their parent root comment. Append-only v1 (no edit/delete).
+  parentCommentId String?
+  parentComment   Comment?            @relation("CommentReplies", fields: [parentCommentId], references: [id], onDelete: SetNull)
+  replies         Comment[]           @relation("CommentReplies")
+  authorUserId    String
+  author          User                @relation(fields: [authorUserId], references: [id])
+  /// Derived from the session (providerRole → Provider), never client-supplied.
+  authorPlane     CommentAuthorPlane  @default(Provider)
+  visibility      CommentVisibility   @default(Internal)
+  body            String
+  companyId       String?
+  createdAt       DateTime            @default(now())
+
+  @@index([entityType, entityId])
+  @@index([companyId])
+  @@index([authorUserId])
+}
+
+enum EvidenceRequestStatus {
+  Draft
+  Requested
+  Submitted
+  Accepted
+  Rejected
+  NotApplicable
+}
+
+model EvidenceRequest {
+  id                  String               @id @default(cuid())
+  companyId           String?
+  assessmentId        String?
+  assessment          Assessment?          @relation(fields: [assessmentId], references: [id], onDelete: SetNull)
+  requirementRId      Int?
+  controlId           String?
+  title               String
+  instructions        String
+  requestedByUserId   String
+  requestedBy         User                 @relation("EvidenceRequestRequestedBy", fields: [requestedByUserId], references: [id])
+  requestedFromUserId String
+  requestedFrom       User                 @relation("EvidenceRequestRequestedFrom", fields: [requestedFromUserId], references: [id])
+  dueDate             DateTime?
+  status              EvidenceRequestStatus @default(Draft)
+  submittedNote       String?
+  reviewNote          String?
+  submittedAt         DateTime?
+  reviewedAt          DateTime?
+  createdAt           DateTime             @default(now())
+  updatedAt           DateTime             @updatedAt
+
+  @@index([companyId, status])
+  @@index([requestedFromUserId, status])
 }

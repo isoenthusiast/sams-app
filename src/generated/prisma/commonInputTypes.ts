@@ -684,6 +684,57 @@ export type EnumComplianceStatusWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedEnumComplianceStatusFilter<$PrismaModel>
 }
 
+export type EnumCommentAuthorPlaneFilter<$PrismaModel = never> = {
+  equals?: $Enums.CommentAuthorPlane | Prisma.EnumCommentAuthorPlaneFieldRefInput<$PrismaModel>
+  in?: $Enums.CommentAuthorPlane[] | Prisma.ListEnumCommentAuthorPlaneFieldRefInput<$PrismaModel>
+  notIn?: $Enums.CommentAuthorPlane[] | Prisma.ListEnumCommentAuthorPlaneFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumCommentAuthorPlaneFilter<$PrismaModel> | $Enums.CommentAuthorPlane
+}
+
+export type EnumCommentVisibilityFilter<$PrismaModel = never> = {
+  equals?: $Enums.CommentVisibility | Prisma.EnumCommentVisibilityFieldRefInput<$PrismaModel>
+  in?: $Enums.CommentVisibility[] | Prisma.ListEnumCommentVisibilityFieldRefInput<$PrismaModel>
+  notIn?: $Enums.CommentVisibility[] | Prisma.ListEnumCommentVisibilityFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumCommentVisibilityFilter<$PrismaModel> | $Enums.CommentVisibility
+}
+
+export type EnumCommentAuthorPlaneWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.CommentAuthorPlane | Prisma.EnumCommentAuthorPlaneFieldRefInput<$PrismaModel>
+  in?: $Enums.CommentAuthorPlane[] | Prisma.ListEnumCommentAuthorPlaneFieldRefInput<$PrismaModel>
+  notIn?: $Enums.CommentAuthorPlane[] | Prisma.ListEnumCommentAuthorPlaneFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumCommentAuthorPlaneWithAggregatesFilter<$PrismaModel> | $Enums.CommentAuthorPlane
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumCommentAuthorPlaneFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumCommentAuthorPlaneFilter<$PrismaModel>
+}
+
+export type EnumCommentVisibilityWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.CommentVisibility | Prisma.EnumCommentVisibilityFieldRefInput<$PrismaModel>
+  in?: $Enums.CommentVisibility[] | Prisma.ListEnumCommentVisibilityFieldRefInput<$PrismaModel>
+  notIn?: $Enums.CommentVisibility[] | Prisma.ListEnumCommentVisibilityFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumCommentVisibilityWithAggregatesFilter<$PrismaModel> | $Enums.CommentVisibility
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumCommentVisibilityFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumCommentVisibilityFilter<$PrismaModel>
+}
+
+export type EnumEvidenceRequestStatusFilter<$PrismaModel = never> = {
+  equals?: $Enums.EvidenceRequestStatus | Prisma.EnumEvidenceRequestStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.EvidenceRequestStatus[] | Prisma.ListEnumEvidenceRequestStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.EvidenceRequestStatus[] | Prisma.ListEnumEvidenceRequestStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumEvidenceRequestStatusFilter<$PrismaModel> | $Enums.EvidenceRequestStatus
+}
+
+export type EnumEvidenceRequestStatusWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.EvidenceRequestStatus | Prisma.EnumEvidenceRequestStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.EvidenceRequestStatus[] | Prisma.ListEnumEvidenceRequestStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.EvidenceRequestStatus[] | Prisma.ListEnumEvidenceRequestStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumEvidenceRequestStatusWithAggregatesFilter<$PrismaModel> | $Enums.EvidenceRequestStatus
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumEvidenceRequestStatusFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumEvidenceRequestStatusFilter<$PrismaModel>
+}
+
 export type NestedStringFilter<$PrismaModel = never> = {
   equals?: string | Prisma.StringFieldRefInput<$PrismaModel>
   in?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
@@ -1327,6 +1378,57 @@ export type NestedEnumComplianceStatusWithAggregatesFilter<$PrismaModel = never>
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumComplianceStatusFilter<$PrismaModel>
   _max?: Prisma.NestedEnumComplianceStatusFilter<$PrismaModel>
+}
+
+export type NestedEnumCommentAuthorPlaneFilter<$PrismaModel = never> = {
+  equals?: $Enums.CommentAuthorPlane | Prisma.EnumCommentAuthorPlaneFieldRefInput<$PrismaModel>
+  in?: $Enums.CommentAuthorPlane[] | Prisma.ListEnumCommentAuthorPlaneFieldRefInput<$PrismaModel>
+  notIn?: $Enums.CommentAuthorPlane[] | Prisma.ListEnumCommentAuthorPlaneFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumCommentAuthorPlaneFilter<$PrismaModel> | $Enums.CommentAuthorPlane
+}
+
+export type NestedEnumCommentVisibilityFilter<$PrismaModel = never> = {
+  equals?: $Enums.CommentVisibility | Prisma.EnumCommentVisibilityFieldRefInput<$PrismaModel>
+  in?: $Enums.CommentVisibility[] | Prisma.ListEnumCommentVisibilityFieldRefInput<$PrismaModel>
+  notIn?: $Enums.CommentVisibility[] | Prisma.ListEnumCommentVisibilityFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumCommentVisibilityFilter<$PrismaModel> | $Enums.CommentVisibility
+}
+
+export type NestedEnumCommentAuthorPlaneWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.CommentAuthorPlane | Prisma.EnumCommentAuthorPlaneFieldRefInput<$PrismaModel>
+  in?: $Enums.CommentAuthorPlane[] | Prisma.ListEnumCommentAuthorPlaneFieldRefInput<$PrismaModel>
+  notIn?: $Enums.CommentAuthorPlane[] | Prisma.ListEnumCommentAuthorPlaneFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumCommentAuthorPlaneWithAggregatesFilter<$PrismaModel> | $Enums.CommentAuthorPlane
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumCommentAuthorPlaneFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumCommentAuthorPlaneFilter<$PrismaModel>
+}
+
+export type NestedEnumCommentVisibilityWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.CommentVisibility | Prisma.EnumCommentVisibilityFieldRefInput<$PrismaModel>
+  in?: $Enums.CommentVisibility[] | Prisma.ListEnumCommentVisibilityFieldRefInput<$PrismaModel>
+  notIn?: $Enums.CommentVisibility[] | Prisma.ListEnumCommentVisibilityFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumCommentVisibilityWithAggregatesFilter<$PrismaModel> | $Enums.CommentVisibility
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumCommentVisibilityFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumCommentVisibilityFilter<$PrismaModel>
+}
+
+export type NestedEnumEvidenceRequestStatusFilter<$PrismaModel = never> = {
+  equals?: $Enums.EvidenceRequestStatus | Prisma.EnumEvidenceRequestStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.EvidenceRequestStatus[] | Prisma.ListEnumEvidenceRequestStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.EvidenceRequestStatus[] | Prisma.ListEnumEvidenceRequestStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumEvidenceRequestStatusFilter<$PrismaModel> | $Enums.EvidenceRequestStatus
+}
+
+export type NestedEnumEvidenceRequestStatusWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.EvidenceRequestStatus | Prisma.EnumEvidenceRequestStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.EvidenceRequestStatus[] | Prisma.ListEnumEvidenceRequestStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.EvidenceRequestStatus[] | Prisma.ListEnumEvidenceRequestStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumEvidenceRequestStatusWithAggregatesFilter<$PrismaModel> | $Enums.EvidenceRequestStatus
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumEvidenceRequestStatusFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumEvidenceRequestStatusFilter<$PrismaModel>
 }
 
 

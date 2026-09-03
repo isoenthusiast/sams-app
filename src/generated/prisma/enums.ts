@@ -221,3 +221,31 @@ export const ComplianceStatus = {
 } as const
 
 export type ComplianceStatus = (typeof ComplianceStatus)[keyof typeof ComplianceStatus]
+
+
+export const CommentAuthorPlane = {
+  Provider: 'Provider',
+  Client: 'Client'
+} as const
+
+export type CommentAuthorPlane = (typeof CommentAuthorPlane)[keyof typeof CommentAuthorPlane]
+
+
+export const CommentVisibility = {
+  Internal: 'Internal',
+  SharedWithClient: 'SharedWithClient'
+} as const
+
+export type CommentVisibility = (typeof CommentVisibility)[keyof typeof CommentVisibility]
+
+
+export const EvidenceRequestStatus = {
+  Draft: 'Draft',
+  Requested: 'Requested',
+  Submitted: 'Submitted',
+  Accepted: 'Accepted',
+  Rejected: 'Rejected',
+  NotApplicable: 'NotApplicable'
+} as const
+
+export type EvidenceRequestStatus = (typeof EvidenceRequestStatus)[keyof typeof EvidenceRequestStatus]
