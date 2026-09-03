@@ -195,7 +195,7 @@ export function EvidenceTab({ assessmentId, assessmentName, users, currentUserId
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
             <div>
               <label className="text-xs font-medium text-slate-600">Requestee *</label>
-              <UserSearchSelect name="requestedFromUserId" users={usersForPicker} required />
+              <UserSearchSelect name="requestedFromUserId" users={usersForPicker} required onSelect={setRequesteeId} />
             </div>
             <div>
               <label className="text-xs font-medium text-slate-600">Due date</label>

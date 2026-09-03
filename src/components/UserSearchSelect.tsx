@@ -13,9 +13,11 @@ interface Props {
   defaultValue?: string;
   required?: boolean;
   className?: string;
+  /** Called with the selected user id. Lets a controlled parent track the choice. */
+  onSelect?: (userId: string) => void;
 }
 
-export function UserSearchSelect({ name, users, defaultValue, required, className }: Props) {
+export function UserSearchSelect({ name, users, defaultValue, required, className, onSelect }: Props) {
   const [query, setQuery] = useState("");
   const [open, setOpen] = useState(false);
   const [selectedId, setSelectedId] = useState(defaultValue ?? "");
@@ -65,6 +67,7 @@ export function UserSearchSelect({ name, users, defaultValue, required, classNam
                 setSelectedId(u.id);
                 setQuery("");
                 setOpen(false);
+                onSelect?.(u.id);
               }}
             >
               {u.name}
