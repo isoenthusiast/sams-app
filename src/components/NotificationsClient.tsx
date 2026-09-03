@@ -22,11 +22,11 @@ type NotifResponse = {
   overdueCount: number;
 };
 
-const TYPE_META: Record<string, { icon: string; label: string }> = {
-  EvidenceRequested: { icon: "📨", label: "Evidence requested" },
-  EvidenceSubmitted: { icon: "📤", label: "Evidence submitted" },
-  EvidenceReviewed: { icon: "📋", label: "Evidence reviewed" },
-  CommentShared: { icon: "💬", label: "Comment shared" },
+const TYPE_META: Record<string, { icon: string }> = {
+  EvidenceRequested: { icon: "📨" },
+  EvidenceSubmitted: { icon: "📤" },
+  EvidenceReviewed: { icon: "📋" },
+  CommentShared: { icon: "💬" },
 };
 
 function relativeTime(iso: string): string {
@@ -139,7 +139,7 @@ export function NotificationsClient() {
       ) : (
         <ul className="space-y-2">
           {data?.notifications.map((n) => {
-            const meta = TYPE_META[n.type] ?? { icon: "🔔", label: n.title };
+            const meta = TYPE_META[n.type] ?? { icon: "🔔" };
             const isUnread = !n.readAt;
             return (
               <li
