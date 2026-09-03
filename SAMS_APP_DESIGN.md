@@ -2,7 +2,7 @@
 
 > **📐 Active alongside `CONAN_Design Philosophy.md` and `CONAN_App Design.md`.** CONAN docs are the narrative source of truth; this document is the technical specification (models, routes, components, APIs). Both are maintained.
 
-**Last Updated:** September 04, 2026 (v1.15.0 — In-App Notifications, SAMS-006 Phase 2c)
+**Last Updated:** September 04, 2026 (v1.15.1 — SAMS-006 review r1 hardening: emission fault-containment at both failure positions)
 
 ---
 
@@ -351,7 +351,7 @@ Client Component → fetch('/api/...', { method: 'POST', body })
 
 | Model | Purpose | Key Fields |
 |-------|---------|------------|
-| **Notification** | Stored fabric event for the in-app center (v1), NO outbound transport (email/webhook is Phase 3). Event set v1: `EvidenceRequested` (→ requestee), `EvidenceSubmitted` (→ requester), `EvidenceReviewed` (→ requestee), `CommentShared` (→ entity participants: a finding's assessment assessor / request participants, excluding the author). Emission points live INSIDE the fabric's write handlers (evidence-request PATCH transitions + SharedWithClient comment POST), fired-and-forgotten so an emission failure can NEVER fail the parent write (fault-injected). **Overdue actions are computed at READ time** (Action.targetDate < now AND closureDate null, company-scoped) as a synthetic banner in the bell-count response — NEVER stored as Notification rows (so no scheduler). Reads are strictly `recipientUserId`-scoped; `POST /api/notifications/mark-read` explicitly verifies each id belongs to the session user (batch ids are the classic cross-tenant leak → foreign id ⇒ 403, row unchanged). | id (cuid), recipientUserId (FK→User, `onDelete: Cascade`), type (`NotificationType` enum), entityType/entityId (polymorphic target, mirrors Comment; deep-links resolved at read-time), title (≤200), body (≤500), readAt?, companyId, createdAt. Indexes: (recipientUserId, readAt), (companyId). |
+| **Notification** | Stored fabric event for the in-app center (v1), NO outbound transport (email/webhook is Phase 3). Event set v1: `EvidenceRequested` (→ requestee), `EvidenceSubmitted` (→ requester), `EvidenceReviewed` (→ requestee), `CommentShared` (→ entity participants: a finding's assessment assessor / request participants, excluding the author). Emission points live INSIDE the fabric's write handlers (evidence-request PATCH transitions + SharedWithClient comment POST), fired-and-forgotten so an emission failure can NEVER fail the parent write: `emitNotification` AND the pre-emission `userName()` lookup are guarded, and the PATCH call-site wraps the emit calls (fault-injected at BOTH positions: a broken Notification write and a broken pre-emission query both leave the transition at 200). **Overdue actions are computed at READ time** (Action.targetDate < now AND closureDate null, company-scoped) as a synthetic banner in the bell-count response — NEVER stored as Notification rows (so no scheduler). Reads are strictly `recipientUserId`-scoped; `POST /api/notifications/mark-read` explicitly verifies each id belongs to the session user (batch ids are the classic cross-tenant leak → foreign id ⇒ 403, row unchanged). | id (cuid), recipientUserId (FK→User, `onDelete: Cascade`), type (`NotificationType` enum), entityType/entityId (polymorphic target, mirrors Comment; deep-links resolved at read-time), title (≤200), body (≤500), readAt?, companyId, createdAt. Indexes: (recipientUserId, readAt), (companyId). |
 
 #### Gamification Models
 
