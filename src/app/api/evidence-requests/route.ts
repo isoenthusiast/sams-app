@@ -149,20 +149,35 @@ export async function GET(request: Request) {
       return NextResponse.json({ mine: true, evidenceRequests: rows });
     }
 
-    // Not mine → assessor/provider listing, scoped to the caller's company.
+    // Not mine → assessor/provider listing. Scope to the caller's company:
+    // provider staff may list any company (via selected cookie or all); an
+    // assessor is restricted to their own company (never a cross-tenant leak).
     const { response: gateResponse } = await requireAssessorOrProvider();
     if (gateResponse) return gateResponse;
 
-    const companyId = await getSelectedCompanyId();
-    if (plane !== "Provider" && companyId) {
-      const ok = await hasCompanyAccess(userId, companyId);
-      if (!ok) {
-        return NextResponse.json({ error: "Access denied for company" }, { status: 403 });
+    let companyId: string | null = await getSelectedCompanyId();
+    if (plane !== "Provider") {
+      // Root the assessor's listing in their own company; if the selected cookie
+      // points elsewhere, fall back to the session user's company. No company →
+      // empty (never a cross-tenant leak).
+      const me = await prisma.user.findUnique({
+        where: { id: userId },
+        select: { companyId: true, userCompanies: { select: { companyId: true } } },
+      });
+      const myCompanies = new Set<string>();
+      if (me?.companyId) myCompanies.add(me.companyId);
+      for (const uc of me?.userCompanies ?? []) if (uc.companyId) myCompanies.add(uc.companyId);
+      const allowed = Array.from(myCompanies);
+      if (companyId && !allowed.includes(companyId)) companyId = null;
+      if (!companyId) {
+        // No selected company → if the user belongs to exactly one, use it; else
+        // return empty (least privilege).
+        companyId = allowed.length === 1 ? allowed[0] : null;
       }
     }
 
     const rows = await prisma.evidenceRequest.findMany({
-      where: companyId ? { companyId } : {},
+      where: companyId ? { companyId } : { companyId: "__NO_ACCESS__" },
       include,
       orderBy: [{ status: "asc" }, { createdAt: "desc" }],
     });

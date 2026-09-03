@@ -138,6 +138,8 @@ export function canTakeAction(
     // submit is a requestee action; the requestee is always the submitter.
     return callerUserId === requestedFromUserId;
   }
-  // send/accept/reject/na are assessor/provider actions.
-  return callerIsAssessorOrProvider;
+  // send/accept/reject/na are assessor/provider actions — but the requestee can
+  // never drive acceptance/rejection of their own request, even if they hold an
+  // assessor role.
+  return callerIsAssessorOrProvider && callerUserId !== requestedFromUserId;
 }
