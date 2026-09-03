@@ -672,7 +672,9 @@ export const CompanyScalarFieldEnum = {
   companyName: 'companyName',
   referenceID: 'referenceID',
   shortName: 'shortName',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  archivedAt: 'archivedAt',
+  deletionScheduledAt: 'deletionScheduledAt'
 } as const
 
 export type CompanyScalarFieldEnum = (typeof CompanyScalarFieldEnum)[keyof typeof CompanyScalarFieldEnum]

@@ -13,7 +13,24 @@ type Company = {
   companyName: string;
   shortName?: string | null;
   referenceID?: string | null;
+  archivedAt?: string | null;
+  deletionScheduledAt?: string | null;
 };
+
+const DELETION_NET_DAYS = 30;
+
+function retentionBadge(c: Company): { label: string; tone: string } {
+  if (c.deletionScheduledAt) {
+    const expiry = new Date(new Date(c.deletionScheduledAt).getTime() + DELETION_NET_DAYS * 86400000).getTime();
+    const daysLeft = Math.ceil((expiry - Date.now()) / 86400000);
+    return {
+      label: `Pending deletion — ${Math.max(0, daysLeft)} days left`,
+      tone: "bg-red-50 text-red-700 border-red-200",
+    };
+  }
+  if (c.archivedAt) return { label: "Archived", tone: "bg-amber-50 text-amber-700 border-amber-200" };
+  return { label: "Active", tone: "bg-emerald-50 text-emerald-700 border-emerald-200" };
+}
 
 export function CompanyAdminView({ initialCompanies }: { initialCompanies: Company[] }) {
   const router = useRouter();
@@ -23,6 +40,7 @@ export function CompanyAdminView({ initialCompanies }: { initialCompanies: Compa
   const [form, setForm] = useState({ companyID: "", companyName: "", shortName: "", referenceID: "" });
   const [saving, setSaving] = useState(false);
   const [bootstrapping, setBootstrapping] = useState<string | null>(null);
+  const [retentionBusy, setRetentionBusy] = useState<string | null>(null);
 
   const openEdit = (c: Company) => {
     setEditing(c);
@@ -49,7 +67,7 @@ export function CompanyAdminView({ initialCompanies }: { initialCompanies: Compa
       }
       const data = await res.json();
       if (editing) {
-        setCompanies(prev => prev.map(c => c.id === editing.id ? data.company : c));
+        setCompanies(prev => prev.map(c => c.id === editing.id ? { ...data.company, archivedAt: data.company.archivedAt ?? null, deletionScheduledAt: data.company.deletionScheduledAt ?? null } : c));
       } else {
         setCompanies(prev => [...prev, data.company]);
       }
@@ -83,6 +101,51 @@ export function CompanyAdminView({ initialCompanies }: { initialCompanies: Compa
     finally { setBootstrapping(null); }
   };
 
+  const handleRetention = async (c: Company, action: "archive" | "schedule-delete" | "reinstate") => {
+    const prompts = {
+      archive: `Archive "${c.companyName}"?\n\nIt is hidden from selectors and its users can no longer log in. Data is fully retained.`,
+      "schedule-delete": `Schedule "${c.companyName}" for deletion?\n\nA 30-day safety net begins now. The company can be reinstated any time before hard delete.`,
+      reinstate: `Reinstate "${c.companyName}"?\n\nBoth timestamps clear and access is restored. This is audit-logged.`,
+    };
+    if (!confirm(prompts[action])) return;
+    setRetentionBusy(c.id);
+    try {
+      const res = await fetch(`/api/admin/companies/${c.id}/retention`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Failed");
+      setCompanies(prev => prev.map(x => x.id === c.id
+        ? { ...x, archivedAt: data.company.archivedAt ?? null, deletionScheduledAt: data.company.deletionScheduledAt ?? null }
+        : x));
+      showToast(data.company.archivedAt === null && data.company.deletionScheduledAt === null ? "Reinstated" : `Done (${action})`, "success");
+      router.refresh();
+    } catch (e: any) { showToast(e.message || `Failed to ${action}`, "error"); }
+    finally { setRetentionBusy(null); }
+  };
+
+  const handleExport = async (c: Company) => {
+    try {
+      const res = await fetch(`/api/admin/companies/${c.id}/export`);
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.error || "Export failed");
+      }
+      const blob = await res.blob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `${c.companyID}_export.zip`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+      showToast("Export downloaded", "success");
+    } catch (e: any) { showToast(e.message || "Export failed", "error"); }
+  };
+
   return (
     <div className="mt-6">
       <div className="flex items-center justify-between mb-4">
@@ -91,34 +154,80 @@ export function CompanyAdminView({ initialCompanies }: { initialCompanies: Compa
       </div>
 
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-        {companies.map(c => (
-          <Card key={c.id} padding="sm">
-            <div className="flex items-start justify-between">
-              <div>
-                <div className="font-semibold text-slate-800">{c.companyName}</div>
-                <div className="text-xs text-slate-400 mt-0.5">ID: {c.companyID}</div>
-                {c.shortName && <div className="text-xs text-slate-500">Short: {c.shortName}</div>}
-                {c.referenceID && <div className="text-xs text-slate-400">Ref: {c.referenceID}</div>}
+        {companies.map(c => {
+          const badge = retentionBadge(c);
+          return (
+            <Card key={c.id} padding="sm">
+              <div className="flex items-start justify-between">
+                <div>
+                  <div className="font-semibold text-slate-800">{c.companyName}</div>
+                  <div className="text-xs text-slate-400 mt-0.5">ID: {c.companyID}</div>
+                  {c.shortName && <div className="text-xs text-slate-500">Short: {c.shortName}</div>}
+                  {c.referenceID && <div className="text-xs text-slate-400">Ref: {c.referenceID}</div>}
+                </div>
+                <div className="flex gap-1.5 shrink-0">
+                  <button onClick={() => openEdit(c)} className="text-xs text-blue-600 hover:text-blue-800">Edit</button>
+                  <button onClick={() => handleDelete(c)} className="text-xs text-red-500 hover:text-red-700">Del</button>
+                </div>
               </div>
-              <div className="flex gap-1.5 shrink-0">
-                <button onClick={() => openEdit(c)} className="text-xs text-blue-600 hover:text-blue-800">Edit</button>
-                <button onClick={() => handleDelete(c)} className="text-xs text-red-500 hover:text-red-700">Del</button>
+
+              {/* Retention state badge */}
+              <div className={`mt-2 inline-flex items-center rounded-full border px-2 py-0.5 text-[11px] font-medium ${badge.tone}`}>
+                {badge.label}
               </div>
-            </div>
-            {c.companyID !== "SAMS001" && (
-              <div className="mt-2 pt-2 border-t border-slate-100">
+
+              {/* Retention controls (Data Trust Gate) */}
+              <div className="mt-2 pt-2 border-t border-slate-100 flex flex-wrap gap-1.5">
+                {!c.deletionScheduledAt && (
+                  <button
+                    onClick={() => handleRetention(c, "archive")}
+                    disabled={!!c.archivedAt || retentionBusy === c.id}
+                    className="text-xs px-2 py-1 rounded border border-amber-200 bg-amber-50 text-amber-700 hover:bg-amber-100 disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {c.archivedAt ? "Archived" : "Archive"}
+                  </button>
+                )}
+                {c.archivedAt && !c.deletionScheduledAt && (
+                  <button
+                    onClick={() => handleRetention(c, "schedule-delete")}
+                    disabled={retentionBusy === c.id}
+                    className="text-xs px-2 py-1 rounded border border-red-200 bg-red-50 text-red-700 hover:bg-red-100 disabled:opacity-50"
+                  >
+                    Schedule deletion
+                  </button>
+                )}
+                {(c.archivedAt || c.deletionScheduledAt) && (
+                  <button
+                    onClick={() => handleRetention(c, "reinstate")}
+                    disabled={retentionBusy === c.id}
+                    className="text-xs px-2 py-1 rounded border border-emerald-200 bg-emerald-50 text-emerald-700 hover:bg-emerald-100 disabled:opacity-50"
+                  >
+                    Reinstate
+                  </button>
+                )}
                 <button
-                  onClick={() => handleBootstrap(c)}
-                  disabled={bootstrapping === c.id}
-                  className="w-full text-xs text-center py-1 rounded border border-purple-200 bg-purple-50 text-purple-700 hover:bg-purple-100 disabled:opacity-50 transition-colors"
-                  title="Replace all master data with fresh copy from SAMS001. Only for new companies."
+                  onClick={() => handleExport(c)}
+                  className="text-xs px-2 py-1 rounded border border-slate-200 bg-slate-50 text-slate-700 hover:bg-slate-100"
                 >
-                  {bootstrapping === c.id ? "🔄 Bootstrapping…" : "🔄 Bootstrap from SAMS"}
+                  Export
                 </button>
               </div>
-            )}
-          </Card>
-        ))}
+
+              {c.companyID !== "SAMS001" && (
+                <div className="mt-2 pt-2 border-t border-slate-100">
+                  <button
+                    onClick={() => handleBootstrap(c)}
+                    disabled={bootstrapping === c.id}
+                    className="w-full text-xs text-center py-1 rounded border border-purple-200 bg-purple-50 text-purple-700 hover:bg-purple-100 disabled:opacity-50 transition-colors"
+                    title="Replace all master data with fresh copy from SAMS001. Only for new companies."
+                  >
+                    {bootstrapping === c.id ? "🔄 Bootstrapping…" : "🔄 Bootstrap from SAMS"}
+                  </button>
+                </div>
+              )}
+            </Card>
+          );
+        })}
         {companies.length === 0 && <p className="text-sm text-slate-400 col-span-full py-8 text-center">No companies found.</p>}
       </div>
 

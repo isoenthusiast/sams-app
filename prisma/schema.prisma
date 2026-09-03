@@ -690,6 +690,13 @@ model Company {
   referenceID   String?
   shortName     String?
   createdAt     DateTime      @default(now())
+  /// Data Trust Gate (Phase 1, SAMS-003): set on offboarding — hides the
+  /// company from selectors and blocks its users' logins. Additive + nullable.
+  archivedAt              DateTime?
+  /// Data Trust Gate (Phase 1, SAMS-003): set when archive passes to
+  /// pending-delete; the safety-net countdown = deletionScheduledAt + 30 days.
+  /// Hard delete is MANUAL only (scripts/db/company_hard_delete.ts).
+  deletionScheduledAt     DateTime?
   userCompanies UserCompany[]
   departments   Department[]
 }

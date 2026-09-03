@@ -17,8 +17,9 @@ export async function NavBar() {
   const userCompanies = userId
     ? await prisma.userCompany.findMany({ where: { userId }, include: { company: true } })
     : [];
+  // Data Trust Gate (SAMS-003): archived companies are hidden from the selector.
   const companies = userCompanies
-    .filter((uc) => uc.company != null)
+    .filter((uc) => uc.company != null && uc.company.archivedAt == null)
     .map((uc) => ({
       id: uc.company.id,
       companyID: uc.company.companyID,
