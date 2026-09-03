@@ -49,15 +49,22 @@ export function CompanySelector({
       onChange={(e) => {
         const newCompanyId = e.target.value;
         setSelected(newCompanyId);
-        setSelectedCompanyCookie(newCompanyId);
         // Provider context switches are audit-logged server-side (SAMS-002).
-        // Never block the switch on the audit write.
+        // Do NOT write the cookie client-side first: POST /api/operator/context-switch
+        // sets it server-side (and returns before/after), and writing it here would
+        // make the server read before === after at switch time and skip the audit row.
+        // The server must see the PREVIOUS company in the cookie when the POST arrives
+        // so before/after differ and PROVIDER_CONTEXT_SWITCH is logged. Never block the
+        // switch on the audit write. Non-provider sessions keep the synchronous client
+        // cookie write (byte-for-byte identical to the pre-SAMS-002 behavior, no POST).
         if (providerRole) {
           fetch("/api/operator/context-switch", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ companyId: newCompanyId }),
           }).catch(() => {});
+        } else {
+          setSelectedCompanyCookie(newCompanyId);
         }
         // Navigate with URL param — more reliable than cookie-only reload
         const params = new URLSearchParams(searchParams.toString());
