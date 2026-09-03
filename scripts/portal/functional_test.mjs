@@ -58,12 +58,16 @@ async function html(url, jar) {
 }
 
 const FINDING_A = "FID-PF-A01";
+const FINDING_A2 = "FID-PF-A02";
 const FINDING_B = "FID-PF-B01";
 const CLIENT_A = "pf_client_a";
 const INTERVIEWEE_A = "pf_interviewee_a";
 const CLIENT_B = "pf_client_b";
 const NO_COMPANY = "pf_nocompany";
 const PROVIDER = "pf_provider";
+// SAMS-005 review r1 regression fixtures.
+const ADMIN_B = "pf_admin_b"; // role=Admin, UserCompany mapping ONLY to company B
+const DIRECT_A = "pf_direct_a"; // role=Assessor, companyId=A ONLY (no mapping)
 
 // Company-A identifiers that must NEVER appear in a company-B portal response,
 // and the provider-Internal note that must NEVER appear in ANY portal response.
@@ -84,11 +88,15 @@ async function main() {
   const intervieweeA = await login(INTERVIEWEE_A);
   const clientB = await login(CLIENT_B);
   const noCompany = await login(NO_COMPANY);
+  const adminB = await login(ADMIN_B);
+  const directA = await login(DIRECT_A);
   assertTrue(provider.ok, "provider logged in");
   assertTrue(clientA.ok, "clientA (Assessor A) logged in");
   assertTrue(intervieweeA.ok, "intervieweeA logged in");
   assertTrue(clientB.ok, "clientB (Assessor B) logged in");
   assertTrue(noCompany.ok, "no-company user logged in");
+  assertTrue(adminB.ok, "adminB (Admin, mapping only to B) logged in");
+  assertTrue(directA.ok, "directA (Assessor, companyId=A only) logged in");
 
   console.log("\n[2] Landing rule (A6 a, settled #6)");
   // App Router encodes redirect() as an RSC NEXT_REDIRECT digest (the browser
@@ -159,6 +167,28 @@ async function main() {
     body: JSON.stringify({ managementResponse: "B tries A" }),
   }, clientB.jar);
   assertEq(crossTenantSave.status, 403, "company-B user saving on company-A finding -> 403");
+
+  console.log("\n[6b] Review r1 regression — same-root-cause tenant scoping on the write gate");
+  // P1: a company-B Admin (role=Admin, mapping ONLY to B, NOT provider-plane) must
+  // be 403 on a company-A finding — NO global Admin bypass on the portal write.
+  const adminBTry = await fetchWithManual(`${BASE}/api/portal/findings/${FINDING_A}/management-response`, {
+    method: "POST", headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ managementResponse: "admin B hijacks A" }),
+  }, adminB.jar);
+  assertEq(adminBTry.status, 403, "company-B Admin (mapping only to B) on company-A finding -> 403 (no Admin bypass)");
+
+  // P2: a client Assessor whose membership is User.companyId-only (no UserCompany
+  // mapping) must be 200 on a finding of his OWN company — membership via
+  // User.companyId. Uses a DEDICATED company-A finding (FID-PF-A02) so it does not
+  // clobber the A01 response the DB-verify step asserts.
+  const directASave = await fetchWithManual(`${BASE}/api/portal/findings/${FINDING_A2}/management-response`, {
+    method: "POST", headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ managementResponse: "Direct member A responds" }),
+  }, directA.jar);
+  assertEq(directASave.status, 200, "company-A Assessor with User.companyId only on own finding -> 200");
+  const directAJson = await directASave.json().catch(() => ({}));
+  assertTrue(!!directAJson.finding?.managementResponseById, "directA save stamped managementResponseById");
+  assertEq(directAJson.finding?.managementResponse, "Direct member A responds", "directA save text persisted");
 
   console.log("\n[7] Request deep-link (A6 e)");
   const requestsA = await html(`${BASE}/portal/requests`, clientA.jar);

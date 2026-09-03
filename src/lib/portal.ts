@@ -71,6 +71,30 @@ export async function resolvePortalCompanyId(opts: {
   return { companyId: selected, companies };
 }
 
+/**
+ * Portal WRITE gate (SAMS-005, settled decisions #3/#5): does `userId` have
+ * portal MEMBERSHIP of `companyId`? Mirrors `resolvePortalCompanyId`'s read-side
+ * rule exactly — a user belongs to a company if `User.companyId === companyId`
+ * OR a `UserCompany` mapping exists. There is deliberately NO global Admin
+ * bypass here: decision #3 says the response is editable by client Assessor+
+ * roles "OF THAT COMPANY", so a provider-plane/Admin user who is not a member
+ * of the target company gets 403. If an operator must assist, that is an
+ * explicit provider-plane decision elsewhere — not an accidental inheritance
+ * on the portal's ONLY write path.
+ *
+ * Single query (no N+1): reads `companyId` + the user's `UserCompany` mappings
+ * in one `findUnique`.
+ */
+export async function portalHasCompanyAccess(userId: string, companyId: string): Promise<boolean> {
+  const user = await prisma.user.findUnique({
+    where: { id: userId },
+    select: { companyId: true, userCompanies: { select: { companyId: true } } },
+  });
+  if (!user) return false;
+  if (user.companyId === companyId) return true;
+  return user.userCompanies.some((uc) => uc.companyId === companyId);
+}
+
 /* ── Dashboard ──────────────────────────────────────────────────────────── */
 
 export type PortalDashboard = {

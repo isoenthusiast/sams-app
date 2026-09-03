@@ -19,9 +19,17 @@ export const PF_IDS = {
   intervieweeA: "usr_pf_interview_a",
   clientB: "usr_pf_client_b",
   noCompany: "usr_pf_nocompany",
+  // SAMS-005 review r1 regression fixtures:
+  // - adminB: role=Admin, UserCompany mapping ONLY to company B (no provider
+  //   plane, no companyId) — must be 403 on a company-A finding (no Admin bypass).
+  // - clientDirectA: role=Assessor, companyId=A ONLY (no UserCompany mapping) —
+  //   must be 200 on its OWN finding (membership via User.companyId).
+  adminB: "usr_pf_admin_b",
+  clientDirectA: "usr_pf_direct_a",
   assessmentA: "ass_pf_a",
   assessmentB: "ass_pf_b",
   findingA: "FID-PF-A01",
+  findingA2: "FID-PF-A02",
   findingB: "FID-PF-B01",
   actionA: "act_pf_a",
   actionB: "act_pf_b",
@@ -33,14 +41,14 @@ const PASSWORD = "Test1234!";
 
 export async function seedPortalFixtures() {
   const ids = PF_IDS;
-  const users = [ids.provider, ids.clientA, ids.intervieweeA, ids.clientB, ids.noCompany];
+  const users = [ids.provider, ids.clientA, ids.intervieweeA, ids.clientB, ids.noCompany, ids.adminB, ids.clientDirectA];
 
   // Cleanup (FK-safe: dependents first).
   await prisma.comment.deleteMany({ where: { companyId: { in: [ids.a, ids.b] } } });
   await prisma.evidenceRequest.deleteMany({ where: { companyId: { in: [ids.a, ids.b] } } });
   await prisma.attachmentMapping.deleteMany({ where: { destTable: "EvidenceRequest" } });
   await prisma.action.deleteMany({ where: { id: { in: [ids.actionA, ids.actionB] } } });
-  await prisma.finding.deleteMany({ where: { id: { in: [ids.findingA, ids.findingB] } } });
+  await prisma.finding.deleteMany({ where: { id: { in: [ids.findingA, ids.findingA2, ids.findingB] } } });
   await prisma.requirement.deleteMany({ where: { rId: { in: [ids.reqA, ids.reqB] } } });
   await prisma.processArea.deleteMany({ where: { id: { in: [ids.paA, ids.paB] } } });
   await prisma.assessment.deleteMany({ where: { id: { in: [ids.assessmentA, ids.assessmentB] } } });
@@ -73,6 +81,10 @@ export async function seedPortalFixtures() {
       { id: ids.intervieweeA, name: "PF Interviewee A", username: "pf_interviewee_a", passwordHash: hash, role: "Interviewee", active: true, companyId: ids.a },
       { id: ids.clientB, name: "PF Client B", username: "pf_client_b", passwordHash: hash, role: "Assessor", active: true, companyId: ids.b },
       { id: ids.noCompany, name: "PF No Company", username: "pf_nocompany", passwordHash: hash, role: "Assessor", active: true },
+      // adminB: Admin with NO companyId (sole membership via UserCompany→B), NOT provider-plane.
+      { id: ids.adminB, name: "PF Admin B", username: "pf_admin_b", passwordHash: hash, role: "Admin", active: true },
+      // clientDirectA: Assessor with companyId=A ONLY (no UserCompany mapping).
+      { id: ids.clientDirectA, name: "PF Direct A", username: "pf_direct_a", passwordHash: hash, role: "Assessor", active: true, companyId: ids.a },
     ],
   });
   await prisma.userCompany.createMany({
@@ -82,6 +94,7 @@ export async function seedPortalFixtures() {
       { id: "uc_pf_client_a", userId: ids.clientA, companyId: ids.a },
       { id: "uc_pf_interview_a", userId: ids.intervieweeA, companyId: ids.a },
       { id: "uc_pf_client_b", userId: ids.clientB, companyId: ids.b },
+      { id: "uc_pf_admin_b", userId: ids.adminB, companyId: ids.b },
     ],
   });
 
@@ -102,6 +115,7 @@ export async function seedPortalFixtures() {
   await prisma.finding.createMany({
     data: [
       { id: ids.findingA, assessmentId: ids.assessmentA, description: "PF Gap A", severity: "Medium", requirementRId: ids.reqA, riskDescription: "PF A risk", rootCause: "PF A root", recommendation: "PF A rec" },
+      { id: ids.findingA2, assessmentId: ids.assessmentA, description: "PF Gap A2", severity: "Low", requirementRId: ids.reqA, riskDescription: "PF A2 risk", rootCause: "PF A2 root", recommendation: "PF A2 rec" },
       { id: ids.findingB, assessmentId: ids.assessmentB, description: "PF Gap B", severity: "High", requirementRId: ids.reqB, riskDescription: "PF B risk", rootCause: "PF B root", recommendation: "PF B rec" },
     ],
   });

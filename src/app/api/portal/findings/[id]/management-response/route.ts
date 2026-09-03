@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
-import { requireAuth, hasCompanyAccess } from "@/lib/authz";
+import { requireAuth } from "@/lib/authz";
 import { sessionUserId } from "@/lib/conversation";
+import { portalHasCompanyAccess } from "@/lib/portal";
 import { logActivity } from "@/lib/activity-log";
 import { NextResponse } from "next/server";
 
@@ -63,7 +64,7 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
   if (!isAssessorRole) {
     return NextResponse.json({ error: "Assessor+ access required to manage a response" }, { status: 403 });
   }
-  const ok = await hasCompanyAccess(userId, companyId);
+  const ok = await portalHasCompanyAccess(userId, companyId);
   if (!ok) {
     return NextResponse.json({ error: "Access denied for company" }, { status: 403 });
   }
