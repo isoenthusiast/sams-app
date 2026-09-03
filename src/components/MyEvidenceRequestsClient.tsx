@@ -110,7 +110,7 @@ export function MyEvidenceRequestsClient() {
                     {r.submittedAt && <> · Submitted: {new Date(r.submittedAt).toLocaleString()}</>}
                   </p>
                   {r.requestedBy?.name && <p className="mt-0.5 text-[11px] text-slate-400">Requested by: {r.requestedBy.name}</p>}
-                  {r.reviewNote && (
+                  {r.status === "Rejected" && r.reviewNote && (
                     <p className="mt-2 rounded border border-red-200 bg-red-50 px-2 py-1 text-xs text-red-700">
                       <strong>Review note:</strong> {r.reviewNote}
                     </p>

@@ -73,14 +73,24 @@ export async function POST(request: Request) {
     }
   }
 
-  // Validate the requestee belongs to the company (a provider picks any user;
-  // an assessor may only request evidence from a company user).
+  // Validate the requestee belongs to the target company. Enforced for EVERYONE
+  // (provider included) — a mistyped username must fail loud, never leak another
+  // company's title/instructions/assessment into a requestee's ?mine=1 inbox.
   const requestee = await prisma.user.findUnique({
     where: { id: requestedFromUserId },
-    select: { id: true, companyId: true },
+    select: { id: true, companyId: true, userCompanies: { select: { companyId: true } } },
   });
   if (!requestee) {
     return NextResponse.json({ error: "requestedFromUserId not found" }, { status: 400 });
+  }
+  const requesteeCompanies = new Set<string>();
+  if (requestee.companyId) requesteeCompanies.add(requestee.companyId);
+  for (const uc of requestee.userCompanies) if (uc.companyId) requesteeCompanies.add(uc.companyId);
+  if (!requesteeCompanies.has(companyId)) {
+    return NextResponse.json(
+      { error: "requestedFromUserId does not belong to the target company" },
+      { status: 400 }
+    );
   }
 
   try {

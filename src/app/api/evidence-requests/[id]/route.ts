@@ -105,7 +105,9 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
       where: { id },
       data: {
         status: nextStatus as any,
-        ...(action === "submit" ? { submittedNote: body.submittedNote?.trim() || null, submittedAt: now } : {}),
+        ...(action === "submit"
+          ? { submittedNote: body.submittedNote?.trim() || null, submittedAt: now, reviewNote: null }
+          : {}),
         ...(action === "reject" ? { reviewNote: body.reviewNote?.trim() || null, reviewedAt: now } : {}),
         ...(action === "accept" ? { reviewedAt: now } : {}),
       },

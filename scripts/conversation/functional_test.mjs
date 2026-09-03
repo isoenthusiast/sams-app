@@ -225,6 +225,8 @@ async function main() {
   const resubmitJson = await resubmit.json();
   assertEq(resubmit.status, 200, "requestee resubmit → Submitted");
   assertEq(resubmitJson.evidenceRequest?.status, "Submitted", "status Submitted after resubmit");
+  assertEq(resubmitJson.evidenceRequest?.reviewNote ?? null, null, "stale reviewNote cleared on resubmit");
+  assertEq(resubmitJson.evidenceRequest?.submittedNote, "resubmitted with more detail", "submittedNote overwritten on resubmit");
 
   console.log("\n[5] Activity-log transitions (AC d)");
   // EVIDENCE_REQUEST_STATUS rows with before/after for erId2 flow.
@@ -264,6 +266,16 @@ async function main() {
   const c2json = await client2Er.json();
   const anyNotMine = c2json.evidenceRequests?.find((r) => r.requestedFromUserId === "usr_cf_client");
   assertTrue(!anyNotMine || true, "client2 sees only their own requests (scan)");
+
+  // Cross-company requestee → 400 (P1 tenant-isolation fix). A company-A assessor
+  // cannot assign a company-B user as requestee on a company-A assessment.
+  const crossCompanyReq = await fetchWithManual(`${BASE}/api/evidence-requests`, {
+    method: "POST", headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ title: "Cross company", instructions: "should fail", requestedFromUserId: "usr_cf_client_b", assessmentId: "ass_cf_a" }),
+  }, provider.jar);
+  assertEq(crossCompanyReq.status, 400, "cross-company requestee on company-A assessment → 400");
+  const crossCompanyReqErr = await crossCompanyReq.json().catch(() => ({}));
+  assertTrue(/company|belong|requestedFromUserId/i.test(crossCompanyReqErr.error || ""), "cross-company reject error explains the issue");
 
   console.log("\n[7] Migration idempotence (AC f) — run migration twice");
   // (Verified separately by re-running scripts/db/migrations/20260904_add_conversation_fabric.ts — see run steps.)
