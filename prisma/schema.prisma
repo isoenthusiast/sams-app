@@ -44,6 +44,8 @@ model User {
   evidenceRequestsFrom EvidenceRequest[]  @relation("EvidenceRequestRequestedFrom")
   /// Client Management Responses authored by this user (SAMS-005).
   managementResponses  Finding[]          @relation("FindingManagementResponse")
+  /// In-app Notifications received by this user (SAMS-006, Phase 2c).
+  notifications        Notification[]     @relation("NotificationRecipient")
 }
 
 model ActivityLog {
@@ -1607,4 +1609,40 @@ model EvidenceRequest {
 
   @@index([companyId, status])
   @@index([requestedFromUserId, status])
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// In-App Notifications (SAMS-006, Phase 2c): stored fabric events. Event set
+// v1: EvidenceRequested (→ requestee), EvidenceSubmitted (→ requester),
+// EvidenceReviewed (→ requestee), CommentShared (→ entity participants,
+// excluding the author). Overdue actions are computed at READ time (a synthetic
+// banner in the bell-count query) — NEVER stored as rows, so no scheduler and no
+// event for a state. Outbound transport (email/webhook) is explicitly Phase 3.
+// ─────────────────────────────────────────────────────────────────────────────
+enum NotificationType {
+  EvidenceRequested
+  EvidenceSubmitted
+  EvidenceReviewed
+  CommentShared
+}
+
+model Notification {
+  id              String           @id @default(cuid())
+  recipientUserId String
+  /// Recipient of the notification — the only user whose rows are ever read
+  /// (reads are strictly userId-scoped; never company-materialised in a list).
+  recipient       User             @relation("NotificationRecipient", fields: [recipientUserId], references: [id], onDelete: Cascade)
+  type            NotificationType
+  /// Polymorphic target (mirrors the Comment entityType convention):
+  /// `EvidenceRequest` | `Finding` (v1). Deep-links are resolved at read-time.
+  entityType      String
+  entityId        String
+  title           String // ≤200
+  body            String // ≤500
+  readAt          DateTime?
+  companyId       String? // denormalized for the company-scoped overdue banner
+  createdAt       DateTime         @default(now())
+
+  @@index([recipientUserId, readAt])
+  @@index([companyId])
 }

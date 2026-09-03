@@ -122,7 +122,8 @@ export const ModelName = {
   TestClaim: 'TestClaim',
   TestWorker: 'TestWorker',
   Comment: 'Comment',
-  EvidenceRequest: 'EvidenceRequest'
+  EvidenceRequest: 'EvidenceRequest',
+  Notification: 'Notification'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1259,6 +1260,22 @@ export const EvidenceRequestScalarFieldEnum = {
 } as const
 
 export type EvidenceRequestScalarFieldEnum = (typeof EvidenceRequestScalarFieldEnum)[keyof typeof EvidenceRequestScalarFieldEnum]
+
+
+export const NotificationScalarFieldEnum = {
+  id: 'id',
+  recipientUserId: 'recipientUserId',
+  type: 'type',
+  entityType: 'entityType',
+  entityId: 'entityId',
+  title: 'title',
+  body: 'body',
+  readAt: 'readAt',
+  companyId: 'companyId',
+  createdAt: 'createdAt'
+} as const
+
+export type NotificationScalarFieldEnum = (typeof NotificationScalarFieldEnum)[keyof typeof NotificationScalarFieldEnum]
 
 
 export const SortOrder = {

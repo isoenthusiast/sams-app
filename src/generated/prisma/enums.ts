@@ -249,3 +249,13 @@ export const EvidenceRequestStatus = {
 } as const
 
 export type EvidenceRequestStatus = (typeof EvidenceRequestStatus)[keyof typeof EvidenceRequestStatus]
+
+
+export const NotificationType = {
+  EvidenceRequested: 'EvidenceRequested',
+  EvidenceSubmitted: 'EvidenceSubmitted',
+  EvidenceReviewed: 'EvidenceReviewed',
+  CommentShared: 'CommentShared'
+} as const
+
+export type NotificationType = (typeof NotificationType)[keyof typeof NotificationType]

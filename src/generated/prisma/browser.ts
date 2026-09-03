@@ -377,3 +377,8 @@ export type Comment = Prisma.CommentModel
  * 
  */
 export type EvidenceRequest = Prisma.EvidenceRequestModel
+/**
+ * Model Notification
+ * 
+ */
+export type Notification = Prisma.NotificationModel
