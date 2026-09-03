@@ -14,17 +14,31 @@ export async function NavBar() {
   const isAdmin = role === "Admin";
   const providerRole = (session.user as { providerRole?: string | null }).providerRole;
 
-  const userCompanies = userId
-    ? await prisma.userCompany.findMany({ where: { userId }, include: { company: true } })
-    : [];
-  // Data Trust Gate (SAMS-003): archived companies are hidden from the selector.
-  const companies = userCompanies
-    .filter((uc) => uc.company != null && uc.company.archivedAt == null)
-    .map((uc) => ({
-      id: uc.company.id,
-      companyID: uc.company.companyID,
-      companyName: uc.company.companyName,
-    }));
+  // Data Trust Gate (SAMS-003): archived companies are hidden from the selector
+  // for BOTH paths. SAMS-002b: providers span all clients — list EVERY company
+  // (ordered by companyID) in the selector so a provider with few or no
+  // UserCompany mappings can still switch via the in-app selector; server-side
+  // access enforcement is unchanged (provider plane read-only, mutations role-gated).
+  let companies: { id: string; companyID: string; companyName: string }[] = [];
+  if (providerRole) {
+    const all = await prisma.company.findMany({
+      where: { archivedAt: null },
+      orderBy: { companyID: "asc" },
+      select: { id: true, companyID: true, companyName: true },
+    });
+    companies = all.map((c) => ({ id: c.id, companyID: c.companyID, companyName: c.companyName }));
+  } else {
+    const userCompanies = userId
+      ? await prisma.userCompany.findMany({ where: { userId }, include: { company: true } })
+      : [];
+    companies = userCompanies
+      .filter((uc) => uc.company != null && uc.company.archivedAt == null)
+      .map((uc) => ({
+        id: uc.company.id,
+        companyID: uc.company.companyID,
+        companyName: uc.company.companyName,
+      }));
+  }
 
   return (
     <header className="border-b border-slate-200 bg-white">

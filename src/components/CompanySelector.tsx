@@ -46,26 +46,39 @@ export function CompanySelector({
     <select
       aria-label="Select company"
       value={selected}
-      onChange={(e) => {
+      onChange={async (e) => {
         const newCompanyId = e.target.value;
         setSelected(newCompanyId);
-        // Provider context switches are audit-logged server-side (SAMS-002).
-        // Do NOT write the cookie client-side first: POST /api/operator/context-switch
-        // sets it server-side (and returns before/after), and writing it here would
-        // make the server read before === after at switch time and skip the audit row.
-        // The server must see the PREVIOUS company in the cookie when the POST arrives
-        // so before/after differ and PROVIDER_CONTEXT_SWITCH is logged. Never block the
-        // switch on the audit write. Non-provider sessions keep the synchronous client
-        // cookie write (byte-for-byte identical to the pre-SAMS-002 behavior, no POST).
+        // Provider context switches are audit-logged server-side (SAMS-002) and
+        // POST /api/operator/context-switch returns the role-aware redirect target
+        // (`/admin` for role=Admin, `/fla` otherwise). Do NOT write the cookie
+        // client-side first: the route sets it server-side, and writing it here
+        // would make the server read before === after at switch time and skip the
+        // PROVIDER_CONTEXT_SWITCH audit row — the server must see the PREVIOUS
+        // company in the cookie when the POST arrives so before/after differ. We
+        // await the POST so we land on the API-returned redirectTo; on any error
+        // or missing redirectTo we fall back to /fla so the switch never blocks
+        // on the audit write. Non-provider sessions keep the synchronous client
+        // cookie write (byte-for-byte identical to the pre-SAMS-002 behavior).
         if (providerRole) {
-          fetch("/api/operator/context-switch", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ companyId: newCompanyId }),
-          }).catch(() => {});
-        } else {
-          setSelectedCompanyCookie(newCompanyId);
+          let dest = "/fla";
+          try {
+            const res = await fetch("/api/operator/context-switch", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ companyId: newCompanyId }),
+            });
+            const data = await res.json();
+            if (typeof data?.redirectTo === "string" && data.redirectTo) dest = data.redirectTo;
+          } catch {
+            /* fall back to /fla */
+          }
+          const params = new URLSearchParams(searchParams.toString());
+          params.set("companyId", newCompanyId);
+          router.push(`${dest}?${params.toString()}`);
+          return;
         }
+        setSelectedCompanyCookie(newCompanyId);
         // Navigate with URL param — more reliable than cookie-only reload
         const params = new URLSearchParams(searchParams.toString());
         params.set("companyId", newCompanyId);
