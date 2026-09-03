@@ -14,6 +14,9 @@ model User {
   email                String?
   passwordHash         String
   role                 Role                   @default(Assessor)
+  /// Provider plane (managed GRA SaaS, Phase 0): orthogonal to `role`.
+  /// null = not provider staff. Additive only — no backfill.
+  providerRole         ProviderRole?
   positionId           String?
   position             Position?              @relation(fields: [positionId], references: [id])
   companyId            String?
@@ -643,6 +646,14 @@ enum Role {
   Superuser
   Assessor
   Interviewee
+}
+
+/// Provider role plane (managed GRA SaaS, Phase 0) — orthogonal to `Role`.
+/// A provider may also hold a client-side role inside a specific company.
+/// null on `User.providerRole` = not provider staff (no Operator access).
+enum ProviderRole {
+  ProviderAdmin
+  ProviderConsultant
 }
 
 model UserRole {

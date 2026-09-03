@@ -12,6 +12,7 @@ export async function NavBar() {
   const userId = (session.user as { id?: string }).id;
   const role = (session.user as { role?: string }).role ?? "Assessor";
   const isAdmin = role === "Admin";
+  const providerRole = (session.user as { providerRole?: string | null }).providerRole;
 
   const userCompanies = userId
     ? await prisma.userCompany.findMany({ where: { userId }, include: { company: true } })
@@ -30,7 +31,7 @@ export async function NavBar() {
         <div className="flex items-center gap-6">
           <Link href="/" className="text-lg font-bold text-slate-900">SAMS</Link>
           <Suspense fallback={<span className="text-sm text-slate-400">Loading…</span>}>
-            <CompanySelector companies={companies} isAdmin={isAdmin} />
+            <CompanySelector companies={companies} isAdmin={isAdmin} providerRole={providerRole} />
           </Suspense>
           <nav aria-label="Main navigation" className="flex items-center gap-1">
             {isAdmin ? (
@@ -46,6 +47,7 @@ export async function NavBar() {
                 <NavLink href="/help">Help</NavLink>
               </>
             )}
+            {providerRole ? <NavLink href="/operator">Operator</NavLink> : null}
           </nav>
         </div>
         <div className="flex items-center gap-3">

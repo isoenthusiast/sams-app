@@ -2,7 +2,7 @@
 
 > **📐 Active alongside `CONAN_Design Philosophy.md` and `CONAN_App Design.md`.** CONAN docs are the narrative source of truth; this document is the technical specification (models, routes, components, APIs). Both are maintained.
 
-**Last Updated:** September 02, 2026 (v1.13.14 — KB transcript hardening: truncation flag, OS-temp extraction, typed-session attribution)
+**Last Updated:** September 03, 2026 (v1.13.15 — Operator Console + provider role plane, Phase 0 managed GRA SaaS)
 
 ---
 
@@ -315,7 +315,7 @@ Client Component → fetch('/api/...', { method: 'POST', body })
 
 | Model | Purpose | Key Fields |
 |-------|---------|------------|
-| **User** | System user | name, username (unique), email, role (Admin/Superuser/Assessor/Interviewee), positionId (FK→Position), companyId, managerName, managerUsername, organisationIndicator. **v1.8.0:** Added managerName, organisationIdentifier fields. **v1.8.2:** Added managerUsername (resolved FK-like reference to User.username) |
+| **User** | System user | name, username (unique), email, role (Admin/Superuser/Assessor/Interviewee), positionId (FK→Position), companyId, managerName, managerUsername, organisationIndicator. **v1.8.0:** Added managerName, organisationIdentifier fields. **v1.8.2:** Added managerUsername (resolved FK-like reference to User.username). **v1.13.15:** Added `providerRole` (`ProviderRole` enum, nullable, additive — **orthogonal** to the `role` enum; null = not provider staff) |
 | **Department** | Org unit within a company | name, companyId, parentDepartmentId (self-referencing hierarchy, NULL = top-level) |
 | **Position** | Job title scoped to Department | title, departmentId (FK→Department). @@unique([title, departmentId]) |
 | **Assessment** | Frontline assurance check | status (Planned→InProgress→Completed/Cancelled), loa, assessorId (lead), activityTypeId, processAreaId (v1.13.2 — direct PA link for coverage audits + Standard→PA grouping; UI falls back to control assignments when null). **TOR fields (v1.6.5):** objective, scope, sponsor, methodology, keyFocus, reportIssueDate |
@@ -439,6 +439,7 @@ All company-scoped tables use `@@unique([businessKey, companyId])` rather than s
 | `/fla/new` | Client | Assessor+ | New assessment form |
 | `/help` | Static | Auth | In-app help with screenshots |
 | `/admin` | Client | Admin | Admin dashboard with view switching |
+| `/operator` | RSC + Client | Provider | **v1.13.15:** Cross-client Operator Console (read-only portfolio). Provider-gated (`session.user.providerRole`); non-provider → 403 view. Rows click-through → `POST /api/operator/context-switch` → lands in the target company's `/admin` or `/fla`. |
 | `/admin?view=users` | Client | Admin | User CRUD (UserManager) |
 | `/admin?view=backlog` | Client | Admin | Kanban backlog board |
 | `/admin?view=database` | Client | Admin | DB management (backup/restore/execute SQL) |
@@ -561,6 +562,13 @@ All company-scoped tables use `@@unique([businessKey, companyId])` rather than s
 | `/api/health` | GET | Public | Health check |
 | `/api/my/interviews` | GET | Auth | List user's assigned interviews |
 | `/api/my/interviews/[assignmentId]` | PUT | Auth | Update an assigned interview for the current user |
+
+#### Operator APIs (`/api/operator/*`) — v1.13.15 (Provider plane)
+
+| Route | Method | Auth | Description |
+|-------|--------|------|-------------|
+| `/api/operator/portfolio` | GET | Provider | Read-only cross-client portfolio JSON. Provider-gated (`session.user.providerRole`); 403 for non-provider. Per company: SOC coverage counts (FullyComply/PartiallyComply/NotComply/NotAssessed from `Requirement.socStatus`), open findings, open actions (overdue flagged), in-progress assessments, user count, KB count, last-activity ts. Every query carries `companyId` (nested relation traversal for Finding→Assessment, Action→Finding→Assessment — never dropped). |
+| `/api/operator/context-switch` | POST | Provider | Audit a provider company-context switch: writes an `ActivityLog` row (`activityType=PROVIDER_CONTEXT_SWITCH`, before/after = old/new selected company) when the selected company changes, sets the `selectedCompanyId` cookie, returns `{ redirectTo }` for `/admin` (role=Admin) or `/fla`. 403 for non-provider. |
 
 #### AI APIs
 
@@ -1039,6 +1047,7 @@ Local Dev (localhost:3100)
 
 | Version | Date | Changes |
 |---|---|---|
+| v1.13.15 | 2026-09-03 | **Operator Console + provider role plane (SAMS-002, Phase 0 of managed GRA SaaS).** New nullable `ProviderRole` enum (`ProviderAdmin|ProviderConsultant`) + `User.providerRole` column (orthogonal to the `role` enum, no backfill) via additive idempotent migration `scripts/db/migrations/20260903_add_user_provider_role.ts` (also registers `ActivityLogType.PROVIDER_CONTEXT_SWITCH`). New top-level provider-gated route `/operator` (cross-client portfolio: SOC coverage counts + colour bar, open findings, open actions w/ overdue flag, in-progress assessments, user count, KB count, last activity; worst coverage first; loaded via `GET /api/operator/portfolio`). Provider staff get an "Operator" NavBar link when `session.user.providerRole` is set; every provider company-context switch (console row click or NavBar company selector) writes a `PROVIDER_CONTEXT_SWITCH` ActivityLog row (before/after = old/new company) via `POST /api/operator/context-switch` which sets the `selectedCompanyId` cookie and lands in `/admin` or `/fla`. READ-ONLY v1: all queries keep the `companyId` filter (nested relation traversal for Finding/Action→Assessment). Non-provider `GET /operator`/`GET /api/operator/portfolio` → 403; zero-data company renders "Not assessed" empty state. |
 | v1.13.14 | 2026-09-02 | **KB transcript hardening (scoped, no schema change).** G1 — `POST /api/admin/knowledgebase/transcript` now flags long uploads: content over `MAX_TEXT_LENGTH` (500k) is truncated and the response sets `truncated: true`; `TranscriptView` surfaces an amber warning toast instead of silently dropping content. G2 — shared `lib/extractText.ts` no longer writes temp files into `process.cwd()/uploads` (fails on Railway read-only ephemeral FS): pdf-parse already reads the buffer so its disk write is dropped, and mammoth (.docx) spills to `os.tmpdir()` for the duration of extraction then unlinks. G4 — transcript attribution replaced the `(session as any)?.user?.name || "Admin"` fallback with typed session access; a missing Admin display name now 403s instead of being attributed to "Admin". Benefits both the admin transcript and `chat/knowledge/upload`. No Prisma schema/migration change; `db:parity` drift is unchanged (cascade/additive deferrals). |
 | v1.13.13 | 2026-08-29 | **KB meeting-transcript upload + company-scoped tagging (shipped).** Admin-only transcript upload (`POST /api/admin/knowledgebase/transcript`) reuses shared `lib/extractText.ts` (.pdf/.docx/.vtt/.srt/.csv/.md/.txt/.json) — dedupes the inline pdf-parse/mammoth in `chat/knowledge/upload`. New models `Tag` (`@@unique([name, companyId])`) + `KnowledgebaseTag` (M:N junction); `Knowledgebase.entryType` enum `{Knowledge|Transcript}` discriminator + `meetingDate`/`participants`; duplicate title → 409 (Prisma P2002) not raw 500. Settled decisions #5 (extracted text only, no original file), #9 admin-only, #10 delete-only, #11 Process Area optional, #12 text-only sources. |
 | v1.13.12 | 2026-08-25 | **Dependency security patch (audit-driven).** `next-auth` bumped `^5.0.0-beta.31` → `^5.0.0-beta.32` (fixes Auth.js fail-open auth checks + homoglyph bypass + @auth/core advisories; bundles `@auth/core@0.41.3`). Lockfile regenerated: next 16.3.2, postcss 8.5.26, nanoid 3.3.18, sharp 0.35.3, prisma 7.9.1, fast-uri 3.1.6. `npm audit` 18 (2 crit) → 3 high (Prisma CLI dev-tooling chain, no upstream fix). Added `scripts/requirements.txt` (`psycopg2-binary==2.9.12`) for `verify_parity.py`. No schema/route/component changes. |

@@ -55,6 +55,14 @@ export const Role = {
 export type Role = (typeof Role)[keyof typeof Role]
 
 
+export const ProviderRole = {
+  ProviderAdmin: 'ProviderAdmin',
+  ProviderConsultant: 'ProviderConsultant'
+} as const
+
+export type ProviderRole = (typeof ProviderRole)[keyof typeof ProviderRole]
+
+
 export const KnowledgeEntryType = {
   Knowledge: 'Knowledge',
   Transcript: 'Transcript'

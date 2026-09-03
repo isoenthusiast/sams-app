@@ -28,7 +28,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         // Only active users can log in
         if (!user.active) return null;
 
-        return { id: user.id, name: user.name, role: user.role };
+        return { id: user.id, name: user.name, role: user.role, providerRole: user.providerRole };
       },
     }),
   ],
