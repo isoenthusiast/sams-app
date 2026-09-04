@@ -318,6 +318,8 @@ model Assessment {
   checklistControlLinks AssessmentChecklistControl[] // v1.10.1
   requirementConclusions RequirementConclusion[]
   evidenceRequests       EvidenceRequest[]
+  /// SAMS-013: evidence-chain proposals targeting this assessment's checklist.
+  extractionProposals    ExtractionProposal[]
 }
 
 // Many-to-many: an Assessment can have multiple Assessors.
@@ -730,6 +732,8 @@ model Company {
   notificationWebhookUrl  String?
   userCompanies UserCompany[]
   departments   Department[]
+  /// SAMS-013: evidence-chain proposals scoped to this company.
+  extractionProposals ExtractionProposal[]
   /// Public read-only API keys scoped to this company (SAMS-011, Phase 3b).
   apiKeys       ApiKey[]
   /// Audit rows for every outbound webhook attempt (SAMS-009). Company-scoped.
@@ -916,6 +920,8 @@ model Knowledgebase {
   meetingDate      DateTime?
   participants     String?
   tags             KnowledgebaseTag[]
+  /// SAMS-013: proposals extracted from this transcript (evidence chain).
+  extractionProposals ExtractionProposal[]
 
   @@unique([knowledgeName, companyId])
   @@index([knowledgeName])
@@ -1460,6 +1466,8 @@ model AuditChecklistItem {
   template         AuditChecklistTemplate?   @relation("TemplateToAdoptedItems", fields: [templateId], references: [id])
   findings         Finding[]                // Findings linked to this checklist item
   controlLinks     AssessmentChecklistControl[]  // v1.10.1: Controls that satisfy this item
+  /// SAMS-013: evidence-chain proposals targeting this checklist item.
+  extractionProposals ExtractionProposal[]
 
   @@unique([checklistItemId, assessmentId])
   @@index([assessmentId])
@@ -1700,6 +1708,63 @@ model Notification {
 
   @@index([recipientUserId, readAt])
   @@index([companyId])
+}
+
+// ── SAMS-013: Transcript → Evidence Chain (Phase 4, Feature A) ─────────
+// Human-confirmed per checklist item: the DeepSeek pipeline proposes evidence
+// excerpts + suggested actions from a transcript; the assessor confirms
+// (optionally edits) / rejects EACH before anything links. NOTHING links while
+// status = Proposed — the proposal record IS the attestation trail.
+//
+// PROPOSED → Confirmed: verify_step links evidence (attachment on the
+// checklist-item audit) + creates a draft Action. PROPOSED → Rejected: recorded
+// (never resurfaced). confirmedBy/confirmedAt and rejectedBy/rejectedAt form the
+// audit trail of who decided and when.
+enum ProposalStatus {
+  Proposed
+  Confirmed
+  Rejected
+}
+
+model ExtractionProposal {
+  id                  String         @id @default(cuid())
+  status              ProposalStatus @default(Proposed)
+  /// Source transcript (entryType=Transcript) this evidence was extracted from.
+  knowledgebaseId     String
+  knowledgebase       Knowledgebase  @relation(fields: [knowledgebaseId], references: [kID], onDelete: Cascade)
+  /// Assessment whose checklist the proposal targets (denormalized for scoping).
+  assessmentId        String
+  assessment          Assessment     @relation(fields: [assessmentId], references: [id], onDelete: Cascade)
+  /// Target checklist item (the audit the evidence lands on).
+  auditChecklistItemId String
+  auditChecklistItem  AuditChecklistItem @relation(fields: [auditChecklistItemId], references: [id], onDelete: Cascade)
+  /// Tenant scope — denormalized; by construction equals the transcript's company
+  /// AND the checklist item's assessment company (cross-tenant is impossible).
+  companyId           String
+  company             Company        @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  /// Transcript span reference (char offsets into knowledgeContent).
+  spanStart           Int
+  spanEnd             Int
+  /// The evidence excerpt (the extracted transcript text). Editable on confirm.
+  evidenceExcerpt     String
+  /// Optional AI-suggested remediation action (confirmed → draft Action).
+  suggestedAction     String?
+  /// Attestation trail.
+  proposedBy          String         @default("AI") // who proposed (AI in Phase-4)
+  proposedByUserId    String?        // the assessor who ran extraction (audit only)
+  confirmedByUserId   String?        // who confirmed (nullable = still proposed)
+  confirmedAt         DateTime?
+  rejectedByUserId    String?        // who rejected (nullable = still proposed)
+  rejectedAt          DateTime?
+  /// Transcript title snapshot for display without a join.
+  transcriptTitle     String?
+  createdAt           DateTime       @default(now())
+  updatedAt           DateTime       @updatedAt
+
+  @@index([companyId, status])
+  @@index([assessmentId, status])
+  @@index([auditChecklistItemId])
+  @@index([knowledgebaseId])
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

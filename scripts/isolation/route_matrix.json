@@ -309,9 +309,29 @@
       "crossTenantExpectation": "403/404/empty"
     },
     {
-      "route": "admin/knowledgebase/transcript/[id]",
-      "companyResource": "transcript",
-      "crossTenantExpectation": "403/404/empty"
+     "route": "admin/knowledgebase/transcript/[id]",
+     "companyResource": "transcript",
+     "crossTenantExpectation": "403/404/empty"
+    },
+    {
+     "route": "admin/knowledgebase/transcript/[id]/extract-evidence",
+     "companyResource": "extractionProposals",
+     "crossTenantExpectation": "403/404/empty"
+    },
+    {
+     "route": "admin/extraction/proposals",
+     "companyResource": "extractionProposals",
+     "crossTenantExpectation": "403/404/empty"
+    },
+    {
+     "route": "admin/extraction/proposals/[id]",
+     "companyResource": "extractionProposals",
+     "crossTenantExpectation": "403/404/empty"
+    },
+    {
+     "route": "admin/extraction/proposals/bulk-confirm",
+     "companyResource": "extractionProposals",
+     "crossTenantExpectation": "403/404/empty"
     },
     {
       "route": "admin/manager-assignment",
