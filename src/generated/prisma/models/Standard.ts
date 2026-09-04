@@ -40,6 +40,8 @@ export type StandardMinAggregateOutputType = {
   standardDescription: string | null
   sequenceNo: number | null
   companyId: string | null
+  contentStatus: $Enums.ContentStatus | null
+  supersededAt: Date | null
   createdAt: Date | null
 }
 
@@ -49,6 +51,8 @@ export type StandardMaxAggregateOutputType = {
   standardDescription: string | null
   sequenceNo: number | null
   companyId: string | null
+  contentStatus: $Enums.ContentStatus | null
+  supersededAt: Date | null
   createdAt: Date | null
 }
 
@@ -58,6 +62,8 @@ export type StandardCountAggregateOutputType = {
   standardDescription: number
   sequenceNo: number
   companyId: number
+  contentStatus: number
+  supersededAt: number
   createdAt: number
   _all: number
 }
@@ -77,6 +83,8 @@ export type StandardMinAggregateInputType = {
   standardDescription?: true
   sequenceNo?: true
   companyId?: true
+  contentStatus?: true
+  supersededAt?: true
   createdAt?: true
 }
 
@@ -86,6 +94,8 @@ export type StandardMaxAggregateInputType = {
   standardDescription?: true
   sequenceNo?: true
   companyId?: true
+  contentStatus?: true
+  supersededAt?: true
   createdAt?: true
 }
 
@@ -95,6 +105,8 @@ export type StandardCountAggregateInputType = {
   standardDescription?: true
   sequenceNo?: true
   companyId?: true
+  contentStatus?: true
+  supersededAt?: true
   createdAt?: true
   _all?: true
 }
@@ -191,6 +203,8 @@ export type StandardGroupByOutputType = {
   standardDescription: string | null
   sequenceNo: number
   companyId: string | null
+  contentStatus: $Enums.ContentStatus
+  supersededAt: Date | null
   createdAt: Date
   _count: StandardCountAggregateOutputType | null
   _avg: StandardAvgAggregateOutputType | null
@@ -223,6 +237,8 @@ export type StandardWhereInput = {
   standardDescription?: Prisma.StringNullableFilter<"Standard"> | string | null
   sequenceNo?: Prisma.IntFilter<"Standard"> | number
   companyId?: Prisma.StringNullableFilter<"Standard"> | string | null
+  contentStatus?: Prisma.EnumContentStatusFilter<"Standard"> | $Enums.ContentStatus
+  supersededAt?: Prisma.DateTimeNullableFilter<"Standard"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Standard"> | Date | string
   processAreas?: Prisma.ProcessAreaListRelationFilter
 }
@@ -233,6 +249,8 @@ export type StandardOrderByWithRelationInput = {
   standardDescription?: Prisma.SortOrderInput | Prisma.SortOrder
   sequenceNo?: Prisma.SortOrder
   companyId?: Prisma.SortOrderInput | Prisma.SortOrder
+  contentStatus?: Prisma.SortOrder
+  supersededAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   processAreas?: Prisma.ProcessAreaOrderByRelationAggregateInput
 }
@@ -247,6 +265,8 @@ export type StandardWhereUniqueInput = Prisma.AtLeast<{
   standardDescription?: Prisma.StringNullableFilter<"Standard"> | string | null
   sequenceNo?: Prisma.IntFilter<"Standard"> | number
   companyId?: Prisma.StringNullableFilter<"Standard"> | string | null
+  contentStatus?: Prisma.EnumContentStatusFilter<"Standard"> | $Enums.ContentStatus
+  supersededAt?: Prisma.DateTimeNullableFilter<"Standard"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Standard"> | Date | string
   processAreas?: Prisma.ProcessAreaListRelationFilter
 }, "id" | "standard_companyId">
@@ -257,6 +277,8 @@ export type StandardOrderByWithAggregationInput = {
   standardDescription?: Prisma.SortOrderInput | Prisma.SortOrder
   sequenceNo?: Prisma.SortOrder
   companyId?: Prisma.SortOrderInput | Prisma.SortOrder
+  contentStatus?: Prisma.SortOrder
+  supersededAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   _count?: Prisma.StandardCountOrderByAggregateInput
   _avg?: Prisma.StandardAvgOrderByAggregateInput
@@ -274,6 +296,8 @@ export type StandardScalarWhereWithAggregatesInput = {
   standardDescription?: Prisma.StringNullableWithAggregatesFilter<"Standard"> | string | null
   sequenceNo?: Prisma.IntWithAggregatesFilter<"Standard"> | number
   companyId?: Prisma.StringNullableWithAggregatesFilter<"Standard"> | string | null
+  contentStatus?: Prisma.EnumContentStatusWithAggregatesFilter<"Standard"> | $Enums.ContentStatus
+  supersededAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Standard"> | Date | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Standard"> | Date | string
 }
 
@@ -283,6 +307,8 @@ export type StandardCreateInput = {
   standardDescription?: string | null
   sequenceNo?: number
   companyId?: string | null
+  contentStatus?: $Enums.ContentStatus
+  supersededAt?: Date | string | null
   createdAt?: Date | string
   processAreas?: Prisma.ProcessAreaCreateNestedManyWithoutStandardRefInput
 }
@@ -293,6 +319,8 @@ export type StandardUncheckedCreateInput = {
   standardDescription?: string | null
   sequenceNo?: number
   companyId?: string | null
+  contentStatus?: $Enums.ContentStatus
+  supersededAt?: Date | string | null
   createdAt?: Date | string
   processAreas?: Prisma.ProcessAreaUncheckedCreateNestedManyWithoutStandardRefInput
 }
@@ -303,6 +331,8 @@ export type StandardUpdateInput = {
   standardDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sequenceNo?: Prisma.IntFieldUpdateOperationsInput | number
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentStatus?: Prisma.EnumContentStatusFieldUpdateOperationsInput | $Enums.ContentStatus
+  supersededAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   processAreas?: Prisma.ProcessAreaUpdateManyWithoutStandardRefNestedInput
 }
@@ -313,6 +343,8 @@ export type StandardUncheckedUpdateInput = {
   standardDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sequenceNo?: Prisma.IntFieldUpdateOperationsInput | number
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentStatus?: Prisma.EnumContentStatusFieldUpdateOperationsInput | $Enums.ContentStatus
+  supersededAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   processAreas?: Prisma.ProcessAreaUncheckedUpdateManyWithoutStandardRefNestedInput
 }
@@ -323,6 +355,8 @@ export type StandardCreateManyInput = {
   standardDescription?: string | null
   sequenceNo?: number
   companyId?: string | null
+  contentStatus?: $Enums.ContentStatus
+  supersededAt?: Date | string | null
   createdAt?: Date | string
 }
 
@@ -332,6 +366,8 @@ export type StandardUpdateManyMutationInput = {
   standardDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sequenceNo?: Prisma.IntFieldUpdateOperationsInput | number
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentStatus?: Prisma.EnumContentStatusFieldUpdateOperationsInput | $Enums.ContentStatus
+  supersededAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -341,6 +377,8 @@ export type StandardUncheckedUpdateManyInput = {
   standardDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sequenceNo?: Prisma.IntFieldUpdateOperationsInput | number
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentStatus?: Prisma.EnumContentStatusFieldUpdateOperationsInput | $Enums.ContentStatus
+  supersededAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -355,6 +393,8 @@ export type StandardCountOrderByAggregateInput = {
   standardDescription?: Prisma.SortOrder
   sequenceNo?: Prisma.SortOrder
   companyId?: Prisma.SortOrder
+  contentStatus?: Prisma.SortOrder
+  supersededAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -368,6 +408,8 @@ export type StandardMaxOrderByAggregateInput = {
   standardDescription?: Prisma.SortOrder
   sequenceNo?: Prisma.SortOrder
   companyId?: Prisma.SortOrder
+  contentStatus?: Prisma.SortOrder
+  supersededAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -377,6 +419,8 @@ export type StandardMinOrderByAggregateInput = {
   standardDescription?: Prisma.SortOrder
   sequenceNo?: Prisma.SortOrder
   companyId?: Prisma.SortOrder
+  contentStatus?: Prisma.SortOrder
+  supersededAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -387,6 +431,10 @@ export type StandardSumOrderByAggregateInput = {
 export type StandardNullableScalarRelationFilter = {
   is?: Prisma.StandardWhereInput | null
   isNot?: Prisma.StandardWhereInput | null
+}
+
+export type EnumContentStatusFieldUpdateOperationsInput = {
+  set?: $Enums.ContentStatus
 }
 
 export type StandardCreateNestedOneWithoutProcessAreasInput = {
@@ -411,6 +459,8 @@ export type StandardCreateWithoutProcessAreasInput = {
   standardDescription?: string | null
   sequenceNo?: number
   companyId?: string | null
+  contentStatus?: $Enums.ContentStatus
+  supersededAt?: Date | string | null
   createdAt?: Date | string
 }
 
@@ -420,6 +470,8 @@ export type StandardUncheckedCreateWithoutProcessAreasInput = {
   standardDescription?: string | null
   sequenceNo?: number
   companyId?: string | null
+  contentStatus?: $Enums.ContentStatus
+  supersededAt?: Date | string | null
   createdAt?: Date | string
 }
 
@@ -445,6 +497,8 @@ export type StandardUpdateWithoutProcessAreasInput = {
   standardDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sequenceNo?: Prisma.IntFieldUpdateOperationsInput | number
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentStatus?: Prisma.EnumContentStatusFieldUpdateOperationsInput | $Enums.ContentStatus
+  supersededAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -454,6 +508,8 @@ export type StandardUncheckedUpdateWithoutProcessAreasInput = {
   standardDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sequenceNo?: Prisma.IntFieldUpdateOperationsInput | number
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentStatus?: Prisma.EnumContentStatusFieldUpdateOperationsInput | $Enums.ContentStatus
+  supersededAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -494,6 +550,8 @@ export type StandardSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   standardDescription?: boolean
   sequenceNo?: boolean
   companyId?: boolean
+  contentStatus?: boolean
+  supersededAt?: boolean
   createdAt?: boolean
   processAreas?: boolean | Prisma.Standard$processAreasArgs<ExtArgs>
   _count?: boolean | Prisma.StandardCountOutputTypeDefaultArgs<ExtArgs>
@@ -505,6 +563,8 @@ export type StandardSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   standardDescription?: boolean
   sequenceNo?: boolean
   companyId?: boolean
+  contentStatus?: boolean
+  supersededAt?: boolean
   createdAt?: boolean
 }, ExtArgs["result"]["standard"]>
 
@@ -514,6 +574,8 @@ export type StandardSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   standardDescription?: boolean
   sequenceNo?: boolean
   companyId?: boolean
+  contentStatus?: boolean
+  supersededAt?: boolean
   createdAt?: boolean
 }, ExtArgs["result"]["standard"]>
 
@@ -523,10 +585,12 @@ export type StandardSelectScalar = {
   standardDescription?: boolean
   sequenceNo?: boolean
   companyId?: boolean
+  contentStatus?: boolean
+  supersededAt?: boolean
   createdAt?: boolean
 }
 
-export type StandardOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "standard" | "standardDescription" | "sequenceNo" | "companyId" | "createdAt", ExtArgs["result"]["standard"]>
+export type StandardOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "standard" | "standardDescription" | "sequenceNo" | "companyId" | "contentStatus" | "supersededAt" | "createdAt", ExtArgs["result"]["standard"]>
 export type StandardInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   processAreas?: boolean | Prisma.Standard$processAreasArgs<ExtArgs>
   _count?: boolean | Prisma.StandardCountOutputTypeDefaultArgs<ExtArgs>
@@ -545,6 +609,14 @@ export type $StandardPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     standardDescription: string | null
     sequenceNo: number
     companyId: string | null
+    /**
+     * SAMS-016 (Master Content Roll-Forward): marks a content row REMOVED from the
+     * adopted baseline but retained (read-only) because referenced client data
+     * still links to it. Additive + nullable-defaulted (Active). Only the adopt
+     * path writes it; FK links resolve unchanged.
+     */
+    contentStatus: $Enums.ContentStatus
+    supersededAt: Date | null
     createdAt: Date
   }, ExtArgs["result"]["standard"]>
   composites: {}
@@ -975,6 +1047,8 @@ export interface StandardFieldRefs {
   readonly standardDescription: Prisma.FieldRef<"Standard", 'String'>
   readonly sequenceNo: Prisma.FieldRef<"Standard", 'Int'>
   readonly companyId: Prisma.FieldRef<"Standard", 'String'>
+  readonly contentStatus: Prisma.FieldRef<"Standard", 'ContentStatus'>
+  readonly supersededAt: Prisma.FieldRef<"Standard", 'DateTime'>
   readonly createdAt: Prisma.FieldRef<"Standard", 'DateTime'>
 }
     

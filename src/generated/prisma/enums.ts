@@ -257,7 +257,8 @@ export const NotificationType = {
   EvidenceReviewed: 'EvidenceReviewed',
   CommentShared: 'CommentShared',
   ActionOverdue: 'ActionOverdue',
-  MicAttestationDue: 'MicAttestationDue'
+  MicAttestationDue: 'MicAttestationDue',
+  ContentBaselineUpdated: 'ContentBaselineUpdated'
 } as const
 
 export type NotificationType = (typeof NotificationType)[keyof typeof NotificationType]
@@ -285,3 +286,11 @@ export const NotificationDeliveryStatus = {
 } as const
 
 export type NotificationDeliveryStatus = (typeof NotificationDeliveryStatus)[keyof typeof NotificationDeliveryStatus]
+
+
+export const ContentStatus = {
+  Active: 'Active',
+  Superseded: 'Superseded'
+} as const
+
+export type ContentStatus = (typeof ContentStatus)[keyof typeof ContentStatus]

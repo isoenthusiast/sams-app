@@ -147,6 +147,12 @@ model Standard {
   standardDescription String?
   sequenceNo          Int           @default(0)
   companyId           String?
+  /// SAMS-016 (Master Content Roll-Forward): marks a content row REMOVED from the
+  /// adopted baseline but retained (read-only) because referenced client data
+  /// still links to it. Additive + nullable-defaulted (Active). Only the adopt
+  /// path writes it; FK links resolve unchanged.
+  contentStatus       ContentStatus @default(Active)
+  supersededAt        DateTime?
   createdAt           DateTime      @default(now())
   processAreas        ProcessArea[]
 
@@ -164,6 +170,9 @@ model ProcessArea {
   standard        String?
   standardId      String?            @map("StandardID")
   companyId       String?
+  /// SAMS-016: read-only superseded marker (removed-from-baseline content retained).
+  contentStatus   ContentStatus      @default(Active)
+  supersededAt    DateTime?
   standardRef     Standard?          @relation(fields: [standardId], references: [id])
   controls        Control[]
   subProcesses    SubProcess[]
@@ -248,6 +257,11 @@ model Control {
   pId                 String?
   Requirements        String?
   companyId           String?
+  /// SAMS-016: read-only superseded marker (removed-from-baseline content retained,
+  /// FK links still resolve). Superseded controls are excluded from editable/active
+  /// control sets while the record stays linkable.
+  contentStatus       ContentStatus                       @default(Active)
+  supersededAt        DateTime?
   // ── CSF v2.0 (2026-08-06) ──────────────────────────────────────────
   controlOwner        String?                            // RASCI "A" — accountable person, distinct from csfWho (the performer)
   assuranceCadence    String?                            // How often tested/assured (e.g. "Quarterly"), distinct from csfWhen (operational timing)
@@ -766,6 +780,10 @@ model Company {
   notificationDeliveries  NotificationDelivery[]
   /// MIC attestation records for this company (SAMS-014, Phase 4 Feature B).
   micAttestations MicAttestation[]
+  /// Master content packs published by this company (SAMS-016; master plane = SAMS001).
+  contentPacks    ContentPack[]      @relation("ContentPackPublisher")
+  /// Per-tenant content-version state (SAMS-016; one row per company).
+  contentStates   CompanyContentState[] @relation("CompanyContentStateCompany")
 }
 
 /// SAMS-011 (Phase 3b, Feature B) — public read-only REST API bearer keys.
@@ -1067,6 +1085,9 @@ model Requirement {
   socSummary          String?
   createdAt           DateTime                 @default(now())
   companyId           String?
+  /// SAMS-016: read-only superseded marker (removed-from-baseline content retained).
+  contentStatus       ContentStatus            @default(Active)
+  supersededAt        DateTime?
   processArea         ProcessArea?             @relation(fields: [processAreaId], references: [id])
   controlMappings     MapControl2Requirement[]
   assuranceProtocols  AssuranceProtocol[]
@@ -1743,6 +1764,10 @@ enum NotificationType {
   /// emitted during the weekly-digest sweep to the company's SPOs (client
   /// Admin/Assessor/Superuser of that company), deduped per cadence window.
   MicAttestationDue
+  /// SAMS-016 Master Content Roll-Forward: the provider adopted a new content
+  /// pack on the client's behalf (baseline vN→vM). In-app to the company's client
+  /// Admin/Assessor monitors; the portal banner shows until acknowledged.
+  ContentBaselineUpdated
 }
 
 model Notification {
@@ -1866,4 +1891,65 @@ model NotificationDelivery {
   @@index([companyId])
   @@index([notificationId])
   @@index([status, attemptedAt])
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Master Content Roll-Forward (SAMS-016, Phase 4 Feature D): versioned content
+// packs + the provider adopting on the client's behalf (diff preview → adopt →
+// audit-logged with the diff; client data never touched).
+//
+// MASTER-PLANE vs TENANT scoping (isolation decision, documented in
+// docs/isolation notes + script matrix):
+//   - `ContentPack` is MASTER-PLANE (only SAMS001 publishes one); `companyId`
+//     always equals SAMS001. It is NOT tenant-scoped — adopting a pack copies its
+//     snapshot INTO a tenant's own content tables (never writable via a tenant
+//     context). Treated as a global/master model in the isolation matrix.
+//   - `CompanyContentState` is TENANT-scoped (one row per company; unique
+//     `companyId`); it tracks the tenant's adopted `contentVersion` + banner
+//     acknowledgment. It is the only company-scoped row this feature writes.
+// ─────────────────────────────────────────────────────────────────────────────
+enum ContentStatus {
+  Active
+  Superseded
+}
+
+/// SAMS-016: an immutable snapshot of the SAMS001 master content at a version.
+/// `snapshot` is the full serialized content graph keyed by stable cross-tenant
+/// keys (see src/lib/content-rollforward.ts). Versioned + immutable: a new
+/// publish always creates a NEW row (never mutates an existing one), so prior
+/// versions remain queryable for the "changed-on-both-sides" baseline comparison.
+model ContentPack {
+  id           String   @id @default(cuid())
+  /// Monotonic version (1, 2, 3 …) per master company, unique below.
+  version      Int
+  /// The MASTER company that published this pack (always SAMS001).
+  companyId    String
+  company      Company  @relation("ContentPackPublisher", fields: [companyId], references: [id], onDelete: Cascade)
+  /// Immutable snapshot — the serialized PackContent graph (see lib). Written once.
+  snapshot     Json
+  publishedById String?
+  publishedAt  DateTime @default(now())
+  createdAt    DateTime @default(now())
+
+  @@unique([companyId, version])
+  @@index([companyId, publishedAt])
+}
+
+/// SAMS-016: per-tenant content-version state + the portal banner acknowledgment.
+/// One row per company; `contentVersion` is the baseline version the tenant last
+/// adopted (1 after a fresh bootstrap). `acknowledgedContentVersion` null = the
+/// client has NOT acknowledged the current baseline notice; set it = contentVersion
+/// to dismiss the portal banner (persisted across re-login).
+model CompanyContentState {
+  id                        String    @id @default(cuid())
+  companyId                 String    @unique
+  company                   Company   @relation("CompanyContentStateCompany", fields: [companyId], references: [id], onDelete: Cascade)
+  contentVersion            Int       @default(1)
+  lastPackId                String?
+  lastAdoptedAt             DateTime?
+  acknowledgedContentVersion Int?
+  createdAt                 DateTime  @default(now())
+  updatedAt                 DateTime  @updatedAt
+
+  @@index([companyId])
 }

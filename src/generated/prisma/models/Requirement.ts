@@ -49,6 +49,8 @@ export type RequirementMinAggregateOutputType = {
   socSummary: string | null
   createdAt: Date | null
   companyId: string | null
+  contentStatus: $Enums.ContentStatus | null
+  supersededAt: Date | null
 }
 
 export type RequirementMaxAggregateOutputType = {
@@ -66,6 +68,8 @@ export type RequirementMaxAggregateOutputType = {
   socSummary: string | null
   createdAt: Date | null
   companyId: string | null
+  contentStatus: $Enums.ContentStatus | null
+  supersededAt: Date | null
 }
 
 export type RequirementCountAggregateOutputType = {
@@ -83,6 +87,8 @@ export type RequirementCountAggregateOutputType = {
   socSummary: number
   createdAt: number
   companyId: number
+  contentStatus: number
+  supersededAt: number
   _all: number
 }
 
@@ -110,6 +116,8 @@ export type RequirementMinAggregateInputType = {
   socSummary?: true
   createdAt?: true
   companyId?: true
+  contentStatus?: true
+  supersededAt?: true
 }
 
 export type RequirementMaxAggregateInputType = {
@@ -127,6 +135,8 @@ export type RequirementMaxAggregateInputType = {
   socSummary?: true
   createdAt?: true
   companyId?: true
+  contentStatus?: true
+  supersededAt?: true
 }
 
 export type RequirementCountAggregateInputType = {
@@ -144,6 +154,8 @@ export type RequirementCountAggregateInputType = {
   socSummary?: true
   createdAt?: true
   companyId?: true
+  contentStatus?: true
+  supersededAt?: true
   _all?: true
 }
 
@@ -248,6 +260,8 @@ export type RequirementGroupByOutputType = {
   socSummary: string | null
   createdAt: Date
   companyId: string | null
+  contentStatus: $Enums.ContentStatus
+  supersededAt: Date | null
   _count: RequirementCountAggregateOutputType | null
   _avg: RequirementAvgAggregateOutputType | null
   _sum: RequirementSumAggregateOutputType | null
@@ -288,6 +302,8 @@ export type RequirementWhereInput = {
   socSummary?: Prisma.StringNullableFilter<"Requirement"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Requirement"> | Date | string
   companyId?: Prisma.StringNullableFilter<"Requirement"> | string | null
+  contentStatus?: Prisma.EnumContentStatusFilter<"Requirement"> | $Enums.ContentStatus
+  supersededAt?: Prisma.DateTimeNullableFilter<"Requirement"> | Date | string | null
   processArea?: Prisma.XOR<Prisma.ProcessAreaNullableScalarRelationFilter, Prisma.ProcessAreaWhereInput> | null
   controlMappings?: Prisma.MapControl2RequirementListRelationFilter
   assuranceProtocols?: Prisma.AssuranceProtocolListRelationFilter
@@ -311,6 +327,8 @@ export type RequirementOrderByWithRelationInput = {
   socSummary?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   companyId?: Prisma.SortOrderInput | Prisma.SortOrder
+  contentStatus?: Prisma.SortOrder
+  supersededAt?: Prisma.SortOrderInput | Prisma.SortOrder
   processArea?: Prisma.ProcessAreaOrderByWithRelationInput
   controlMappings?: Prisma.MapControl2RequirementOrderByRelationAggregateInput
   assuranceProtocols?: Prisma.AssuranceProtocolOrderByRelationAggregateInput
@@ -338,6 +356,8 @@ export type RequirementWhereUniqueInput = Prisma.AtLeast<{
   socSummary?: Prisma.StringNullableFilter<"Requirement"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Requirement"> | Date | string
   companyId?: Prisma.StringNullableFilter<"Requirement"> | string | null
+  contentStatus?: Prisma.EnumContentStatusFilter<"Requirement"> | $Enums.ContentStatus
+  supersededAt?: Prisma.DateTimeNullableFilter<"Requirement"> | Date | string | null
   processArea?: Prisma.XOR<Prisma.ProcessAreaNullableScalarRelationFilter, Prisma.ProcessAreaWhereInput> | null
   controlMappings?: Prisma.MapControl2RequirementListRelationFilter
   assuranceProtocols?: Prisma.AssuranceProtocolListRelationFilter
@@ -361,6 +381,8 @@ export type RequirementOrderByWithAggregationInput = {
   socSummary?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   companyId?: Prisma.SortOrderInput | Prisma.SortOrder
+  contentStatus?: Prisma.SortOrder
+  supersededAt?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.RequirementCountOrderByAggregateInput
   _avg?: Prisma.RequirementAvgOrderByAggregateInput
   _max?: Prisma.RequirementMaxOrderByAggregateInput
@@ -386,6 +408,8 @@ export type RequirementScalarWhereWithAggregatesInput = {
   socSummary?: Prisma.StringNullableWithAggregatesFilter<"Requirement"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Requirement"> | Date | string
   companyId?: Prisma.StringNullableWithAggregatesFilter<"Requirement"> | string | null
+  contentStatus?: Prisma.EnumContentStatusWithAggregatesFilter<"Requirement"> | $Enums.ContentStatus
+  supersededAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Requirement"> | Date | string | null
 }
 
 export type RequirementCreateInput = {
@@ -402,6 +426,8 @@ export type RequirementCreateInput = {
   socSummary?: string | null
   createdAt?: Date | string
   companyId?: string | null
+  contentStatus?: $Enums.ContentStatus
+  supersededAt?: Date | string | null
   processArea?: Prisma.ProcessAreaCreateNestedOneWithoutRequirementsInput
   controlMappings?: Prisma.MapControl2RequirementCreateNestedManyWithoutRequirementInput
   assuranceProtocols?: Prisma.AssuranceProtocolCreateNestedManyWithoutRequirementRelInput
@@ -425,6 +451,8 @@ export type RequirementUncheckedCreateInput = {
   socSummary?: string | null
   createdAt?: Date | string
   companyId?: string | null
+  contentStatus?: $Enums.ContentStatus
+  supersededAt?: Date | string | null
   controlMappings?: Prisma.MapControl2RequirementUncheckedCreateNestedManyWithoutRequirementInput
   assuranceProtocols?: Prisma.AssuranceProtocolUncheckedCreateNestedManyWithoutRequirementRelInput
   auditMappings?: Prisma.AuditChecklist2RequirementUncheckedCreateNestedManyWithoutRequirementInput
@@ -446,6 +474,8 @@ export type RequirementUpdateInput = {
   socSummary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentStatus?: Prisma.EnumContentStatusFieldUpdateOperationsInput | $Enums.ContentStatus
+  supersededAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   processArea?: Prisma.ProcessAreaUpdateOneWithoutRequirementsNestedInput
   controlMappings?: Prisma.MapControl2RequirementUpdateManyWithoutRequirementNestedInput
   assuranceProtocols?: Prisma.AssuranceProtocolUpdateManyWithoutRequirementRelNestedInput
@@ -469,6 +499,8 @@ export type RequirementUncheckedUpdateInput = {
   socSummary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentStatus?: Prisma.EnumContentStatusFieldUpdateOperationsInput | $Enums.ContentStatus
+  supersededAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   controlMappings?: Prisma.MapControl2RequirementUncheckedUpdateManyWithoutRequirementNestedInput
   assuranceProtocols?: Prisma.AssuranceProtocolUncheckedUpdateManyWithoutRequirementRelNestedInput
   auditMappings?: Prisma.AuditChecklist2RequirementUncheckedUpdateManyWithoutRequirementNestedInput
@@ -491,6 +523,8 @@ export type RequirementCreateManyInput = {
   socSummary?: string | null
   createdAt?: Date | string
   companyId?: string | null
+  contentStatus?: $Enums.ContentStatus
+  supersededAt?: Date | string | null
 }
 
 export type RequirementUpdateManyMutationInput = {
@@ -507,6 +541,8 @@ export type RequirementUpdateManyMutationInput = {
   socSummary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentStatus?: Prisma.EnumContentStatusFieldUpdateOperationsInput | $Enums.ContentStatus
+  supersededAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type RequirementUncheckedUpdateManyInput = {
@@ -524,6 +560,8 @@ export type RequirementUncheckedUpdateManyInput = {
   socSummary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentStatus?: Prisma.EnumContentStatusFieldUpdateOperationsInput | $Enums.ContentStatus
+  supersededAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type RequirementScalarRelationFilter = {
@@ -562,6 +600,8 @@ export type RequirementCountOrderByAggregateInput = {
   socSummary?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   companyId?: Prisma.SortOrder
+  contentStatus?: Prisma.SortOrder
+  supersededAt?: Prisma.SortOrder
 }
 
 export type RequirementAvgOrderByAggregateInput = {
@@ -583,6 +623,8 @@ export type RequirementMaxOrderByAggregateInput = {
   socSummary?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   companyId?: Prisma.SortOrder
+  contentStatus?: Prisma.SortOrder
+  supersededAt?: Prisma.SortOrder
 }
 
 export type RequirementMinOrderByAggregateInput = {
@@ -600,6 +642,8 @@ export type RequirementMinOrderByAggregateInput = {
   socSummary?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   companyId?: Prisma.SortOrder
+  contentStatus?: Prisma.SortOrder
+  supersededAt?: Prisma.SortOrder
 }
 
 export type RequirementSumOrderByAggregateInput = {
@@ -743,6 +787,8 @@ export type RequirementCreateWithoutAssuranceProtocolsInput = {
   socSummary?: string | null
   createdAt?: Date | string
   companyId?: string | null
+  contentStatus?: $Enums.ContentStatus
+  supersededAt?: Date | string | null
   processArea?: Prisma.ProcessAreaCreateNestedOneWithoutRequirementsInput
   controlMappings?: Prisma.MapControl2RequirementCreateNestedManyWithoutRequirementInput
   auditMappings?: Prisma.AuditChecklist2RequirementCreateNestedManyWithoutRequirementInput
@@ -765,6 +811,8 @@ export type RequirementUncheckedCreateWithoutAssuranceProtocolsInput = {
   socSummary?: string | null
   createdAt?: Date | string
   companyId?: string | null
+  contentStatus?: $Enums.ContentStatus
+  supersededAt?: Date | string | null
   controlMappings?: Prisma.MapControl2RequirementUncheckedCreateNestedManyWithoutRequirementInput
   auditMappings?: Prisma.AuditChecklist2RequirementUncheckedCreateNestedManyWithoutRequirementInput
   documentMappings?: Prisma.MapRequirement2DocumentUncheckedCreateNestedManyWithoutRequirementInput
@@ -801,6 +849,8 @@ export type RequirementUpdateWithoutAssuranceProtocolsInput = {
   socSummary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentStatus?: Prisma.EnumContentStatusFieldUpdateOperationsInput | $Enums.ContentStatus
+  supersededAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   processArea?: Prisma.ProcessAreaUpdateOneWithoutRequirementsNestedInput
   controlMappings?: Prisma.MapControl2RequirementUpdateManyWithoutRequirementNestedInput
   auditMappings?: Prisma.AuditChecklist2RequirementUpdateManyWithoutRequirementNestedInput
@@ -823,6 +873,8 @@ export type RequirementUncheckedUpdateWithoutAssuranceProtocolsInput = {
   socSummary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentStatus?: Prisma.EnumContentStatusFieldUpdateOperationsInput | $Enums.ContentStatus
+  supersededAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   controlMappings?: Prisma.MapControl2RequirementUncheckedUpdateManyWithoutRequirementNestedInput
   auditMappings?: Prisma.AuditChecklist2RequirementUncheckedUpdateManyWithoutRequirementNestedInput
   documentMappings?: Prisma.MapRequirement2DocumentUncheckedUpdateManyWithoutRequirementNestedInput
@@ -843,6 +895,8 @@ export type RequirementCreateWithoutProcessAreaInput = {
   socSummary?: string | null
   createdAt?: Date | string
   companyId?: string | null
+  contentStatus?: $Enums.ContentStatus
+  supersededAt?: Date | string | null
   controlMappings?: Prisma.MapControl2RequirementCreateNestedManyWithoutRequirementInput
   assuranceProtocols?: Prisma.AssuranceProtocolCreateNestedManyWithoutRequirementRelInput
   auditMappings?: Prisma.AuditChecklist2RequirementCreateNestedManyWithoutRequirementInput
@@ -864,6 +918,8 @@ export type RequirementUncheckedCreateWithoutProcessAreaInput = {
   socSummary?: string | null
   createdAt?: Date | string
   companyId?: string | null
+  contentStatus?: $Enums.ContentStatus
+  supersededAt?: Date | string | null
   controlMappings?: Prisma.MapControl2RequirementUncheckedCreateNestedManyWithoutRequirementInput
   assuranceProtocols?: Prisma.AssuranceProtocolUncheckedCreateNestedManyWithoutRequirementRelInput
   auditMappings?: Prisma.AuditChecklist2RequirementUncheckedCreateNestedManyWithoutRequirementInput
@@ -915,6 +971,8 @@ export type RequirementScalarWhereInput = {
   socSummary?: Prisma.StringNullableFilter<"Requirement"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Requirement"> | Date | string
   companyId?: Prisma.StringNullableFilter<"Requirement"> | string | null
+  contentStatus?: Prisma.EnumContentStatusFilter<"Requirement"> | $Enums.ContentStatus
+  supersededAt?: Prisma.DateTimeNullableFilter<"Requirement"> | Date | string | null
 }
 
 export type RequirementCreateWithoutConclusionsInput = {
@@ -931,6 +989,8 @@ export type RequirementCreateWithoutConclusionsInput = {
   socSummary?: string | null
   createdAt?: Date | string
   companyId?: string | null
+  contentStatus?: $Enums.ContentStatus
+  supersededAt?: Date | string | null
   processArea?: Prisma.ProcessAreaCreateNestedOneWithoutRequirementsInput
   controlMappings?: Prisma.MapControl2RequirementCreateNestedManyWithoutRequirementInput
   assuranceProtocols?: Prisma.AssuranceProtocolCreateNestedManyWithoutRequirementRelInput
@@ -953,6 +1013,8 @@ export type RequirementUncheckedCreateWithoutConclusionsInput = {
   socSummary?: string | null
   createdAt?: Date | string
   companyId?: string | null
+  contentStatus?: $Enums.ContentStatus
+  supersededAt?: Date | string | null
   controlMappings?: Prisma.MapControl2RequirementUncheckedCreateNestedManyWithoutRequirementInput
   assuranceProtocols?: Prisma.AssuranceProtocolUncheckedCreateNestedManyWithoutRequirementRelInput
   auditMappings?: Prisma.AuditChecklist2RequirementUncheckedCreateNestedManyWithoutRequirementInput
@@ -989,6 +1051,8 @@ export type RequirementUpdateWithoutConclusionsInput = {
   socSummary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentStatus?: Prisma.EnumContentStatusFieldUpdateOperationsInput | $Enums.ContentStatus
+  supersededAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   processArea?: Prisma.ProcessAreaUpdateOneWithoutRequirementsNestedInput
   controlMappings?: Prisma.MapControl2RequirementUpdateManyWithoutRequirementNestedInput
   assuranceProtocols?: Prisma.AssuranceProtocolUpdateManyWithoutRequirementRelNestedInput
@@ -1011,6 +1075,8 @@ export type RequirementUncheckedUpdateWithoutConclusionsInput = {
   socSummary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentStatus?: Prisma.EnumContentStatusFieldUpdateOperationsInput | $Enums.ContentStatus
+  supersededAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   controlMappings?: Prisma.MapControl2RequirementUncheckedUpdateManyWithoutRequirementNestedInput
   assuranceProtocols?: Prisma.AssuranceProtocolUncheckedUpdateManyWithoutRequirementRelNestedInput
   auditMappings?: Prisma.AuditChecklist2RequirementUncheckedUpdateManyWithoutRequirementNestedInput
@@ -1031,6 +1097,8 @@ export type RequirementCreateWithoutControlMappingsInput = {
   socSummary?: string | null
   createdAt?: Date | string
   companyId?: string | null
+  contentStatus?: $Enums.ContentStatus
+  supersededAt?: Date | string | null
   processArea?: Prisma.ProcessAreaCreateNestedOneWithoutRequirementsInput
   assuranceProtocols?: Prisma.AssuranceProtocolCreateNestedManyWithoutRequirementRelInput
   auditMappings?: Prisma.AuditChecklist2RequirementCreateNestedManyWithoutRequirementInput
@@ -1053,6 +1121,8 @@ export type RequirementUncheckedCreateWithoutControlMappingsInput = {
   socSummary?: string | null
   createdAt?: Date | string
   companyId?: string | null
+  contentStatus?: $Enums.ContentStatus
+  supersededAt?: Date | string | null
   assuranceProtocols?: Prisma.AssuranceProtocolUncheckedCreateNestedManyWithoutRequirementRelInput
   auditMappings?: Prisma.AuditChecklist2RequirementUncheckedCreateNestedManyWithoutRequirementInput
   documentMappings?: Prisma.MapRequirement2DocumentUncheckedCreateNestedManyWithoutRequirementInput
@@ -1089,6 +1159,8 @@ export type RequirementUpdateWithoutControlMappingsInput = {
   socSummary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentStatus?: Prisma.EnumContentStatusFieldUpdateOperationsInput | $Enums.ContentStatus
+  supersededAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   processArea?: Prisma.ProcessAreaUpdateOneWithoutRequirementsNestedInput
   assuranceProtocols?: Prisma.AssuranceProtocolUpdateManyWithoutRequirementRelNestedInput
   auditMappings?: Prisma.AuditChecklist2RequirementUpdateManyWithoutRequirementNestedInput
@@ -1111,6 +1183,8 @@ export type RequirementUncheckedUpdateWithoutControlMappingsInput = {
   socSummary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentStatus?: Prisma.EnumContentStatusFieldUpdateOperationsInput | $Enums.ContentStatus
+  supersededAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   assuranceProtocols?: Prisma.AssuranceProtocolUncheckedUpdateManyWithoutRequirementRelNestedInput
   auditMappings?: Prisma.AuditChecklist2RequirementUncheckedUpdateManyWithoutRequirementNestedInput
   documentMappings?: Prisma.MapRequirement2DocumentUncheckedUpdateManyWithoutRequirementNestedInput
@@ -1131,6 +1205,8 @@ export type RequirementCreateWithoutDocumentMappingsInput = {
   socSummary?: string | null
   createdAt?: Date | string
   companyId?: string | null
+  contentStatus?: $Enums.ContentStatus
+  supersededAt?: Date | string | null
   processArea?: Prisma.ProcessAreaCreateNestedOneWithoutRequirementsInput
   controlMappings?: Prisma.MapControl2RequirementCreateNestedManyWithoutRequirementInput
   assuranceProtocols?: Prisma.AssuranceProtocolCreateNestedManyWithoutRequirementRelInput
@@ -1153,6 +1229,8 @@ export type RequirementUncheckedCreateWithoutDocumentMappingsInput = {
   socSummary?: string | null
   createdAt?: Date | string
   companyId?: string | null
+  contentStatus?: $Enums.ContentStatus
+  supersededAt?: Date | string | null
   controlMappings?: Prisma.MapControl2RequirementUncheckedCreateNestedManyWithoutRequirementInput
   assuranceProtocols?: Prisma.AssuranceProtocolUncheckedCreateNestedManyWithoutRequirementRelInput
   auditMappings?: Prisma.AuditChecklist2RequirementUncheckedCreateNestedManyWithoutRequirementInput
@@ -1189,6 +1267,8 @@ export type RequirementUpdateWithoutDocumentMappingsInput = {
   socSummary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentStatus?: Prisma.EnumContentStatusFieldUpdateOperationsInput | $Enums.ContentStatus
+  supersededAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   processArea?: Prisma.ProcessAreaUpdateOneWithoutRequirementsNestedInput
   controlMappings?: Prisma.MapControl2RequirementUpdateManyWithoutRequirementNestedInput
   assuranceProtocols?: Prisma.AssuranceProtocolUpdateManyWithoutRequirementRelNestedInput
@@ -1211,6 +1291,8 @@ export type RequirementUncheckedUpdateWithoutDocumentMappingsInput = {
   socSummary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentStatus?: Prisma.EnumContentStatusFieldUpdateOperationsInput | $Enums.ContentStatus
+  supersededAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   controlMappings?: Prisma.MapControl2RequirementUncheckedUpdateManyWithoutRequirementNestedInput
   assuranceProtocols?: Prisma.AssuranceProtocolUncheckedUpdateManyWithoutRequirementRelNestedInput
   auditMappings?: Prisma.AuditChecklist2RequirementUncheckedUpdateManyWithoutRequirementNestedInput
@@ -1231,6 +1313,8 @@ export type RequirementCreateWithoutAuditMappingsInput = {
   socSummary?: string | null
   createdAt?: Date | string
   companyId?: string | null
+  contentStatus?: $Enums.ContentStatus
+  supersededAt?: Date | string | null
   processArea?: Prisma.ProcessAreaCreateNestedOneWithoutRequirementsInput
   controlMappings?: Prisma.MapControl2RequirementCreateNestedManyWithoutRequirementInput
   assuranceProtocols?: Prisma.AssuranceProtocolCreateNestedManyWithoutRequirementRelInput
@@ -1253,6 +1337,8 @@ export type RequirementUncheckedCreateWithoutAuditMappingsInput = {
   socSummary?: string | null
   createdAt?: Date | string
   companyId?: string | null
+  contentStatus?: $Enums.ContentStatus
+  supersededAt?: Date | string | null
   controlMappings?: Prisma.MapControl2RequirementUncheckedCreateNestedManyWithoutRequirementInput
   assuranceProtocols?: Prisma.AssuranceProtocolUncheckedCreateNestedManyWithoutRequirementRelInput
   documentMappings?: Prisma.MapRequirement2DocumentUncheckedCreateNestedManyWithoutRequirementInput
@@ -1289,6 +1375,8 @@ export type RequirementUpdateWithoutAuditMappingsInput = {
   socSummary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentStatus?: Prisma.EnumContentStatusFieldUpdateOperationsInput | $Enums.ContentStatus
+  supersededAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   processArea?: Prisma.ProcessAreaUpdateOneWithoutRequirementsNestedInput
   controlMappings?: Prisma.MapControl2RequirementUpdateManyWithoutRequirementNestedInput
   assuranceProtocols?: Prisma.AssuranceProtocolUpdateManyWithoutRequirementRelNestedInput
@@ -1311,6 +1399,8 @@ export type RequirementUncheckedUpdateWithoutAuditMappingsInput = {
   socSummary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentStatus?: Prisma.EnumContentStatusFieldUpdateOperationsInput | $Enums.ContentStatus
+  supersededAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   controlMappings?: Prisma.MapControl2RequirementUncheckedUpdateManyWithoutRequirementNestedInput
   assuranceProtocols?: Prisma.AssuranceProtocolUncheckedUpdateManyWithoutRequirementRelNestedInput
   documentMappings?: Prisma.MapRequirement2DocumentUncheckedUpdateManyWithoutRequirementNestedInput
@@ -1331,6 +1421,8 @@ export type RequirementCreateManyProcessAreaInput = {
   socSummary?: string | null
   createdAt?: Date | string
   companyId?: string | null
+  contentStatus?: $Enums.ContentStatus
+  supersededAt?: Date | string | null
 }
 
 export type RequirementUpdateWithoutProcessAreaInput = {
@@ -1347,6 +1439,8 @@ export type RequirementUpdateWithoutProcessAreaInput = {
   socSummary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentStatus?: Prisma.EnumContentStatusFieldUpdateOperationsInput | $Enums.ContentStatus
+  supersededAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   controlMappings?: Prisma.MapControl2RequirementUpdateManyWithoutRequirementNestedInput
   assuranceProtocols?: Prisma.AssuranceProtocolUpdateManyWithoutRequirementRelNestedInput
   auditMappings?: Prisma.AuditChecklist2RequirementUpdateManyWithoutRequirementNestedInput
@@ -1368,6 +1462,8 @@ export type RequirementUncheckedUpdateWithoutProcessAreaInput = {
   socSummary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentStatus?: Prisma.EnumContentStatusFieldUpdateOperationsInput | $Enums.ContentStatus
+  supersededAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   controlMappings?: Prisma.MapControl2RequirementUncheckedUpdateManyWithoutRequirementNestedInput
   assuranceProtocols?: Prisma.AssuranceProtocolUncheckedUpdateManyWithoutRequirementRelNestedInput
   auditMappings?: Prisma.AuditChecklist2RequirementUncheckedUpdateManyWithoutRequirementNestedInput
@@ -1389,6 +1485,8 @@ export type RequirementUncheckedUpdateManyWithoutProcessAreaInput = {
   socSummary?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentStatus?: Prisma.EnumContentStatusFieldUpdateOperationsInput | $Enums.ContentStatus
+  supersededAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 
@@ -1473,6 +1571,8 @@ export type RequirementSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   socSummary?: boolean
   createdAt?: boolean
   companyId?: boolean
+  contentStatus?: boolean
+  supersededAt?: boolean
   processArea?: boolean | Prisma.Requirement$processAreaArgs<ExtArgs>
   controlMappings?: boolean | Prisma.Requirement$controlMappingsArgs<ExtArgs>
   assuranceProtocols?: boolean | Prisma.Requirement$assuranceProtocolsArgs<ExtArgs>
@@ -1497,6 +1597,8 @@ export type RequirementSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
   socSummary?: boolean
   createdAt?: boolean
   companyId?: boolean
+  contentStatus?: boolean
+  supersededAt?: boolean
   processArea?: boolean | Prisma.Requirement$processAreaArgs<ExtArgs>
 }, ExtArgs["result"]["requirement"]>
 
@@ -1515,6 +1617,8 @@ export type RequirementSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
   socSummary?: boolean
   createdAt?: boolean
   companyId?: boolean
+  contentStatus?: boolean
+  supersededAt?: boolean
   processArea?: boolean | Prisma.Requirement$processAreaArgs<ExtArgs>
 }, ExtArgs["result"]["requirement"]>
 
@@ -1533,9 +1637,11 @@ export type RequirementSelectScalar = {
   socSummary?: boolean
   createdAt?: boolean
   companyId?: boolean
+  contentStatus?: boolean
+  supersededAt?: boolean
 }
 
-export type RequirementOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"rId" | "standard" | "pId" | "processAreaId" | "requirementId" | "clauseContent" | "intentOutcome" | "clauseApplicability" | "references" | "applicable" | "socStatus" | "socSummary" | "createdAt" | "companyId", ExtArgs["result"]["requirement"]>
+export type RequirementOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"rId" | "standard" | "pId" | "processAreaId" | "requirementId" | "clauseContent" | "intentOutcome" | "clauseApplicability" | "references" | "applicable" | "socStatus" | "socSummary" | "createdAt" | "companyId" | "contentStatus" | "supersededAt", ExtArgs["result"]["requirement"]>
 export type RequirementInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   processArea?: boolean | Prisma.Requirement$processAreaArgs<ExtArgs>
   controlMappings?: boolean | Prisma.Requirement$controlMappingsArgs<ExtArgs>
@@ -1581,6 +1687,11 @@ export type $RequirementPayload<ExtArgs extends runtime.Types.Extensions.Interna
     socSummary: string | null
     createdAt: Date
     companyId: string | null
+    /**
+     * SAMS-016: read-only superseded marker (removed-from-baseline content retained).
+     */
+    contentStatus: $Enums.ContentStatus
+    supersededAt: Date | null
   }, ExtArgs["result"]["requirement"]>
   composites: {}
 }
@@ -2024,6 +2135,8 @@ export interface RequirementFieldRefs {
   readonly socSummary: Prisma.FieldRef<"Requirement", 'String'>
   readonly createdAt: Prisma.FieldRef<"Requirement", 'DateTime'>
   readonly companyId: Prisma.FieldRef<"Requirement", 'String'>
+  readonly contentStatus: Prisma.FieldRef<"Requirement", 'ContentStatus'>
+  readonly supersededAt: Prisma.FieldRef<"Requirement", 'DateTime'>
 }
     
 

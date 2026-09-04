@@ -70,6 +70,8 @@ export type ControlMinAggregateOutputType = {
   pId: string | null
   Requirements: string | null
   companyId: string | null
+  contentStatus: $Enums.ContentStatus | null
+  supersededAt: Date | null
   controlOwner: string | null
   assuranceCadence: string | null
   effectivenessCriteria: string | null
@@ -110,6 +112,8 @@ export type ControlMaxAggregateOutputType = {
   pId: string | null
   Requirements: string | null
   companyId: string | null
+  contentStatus: $Enums.ContentStatus | null
+  supersededAt: Date | null
   controlOwner: string | null
   assuranceCadence: string | null
   effectivenessCriteria: string | null
@@ -150,6 +154,8 @@ export type ControlCountAggregateOutputType = {
   pId: number
   Requirements: number
   companyId: number
+  contentStatus: number
+  supersededAt: number
   controlOwner: number
   assuranceCadence: number
   effectivenessCriteria: number
@@ -202,6 +208,8 @@ export type ControlMinAggregateInputType = {
   pId?: true
   Requirements?: true
   companyId?: true
+  contentStatus?: true
+  supersededAt?: true
   controlOwner?: true
   assuranceCadence?: true
   effectivenessCriteria?: true
@@ -242,6 +250,8 @@ export type ControlMaxAggregateInputType = {
   pId?: true
   Requirements?: true
   companyId?: true
+  contentStatus?: true
+  supersededAt?: true
   controlOwner?: true
   assuranceCadence?: true
   effectivenessCriteria?: true
@@ -282,6 +292,8 @@ export type ControlCountAggregateInputType = {
   pId?: true
   Requirements?: true
   companyId?: true
+  contentStatus?: true
+  supersededAt?: true
   controlOwner?: true
   assuranceCadence?: true
   effectivenessCriteria?: true
@@ -409,6 +421,8 @@ export type ControlGroupByOutputType = {
   pId: string | null
   Requirements: string | null
   companyId: string | null
+  contentStatus: $Enums.ContentStatus
+  supersededAt: Date | null
   controlOwner: string | null
   assuranceCadence: string | null
   effectivenessCriteria: string | null
@@ -472,6 +486,8 @@ export type ControlWhereInput = {
   pId?: Prisma.StringNullableFilter<"Control"> | string | null
   Requirements?: Prisma.StringNullableFilter<"Control"> | string | null
   companyId?: Prisma.StringNullableFilter<"Control"> | string | null
+  contentStatus?: Prisma.EnumContentStatusFilter<"Control"> | $Enums.ContentStatus
+  supersededAt?: Prisma.DateTimeNullableFilter<"Control"> | Date | string | null
   controlOwner?: Prisma.StringNullableFilter<"Control"> | string | null
   assuranceCadence?: Prisma.StringNullableFilter<"Control"> | string | null
   effectivenessCriteria?: Prisma.StringNullableFilter<"Control"> | string | null
@@ -521,6 +537,8 @@ export type ControlOrderByWithRelationInput = {
   pId?: Prisma.SortOrderInput | Prisma.SortOrder
   Requirements?: Prisma.SortOrderInput | Prisma.SortOrder
   companyId?: Prisma.SortOrderInput | Prisma.SortOrder
+  contentStatus?: Prisma.SortOrder
+  supersededAt?: Prisma.SortOrderInput | Prisma.SortOrder
   controlOwner?: Prisma.SortOrderInput | Prisma.SortOrder
   assuranceCadence?: Prisma.SortOrderInput | Prisma.SortOrder
   effectivenessCriteria?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -574,6 +592,8 @@ export type ControlWhereUniqueInput = Prisma.AtLeast<{
   pId?: Prisma.StringNullableFilter<"Control"> | string | null
   Requirements?: Prisma.StringNullableFilter<"Control"> | string | null
   companyId?: Prisma.StringNullableFilter<"Control"> | string | null
+  contentStatus?: Prisma.EnumContentStatusFilter<"Control"> | $Enums.ContentStatus
+  supersededAt?: Prisma.DateTimeNullableFilter<"Control"> | Date | string | null
   controlOwner?: Prisma.StringNullableFilter<"Control"> | string | null
   assuranceCadence?: Prisma.StringNullableFilter<"Control"> | string | null
   effectivenessCriteria?: Prisma.StringNullableFilter<"Control"> | string | null
@@ -623,6 +643,8 @@ export type ControlOrderByWithAggregationInput = {
   pId?: Prisma.SortOrderInput | Prisma.SortOrder
   Requirements?: Prisma.SortOrderInput | Prisma.SortOrder
   companyId?: Prisma.SortOrderInput | Prisma.SortOrder
+  contentStatus?: Prisma.SortOrder
+  supersededAt?: Prisma.SortOrderInput | Prisma.SortOrder
   controlOwner?: Prisma.SortOrderInput | Prisma.SortOrder
   assuranceCadence?: Prisma.SortOrderInput | Prisma.SortOrder
   effectivenessCriteria?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -671,6 +693,8 @@ export type ControlScalarWhereWithAggregatesInput = {
   pId?: Prisma.StringNullableWithAggregatesFilter<"Control"> | string | null
   Requirements?: Prisma.StringNullableWithAggregatesFilter<"Control"> | string | null
   companyId?: Prisma.StringNullableWithAggregatesFilter<"Control"> | string | null
+  contentStatus?: Prisma.EnumContentStatusWithAggregatesFilter<"Control"> | $Enums.ContentStatus
+  supersededAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Control"> | Date | string | null
   controlOwner?: Prisma.StringNullableWithAggregatesFilter<"Control"> | string | null
   assuranceCadence?: Prisma.StringNullableWithAggregatesFilter<"Control"> | string | null
   effectivenessCriteria?: Prisma.StringNullableWithAggregatesFilter<"Control"> | string | null
@@ -710,6 +734,8 @@ export type ControlCreateInput = {
   pId?: string | null
   Requirements?: string | null
   companyId?: string | null
+  contentStatus?: $Enums.ContentStatus
+  supersededAt?: Date | string | null
   controlOwner?: string | null
   assuranceCadence?: string | null
   effectivenessCriteria?: string | null
@@ -759,6 +785,8 @@ export type ControlUncheckedCreateInput = {
   pId?: string | null
   Requirements?: string | null
   companyId?: string | null
+  contentStatus?: $Enums.ContentStatus
+  supersededAt?: Date | string | null
   controlOwner?: string | null
   assuranceCadence?: string | null
   effectivenessCriteria?: string | null
@@ -806,6 +834,8 @@ export type ControlUpdateInput = {
   pId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   Requirements?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentStatus?: Prisma.EnumContentStatusFieldUpdateOperationsInput | $Enums.ContentStatus
+  supersededAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   controlOwner?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   assuranceCadence?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   effectivenessCriteria?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -855,6 +885,8 @@ export type ControlUncheckedUpdateInput = {
   pId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   Requirements?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentStatus?: Prisma.EnumContentStatusFieldUpdateOperationsInput | $Enums.ContentStatus
+  supersededAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   controlOwner?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   assuranceCadence?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   effectivenessCriteria?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -903,6 +935,8 @@ export type ControlCreateManyInput = {
   pId?: string | null
   Requirements?: string | null
   companyId?: string | null
+  contentStatus?: $Enums.ContentStatus
+  supersededAt?: Date | string | null
   controlOwner?: string | null
   assuranceCadence?: string | null
   effectivenessCriteria?: string | null
@@ -942,6 +976,8 @@ export type ControlUpdateManyMutationInput = {
   pId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   Requirements?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentStatus?: Prisma.EnumContentStatusFieldUpdateOperationsInput | $Enums.ContentStatus
+  supersededAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   controlOwner?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   assuranceCadence?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   effectivenessCriteria?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -982,6 +1018,8 @@ export type ControlUncheckedUpdateManyInput = {
   pId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   Requirements?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentStatus?: Prisma.EnumContentStatusFieldUpdateOperationsInput | $Enums.ContentStatus
+  supersededAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   controlOwner?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   assuranceCadence?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   effectivenessCriteria?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1042,6 +1080,8 @@ export type ControlCountOrderByAggregateInput = {
   pId?: Prisma.SortOrder
   Requirements?: Prisma.SortOrder
   companyId?: Prisma.SortOrder
+  contentStatus?: Prisma.SortOrder
+  supersededAt?: Prisma.SortOrder
   controlOwner?: Prisma.SortOrder
   assuranceCadence?: Prisma.SortOrder
   effectivenessCriteria?: Prisma.SortOrder
@@ -1087,6 +1127,8 @@ export type ControlMaxOrderByAggregateInput = {
   pId?: Prisma.SortOrder
   Requirements?: Prisma.SortOrder
   companyId?: Prisma.SortOrder
+  contentStatus?: Prisma.SortOrder
+  supersededAt?: Prisma.SortOrder
   controlOwner?: Prisma.SortOrder
   assuranceCadence?: Prisma.SortOrder
   effectivenessCriteria?: Prisma.SortOrder
@@ -1127,6 +1169,8 @@ export type ControlMinOrderByAggregateInput = {
   pId?: Prisma.SortOrder
   Requirements?: Prisma.SortOrder
   companyId?: Prisma.SortOrder
+  contentStatus?: Prisma.SortOrder
+  supersededAt?: Prisma.SortOrder
   controlOwner?: Prisma.SortOrder
   assuranceCadence?: Prisma.SortOrder
   effectivenessCriteria?: Prisma.SortOrder
@@ -1336,6 +1380,8 @@ export type ControlCreateWithoutProcessAreaInput = {
   pId?: string | null
   Requirements?: string | null
   companyId?: string | null
+  contentStatus?: $Enums.ContentStatus
+  supersededAt?: Date | string | null
   controlOwner?: string | null
   assuranceCadence?: string | null
   effectivenessCriteria?: string | null
@@ -1383,6 +1429,8 @@ export type ControlUncheckedCreateWithoutProcessAreaInput = {
   pId?: string | null
   Requirements?: string | null
   companyId?: string | null
+  contentStatus?: $Enums.ContentStatus
+  supersededAt?: Date | string | null
   controlOwner?: string | null
   assuranceCadence?: string | null
   effectivenessCriteria?: string | null
@@ -1460,6 +1508,8 @@ export type ControlScalarWhereInput = {
   pId?: Prisma.StringNullableFilter<"Control"> | string | null
   Requirements?: Prisma.StringNullableFilter<"Control"> | string | null
   companyId?: Prisma.StringNullableFilter<"Control"> | string | null
+  contentStatus?: Prisma.EnumContentStatusFilter<"Control"> | $Enums.ContentStatus
+  supersededAt?: Prisma.DateTimeNullableFilter<"Control"> | Date | string | null
   controlOwner?: Prisma.StringNullableFilter<"Control"> | string | null
   assuranceCadence?: Prisma.StringNullableFilter<"Control"> | string | null
   effectivenessCriteria?: Prisma.StringNullableFilter<"Control"> | string | null
@@ -1499,6 +1549,8 @@ export type ControlCreateWithoutControlSubProcessesInput = {
   pId?: string | null
   Requirements?: string | null
   companyId?: string | null
+  contentStatus?: $Enums.ContentStatus
+  supersededAt?: Date | string | null
   controlOwner?: string | null
   assuranceCadence?: string | null
   effectivenessCriteria?: string | null
@@ -1547,6 +1599,8 @@ export type ControlUncheckedCreateWithoutControlSubProcessesInput = {
   pId?: string | null
   Requirements?: string | null
   companyId?: string | null
+  contentStatus?: $Enums.ContentStatus
+  supersededAt?: Date | string | null
   controlOwner?: string | null
   assuranceCadence?: string | null
   effectivenessCriteria?: string | null
@@ -1609,6 +1663,8 @@ export type ControlUpdateWithoutControlSubProcessesInput = {
   pId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   Requirements?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentStatus?: Prisma.EnumContentStatusFieldUpdateOperationsInput | $Enums.ContentStatus
+  supersededAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   controlOwner?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   assuranceCadence?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   effectivenessCriteria?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1657,6 +1713,8 @@ export type ControlUncheckedUpdateWithoutControlSubProcessesInput = {
   pId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   Requirements?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentStatus?: Prisma.EnumContentStatusFieldUpdateOperationsInput | $Enums.ContentStatus
+  supersededAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   controlOwner?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   assuranceCadence?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   effectivenessCriteria?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1703,6 +1761,8 @@ export type ControlCreateWithoutTemplateLinkagesInput = {
   pId?: string | null
   Requirements?: string | null
   companyId?: string | null
+  contentStatus?: $Enums.ContentStatus
+  supersededAt?: Date | string | null
   controlOwner?: string | null
   assuranceCadence?: string | null
   effectivenessCriteria?: string | null
@@ -1751,6 +1811,8 @@ export type ControlUncheckedCreateWithoutTemplateLinkagesInput = {
   pId?: string | null
   Requirements?: string | null
   companyId?: string | null
+  contentStatus?: $Enums.ContentStatus
+  supersededAt?: Date | string | null
   controlOwner?: string | null
   assuranceCadence?: string | null
   effectivenessCriteria?: string | null
@@ -1813,6 +1875,8 @@ export type ControlUpdateWithoutTemplateLinkagesInput = {
   pId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   Requirements?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentStatus?: Prisma.EnumContentStatusFieldUpdateOperationsInput | $Enums.ContentStatus
+  supersededAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   controlOwner?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   assuranceCadence?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   effectivenessCriteria?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1861,6 +1925,8 @@ export type ControlUncheckedUpdateWithoutTemplateLinkagesInput = {
   pId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   Requirements?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentStatus?: Prisma.EnumContentStatusFieldUpdateOperationsInput | $Enums.ContentStatus
+  supersededAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   controlOwner?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   assuranceCadence?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   effectivenessCriteria?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1907,6 +1973,8 @@ export type ControlCreateWithoutControlAssignmentsInput = {
   pId?: string | null
   Requirements?: string | null
   companyId?: string | null
+  contentStatus?: $Enums.ContentStatus
+  supersededAt?: Date | string | null
   controlOwner?: string | null
   assuranceCadence?: string | null
   effectivenessCriteria?: string | null
@@ -1955,6 +2023,8 @@ export type ControlUncheckedCreateWithoutControlAssignmentsInput = {
   pId?: string | null
   Requirements?: string | null
   companyId?: string | null
+  contentStatus?: $Enums.ContentStatus
+  supersededAt?: Date | string | null
   controlOwner?: string | null
   assuranceCadence?: string | null
   effectivenessCriteria?: string | null
@@ -2017,6 +2087,8 @@ export type ControlUpdateWithoutControlAssignmentsInput = {
   pId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   Requirements?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentStatus?: Prisma.EnumContentStatusFieldUpdateOperationsInput | $Enums.ContentStatus
+  supersededAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   controlOwner?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   assuranceCadence?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   effectivenessCriteria?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2065,6 +2137,8 @@ export type ControlUncheckedUpdateWithoutControlAssignmentsInput = {
   pId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   Requirements?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentStatus?: Prisma.EnumContentStatusFieldUpdateOperationsInput | $Enums.ContentStatus
+  supersededAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   controlOwner?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   assuranceCadence?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   effectivenessCriteria?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2111,6 +2185,8 @@ export type ControlCreateWithoutRequirementMappingsInput = {
   pId?: string | null
   Requirements?: string | null
   companyId?: string | null
+  contentStatus?: $Enums.ContentStatus
+  supersededAt?: Date | string | null
   controlOwner?: string | null
   assuranceCadence?: string | null
   effectivenessCriteria?: string | null
@@ -2159,6 +2235,8 @@ export type ControlUncheckedCreateWithoutRequirementMappingsInput = {
   pId?: string | null
   Requirements?: string | null
   companyId?: string | null
+  contentStatus?: $Enums.ContentStatus
+  supersededAt?: Date | string | null
   controlOwner?: string | null
   assuranceCadence?: string | null
   effectivenessCriteria?: string | null
@@ -2221,6 +2299,8 @@ export type ControlUpdateWithoutRequirementMappingsInput = {
   pId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   Requirements?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentStatus?: Prisma.EnumContentStatusFieldUpdateOperationsInput | $Enums.ContentStatus
+  supersededAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   controlOwner?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   assuranceCadence?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   effectivenessCriteria?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2269,6 +2349,8 @@ export type ControlUncheckedUpdateWithoutRequirementMappingsInput = {
   pId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   Requirements?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentStatus?: Prisma.EnumContentStatusFieldUpdateOperationsInput | $Enums.ContentStatus
+  supersededAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   controlOwner?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   assuranceCadence?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   effectivenessCriteria?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2315,6 +2397,8 @@ export type ControlCreateWithoutRiskMappingsInput = {
   pId?: string | null
   Requirements?: string | null
   companyId?: string | null
+  contentStatus?: $Enums.ContentStatus
+  supersededAt?: Date | string | null
   controlOwner?: string | null
   assuranceCadence?: string | null
   effectivenessCriteria?: string | null
@@ -2363,6 +2447,8 @@ export type ControlUncheckedCreateWithoutRiskMappingsInput = {
   pId?: string | null
   Requirements?: string | null
   companyId?: string | null
+  contentStatus?: $Enums.ContentStatus
+  supersededAt?: Date | string | null
   controlOwner?: string | null
   assuranceCadence?: string | null
   effectivenessCriteria?: string | null
@@ -2425,6 +2511,8 @@ export type ControlUpdateWithoutRiskMappingsInput = {
   pId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   Requirements?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentStatus?: Prisma.EnumContentStatusFieldUpdateOperationsInput | $Enums.ContentStatus
+  supersededAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   controlOwner?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   assuranceCadence?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   effectivenessCriteria?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2473,6 +2561,8 @@ export type ControlUncheckedUpdateWithoutRiskMappingsInput = {
   pId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   Requirements?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentStatus?: Prisma.EnumContentStatusFieldUpdateOperationsInput | $Enums.ContentStatus
+  supersededAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   controlOwner?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   assuranceCadence?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   effectivenessCriteria?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2519,6 +2609,8 @@ export type ControlCreateWithoutPipLinksInput = {
   pId?: string | null
   Requirements?: string | null
   companyId?: string | null
+  contentStatus?: $Enums.ContentStatus
+  supersededAt?: Date | string | null
   controlOwner?: string | null
   assuranceCadence?: string | null
   effectivenessCriteria?: string | null
@@ -2567,6 +2659,8 @@ export type ControlUncheckedCreateWithoutPipLinksInput = {
   pId?: string | null
   Requirements?: string | null
   companyId?: string | null
+  contentStatus?: $Enums.ContentStatus
+  supersededAt?: Date | string | null
   controlOwner?: string | null
   assuranceCadence?: string | null
   effectivenessCriteria?: string | null
@@ -2629,6 +2723,8 @@ export type ControlUpdateWithoutPipLinksInput = {
   pId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   Requirements?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentStatus?: Prisma.EnumContentStatusFieldUpdateOperationsInput | $Enums.ContentStatus
+  supersededAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   controlOwner?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   assuranceCadence?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   effectivenessCriteria?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2677,6 +2773,8 @@ export type ControlUncheckedUpdateWithoutPipLinksInput = {
   pId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   Requirements?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentStatus?: Prisma.EnumContentStatusFieldUpdateOperationsInput | $Enums.ContentStatus
+  supersededAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   controlOwner?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   assuranceCadence?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   effectivenessCriteria?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2723,6 +2821,8 @@ export type ControlCreateWithoutAuditMappingsInput = {
   pId?: string | null
   Requirements?: string | null
   companyId?: string | null
+  contentStatus?: $Enums.ContentStatus
+  supersededAt?: Date | string | null
   controlOwner?: string | null
   assuranceCadence?: string | null
   effectivenessCriteria?: string | null
@@ -2771,6 +2871,8 @@ export type ControlUncheckedCreateWithoutAuditMappingsInput = {
   pId?: string | null
   Requirements?: string | null
   companyId?: string | null
+  contentStatus?: $Enums.ContentStatus
+  supersededAt?: Date | string | null
   controlOwner?: string | null
   assuranceCadence?: string | null
   effectivenessCriteria?: string | null
@@ -2833,6 +2935,8 @@ export type ControlUpdateWithoutAuditMappingsInput = {
   pId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   Requirements?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentStatus?: Prisma.EnumContentStatusFieldUpdateOperationsInput | $Enums.ContentStatus
+  supersededAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   controlOwner?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   assuranceCadence?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   effectivenessCriteria?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2881,6 +2985,8 @@ export type ControlUncheckedUpdateWithoutAuditMappingsInput = {
   pId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   Requirements?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentStatus?: Prisma.EnumContentStatusFieldUpdateOperationsInput | $Enums.ContentStatus
+  supersededAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   controlOwner?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   assuranceCadence?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   effectivenessCriteria?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2927,6 +3033,8 @@ export type ControlCreateWithoutChecklistControlLinksInput = {
   pId?: string | null
   Requirements?: string | null
   companyId?: string | null
+  contentStatus?: $Enums.ContentStatus
+  supersededAt?: Date | string | null
   controlOwner?: string | null
   assuranceCadence?: string | null
   effectivenessCriteria?: string | null
@@ -2975,6 +3083,8 @@ export type ControlUncheckedCreateWithoutChecklistControlLinksInput = {
   pId?: string | null
   Requirements?: string | null
   companyId?: string | null
+  contentStatus?: $Enums.ContentStatus
+  supersededAt?: Date | string | null
   controlOwner?: string | null
   assuranceCadence?: string | null
   effectivenessCriteria?: string | null
@@ -3037,6 +3147,8 @@ export type ControlUpdateWithoutChecklistControlLinksInput = {
   pId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   Requirements?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentStatus?: Prisma.EnumContentStatusFieldUpdateOperationsInput | $Enums.ContentStatus
+  supersededAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   controlOwner?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   assuranceCadence?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   effectivenessCriteria?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3085,6 +3197,8 @@ export type ControlUncheckedUpdateWithoutChecklistControlLinksInput = {
   pId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   Requirements?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentStatus?: Prisma.EnumContentStatusFieldUpdateOperationsInput | $Enums.ContentStatus
+  supersededAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   controlOwner?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   assuranceCadence?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   effectivenessCriteria?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3131,6 +3245,8 @@ export type ControlCreateManyProcessAreaInput = {
   pId?: string | null
   Requirements?: string | null
   companyId?: string | null
+  contentStatus?: $Enums.ContentStatus
+  supersededAt?: Date | string | null
   controlOwner?: string | null
   assuranceCadence?: string | null
   effectivenessCriteria?: string | null
@@ -3170,6 +3286,8 @@ export type ControlUpdateWithoutProcessAreaInput = {
   pId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   Requirements?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentStatus?: Prisma.EnumContentStatusFieldUpdateOperationsInput | $Enums.ContentStatus
+  supersededAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   controlOwner?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   assuranceCadence?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   effectivenessCriteria?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3217,6 +3335,8 @@ export type ControlUncheckedUpdateWithoutProcessAreaInput = {
   pId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   Requirements?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentStatus?: Prisma.EnumContentStatusFieldUpdateOperationsInput | $Enums.ContentStatus
+  supersededAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   controlOwner?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   assuranceCadence?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   effectivenessCriteria?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3264,6 +3384,8 @@ export type ControlUncheckedUpdateManyWithoutProcessAreaInput = {
   pId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   Requirements?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentStatus?: Prisma.EnumContentStatusFieldUpdateOperationsInput | $Enums.ContentStatus
+  supersededAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   controlOwner?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   assuranceCadence?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   effectivenessCriteria?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3398,6 +3520,8 @@ export type ControlSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   pId?: boolean
   Requirements?: boolean
   companyId?: boolean
+  contentStatus?: boolean
+  supersededAt?: boolean
   controlOwner?: boolean
   assuranceCadence?: boolean
   effectivenessCriteria?: boolean
@@ -3448,6 +3572,8 @@ export type ControlSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   pId?: boolean
   Requirements?: boolean
   companyId?: boolean
+  contentStatus?: boolean
+  supersededAt?: boolean
   controlOwner?: boolean
   assuranceCadence?: boolean
   effectivenessCriteria?: boolean
@@ -3489,6 +3615,8 @@ export type ControlSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   pId?: boolean
   Requirements?: boolean
   companyId?: boolean
+  contentStatus?: boolean
+  supersededAt?: boolean
   controlOwner?: boolean
   assuranceCadence?: boolean
   effectivenessCriteria?: boolean
@@ -3530,13 +3658,15 @@ export type ControlSelectScalar = {
   pId?: boolean
   Requirements?: boolean
   companyId?: boolean
+  contentStatus?: boolean
+  supersededAt?: boolean
   controlOwner?: boolean
   assuranceCadence?: boolean
   effectivenessCriteria?: boolean
   practiceDocumentId?: boolean
 }
 
-export type ControlOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "statement" | "controlType" | "processAreaId" | "isHsseCritical" | "ramRating" | "riskWeight" | "mappedAt" | "rawHealthScore" | "lastTestedDate" | "lastTestResult" | "createdAt" | "controlRef" | "sourceFile" | "practiceDocument" | "controlTypeDetail" | "csfWho" | "csfWhat" | "csfWhen" | "csfWhere" | "csfWhy" | "csfHow" | "csfEvidence" | "keyActivities" | "riskAddressed" | "testingApproach" | "uncertainFlags" | "knowledge" | "standard" | "pId" | "Requirements" | "companyId" | "controlOwner" | "assuranceCadence" | "effectivenessCriteria" | "practiceDocumentId", ExtArgs["result"]["control"]>
+export type ControlOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "statement" | "controlType" | "processAreaId" | "isHsseCritical" | "ramRating" | "riskWeight" | "mappedAt" | "rawHealthScore" | "lastTestedDate" | "lastTestResult" | "createdAt" | "controlRef" | "sourceFile" | "practiceDocument" | "controlTypeDetail" | "csfWho" | "csfWhat" | "csfWhen" | "csfWhere" | "csfWhy" | "csfHow" | "csfEvidence" | "keyActivities" | "riskAddressed" | "testingApproach" | "uncertainFlags" | "knowledge" | "standard" | "pId" | "Requirements" | "companyId" | "contentStatus" | "supersededAt" | "controlOwner" | "assuranceCadence" | "effectivenessCriteria" | "practiceDocumentId", ExtArgs["result"]["control"]>
 export type ControlInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   controlAssignments?: boolean | Prisma.Control$controlAssignmentsArgs<ExtArgs>
   controlSubProcesses?: boolean | Prisma.Control$controlSubProcessesArgs<ExtArgs>
@@ -3607,6 +3737,13 @@ export type $ControlPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     pId: string | null
     Requirements: string | null
     companyId: string | null
+    /**
+     * SAMS-016: read-only superseded marker (removed-from-baseline content retained,
+     * FK links still resolve). Superseded controls are excluded from editable/active
+     * control sets while the record stays linkable.
+     */
+    contentStatus: $Enums.ContentStatus
+    supersededAt: Date | null
     controlOwner: string | null
     assuranceCadence: string | null
     effectivenessCriteria: string | null
@@ -4076,6 +4213,8 @@ export interface ControlFieldRefs {
   readonly pId: Prisma.FieldRef<"Control", 'String'>
   readonly Requirements: Prisma.FieldRef<"Control", 'String'>
   readonly companyId: Prisma.FieldRef<"Control", 'String'>
+  readonly contentStatus: Prisma.FieldRef<"Control", 'ContentStatus'>
+  readonly supersededAt: Prisma.FieldRef<"Control", 'DateTime'>
   readonly controlOwner: Prisma.FieldRef<"Control", 'String'>
   readonly assuranceCadence: Prisma.FieldRef<"Control", 'String'>
   readonly effectivenessCriteria: Prisma.FieldRef<"Control", 'String'>

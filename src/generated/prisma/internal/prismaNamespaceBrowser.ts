@@ -127,7 +127,9 @@ export const ModelName = {
   EvidenceRequest: 'EvidenceRequest',
   Notification: 'Notification',
   ExtractionProposal: 'ExtractionProposal',
-  NotificationDelivery: 'NotificationDelivery'
+  NotificationDelivery: 'NotificationDelivery',
+  ContentPack: 'ContentPack',
+  CompanyContentState: 'CompanyContentState'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -247,6 +249,8 @@ export const StandardScalarFieldEnum = {
   standardDescription: 'standardDescription',
   sequenceNo: 'sequenceNo',
   companyId: 'companyId',
+  contentStatus: 'contentStatus',
+  supersededAt: 'supersededAt',
   createdAt: 'createdAt'
 } as const
 
@@ -263,6 +267,8 @@ export const ProcessAreaScalarFieldEnum = {
   standard: 'standard',
   standardId: 'standardId',
   companyId: 'companyId',
+  contentStatus: 'contentStatus',
+  supersededAt: 'supersededAt',
   micStatement: 'micStatement',
   micStatementUpdatedAt: 'micStatementUpdatedAt'
 } as const
@@ -327,6 +333,8 @@ export const ControlScalarFieldEnum = {
   pId: 'pId',
   Requirements: 'Requirements',
   companyId: 'companyId',
+  contentStatus: 'contentStatus',
+  supersededAt: 'supersededAt',
   controlOwner: 'controlOwner',
   assuranceCadence: 'assuranceCadence',
   effectivenessCriteria: 'effectivenessCriteria',
@@ -900,7 +908,9 @@ export const RequirementScalarFieldEnum = {
   socStatus: 'socStatus',
   socSummary: 'socSummary',
   createdAt: 'createdAt',
-  companyId: 'companyId'
+  companyId: 'companyId',
+  contentStatus: 'contentStatus',
+  supersededAt: 'supersededAt'
 } as const
 
 export type RequirementScalarFieldEnum = (typeof RequirementScalarFieldEnum)[keyof typeof RequirementScalarFieldEnum]
@@ -1353,6 +1363,33 @@ export const NotificationDeliveryScalarFieldEnum = {
 } as const
 
 export type NotificationDeliveryScalarFieldEnum = (typeof NotificationDeliveryScalarFieldEnum)[keyof typeof NotificationDeliveryScalarFieldEnum]
+
+
+export const ContentPackScalarFieldEnum = {
+  id: 'id',
+  version: 'version',
+  companyId: 'companyId',
+  snapshot: 'snapshot',
+  publishedById: 'publishedById',
+  publishedAt: 'publishedAt',
+  createdAt: 'createdAt'
+} as const
+
+export type ContentPackScalarFieldEnum = (typeof ContentPackScalarFieldEnum)[keyof typeof ContentPackScalarFieldEnum]
+
+
+export const CompanyContentStateScalarFieldEnum = {
+  id: 'id',
+  companyId: 'companyId',
+  contentVersion: 'contentVersion',
+  lastPackId: 'lastPackId',
+  lastAdoptedAt: 'lastAdoptedAt',
+  acknowledgedContentVersion: 'acknowledgedContentVersion',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type CompanyContentStateScalarFieldEnum = (typeof CompanyContentStateScalarFieldEnum)[keyof typeof CompanyContentStateScalarFieldEnum]
 
 
 export const SortOrder = {

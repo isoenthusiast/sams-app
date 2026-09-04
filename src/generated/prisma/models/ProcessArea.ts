@@ -34,6 +34,8 @@ export type ProcessAreaMinAggregateOutputType = {
   standard: string | null
   standardId: string | null
   companyId: string | null
+  contentStatus: $Enums.ContentStatus | null
+  supersededAt: Date | null
   micStatement: string | null
   micStatementUpdatedAt: Date | null
 }
@@ -48,6 +50,8 @@ export type ProcessAreaMaxAggregateOutputType = {
   standard: string | null
   standardId: string | null
   companyId: string | null
+  contentStatus: $Enums.ContentStatus | null
+  supersededAt: Date | null
   micStatement: string | null
   micStatementUpdatedAt: Date | null
 }
@@ -62,6 +66,8 @@ export type ProcessAreaCountAggregateOutputType = {
   standard: number
   standardId: number
   companyId: number
+  contentStatus: number
+  supersededAt: number
   micStatement: number
   micStatementUpdatedAt: number
   _all: number
@@ -78,6 +84,8 @@ export type ProcessAreaMinAggregateInputType = {
   standard?: true
   standardId?: true
   companyId?: true
+  contentStatus?: true
+  supersededAt?: true
   micStatement?: true
   micStatementUpdatedAt?: true
 }
@@ -92,6 +100,8 @@ export type ProcessAreaMaxAggregateInputType = {
   standard?: true
   standardId?: true
   companyId?: true
+  contentStatus?: true
+  supersededAt?: true
   micStatement?: true
   micStatementUpdatedAt?: true
 }
@@ -106,6 +116,8 @@ export type ProcessAreaCountAggregateInputType = {
   standard?: true
   standardId?: true
   companyId?: true
+  contentStatus?: true
+  supersededAt?: true
   micStatement?: true
   micStatementUpdatedAt?: true
   _all?: true
@@ -193,6 +205,8 @@ export type ProcessAreaGroupByOutputType = {
   standard: string | null
   standardId: string | null
   companyId: string | null
+  contentStatus: $Enums.ContentStatus
+  supersededAt: Date | null
   micStatement: string | null
   micStatementUpdatedAt: Date | null
   _count: ProcessAreaCountAggregateOutputType | null
@@ -228,6 +242,8 @@ export type ProcessAreaWhereInput = {
   standard?: Prisma.StringNullableFilter<"ProcessArea"> | string | null
   standardId?: Prisma.StringNullableFilter<"ProcessArea"> | string | null
   companyId?: Prisma.StringNullableFilter<"ProcessArea"> | string | null
+  contentStatus?: Prisma.EnumContentStatusFilter<"ProcessArea"> | $Enums.ContentStatus
+  supersededAt?: Prisma.DateTimeNullableFilter<"ProcessArea"> | Date | string | null
   micStatement?: Prisma.StringNullableFilter<"ProcessArea"> | string | null
   micStatementUpdatedAt?: Prisma.DateTimeNullableFilter<"ProcessArea"> | Date | string | null
   standardRef?: Prisma.XOR<Prisma.StandardNullableScalarRelationFilter, Prisma.StandardWhereInput> | null
@@ -250,6 +266,8 @@ export type ProcessAreaOrderByWithRelationInput = {
   standard?: Prisma.SortOrderInput | Prisma.SortOrder
   standardId?: Prisma.SortOrderInput | Prisma.SortOrder
   companyId?: Prisma.SortOrderInput | Prisma.SortOrder
+  contentStatus?: Prisma.SortOrder
+  supersededAt?: Prisma.SortOrderInput | Prisma.SortOrder
   micStatement?: Prisma.SortOrderInput | Prisma.SortOrder
   micStatementUpdatedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   standardRef?: Prisma.StandardOrderByWithRelationInput
@@ -276,6 +294,8 @@ export type ProcessAreaWhereUniqueInput = Prisma.AtLeast<{
   standard?: Prisma.StringNullableFilter<"ProcessArea"> | string | null
   standardId?: Prisma.StringNullableFilter<"ProcessArea"> | string | null
   companyId?: Prisma.StringNullableFilter<"ProcessArea"> | string | null
+  contentStatus?: Prisma.EnumContentStatusFilter<"ProcessArea"> | $Enums.ContentStatus
+  supersededAt?: Prisma.DateTimeNullableFilter<"ProcessArea"> | Date | string | null
   micStatement?: Prisma.StringNullableFilter<"ProcessArea"> | string | null
   micStatementUpdatedAt?: Prisma.DateTimeNullableFilter<"ProcessArea"> | Date | string | null
   standardRef?: Prisma.XOR<Prisma.StandardNullableScalarRelationFilter, Prisma.StandardWhereInput> | null
@@ -298,6 +318,8 @@ export type ProcessAreaOrderByWithAggregationInput = {
   standard?: Prisma.SortOrderInput | Prisma.SortOrder
   standardId?: Prisma.SortOrderInput | Prisma.SortOrder
   companyId?: Prisma.SortOrderInput | Prisma.SortOrder
+  contentStatus?: Prisma.SortOrder
+  supersededAt?: Prisma.SortOrderInput | Prisma.SortOrder
   micStatement?: Prisma.SortOrderInput | Prisma.SortOrder
   micStatementUpdatedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.ProcessAreaCountOrderByAggregateInput
@@ -318,6 +340,8 @@ export type ProcessAreaScalarWhereWithAggregatesInput = {
   standard?: Prisma.StringNullableWithAggregatesFilter<"ProcessArea"> | string | null
   standardId?: Prisma.StringNullableWithAggregatesFilter<"ProcessArea"> | string | null
   companyId?: Prisma.StringNullableWithAggregatesFilter<"ProcessArea"> | string | null
+  contentStatus?: Prisma.EnumContentStatusWithAggregatesFilter<"ProcessArea"> | $Enums.ContentStatus
+  supersededAt?: Prisma.DateTimeNullableWithAggregatesFilter<"ProcessArea"> | Date | string | null
   micStatement?: Prisma.StringNullableWithAggregatesFilter<"ProcessArea"> | string | null
   micStatementUpdatedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"ProcessArea"> | Date | string | null
 }
@@ -331,6 +355,8 @@ export type ProcessAreaCreateInput = {
   pId?: string | null
   standard?: string | null
   companyId?: string | null
+  contentStatus?: $Enums.ContentStatus
+  supersededAt?: Date | string | null
   micStatement?: string | null
   micStatementUpdatedAt?: Date | string | null
   standardRef?: Prisma.StandardCreateNestedOneWithoutProcessAreasInput
@@ -353,6 +379,8 @@ export type ProcessAreaUncheckedCreateInput = {
   standard?: string | null
   standardId?: string | null
   companyId?: string | null
+  contentStatus?: $Enums.ContentStatus
+  supersededAt?: Date | string | null
   micStatement?: string | null
   micStatementUpdatedAt?: Date | string | null
   controls?: Prisma.ControlUncheckedCreateNestedManyWithoutProcessAreaInput
@@ -373,6 +401,8 @@ export type ProcessAreaUpdateInput = {
   pId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   standard?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentStatus?: Prisma.EnumContentStatusFieldUpdateOperationsInput | $Enums.ContentStatus
+  supersededAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   micStatement?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   micStatementUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   standardRef?: Prisma.StandardUpdateOneWithoutProcessAreasNestedInput
@@ -395,6 +425,8 @@ export type ProcessAreaUncheckedUpdateInput = {
   standard?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   standardId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentStatus?: Prisma.EnumContentStatusFieldUpdateOperationsInput | $Enums.ContentStatus
+  supersededAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   micStatement?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   micStatementUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   controls?: Prisma.ControlUncheckedUpdateManyWithoutProcessAreaNestedInput
@@ -416,6 +448,8 @@ export type ProcessAreaCreateManyInput = {
   standard?: string | null
   standardId?: string | null
   companyId?: string | null
+  contentStatus?: $Enums.ContentStatus
+  supersededAt?: Date | string | null
   micStatement?: string | null
   micStatementUpdatedAt?: Date | string | null
 }
@@ -429,6 +463,8 @@ export type ProcessAreaUpdateManyMutationInput = {
   pId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   standard?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentStatus?: Prisma.EnumContentStatusFieldUpdateOperationsInput | $Enums.ContentStatus
+  supersededAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   micStatement?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   micStatementUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
@@ -443,6 +479,8 @@ export type ProcessAreaUncheckedUpdateManyInput = {
   standard?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   standardId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentStatus?: Prisma.EnumContentStatusFieldUpdateOperationsInput | $Enums.ContentStatus
+  supersededAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   micStatement?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   micStatementUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
@@ -472,6 +510,8 @@ export type ProcessAreaCountOrderByAggregateInput = {
   standard?: Prisma.SortOrder
   standardId?: Prisma.SortOrder
   companyId?: Prisma.SortOrder
+  contentStatus?: Prisma.SortOrder
+  supersededAt?: Prisma.SortOrder
   micStatement?: Prisma.SortOrder
   micStatementUpdatedAt?: Prisma.SortOrder
 }
@@ -486,6 +526,8 @@ export type ProcessAreaMaxOrderByAggregateInput = {
   standard?: Prisma.SortOrder
   standardId?: Prisma.SortOrder
   companyId?: Prisma.SortOrder
+  contentStatus?: Prisma.SortOrder
+  supersededAt?: Prisma.SortOrder
   micStatement?: Prisma.SortOrder
   micStatementUpdatedAt?: Prisma.SortOrder
 }
@@ -500,6 +542,8 @@ export type ProcessAreaMinOrderByAggregateInput = {
   standard?: Prisma.SortOrder
   standardId?: Prisma.SortOrder
   companyId?: Prisma.SortOrder
+  contentStatus?: Prisma.SortOrder
+  supersededAt?: Prisma.SortOrder
   micStatement?: Prisma.SortOrder
   micStatementUpdatedAt?: Prisma.SortOrder
 }
@@ -673,6 +717,8 @@ export type ProcessAreaCreateWithoutStandardRefInput = {
   pId?: string | null
   standard?: string | null
   companyId?: string | null
+  contentStatus?: $Enums.ContentStatus
+  supersededAt?: Date | string | null
   micStatement?: string | null
   micStatementUpdatedAt?: Date | string | null
   controls?: Prisma.ControlCreateNestedManyWithoutProcessAreaInput
@@ -693,6 +739,8 @@ export type ProcessAreaUncheckedCreateWithoutStandardRefInput = {
   pId?: string | null
   standard?: string | null
   companyId?: string | null
+  contentStatus?: $Enums.ContentStatus
+  supersededAt?: Date | string | null
   micStatement?: string | null
   micStatementUpdatedAt?: Date | string | null
   controls?: Prisma.ControlUncheckedCreateNestedManyWithoutProcessAreaInput
@@ -743,6 +791,8 @@ export type ProcessAreaScalarWhereInput = {
   standard?: Prisma.StringNullableFilter<"ProcessArea"> | string | null
   standardId?: Prisma.StringNullableFilter<"ProcessArea"> | string | null
   companyId?: Prisma.StringNullableFilter<"ProcessArea"> | string | null
+  contentStatus?: Prisma.EnumContentStatusFilter<"ProcessArea"> | $Enums.ContentStatus
+  supersededAt?: Prisma.DateTimeNullableFilter<"ProcessArea"> | Date | string | null
   micStatement?: Prisma.StringNullableFilter<"ProcessArea"> | string | null
   micStatementUpdatedAt?: Prisma.DateTimeNullableFilter<"ProcessArea"> | Date | string | null
 }
@@ -756,6 +806,8 @@ export type ProcessAreaCreateWithoutSubProcessesInput = {
   pId?: string | null
   standard?: string | null
   companyId?: string | null
+  contentStatus?: $Enums.ContentStatus
+  supersededAt?: Date | string | null
   micStatement?: string | null
   micStatementUpdatedAt?: Date | string | null
   standardRef?: Prisma.StandardCreateNestedOneWithoutProcessAreasInput
@@ -777,6 +829,8 @@ export type ProcessAreaUncheckedCreateWithoutSubProcessesInput = {
   standard?: string | null
   standardId?: string | null
   companyId?: string | null
+  contentStatus?: $Enums.ContentStatus
+  supersededAt?: Date | string | null
   micStatement?: string | null
   micStatementUpdatedAt?: Date | string | null
   controls?: Prisma.ControlUncheckedCreateNestedManyWithoutProcessAreaInput
@@ -812,6 +866,8 @@ export type ProcessAreaUpdateWithoutSubProcessesInput = {
   pId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   standard?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentStatus?: Prisma.EnumContentStatusFieldUpdateOperationsInput | $Enums.ContentStatus
+  supersededAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   micStatement?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   micStatementUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   standardRef?: Prisma.StandardUpdateOneWithoutProcessAreasNestedInput
@@ -833,6 +889,8 @@ export type ProcessAreaUncheckedUpdateWithoutSubProcessesInput = {
   standard?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   standardId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentStatus?: Prisma.EnumContentStatusFieldUpdateOperationsInput | $Enums.ContentStatus
+  supersededAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   micStatement?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   micStatementUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   controls?: Prisma.ControlUncheckedUpdateManyWithoutProcessAreaNestedInput
@@ -852,6 +910,8 @@ export type ProcessAreaCreateWithoutControlsInput = {
   pId?: string | null
   standard?: string | null
   companyId?: string | null
+  contentStatus?: $Enums.ContentStatus
+  supersededAt?: Date | string | null
   micStatement?: string | null
   micStatementUpdatedAt?: Date | string | null
   standardRef?: Prisma.StandardCreateNestedOneWithoutProcessAreasInput
@@ -873,6 +933,8 @@ export type ProcessAreaUncheckedCreateWithoutControlsInput = {
   standard?: string | null
   standardId?: string | null
   companyId?: string | null
+  contentStatus?: $Enums.ContentStatus
+  supersededAt?: Date | string | null
   micStatement?: string | null
   micStatementUpdatedAt?: Date | string | null
   subProcesses?: Prisma.SubProcessUncheckedCreateNestedManyWithoutProcessAreaInput
@@ -908,6 +970,8 @@ export type ProcessAreaUpdateWithoutControlsInput = {
   pId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   standard?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentStatus?: Prisma.EnumContentStatusFieldUpdateOperationsInput | $Enums.ContentStatus
+  supersededAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   micStatement?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   micStatementUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   standardRef?: Prisma.StandardUpdateOneWithoutProcessAreasNestedInput
@@ -929,6 +993,8 @@ export type ProcessAreaUncheckedUpdateWithoutControlsInput = {
   standard?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   standardId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentStatus?: Prisma.EnumContentStatusFieldUpdateOperationsInput | $Enums.ContentStatus
+  supersededAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   micStatement?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   micStatementUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   subProcesses?: Prisma.SubProcessUncheckedUpdateManyWithoutProcessAreaNestedInput
@@ -948,6 +1014,8 @@ export type ProcessAreaCreateWithoutAssessmentsInput = {
   pId?: string | null
   standard?: string | null
   companyId?: string | null
+  contentStatus?: $Enums.ContentStatus
+  supersededAt?: Date | string | null
   micStatement?: string | null
   micStatementUpdatedAt?: Date | string | null
   standardRef?: Prisma.StandardCreateNestedOneWithoutProcessAreasInput
@@ -969,6 +1037,8 @@ export type ProcessAreaUncheckedCreateWithoutAssessmentsInput = {
   standard?: string | null
   standardId?: string | null
   companyId?: string | null
+  contentStatus?: $Enums.ContentStatus
+  supersededAt?: Date | string | null
   micStatement?: string | null
   micStatementUpdatedAt?: Date | string | null
   controls?: Prisma.ControlUncheckedCreateNestedManyWithoutProcessAreaInput
@@ -1004,6 +1074,8 @@ export type ProcessAreaUpdateWithoutAssessmentsInput = {
   pId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   standard?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentStatus?: Prisma.EnumContentStatusFieldUpdateOperationsInput | $Enums.ContentStatus
+  supersededAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   micStatement?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   micStatementUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   standardRef?: Prisma.StandardUpdateOneWithoutProcessAreasNestedInput
@@ -1025,6 +1097,8 @@ export type ProcessAreaUncheckedUpdateWithoutAssessmentsInput = {
   standard?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   standardId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentStatus?: Prisma.EnumContentStatusFieldUpdateOperationsInput | $Enums.ContentStatus
+  supersededAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   micStatement?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   micStatementUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   controls?: Prisma.ControlUncheckedUpdateManyWithoutProcessAreaNestedInput
@@ -1044,6 +1118,8 @@ export type ProcessAreaCreateWithoutBadgesInput = {
   pId?: string | null
   standard?: string | null
   companyId?: string | null
+  contentStatus?: $Enums.ContentStatus
+  supersededAt?: Date | string | null
   micStatement?: string | null
   micStatementUpdatedAt?: Date | string | null
   standardRef?: Prisma.StandardCreateNestedOneWithoutProcessAreasInput
@@ -1065,6 +1141,8 @@ export type ProcessAreaUncheckedCreateWithoutBadgesInput = {
   standard?: string | null
   standardId?: string | null
   companyId?: string | null
+  contentStatus?: $Enums.ContentStatus
+  supersededAt?: Date | string | null
   micStatement?: string | null
   micStatementUpdatedAt?: Date | string | null
   controls?: Prisma.ControlUncheckedCreateNestedManyWithoutProcessAreaInput
@@ -1100,6 +1178,8 @@ export type ProcessAreaUpdateWithoutBadgesInput = {
   pId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   standard?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentStatus?: Prisma.EnumContentStatusFieldUpdateOperationsInput | $Enums.ContentStatus
+  supersededAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   micStatement?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   micStatementUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   standardRef?: Prisma.StandardUpdateOneWithoutProcessAreasNestedInput
@@ -1121,6 +1201,8 @@ export type ProcessAreaUncheckedUpdateWithoutBadgesInput = {
   standard?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   standardId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentStatus?: Prisma.EnumContentStatusFieldUpdateOperationsInput | $Enums.ContentStatus
+  supersededAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   micStatement?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   micStatementUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   controls?: Prisma.ControlUncheckedUpdateManyWithoutProcessAreaNestedInput
@@ -1140,6 +1222,8 @@ export type ProcessAreaCreateWithoutMicAttestationsInput = {
   pId?: string | null
   standard?: string | null
   companyId?: string | null
+  contentStatus?: $Enums.ContentStatus
+  supersededAt?: Date | string | null
   micStatement?: string | null
   micStatementUpdatedAt?: Date | string | null
   standardRef?: Prisma.StandardCreateNestedOneWithoutProcessAreasInput
@@ -1161,6 +1245,8 @@ export type ProcessAreaUncheckedCreateWithoutMicAttestationsInput = {
   standard?: string | null
   standardId?: string | null
   companyId?: string | null
+  contentStatus?: $Enums.ContentStatus
+  supersededAt?: Date | string | null
   micStatement?: string | null
   micStatementUpdatedAt?: Date | string | null
   controls?: Prisma.ControlUncheckedCreateNestedManyWithoutProcessAreaInput
@@ -1196,6 +1282,8 @@ export type ProcessAreaUpdateWithoutMicAttestationsInput = {
   pId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   standard?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentStatus?: Prisma.EnumContentStatusFieldUpdateOperationsInput | $Enums.ContentStatus
+  supersededAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   micStatement?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   micStatementUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   standardRef?: Prisma.StandardUpdateOneWithoutProcessAreasNestedInput
@@ -1217,6 +1305,8 @@ export type ProcessAreaUncheckedUpdateWithoutMicAttestationsInput = {
   standard?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   standardId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentStatus?: Prisma.EnumContentStatusFieldUpdateOperationsInput | $Enums.ContentStatus
+  supersededAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   micStatement?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   micStatementUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   controls?: Prisma.ControlUncheckedUpdateManyWithoutProcessAreaNestedInput
@@ -1236,6 +1326,8 @@ export type ProcessAreaCreateWithoutRequirementsInput = {
   pId?: string | null
   standard?: string | null
   companyId?: string | null
+  contentStatus?: $Enums.ContentStatus
+  supersededAt?: Date | string | null
   micStatement?: string | null
   micStatementUpdatedAt?: Date | string | null
   standardRef?: Prisma.StandardCreateNestedOneWithoutProcessAreasInput
@@ -1257,6 +1349,8 @@ export type ProcessAreaUncheckedCreateWithoutRequirementsInput = {
   standard?: string | null
   standardId?: string | null
   companyId?: string | null
+  contentStatus?: $Enums.ContentStatus
+  supersededAt?: Date | string | null
   micStatement?: string | null
   micStatementUpdatedAt?: Date | string | null
   controls?: Prisma.ControlUncheckedCreateNestedManyWithoutProcessAreaInput
@@ -1292,6 +1386,8 @@ export type ProcessAreaUpdateWithoutRequirementsInput = {
   pId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   standard?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentStatus?: Prisma.EnumContentStatusFieldUpdateOperationsInput | $Enums.ContentStatus
+  supersededAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   micStatement?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   micStatementUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   standardRef?: Prisma.StandardUpdateOneWithoutProcessAreasNestedInput
@@ -1313,6 +1409,8 @@ export type ProcessAreaUncheckedUpdateWithoutRequirementsInput = {
   standard?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   standardId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentStatus?: Prisma.EnumContentStatusFieldUpdateOperationsInput | $Enums.ContentStatus
+  supersededAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   micStatement?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   micStatementUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   controls?: Prisma.ControlUncheckedUpdateManyWithoutProcessAreaNestedInput
@@ -1332,6 +1430,8 @@ export type ProcessAreaCreateWithoutPipItemsInput = {
   pId?: string | null
   standard?: string | null
   companyId?: string | null
+  contentStatus?: $Enums.ContentStatus
+  supersededAt?: Date | string | null
   micStatement?: string | null
   micStatementUpdatedAt?: Date | string | null
   standardRef?: Prisma.StandardCreateNestedOneWithoutProcessAreasInput
@@ -1353,6 +1453,8 @@ export type ProcessAreaUncheckedCreateWithoutPipItemsInput = {
   standard?: string | null
   standardId?: string | null
   companyId?: string | null
+  contentStatus?: $Enums.ContentStatus
+  supersededAt?: Date | string | null
   micStatement?: string | null
   micStatementUpdatedAt?: Date | string | null
   controls?: Prisma.ControlUncheckedCreateNestedManyWithoutProcessAreaInput
@@ -1388,6 +1490,8 @@ export type ProcessAreaUpdateWithoutPipItemsInput = {
   pId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   standard?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentStatus?: Prisma.EnumContentStatusFieldUpdateOperationsInput | $Enums.ContentStatus
+  supersededAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   micStatement?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   micStatementUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   standardRef?: Prisma.StandardUpdateOneWithoutProcessAreasNestedInput
@@ -1409,6 +1513,8 @@ export type ProcessAreaUncheckedUpdateWithoutPipItemsInput = {
   standard?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   standardId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentStatus?: Prisma.EnumContentStatusFieldUpdateOperationsInput | $Enums.ContentStatus
+  supersededAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   micStatement?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   micStatementUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   controls?: Prisma.ControlUncheckedUpdateManyWithoutProcessAreaNestedInput
@@ -1428,6 +1534,8 @@ export type ProcessAreaCreateManyStandardRefInput = {
   pId?: string | null
   standard?: string | null
   companyId?: string | null
+  contentStatus?: $Enums.ContentStatus
+  supersededAt?: Date | string | null
   micStatement?: string | null
   micStatementUpdatedAt?: Date | string | null
 }
@@ -1441,6 +1549,8 @@ export type ProcessAreaUpdateWithoutStandardRefInput = {
   pId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   standard?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentStatus?: Prisma.EnumContentStatusFieldUpdateOperationsInput | $Enums.ContentStatus
+  supersededAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   micStatement?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   micStatementUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   controls?: Prisma.ControlUpdateManyWithoutProcessAreaNestedInput
@@ -1461,6 +1571,8 @@ export type ProcessAreaUncheckedUpdateWithoutStandardRefInput = {
   pId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   standard?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentStatus?: Prisma.EnumContentStatusFieldUpdateOperationsInput | $Enums.ContentStatus
+  supersededAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   micStatement?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   micStatementUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   controls?: Prisma.ControlUncheckedUpdateManyWithoutProcessAreaNestedInput
@@ -1481,6 +1593,8 @@ export type ProcessAreaUncheckedUpdateManyWithoutStandardRefInput = {
   pId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   standard?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentStatus?: Prisma.EnumContentStatusFieldUpdateOperationsInput | $Enums.ContentStatus
+  supersededAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   micStatement?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   micStatementUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
@@ -1580,6 +1694,8 @@ export type ProcessAreaSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   standard?: boolean
   standardId?: boolean
   companyId?: boolean
+  contentStatus?: boolean
+  supersededAt?: boolean
   micStatement?: boolean
   micStatementUpdatedAt?: boolean
   standardRef?: boolean | Prisma.ProcessArea$standardRefArgs<ExtArgs>
@@ -1603,6 +1719,8 @@ export type ProcessAreaSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
   standard?: boolean
   standardId?: boolean
   companyId?: boolean
+  contentStatus?: boolean
+  supersededAt?: boolean
   micStatement?: boolean
   micStatementUpdatedAt?: boolean
   standardRef?: boolean | Prisma.ProcessArea$standardRefArgs<ExtArgs>
@@ -1618,6 +1736,8 @@ export type ProcessAreaSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
   standard?: boolean
   standardId?: boolean
   companyId?: boolean
+  contentStatus?: boolean
+  supersededAt?: boolean
   micStatement?: boolean
   micStatementUpdatedAt?: boolean
   standardRef?: boolean | Prisma.ProcessArea$standardRefArgs<ExtArgs>
@@ -1633,11 +1753,13 @@ export type ProcessAreaSelectScalar = {
   standard?: boolean
   standardId?: boolean
   companyId?: boolean
+  contentStatus?: boolean
+  supersededAt?: boolean
   micStatement?: boolean
   micStatementUpdatedAt?: boolean
 }
 
-export type ProcessAreaOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "abbreviatedName" | "description" | "createdAt" | "pId" | "standard" | "standardId" | "companyId" | "micStatement" | "micStatementUpdatedAt", ExtArgs["result"]["processArea"]>
+export type ProcessAreaOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "abbreviatedName" | "description" | "createdAt" | "pId" | "standard" | "standardId" | "companyId" | "contentStatus" | "supersededAt" | "micStatement" | "micStatementUpdatedAt", ExtArgs["result"]["processArea"]>
 export type ProcessAreaInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   standardRef?: boolean | Prisma.ProcessArea$standardRefArgs<ExtArgs>
   controls?: boolean | Prisma.ProcessArea$controlsArgs<ExtArgs>
@@ -1681,6 +1803,11 @@ export type $ProcessAreaPayload<ExtArgs extends runtime.Types.Extensions.Interna
     standard: string | null
     standardId: string | null
     companyId: string | null
+    /**
+     * SAMS-016: read-only superseded marker (removed-from-baseline content retained).
+     */
+    contentStatus: $Enums.ContentStatus
+    supersededAt: Date | null
     micStatement: string | null
     micStatementUpdatedAt: Date | null
   }, ExtArgs["result"]["processArea"]>
@@ -2123,6 +2250,8 @@ export interface ProcessAreaFieldRefs {
   readonly standard: Prisma.FieldRef<"ProcessArea", 'String'>
   readonly standardId: Prisma.FieldRef<"ProcessArea", 'String'>
   readonly companyId: Prisma.FieldRef<"ProcessArea", 'String'>
+  readonly contentStatus: Prisma.FieldRef<"ProcessArea", 'ContentStatus'>
+  readonly supersededAt: Prisma.FieldRef<"ProcessArea", 'DateTime'>
   readonly micStatement: Prisma.FieldRef<"ProcessArea", 'String'>
   readonly micStatementUpdatedAt: Prisma.FieldRef<"ProcessArea", 'DateTime'>
 }

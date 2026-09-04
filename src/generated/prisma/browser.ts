@@ -416,3 +416,21 @@ export type ExtractionProposal = Prisma.ExtractionProposalModel
  * 
  */
 export type NotificationDelivery = Prisma.NotificationDeliveryModel
+/**
+ * Model ContentPack
+ * SAMS-016: an immutable snapshot of the SAMS001 master content at a version.
+ * `snapshot` is the full serialized content graph keyed by stable cross-tenant
+ * keys (see src/lib/content-rollforward.ts). Versioned + immutable: a new
+ * publish always creates a NEW row (never mutates an existing one), so prior
+ * versions remain queryable for the "changed-on-both-sides" baseline comparison.
+ */
+export type ContentPack = Prisma.ContentPackModel
+/**
+ * Model CompanyContentState
+ * SAMS-016: per-tenant content-version state + the portal banner acknowledgment.
+ * One row per company; `contentVersion` is the baseline version the tenant last
+ * adopted (1 after a fresh bootstrap). `acknowledgedContentVersion` null = the
+ * client has NOT acknowledged the current baseline notice; set it = contentVersion
+ * to dismiss the portal banner (persisted across re-login).
+ */
+export type CompanyContentState = Prisma.CompanyContentStateModel

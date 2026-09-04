@@ -460,7 +460,9 @@ export const ModelName = {
   EvidenceRequest: 'EvidenceRequest',
   Notification: 'Notification',
   ExtractionProposal: 'ExtractionProposal',
-  NotificationDelivery: 'NotificationDelivery'
+  NotificationDelivery: 'NotificationDelivery',
+  ContentPack: 'ContentPack',
+  CompanyContentState: 'CompanyContentState'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -476,7 +478,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "activityLog" | "activityLogType" | "assuranceActivityType" | "assuranceProtocol" | "standard" | "processArea" | "subProcess" | "controlSubProcess" | "control" | "assessmentTemplate" | "assessmentTemplateControlLinkage" | "assessmentTemplateActivityType" | "assessment" | "assessmentAssessor" | "controlAssignment" | "requirementConclusion" | "sampleType" | "recordSourceType" | "sample" | "finding" | "action" | "attachment" | "attachmentMapping" | "achievementBadge" | "userAchievement" | "pointTransaction" | "gameAttribute" | "gameAttributeRule" | "emotionalDriveMetric" | "milestone" | "userRole" | "userRoleMapping" | "company" | "apiKey" | "micAttestation" | "department" | "position" | "userCompany" | "userFavorite" | "assessmentActType" | "aact" | "aActControls" | "aActUsers" | "aActDetails" | "knowledgebase" | "tag" | "knowledgebaseTag" | "mapArt2Know" | "requirement" | "mapControl2Requirement" | "gamificationStage" | "webhookLog" | "document" | "mapRequirement2Document" | "riskCategory" | "risk" | "riskMetrics" | "controlRisk" | "backlogItem" | "backlogItemControl" | "auditEvidence" | "auditChecklist2Requirement" | "auditChecklistTemplate" | "auditChecklistTemplateItem" | "auditChecklistItem" | "assessmentChecklistControl" | "reconcileClaim" | "requirementCoverageAudit" | "socStatementAudit" | "testClaim" | "testWorker" | "comment" | "evidenceRequest" | "notification" | "extractionProposal" | "notificationDelivery"
+    modelProps: "user" | "activityLog" | "activityLogType" | "assuranceActivityType" | "assuranceProtocol" | "standard" | "processArea" | "subProcess" | "controlSubProcess" | "control" | "assessmentTemplate" | "assessmentTemplateControlLinkage" | "assessmentTemplateActivityType" | "assessment" | "assessmentAssessor" | "controlAssignment" | "requirementConclusion" | "sampleType" | "recordSourceType" | "sample" | "finding" | "action" | "attachment" | "attachmentMapping" | "achievementBadge" | "userAchievement" | "pointTransaction" | "gameAttribute" | "gameAttributeRule" | "emotionalDriveMetric" | "milestone" | "userRole" | "userRoleMapping" | "company" | "apiKey" | "micAttestation" | "department" | "position" | "userCompany" | "userFavorite" | "assessmentActType" | "aact" | "aActControls" | "aActUsers" | "aActDetails" | "knowledgebase" | "tag" | "knowledgebaseTag" | "mapArt2Know" | "requirement" | "mapControl2Requirement" | "gamificationStage" | "webhookLog" | "document" | "mapRequirement2Document" | "riskCategory" | "risk" | "riskMetrics" | "controlRisk" | "backlogItem" | "backlogItemControl" | "auditEvidence" | "auditChecklist2Requirement" | "auditChecklistTemplate" | "auditChecklistTemplateItem" | "auditChecklistItem" | "assessmentChecklistControl" | "reconcileClaim" | "requirementCoverageAudit" | "socStatementAudit" | "testClaim" | "testWorker" | "comment" | "evidenceRequest" | "notification" | "extractionProposal" | "notificationDelivery" | "contentPack" | "companyContentState"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -6178,6 +6180,154 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    ContentPack: {
+      payload: Prisma.$ContentPackPayload<ExtArgs>
+      fields: Prisma.ContentPackFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ContentPackFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ContentPackPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ContentPackFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ContentPackPayload>
+        }
+        findFirst: {
+          args: Prisma.ContentPackFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ContentPackPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ContentPackFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ContentPackPayload>
+        }
+        findMany: {
+          args: Prisma.ContentPackFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ContentPackPayload>[]
+        }
+        create: {
+          args: Prisma.ContentPackCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ContentPackPayload>
+        }
+        createMany: {
+          args: Prisma.ContentPackCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ContentPackCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ContentPackPayload>[]
+        }
+        delete: {
+          args: Prisma.ContentPackDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ContentPackPayload>
+        }
+        update: {
+          args: Prisma.ContentPackUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ContentPackPayload>
+        }
+        deleteMany: {
+          args: Prisma.ContentPackDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ContentPackUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ContentPackUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ContentPackPayload>[]
+        }
+        upsert: {
+          args: Prisma.ContentPackUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ContentPackPayload>
+        }
+        aggregate: {
+          args: Prisma.ContentPackAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateContentPack>
+        }
+        groupBy: {
+          args: Prisma.ContentPackGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ContentPackGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ContentPackCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ContentPackCountAggregateOutputType> | number
+        }
+      }
+    }
+    CompanyContentState: {
+      payload: Prisma.$CompanyContentStatePayload<ExtArgs>
+      fields: Prisma.CompanyContentStateFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.CompanyContentStateFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CompanyContentStatePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.CompanyContentStateFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CompanyContentStatePayload>
+        }
+        findFirst: {
+          args: Prisma.CompanyContentStateFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CompanyContentStatePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.CompanyContentStateFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CompanyContentStatePayload>
+        }
+        findMany: {
+          args: Prisma.CompanyContentStateFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CompanyContentStatePayload>[]
+        }
+        create: {
+          args: Prisma.CompanyContentStateCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CompanyContentStatePayload>
+        }
+        createMany: {
+          args: Prisma.CompanyContentStateCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.CompanyContentStateCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CompanyContentStatePayload>[]
+        }
+        delete: {
+          args: Prisma.CompanyContentStateDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CompanyContentStatePayload>
+        }
+        update: {
+          args: Prisma.CompanyContentStateUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CompanyContentStatePayload>
+        }
+        deleteMany: {
+          args: Prisma.CompanyContentStateDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.CompanyContentStateUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.CompanyContentStateUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CompanyContentStatePayload>[]
+        }
+        upsert: {
+          args: Prisma.CompanyContentStateUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CompanyContentStatePayload>
+        }
+        aggregate: {
+          args: Prisma.CompanyContentStateAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateCompanyContentState>
+        }
+        groupBy: {
+          args: Prisma.CompanyContentStateGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.CompanyContentStateGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.CompanyContentStateCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.CompanyContentStateCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -6318,6 +6468,8 @@ export const StandardScalarFieldEnum = {
   standardDescription: 'standardDescription',
   sequenceNo: 'sequenceNo',
   companyId: 'companyId',
+  contentStatus: 'contentStatus',
+  supersededAt: 'supersededAt',
   createdAt: 'createdAt'
 } as const
 
@@ -6334,6 +6486,8 @@ export const ProcessAreaScalarFieldEnum = {
   standard: 'standard',
   standardId: 'standardId',
   companyId: 'companyId',
+  contentStatus: 'contentStatus',
+  supersededAt: 'supersededAt',
   micStatement: 'micStatement',
   micStatementUpdatedAt: 'micStatementUpdatedAt'
 } as const
@@ -6398,6 +6552,8 @@ export const ControlScalarFieldEnum = {
   pId: 'pId',
   Requirements: 'Requirements',
   companyId: 'companyId',
+  contentStatus: 'contentStatus',
+  supersededAt: 'supersededAt',
   controlOwner: 'controlOwner',
   assuranceCadence: 'assuranceCadence',
   effectivenessCriteria: 'effectivenessCriteria',
@@ -6971,7 +7127,9 @@ export const RequirementScalarFieldEnum = {
   socStatus: 'socStatus',
   socSummary: 'socSummary',
   createdAt: 'createdAt',
-  companyId: 'companyId'
+  companyId: 'companyId',
+  contentStatus: 'contentStatus',
+  supersededAt: 'supersededAt'
 } as const
 
 export type RequirementScalarFieldEnum = (typeof RequirementScalarFieldEnum)[keyof typeof RequirementScalarFieldEnum]
@@ -7426,6 +7584,33 @@ export const NotificationDeliveryScalarFieldEnum = {
 export type NotificationDeliveryScalarFieldEnum = (typeof NotificationDeliveryScalarFieldEnum)[keyof typeof NotificationDeliveryScalarFieldEnum]
 
 
+export const ContentPackScalarFieldEnum = {
+  id: 'id',
+  version: 'version',
+  companyId: 'companyId',
+  snapshot: 'snapshot',
+  publishedById: 'publishedById',
+  publishedAt: 'publishedAt',
+  createdAt: 'createdAt'
+} as const
+
+export type ContentPackScalarFieldEnum = (typeof ContentPackScalarFieldEnum)[keyof typeof ContentPackScalarFieldEnum]
+
+
+export const CompanyContentStateScalarFieldEnum = {
+  id: 'id',
+  companyId: 'companyId',
+  contentVersion: 'contentVersion',
+  lastPackId: 'lastPackId',
+  lastAdoptedAt: 'lastAdoptedAt',
+  acknowledgedContentVersion: 'acknowledgedContentVersion',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type CompanyContentStateScalarFieldEnum = (typeof CompanyContentStateScalarFieldEnum)[keyof typeof CompanyContentStateScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -7582,6 +7767,20 @@ export type EnumLOAFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel,
  * Reference to a field of type 'LOA[]'
  */
 export type ListEnumLOAFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'LOA[]'>
+    
+
+
+/**
+ * Reference to a field of type 'ContentStatus'
+ */
+export type EnumContentStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ContentStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'ContentStatus[]'
+ */
+export type ListEnumContentStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ContentStatus[]'>
     
 
 
@@ -8149,6 +8348,8 @@ export type GlobalOmitConfig = {
   notification?: Prisma.NotificationOmit
   extractionProposal?: Prisma.ExtractionProposalOmit
   notificationDelivery?: Prisma.NotificationDeliveryOmit
+  contentPack?: Prisma.ContentPackOmit
+  companyContentState?: Prisma.CompanyContentStateOmit
 }
 
 /* Types for Logging */
