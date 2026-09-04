@@ -27,13 +27,13 @@ export default async function PortalLayout({ children }: { children: React.React
     if (user?.companyId) {
       const c = await prisma.company.findUnique({
         where: { id: user.companyId },
-        select: { id: true, companyID: true, companyName: true },
+        select: { id: true, companyID: true, companyName: true, logoUrl: true, primaryColor: true },
       });
       if (c) map.set(c.id, c);
     }
     for (const uc of user?.userCompanies ?? []) {
       if (uc.company && uc.company.archivedAt == null) {
-        map.set(uc.company.id, { id: uc.company.id, companyID: uc.company.companyID, companyName: uc.company.companyName });
+        map.set(uc.company.id, { id: uc.company.id, companyID: uc.company.companyID, companyName: uc.company.companyName, logoUrl: uc.company.logoUrl, primaryColor: uc.company.primaryColor });
       }
     }
     companies = Array.from(map.values());

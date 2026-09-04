@@ -1,7 +1,15 @@
 import { prisma } from "@/lib/prisma";
 import { clientVisibleWhere } from "@/lib/conversation";
 
-export type PortalCompany = { id: string; companyID: string; companyName: string };
+export type PortalCompany = {
+  id: string;
+  companyID: string;
+  companyName: string;
+  /** White-label theming (SAMS-010): portal header logo URL (https). */
+  logoUrl: string | null;
+  /** White-label theming (SAMS-010): portal accent colour (^#[0-9a-fA-F]{6}$). */
+  primaryColor: string | null;
+};
 
 /**
  * Client Portal (SAMS-005) — scoped read/query helpers.
@@ -52,7 +60,7 @@ export async function resolvePortalCompanyId(opts: {
   providerRole?: string | null;
   selectedCompanyId?: string | null;
   cookieCompanyId?: string | null;
-}): Promise<{ companyId: string | null; companies: { id: string; companyID: string; companyName: string }[] }> {
+}): Promise<{ companyId: string | null; companies: PortalCompany[] }> {
   const { userId, providerRole } = opts;
   const user = await prisma.user.findUnique({
     where: { id: userId },
@@ -60,17 +68,17 @@ export async function resolvePortalCompanyId(opts: {
   });
   if (!user) return { companyId: null, companies: [] };
 
-  const map = new Map<string, { id: string; companyID: string; companyName: string }>();
+  const map = new Map<string, { id: string; companyID: string; companyName: string; logoUrl: string | null; primaryColor: string | null }>();
   if (user.companyId) {
     const c = await prisma.company.findUnique({
       where: { id: user.companyId },
-      select: { id: true, companyID: true, companyName: true },
+      select: { id: true, companyID: true, companyName: true, logoUrl: true, primaryColor: true },
     });
     if (c) map.set(c.id, c);
   }
   for (const uc of user.userCompanies) {
     if (uc.company && uc.company.archivedAt == null) {
-      map.set(uc.company.id, { id: uc.company.id, companyID: uc.company.companyID, companyName: uc.company.companyName });
+      map.set(uc.company.id, { id: uc.company.id, companyID: uc.company.companyID, companyName: uc.company.companyName, logoUrl: uc.company.logoUrl, primaryColor: uc.company.primaryColor });
     }
   }
   const companies = Array.from(map.values());

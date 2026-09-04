@@ -451,7 +451,6 @@
       "companyResource": "quick-add",
       "crossTenantExpectation": "403/404/empty"
     },
-
     {
       "route": "portal",
       "companyResource": "portal-dashboard",
@@ -509,7 +508,7 @@
     {
       "route": "notifications",
       "companyResource": "notifications",
-      "scope": "session user (recipientUserId) — never other users' rows; overdue banner company-scoped",
+      "scope": "session user (recipientUserId) \u2014 never other users' rows; overdue banner company-scoped",
       "crossTenantExpectation": "own rows only (403/empty)"
     },
     {
@@ -517,6 +516,18 @@
       "companyResource": "notifications",
       "scope": "session user (explicit per-id ownership verify)",
       "crossTenantExpectation": "403 / row unchanged"
+    },
+    {
+      "route": "portal/company/theme",
+      "companyResource": "company theme (logoUrl/primaryColor)",
+      "scope": "session active portal company",
+      "crossTenantExpectation": "403 (no client-admin cross-tenant write)"
+    },
+    {
+      "route": "portal/settings",
+      "companyResource": "portal settings (theme)",
+      "scope": "session company",
+      "crossTenantExpectation": "403/empty"
     }
   ]
 }
