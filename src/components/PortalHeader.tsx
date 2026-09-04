@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { SignOutButton } from "./SignOutButton";
 import type { PortalCompany } from "@/lib/portal";
 
@@ -52,9 +52,38 @@ export function PortalHeader({ companies, userName, userRole }: { companies: Por
 
   // ── Logo with silent text fallback (no broken image) ────────────────────
   const [logoFailed, setLogoFailed] = useState(false);
+  const logoRef = useRef<HTMLImageElement | null>(null);
+  const logoUrl = activeCompany?.logoUrl ?? null;
+  const companyId = activeCompany?.id ?? null;
+  // Reset the fallback whenever the active company/logo changes.
   useEffect(() => {
     setLogoFailed(false);
-  }, [activeCompany?.id, activeCompany?.logoUrl]);
+  }, [companyId, logoUrl]);
+  // Robust fallback driven by the image's own events (load clears, error sets).
+  // A pre-hydration/a-synchronous completeness snapshot can mis-fire while a
+  // good image is still decoding (complete=true with naturalWidth momentarily
+  // 0), so the early-error catch is deferred long enough for a real image to
+  // have decoded, and only fires for a genuinely failed/broken image.
+  useEffect(() => {
+    const img = logoRef.current;
+    if (!img || !logoUrl) return;
+    const onError = () => setLogoFailed(true);
+    const onLoad = () => setLogoFailed(false);
+    img.addEventListener("error", onError);
+    img.addEventListener("load", onLoad);
+    const t = setTimeout(() => {
+      // `complete` true + zero naturalWidth ⇒ the browser finished fetching the
+      // image but it failed to decode (404 / non-image). A good image decodes to
+      // naturalWidth>0 well within this window, so this cannot false-positive.
+      if (img.complete && img.naturalWidth === 0) setLogoFailed(true);
+    }, 400);
+    return () => {
+      clearTimeout(t);
+      img.removeEventListener("error", onError);
+      img.removeEventListener("load", onLoad);
+    };
+  }, [logoUrl]);
+
   const showLogo = !!activeCompany?.logoUrl && !logoFailed;
 
   return (
@@ -65,6 +94,7 @@ export function PortalHeader({ companies, userName, userRole }: { companies: Por
             {showLogo ? (
               // eslint-disable-next-line @next/next/no-img-element
               <img
+                ref={logoRef}
                 src={activeCompany!.logoUrl!}
                 alt={`${activeCompany!.companyName} logo`}
                 className="h-9 w-auto max-w-40 object-contain"
