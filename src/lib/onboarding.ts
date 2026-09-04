@@ -275,7 +275,9 @@ export async function provisionUsers(params: {
         data: {
           name: row.name.trim(),
           username: row.username.trim(),
-          email: row.email?.trim() || null,
+          // P1: store email lowercased (the SSO link-by-email lookup lowercases),
+          // so wizard-provisioned emails always match the Entra email case.
+          email: row.email?.trim()?.toLowerCase() || null,
           passwordHash: hash,
           role,
           active: true,

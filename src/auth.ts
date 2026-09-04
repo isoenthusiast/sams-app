@@ -100,7 +100,11 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     ...authConfig.callbacks,
     jwt: async ({ token, user, account, trigger }) => {
       const isEntra = account?.provider === "microsoft-entra-id";
-      const email = ((user as { email?: string })?.email ?? null) ?? (token.email as string | undefined);
+      // P1: normalize to lowercase (the Entra provider returns the email as the
+      // user typed it / as stored on the IdP), so the DB lookup below always
+      // compares in a single case and links to a provisioned user.
+      const rawEmail = (user as { email?: string })?.email ?? (token.email as string | undefined);
+      const email = rawEmail?.toLowerCase() ?? null;
 
       // (b) Session update (e.g. after a successful forced password change):
       //     re-read the authoritative flag/role from the DB and re-encode the token.
@@ -129,7 +133,8 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         if (email) {
           const dbUser = await prisma.user
             .findFirst({
-              where: { email },
+              // P1: case-insensitive match (see auth.config.ts note).
+              where: { email: { equals: email, mode: "insensitive" } },
               select: { id: true, role: true, providerRole: true, mustChangePassword: true },
             })
             .catch(() => null);

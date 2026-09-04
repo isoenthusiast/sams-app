@@ -55,7 +55,10 @@ export const authConfig: NextAuthConfig = {
         const email = ((user as { email?: string | null })?.email ?? null)?.trim().toLowerCase() ?? null;
         const decision = await resolveEntraSignIn(email, async (e) => {
           const u = await prisma.user.findFirst({
-            where: { email: e },
+            // P1: the Entra email is lowercased but a provisioned (wizard) email may
+            // be stored mixed-case (onboarding stores it as-typed, trim only). Match
+            // case-insensitively so a lowercased Entra email links to the DB user.
+            where: { email: { equals: e, mode: "insensitive" } },
             select: { id: true, role: true, active: true },
           });
           return u ? { id: u.id, role: u.role, active: u.active } : null;
@@ -67,7 +70,8 @@ export const authConfig: NextAuthConfig = {
         // NOT the Entra provider subject id. SSO users are NOT forced through the
         // change-password flow, so mustChangePassword is left off the token here.
         const resolved = await prisma.user.findFirst({
-          where: { email: email! },
+          // P1: same case-insensitive match as the decision lookup (see above).
+          where: { email: { equals: email!, mode: "insensitive" } },
           select: { id: true, role: true, providerRole: true },
         });
         if (resolved) {
