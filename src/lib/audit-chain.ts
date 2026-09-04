@@ -156,6 +156,25 @@ export async function resolveCompanyId(refTable: string | null, refRecord: strin
       const r = await prisma.control.findUnique({ where: { id: refRecord }, select: { companyId: true } });
       return r?.companyId ?? null;
     }
+    // SAMS-015b: per-company refTables that were omitted from the original
+    // resolver (and are the majority of prod ActivityLog rows).
+    case "MapControl2Requirement": {
+      // controlId → Control.companyId.
+      const r = await prisma.mapControl2Requirement.findUnique({
+        where: { id: refRecord },
+        select: { control: { select: { companyId: true } } },
+      });
+      return r?.control?.companyId ?? null;
+    }
+    case "AssessmentTemplate": {
+      const r = await prisma.assessmentTemplate.findUnique({ where: { id: refRecord }, select: { companyId: true } });
+      return r?.companyId ?? null;
+    }
+    case "Sample": {
+      // assessment → Assessment.companyId.
+      const r = await prisma.sample.findUnique({ where: { id: refRecord }, select: { assessment: { select: { companyId: true } } } });
+      return r?.assessment?.companyId ?? null;
+    }
     default:
       return null;
   }

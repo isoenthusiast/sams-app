@@ -17,9 +17,16 @@ import { canonicalizeRow, computeChainHash } from "@/lib/audit-chain";
  *   - Resolves `companyId` for every unresolved row from its refTable/refRecord,
  *     in cursor batches (keyset-paginated, resumable — re-running skips rows
  *     already assigned because the filter is `companyId IS NULL`).
- *   - Then computes the per-company chain in `(createdAt, id)` order using the
- *     SAME canonicalization/ordering as the write path and the verify CLI
- *     (`@/lib/audit-chain`), writing each row's `chainHash`.
+ *   - Then chains each per-company row in `(createdAt, id)` order using the SAME
+ *     canonicalization/ordering as the write path and the verify CLI
+ *     (`@/lib/audit-chain`), writing each new row's `chainHash`.
+ *   - APPEND-ONLY / ORDER-SAFE (SAMS-015b): existing chainHash values are NEVER
+ *     rewritten. Only rows whose `(createdAt, id)` sorts STRICTLY AFTER the
+ *     company's existing tail are chained (a true append, matching the write
+ *     path). Rows that would insert MID-chain (sort before/at the tail) are reset
+ *     to fully chainless (companyId null) so a re-backfill of the formerly
+ *     unresolvable per-company tables (MapControl2Requirement / Sample) cannot
+ *     break a client-held weekly-digest auditAnchor.
  *   - Emits per-refTable RESOLVED vs UNRESOLVED resolution stats (Conan condition
  *     #1). A high unresolved share is surfaced in the review handoff.
  *
@@ -84,6 +91,21 @@ async function resolveCompanyIdBatch(
     } else if (table === "Control") {
       const found = await prisma.control.findMany({ where: { id: { in: ids } }, select: { id: true, companyId: true } });
       for (const f of found) out.set(f.id, f.companyId ?? null);
+    } else if (table === "MapControl2Requirement") {
+      const found = await prisma.mapControl2Requirement.findMany({
+        where: { id: { in: ids } },
+        select: { id: true, control: { select: { companyId: true } } },
+      });
+      for (const f of found) out.set(f.id, f.control?.companyId ?? null);
+    } else if (table === "AssessmentTemplate") {
+      const found = await prisma.assessmentTemplate.findMany({ where: { id: { in: ids } }, select: { id: true, companyId: true } });
+      for (const f of found) out.set(f.id, f.companyId ?? null);
+    } else if (table === "Sample") {
+      const found = await prisma.sample.findMany({
+        where: { id: { in: ids } },
+        select: { id: true, assessment: { select: { companyId: true } } },
+      });
+      for (const f of found) out.set(f.id, f.assessment?.companyId ?? null);
     }
     // Unknown refTable → those recs stay unresolved (out has no entry → null).
   }
@@ -160,26 +182,62 @@ async function main() {
   const unresolvedPct = totalResolved + totalUnresolved === 0 ? 0 : (totalUnresolved / (totalResolved + totalUnresolved)) * 100;
   console.log(`  unresolved share = ${unresolvedPct.toFixed(1)}%`);
 
-  // 4. Compute the per-company chain (same canonicalization/ordering as writer+verifier).
-  console.log("\nComputing per-company audit chains…");
+  // 4. Compute the per-company chain — APPEND-ONLY / ORDER-SAFE.
+  //    The original design recomputed each company's whole chain from scratch and
+  //    rewrote any differing hash. SAMS-015b acceptance forbids rewriting ANY
+  //    existing chainHash (a client holds the weekly-digest auditAnchor). When a
+  //    newly-resolved row sorts BEFORE/AT an already-chained row, a from-scratch
+  //    recompute would rewrite that anchor. So we instead:
+  //      - keep each company's EXISTING chained prefix untouched,
+  //      - chain only the newly-resolved rows whose (createdAt, id) sorts
+  //        STRICTLY AFTER the existing tail (a true append, same as the write path),
+  //      - leave rows that would otherwise insert MID-chain as fully chainless
+  //        (reset companyId to null) so they neither rewrite the anchor nor break
+  //        the verifier, and keep the per-refTable stats truthful.
+  console.log("\nComputing per-company audit chains (append-only, order-safe)…");
   const companies = await prisma.activityLog.findMany({
     where: { companyId: { not: null } },
     select: { companyId: true },
     distinct: ["companyId"],
   });
   let chained = 0;
+  let skippedAnchor = 0;
   for (const { companyId } of companies) {
-    const rows = await prisma.activityLog.findMany({
-      where: { companyId },
+    // Existing chained prefix (the anchor set) for this company — left untouched.
+    const tail = await prisma.activityLog.findFirst({
+      where: { companyId, chainHash: { not: null } },
+      orderBy: [{ createdAt: "desc" }, { id: "desc" }],
+      select: { id: true, createdAt: true, chainHash: true },
+    });
+    const tailHash = tail?.chainHash ?? null;
+
+    const pending = await prisma.activityLog.findMany({
+      where: { companyId, chainHash: null },
       orderBy: [{ createdAt: "asc" }, { id: "asc" }],
       select: {
         id: true, timestamp: true, description: true, activityType: true,
         username: true, refTable: true, refRecord: true, beforeData: true,
-        afterData: true, companyId: true,
+        afterData: true, companyId: true, createdAt: true,
       },
     });
-    let prev = "";
-    for (const row of rows) {
+    if (pending.length === 0) continue;
+
+    let prev = tailHash ?? "";
+    for (const row of pending) {
+      // Order-safety: only append rows that sort strictly after the existing tail.
+      const afterTail =
+        tailHash == null ||
+        row.createdAt > tail!.createdAt ||
+        (row.createdAt.getTime() === tail!.createdAt.getTime() && row.id > tail!.id);
+      if (!afterTail) {
+        // Would insert mid-chain → reset to fully chainless to preserve the anchor.
+        await prisma.activityLog.update({ where: { id: row.id }, data: { companyId: null } });
+        const t = row.refTable ?? "(none)";
+        const s = stats.get(t);
+        if (s && s.resolved > 0) { s.resolved--; s.unresolved++; }
+        skippedAnchor++;
+        continue;
+      }
       const canonical = canonicalizeRow({
         id: row.id,
         timestamp: row.timestamp,
@@ -193,14 +251,12 @@ async function main() {
         companyId: row.companyId as string,
       });
       const chainHash = computeChainHash(prev, canonical);
-      if (row.chainHash !== chainHash) {
-        await prisma.activityLog.update({ where: { id: row.id }, data: { chainHash } });
-      }
+      await prisma.activityLog.update({ where: { id: row.id }, data: { chainHash } });
       prev = chainHash;
       chained++;
     }
   }
-  console.log(`✓ chained ${chained} row(s) across ${companies.length} company chain(s)`);
+  console.log(`✓ chained ${chained} row(s) across ${companies.length} company chain(s); ${skippedAnchor} row(s) left chainless to preserve existing anchors`);
 
   console.log("Done.");
 }
