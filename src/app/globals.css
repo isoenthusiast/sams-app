@@ -3,6 +3,9 @@
 :root {
   --color-primary: #1e40af;
   --color-primary-hover: #1e3a8a;
+  /* White-label theming (SAMS-010): portal accent. Default = SAMS blue; a
+     company's primaryColor overrides it via an inline set on <html>. */
+  --brand: #1e40af;
   --color-success: #047857;
   --color-warning: #b45309;
   --color-danger: #dc2626;

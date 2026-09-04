@@ -715,6 +715,12 @@ model Company {
   /// pending-delete; the safety-net countdown = deletionScheduledAt + 30 days.
   /// Hard delete is MANUAL only (scripts/db/company_hard_delete.ts).
   deletionScheduledAt     DateTime?
+  /// White-label theming (Phase 3b, SAMS-010): portal header logo URL (https).
+  /// Additive + nullable; included in client-data export (not secret).
+  logoUrl                 String?
+  /// White-label theming (Phase 3b, SAMS-010): portal accent colour, validated
+  /// `^#[0-9a-fA-F]{6}$`. Drives portal accents via a `--brand` CSS variable.
+  primaryColor            String?
   userCompanies UserCompany[]
   departments   Department[]
   /// Public read-only API keys scoped to this company (SAMS-011, Phase 3b).
