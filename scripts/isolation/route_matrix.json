@@ -610,6 +610,18 @@
       "companyResource": "notification delivery settings",
       "scope": "session client-Admin company (write-only webhook secret)",
       "crossTenantExpectation": "403"
+    },
+    {
+      "route": "portal/content/banner",
+      "companyResource": "content baseline banner",
+      "scope": "session portal company (param > cookie > home > first)",
+      "crossTenantExpectation": "403"
+    },
+    {
+      "route": "portal/content/acknowledge",
+      "companyResource": "content baseline banner acknowledgment",
+      "scope": "session client company membership (no global Admin bypass)",
+      "crossTenantExpectation": "403"
     }
   ]
 }

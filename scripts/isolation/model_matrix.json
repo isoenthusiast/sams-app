@@ -59,6 +59,8 @@
     "Position":               { "scope": { "kind": "traverse", "path": ["department", "companyId"] }, "label": "Positions (via Department)" },
     "UserAchievement":        { "scope": { "kind": "traverse", "path": ["user", "companyId"] }, "label": "User achievements (via User)" },
     "PointTransaction":       { "scope": { "kind": "traverse", "path": ["user", "companyId"] }, "label": "Point transactions (via User)" },
-    "UserRoleMapping":        { "scope": { "kind": "traverse", "path": ["userRole", "companyId"] }, "label": "User-role mappings (via UserRole)" }
+    "UserRoleMapping":        { "scope": { "kind": "traverse", "path": ["userRole", "companyId"] }, "label": "User-role mappings (via UserRole)" },
+    "ContentPack":            { "scope": { "kind": "direct", "field": "companyId" }, "label": "Content packs (SAMS-016; MASTER-PLANE — only SAMS001 publishes; companyId is the master publisher, treated as a global/master model)" },
+    "CompanyContentState":    { "scope": { "kind": "direct", "field": "companyId" }, "label": "Per-tenant content-version state (SAMS-016; one row per company, unique companyId)" }
   }
 }
