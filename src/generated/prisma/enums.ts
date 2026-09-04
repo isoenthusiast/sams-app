@@ -256,7 +256,8 @@ export const NotificationType = {
   EvidenceSubmitted: 'EvidenceSubmitted',
   EvidenceReviewed: 'EvidenceReviewed',
   CommentShared: 'CommentShared',
-  ActionOverdue: 'ActionOverdue'
+  ActionOverdue: 'ActionOverdue',
+  MicAttestationDue: 'MicAttestationDue'
 } as const
 
 export type NotificationType = (typeof NotificationType)[keyof typeof NotificationType]

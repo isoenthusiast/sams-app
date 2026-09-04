@@ -237,6 +237,7 @@ export type ProcessAreaWhereInput = {
   requirements?: Prisma.RequirementListRelationFilter
   assessments?: Prisma.AssessmentListRelationFilter
   pipItems?: Prisma.BacklogItemListRelationFilter
+  micAttestations?: Prisma.MicAttestationListRelationFilter
 }
 
 export type ProcessAreaOrderByWithRelationInput = {
@@ -258,6 +259,7 @@ export type ProcessAreaOrderByWithRelationInput = {
   requirements?: Prisma.RequirementOrderByRelationAggregateInput
   assessments?: Prisma.AssessmentOrderByRelationAggregateInput
   pipItems?: Prisma.BacklogItemOrderByRelationAggregateInput
+  micAttestations?: Prisma.MicAttestationOrderByRelationAggregateInput
 }
 
 export type ProcessAreaWhereUniqueInput = Prisma.AtLeast<{
@@ -283,6 +285,7 @@ export type ProcessAreaWhereUniqueInput = Prisma.AtLeast<{
   requirements?: Prisma.RequirementListRelationFilter
   assessments?: Prisma.AssessmentListRelationFilter
   pipItems?: Prisma.BacklogItemListRelationFilter
+  micAttestations?: Prisma.MicAttestationListRelationFilter
 }, "id" | "name_companyId">
 
 export type ProcessAreaOrderByWithAggregationInput = {
@@ -337,6 +340,7 @@ export type ProcessAreaCreateInput = {
   requirements?: Prisma.RequirementCreateNestedManyWithoutProcessAreaInput
   assessments?: Prisma.AssessmentCreateNestedManyWithoutProcessAreaInput
   pipItems?: Prisma.BacklogItemCreateNestedManyWithoutProcessAreaInput
+  micAttestations?: Prisma.MicAttestationCreateNestedManyWithoutProcessAreaInput
 }
 
 export type ProcessAreaUncheckedCreateInput = {
@@ -357,6 +361,7 @@ export type ProcessAreaUncheckedCreateInput = {
   requirements?: Prisma.RequirementUncheckedCreateNestedManyWithoutProcessAreaInput
   assessments?: Prisma.AssessmentUncheckedCreateNestedManyWithoutProcessAreaInput
   pipItems?: Prisma.BacklogItemUncheckedCreateNestedManyWithoutProcessAreaInput
+  micAttestations?: Prisma.MicAttestationUncheckedCreateNestedManyWithoutProcessAreaInput
 }
 
 export type ProcessAreaUpdateInput = {
@@ -377,6 +382,7 @@ export type ProcessAreaUpdateInput = {
   requirements?: Prisma.RequirementUpdateManyWithoutProcessAreaNestedInput
   assessments?: Prisma.AssessmentUpdateManyWithoutProcessAreaNestedInput
   pipItems?: Prisma.BacklogItemUpdateManyWithoutProcessAreaNestedInput
+  micAttestations?: Prisma.MicAttestationUpdateManyWithoutProcessAreaNestedInput
 }
 
 export type ProcessAreaUncheckedUpdateInput = {
@@ -397,6 +403,7 @@ export type ProcessAreaUncheckedUpdateInput = {
   requirements?: Prisma.RequirementUncheckedUpdateManyWithoutProcessAreaNestedInput
   assessments?: Prisma.AssessmentUncheckedUpdateManyWithoutProcessAreaNestedInput
   pipItems?: Prisma.BacklogItemUncheckedUpdateManyWithoutProcessAreaNestedInput
+  micAttestations?: Prisma.MicAttestationUncheckedUpdateManyWithoutProcessAreaNestedInput
 }
 
 export type ProcessAreaCreateManyInput = {
@@ -611,6 +618,20 @@ export type ProcessAreaUpdateOneWithoutBadgesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.ProcessAreaUpdateToOneWithWhereWithoutBadgesInput, Prisma.ProcessAreaUpdateWithoutBadgesInput>, Prisma.ProcessAreaUncheckedUpdateWithoutBadgesInput>
 }
 
+export type ProcessAreaCreateNestedOneWithoutMicAttestationsInput = {
+  create?: Prisma.XOR<Prisma.ProcessAreaCreateWithoutMicAttestationsInput, Prisma.ProcessAreaUncheckedCreateWithoutMicAttestationsInput>
+  connectOrCreate?: Prisma.ProcessAreaCreateOrConnectWithoutMicAttestationsInput
+  connect?: Prisma.ProcessAreaWhereUniqueInput
+}
+
+export type ProcessAreaUpdateOneRequiredWithoutMicAttestationsNestedInput = {
+  create?: Prisma.XOR<Prisma.ProcessAreaCreateWithoutMicAttestationsInput, Prisma.ProcessAreaUncheckedCreateWithoutMicAttestationsInput>
+  connectOrCreate?: Prisma.ProcessAreaCreateOrConnectWithoutMicAttestationsInput
+  upsert?: Prisma.ProcessAreaUpsertWithoutMicAttestationsInput
+  connect?: Prisma.ProcessAreaWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ProcessAreaUpdateToOneWithWhereWithoutMicAttestationsInput, Prisma.ProcessAreaUpdateWithoutMicAttestationsInput>, Prisma.ProcessAreaUncheckedUpdateWithoutMicAttestationsInput>
+}
+
 export type ProcessAreaCreateNestedOneWithoutRequirementsInput = {
   create?: Prisma.XOR<Prisma.ProcessAreaCreateWithoutRequirementsInput, Prisma.ProcessAreaUncheckedCreateWithoutRequirementsInput>
   connectOrCreate?: Prisma.ProcessAreaCreateOrConnectWithoutRequirementsInput
@@ -660,6 +681,7 @@ export type ProcessAreaCreateWithoutStandardRefInput = {
   requirements?: Prisma.RequirementCreateNestedManyWithoutProcessAreaInput
   assessments?: Prisma.AssessmentCreateNestedManyWithoutProcessAreaInput
   pipItems?: Prisma.BacklogItemCreateNestedManyWithoutProcessAreaInput
+  micAttestations?: Prisma.MicAttestationCreateNestedManyWithoutProcessAreaInput
 }
 
 export type ProcessAreaUncheckedCreateWithoutStandardRefInput = {
@@ -679,6 +701,7 @@ export type ProcessAreaUncheckedCreateWithoutStandardRefInput = {
   requirements?: Prisma.RequirementUncheckedCreateNestedManyWithoutProcessAreaInput
   assessments?: Prisma.AssessmentUncheckedCreateNestedManyWithoutProcessAreaInput
   pipItems?: Prisma.BacklogItemUncheckedCreateNestedManyWithoutProcessAreaInput
+  micAttestations?: Prisma.MicAttestationUncheckedCreateNestedManyWithoutProcessAreaInput
 }
 
 export type ProcessAreaCreateOrConnectWithoutStandardRefInput = {
@@ -741,6 +764,7 @@ export type ProcessAreaCreateWithoutSubProcessesInput = {
   requirements?: Prisma.RequirementCreateNestedManyWithoutProcessAreaInput
   assessments?: Prisma.AssessmentCreateNestedManyWithoutProcessAreaInput
   pipItems?: Prisma.BacklogItemCreateNestedManyWithoutProcessAreaInput
+  micAttestations?: Prisma.MicAttestationCreateNestedManyWithoutProcessAreaInput
 }
 
 export type ProcessAreaUncheckedCreateWithoutSubProcessesInput = {
@@ -760,6 +784,7 @@ export type ProcessAreaUncheckedCreateWithoutSubProcessesInput = {
   requirements?: Prisma.RequirementUncheckedCreateNestedManyWithoutProcessAreaInput
   assessments?: Prisma.AssessmentUncheckedCreateNestedManyWithoutProcessAreaInput
   pipItems?: Prisma.BacklogItemUncheckedCreateNestedManyWithoutProcessAreaInput
+  micAttestations?: Prisma.MicAttestationUncheckedCreateNestedManyWithoutProcessAreaInput
 }
 
 export type ProcessAreaCreateOrConnectWithoutSubProcessesInput = {
@@ -795,6 +820,7 @@ export type ProcessAreaUpdateWithoutSubProcessesInput = {
   requirements?: Prisma.RequirementUpdateManyWithoutProcessAreaNestedInput
   assessments?: Prisma.AssessmentUpdateManyWithoutProcessAreaNestedInput
   pipItems?: Prisma.BacklogItemUpdateManyWithoutProcessAreaNestedInput
+  micAttestations?: Prisma.MicAttestationUpdateManyWithoutProcessAreaNestedInput
 }
 
 export type ProcessAreaUncheckedUpdateWithoutSubProcessesInput = {
@@ -814,6 +840,7 @@ export type ProcessAreaUncheckedUpdateWithoutSubProcessesInput = {
   requirements?: Prisma.RequirementUncheckedUpdateManyWithoutProcessAreaNestedInput
   assessments?: Prisma.AssessmentUncheckedUpdateManyWithoutProcessAreaNestedInput
   pipItems?: Prisma.BacklogItemUncheckedUpdateManyWithoutProcessAreaNestedInput
+  micAttestations?: Prisma.MicAttestationUncheckedUpdateManyWithoutProcessAreaNestedInput
 }
 
 export type ProcessAreaCreateWithoutControlsInput = {
@@ -833,6 +860,7 @@ export type ProcessAreaCreateWithoutControlsInput = {
   requirements?: Prisma.RequirementCreateNestedManyWithoutProcessAreaInput
   assessments?: Prisma.AssessmentCreateNestedManyWithoutProcessAreaInput
   pipItems?: Prisma.BacklogItemCreateNestedManyWithoutProcessAreaInput
+  micAttestations?: Prisma.MicAttestationCreateNestedManyWithoutProcessAreaInput
 }
 
 export type ProcessAreaUncheckedCreateWithoutControlsInput = {
@@ -852,6 +880,7 @@ export type ProcessAreaUncheckedCreateWithoutControlsInput = {
   requirements?: Prisma.RequirementUncheckedCreateNestedManyWithoutProcessAreaInput
   assessments?: Prisma.AssessmentUncheckedCreateNestedManyWithoutProcessAreaInput
   pipItems?: Prisma.BacklogItemUncheckedCreateNestedManyWithoutProcessAreaInput
+  micAttestations?: Prisma.MicAttestationUncheckedCreateNestedManyWithoutProcessAreaInput
 }
 
 export type ProcessAreaCreateOrConnectWithoutControlsInput = {
@@ -887,6 +916,7 @@ export type ProcessAreaUpdateWithoutControlsInput = {
   requirements?: Prisma.RequirementUpdateManyWithoutProcessAreaNestedInput
   assessments?: Prisma.AssessmentUpdateManyWithoutProcessAreaNestedInput
   pipItems?: Prisma.BacklogItemUpdateManyWithoutProcessAreaNestedInput
+  micAttestations?: Prisma.MicAttestationUpdateManyWithoutProcessAreaNestedInput
 }
 
 export type ProcessAreaUncheckedUpdateWithoutControlsInput = {
@@ -906,6 +936,7 @@ export type ProcessAreaUncheckedUpdateWithoutControlsInput = {
   requirements?: Prisma.RequirementUncheckedUpdateManyWithoutProcessAreaNestedInput
   assessments?: Prisma.AssessmentUncheckedUpdateManyWithoutProcessAreaNestedInput
   pipItems?: Prisma.BacklogItemUncheckedUpdateManyWithoutProcessAreaNestedInput
+  micAttestations?: Prisma.MicAttestationUncheckedUpdateManyWithoutProcessAreaNestedInput
 }
 
 export type ProcessAreaCreateWithoutAssessmentsInput = {
@@ -925,6 +956,7 @@ export type ProcessAreaCreateWithoutAssessmentsInput = {
   badges?: Prisma.AchievementBadgeCreateNestedManyWithoutProcessAreaInput
   requirements?: Prisma.RequirementCreateNestedManyWithoutProcessAreaInput
   pipItems?: Prisma.BacklogItemCreateNestedManyWithoutProcessAreaInput
+  micAttestations?: Prisma.MicAttestationCreateNestedManyWithoutProcessAreaInput
 }
 
 export type ProcessAreaUncheckedCreateWithoutAssessmentsInput = {
@@ -944,6 +976,7 @@ export type ProcessAreaUncheckedCreateWithoutAssessmentsInput = {
   badges?: Prisma.AchievementBadgeUncheckedCreateNestedManyWithoutProcessAreaInput
   requirements?: Prisma.RequirementUncheckedCreateNestedManyWithoutProcessAreaInput
   pipItems?: Prisma.BacklogItemUncheckedCreateNestedManyWithoutProcessAreaInput
+  micAttestations?: Prisma.MicAttestationUncheckedCreateNestedManyWithoutProcessAreaInput
 }
 
 export type ProcessAreaCreateOrConnectWithoutAssessmentsInput = {
@@ -979,6 +1012,7 @@ export type ProcessAreaUpdateWithoutAssessmentsInput = {
   badges?: Prisma.AchievementBadgeUpdateManyWithoutProcessAreaNestedInput
   requirements?: Prisma.RequirementUpdateManyWithoutProcessAreaNestedInput
   pipItems?: Prisma.BacklogItemUpdateManyWithoutProcessAreaNestedInput
+  micAttestations?: Prisma.MicAttestationUpdateManyWithoutProcessAreaNestedInput
 }
 
 export type ProcessAreaUncheckedUpdateWithoutAssessmentsInput = {
@@ -998,6 +1032,7 @@ export type ProcessAreaUncheckedUpdateWithoutAssessmentsInput = {
   badges?: Prisma.AchievementBadgeUncheckedUpdateManyWithoutProcessAreaNestedInput
   requirements?: Prisma.RequirementUncheckedUpdateManyWithoutProcessAreaNestedInput
   pipItems?: Prisma.BacklogItemUncheckedUpdateManyWithoutProcessAreaNestedInput
+  micAttestations?: Prisma.MicAttestationUncheckedUpdateManyWithoutProcessAreaNestedInput
 }
 
 export type ProcessAreaCreateWithoutBadgesInput = {
@@ -1017,6 +1052,7 @@ export type ProcessAreaCreateWithoutBadgesInput = {
   requirements?: Prisma.RequirementCreateNestedManyWithoutProcessAreaInput
   assessments?: Prisma.AssessmentCreateNestedManyWithoutProcessAreaInput
   pipItems?: Prisma.BacklogItemCreateNestedManyWithoutProcessAreaInput
+  micAttestations?: Prisma.MicAttestationCreateNestedManyWithoutProcessAreaInput
 }
 
 export type ProcessAreaUncheckedCreateWithoutBadgesInput = {
@@ -1036,6 +1072,7 @@ export type ProcessAreaUncheckedCreateWithoutBadgesInput = {
   requirements?: Prisma.RequirementUncheckedCreateNestedManyWithoutProcessAreaInput
   assessments?: Prisma.AssessmentUncheckedCreateNestedManyWithoutProcessAreaInput
   pipItems?: Prisma.BacklogItemUncheckedCreateNestedManyWithoutProcessAreaInput
+  micAttestations?: Prisma.MicAttestationUncheckedCreateNestedManyWithoutProcessAreaInput
 }
 
 export type ProcessAreaCreateOrConnectWithoutBadgesInput = {
@@ -1071,6 +1108,7 @@ export type ProcessAreaUpdateWithoutBadgesInput = {
   requirements?: Prisma.RequirementUpdateManyWithoutProcessAreaNestedInput
   assessments?: Prisma.AssessmentUpdateManyWithoutProcessAreaNestedInput
   pipItems?: Prisma.BacklogItemUpdateManyWithoutProcessAreaNestedInput
+  micAttestations?: Prisma.MicAttestationUpdateManyWithoutProcessAreaNestedInput
 }
 
 export type ProcessAreaUncheckedUpdateWithoutBadgesInput = {
@@ -1087,6 +1125,103 @@ export type ProcessAreaUncheckedUpdateWithoutBadgesInput = {
   micStatementUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   controls?: Prisma.ControlUncheckedUpdateManyWithoutProcessAreaNestedInput
   subProcesses?: Prisma.SubProcessUncheckedUpdateManyWithoutProcessAreaNestedInput
+  requirements?: Prisma.RequirementUncheckedUpdateManyWithoutProcessAreaNestedInput
+  assessments?: Prisma.AssessmentUncheckedUpdateManyWithoutProcessAreaNestedInput
+  pipItems?: Prisma.BacklogItemUncheckedUpdateManyWithoutProcessAreaNestedInput
+  micAttestations?: Prisma.MicAttestationUncheckedUpdateManyWithoutProcessAreaNestedInput
+}
+
+export type ProcessAreaCreateWithoutMicAttestationsInput = {
+  id?: string
+  name: string
+  abbreviatedName?: string | null
+  description?: string | null
+  createdAt?: Date | string
+  pId?: string | null
+  standard?: string | null
+  companyId?: string | null
+  micStatement?: string | null
+  micStatementUpdatedAt?: Date | string | null
+  standardRef?: Prisma.StandardCreateNestedOneWithoutProcessAreasInput
+  controls?: Prisma.ControlCreateNestedManyWithoutProcessAreaInput
+  subProcesses?: Prisma.SubProcessCreateNestedManyWithoutProcessAreaInput
+  badges?: Prisma.AchievementBadgeCreateNestedManyWithoutProcessAreaInput
+  requirements?: Prisma.RequirementCreateNestedManyWithoutProcessAreaInput
+  assessments?: Prisma.AssessmentCreateNestedManyWithoutProcessAreaInput
+  pipItems?: Prisma.BacklogItemCreateNestedManyWithoutProcessAreaInput
+}
+
+export type ProcessAreaUncheckedCreateWithoutMicAttestationsInput = {
+  id?: string
+  name: string
+  abbreviatedName?: string | null
+  description?: string | null
+  createdAt?: Date | string
+  pId?: string | null
+  standard?: string | null
+  standardId?: string | null
+  companyId?: string | null
+  micStatement?: string | null
+  micStatementUpdatedAt?: Date | string | null
+  controls?: Prisma.ControlUncheckedCreateNestedManyWithoutProcessAreaInput
+  subProcesses?: Prisma.SubProcessUncheckedCreateNestedManyWithoutProcessAreaInput
+  badges?: Prisma.AchievementBadgeUncheckedCreateNestedManyWithoutProcessAreaInput
+  requirements?: Prisma.RequirementUncheckedCreateNestedManyWithoutProcessAreaInput
+  assessments?: Prisma.AssessmentUncheckedCreateNestedManyWithoutProcessAreaInput
+  pipItems?: Prisma.BacklogItemUncheckedCreateNestedManyWithoutProcessAreaInput
+}
+
+export type ProcessAreaCreateOrConnectWithoutMicAttestationsInput = {
+  where: Prisma.ProcessAreaWhereUniqueInput
+  create: Prisma.XOR<Prisma.ProcessAreaCreateWithoutMicAttestationsInput, Prisma.ProcessAreaUncheckedCreateWithoutMicAttestationsInput>
+}
+
+export type ProcessAreaUpsertWithoutMicAttestationsInput = {
+  update: Prisma.XOR<Prisma.ProcessAreaUpdateWithoutMicAttestationsInput, Prisma.ProcessAreaUncheckedUpdateWithoutMicAttestationsInput>
+  create: Prisma.XOR<Prisma.ProcessAreaCreateWithoutMicAttestationsInput, Prisma.ProcessAreaUncheckedCreateWithoutMicAttestationsInput>
+  where?: Prisma.ProcessAreaWhereInput
+}
+
+export type ProcessAreaUpdateToOneWithWhereWithoutMicAttestationsInput = {
+  where?: Prisma.ProcessAreaWhereInput
+  data: Prisma.XOR<Prisma.ProcessAreaUpdateWithoutMicAttestationsInput, Prisma.ProcessAreaUncheckedUpdateWithoutMicAttestationsInput>
+}
+
+export type ProcessAreaUpdateWithoutMicAttestationsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  abbreviatedName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  pId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  standard?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  micStatement?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  micStatementUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  standardRef?: Prisma.StandardUpdateOneWithoutProcessAreasNestedInput
+  controls?: Prisma.ControlUpdateManyWithoutProcessAreaNestedInput
+  subProcesses?: Prisma.SubProcessUpdateManyWithoutProcessAreaNestedInput
+  badges?: Prisma.AchievementBadgeUpdateManyWithoutProcessAreaNestedInput
+  requirements?: Prisma.RequirementUpdateManyWithoutProcessAreaNestedInput
+  assessments?: Prisma.AssessmentUpdateManyWithoutProcessAreaNestedInput
+  pipItems?: Prisma.BacklogItemUpdateManyWithoutProcessAreaNestedInput
+}
+
+export type ProcessAreaUncheckedUpdateWithoutMicAttestationsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  abbreviatedName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  pId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  standard?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  standardId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  micStatement?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  micStatementUpdatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  controls?: Prisma.ControlUncheckedUpdateManyWithoutProcessAreaNestedInput
+  subProcesses?: Prisma.SubProcessUncheckedUpdateManyWithoutProcessAreaNestedInput
+  badges?: Prisma.AchievementBadgeUncheckedUpdateManyWithoutProcessAreaNestedInput
   requirements?: Prisma.RequirementUncheckedUpdateManyWithoutProcessAreaNestedInput
   assessments?: Prisma.AssessmentUncheckedUpdateManyWithoutProcessAreaNestedInput
   pipItems?: Prisma.BacklogItemUncheckedUpdateManyWithoutProcessAreaNestedInput
@@ -1109,6 +1244,7 @@ export type ProcessAreaCreateWithoutRequirementsInput = {
   badges?: Prisma.AchievementBadgeCreateNestedManyWithoutProcessAreaInput
   assessments?: Prisma.AssessmentCreateNestedManyWithoutProcessAreaInput
   pipItems?: Prisma.BacklogItemCreateNestedManyWithoutProcessAreaInput
+  micAttestations?: Prisma.MicAttestationCreateNestedManyWithoutProcessAreaInput
 }
 
 export type ProcessAreaUncheckedCreateWithoutRequirementsInput = {
@@ -1128,6 +1264,7 @@ export type ProcessAreaUncheckedCreateWithoutRequirementsInput = {
   badges?: Prisma.AchievementBadgeUncheckedCreateNestedManyWithoutProcessAreaInput
   assessments?: Prisma.AssessmentUncheckedCreateNestedManyWithoutProcessAreaInput
   pipItems?: Prisma.BacklogItemUncheckedCreateNestedManyWithoutProcessAreaInput
+  micAttestations?: Prisma.MicAttestationUncheckedCreateNestedManyWithoutProcessAreaInput
 }
 
 export type ProcessAreaCreateOrConnectWithoutRequirementsInput = {
@@ -1163,6 +1300,7 @@ export type ProcessAreaUpdateWithoutRequirementsInput = {
   badges?: Prisma.AchievementBadgeUpdateManyWithoutProcessAreaNestedInput
   assessments?: Prisma.AssessmentUpdateManyWithoutProcessAreaNestedInput
   pipItems?: Prisma.BacklogItemUpdateManyWithoutProcessAreaNestedInput
+  micAttestations?: Prisma.MicAttestationUpdateManyWithoutProcessAreaNestedInput
 }
 
 export type ProcessAreaUncheckedUpdateWithoutRequirementsInput = {
@@ -1182,6 +1320,7 @@ export type ProcessAreaUncheckedUpdateWithoutRequirementsInput = {
   badges?: Prisma.AchievementBadgeUncheckedUpdateManyWithoutProcessAreaNestedInput
   assessments?: Prisma.AssessmentUncheckedUpdateManyWithoutProcessAreaNestedInput
   pipItems?: Prisma.BacklogItemUncheckedUpdateManyWithoutProcessAreaNestedInput
+  micAttestations?: Prisma.MicAttestationUncheckedUpdateManyWithoutProcessAreaNestedInput
 }
 
 export type ProcessAreaCreateWithoutPipItemsInput = {
@@ -1201,6 +1340,7 @@ export type ProcessAreaCreateWithoutPipItemsInput = {
   badges?: Prisma.AchievementBadgeCreateNestedManyWithoutProcessAreaInput
   requirements?: Prisma.RequirementCreateNestedManyWithoutProcessAreaInput
   assessments?: Prisma.AssessmentCreateNestedManyWithoutProcessAreaInput
+  micAttestations?: Prisma.MicAttestationCreateNestedManyWithoutProcessAreaInput
 }
 
 export type ProcessAreaUncheckedCreateWithoutPipItemsInput = {
@@ -1220,6 +1360,7 @@ export type ProcessAreaUncheckedCreateWithoutPipItemsInput = {
   badges?: Prisma.AchievementBadgeUncheckedCreateNestedManyWithoutProcessAreaInput
   requirements?: Prisma.RequirementUncheckedCreateNestedManyWithoutProcessAreaInput
   assessments?: Prisma.AssessmentUncheckedCreateNestedManyWithoutProcessAreaInput
+  micAttestations?: Prisma.MicAttestationUncheckedCreateNestedManyWithoutProcessAreaInput
 }
 
 export type ProcessAreaCreateOrConnectWithoutPipItemsInput = {
@@ -1255,6 +1396,7 @@ export type ProcessAreaUpdateWithoutPipItemsInput = {
   badges?: Prisma.AchievementBadgeUpdateManyWithoutProcessAreaNestedInput
   requirements?: Prisma.RequirementUpdateManyWithoutProcessAreaNestedInput
   assessments?: Prisma.AssessmentUpdateManyWithoutProcessAreaNestedInput
+  micAttestations?: Prisma.MicAttestationUpdateManyWithoutProcessAreaNestedInput
 }
 
 export type ProcessAreaUncheckedUpdateWithoutPipItemsInput = {
@@ -1274,6 +1416,7 @@ export type ProcessAreaUncheckedUpdateWithoutPipItemsInput = {
   badges?: Prisma.AchievementBadgeUncheckedUpdateManyWithoutProcessAreaNestedInput
   requirements?: Prisma.RequirementUncheckedUpdateManyWithoutProcessAreaNestedInput
   assessments?: Prisma.AssessmentUncheckedUpdateManyWithoutProcessAreaNestedInput
+  micAttestations?: Prisma.MicAttestationUncheckedUpdateManyWithoutProcessAreaNestedInput
 }
 
 export type ProcessAreaCreateManyStandardRefInput = {
@@ -1306,6 +1449,7 @@ export type ProcessAreaUpdateWithoutStandardRefInput = {
   requirements?: Prisma.RequirementUpdateManyWithoutProcessAreaNestedInput
   assessments?: Prisma.AssessmentUpdateManyWithoutProcessAreaNestedInput
   pipItems?: Prisma.BacklogItemUpdateManyWithoutProcessAreaNestedInput
+  micAttestations?: Prisma.MicAttestationUpdateManyWithoutProcessAreaNestedInput
 }
 
 export type ProcessAreaUncheckedUpdateWithoutStandardRefInput = {
@@ -1325,6 +1469,7 @@ export type ProcessAreaUncheckedUpdateWithoutStandardRefInput = {
   requirements?: Prisma.RequirementUncheckedUpdateManyWithoutProcessAreaNestedInput
   assessments?: Prisma.AssessmentUncheckedUpdateManyWithoutProcessAreaNestedInput
   pipItems?: Prisma.BacklogItemUncheckedUpdateManyWithoutProcessAreaNestedInput
+  micAttestations?: Prisma.MicAttestationUncheckedUpdateManyWithoutProcessAreaNestedInput
 }
 
 export type ProcessAreaUncheckedUpdateManyWithoutStandardRefInput = {
@@ -1352,6 +1497,7 @@ export type ProcessAreaCountOutputType = {
   requirements: number
   assessments: number
   pipItems: number
+  micAttestations: number
 }
 
 export type ProcessAreaCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1361,6 +1507,7 @@ export type ProcessAreaCountOutputTypeSelect<ExtArgs extends runtime.Types.Exten
   requirements?: boolean | ProcessAreaCountOutputTypeCountRequirementsArgs
   assessments?: boolean | ProcessAreaCountOutputTypeCountAssessmentsArgs
   pipItems?: boolean | ProcessAreaCountOutputTypeCountPipItemsArgs
+  micAttestations?: boolean | ProcessAreaCountOutputTypeCountMicAttestationsArgs
 }
 
 /**
@@ -1415,6 +1562,13 @@ export type ProcessAreaCountOutputTypeCountPipItemsArgs<ExtArgs extends runtime.
   where?: Prisma.BacklogItemWhereInput
 }
 
+/**
+ * ProcessAreaCountOutputType without action
+ */
+export type ProcessAreaCountOutputTypeCountMicAttestationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.MicAttestationWhereInput
+}
+
 
 export type ProcessAreaSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1435,6 +1589,7 @@ export type ProcessAreaSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   requirements?: boolean | Prisma.ProcessArea$requirementsArgs<ExtArgs>
   assessments?: boolean | Prisma.ProcessArea$assessmentsArgs<ExtArgs>
   pipItems?: boolean | Prisma.ProcessArea$pipItemsArgs<ExtArgs>
+  micAttestations?: boolean | Prisma.ProcessArea$micAttestationsArgs<ExtArgs>
   _count?: boolean | Prisma.ProcessAreaCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["processArea"]>
 
@@ -1491,6 +1646,7 @@ export type ProcessAreaInclude<ExtArgs extends runtime.Types.Extensions.Internal
   requirements?: boolean | Prisma.ProcessArea$requirementsArgs<ExtArgs>
   assessments?: boolean | Prisma.ProcessArea$assessmentsArgs<ExtArgs>
   pipItems?: boolean | Prisma.ProcessArea$pipItemsArgs<ExtArgs>
+  micAttestations?: boolean | Prisma.ProcessArea$micAttestationsArgs<ExtArgs>
   _count?: boolean | Prisma.ProcessAreaCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type ProcessAreaIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1510,6 +1666,10 @@ export type $ProcessAreaPayload<ExtArgs extends runtime.Types.Extensions.Interna
     requirements: Prisma.$RequirementPayload<ExtArgs>[]
     assessments: Prisma.$AssessmentPayload<ExtArgs>[]
     pipItems: Prisma.$BacklogItemPayload<ExtArgs>[]
+    /**
+     * MIC attestation records that pin this PA's posture at a point in time (SAMS-014).
+     */
+    micAttestations: Prisma.$MicAttestationPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1924,6 +2084,7 @@ export interface Prisma__ProcessAreaClient<T, Null = never, ExtArgs extends runt
   requirements<T extends Prisma.ProcessArea$requirementsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ProcessArea$requirementsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RequirementPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   assessments<T extends Prisma.ProcessArea$assessmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ProcessArea$assessmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AssessmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   pipItems<T extends Prisma.ProcessArea$pipItemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ProcessArea$pipItemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BacklogItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  micAttestations<T extends Prisma.ProcessArea$micAttestationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ProcessArea$micAttestationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MicAttestationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2525,6 +2686,30 @@ export type ProcessArea$pipItemsArgs<ExtArgs extends runtime.Types.Extensions.In
   take?: number
   skip?: number
   distinct?: Prisma.BacklogItemScalarFieldEnum | Prisma.BacklogItemScalarFieldEnum[]
+}
+
+/**
+ * ProcessArea.micAttestations
+ */
+export type ProcessArea$micAttestationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the MicAttestation
+   */
+  select?: Prisma.MicAttestationSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the MicAttestation
+   */
+  omit?: Prisma.MicAttestationOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MicAttestationInclude<ExtArgs> | null
+  where?: Prisma.MicAttestationWhereInput
+  orderBy?: Prisma.MicAttestationOrderByWithRelationInput | Prisma.MicAttestationOrderByWithRelationInput[]
+  cursor?: Prisma.MicAttestationWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.MicAttestationScalarFieldEnum | Prisma.MicAttestationScalarFieldEnum[]
 }
 
 /**

@@ -48,6 +48,8 @@ model User {
   notifications        Notification[]     @relation("NotificationRecipient")
   /// Public read-only API keys this user created (SAMS-011, Phase 3b).
   apiKeys              ApiKey[]           @relation("ApiKeyCreatedBy")
+  /// MIC attestations this user signed (SAMS-014, Phase 4 Feature B).
+  micAttestations      MicAttestation[]   @relation("MicAttestationAttestedBy")
 }
 
 model ActivityLog {
@@ -156,6 +158,8 @@ model ProcessArea {
   micStatementUpdatedAt DateTime?
 
   pipItems         BacklogItem[]     // PIP items for this PA
+  /// MIC attestation records that pin this PA's posture at a point in time (SAMS-014).
+  micAttestations  MicAttestation[]
 
   @@unique([name, companyId])
   @@index([standardId])
@@ -730,6 +734,10 @@ model Company {
   /// the client-data export (exact name added to EXCLUSION_COLUMNS). Nullable —
   /// null = no webhook configured (no outbound posts for this company).
   notificationWebhookUrl  String?
+  /// MIC Ritual (SAMS-014, Phase 4 Feature B): per-company attestation cadence in
+  /// days. Additive + nullable — null = quarterly default (90). Due/soon/overdue
+  /// states are DERIVED from this + the last attestation (or go-live), never stored.
+  attestationCadenceDays  Int?
   userCompanies UserCompany[]
   departments   Department[]
   /// SAMS-013: evidence-chain proposals scoped to this company.
@@ -738,6 +746,8 @@ model Company {
   apiKeys       ApiKey[]
   /// Audit rows for every outbound webhook attempt (SAMS-009). Company-scoped.
   notificationDeliveries  NotificationDelivery[]
+  /// MIC attestation records for this company (SAMS-014, Phase 4 Feature B).
+  micAttestations MicAttestation[]
 }
 
 /// SAMS-011 (Phase 3b, Feature B) — public read-only REST API bearer keys.
@@ -768,6 +778,33 @@ model ApiKey {
   createdByUser   User?     @relation("ApiKeyCreatedBy", fields: [createdByUserId], references: [id], onDelete: SetNull)
 
   @@index([companyId])
+}
+
+// ── MIC Ritual (SAMS-014, Phase 4 Feature B) — quarterly attestation records ──
+// A first-class record pinning WHAT the client attested — their SOC posture at a
+// point in time. `socSnapshot` is SERVER-COMPUTED at signing (never trusted from
+// the client); the due/soon/overdue states are DERIVED (no stored flags), so an
+// attestation NEVER gates anything (SOFT enforcement). Cadence is per-company
+// (null = quarterly default = 90 days) via `Company.attestationCadenceDays`.
+model MicAttestation {
+  id                String      @id @default(cuid())
+  companyId         String
+  processAreaId     String
+  /// Optional free-form label for the attestation period (e.g. "Q3 2026").
+  period            String?
+  /// The SPO who signed (client Admin/Assessor/Superuser with company access).
+  attestedByUserId  String?
+  attestedAt        DateTime    @default(now())
+  /// SERVER-COMPUTED SOC snapshot at signing: `{ coveragePct, findingCount,
+  /// overdueActionCount }`. Client-supplied values are ignored/overwritten.
+  socSnapshot       Json
+  company           Company     @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  processArea       ProcessArea @relation(fields: [processAreaId], references: [id], onDelete: Cascade)
+  attestedBy        User?       @relation("MicAttestationAttestedBy", fields: [attestedByUserId], references: [id], onDelete: SetNull)
+
+  @@index([companyId])
+  @@index([processAreaId])
+  @@index([attestedAt])
 }
 
 // ── Organizational Hierarchy — Department → Position → User ─────────
@@ -1684,6 +1721,10 @@ enum NotificationType {
   /// SAMS-009 sweep: an Action crossed its targetDate (newly overdue) — posted
   /// to the company channel + in-app to the company's client Admins.
   ActionOverdue
+  /// SAMS-014 MIC Ritual: a Process Area is newly due for SOC attestation —
+  /// emitted during the weekly-digest sweep to the company's SPOs (client
+  /// Admin/Assessor/Superuser of that company), deduped per cadence window.
+  MicAttestationDue
 }
 
 model Notification {

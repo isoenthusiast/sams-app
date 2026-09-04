@@ -86,6 +86,7 @@ export const ModelName = {
   UserRoleMapping: 'UserRoleMapping',
   Company: 'Company',
   ApiKey: 'ApiKey',
+  MicAttestation: 'MicAttestation',
   Department: 'Department',
   Position: 'Position',
   UserCompany: 'UserCompany',
@@ -686,7 +687,8 @@ export const CompanyScalarFieldEnum = {
   deletionScheduledAt: 'deletionScheduledAt',
   logoUrl: 'logoUrl',
   primaryColor: 'primaryColor',
-  notificationWebhookUrl: 'notificationWebhookUrl'
+  notificationWebhookUrl: 'notificationWebhookUrl',
+  attestationCadenceDays: 'attestationCadenceDays'
 } as const
 
 export type CompanyScalarFieldEnum = (typeof CompanyScalarFieldEnum)[keyof typeof CompanyScalarFieldEnum]
@@ -704,6 +706,19 @@ export const ApiKeyScalarFieldEnum = {
 } as const
 
 export type ApiKeyScalarFieldEnum = (typeof ApiKeyScalarFieldEnum)[keyof typeof ApiKeyScalarFieldEnum]
+
+
+export const MicAttestationScalarFieldEnum = {
+  id: 'id',
+  companyId: 'companyId',
+  processAreaId: 'processAreaId',
+  period: 'period',
+  attestedByUserId: 'attestedByUserId',
+  attestedAt: 'attestedAt',
+  socSnapshot: 'socSnapshot'
+} as const
+
+export type MicAttestationScalarFieldEnum = (typeof MicAttestationScalarFieldEnum)[keyof typeof MicAttestationScalarFieldEnum]
 
 
 export const DepartmentScalarFieldEnum = {
@@ -1351,6 +1366,13 @@ export const NullableJsonNullValueInput = {
 } as const
 
 export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
+
+
+export const JsonNullValueInput = {
+  JsonNull: JsonNull
+} as const
+
+export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
 
 
 export const QueryMode = {

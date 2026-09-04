@@ -231,6 +231,11 @@ export type Company = Prisma.CompanyModel
  */
 export type ApiKey = Prisma.ApiKeyModel
 /**
+ * Model MicAttestation
+ * 
+ */
+export type MicAttestation = Prisma.MicAttestationModel
+/**
  * Model Department
  * 
  */

@@ -419,6 +419,7 @@ export const ModelName = {
   UserRoleMapping: 'UserRoleMapping',
   Company: 'Company',
   ApiKey: 'ApiKey',
+  MicAttestation: 'MicAttestation',
   Department: 'Department',
   Position: 'Position',
   UserCompany: 'UserCompany',
@@ -475,7 +476,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "activityLog" | "activityLogType" | "assuranceActivityType" | "assuranceProtocol" | "standard" | "processArea" | "subProcess" | "controlSubProcess" | "control" | "assessmentTemplate" | "assessmentTemplateControlLinkage" | "assessmentTemplateActivityType" | "assessment" | "assessmentAssessor" | "controlAssignment" | "requirementConclusion" | "sampleType" | "recordSourceType" | "sample" | "finding" | "action" | "attachment" | "attachmentMapping" | "achievementBadge" | "userAchievement" | "pointTransaction" | "gameAttribute" | "gameAttributeRule" | "emotionalDriveMetric" | "milestone" | "userRole" | "userRoleMapping" | "company" | "apiKey" | "department" | "position" | "userCompany" | "userFavorite" | "assessmentActType" | "aact" | "aActControls" | "aActUsers" | "aActDetails" | "knowledgebase" | "tag" | "knowledgebaseTag" | "mapArt2Know" | "requirement" | "mapControl2Requirement" | "gamificationStage" | "webhookLog" | "document" | "mapRequirement2Document" | "riskCategory" | "risk" | "riskMetrics" | "controlRisk" | "backlogItem" | "backlogItemControl" | "auditEvidence" | "auditChecklist2Requirement" | "auditChecklistTemplate" | "auditChecklistTemplateItem" | "auditChecklistItem" | "assessmentChecklistControl" | "reconcileClaim" | "requirementCoverageAudit" | "socStatementAudit" | "testClaim" | "testWorker" | "comment" | "evidenceRequest" | "notification" | "extractionProposal" | "notificationDelivery"
+    modelProps: "user" | "activityLog" | "activityLogType" | "assuranceActivityType" | "assuranceProtocol" | "standard" | "processArea" | "subProcess" | "controlSubProcess" | "control" | "assessmentTemplate" | "assessmentTemplateControlLinkage" | "assessmentTemplateActivityType" | "assessment" | "assessmentAssessor" | "controlAssignment" | "requirementConclusion" | "sampleType" | "recordSourceType" | "sample" | "finding" | "action" | "attachment" | "attachmentMapping" | "achievementBadge" | "userAchievement" | "pointTransaction" | "gameAttribute" | "gameAttributeRule" | "emotionalDriveMetric" | "milestone" | "userRole" | "userRoleMapping" | "company" | "apiKey" | "micAttestation" | "department" | "position" | "userCompany" | "userFavorite" | "assessmentActType" | "aact" | "aActControls" | "aActUsers" | "aActDetails" | "knowledgebase" | "tag" | "knowledgebaseTag" | "mapArt2Know" | "requirement" | "mapControl2Requirement" | "gamificationStage" | "webhookLog" | "document" | "mapRequirement2Document" | "riskCategory" | "risk" | "riskMetrics" | "controlRisk" | "backlogItem" | "backlogItemControl" | "auditEvidence" | "auditChecklist2Requirement" | "auditChecklistTemplate" | "auditChecklistTemplateItem" | "auditChecklistItem" | "assessmentChecklistControl" | "reconcileClaim" | "requirementCoverageAudit" | "socStatementAudit" | "testClaim" | "testWorker" | "comment" | "evidenceRequest" | "notification" | "extractionProposal" | "notificationDelivery"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -3066,6 +3067,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.ApiKeyCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.ApiKeyCountAggregateOutputType> | number
+        }
+      }
+    }
+    MicAttestation: {
+      payload: Prisma.$MicAttestationPayload<ExtArgs>
+      fields: Prisma.MicAttestationFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.MicAttestationFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MicAttestationPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.MicAttestationFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MicAttestationPayload>
+        }
+        findFirst: {
+          args: Prisma.MicAttestationFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MicAttestationPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.MicAttestationFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MicAttestationPayload>
+        }
+        findMany: {
+          args: Prisma.MicAttestationFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MicAttestationPayload>[]
+        }
+        create: {
+          args: Prisma.MicAttestationCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MicAttestationPayload>
+        }
+        createMany: {
+          args: Prisma.MicAttestationCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.MicAttestationCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MicAttestationPayload>[]
+        }
+        delete: {
+          args: Prisma.MicAttestationDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MicAttestationPayload>
+        }
+        update: {
+          args: Prisma.MicAttestationUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MicAttestationPayload>
+        }
+        deleteMany: {
+          args: Prisma.MicAttestationDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.MicAttestationUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.MicAttestationUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MicAttestationPayload>[]
+        }
+        upsert: {
+          args: Prisma.MicAttestationUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MicAttestationPayload>
+        }
+        aggregate: {
+          args: Prisma.MicAttestationAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateMicAttestation>
+        }
+        groupBy: {
+          args: Prisma.MicAttestationGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.MicAttestationGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.MicAttestationCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.MicAttestationCountAggregateOutputType> | number
         }
       }
     }
@@ -6683,7 +6758,8 @@ export const CompanyScalarFieldEnum = {
   deletionScheduledAt: 'deletionScheduledAt',
   logoUrl: 'logoUrl',
   primaryColor: 'primaryColor',
-  notificationWebhookUrl: 'notificationWebhookUrl'
+  notificationWebhookUrl: 'notificationWebhookUrl',
+  attestationCadenceDays: 'attestationCadenceDays'
 } as const
 
 export type CompanyScalarFieldEnum = (typeof CompanyScalarFieldEnum)[keyof typeof CompanyScalarFieldEnum]
@@ -6701,6 +6777,19 @@ export const ApiKeyScalarFieldEnum = {
 } as const
 
 export type ApiKeyScalarFieldEnum = (typeof ApiKeyScalarFieldEnum)[keyof typeof ApiKeyScalarFieldEnum]
+
+
+export const MicAttestationScalarFieldEnum = {
+  id: 'id',
+  companyId: 'companyId',
+  processAreaId: 'processAreaId',
+  period: 'period',
+  attestedByUserId: 'attestedByUserId',
+  attestedAt: 'attestedAt',
+  socSnapshot: 'socSnapshot'
+} as const
+
+export type MicAttestationScalarFieldEnum = (typeof MicAttestationScalarFieldEnum)[keyof typeof MicAttestationScalarFieldEnum]
 
 
 export const DepartmentScalarFieldEnum = {
@@ -7348,6 +7437,13 @@ export const NullableJsonNullValueInput = {
 } as const
 
 export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
+
+
+export const JsonNullValueInput = {
+  JsonNull: JsonNull
+} as const
+
+export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
 
 
 export const QueryMode = {
@@ -8008,6 +8104,7 @@ export type GlobalOmitConfig = {
   userRoleMapping?: Prisma.UserRoleMappingOmit
   company?: Prisma.CompanyOmit
   apiKey?: Prisma.ApiKeyOmit
+  micAttestation?: Prisma.MicAttestationOmit
   department?: Prisma.DepartmentOmit
   position?: Prisma.PositionOmit
   userCompany?: Prisma.UserCompanyOmit

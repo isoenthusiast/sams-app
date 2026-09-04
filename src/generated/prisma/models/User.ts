@@ -359,6 +359,7 @@ export type UserWhereInput = {
   managementResponses?: Prisma.FindingListRelationFilter
   notifications?: Prisma.NotificationListRelationFilter
   apiKeys?: Prisma.ApiKeyListRelationFilter
+  micAttestations?: Prisma.MicAttestationListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -397,6 +398,7 @@ export type UserOrderByWithRelationInput = {
   managementResponses?: Prisma.FindingOrderByRelationAggregateInput
   notifications?: Prisma.NotificationOrderByRelationAggregateInput
   apiKeys?: Prisma.ApiKeyOrderByRelationAggregateInput
+  micAttestations?: Prisma.MicAttestationOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -438,6 +440,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   managementResponses?: Prisma.FindingListRelationFilter
   notifications?: Prisma.NotificationListRelationFilter
   apiKeys?: Prisma.ApiKeyListRelationFilter
+  micAttestations?: Prisma.MicAttestationListRelationFilter
 }, "id" | "username">
 
 export type UserOrderByWithAggregationInput = {
@@ -529,6 +532,7 @@ export type UserCreateInput = {
   managementResponses?: Prisma.FindingCreateNestedManyWithoutManagementResponseByInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutRecipientInput
   apiKeys?: Prisma.ApiKeyCreateNestedManyWithoutCreatedByUserInput
+  micAttestations?: Prisma.MicAttestationCreateNestedManyWithoutAttestedByInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -566,6 +570,7 @@ export type UserUncheckedCreateInput = {
   managementResponses?: Prisma.FindingUncheckedCreateNestedManyWithoutManagementResponseByInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutRecipientInput
   apiKeys?: Prisma.ApiKeyUncheckedCreateNestedManyWithoutCreatedByUserInput
+  micAttestations?: Prisma.MicAttestationUncheckedCreateNestedManyWithoutAttestedByInput
 }
 
 export type UserUpdateInput = {
@@ -603,6 +608,7 @@ export type UserUpdateInput = {
   managementResponses?: Prisma.FindingUpdateManyWithoutManagementResponseByNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutRecipientNestedInput
   apiKeys?: Prisma.ApiKeyUpdateManyWithoutCreatedByUserNestedInput
+  micAttestations?: Prisma.MicAttestationUpdateManyWithoutAttestedByNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -640,6 +646,7 @@ export type UserUncheckedUpdateInput = {
   managementResponses?: Prisma.FindingUncheckedUpdateManyWithoutManagementResponseByNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutRecipientNestedInput
   apiKeys?: Prisma.ApiKeyUncheckedUpdateManyWithoutCreatedByUserNestedInput
+  micAttestations?: Prisma.MicAttestationUncheckedUpdateManyWithoutAttestedByNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -977,6 +984,22 @@ export type UserUpdateOneWithoutApiKeysNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutApiKeysInput, Prisma.UserUpdateWithoutApiKeysInput>, Prisma.UserUncheckedUpdateWithoutApiKeysInput>
 }
 
+export type UserCreateNestedOneWithoutMicAttestationsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutMicAttestationsInput, Prisma.UserUncheckedCreateWithoutMicAttestationsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutMicAttestationsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneWithoutMicAttestationsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutMicAttestationsInput, Prisma.UserUncheckedCreateWithoutMicAttestationsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutMicAttestationsInput
+  upsert?: Prisma.UserUpsertWithoutMicAttestationsInput
+  disconnect?: Prisma.UserWhereInput | boolean
+  delete?: Prisma.UserWhereInput | boolean
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutMicAttestationsInput, Prisma.UserUpdateWithoutMicAttestationsInput>, Prisma.UserUncheckedUpdateWithoutMicAttestationsInput>
+}
+
 export type UserCreateNestedManyWithoutPositionInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutPositionInput, Prisma.UserUncheckedCreateWithoutPositionInput> | Prisma.UserCreateWithoutPositionInput[] | Prisma.UserUncheckedCreateWithoutPositionInput[]
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutPositionInput | Prisma.UserCreateOrConnectWithoutPositionInput[]
@@ -1123,6 +1146,7 @@ export type UserCreateWithoutAssessmentsInput = {
   managementResponses?: Prisma.FindingCreateNestedManyWithoutManagementResponseByInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutRecipientInput
   apiKeys?: Prisma.ApiKeyCreateNestedManyWithoutCreatedByUserInput
+  micAttestations?: Prisma.MicAttestationCreateNestedManyWithoutAttestedByInput
 }
 
 export type UserUncheckedCreateWithoutAssessmentsInput = {
@@ -1159,6 +1183,7 @@ export type UserUncheckedCreateWithoutAssessmentsInput = {
   managementResponses?: Prisma.FindingUncheckedCreateNestedManyWithoutManagementResponseByInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutRecipientInput
   apiKeys?: Prisma.ApiKeyUncheckedCreateNestedManyWithoutCreatedByUserInput
+  micAttestations?: Prisma.MicAttestationUncheckedCreateNestedManyWithoutAttestedByInput
 }
 
 export type UserCreateOrConnectWithoutAssessmentsInput = {
@@ -1211,6 +1236,7 @@ export type UserUpdateWithoutAssessmentsInput = {
   managementResponses?: Prisma.FindingUpdateManyWithoutManagementResponseByNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutRecipientNestedInput
   apiKeys?: Prisma.ApiKeyUpdateManyWithoutCreatedByUserNestedInput
+  micAttestations?: Prisma.MicAttestationUpdateManyWithoutAttestedByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAssessmentsInput = {
@@ -1247,6 +1273,7 @@ export type UserUncheckedUpdateWithoutAssessmentsInput = {
   managementResponses?: Prisma.FindingUncheckedUpdateManyWithoutManagementResponseByNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutRecipientNestedInput
   apiKeys?: Prisma.ApiKeyUncheckedUpdateManyWithoutCreatedByUserNestedInput
+  micAttestations?: Prisma.MicAttestationUncheckedUpdateManyWithoutAttestedByNestedInput
 }
 
 export type UserCreateWithoutAssessmentRolesInput = {
@@ -1283,6 +1310,7 @@ export type UserCreateWithoutAssessmentRolesInput = {
   managementResponses?: Prisma.FindingCreateNestedManyWithoutManagementResponseByInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutRecipientInput
   apiKeys?: Prisma.ApiKeyCreateNestedManyWithoutCreatedByUserInput
+  micAttestations?: Prisma.MicAttestationCreateNestedManyWithoutAttestedByInput
 }
 
 export type UserUncheckedCreateWithoutAssessmentRolesInput = {
@@ -1319,6 +1347,7 @@ export type UserUncheckedCreateWithoutAssessmentRolesInput = {
   managementResponses?: Prisma.FindingUncheckedCreateNestedManyWithoutManagementResponseByInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutRecipientInput
   apiKeys?: Prisma.ApiKeyUncheckedCreateNestedManyWithoutCreatedByUserInput
+  micAttestations?: Prisma.MicAttestationUncheckedCreateNestedManyWithoutAttestedByInput
 }
 
 export type UserCreateOrConnectWithoutAssessmentRolesInput = {
@@ -1371,6 +1400,7 @@ export type UserUpdateWithoutAssessmentRolesInput = {
   managementResponses?: Prisma.FindingUpdateManyWithoutManagementResponseByNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutRecipientNestedInput
   apiKeys?: Prisma.ApiKeyUpdateManyWithoutCreatedByUserNestedInput
+  micAttestations?: Prisma.MicAttestationUpdateManyWithoutAttestedByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAssessmentRolesInput = {
@@ -1407,6 +1437,7 @@ export type UserUncheckedUpdateWithoutAssessmentRolesInput = {
   managementResponses?: Prisma.FindingUncheckedUpdateManyWithoutManagementResponseByNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutRecipientNestedInput
   apiKeys?: Prisma.ApiKeyUncheckedUpdateManyWithoutCreatedByUserNestedInput
+  micAttestations?: Prisma.MicAttestationUncheckedUpdateManyWithoutAttestedByNestedInput
 }
 
 export type UserCreateWithoutManagementResponsesInput = {
@@ -1443,6 +1474,7 @@ export type UserCreateWithoutManagementResponsesInput = {
   evidenceRequestsFrom?: Prisma.EvidenceRequestCreateNestedManyWithoutRequestedFromInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutRecipientInput
   apiKeys?: Prisma.ApiKeyCreateNestedManyWithoutCreatedByUserInput
+  micAttestations?: Prisma.MicAttestationCreateNestedManyWithoutAttestedByInput
 }
 
 export type UserUncheckedCreateWithoutManagementResponsesInput = {
@@ -1479,6 +1511,7 @@ export type UserUncheckedCreateWithoutManagementResponsesInput = {
   evidenceRequestsFrom?: Prisma.EvidenceRequestUncheckedCreateNestedManyWithoutRequestedFromInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutRecipientInput
   apiKeys?: Prisma.ApiKeyUncheckedCreateNestedManyWithoutCreatedByUserInput
+  micAttestations?: Prisma.MicAttestationUncheckedCreateNestedManyWithoutAttestedByInput
 }
 
 export type UserCreateOrConnectWithoutManagementResponsesInput = {
@@ -1531,6 +1564,7 @@ export type UserUpdateWithoutManagementResponsesInput = {
   evidenceRequestsFrom?: Prisma.EvidenceRequestUpdateManyWithoutRequestedFromNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutRecipientNestedInput
   apiKeys?: Prisma.ApiKeyUpdateManyWithoutCreatedByUserNestedInput
+  micAttestations?: Prisma.MicAttestationUpdateManyWithoutAttestedByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutManagementResponsesInput = {
@@ -1567,6 +1601,7 @@ export type UserUncheckedUpdateWithoutManagementResponsesInput = {
   evidenceRequestsFrom?: Prisma.EvidenceRequestUncheckedUpdateManyWithoutRequestedFromNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutRecipientNestedInput
   apiKeys?: Prisma.ApiKeyUncheckedUpdateManyWithoutCreatedByUserNestedInput
+  micAttestations?: Prisma.MicAttestationUncheckedUpdateManyWithoutAttestedByNestedInput
 }
 
 export type UserCreateWithoutAchievementsInput = {
@@ -1603,6 +1638,7 @@ export type UserCreateWithoutAchievementsInput = {
   managementResponses?: Prisma.FindingCreateNestedManyWithoutManagementResponseByInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutRecipientInput
   apiKeys?: Prisma.ApiKeyCreateNestedManyWithoutCreatedByUserInput
+  micAttestations?: Prisma.MicAttestationCreateNestedManyWithoutAttestedByInput
 }
 
 export type UserUncheckedCreateWithoutAchievementsInput = {
@@ -1639,6 +1675,7 @@ export type UserUncheckedCreateWithoutAchievementsInput = {
   managementResponses?: Prisma.FindingUncheckedCreateNestedManyWithoutManagementResponseByInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutRecipientInput
   apiKeys?: Prisma.ApiKeyUncheckedCreateNestedManyWithoutCreatedByUserInput
+  micAttestations?: Prisma.MicAttestationUncheckedCreateNestedManyWithoutAttestedByInput
 }
 
 export type UserCreateOrConnectWithoutAchievementsInput = {
@@ -1691,6 +1728,7 @@ export type UserUpdateWithoutAchievementsInput = {
   managementResponses?: Prisma.FindingUpdateManyWithoutManagementResponseByNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutRecipientNestedInput
   apiKeys?: Prisma.ApiKeyUpdateManyWithoutCreatedByUserNestedInput
+  micAttestations?: Prisma.MicAttestationUpdateManyWithoutAttestedByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAchievementsInput = {
@@ -1727,6 +1765,7 @@ export type UserUncheckedUpdateWithoutAchievementsInput = {
   managementResponses?: Prisma.FindingUncheckedUpdateManyWithoutManagementResponseByNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutRecipientNestedInput
   apiKeys?: Prisma.ApiKeyUncheckedUpdateManyWithoutCreatedByUserNestedInput
+  micAttestations?: Prisma.MicAttestationUncheckedUpdateManyWithoutAttestedByNestedInput
 }
 
 export type UserCreateWithoutPointsInput = {
@@ -1763,6 +1802,7 @@ export type UserCreateWithoutPointsInput = {
   managementResponses?: Prisma.FindingCreateNestedManyWithoutManagementResponseByInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutRecipientInput
   apiKeys?: Prisma.ApiKeyCreateNestedManyWithoutCreatedByUserInput
+  micAttestations?: Prisma.MicAttestationCreateNestedManyWithoutAttestedByInput
 }
 
 export type UserUncheckedCreateWithoutPointsInput = {
@@ -1799,6 +1839,7 @@ export type UserUncheckedCreateWithoutPointsInput = {
   managementResponses?: Prisma.FindingUncheckedCreateNestedManyWithoutManagementResponseByInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutRecipientInput
   apiKeys?: Prisma.ApiKeyUncheckedCreateNestedManyWithoutCreatedByUserInput
+  micAttestations?: Prisma.MicAttestationUncheckedCreateNestedManyWithoutAttestedByInput
 }
 
 export type UserCreateOrConnectWithoutPointsInput = {
@@ -1851,6 +1892,7 @@ export type UserUpdateWithoutPointsInput = {
   managementResponses?: Prisma.FindingUpdateManyWithoutManagementResponseByNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutRecipientNestedInput
   apiKeys?: Prisma.ApiKeyUpdateManyWithoutCreatedByUserNestedInput
+  micAttestations?: Prisma.MicAttestationUpdateManyWithoutAttestedByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutPointsInput = {
@@ -1887,6 +1929,7 @@ export type UserUncheckedUpdateWithoutPointsInput = {
   managementResponses?: Prisma.FindingUncheckedUpdateManyWithoutManagementResponseByNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutRecipientNestedInput
   apiKeys?: Prisma.ApiKeyUncheckedUpdateManyWithoutCreatedByUserNestedInput
+  micAttestations?: Prisma.MicAttestationUncheckedUpdateManyWithoutAttestedByNestedInput
 }
 
 export type UserCreateWithoutEmotionalDrivesInput = {
@@ -1923,6 +1966,7 @@ export type UserCreateWithoutEmotionalDrivesInput = {
   managementResponses?: Prisma.FindingCreateNestedManyWithoutManagementResponseByInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutRecipientInput
   apiKeys?: Prisma.ApiKeyCreateNestedManyWithoutCreatedByUserInput
+  micAttestations?: Prisma.MicAttestationCreateNestedManyWithoutAttestedByInput
 }
 
 export type UserUncheckedCreateWithoutEmotionalDrivesInput = {
@@ -1959,6 +2003,7 @@ export type UserUncheckedCreateWithoutEmotionalDrivesInput = {
   managementResponses?: Prisma.FindingUncheckedCreateNestedManyWithoutManagementResponseByInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutRecipientInput
   apiKeys?: Prisma.ApiKeyUncheckedCreateNestedManyWithoutCreatedByUserInput
+  micAttestations?: Prisma.MicAttestationUncheckedCreateNestedManyWithoutAttestedByInput
 }
 
 export type UserCreateOrConnectWithoutEmotionalDrivesInput = {
@@ -2011,6 +2056,7 @@ export type UserUpdateWithoutEmotionalDrivesInput = {
   managementResponses?: Prisma.FindingUpdateManyWithoutManagementResponseByNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutRecipientNestedInput
   apiKeys?: Prisma.ApiKeyUpdateManyWithoutCreatedByUserNestedInput
+  micAttestations?: Prisma.MicAttestationUpdateManyWithoutAttestedByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutEmotionalDrivesInput = {
@@ -2047,6 +2093,7 @@ export type UserUncheckedUpdateWithoutEmotionalDrivesInput = {
   managementResponses?: Prisma.FindingUncheckedUpdateManyWithoutManagementResponseByNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutRecipientNestedInput
   apiKeys?: Prisma.ApiKeyUncheckedUpdateManyWithoutCreatedByUserNestedInput
+  micAttestations?: Prisma.MicAttestationUncheckedUpdateManyWithoutAttestedByNestedInput
 }
 
 export type UserCreateWithoutMilestonesInput = {
@@ -2083,6 +2130,7 @@ export type UserCreateWithoutMilestonesInput = {
   managementResponses?: Prisma.FindingCreateNestedManyWithoutManagementResponseByInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutRecipientInput
   apiKeys?: Prisma.ApiKeyCreateNestedManyWithoutCreatedByUserInput
+  micAttestations?: Prisma.MicAttestationCreateNestedManyWithoutAttestedByInput
 }
 
 export type UserUncheckedCreateWithoutMilestonesInput = {
@@ -2119,6 +2167,7 @@ export type UserUncheckedCreateWithoutMilestonesInput = {
   managementResponses?: Prisma.FindingUncheckedCreateNestedManyWithoutManagementResponseByInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutRecipientInput
   apiKeys?: Prisma.ApiKeyUncheckedCreateNestedManyWithoutCreatedByUserInput
+  micAttestations?: Prisma.MicAttestationUncheckedCreateNestedManyWithoutAttestedByInput
 }
 
 export type UserCreateOrConnectWithoutMilestonesInput = {
@@ -2171,6 +2220,7 @@ export type UserUpdateWithoutMilestonesInput = {
   managementResponses?: Prisma.FindingUpdateManyWithoutManagementResponseByNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutRecipientNestedInput
   apiKeys?: Prisma.ApiKeyUpdateManyWithoutCreatedByUserNestedInput
+  micAttestations?: Prisma.MicAttestationUpdateManyWithoutAttestedByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutMilestonesInput = {
@@ -2207,6 +2257,7 @@ export type UserUncheckedUpdateWithoutMilestonesInput = {
   managementResponses?: Prisma.FindingUncheckedUpdateManyWithoutManagementResponseByNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutRecipientNestedInput
   apiKeys?: Prisma.ApiKeyUncheckedUpdateManyWithoutCreatedByUserNestedInput
+  micAttestations?: Prisma.MicAttestationUncheckedUpdateManyWithoutAttestedByNestedInput
 }
 
 export type UserCreateWithoutRoleMappingsInput = {
@@ -2243,6 +2294,7 @@ export type UserCreateWithoutRoleMappingsInput = {
   managementResponses?: Prisma.FindingCreateNestedManyWithoutManagementResponseByInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutRecipientInput
   apiKeys?: Prisma.ApiKeyCreateNestedManyWithoutCreatedByUserInput
+  micAttestations?: Prisma.MicAttestationCreateNestedManyWithoutAttestedByInput
 }
 
 export type UserUncheckedCreateWithoutRoleMappingsInput = {
@@ -2279,6 +2331,7 @@ export type UserUncheckedCreateWithoutRoleMappingsInput = {
   managementResponses?: Prisma.FindingUncheckedCreateNestedManyWithoutManagementResponseByInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutRecipientInput
   apiKeys?: Prisma.ApiKeyUncheckedCreateNestedManyWithoutCreatedByUserInput
+  micAttestations?: Prisma.MicAttestationUncheckedCreateNestedManyWithoutAttestedByInput
 }
 
 export type UserCreateOrConnectWithoutRoleMappingsInput = {
@@ -2331,6 +2384,7 @@ export type UserUpdateWithoutRoleMappingsInput = {
   managementResponses?: Prisma.FindingUpdateManyWithoutManagementResponseByNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutRecipientNestedInput
   apiKeys?: Prisma.ApiKeyUpdateManyWithoutCreatedByUserNestedInput
+  micAttestations?: Prisma.MicAttestationUpdateManyWithoutAttestedByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutRoleMappingsInput = {
@@ -2367,6 +2421,7 @@ export type UserUncheckedUpdateWithoutRoleMappingsInput = {
   managementResponses?: Prisma.FindingUncheckedUpdateManyWithoutManagementResponseByNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutRecipientNestedInput
   apiKeys?: Prisma.ApiKeyUncheckedUpdateManyWithoutCreatedByUserNestedInput
+  micAttestations?: Prisma.MicAttestationUncheckedUpdateManyWithoutAttestedByNestedInput
 }
 
 export type UserCreateWithoutApiKeysInput = {
@@ -2403,6 +2458,7 @@ export type UserCreateWithoutApiKeysInput = {
   evidenceRequestsFrom?: Prisma.EvidenceRequestCreateNestedManyWithoutRequestedFromInput
   managementResponses?: Prisma.FindingCreateNestedManyWithoutManagementResponseByInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutRecipientInput
+  micAttestations?: Prisma.MicAttestationCreateNestedManyWithoutAttestedByInput
 }
 
 export type UserUncheckedCreateWithoutApiKeysInput = {
@@ -2439,6 +2495,7 @@ export type UserUncheckedCreateWithoutApiKeysInput = {
   evidenceRequestsFrom?: Prisma.EvidenceRequestUncheckedCreateNestedManyWithoutRequestedFromInput
   managementResponses?: Prisma.FindingUncheckedCreateNestedManyWithoutManagementResponseByInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutRecipientInput
+  micAttestations?: Prisma.MicAttestationUncheckedCreateNestedManyWithoutAttestedByInput
 }
 
 export type UserCreateOrConnectWithoutApiKeysInput = {
@@ -2491,6 +2548,7 @@ export type UserUpdateWithoutApiKeysInput = {
   evidenceRequestsFrom?: Prisma.EvidenceRequestUpdateManyWithoutRequestedFromNestedInput
   managementResponses?: Prisma.FindingUpdateManyWithoutManagementResponseByNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutRecipientNestedInput
+  micAttestations?: Prisma.MicAttestationUpdateManyWithoutAttestedByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutApiKeysInput = {
@@ -2527,6 +2585,171 @@ export type UserUncheckedUpdateWithoutApiKeysInput = {
   evidenceRequestsFrom?: Prisma.EvidenceRequestUncheckedUpdateManyWithoutRequestedFromNestedInput
   managementResponses?: Prisma.FindingUncheckedUpdateManyWithoutManagementResponseByNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutRecipientNestedInput
+  micAttestations?: Prisma.MicAttestationUncheckedUpdateManyWithoutAttestedByNestedInput
+}
+
+export type UserCreateWithoutMicAttestationsInput = {
+  id?: string
+  name: string
+  username: string
+  email?: string | null
+  passwordHash: string
+  role?: $Enums.Role
+  providerRole?: $Enums.ProviderRole | null
+  companyId?: string | null
+  managerName?: string | null
+  managerUsername?: string | null
+  organisationIndicator?: string | null
+  preferredName?: string | null
+  active?: boolean
+  sortOrder?: number
+  createdAt?: Date | string
+  totalPoints?: number
+  dailyPointStreak?: number
+  lastActivityDate?: Date | string | null
+  confidenceInfluencer?: boolean
+  position?: Prisma.PositionCreateNestedOneWithoutUsersInput
+  assessments?: Prisma.AssessmentCreateNestedManyWithoutAssessorInput
+  assessmentRoles?: Prisma.AssessmentAssessorCreateNestedManyWithoutUserInput
+  emotionalDrives?: Prisma.EmotionalDriveMetricCreateNestedManyWithoutUserInput
+  milestones?: Prisma.MilestoneCreateNestedManyWithoutUserInput
+  points?: Prisma.PointTransactionCreateNestedManyWithoutUserInput
+  achievements?: Prisma.UserAchievementCreateNestedManyWithoutUserInput
+  roleMappings?: Prisma.UserRoleMappingCreateNestedManyWithoutUserInput
+  userCompanies?: Prisma.UserCompanyCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentCreateNestedManyWithoutAuthorInput
+  evidenceRequestsBy?: Prisma.EvidenceRequestCreateNestedManyWithoutRequestedByInput
+  evidenceRequestsFrom?: Prisma.EvidenceRequestCreateNestedManyWithoutRequestedFromInput
+  managementResponses?: Prisma.FindingCreateNestedManyWithoutManagementResponseByInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutRecipientInput
+  apiKeys?: Prisma.ApiKeyCreateNestedManyWithoutCreatedByUserInput
+}
+
+export type UserUncheckedCreateWithoutMicAttestationsInput = {
+  id?: string
+  name: string
+  username: string
+  email?: string | null
+  passwordHash: string
+  role?: $Enums.Role
+  providerRole?: $Enums.ProviderRole | null
+  positionId?: string | null
+  companyId?: string | null
+  managerName?: string | null
+  managerUsername?: string | null
+  organisationIndicator?: string | null
+  preferredName?: string | null
+  active?: boolean
+  sortOrder?: number
+  createdAt?: Date | string
+  totalPoints?: number
+  dailyPointStreak?: number
+  lastActivityDate?: Date | string | null
+  confidenceInfluencer?: boolean
+  assessments?: Prisma.AssessmentUncheckedCreateNestedManyWithoutAssessorInput
+  assessmentRoles?: Prisma.AssessmentAssessorUncheckedCreateNestedManyWithoutUserInput
+  emotionalDrives?: Prisma.EmotionalDriveMetricUncheckedCreateNestedManyWithoutUserInput
+  milestones?: Prisma.MilestoneUncheckedCreateNestedManyWithoutUserInput
+  points?: Prisma.PointTransactionUncheckedCreateNestedManyWithoutUserInput
+  achievements?: Prisma.UserAchievementUncheckedCreateNestedManyWithoutUserInput
+  roleMappings?: Prisma.UserRoleMappingUncheckedCreateNestedManyWithoutUserInput
+  userCompanies?: Prisma.UserCompanyUncheckedCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutAuthorInput
+  evidenceRequestsBy?: Prisma.EvidenceRequestUncheckedCreateNestedManyWithoutRequestedByInput
+  evidenceRequestsFrom?: Prisma.EvidenceRequestUncheckedCreateNestedManyWithoutRequestedFromInput
+  managementResponses?: Prisma.FindingUncheckedCreateNestedManyWithoutManagementResponseByInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutRecipientInput
+  apiKeys?: Prisma.ApiKeyUncheckedCreateNestedManyWithoutCreatedByUserInput
+}
+
+export type UserCreateOrConnectWithoutMicAttestationsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutMicAttestationsInput, Prisma.UserUncheckedCreateWithoutMicAttestationsInput>
+}
+
+export type UserUpsertWithoutMicAttestationsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutMicAttestationsInput, Prisma.UserUncheckedUpdateWithoutMicAttestationsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutMicAttestationsInput, Prisma.UserUncheckedCreateWithoutMicAttestationsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutMicAttestationsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutMicAttestationsInput, Prisma.UserUncheckedUpdateWithoutMicAttestationsInput>
+}
+
+export type UserUpdateWithoutMicAttestationsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  providerRole?: Prisma.NullableEnumProviderRoleFieldUpdateOperationsInput | $Enums.ProviderRole | null
+  companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  managerName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  managerUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  organisationIndicator?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  preferredName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  totalPoints?: Prisma.IntFieldUpdateOperationsInput | number
+  dailyPointStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  lastActivityDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  confidenceInfluencer?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  position?: Prisma.PositionUpdateOneWithoutUsersNestedInput
+  assessments?: Prisma.AssessmentUpdateManyWithoutAssessorNestedInput
+  assessmentRoles?: Prisma.AssessmentAssessorUpdateManyWithoutUserNestedInput
+  emotionalDrives?: Prisma.EmotionalDriveMetricUpdateManyWithoutUserNestedInput
+  milestones?: Prisma.MilestoneUpdateManyWithoutUserNestedInput
+  points?: Prisma.PointTransactionUpdateManyWithoutUserNestedInput
+  achievements?: Prisma.UserAchievementUpdateManyWithoutUserNestedInput
+  roleMappings?: Prisma.UserRoleMappingUpdateManyWithoutUserNestedInput
+  userCompanies?: Prisma.UserCompanyUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutAuthorNestedInput
+  evidenceRequestsBy?: Prisma.EvidenceRequestUpdateManyWithoutRequestedByNestedInput
+  evidenceRequestsFrom?: Prisma.EvidenceRequestUpdateManyWithoutRequestedFromNestedInput
+  managementResponses?: Prisma.FindingUpdateManyWithoutManagementResponseByNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutRecipientNestedInput
+  apiKeys?: Prisma.ApiKeyUpdateManyWithoutCreatedByUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutMicAttestationsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  username?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  providerRole?: Prisma.NullableEnumProviderRoleFieldUpdateOperationsInput | $Enums.ProviderRole | null
+  positionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  managerName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  managerUsername?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  organisationIndicator?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  preferredName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  totalPoints?: Prisma.IntFieldUpdateOperationsInput | number
+  dailyPointStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  lastActivityDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  confidenceInfluencer?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  assessments?: Prisma.AssessmentUncheckedUpdateManyWithoutAssessorNestedInput
+  assessmentRoles?: Prisma.AssessmentAssessorUncheckedUpdateManyWithoutUserNestedInput
+  emotionalDrives?: Prisma.EmotionalDriveMetricUncheckedUpdateManyWithoutUserNestedInput
+  milestones?: Prisma.MilestoneUncheckedUpdateManyWithoutUserNestedInput
+  points?: Prisma.PointTransactionUncheckedUpdateManyWithoutUserNestedInput
+  achievements?: Prisma.UserAchievementUncheckedUpdateManyWithoutUserNestedInput
+  roleMappings?: Prisma.UserRoleMappingUncheckedUpdateManyWithoutUserNestedInput
+  userCompanies?: Prisma.UserCompanyUncheckedUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutAuthorNestedInput
+  evidenceRequestsBy?: Prisma.EvidenceRequestUncheckedUpdateManyWithoutRequestedByNestedInput
+  evidenceRequestsFrom?: Prisma.EvidenceRequestUncheckedUpdateManyWithoutRequestedFromNestedInput
+  managementResponses?: Prisma.FindingUncheckedUpdateManyWithoutManagementResponseByNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutRecipientNestedInput
+  apiKeys?: Prisma.ApiKeyUncheckedUpdateManyWithoutCreatedByUserNestedInput
 }
 
 export type UserCreateWithoutPositionInput = {
@@ -2563,6 +2786,7 @@ export type UserCreateWithoutPositionInput = {
   managementResponses?: Prisma.FindingCreateNestedManyWithoutManagementResponseByInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutRecipientInput
   apiKeys?: Prisma.ApiKeyCreateNestedManyWithoutCreatedByUserInput
+  micAttestations?: Prisma.MicAttestationCreateNestedManyWithoutAttestedByInput
 }
 
 export type UserUncheckedCreateWithoutPositionInput = {
@@ -2599,6 +2823,7 @@ export type UserUncheckedCreateWithoutPositionInput = {
   managementResponses?: Prisma.FindingUncheckedCreateNestedManyWithoutManagementResponseByInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutRecipientInput
   apiKeys?: Prisma.ApiKeyUncheckedCreateNestedManyWithoutCreatedByUserInput
+  micAttestations?: Prisma.MicAttestationUncheckedCreateNestedManyWithoutAttestedByInput
 }
 
 export type UserCreateOrConnectWithoutPositionInput = {
@@ -2687,6 +2912,7 @@ export type UserCreateWithoutUserCompaniesInput = {
   managementResponses?: Prisma.FindingCreateNestedManyWithoutManagementResponseByInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutRecipientInput
   apiKeys?: Prisma.ApiKeyCreateNestedManyWithoutCreatedByUserInput
+  micAttestations?: Prisma.MicAttestationCreateNestedManyWithoutAttestedByInput
 }
 
 export type UserUncheckedCreateWithoutUserCompaniesInput = {
@@ -2723,6 +2949,7 @@ export type UserUncheckedCreateWithoutUserCompaniesInput = {
   managementResponses?: Prisma.FindingUncheckedCreateNestedManyWithoutManagementResponseByInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutRecipientInput
   apiKeys?: Prisma.ApiKeyUncheckedCreateNestedManyWithoutCreatedByUserInput
+  micAttestations?: Prisma.MicAttestationUncheckedCreateNestedManyWithoutAttestedByInput
 }
 
 export type UserCreateOrConnectWithoutUserCompaniesInput = {
@@ -2775,6 +3002,7 @@ export type UserUpdateWithoutUserCompaniesInput = {
   managementResponses?: Prisma.FindingUpdateManyWithoutManagementResponseByNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutRecipientNestedInput
   apiKeys?: Prisma.ApiKeyUpdateManyWithoutCreatedByUserNestedInput
+  micAttestations?: Prisma.MicAttestationUpdateManyWithoutAttestedByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutUserCompaniesInput = {
@@ -2811,6 +3039,7 @@ export type UserUncheckedUpdateWithoutUserCompaniesInput = {
   managementResponses?: Prisma.FindingUncheckedUpdateManyWithoutManagementResponseByNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutRecipientNestedInput
   apiKeys?: Prisma.ApiKeyUncheckedUpdateManyWithoutCreatedByUserNestedInput
+  micAttestations?: Prisma.MicAttestationUncheckedUpdateManyWithoutAttestedByNestedInput
 }
 
 export type UserCreateWithoutCommentsInput = {
@@ -2847,6 +3076,7 @@ export type UserCreateWithoutCommentsInput = {
   managementResponses?: Prisma.FindingCreateNestedManyWithoutManagementResponseByInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutRecipientInput
   apiKeys?: Prisma.ApiKeyCreateNestedManyWithoutCreatedByUserInput
+  micAttestations?: Prisma.MicAttestationCreateNestedManyWithoutAttestedByInput
 }
 
 export type UserUncheckedCreateWithoutCommentsInput = {
@@ -2883,6 +3113,7 @@ export type UserUncheckedCreateWithoutCommentsInput = {
   managementResponses?: Prisma.FindingUncheckedCreateNestedManyWithoutManagementResponseByInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutRecipientInput
   apiKeys?: Prisma.ApiKeyUncheckedCreateNestedManyWithoutCreatedByUserInput
+  micAttestations?: Prisma.MicAttestationUncheckedCreateNestedManyWithoutAttestedByInput
 }
 
 export type UserCreateOrConnectWithoutCommentsInput = {
@@ -2935,6 +3166,7 @@ export type UserUpdateWithoutCommentsInput = {
   managementResponses?: Prisma.FindingUpdateManyWithoutManagementResponseByNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutRecipientNestedInput
   apiKeys?: Prisma.ApiKeyUpdateManyWithoutCreatedByUserNestedInput
+  micAttestations?: Prisma.MicAttestationUpdateManyWithoutAttestedByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCommentsInput = {
@@ -2971,6 +3203,7 @@ export type UserUncheckedUpdateWithoutCommentsInput = {
   managementResponses?: Prisma.FindingUncheckedUpdateManyWithoutManagementResponseByNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutRecipientNestedInput
   apiKeys?: Prisma.ApiKeyUncheckedUpdateManyWithoutCreatedByUserNestedInput
+  micAttestations?: Prisma.MicAttestationUncheckedUpdateManyWithoutAttestedByNestedInput
 }
 
 export type UserCreateWithoutEvidenceRequestsByInput = {
@@ -3007,6 +3240,7 @@ export type UserCreateWithoutEvidenceRequestsByInput = {
   managementResponses?: Prisma.FindingCreateNestedManyWithoutManagementResponseByInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutRecipientInput
   apiKeys?: Prisma.ApiKeyCreateNestedManyWithoutCreatedByUserInput
+  micAttestations?: Prisma.MicAttestationCreateNestedManyWithoutAttestedByInput
 }
 
 export type UserUncheckedCreateWithoutEvidenceRequestsByInput = {
@@ -3043,6 +3277,7 @@ export type UserUncheckedCreateWithoutEvidenceRequestsByInput = {
   managementResponses?: Prisma.FindingUncheckedCreateNestedManyWithoutManagementResponseByInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutRecipientInput
   apiKeys?: Prisma.ApiKeyUncheckedCreateNestedManyWithoutCreatedByUserInput
+  micAttestations?: Prisma.MicAttestationUncheckedCreateNestedManyWithoutAttestedByInput
 }
 
 export type UserCreateOrConnectWithoutEvidenceRequestsByInput = {
@@ -3084,6 +3319,7 @@ export type UserCreateWithoutEvidenceRequestsFromInput = {
   managementResponses?: Prisma.FindingCreateNestedManyWithoutManagementResponseByInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutRecipientInput
   apiKeys?: Prisma.ApiKeyCreateNestedManyWithoutCreatedByUserInput
+  micAttestations?: Prisma.MicAttestationCreateNestedManyWithoutAttestedByInput
 }
 
 export type UserUncheckedCreateWithoutEvidenceRequestsFromInput = {
@@ -3120,6 +3356,7 @@ export type UserUncheckedCreateWithoutEvidenceRequestsFromInput = {
   managementResponses?: Prisma.FindingUncheckedCreateNestedManyWithoutManagementResponseByInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutRecipientInput
   apiKeys?: Prisma.ApiKeyUncheckedCreateNestedManyWithoutCreatedByUserInput
+  micAttestations?: Prisma.MicAttestationUncheckedCreateNestedManyWithoutAttestedByInput
 }
 
 export type UserCreateOrConnectWithoutEvidenceRequestsFromInput = {
@@ -3172,6 +3409,7 @@ export type UserUpdateWithoutEvidenceRequestsByInput = {
   managementResponses?: Prisma.FindingUpdateManyWithoutManagementResponseByNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutRecipientNestedInput
   apiKeys?: Prisma.ApiKeyUpdateManyWithoutCreatedByUserNestedInput
+  micAttestations?: Prisma.MicAttestationUpdateManyWithoutAttestedByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutEvidenceRequestsByInput = {
@@ -3208,6 +3446,7 @@ export type UserUncheckedUpdateWithoutEvidenceRequestsByInput = {
   managementResponses?: Prisma.FindingUncheckedUpdateManyWithoutManagementResponseByNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutRecipientNestedInput
   apiKeys?: Prisma.ApiKeyUncheckedUpdateManyWithoutCreatedByUserNestedInput
+  micAttestations?: Prisma.MicAttestationUncheckedUpdateManyWithoutAttestedByNestedInput
 }
 
 export type UserUpsertWithoutEvidenceRequestsFromInput = {
@@ -3255,6 +3494,7 @@ export type UserUpdateWithoutEvidenceRequestsFromInput = {
   managementResponses?: Prisma.FindingUpdateManyWithoutManagementResponseByNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutRecipientNestedInput
   apiKeys?: Prisma.ApiKeyUpdateManyWithoutCreatedByUserNestedInput
+  micAttestations?: Prisma.MicAttestationUpdateManyWithoutAttestedByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutEvidenceRequestsFromInput = {
@@ -3291,6 +3531,7 @@ export type UserUncheckedUpdateWithoutEvidenceRequestsFromInput = {
   managementResponses?: Prisma.FindingUncheckedUpdateManyWithoutManagementResponseByNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutRecipientNestedInput
   apiKeys?: Prisma.ApiKeyUncheckedUpdateManyWithoutCreatedByUserNestedInput
+  micAttestations?: Prisma.MicAttestationUncheckedUpdateManyWithoutAttestedByNestedInput
 }
 
 export type UserCreateWithoutNotificationsInput = {
@@ -3327,6 +3568,7 @@ export type UserCreateWithoutNotificationsInput = {
   evidenceRequestsFrom?: Prisma.EvidenceRequestCreateNestedManyWithoutRequestedFromInput
   managementResponses?: Prisma.FindingCreateNestedManyWithoutManagementResponseByInput
   apiKeys?: Prisma.ApiKeyCreateNestedManyWithoutCreatedByUserInput
+  micAttestations?: Prisma.MicAttestationCreateNestedManyWithoutAttestedByInput
 }
 
 export type UserUncheckedCreateWithoutNotificationsInput = {
@@ -3363,6 +3605,7 @@ export type UserUncheckedCreateWithoutNotificationsInput = {
   evidenceRequestsFrom?: Prisma.EvidenceRequestUncheckedCreateNestedManyWithoutRequestedFromInput
   managementResponses?: Prisma.FindingUncheckedCreateNestedManyWithoutManagementResponseByInput
   apiKeys?: Prisma.ApiKeyUncheckedCreateNestedManyWithoutCreatedByUserInput
+  micAttestations?: Prisma.MicAttestationUncheckedCreateNestedManyWithoutAttestedByInput
 }
 
 export type UserCreateOrConnectWithoutNotificationsInput = {
@@ -3415,6 +3658,7 @@ export type UserUpdateWithoutNotificationsInput = {
   evidenceRequestsFrom?: Prisma.EvidenceRequestUpdateManyWithoutRequestedFromNestedInput
   managementResponses?: Prisma.FindingUpdateManyWithoutManagementResponseByNestedInput
   apiKeys?: Prisma.ApiKeyUpdateManyWithoutCreatedByUserNestedInput
+  micAttestations?: Prisma.MicAttestationUpdateManyWithoutAttestedByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutNotificationsInput = {
@@ -3451,6 +3695,7 @@ export type UserUncheckedUpdateWithoutNotificationsInput = {
   evidenceRequestsFrom?: Prisma.EvidenceRequestUncheckedUpdateManyWithoutRequestedFromNestedInput
   managementResponses?: Prisma.FindingUncheckedUpdateManyWithoutManagementResponseByNestedInput
   apiKeys?: Prisma.ApiKeyUncheckedUpdateManyWithoutCreatedByUserNestedInput
+  micAttestations?: Prisma.MicAttestationUncheckedUpdateManyWithoutAttestedByNestedInput
 }
 
 export type UserCreateManyPositionInput = {
@@ -3509,6 +3754,7 @@ export type UserUpdateWithoutPositionInput = {
   managementResponses?: Prisma.FindingUpdateManyWithoutManagementResponseByNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutRecipientNestedInput
   apiKeys?: Prisma.ApiKeyUpdateManyWithoutCreatedByUserNestedInput
+  micAttestations?: Prisma.MicAttestationUpdateManyWithoutAttestedByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutPositionInput = {
@@ -3545,6 +3791,7 @@ export type UserUncheckedUpdateWithoutPositionInput = {
   managementResponses?: Prisma.FindingUncheckedUpdateManyWithoutManagementResponseByNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutRecipientNestedInput
   apiKeys?: Prisma.ApiKeyUncheckedUpdateManyWithoutCreatedByUserNestedInput
+  micAttestations?: Prisma.MicAttestationUncheckedUpdateManyWithoutAttestedByNestedInput
 }
 
 export type UserUncheckedUpdateManyWithoutPositionInput = {
@@ -3589,6 +3836,7 @@ export type UserCountOutputType = {
   managementResponses: number
   notifications: number
   apiKeys: number
+  micAttestations: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -3606,6 +3854,7 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   managementResponses?: boolean | UserCountOutputTypeCountManagementResponsesArgs
   notifications?: boolean | UserCountOutputTypeCountNotificationsArgs
   apiKeys?: boolean | UserCountOutputTypeCountApiKeysArgs
+  micAttestations?: boolean | UserCountOutputTypeCountMicAttestationsArgs
 }
 
 /**
@@ -3716,6 +3965,13 @@ export type UserCountOutputTypeCountApiKeysArgs<ExtArgs extends runtime.Types.Ex
   where?: Prisma.ApiKeyWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountMicAttestationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.MicAttestationWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -3753,6 +4009,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   managementResponses?: boolean | Prisma.User$managementResponsesArgs<ExtArgs>
   notifications?: boolean | Prisma.User$notificationsArgs<ExtArgs>
   apiKeys?: boolean | Prisma.User$apiKeysArgs<ExtArgs>
+  micAttestations?: boolean | Prisma.User$micAttestationsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -3844,6 +4101,7 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   managementResponses?: boolean | Prisma.User$managementResponsesArgs<ExtArgs>
   notifications?: boolean | Prisma.User$notificationsArgs<ExtArgs>
   apiKeys?: boolean | Prisma.User$apiKeysArgs<ExtArgs>
+  micAttestations?: boolean | Prisma.User$micAttestationsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -3880,6 +4138,10 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
      * Public read-only API keys this user created (SAMS-011, Phase 3b).
      */
     apiKeys: Prisma.$ApiKeyPayload<ExtArgs>[]
+    /**
+     * MIC attestations this user signed (SAMS-014, Phase 4 Feature B).
+     */
+    micAttestations: Prisma.$MicAttestationPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -4315,6 +4577,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   managementResponses<T extends Prisma.User$managementResponsesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$managementResponsesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FindingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   notifications<T extends Prisma.User$notificationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   apiKeys<T extends Prisma.User$apiKeysArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$apiKeysArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ApiKeyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  micAttestations<T extends Prisma.User$micAttestationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$micAttestationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MicAttestationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -5117,6 +5380,30 @@ export type User$apiKeysArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
   take?: number
   skip?: number
   distinct?: Prisma.ApiKeyScalarFieldEnum | Prisma.ApiKeyScalarFieldEnum[]
+}
+
+/**
+ * User.micAttestations
+ */
+export type User$micAttestationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the MicAttestation
+   */
+  select?: Prisma.MicAttestationSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the MicAttestation
+   */
+  omit?: Prisma.MicAttestationOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MicAttestationInclude<ExtArgs> | null
+  where?: Prisma.MicAttestationWhereInput
+  orderBy?: Prisma.MicAttestationOrderByWithRelationInput | Prisma.MicAttestationOrderByWithRelationInput[]
+  cursor?: Prisma.MicAttestationWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.MicAttestationScalarFieldEnum | Prisma.MicAttestationScalarFieldEnum[]
 }
 
 /**
