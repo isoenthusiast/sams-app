@@ -107,6 +107,8 @@ export async function postCompanyWebhook(opts: {
   companyId: string | null | undefined;
   text: string;
   notificationId?: string | null;
+  /** Optional extra top-level fields merged into the JSON body (e.g. the SAMS-015 `auditAnchor` for the weekly digest). */
+  extra?: Record<string, unknown>;
 }): Promise<void> {
   const payloadPreview = (opts.text ?? "").slice(0, 200);
   try {
@@ -124,7 +126,7 @@ export async function postCompanyWebhook(opts: {
       const res = await fetch(url, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text: opts.text }),
+        body: JSON.stringify({ text: opts.text, ...(opts.extra ?? {}) }),
         signal: AbortSignal.timeout(8000),
       });
       status = res.ok ? "sent" : "failed";

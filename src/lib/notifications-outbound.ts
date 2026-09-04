@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 import { emitNotification, postCompanyWebhook, NOTIFICATION_TYPE, NOTIFICATION_ENTITY_PROCESS_AREA, TITLE_MAX, BODY_MAX } from "@/lib/notifications";
+import { getChainHeadHash } from "@/lib/audit-chain";
 import { resolveCadenceDays, deriveAttestationState, companySPOUserIds, countOverdueAttestations } from "@/lib/mic-attestations";
 
 /**
@@ -172,7 +173,13 @@ export async function runWeeklyDigest(): Promise<DigestResult> {
       `• Overdue SOC attestations: ${await countOverdueAttestations(company.id)}`,
     ].join("\n");
 
-    await postCompanyWebhook({ companyId: company.id, text });
+    // SAMS-015 (Tamper-Evident Audit Trail): append the current chain-head hash
+    // for THIS company as `auditAnchor` so the CLIENT holds an independent copy
+    // (client-held anchor → tamper-proof against operator-side rewriting). It is
+    // per-company: A's post carries only A's head hash, never B's. Null when the
+    // company's chain is empty (no ActivityLog rows yet).
+    const auditAnchor = await getChainHeadHash(company.id);
+    await postCompanyWebhook({ companyId: company.id, text, extra: { auditAnchor } });
     posted++;
   }
 
