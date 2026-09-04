@@ -3,6 +3,7 @@ import { runDiscovery, displayDrift } from "./discovery";
 import { seedFixtures, FIXTURE_IDS } from "./fixtures";
 import { buildExportPackage, EXPORT_TABLES } from "@/lib/data-trust-export";
 import { getPortalFindings, getPortalActions, getPortalDashboard, getPortalActivity } from "@/lib/portal";
+import { runSams007 } from "./sams007";
 
 /**
  * Data Trust Gate — tenant isolation test suite (T1).
@@ -211,6 +212,11 @@ async function run() {
       ok(`[${t.accessor}] manifest count matches live (${live})`);
     }
   }
+
+  // SAMS-007: portal multi-company default-company resolution (self-seeded/sandboxed).
+  const sams007 = await runSams007();
+  checks += sams007.checks;
+  failures += sams007.failures;
 
   console.log(`\n=== RESULT: ${checks} checks, ${failures} failures ===`);
   if (failures > 0) {
