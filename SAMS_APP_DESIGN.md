@@ -2,7 +2,7 @@
 
 > **📐 Active alongside `CONAN_Design Philosophy.md` and `CONAN_App Design.md`.** CONAN docs are the narrative source of truth; this document is the technical specification (models, routes, components, APIs). Both are maintained.
 
-**Last Updated:** September 04, 2026 (v1.16.3 — SAMS-010: white-label theming — portal Company logo + colour; v1.16.0 — SAMS-008: Pilot Onboarding Wizard)
+**Last Updated:** September 04, 2026 (v1.17.0 — SAMS-012: SSO (Microsoft Entra ID, link-by-email) + force-password-change; v1.16.3 — SAMS-010: white-label theming — portal Company logo + colour; v1.16.0 — SAMS-008: Pilot Onboarding Wizard)
 
 ---
 
@@ -315,7 +315,7 @@ Client Component → fetch('/api/...', { method: 'POST', body })
 
 | Model | Purpose | Key Fields |
 |-------|---------|------------|
-| **User** | System user | name, username (unique), email, role (Admin/Superuser/Assessor/Interviewee), positionId (FK→Position), companyId, managerName, managerUsername, organisationIndicator. **v1.8.0:** Added managerName, organisationIdentifier fields. **v1.8.2:** Added managerUsername (resolved FK-like reference to User.username). **v1.13.15:** Added `providerRole` (`ProviderRole` enum, nullable, additive — **orthogonal** to the `role` enum; null = not provider staff) |
+| **User** | System user | name, username (unique), email, role (Admin/Superuser/Assessor/Interviewee), positionId (FK→Position), companyId, managerName, managerUsername, organisationIndicator. **v1.8.0:** Added managerName, organisationIdentifier fields. **v1.8.2:** Added managerUsername (resolved FK-like reference to User.username). **v1.13.15:** Added `providerRole` (`ProviderRole` enum, nullable, additive — **orthogonal** to the `role` enum; null = not provider staff). **v1.17.0 (SAMS-012):** Added `mustChangePassword` (`Boolean @default(false)` — wizard-provisioned users get it set; a credentials login with the flag redirects to `/change-password` until cleared; SSO users are NOT forced through it) |
 | **Department** | Org unit within a company | name, companyId, parentDepartmentId (self-referencing hierarchy, NULL = top-level) |
 | **Position** | Job title scoped to Department | title, departmentId (FK→Department). @@unique([title, departmentId]) |
 | **Assessment** | Frontline assurance check | status (Planned→InProgress→Completed/Cancelled), loa, assessorId (lead), activityTypeId, processAreaId (v1.13.2 — direct PA link for coverage audits + Standard→PA grouping; UI falls back to control assignments when null). **TOR fields (v1.6.5):** objective, scope, sponsor, methodology, keyFocus, reportIssueDate |
@@ -441,7 +441,8 @@ All company-scoped tables use `@@unique([businessKey, companyId])` rather than s
 | Route | Type | Auth | Description |
 |-------|------|------|-------------|
 | `/` | RSC (redirect) | Auth | Redirects Admin→/admin, Assessor→/fla |
-| `/login` | Client | Public | Username + password form |
+| `/login` | Client | Public | **v1.17.0:** "Sign in with Microsoft" (SSO, link-by-email) button above the credentials form. Denied SSO emails → `?error=sso_account_not_found`. |
+| `/change-password` | Client | Auth | **v1.17.0:** Force-password-change (SAMS-012) — current + new ×2 (≥10 chars), verifies current (wrong → 400), clears `mustChangePassword`, refreshes the session JWT and continues. The middleware proxy reroutes a flagged credentials user here until the flag clears (direct-URL bypass → redirected back). |
 | `/setup/process-areas` | RSC | Auth | Process Areas grouped by Standard (collapsible) |
 | `/profile` | RSC + Client | Auth | User profile: Overview (gamification dashboard) + User Details (read-only with edit, now includes Department, Position, Manager, Org Indicator) tabs |
 | `/setup/processdetails/[id]` | RSC + Client | Auth | PA detail: Overview, Requirements & Controls, Assessments, Knowledgebase, Documents, Improvement tabs |
@@ -640,6 +641,7 @@ Provider-gated with `session.user.providerRole` (non-provider → 403). Every wr
 | Route | Method | Description |
 |-------|--------|-------------|
 | `/api/auth/[...nextauth]` | ALL | NextAuth handler (login, session, JWT) |
+| `/api/auth/change-password` | POST | **v1.17.0:** Force-password-change (SAMS-012) — `requireAuth`; verifies current password (wrong → 400), new ≥10 chars + confirm (else 400), sets hash, clears `mustChangePassword`. Static route that takes precedence over the `[...nextauth]` catch-all. |
 
 ---
 
@@ -966,6 +968,7 @@ getCompanyWhere(companyId)  // Prisma where clause
 - Runtime role validation in JWT callback — only `"Admin"` or `"Assessor"` accepted, defaults to `"Assessor"` if corrupted
 - Passwords hashed with bcryptjs
 - `.env` in `.gitignore` — API keys never committed
+- **v1.17.0 (SAMS-012):** the JWT carries `mustChangePassword` (credentials users) and the SSO `sso` marker; the middleware proxy force-gates a flagged credentials user onto `/change-password` until the flag is cleared. SSO sessions carry the real DB user `id`/`role` (link-by-email graft) — never the IdP subject id.
 
 ### 10.4 API Protection
 
@@ -973,6 +976,17 @@ getCompanyWhere(companyId)  // Prisma where clause
 - **Route-level:** Every API route has explicit auth check via helpers
 - **Write gating:** Generic table API POST/PUT/DELETE whitelists tables per role
 - **Company scoping:** All data reads filtered by `companyId`. **Audit (2026-07-31):** Found 27 gaps — 3 unauthenticated endpoints (badges, templates), 9 missing company scope on GET/POST routes (controls, processAreas, standards, documents, findings, samples, actions, controlAssignments), 11 medium-severity gaps. Documented in `lessons-learned-2026-07-31.md`. Fixes in progress.
+
+### 10.5 SSO (Microsoft Entra ID) & Force-Password-Change (SAMS-012)
+
+| Decision | Detail |
+|----------|--------|
+| **IdP** | Microsoft Entra ID, GLOBAL (one app registration). Env: `AUTH_MICROSOFT_ENTRA_ID_ID/SECRET/TENANT` (Edward supplies at landing; never in git). `TENANT` is resolved to the issuer (`https://login.microsoftonline.com/<tenant>/v2.0`); the standard `AUTH_MICROSOFT_ENTRA_ID_ISSUER` overrides it. |
+| **Link-by-email, no auto-provision** | SSO login succeeds ONLY if the Entra email matches an ACTIVE existing (wizard-provisioned) user. Unknown/inactive → denied (`/login?error=sso_account_not_found`), NO account created. The decision rule lives in `src/lib/sso.ts` (`resolveEntraSignIn`). |
+| **Roles** | Come from the existing `User.role` — no IdP group mapping (v1). | 
+| **Credentials login stays** | Kept for admin recovery + non-SSO clients. |
+| **Force-password-change** | `User.mustChangePassword` (default false). Wizard-provisioned users (SAMS-008) get it set. A credentials login with the flag is force-gated (middleware proxy) onto `/change-password` (current + new ×2, ≥10 chars) → clears flag → refreshes session JWT → continues. Direct-URL bypass → redirected back. SSO users are NOT forced (they authenticate via their IdP; C4 describes credentials only). |
+| **Default/absent registration** | The Entra provider is registered only when `AUTH_MICROSOFT_ENTRA_ID_ID` is present, so the app boots/builds without Edward's registration. The live SSO round-trip is landing-gated on the app registration; the signIn-callback logic is proven at unit level with a mocked profile. |
 
 ---
 
@@ -982,7 +996,7 @@ getCompanyWhere(companyId)  // Prisma where clause
 
 | # | Screen | Route | Key Elements |
 |---|--------|-------|-------------|
-| 1 | **Login** | `/login` | Username + password form, SAMS branding |
+| 1 | **Login** | `/login` | **v1.17.0:** "Sign in with Microsoft" (SSO) button + Username/password form, SAMS branding |
 | 2 | **Process Areas** | `/setup/process-areas` | Standards as collapsible sections, PA cards with req/control counts |
 | 3 | **Process Detail** | `/setup/processdetails/[id]` | 3-tab layout: Knowledgebase, Requirements (with mapped controls), Controls |
 | 4 | **Control Library** | `/setup/controls` | Filterable grid of all controls |
