@@ -55,14 +55,23 @@ export type ExtractContext = {
 export type PersistedProposal = {
   id: string;
   status: string;
-  auditChecklistItemId: string;
-  evidenceExcerpt: string;
-  suggestedAction: string | null;
+  assessmentId: string;
+  transcriptId: string;
+  transcriptTitle: string | null;
+  companyId: string;
   spanStart: number;
   spanEnd: number;
-  checklistItemId: string;
-  checklistText: string;
-  auditStandard: string;
+  evidenceExcerpt: string;
+  suggestedAction: string | null;
+  proposedBy: string;
+  proposedByUserId: string | null;
+  createdAt: string;
+  checklistItem: {
+    id: string;
+    checklistItemId: string;
+    checklistText: string;
+    auditStandard: string;
+  } | null;
 };
 
 // ── Prompt construction ────────────────────────────────────────────────────
@@ -285,14 +294,23 @@ export async function persistExtractionProposals(items: ExtractorItem[], ctx: Ex
     created.push({
       id: row.id,
       status: row.status,
-      auditChecklistItemId: row.auditChecklistItemId,
-      evidenceExcerpt: row.evidenceExcerpt,
-      suggestedAction: row.suggestedAction,
+      assessmentId: row.assessmentId,
+      transcriptId: row.knowledgebaseId,
+      transcriptTitle: row.transcriptTitle ?? ctx.transcriptTitle ?? null,
+      companyId: row.companyId,
       spanStart: row.spanStart,
       spanEnd: row.spanEnd,
-      checklistItemId: target.checklistItemId,
-      checklistText: target.checklistText,
-      auditStandard: target.auditStandard,
+      evidenceExcerpt: row.evidenceExcerpt,
+      suggestedAction: row.suggestedAction,
+      proposedBy: row.proposedBy,
+      proposedByUserId: row.proposedByUserId,
+      createdAt: row.createdAt.toISOString(),
+      checklistItem: {
+        id: target.id,
+        checklistItemId: target.checklistItemId,
+        checklistText: target.checklistText,
+        auditStandard: target.auditStandard,
+      },
     });
   }
 
