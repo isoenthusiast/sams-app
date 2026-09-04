@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { clientVisibleWhere } from "@/lib/conversation";
+import { getCompanyAttestationStates } from "@/lib/mic-attestations";
 
 export type PortalCompany = {
   id: string;
@@ -140,7 +141,7 @@ export type PortalDashboard = {
     total: number;
     coveragePct: number | null; // #51 semantic: % FullyComply of ASSESSED (null when assessed===0)
   };
-  perProcessArea: Array<{ processAreaId: string; name: string; fully: number; assessed: number; pct: number | null; standard: string }>;
+  perProcessArea: Array<{ processAreaId: string; name: string; fully: number; assessed: number; pct: number | null; standard: string; attestation: { state: string; nextDue: string | null; lastAttestedAt: string | null } }>;
   openFindings: number;
   openActions: number;
   overdueActions: number;
@@ -166,7 +167,7 @@ export async function getPortalDashboard(companyId: string, userId: string): Pro
   const assessed = fully + partially + notComply;
   const coveragePct = assessed === 0 ? null : Math.round((fully / assessed) * 100);
 
-  const perProcessArea = processAreas.map((pa) => {
+  const perProcessArea: Array<{ processAreaId: string; name: string; fully: number; assessed: number; pct: number | null; standard: string; attestation: { state: string; nextDue: string | null; lastAttestedAt: string | null } }> = processAreas.map((pa) => {
     const reqs = pa.requirements ?? [];
     const f = reqs.filter((r) => r.socStatus === "FullyComply").length;
     const a = reqs.filter((r) => r.socStatus !== null).length;
@@ -177,8 +178,22 @@ export async function getPortalDashboard(companyId: string, userId: string): Pro
       assessed: a,
       pct: a > 0 ? Math.round((f / a) * 100) : null,
       standard: pa.standardRef?.standard ?? pa.standard ?? "Other",
+      attestation: { state: "attested", nextDue: null, lastAttestedAt: null },
     };
   });
+
+  // MIC Ritual (SAMS-014): DERIVED attestation state per process area — the same
+  // derived helper used by the SOC dashboard + digest, so the surfaces agree.
+  const attestationStates = await getCompanyAttestationStates(companyId);
+  const attestationByPa = new Map(attestationStates.map((s) => [s.processAreaId, s]));
+  for (const pa of perProcessArea) {
+    const att = attestationByPa.get(pa.processAreaId);
+    pa.attestation = {
+      state: att?.state ?? "attested",
+      nextDue: att?.nextDue ?? null,
+      lastAttestedAt: att?.lastAttestedAt ?? null,
+    };
+  }
 
   const [openFindings, openActions, overdueActions, myOpenEvidenceRequests] = await Promise.all([
     prisma.finding.count({ where: { assessment: { companyId } } }),

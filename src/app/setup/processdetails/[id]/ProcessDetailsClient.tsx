@@ -35,6 +35,7 @@ type Props = {
   currentUserRole: string | null;
   companyId: string | null;
   masterCompanyId: string;
+  attestationStatus: { processAreaId: string; name: string; state: string; nextDue: string | null; lastAttestedAt: string | null; cadenceDays: number } | null;
   kbEntries: Array<{ kID: string; knowledgeName: string; knowledgeContent: string; remarks: string | null; createdDate: string; addedBy: string }>;
   documents: PaDocument[];
 };
@@ -43,7 +44,7 @@ type PipProposal = { title: string; description: string; priority: string };
 type ChatMsg = { role: "user" | "assistant"; content: string; controls?: Array<{ name: string; statement: string; controlType: string }>; proposedPips?: PipProposal[] };
 
 export default function ProcessDetailsClient(props: Props) {
-  const { processArea, subProcesses, assessments, reqWithControls, allControls, healthMetrics, requirementCoverage, pipItems, assessmentActions, currentUserName, currentUserRole, companyId, masterCompanyId, kbEntries, documents } = props;
+  const { processArea, subProcesses, assessments, reqWithControls, allControls, healthMetrics, requirementCoverage, pipItems, assessmentActions, currentUserName, currentUserRole, companyId, masterCompanyId, attestationStatus, kbEntries, documents } = props;
   const router = useRouter();
   const [activeTab, setActiveTab] = useState<"overview" | "requirements" | "assessments" | "knowledgebase" | "improvement" | "documents">("overview");
   const [pipData, setPipData] = useState(pipItems);
@@ -72,6 +73,68 @@ export default function ProcessDetailsClient(props: Props) {
   const [speakingIndex, setSpeakingIndex] = useState<number | null>(null);
   const [listening, setListening] = useState(false);
   const recognitionRef = useRef<any>(null);
+
+  // ── MIC Ritual (SAMS-014) attest modal state ──
+  const canAttest = currentUserRole === "Admin" || currentUserRole === "Superuser" || currentUserRole === "Assessor";
+  const [attestOpen, setAttestOpen] = useState(false);
+  const [attestLoading, setAttestLoading] = useState(false);
+  const [attestSigning, setAttestSigning] = useState(false);
+  const [attestSnapshot, setAttestSnapshot] = useState<{ coveragePct: number | null; findingCount: number; overdueActionCount: number } | null>(null);
+  const [attestStatus, setAttestStatus] = useState(attestationStatus);
+  const [attestMsg, setAttestMsg] = useState<{ type: "ok" | "err"; text: string } | null>(null);
+
+  const openAttest = async () => {
+    setAttestOpen(true);
+    setAttestLoading(true);
+    setAttestMsg(null);
+    try {
+      const res = await fetch(`/api/admin/processareas/${processArea.id}/attest`);
+      if (res.ok) {
+        const data = await res.json();
+        setAttestSnapshot(data.snapshot);
+        if (data.attestationStatus) setAttestStatus(data.attestationStatus);
+      } else {
+        const e = await res.json().catch(() => ({ error: "Failed to load snapshot" }));
+        setAttestMsg({ type: "err", text: e.error });
+      }
+    } catch {
+      setAttestMsg({ type: "err", text: "Failed to load snapshot" });
+    } finally {
+      setAttestLoading(false);
+    }
+  };
+
+  const signAttest = async () => {
+    setAttestSigning(true);
+    setAttestMsg(null);
+    try {
+      const res = await fetch(`/api/admin/processareas/${processArea.id}/attest`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({}),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setAttestSnapshot(data.snapshot);
+        setAttestMsg({ type: "ok", text: "Attestation signed ✓" });
+        // Refresh derived status + the server-rendered chips.
+        const g = await fetch(`/api/admin/processareas/${processArea.id}/attest`);
+        if (g.ok) {
+          const gd = await g.json();
+          if (gd.attestationStatus) setAttestStatus(gd.attestationStatus);
+        }
+        router.refresh();
+        setTimeout(() => setAttestOpen(false), 1200);
+      } else {
+        const e = await res.json().catch(() => ({ error: "Failed to sign attestation" }));
+        setAttestMsg({ type: "err", text: e.error });
+      }
+    } catch {
+      setAttestMsg({ type: "err", text: "Failed to sign attestation" });
+    } finally {
+      setAttestSigning(false);
+    }
+  };
 
   const { healthDistribution, avgHealth, openFindings, overdueActions, totalAssessments, lastAssessment } = healthMetrics;
   const totalControls = healthMetrics.totalControls;
@@ -500,6 +563,79 @@ export default function ProcessDetailsClient(props: Props) {
             )}
             {processArea.micStatementUpdatedAt && <p className="text-xs text-slate-400 mt-1" suppressHydrationWarning>Last updated: {new Date(processArea.micStatementUpdatedAt).toLocaleDateString()}</p>}
           </Card>
+
+          {/* MIC Ritual attestation (SAMS-014) */}
+          <Card padding="md">
+            <div className="flex items-center justify-between mb-2">
+              <h3 className="text-sm font-semibold text-slate-700">🗳 SOC Attestation</h3>
+              {canAttest && (
+                <button onClick={openAttest} className="text-xs font-medium text-white bg-blue-800 hover:bg-blue-900 rounded-md px-3 py-1.5 inline-flex items-center gap-1">
+                  ✍ Attest
+                </button>
+              )}
+            </div>
+            {attestStatus ? (
+              <div className="space-y-1 text-sm">
+                <div className="flex items-center gap-2">
+                  <span className={`rounded-full px-2 py-0.5 font-semibold ${attestStatus.state === "overdue" ? "bg-red-100 text-red-800" : attestStatus.state === "dueSoon" ? "bg-amber-100 text-amber-800" : "bg-green-100 text-green-800"}`}>
+                    {attestStatus.state === "overdue" ? "Overdue" : attestStatus.state === "dueSoon" ? "Due soon" : "Attested"}
+                  </span>
+                  <span className="text-xs text-slate-500">
+                    {attestStatus.state === "overdue" ? `was due ${new Date(attestStatus.nextDue ?? "").toLocaleDateString()}` : attestStatus.state === "dueSoon" ? `due ${new Date(attestStatus.nextDue ?? "").toLocaleDateString()}` : attestStatus.lastAttestedAt ? `last attested ${new Date(attestStatus.lastAttestedAt).toLocaleDateString()}` : "in date"}
+                  </span>
+                </div>
+                {attestStatus.state === "overdue" && (
+                  <p className="text-xs text-red-600">This process area's SOC attestation is overdue. Review the snapshot and sign below.</p>
+                )}
+              </div>
+            ) : (
+              <p className="text-xs text-slate-400">Attestation status unavailable for this process area.</p>
+            )}
+          </Card>
+
+          {/* Attest modal */}
+          {attestOpen && (
+            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
+              <div className="w-full max-w-md rounded-lg bg-white shadow-xl">
+                <div className="flex items-center justify-between border-b border-slate-100 px-4 py-3">
+                  <h3 className="text-sm font-semibold text-slate-800">Attest SOC snapshot — {processArea.name}</h3>
+                  <button onClick={() => setAttestOpen(false)} className="text-slate-400 hover:text-slate-600 text-lg leading-none">×</button>
+                </div>
+                <div className="px-4 py-4 space-y-3">
+                  {attestLoading ? (
+                    <p className="text-sm text-slate-500">Computing server-side snapshot…</p>
+                  ) : (
+                    <div className="space-y-2">
+                      <p className="text-xs text-slate-500">The server has computed the current SOC posture for this process area. Signing records it verbatim — a client-supplied snapshot is never trusted.</p>
+                      <div className="grid grid-cols-3 gap-2 text-center">
+                        <div className="rounded-lg border border-slate-200 p-2">
+                          <div className="text-xl font-bold text-slate-900">{attestSnapshot?.coveragePct === null || attestSnapshot?.coveragePct === undefined ? "—" : `${attestSnapshot.coveragePct}%`}</div>
+                          <div className="text-[11px] text-slate-500">Coverage (full comply)</div>
+                        </div>
+                        <div className="rounded-lg border border-slate-200 p-2">
+                          <div className="text-xl font-bold text-slate-900">{attestSnapshot?.findingCount ?? "—"}</div>
+                          <div className="text-[11px] text-slate-500">Open findings</div>
+                        </div>
+                        <div className="rounded-lg border border-slate-200 p-2">
+                          <div className="text-xl font-bold text-slate-900">{attestSnapshot?.overdueActionCount ?? "—"}</div>
+                          <div className="text-[11px] text-slate-500">Overdue actions</div>
+                        </div>
+                      </div>
+                      {attestMsg && (
+                        <p className={`text-xs ${attestMsg.type === "ok" ? "text-green-600" : "text-red-600"}`}>{attestMsg.text}</p>
+                      )}
+                      <div className="flex justify-end gap-2 pt-1">
+                        <Button size="sm" variant="secondary" onClick={() => setAttestOpen(false)} disabled={attestSigning}>Cancel</Button>
+                        <Button size="sm" variant="primary" onClick={signAttest} disabled={attestSigning || attestLoading}>
+                          {attestSigning ? "Signing…" : "Sign & attest"}
+                        </Button>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          )}
 
           {/* How to Read */}
           <div className="border border-slate-200 rounded-lg overflow-hidden">

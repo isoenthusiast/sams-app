@@ -1,6 +1,7 @@
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { getSelectedCompanyId } from "@/lib/authz";
+import { getCompanyAttestationStates } from "@/lib/mic-attestations";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { Card } from "@/components/Card";
@@ -63,6 +64,18 @@ export default async function DashboardPage({
     const pct = assessed > 0 ? Math.round((fully / assessed) * 100) : null;
     return { ...pa, fully, assessed, pct };
   });
+
+  // MIC Ritual (SAMS-014): DERIVED attestation state per PA — same helper the
+  // portal + digest use, so the dashboard chip agrees with both.
+  let attestationByPa = new Map<string, string>();
+  try {
+    if (companyId) {
+      const states = await getCompanyAttestationStates(companyId);
+      attestationByPa = new Map(states.map((s) => [s.processAreaId, s.state]));
+    }
+  } catch {
+    attestationByPa = new Map<string, string>();
+  }
 
   // My assessments — via assessor junction (multi-assessor support)
   const myAssessments = userId
@@ -205,6 +218,12 @@ export default async function DashboardPage({
                         ) : (
                           <span className="rounded-full px-2 py-0.5 font-semibold bg-slate-100 text-slate-500">—</span>
                         )}
+                        {(() => {
+                          const state = attestationByPa.get(pa.id) ?? "attested";
+                          if (state === "overdue") return <span title="SOC attestation overdue" className="rounded-full px-2 py-0.5 font-semibold bg-red-100 text-red-800">attest overdue</span>;
+                          if (state === "dueSoon") return <span title="SOC attestation due soon" className="rounded-full px-2 py-0.5 font-semibold bg-amber-100 text-amber-800">due soon</span>;
+                          return <span title="SOC attestation in date" className="rounded-full px-2 py-0.5 font-semibold bg-green-100 text-green-800">attested</span>;
+                        })()}
                       </span>
                     </Link>
                   );

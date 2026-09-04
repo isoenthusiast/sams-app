@@ -13,6 +13,12 @@ function socColor(pct: number | null): string {
   return "bg-red-100 text-red-800";
 }
 
+function attestationChip(state: string | undefined): { label: string; cls: string; title: string } {
+  if (state === "overdue") return { label: "Attestation overdue", cls: "bg-red-100 text-red-800", title: "This process area's SOC attestation is overdue." };
+  if (state === "dueSoon") return { label: "Attestation due soon", cls: "bg-amber-100 text-amber-800", title: "This process area's SOC attestation is due soon." };
+  return { label: "Attested", cls: "bg-green-100 text-green-800", title: "This process area's SOC attestation is in date." };
+}
+
 export default async function PortalDashboardPage({ searchParams }: { searchParams: Promise<{ companyId?: string }> }) {
   const ctx = await getPortalContext(searchParams);
   if (!ctx.companyId) return <div className="mx-auto max-w-7xl px-4 py-6"><PortalEmptyState /></div>;
@@ -67,6 +73,10 @@ export default async function PortalDashboardPage({ searchParams }: { searchPara
                 <div className="flex items-center gap-2 text-xs">
                   <span className="text-slate-500">{pa.fully}/{pa.assessed} fully comply</span>
                   <span className={`rounded-full px-2 py-0.5 font-semibold ${socColor(pa.pct)}`}>{pa.pct === null ? "—" : `${pa.pct}%`}</span>
+                  {(() => {
+                    const chip = attestationChip(pa.attestation?.state);
+                    return <span title={chip.title} className={`rounded-full px-2 py-0.5 font-semibold ${chip.cls}`}>{chip.label}</span>;
+                  })()}
                 </div>
               </div>
             ))}

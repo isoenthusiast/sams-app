@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { getSelectedCompanyId } from "@/lib/authz";
 import { auth } from "@/auth";
+import { getPaAttestationStatus } from "@/lib/mic-attestations";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import ProcessDetailsClient from "./ProcessDetailsClient";
@@ -34,6 +35,16 @@ export default async function ProcessDetailsPage({ params }: { params: Promise<{
   });
 
   if (!processArea) notFound();
+
+  // MIC Ritual (SAMS-014): derived attestation state for this PA (chip + modal).
+  // The PA's own companyId is the source of truth (not the session cookie), so the
+  // card renders correctly even on a bare (no-company-cookie) load.
+  let attestationStatus: Awaited<ReturnType<typeof getPaAttestationStatus>> = null;
+  try {
+    attestationStatus = await getPaAttestationStatus(id, processArea.companyId);
+  } catch {
+    attestationStatus = null;
+  }
 
   // Sub-processes with controls
   const subProcesses = await prisma.subProcess.findMany({
@@ -260,6 +271,7 @@ export default async function ProcessDetailsPage({ params }: { params: Promise<{
       currentUserRole={currentUserRole}
       companyId={companyId}
       masterCompanyId={masterId}
+      attestationStatus={attestationStatus}
       documents={JSON.parse(JSON.stringify(paDocuments))}
       kbEntries={kbEntries.map((e) => ({
         kID: e.kID,
