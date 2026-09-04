@@ -35,6 +35,7 @@ export type CompanyMinAggregateOutputType = {
   deletionScheduledAt: Date | null
   logoUrl: string | null
   primaryColor: string | null
+  notificationWebhookUrl: string | null
 }
 
 export type CompanyMaxAggregateOutputType = {
@@ -48,6 +49,7 @@ export type CompanyMaxAggregateOutputType = {
   deletionScheduledAt: Date | null
   logoUrl: string | null
   primaryColor: string | null
+  notificationWebhookUrl: string | null
 }
 
 export type CompanyCountAggregateOutputType = {
@@ -61,6 +63,7 @@ export type CompanyCountAggregateOutputType = {
   deletionScheduledAt: number
   logoUrl: number
   primaryColor: number
+  notificationWebhookUrl: number
   _all: number
 }
 
@@ -76,6 +79,7 @@ export type CompanyMinAggregateInputType = {
   deletionScheduledAt?: true
   logoUrl?: true
   primaryColor?: true
+  notificationWebhookUrl?: true
 }
 
 export type CompanyMaxAggregateInputType = {
@@ -89,6 +93,7 @@ export type CompanyMaxAggregateInputType = {
   deletionScheduledAt?: true
   logoUrl?: true
   primaryColor?: true
+  notificationWebhookUrl?: true
 }
 
 export type CompanyCountAggregateInputType = {
@@ -102,6 +107,7 @@ export type CompanyCountAggregateInputType = {
   deletionScheduledAt?: true
   logoUrl?: true
   primaryColor?: true
+  notificationWebhookUrl?: true
   _all?: true
 }
 
@@ -188,6 +194,7 @@ export type CompanyGroupByOutputType = {
   deletionScheduledAt: Date | null
   logoUrl: string | null
   primaryColor: string | null
+  notificationWebhookUrl: string | null
   _count: CompanyCountAggregateOutputType | null
   _min: CompanyMinAggregateOutputType | null
   _max: CompanyMaxAggregateOutputType | null
@@ -222,8 +229,10 @@ export type CompanyWhereInput = {
   deletionScheduledAt?: Prisma.DateTimeNullableFilter<"Company"> | Date | string | null
   logoUrl?: Prisma.StringNullableFilter<"Company"> | string | null
   primaryColor?: Prisma.StringNullableFilter<"Company"> | string | null
+  notificationWebhookUrl?: Prisma.StringNullableFilter<"Company"> | string | null
   userCompanies?: Prisma.UserCompanyListRelationFilter
   departments?: Prisma.DepartmentListRelationFilter
+  notificationDeliveries?: Prisma.NotificationDeliveryListRelationFilter
 }
 
 export type CompanyOrderByWithRelationInput = {
@@ -237,8 +246,10 @@ export type CompanyOrderByWithRelationInput = {
   deletionScheduledAt?: Prisma.SortOrderInput | Prisma.SortOrder
   logoUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   primaryColor?: Prisma.SortOrderInput | Prisma.SortOrder
+  notificationWebhookUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   userCompanies?: Prisma.UserCompanyOrderByRelationAggregateInput
   departments?: Prisma.DepartmentOrderByRelationAggregateInput
+  notificationDeliveries?: Prisma.NotificationDeliveryOrderByRelationAggregateInput
 }
 
 export type CompanyWhereUniqueInput = Prisma.AtLeast<{
@@ -255,8 +266,10 @@ export type CompanyWhereUniqueInput = Prisma.AtLeast<{
   deletionScheduledAt?: Prisma.DateTimeNullableFilter<"Company"> | Date | string | null
   logoUrl?: Prisma.StringNullableFilter<"Company"> | string | null
   primaryColor?: Prisma.StringNullableFilter<"Company"> | string | null
+  notificationWebhookUrl?: Prisma.StringNullableFilter<"Company"> | string | null
   userCompanies?: Prisma.UserCompanyListRelationFilter
   departments?: Prisma.DepartmentListRelationFilter
+  notificationDeliveries?: Prisma.NotificationDeliveryListRelationFilter
 }, "id" | "companyID">
 
 export type CompanyOrderByWithAggregationInput = {
@@ -270,6 +283,7 @@ export type CompanyOrderByWithAggregationInput = {
   deletionScheduledAt?: Prisma.SortOrderInput | Prisma.SortOrder
   logoUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   primaryColor?: Prisma.SortOrderInput | Prisma.SortOrder
+  notificationWebhookUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.CompanyCountOrderByAggregateInput
   _max?: Prisma.CompanyMaxOrderByAggregateInput
   _min?: Prisma.CompanyMinOrderByAggregateInput
@@ -289,6 +303,7 @@ export type CompanyScalarWhereWithAggregatesInput = {
   deletionScheduledAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Company"> | Date | string | null
   logoUrl?: Prisma.StringNullableWithAggregatesFilter<"Company"> | string | null
   primaryColor?: Prisma.StringNullableWithAggregatesFilter<"Company"> | string | null
+  notificationWebhookUrl?: Prisma.StringNullableWithAggregatesFilter<"Company"> | string | null
 }
 
 export type CompanyCreateInput = {
@@ -302,8 +317,10 @@ export type CompanyCreateInput = {
   deletionScheduledAt?: Date | string | null
   logoUrl?: string | null
   primaryColor?: string | null
+  notificationWebhookUrl?: string | null
   userCompanies?: Prisma.UserCompanyCreateNestedManyWithoutCompanyInput
   departments?: Prisma.DepartmentCreateNestedManyWithoutCompanyInput
+  notificationDeliveries?: Prisma.NotificationDeliveryCreateNestedManyWithoutCompanyInput
 }
 
 export type CompanyUncheckedCreateInput = {
@@ -317,8 +334,10 @@ export type CompanyUncheckedCreateInput = {
   deletionScheduledAt?: Date | string | null
   logoUrl?: string | null
   primaryColor?: string | null
+  notificationWebhookUrl?: string | null
   userCompanies?: Prisma.UserCompanyUncheckedCreateNestedManyWithoutCompanyInput
   departments?: Prisma.DepartmentUncheckedCreateNestedManyWithoutCompanyInput
+  notificationDeliveries?: Prisma.NotificationDeliveryUncheckedCreateNestedManyWithoutCompanyInput
 }
 
 export type CompanyUpdateInput = {
@@ -332,8 +351,10 @@ export type CompanyUpdateInput = {
   deletionScheduledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   primaryColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notificationWebhookUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   userCompanies?: Prisma.UserCompanyUpdateManyWithoutCompanyNestedInput
   departments?: Prisma.DepartmentUpdateManyWithoutCompanyNestedInput
+  notificationDeliveries?: Prisma.NotificationDeliveryUpdateManyWithoutCompanyNestedInput
 }
 
 export type CompanyUncheckedUpdateInput = {
@@ -347,8 +368,10 @@ export type CompanyUncheckedUpdateInput = {
   deletionScheduledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   primaryColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notificationWebhookUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   userCompanies?: Prisma.UserCompanyUncheckedUpdateManyWithoutCompanyNestedInput
   departments?: Prisma.DepartmentUncheckedUpdateManyWithoutCompanyNestedInput
+  notificationDeliveries?: Prisma.NotificationDeliveryUncheckedUpdateManyWithoutCompanyNestedInput
 }
 
 export type CompanyCreateManyInput = {
@@ -362,6 +385,7 @@ export type CompanyCreateManyInput = {
   deletionScheduledAt?: Date | string | null
   logoUrl?: string | null
   primaryColor?: string | null
+  notificationWebhookUrl?: string | null
 }
 
 export type CompanyUpdateManyMutationInput = {
@@ -375,6 +399,7 @@ export type CompanyUpdateManyMutationInput = {
   deletionScheduledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   primaryColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notificationWebhookUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type CompanyUncheckedUpdateManyInput = {
@@ -388,6 +413,7 @@ export type CompanyUncheckedUpdateManyInput = {
   deletionScheduledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   primaryColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notificationWebhookUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type CompanyCountOrderByAggregateInput = {
@@ -401,6 +427,7 @@ export type CompanyCountOrderByAggregateInput = {
   deletionScheduledAt?: Prisma.SortOrder
   logoUrl?: Prisma.SortOrder
   primaryColor?: Prisma.SortOrder
+  notificationWebhookUrl?: Prisma.SortOrder
 }
 
 export type CompanyMaxOrderByAggregateInput = {
@@ -414,6 +441,7 @@ export type CompanyMaxOrderByAggregateInput = {
   deletionScheduledAt?: Prisma.SortOrder
   logoUrl?: Prisma.SortOrder
   primaryColor?: Prisma.SortOrder
+  notificationWebhookUrl?: Prisma.SortOrder
 }
 
 export type CompanyMinOrderByAggregateInput = {
@@ -427,6 +455,7 @@ export type CompanyMinOrderByAggregateInput = {
   deletionScheduledAt?: Prisma.SortOrder
   logoUrl?: Prisma.SortOrder
   primaryColor?: Prisma.SortOrder
+  notificationWebhookUrl?: Prisma.SortOrder
 }
 
 export type CompanyScalarRelationFilter = {
@@ -462,6 +491,20 @@ export type CompanyUpdateOneRequiredWithoutUserCompaniesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.CompanyUpdateToOneWithWhereWithoutUserCompaniesInput, Prisma.CompanyUpdateWithoutUserCompaniesInput>, Prisma.CompanyUncheckedUpdateWithoutUserCompaniesInput>
 }
 
+export type CompanyCreateNestedOneWithoutNotificationDeliveriesInput = {
+  create?: Prisma.XOR<Prisma.CompanyCreateWithoutNotificationDeliveriesInput, Prisma.CompanyUncheckedCreateWithoutNotificationDeliveriesInput>
+  connectOrCreate?: Prisma.CompanyCreateOrConnectWithoutNotificationDeliveriesInput
+  connect?: Prisma.CompanyWhereUniqueInput
+}
+
+export type CompanyUpdateOneRequiredWithoutNotificationDeliveriesNestedInput = {
+  create?: Prisma.XOR<Prisma.CompanyCreateWithoutNotificationDeliveriesInput, Prisma.CompanyUncheckedCreateWithoutNotificationDeliveriesInput>
+  connectOrCreate?: Prisma.CompanyCreateOrConnectWithoutNotificationDeliveriesInput
+  upsert?: Prisma.CompanyUpsertWithoutNotificationDeliveriesInput
+  connect?: Prisma.CompanyWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.CompanyUpdateToOneWithWhereWithoutNotificationDeliveriesInput, Prisma.CompanyUpdateWithoutNotificationDeliveriesInput>, Prisma.CompanyUncheckedUpdateWithoutNotificationDeliveriesInput>
+}
+
 export type CompanyCreateWithoutDepartmentsInput = {
   id?: string
   companyID: string
@@ -473,7 +516,9 @@ export type CompanyCreateWithoutDepartmentsInput = {
   deletionScheduledAt?: Date | string | null
   logoUrl?: string | null
   primaryColor?: string | null
+  notificationWebhookUrl?: string | null
   userCompanies?: Prisma.UserCompanyCreateNestedManyWithoutCompanyInput
+  notificationDeliveries?: Prisma.NotificationDeliveryCreateNestedManyWithoutCompanyInput
 }
 
 export type CompanyUncheckedCreateWithoutDepartmentsInput = {
@@ -487,7 +532,9 @@ export type CompanyUncheckedCreateWithoutDepartmentsInput = {
   deletionScheduledAt?: Date | string | null
   logoUrl?: string | null
   primaryColor?: string | null
+  notificationWebhookUrl?: string | null
   userCompanies?: Prisma.UserCompanyUncheckedCreateNestedManyWithoutCompanyInput
+  notificationDeliveries?: Prisma.NotificationDeliveryUncheckedCreateNestedManyWithoutCompanyInput
 }
 
 export type CompanyCreateOrConnectWithoutDepartmentsInput = {
@@ -517,7 +564,9 @@ export type CompanyUpdateWithoutDepartmentsInput = {
   deletionScheduledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   primaryColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notificationWebhookUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   userCompanies?: Prisma.UserCompanyUpdateManyWithoutCompanyNestedInput
+  notificationDeliveries?: Prisma.NotificationDeliveryUpdateManyWithoutCompanyNestedInput
 }
 
 export type CompanyUncheckedUpdateWithoutDepartmentsInput = {
@@ -531,7 +580,9 @@ export type CompanyUncheckedUpdateWithoutDepartmentsInput = {
   deletionScheduledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   primaryColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notificationWebhookUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   userCompanies?: Prisma.UserCompanyUncheckedUpdateManyWithoutCompanyNestedInput
+  notificationDeliveries?: Prisma.NotificationDeliveryUncheckedUpdateManyWithoutCompanyNestedInput
 }
 
 export type CompanyCreateWithoutUserCompaniesInput = {
@@ -545,7 +596,9 @@ export type CompanyCreateWithoutUserCompaniesInput = {
   deletionScheduledAt?: Date | string | null
   logoUrl?: string | null
   primaryColor?: string | null
+  notificationWebhookUrl?: string | null
   departments?: Prisma.DepartmentCreateNestedManyWithoutCompanyInput
+  notificationDeliveries?: Prisma.NotificationDeliveryCreateNestedManyWithoutCompanyInput
 }
 
 export type CompanyUncheckedCreateWithoutUserCompaniesInput = {
@@ -559,7 +612,9 @@ export type CompanyUncheckedCreateWithoutUserCompaniesInput = {
   deletionScheduledAt?: Date | string | null
   logoUrl?: string | null
   primaryColor?: string | null
+  notificationWebhookUrl?: string | null
   departments?: Prisma.DepartmentUncheckedCreateNestedManyWithoutCompanyInput
+  notificationDeliveries?: Prisma.NotificationDeliveryUncheckedCreateNestedManyWithoutCompanyInput
 }
 
 export type CompanyCreateOrConnectWithoutUserCompaniesInput = {
@@ -589,7 +644,9 @@ export type CompanyUpdateWithoutUserCompaniesInput = {
   deletionScheduledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   primaryColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notificationWebhookUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   departments?: Prisma.DepartmentUpdateManyWithoutCompanyNestedInput
+  notificationDeliveries?: Prisma.NotificationDeliveryUpdateManyWithoutCompanyNestedInput
 }
 
 export type CompanyUncheckedUpdateWithoutUserCompaniesInput = {
@@ -603,6 +660,88 @@ export type CompanyUncheckedUpdateWithoutUserCompaniesInput = {
   deletionScheduledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   primaryColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notificationWebhookUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  departments?: Prisma.DepartmentUncheckedUpdateManyWithoutCompanyNestedInput
+  notificationDeliveries?: Prisma.NotificationDeliveryUncheckedUpdateManyWithoutCompanyNestedInput
+}
+
+export type CompanyCreateWithoutNotificationDeliveriesInput = {
+  id?: string
+  companyID: string
+  companyName: string
+  referenceID?: string | null
+  shortName?: string | null
+  createdAt?: Date | string
+  archivedAt?: Date | string | null
+  deletionScheduledAt?: Date | string | null
+  logoUrl?: string | null
+  primaryColor?: string | null
+  notificationWebhookUrl?: string | null
+  userCompanies?: Prisma.UserCompanyCreateNestedManyWithoutCompanyInput
+  departments?: Prisma.DepartmentCreateNestedManyWithoutCompanyInput
+}
+
+export type CompanyUncheckedCreateWithoutNotificationDeliveriesInput = {
+  id?: string
+  companyID: string
+  companyName: string
+  referenceID?: string | null
+  shortName?: string | null
+  createdAt?: Date | string
+  archivedAt?: Date | string | null
+  deletionScheduledAt?: Date | string | null
+  logoUrl?: string | null
+  primaryColor?: string | null
+  notificationWebhookUrl?: string | null
+  userCompanies?: Prisma.UserCompanyUncheckedCreateNestedManyWithoutCompanyInput
+  departments?: Prisma.DepartmentUncheckedCreateNestedManyWithoutCompanyInput
+}
+
+export type CompanyCreateOrConnectWithoutNotificationDeliveriesInput = {
+  where: Prisma.CompanyWhereUniqueInput
+  create: Prisma.XOR<Prisma.CompanyCreateWithoutNotificationDeliveriesInput, Prisma.CompanyUncheckedCreateWithoutNotificationDeliveriesInput>
+}
+
+export type CompanyUpsertWithoutNotificationDeliveriesInput = {
+  update: Prisma.XOR<Prisma.CompanyUpdateWithoutNotificationDeliveriesInput, Prisma.CompanyUncheckedUpdateWithoutNotificationDeliveriesInput>
+  create: Prisma.XOR<Prisma.CompanyCreateWithoutNotificationDeliveriesInput, Prisma.CompanyUncheckedCreateWithoutNotificationDeliveriesInput>
+  where?: Prisma.CompanyWhereInput
+}
+
+export type CompanyUpdateToOneWithWhereWithoutNotificationDeliveriesInput = {
+  where?: Prisma.CompanyWhereInput
+  data: Prisma.XOR<Prisma.CompanyUpdateWithoutNotificationDeliveriesInput, Prisma.CompanyUncheckedUpdateWithoutNotificationDeliveriesInput>
+}
+
+export type CompanyUpdateWithoutNotificationDeliveriesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  companyID?: Prisma.StringFieldUpdateOperationsInput | string
+  companyName?: Prisma.StringFieldUpdateOperationsInput | string
+  referenceID?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shortName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  archivedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deletionScheduledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  primaryColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notificationWebhookUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  userCompanies?: Prisma.UserCompanyUpdateManyWithoutCompanyNestedInput
+  departments?: Prisma.DepartmentUpdateManyWithoutCompanyNestedInput
+}
+
+export type CompanyUncheckedUpdateWithoutNotificationDeliveriesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  companyID?: Prisma.StringFieldUpdateOperationsInput | string
+  companyName?: Prisma.StringFieldUpdateOperationsInput | string
+  referenceID?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shortName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  archivedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deletionScheduledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  primaryColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notificationWebhookUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  userCompanies?: Prisma.UserCompanyUncheckedUpdateManyWithoutCompanyNestedInput
   departments?: Prisma.DepartmentUncheckedUpdateManyWithoutCompanyNestedInput
 }
 
@@ -614,11 +753,13 @@ export type CompanyUncheckedUpdateWithoutUserCompaniesInput = {
 export type CompanyCountOutputType = {
   userCompanies: number
   departments: number
+  notificationDeliveries: number
 }
 
 export type CompanyCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   userCompanies?: boolean | CompanyCountOutputTypeCountUserCompaniesArgs
   departments?: boolean | CompanyCountOutputTypeCountDepartmentsArgs
+  notificationDeliveries?: boolean | CompanyCountOutputTypeCountNotificationDeliveriesArgs
 }
 
 /**
@@ -645,6 +786,13 @@ export type CompanyCountOutputTypeCountDepartmentsArgs<ExtArgs extends runtime.T
   where?: Prisma.DepartmentWhereInput
 }
 
+/**
+ * CompanyCountOutputType without action
+ */
+export type CompanyCountOutputTypeCountNotificationDeliveriesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.NotificationDeliveryWhereInput
+}
+
 
 export type CompanySelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -657,8 +805,10 @@ export type CompanySelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   deletionScheduledAt?: boolean
   logoUrl?: boolean
   primaryColor?: boolean
+  notificationWebhookUrl?: boolean
   userCompanies?: boolean | Prisma.Company$userCompaniesArgs<ExtArgs>
   departments?: boolean | Prisma.Company$departmentsArgs<ExtArgs>
+  notificationDeliveries?: boolean | Prisma.Company$notificationDeliveriesArgs<ExtArgs>
   _count?: boolean | Prisma.CompanyCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["company"]>
 
@@ -673,6 +823,7 @@ export type CompanySelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   deletionScheduledAt?: boolean
   logoUrl?: boolean
   primaryColor?: boolean
+  notificationWebhookUrl?: boolean
 }, ExtArgs["result"]["company"]>
 
 export type CompanySelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -686,6 +837,7 @@ export type CompanySelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   deletionScheduledAt?: boolean
   logoUrl?: boolean
   primaryColor?: boolean
+  notificationWebhookUrl?: boolean
 }, ExtArgs["result"]["company"]>
 
 export type CompanySelectScalar = {
@@ -699,12 +851,14 @@ export type CompanySelectScalar = {
   deletionScheduledAt?: boolean
   logoUrl?: boolean
   primaryColor?: boolean
+  notificationWebhookUrl?: boolean
 }
 
-export type CompanyOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "companyID" | "companyName" | "referenceID" | "shortName" | "createdAt" | "archivedAt" | "deletionScheduledAt" | "logoUrl" | "primaryColor", ExtArgs["result"]["company"]>
+export type CompanyOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "companyID" | "companyName" | "referenceID" | "shortName" | "createdAt" | "archivedAt" | "deletionScheduledAt" | "logoUrl" | "primaryColor" | "notificationWebhookUrl", ExtArgs["result"]["company"]>
 export type CompanyInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   userCompanies?: boolean | Prisma.Company$userCompaniesArgs<ExtArgs>
   departments?: boolean | Prisma.Company$departmentsArgs<ExtArgs>
+  notificationDeliveries?: boolean | Prisma.Company$notificationDeliveriesArgs<ExtArgs>
   _count?: boolean | Prisma.CompanyCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type CompanyIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -715,6 +869,10 @@ export type $CompanyPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
   objects: {
     userCompanies: Prisma.$UserCompanyPayload<ExtArgs>[]
     departments: Prisma.$DepartmentPayload<ExtArgs>[]
+    /**
+     * Audit rows for every outbound webhook attempt (SAMS-009). Company-scoped.
+     */
+    notificationDeliveries: Prisma.$NotificationDeliveryPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -744,6 +902,15 @@ export type $CompanyPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
      * `^#[0-9a-fA-F]{6}$`. Drives portal accents via a `--brand` CSS variable.
      */
     primaryColor: string | null
+    /**
+     * Outbound Notifications (SAMS-009, Phase 3a, Feature B): per-company
+     * incoming webhook URL (Slack-compatible `{"text": …}`). WRITE-ONLY secret:
+     * settable via the client-Admin portal settings card, MASKED in every API
+     * response, NEVER written to ActivityLog or a digest post, and excluded from
+     * the client-data export (exact name added to EXCLUSION_COLUMNS). Nullable —
+     * null = no webhook configured (no outbound posts for this company).
+     */
+    notificationWebhookUrl: string | null
   }, ExtArgs["result"]["company"]>
   composites: {}
 }
@@ -1140,6 +1307,7 @@ export interface Prisma__CompanyClient<T, Null = never, ExtArgs extends runtime.
   readonly [Symbol.toStringTag]: "PrismaPromise"
   userCompanies<T extends Prisma.Company$userCompaniesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Company$userCompaniesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserCompanyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   departments<T extends Prisma.Company$departmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Company$departmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DepartmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  notificationDeliveries<T extends Prisma.Company$notificationDeliveriesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Company$notificationDeliveriesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NotificationDeliveryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1179,6 +1347,7 @@ export interface CompanyFieldRefs {
   readonly deletionScheduledAt: Prisma.FieldRef<"Company", 'DateTime'>
   readonly logoUrl: Prisma.FieldRef<"Company", 'String'>
   readonly primaryColor: Prisma.FieldRef<"Company", 'String'>
+  readonly notificationWebhookUrl: Prisma.FieldRef<"Company", 'String'>
 }
     
 
@@ -1617,6 +1786,30 @@ export type Company$departmentsArgs<ExtArgs extends runtime.Types.Extensions.Int
   take?: number
   skip?: number
   distinct?: Prisma.DepartmentScalarFieldEnum | Prisma.DepartmentScalarFieldEnum[]
+}
+
+/**
+ * Company.notificationDeliveries
+ */
+export type Company$notificationDeliveriesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the NotificationDelivery
+   */
+  select?: Prisma.NotificationDeliverySelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the NotificationDelivery
+   */
+  omit?: Prisma.NotificationDeliveryOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.NotificationDeliveryInclude<ExtArgs> | null
+  where?: Prisma.NotificationDeliveryWhereInput
+  orderBy?: Prisma.NotificationDeliveryOrderByWithRelationInput | Prisma.NotificationDeliveryOrderByWithRelationInput[]
+  cursor?: Prisma.NotificationDeliveryWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.NotificationDeliveryScalarFieldEnum | Prisma.NotificationDeliveryScalarFieldEnum[]
 }
 
 /**

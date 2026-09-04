@@ -123,7 +123,8 @@ export const ModelName = {
   TestWorker: 'TestWorker',
   Comment: 'Comment',
   EvidenceRequest: 'EvidenceRequest',
-  Notification: 'Notification'
+  Notification: 'Notification',
+  NotificationDelivery: 'NotificationDelivery'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -682,7 +683,8 @@ export const CompanyScalarFieldEnum = {
   archivedAt: 'archivedAt',
   deletionScheduledAt: 'deletionScheduledAt',
   logoUrl: 'logoUrl',
-  primaryColor: 'primaryColor'
+  primaryColor: 'primaryColor',
+  notificationWebhookUrl: 'notificationWebhookUrl'
 } as const
 
 export type CompanyScalarFieldEnum = (typeof CompanyScalarFieldEnum)[keyof typeof CompanyScalarFieldEnum]
@@ -1278,6 +1280,20 @@ export const NotificationScalarFieldEnum = {
 } as const
 
 export type NotificationScalarFieldEnum = (typeof NotificationScalarFieldEnum)[keyof typeof NotificationScalarFieldEnum]
+
+
+export const NotificationDeliveryScalarFieldEnum = {
+  id: 'id',
+  notificationId: 'notificationId',
+  channel: 'channel',
+  companyId: 'companyId',
+  status: 'status',
+  responseCode: 'responseCode',
+  attemptedAt: 'attemptedAt',
+  payloadPreview: 'payloadPreview'
+} as const
+
+export type NotificationDeliveryScalarFieldEnum = (typeof NotificationDeliveryScalarFieldEnum)[keyof typeof NotificationDeliveryScalarFieldEnum]
 
 
 export const SortOrder = {

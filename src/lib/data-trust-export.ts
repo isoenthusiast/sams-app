@@ -49,6 +49,8 @@ export const EXCLUSION_COLUMNS: string[] = [
   "apiKey",
   "beforeData",
   "afterData",
+  // SAMS-009: write-only webhook secret — never exported.
+  "notificationWebhookUrl",
 ];
 
 const byCompany = (companyId: string) => ({ companyId });

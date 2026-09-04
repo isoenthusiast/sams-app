@@ -382,3 +382,8 @@ export type EvidenceRequest = Prisma.EvidenceRequestModel
  * 
  */
 export type Notification = Prisma.NotificationModel
+/**
+ * Model NotificationDelivery
+ * 
+ */
+export type NotificationDelivery = Prisma.NotificationDeliveryModel
