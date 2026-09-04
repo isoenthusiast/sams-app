@@ -1,5 +1,6 @@
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
+import { createChainedActivityLog } from "@/lib/audit-chain";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
@@ -146,22 +147,25 @@ export async function logActivity(params: {
   entityId: string;
   summary: string;
   metadata?: Record<string, unknown>;
+  companyId?: string | null;
 }) {
-  try {
-    await prisma.$executeRawUnsafe(
-      `INSERT INTO "ActivityLog" (id, "timestamp", description, "activityType", username, "refTable", "refRecord", "beforeData", "afterData", "createdAt")
-       VALUES ($1, NOW(), $2, $3, $4, $5, $6, $7, $8, NOW())`,
-      `log_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`,
-      params.summary,
-      params.action,
-      params.username || params.userId,
-      params.entityType,
-      params.entityId,
-      params.metadata ? JSON.stringify(params.metadata) : null
-    );
-  } catch (err) {
-    console.error("[ActivityLog] Failed to write log:", err);
-    // Never fail a request because logging failed
+  // SAMS-015: now CHAINED — every ActivityLog write routes through the shared
+  // chained helper (same canonicalization / ordering / per-company lock as the
+  // backfill and verifier). The raw-INSERT form maps onto the entry shape:
+  //   description=summary, activityType=action, username, refTable=entityType,
+  //   refRecord=entityId, beforeData=null, afterData=metadata.
+  const id = await createChainedActivityLog({
+    activityType: params.action,
+    description: params.summary,
+    username: params.username ?? params.userId,
+    refTable: params.entityType,
+    refRecord: params.entityId,
+    beforeData: null,
+    afterData: (params.metadata as Record<string, unknown>) ?? undefined,
+    companyId: params.companyId ?? null,
+  });
+  if (id === null) {
+    console.error("[ActivityLog] Failed to write log:", params);
   }
 }
 

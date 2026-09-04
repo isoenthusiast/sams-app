@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
+import { createChainedActivityLog } from "@/lib/audit-chain";
 
 function nextQuarterStart(): Date {
   const now = new Date();
@@ -37,13 +38,14 @@ export async function POST() {
   }
   try {
     const result = await prisma.$executeRawUnsafe(`UPDATE "Control" SET "rawHealthScore" = 0`);
-    await prisma.activityLog.create({
-      data: {
-        activityType: "health_reset",
-        description: `Health scores reset to 0 by ${session.user.name || "Admin"}. ${result} controls affected.`,
-        username: session.user.name || "admin",
-        refTable: "Control",
-      },
+    // SAMS-015: global Control-reset → refTable=Control, no refRecord → resolves
+    // to no company → CHAINLESS row (chainHash null). Routes through the shared
+    // chained helper so every write path is uniform.
+    await createChainedActivityLog({
+      activityType: "health_reset",
+      description: `Health scores reset to 0 by ${session.user.name || "Admin"}. ${result} controls affected.`,
+      username: session.user.name || "admin",
+      refTable: "Control",
     });
     return NextResponse.json({ success: true, updated: result, nextReset: nextQuarterStart().toISOString() });
   } catch (err: any) {
