@@ -26,11 +26,19 @@ export default async function OperatorPage() {
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-6">
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold text-slate-900">Operator Console</h1>
-        <p className="text-sm text-slate-500">
-          Cross-client portfolio — read-only. Click a company to switch context into its workspace.
-        </p>
+      <div className="mb-6 flex items-start justify-between">
+        <div>
+          <h1 className="text-2xl font-bold text-slate-900">Operator Console</h1>
+          <p className="text-sm text-slate-500">
+            Cross-client portfolio — read-only. Click a company to switch context into its workspace.
+          </p>
+        </div>
+        <a
+          href="/operator/onboarding"
+          className="shrink-0 rounded-md bg-blue-800 px-4 py-2 text-sm font-medium text-white hover:bg-blue-900"
+        >
+          + Onboard a client
+        </a>
       </div>
       <OperatorConsole />
     </div>
