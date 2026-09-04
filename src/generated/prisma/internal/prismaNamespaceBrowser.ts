@@ -85,6 +85,7 @@ export const ModelName = {
   UserRole: 'UserRole',
   UserRoleMapping: 'UserRoleMapping',
   Company: 'Company',
+  ApiKey: 'ApiKey',
   Department: 'Department',
   Position: 'Position',
   UserCompany: 'UserCompany',
@@ -686,6 +687,20 @@ export const CompanyScalarFieldEnum = {
 } as const
 
 export type CompanyScalarFieldEnum = (typeof CompanyScalarFieldEnum)[keyof typeof CompanyScalarFieldEnum]
+
+
+export const ApiKeyScalarFieldEnum = {
+  id: 'id',
+  companyId: 'companyId',
+  keyHash: 'keyHash',
+  label: 'label',
+  createdAt: 'createdAt',
+  createdByUserId: 'createdByUserId',
+  lastUsedAt: 'lastUsedAt',
+  revokedAt: 'revokedAt'
+} as const
+
+export type ApiKeyScalarFieldEnum = (typeof ApiKeyScalarFieldEnum)[keyof typeof ApiKeyScalarFieldEnum]
 
 
 export const DepartmentScalarFieldEnum = {

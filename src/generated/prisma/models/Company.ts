@@ -224,6 +224,7 @@ export type CompanyWhereInput = {
   primaryColor?: Prisma.StringNullableFilter<"Company"> | string | null
   userCompanies?: Prisma.UserCompanyListRelationFilter
   departments?: Prisma.DepartmentListRelationFilter
+  apiKeys?: Prisma.ApiKeyListRelationFilter
 }
 
 export type CompanyOrderByWithRelationInput = {
@@ -239,6 +240,7 @@ export type CompanyOrderByWithRelationInput = {
   primaryColor?: Prisma.SortOrderInput | Prisma.SortOrder
   userCompanies?: Prisma.UserCompanyOrderByRelationAggregateInput
   departments?: Prisma.DepartmentOrderByRelationAggregateInput
+  apiKeys?: Prisma.ApiKeyOrderByRelationAggregateInput
 }
 
 export type CompanyWhereUniqueInput = Prisma.AtLeast<{
@@ -257,6 +259,7 @@ export type CompanyWhereUniqueInput = Prisma.AtLeast<{
   primaryColor?: Prisma.StringNullableFilter<"Company"> | string | null
   userCompanies?: Prisma.UserCompanyListRelationFilter
   departments?: Prisma.DepartmentListRelationFilter
+  apiKeys?: Prisma.ApiKeyListRelationFilter
 }, "id" | "companyID">
 
 export type CompanyOrderByWithAggregationInput = {
@@ -304,6 +307,7 @@ export type CompanyCreateInput = {
   primaryColor?: string | null
   userCompanies?: Prisma.UserCompanyCreateNestedManyWithoutCompanyInput
   departments?: Prisma.DepartmentCreateNestedManyWithoutCompanyInput
+  apiKeys?: Prisma.ApiKeyCreateNestedManyWithoutCompanyInput
 }
 
 export type CompanyUncheckedCreateInput = {
@@ -319,6 +323,7 @@ export type CompanyUncheckedCreateInput = {
   primaryColor?: string | null
   userCompanies?: Prisma.UserCompanyUncheckedCreateNestedManyWithoutCompanyInput
   departments?: Prisma.DepartmentUncheckedCreateNestedManyWithoutCompanyInput
+  apiKeys?: Prisma.ApiKeyUncheckedCreateNestedManyWithoutCompanyInput
 }
 
 export type CompanyUpdateInput = {
@@ -334,6 +339,7 @@ export type CompanyUpdateInput = {
   primaryColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   userCompanies?: Prisma.UserCompanyUpdateManyWithoutCompanyNestedInput
   departments?: Prisma.DepartmentUpdateManyWithoutCompanyNestedInput
+  apiKeys?: Prisma.ApiKeyUpdateManyWithoutCompanyNestedInput
 }
 
 export type CompanyUncheckedUpdateInput = {
@@ -349,6 +355,7 @@ export type CompanyUncheckedUpdateInput = {
   primaryColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   userCompanies?: Prisma.UserCompanyUncheckedUpdateManyWithoutCompanyNestedInput
   departments?: Prisma.DepartmentUncheckedUpdateManyWithoutCompanyNestedInput
+  apiKeys?: Prisma.ApiKeyUncheckedUpdateManyWithoutCompanyNestedInput
 }
 
 export type CompanyCreateManyInput = {
@@ -434,6 +441,20 @@ export type CompanyScalarRelationFilter = {
   isNot?: Prisma.CompanyWhereInput
 }
 
+export type CompanyCreateNestedOneWithoutApiKeysInput = {
+  create?: Prisma.XOR<Prisma.CompanyCreateWithoutApiKeysInput, Prisma.CompanyUncheckedCreateWithoutApiKeysInput>
+  connectOrCreate?: Prisma.CompanyCreateOrConnectWithoutApiKeysInput
+  connect?: Prisma.CompanyWhereUniqueInput
+}
+
+export type CompanyUpdateOneRequiredWithoutApiKeysNestedInput = {
+  create?: Prisma.XOR<Prisma.CompanyCreateWithoutApiKeysInput, Prisma.CompanyUncheckedCreateWithoutApiKeysInput>
+  connectOrCreate?: Prisma.CompanyCreateOrConnectWithoutApiKeysInput
+  upsert?: Prisma.CompanyUpsertWithoutApiKeysInput
+  connect?: Prisma.CompanyWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.CompanyUpdateToOneWithWhereWithoutApiKeysInput, Prisma.CompanyUpdateWithoutApiKeysInput>, Prisma.CompanyUncheckedUpdateWithoutApiKeysInput>
+}
+
 export type CompanyCreateNestedOneWithoutDepartmentsInput = {
   create?: Prisma.XOR<Prisma.CompanyCreateWithoutDepartmentsInput, Prisma.CompanyUncheckedCreateWithoutDepartmentsInput>
   connectOrCreate?: Prisma.CompanyCreateOrConnectWithoutDepartmentsInput
@@ -462,6 +483,82 @@ export type CompanyUpdateOneRequiredWithoutUserCompaniesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.CompanyUpdateToOneWithWhereWithoutUserCompaniesInput, Prisma.CompanyUpdateWithoutUserCompaniesInput>, Prisma.CompanyUncheckedUpdateWithoutUserCompaniesInput>
 }
 
+export type CompanyCreateWithoutApiKeysInput = {
+  id?: string
+  companyID: string
+  companyName: string
+  referenceID?: string | null
+  shortName?: string | null
+  createdAt?: Date | string
+  archivedAt?: Date | string | null
+  deletionScheduledAt?: Date | string | null
+  logoUrl?: string | null
+  primaryColor?: string | null
+  userCompanies?: Prisma.UserCompanyCreateNestedManyWithoutCompanyInput
+  departments?: Prisma.DepartmentCreateNestedManyWithoutCompanyInput
+}
+
+export type CompanyUncheckedCreateWithoutApiKeysInput = {
+  id?: string
+  companyID: string
+  companyName: string
+  referenceID?: string | null
+  shortName?: string | null
+  createdAt?: Date | string
+  archivedAt?: Date | string | null
+  deletionScheduledAt?: Date | string | null
+  logoUrl?: string | null
+  primaryColor?: string | null
+  userCompanies?: Prisma.UserCompanyUncheckedCreateNestedManyWithoutCompanyInput
+  departments?: Prisma.DepartmentUncheckedCreateNestedManyWithoutCompanyInput
+}
+
+export type CompanyCreateOrConnectWithoutApiKeysInput = {
+  where: Prisma.CompanyWhereUniqueInput
+  create: Prisma.XOR<Prisma.CompanyCreateWithoutApiKeysInput, Prisma.CompanyUncheckedCreateWithoutApiKeysInput>
+}
+
+export type CompanyUpsertWithoutApiKeysInput = {
+  update: Prisma.XOR<Prisma.CompanyUpdateWithoutApiKeysInput, Prisma.CompanyUncheckedUpdateWithoutApiKeysInput>
+  create: Prisma.XOR<Prisma.CompanyCreateWithoutApiKeysInput, Prisma.CompanyUncheckedCreateWithoutApiKeysInput>
+  where?: Prisma.CompanyWhereInput
+}
+
+export type CompanyUpdateToOneWithWhereWithoutApiKeysInput = {
+  where?: Prisma.CompanyWhereInput
+  data: Prisma.XOR<Prisma.CompanyUpdateWithoutApiKeysInput, Prisma.CompanyUncheckedUpdateWithoutApiKeysInput>
+}
+
+export type CompanyUpdateWithoutApiKeysInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  companyID?: Prisma.StringFieldUpdateOperationsInput | string
+  companyName?: Prisma.StringFieldUpdateOperationsInput | string
+  referenceID?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shortName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  archivedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deletionScheduledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  primaryColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  userCompanies?: Prisma.UserCompanyUpdateManyWithoutCompanyNestedInput
+  departments?: Prisma.DepartmentUpdateManyWithoutCompanyNestedInput
+}
+
+export type CompanyUncheckedUpdateWithoutApiKeysInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  companyID?: Prisma.StringFieldUpdateOperationsInput | string
+  companyName?: Prisma.StringFieldUpdateOperationsInput | string
+  referenceID?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  shortName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  archivedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deletionScheduledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  primaryColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  userCompanies?: Prisma.UserCompanyUncheckedUpdateManyWithoutCompanyNestedInput
+  departments?: Prisma.DepartmentUncheckedUpdateManyWithoutCompanyNestedInput
+}
+
 export type CompanyCreateWithoutDepartmentsInput = {
   id?: string
   companyID: string
@@ -474,6 +571,7 @@ export type CompanyCreateWithoutDepartmentsInput = {
   logoUrl?: string | null
   primaryColor?: string | null
   userCompanies?: Prisma.UserCompanyCreateNestedManyWithoutCompanyInput
+  apiKeys?: Prisma.ApiKeyCreateNestedManyWithoutCompanyInput
 }
 
 export type CompanyUncheckedCreateWithoutDepartmentsInput = {
@@ -488,6 +586,7 @@ export type CompanyUncheckedCreateWithoutDepartmentsInput = {
   logoUrl?: string | null
   primaryColor?: string | null
   userCompanies?: Prisma.UserCompanyUncheckedCreateNestedManyWithoutCompanyInput
+  apiKeys?: Prisma.ApiKeyUncheckedCreateNestedManyWithoutCompanyInput
 }
 
 export type CompanyCreateOrConnectWithoutDepartmentsInput = {
@@ -518,6 +617,7 @@ export type CompanyUpdateWithoutDepartmentsInput = {
   logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   primaryColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   userCompanies?: Prisma.UserCompanyUpdateManyWithoutCompanyNestedInput
+  apiKeys?: Prisma.ApiKeyUpdateManyWithoutCompanyNestedInput
 }
 
 export type CompanyUncheckedUpdateWithoutDepartmentsInput = {
@@ -532,6 +632,7 @@ export type CompanyUncheckedUpdateWithoutDepartmentsInput = {
   logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   primaryColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   userCompanies?: Prisma.UserCompanyUncheckedUpdateManyWithoutCompanyNestedInput
+  apiKeys?: Prisma.ApiKeyUncheckedUpdateManyWithoutCompanyNestedInput
 }
 
 export type CompanyCreateWithoutUserCompaniesInput = {
@@ -546,6 +647,7 @@ export type CompanyCreateWithoutUserCompaniesInput = {
   logoUrl?: string | null
   primaryColor?: string | null
   departments?: Prisma.DepartmentCreateNestedManyWithoutCompanyInput
+  apiKeys?: Prisma.ApiKeyCreateNestedManyWithoutCompanyInput
 }
 
 export type CompanyUncheckedCreateWithoutUserCompaniesInput = {
@@ -560,6 +662,7 @@ export type CompanyUncheckedCreateWithoutUserCompaniesInput = {
   logoUrl?: string | null
   primaryColor?: string | null
   departments?: Prisma.DepartmentUncheckedCreateNestedManyWithoutCompanyInput
+  apiKeys?: Prisma.ApiKeyUncheckedCreateNestedManyWithoutCompanyInput
 }
 
 export type CompanyCreateOrConnectWithoutUserCompaniesInput = {
@@ -590,6 +693,7 @@ export type CompanyUpdateWithoutUserCompaniesInput = {
   logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   primaryColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   departments?: Prisma.DepartmentUpdateManyWithoutCompanyNestedInput
+  apiKeys?: Prisma.ApiKeyUpdateManyWithoutCompanyNestedInput
 }
 
 export type CompanyUncheckedUpdateWithoutUserCompaniesInput = {
@@ -604,6 +708,7 @@ export type CompanyUncheckedUpdateWithoutUserCompaniesInput = {
   logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   primaryColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   departments?: Prisma.DepartmentUncheckedUpdateManyWithoutCompanyNestedInput
+  apiKeys?: Prisma.ApiKeyUncheckedUpdateManyWithoutCompanyNestedInput
 }
 
 
@@ -614,11 +719,13 @@ export type CompanyUncheckedUpdateWithoutUserCompaniesInput = {
 export type CompanyCountOutputType = {
   userCompanies: number
   departments: number
+  apiKeys: number
 }
 
 export type CompanyCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   userCompanies?: boolean | CompanyCountOutputTypeCountUserCompaniesArgs
   departments?: boolean | CompanyCountOutputTypeCountDepartmentsArgs
+  apiKeys?: boolean | CompanyCountOutputTypeCountApiKeysArgs
 }
 
 /**
@@ -645,6 +752,13 @@ export type CompanyCountOutputTypeCountDepartmentsArgs<ExtArgs extends runtime.T
   where?: Prisma.DepartmentWhereInput
 }
 
+/**
+ * CompanyCountOutputType without action
+ */
+export type CompanyCountOutputTypeCountApiKeysArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ApiKeyWhereInput
+}
+
 
 export type CompanySelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -659,6 +773,7 @@ export type CompanySelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   primaryColor?: boolean
   userCompanies?: boolean | Prisma.Company$userCompaniesArgs<ExtArgs>
   departments?: boolean | Prisma.Company$departmentsArgs<ExtArgs>
+  apiKeys?: boolean | Prisma.Company$apiKeysArgs<ExtArgs>
   _count?: boolean | Prisma.CompanyCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["company"]>
 
@@ -705,6 +820,7 @@ export type CompanyOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
 export type CompanyInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   userCompanies?: boolean | Prisma.Company$userCompaniesArgs<ExtArgs>
   departments?: boolean | Prisma.Company$departmentsArgs<ExtArgs>
+  apiKeys?: boolean | Prisma.Company$apiKeysArgs<ExtArgs>
   _count?: boolean | Prisma.CompanyCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type CompanyIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -715,6 +831,10 @@ export type $CompanyPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
   objects: {
     userCompanies: Prisma.$UserCompanyPayload<ExtArgs>[]
     departments: Prisma.$DepartmentPayload<ExtArgs>[]
+    /**
+     * Public read-only API keys scoped to this company (SAMS-011, Phase 3b).
+     */
+    apiKeys: Prisma.$ApiKeyPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1140,6 +1260,7 @@ export interface Prisma__CompanyClient<T, Null = never, ExtArgs extends runtime.
   readonly [Symbol.toStringTag]: "PrismaPromise"
   userCompanies<T extends Prisma.Company$userCompaniesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Company$userCompaniesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserCompanyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   departments<T extends Prisma.Company$departmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Company$departmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DepartmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  apiKeys<T extends Prisma.Company$apiKeysArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Company$apiKeysArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ApiKeyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1617,6 +1738,30 @@ export type Company$departmentsArgs<ExtArgs extends runtime.Types.Extensions.Int
   take?: number
   skip?: number
   distinct?: Prisma.DepartmentScalarFieldEnum | Prisma.DepartmentScalarFieldEnum[]
+}
+
+/**
+ * Company.apiKeys
+ */
+export type Company$apiKeysArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ApiKey
+   */
+  select?: Prisma.ApiKeySelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ApiKey
+   */
+  omit?: Prisma.ApiKeyOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ApiKeyInclude<ExtArgs> | null
+  where?: Prisma.ApiKeyWhereInput
+  orderBy?: Prisma.ApiKeyOrderByWithRelationInput | Prisma.ApiKeyOrderByWithRelationInput[]
+  cursor?: Prisma.ApiKeyWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ApiKeyScalarFieldEnum | Prisma.ApiKeyScalarFieldEnum[]
 }
 
 /**
