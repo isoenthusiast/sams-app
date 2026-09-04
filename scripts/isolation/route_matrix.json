@@ -23,7 +23,9 @@
     "admin/extraction",
     "admin/extraction/documents",
     "admin/extraction/extract",
-    "admin/extraction/upload"
+    "admin/extraction/upload",
+    "cron/notify-sweep",
+    "cron/weekly-digest"
   ],
   "routes": [
     {
@@ -482,6 +484,12 @@
       "crossTenantExpectation": "403/empty"
     },
     {
+      "route": "portal/settings",
+      "companyResource": "notification delivery settings",
+      "scope": "session client-Admin company (write-only webhook secret)",
+      "crossTenantExpectation": "403/notice"
+    },
+    {
       "route": "portal/findings/[id]/management-response",
       "companyResource": "management-response",
       "scope": "finding assessment company",
@@ -525,9 +533,21 @@
     },
     {
       "route": "portal/settings",
-      "companyResource": "portal settings (theme)",
+      "companyResource": "portal settings (theme + outbound notifications)",
       "scope": "session company",
       "crossTenantExpectation": "403/empty"
+    },
+    {
+      "route": "portal/notifications-settings",
+      "companyResource": "notification delivery settings",
+      "scope": "session client-Admin company (write-only webhook secret)",
+      "crossTenantExpectation": "403"
+    },
+    {
+      "route": "portal/notifications-settings/test",
+      "companyResource": "notification delivery settings",
+      "scope": "session client-Admin company (write-only webhook secret)",
+      "crossTenantExpectation": "403"
     }
   ]
 }
