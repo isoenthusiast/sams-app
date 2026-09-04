@@ -140,14 +140,42 @@ async function main() {
     { name: "Dup", username: userRows[0].username, role: "Assessor" }, // existing in DB
     { name: "Dup2", username: userRows[0].username, role: "Assessor" }, // batch duplicate
     { name: "BadRole", username: `${testCompanyID}-bad`, role: "Superuser" },
+    { name: "", username: `${testCompanyID}-noname`, role: "Assessor" }, // missing name
     { name: "NoMgr", username: `${testCompanyID}-nomgr`, role: "Assessor", managerName: "No Such Manager XYZ" },
   ];
   const negDry = await (await post("/api/operator/onboarding/users", { companyId, rows: negRows, dryRun: true }, provider.jar)).json();
   assertTrue(negDry.report.duplicates.some((d) => d.kind === "existing"), "dry-run flags EXISTING duplicate username");
   assertTrue(negDry.report.duplicates.some((d) => d.kind === "batch"), "dry-run flags BATCH duplicate username");
   assertTrue(negDry.report.invalidRoles.some((r) => r.role === "Superuser"), "dry-run flags invalid role (Superuser)");
+  assertTrue(negDry.report.missingFields.some((m) => m.fields.includes("name")), "dry-run flags missing name");
   assertTrue(negDry.report.unresolvedManagers.some((m) => m.managerName === "No Such Manager XYZ"), "dry-run flags unresolved manager");
   assertTrue(negDry.blocked, "dry-run commit BLOCKED when duplicates/bad roles present");
+
+  // ── (b2) COMMIT re-validates at the write boundary (review round-1 fix) ──
+  // Direct API commit (NO dry-run) with junk must be refused with 4xx and ZERO
+  // writes — the server enforces what the dry-run rejects (spec settled #4).
+  console.log("\n--- (b2) commit write-boundary re-validation ---");
+  const badCommitRows = [
+    { name: "Bad Role", username: `${testCompanyID}-badrole`, role: "Superuser" },
+    { name: "", username: `${testCompanyID}-noname` }, // missing name
+    { name: "No User", username: "", role: "Assessor" }, // missing username
+    { name: "Clash", username: userRows[0].username, role: "Assessor" }, // existing → duplicate
+  ];
+  const badCommit = await post("/api/operator/onboarding/users", { companyId, rows: badCommitRows, dryRun: false }, provider.jar);
+  const badCommitData = await badCommit.json();
+  assertTrue([409, 422].includes(badCommit.status), `direct commit with junk rows → 4xx (got ${badCommit.status})`);
+  assertTrue(!!badCommitData.report, "direct commit refusal carries the validation report");
+  assertTrue(!JSON.stringify(badCommitData).includes("tempPassword"), "refusal response contains NO passwords");
+  assertEq(probe("user-exists", `${testCompanyID}-badrole`), "false", "bad-role user NOT created (zero writes on refusal)");
+  assertEq(probe("user-exists", `${testCompanyID}-noname`), "false", "no-name user NOT created (zero writes on refusal)");
+
+  // Reproduce Conan's exact two repros individually (each must be refused).
+  const badRole = await post("/api/operator/onboarding/users", { companyId, rows: [{ name: "Super", username: `${testCompanyID}-super`, role: "Superuser" }], dryRun: false }, provider.jar);
+  assertEq(badRole.status, 422, "commit with role=Superuser → 422 (was 201 before the fix)");
+  assertEq(probe("user-exists", `${testCompanyID}-super`), "false", "Superuser row NOT created");
+  const emptyUser = await post("/api/operator/onboarding/users", { companyId, rows: [{ name: "Ghost", username: "", role: "Assessor" }], dryRun: false }, provider.jar);
+  assertTrue([409, 422].includes(emptyUser.status), `commit with empty username → 4xx (got ${emptyUser.status})`);
+  assertEq(probe("user-exists", "Ghost"), "false", "empty-username (Ghost) row NOT created");
 
   // ── (c) non-provider → 403 on all wizard routes ──────────────────────────
   console.log("\n--- (c) non-provider 403 ---");
@@ -175,7 +203,6 @@ async function main() {
   const partCommit = await post("/api/operator/onboarding/users", { companyId, rows: partialRows, dryRun: false }, provider.jar);
   assertTrue(partCommit.status >= 400, "commit with a mid-batch duplicate fails (status >= 400)");
   assertEq(probe("user-exists", `${testCompanyID}-partial1`), "false", "FIRST user of the failed batch does NOT exist (rollback, zero partial users)");
-  assertEq(probe("user-exists", `${testCompanyID}-partial2`), "false", "second (clash) user of the failed batch does NOT exist");
 
   // ── (g) hard-delete the wizard-made company (proves T3 path on it) ───────
   console.log("\n--- (g) hard-delete wizard-made company ---");

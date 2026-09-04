@@ -35,9 +35,45 @@ export type OnboardingUserValidation = {
   valid: number;
   duplicates: Array<{ kind: "existing" | "batch"; username: string; name: string }>;
   invalidRoles: Array<{ username: string; role: string }>;
+  // Rows the draft-schema would otherwise let slip through (empty name/username).
+  missingFields: Array<{ index: number; username: string; fields: ("name" | "username")[] }>;
   unresolvedManagers: Array<{ username: string; managerName: string }>;
   managerResolution: { requested: number; resolved: number; rate: number | null };
 };
+
+/**
+ * Whether a validation report is clean enough to commit. The dry-run and the
+ * commit path MUST share this single rule set so the server enforces what the
+ * preview blocks (settled decision #4 / DoD (b)). Unresolved managers are a
+ * *warning* (the row is still created with the manager stored as text), so they
+ * do NOT block; duplicates, invalid roles and missing name/username do.
+ */
+export function isProvisionBlocked(report: OnboardingUserValidation): boolean {
+  return report.duplicates.length > 0 || report.invalidRoles.length > 0 || report.missingFields.length > 0;
+}
+
+/**
+ * Thrown by the COMMIT path when the write boundary re-validation finds issues
+ * that should have been caught by the dry-run. Carries the HTTP-ish status and
+ * the full report so the route can refuse with 4xx and zero writes.
+ */
+export class ProvisionValidationError extends Error {
+  readonly status: number;
+  readonly code: string;
+  readonly report: OnboardingUserValidation;
+  constructor(report: OnboardingUserValidation) {
+    const hasDuplicates = report.duplicates.length > 0;
+    const status = hasDuplicates ? 409 : 422;
+    const code = hasDuplicates ? "VALIDATION_DUPLICATES" : "VALIDATION_BAD_ROWS";
+    super(
+      `Provision refused: fix ${report.duplicates.length + report.invalidRoles.length + report.missingFields.length} row(s). Run the dry-run (dryRun=true) and commit only when clean.`
+    );
+    this.name = "ProvisionValidationError";
+    this.status = status;
+    this.code = code;
+    this.report = report;
+  }
+}
 
 /** Roles the wizard may provision. Anything else is flagged as an invalid role. */
 export const PROVISION_ROLES: Role[] = ["Assessor", "Admin"];
@@ -78,6 +114,7 @@ export async function validateUserRows(rows: OnboardingUserRow[]): Promise<Onboa
   const total = rows.length;
   const duplicates: OnboardingUserValidation["duplicates"] = [];
   const invalidRoles: OnboardingUserValidation["invalidRoles"] = [];
+  const missingFields: OnboardingUserValidation["missingFields"] = [];
   const unresolvedManagers: OnboardingUserValidation["unresolvedManagers"] = [];
 
   const usernames = rows.map((r) => r.username?.trim()).filter(Boolean);
@@ -104,16 +141,24 @@ export async function validateUserRows(rows: OnboardingUserRow[]): Promise<Onboa
   let managerRequested = 0;
   let managerResolved = 0;
 
-  for (const row of rows) {
+  for (let i = 0; i < rows.length; i++) {
+    const row = rows[i];
     const u = row.username?.trim().toLowerCase() ?? "";
-    // A row can be both an existing-username duplicate AND a within-batch
-    // duplicate — report each fact independently so the operator sees both.
+    // A row is invalid for THREE independent reasons (reported separately so the
+    // operator sees each): duplicate username, invalid role, missing field.
     if (existingSet.has(u)) duplicates.push({ kind: "existing", username: row.username, name: row.name });
     if ((batchCounts.get(u) ?? 0) > 1) duplicates.push({ kind: "batch", username: row.username, name: row.name });
 
     // Role check (default Assessor).
     const role = (row.role?.trim() || "Assessor") as Role;
     if (!PROVISION_ROLES.includes(role)) invalidRoles.push({ username: row.username, role });
+
+    // Missing name/username (the client-side parseCsv backstop; the server must
+    // enforce the same rule so a bare API commit can't inject junk rows).
+    const missing: ("name" | "username")[] = [];
+    if (!row.name?.trim()) missing.push("name");
+    if (!row.username?.trim()) missing.push("username");
+    if (missing.length > 0) missingFields.push({ index: i, username: row.username, fields: missing });
 
     // Manager resolution.
     if (row.managerName?.trim()) {
@@ -124,11 +169,13 @@ export async function validateUserRows(rows: OnboardingUserRow[]): Promise<Onboa
     }
   }
 
-  // A row flagged as duplicate OR invalid-role is not "valid" (commit blocked
-  // for it). Valid = no duplicate, no invalid role.
+  // A row flagged as duplicate OR invalid-role OR missing-field is not "valid"
+  // (commit blocked for it). Valid = no duplicate, no invalid role, no missing
+  // field. Empty-username rows are already dropped from `usernames`.
   const invalidSet = new Set([
     ...duplicates.map((d) => d.username.toLowerCase()),
     ...invalidRoles.map((i) => i.username.toLowerCase()),
+    ...missingFields.map((m) => m.username.toLowerCase()),
   ]);
   const valid = usernames.filter((u) => !invalidSet.has(u.toLowerCase())).length;
 
@@ -137,6 +184,7 @@ export async function validateUserRows(rows: OnboardingUserRow[]): Promise<Onboa
     valid,
     duplicates,
     invalidRoles,
+    missingFields,
     unresolvedManagers,
     managerResolution: {
       requested: managerRequested,
@@ -204,6 +252,14 @@ export async function provisionUsers(params: {
 
   const company = await prisma.company.findUnique({ where: { id: companyId }, select: { id: true } });
   if (!company) throw new Error("Company not found");
+
+  // WRITE-BOUNDARY RE-VALIDATION (review round-1 fix, spec settled #4 / DoD (b)):
+  // never trust rows reaching the commit — the dry-run and the commit share one
+  // rule set. Refuse with 4xx (and ZERO writes) before opening the transaction,
+  // so junk (bad role, empty name/username, duplicates) can't reach the DB even
+  // when a client bypasses the UI's dry-run-first flow.
+  const validation = await validateUserRows(rows);
+  if (isProvisionBlocked(validation)) throw new ProvisionValidationError(validation);
 
   const wizardId = `wiz_${crypto.randomUUID()}`;
   const passwordEntries: Array<{ userId: string; username: string; tempPassword: string }> = [];

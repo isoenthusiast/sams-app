@@ -4,6 +4,8 @@ import { prisma } from "@/lib/prisma";
 import {
   validateUserRows,
   provisionUsers,
+  isProvisionBlocked,
+  ProvisionValidationError,
   type OnboardingUserRow,
 } from "@/lib/onboarding";
 
@@ -41,7 +43,7 @@ export async function POST(request: NextRequest) {
 
   if (dryRun) {
     const report = await validateUserRows(rows);
-    const blocked = report.duplicates.length > 0 || report.invalidRoles.length > 0;
+    const blocked = isProvisionBlocked(report);
     return NextResponse.json({ ok: !blocked, blocked, report });
   }
 
@@ -49,6 +51,12 @@ export async function POST(request: NextRequest) {
     const result = await provisionUsers({ companyId, rows });
     return NextResponse.json({ ok: true, ...result }, { status: 201 });
   } catch (e: any) {
+    // Write-boundary re-validation refusal → 4xx (409 duplicates / 422 bad rows).
+    // The report is carried so the caller can render the same preview the
+    // dry-run would. ZERO users were written (refusal happens before the txn).
+    if (e instanceof ProvisionValidationError) {
+      return NextResponse.json({ ok: false, error: e.message, code: e.code, report: e.report }, { status: e.status });
+    }
     const msg = e?.message || "Failed to provision users";
     return NextResponse.json({ error: msg }, { status: 500 });
   }

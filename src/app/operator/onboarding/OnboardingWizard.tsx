@@ -10,6 +10,7 @@ type UserReport = {
   total: number; valid: number;
   duplicates: Array<{ kind: string; username: string; name: string }>;
   invalidRoles: Array<{ username: string; role: string }>;
+  missingFields: Array<{ index: number; username: string; fields: string[] }>;
   unresolvedManagers: Array<{ username: string; managerName: string }>;
   managerResolution: { requested: number; resolved: number; rate: number | null };
 };
@@ -373,7 +374,7 @@ function CompanyStep(props: {
           {busy ? "Working…" : "Dry-run"}
         </button>
         <button onClick={commitCompany} disabled={busy || !!company || !companyValid?.ok} className={btnPrimary}>
-          Commit company
+          {busy ? "Working…" : "Commit company"}
         </button>
       </div>
     </Section>
@@ -412,12 +413,17 @@ function ContentStep(props: {
           {busy ? "Working…" : "Dry-run"}
         </button>
         <button onClick={commitContent} disabled={busy || !company} className={btnPrimary}>
-          Commit &amp; bootstrap
+          {busy ? "Working…" : "Commit & bootstrap"}
         </button>
         <button onClick={fetchContentPreview} disabled={busy} className={btnGhost}>
           Refresh
         </button>
       </div>
+      {contentResult ? null : (
+        <p className="mt-3 text-xs text-slate-500">
+          Committing copies the full SMDS content set into the new tenant — this can take up to a minute on the remote DB.
+        </p>
+      )}
     </Section>
   );
 }
@@ -431,7 +437,9 @@ function UsersStep(props: {
   userReport: UserReport | null; busy: boolean;
 }) {
   const { company, csv, setCsv, lineErrors, rows, parseRows, runUsersDryRun, commitUsers, userReport, busy } = props;
-  const blocked = userReport ? userReport.duplicates.length > 0 || userReport.invalidRoles.length > 0 : null;
+  const blocked = userReport
+    ? userReport.duplicates.length > 0 || userReport.invalidRoles.length > 0 || userReport.missingFields.length > 0
+    : null;
   return (
     <Section title="3 · Provision users" desc="Paste CSV or add rows. Temp passwords are generated on commit and revealed once at the end.">
       <Field label="CSV paste (name, username, email, role, managerName)">
@@ -485,25 +493,26 @@ function UsersStep(props: {
         <button
           onClick={commitUsers}
           disabled={busy || rows.length === 0 || !company || blocked === null || blocked}
-          title={blocked ? "Commit blocked: fix duplicates / invalid roles first." : "Provision users"}
+          title={blocked ? "Commit blocked: fix duplicates / invalid roles / missing fields first." : "Provision users"}
           className={btnPrimary}
         >
-          Commit &amp; provision
+          {busy ? "Working…" : "Commit & provision"}
         </button>
       </div>
-      {blocked && <p className="mt-2 text-xs text-red-600">Commit is blocked while duplicates or invalid roles are present.</p>}
+      {blocked && <p className="mt-2 text-xs text-red-600">Commit is blocked while duplicates, invalid roles, or missing fields are present.</p>}
     </Section>
   );
 }
 
 function UserReportPanel({ report }: { report: UserReport }) {
   return (
-    <ResultBox ok={report.duplicates.length === 0 && report.invalidRoles.length === 0}>
+    <ResultBox ok={report.duplicates.length === 0 && report.invalidRoles.length === 0 && report.missingFields.length === 0}>
       <div className="flex flex-wrap gap-x-6 gap-y-1 text-sm">
         <span>Total <b>{report.total}</b></span>
         <span>Valid <b className="text-green-700">{report.valid}</b></span>
         <span>Duplicates <b className={report.duplicates.length ? "text-red-600" : ""}>{report.duplicates.length}</b></span>
         <span>Invalid roles <b className={report.invalidRoles.length ? "text-red-600" : ""}>{report.invalidRoles.length}</b></span>
+        <span>Missing fields <b className={report.missingFields.length ? "text-red-600" : ""}>{report.missingFields.length}</b></span>
         <span>Manager resolution <b>{report.managerResolution.rate === null ? "n/a" : `${report.managerResolution.rate}%`}</b> ({report.managerResolution.resolved}/{report.managerResolution.requested})</span>
       </div>
       {report.duplicates.length > 0 && (
@@ -519,6 +528,16 @@ function UserReportPanel({ report }: { report: UserReport }) {
           <div className="font-semibold text-red-700">Invalid roles:</div>
           <ul className="mt-1 list-disc space-y-0.5 pl-5">
             {report.invalidRoles.map((d, i) => <li key={i}><code className="text-xs">{d.username}</code> → {d.role||"''"}</li>)}
+          </ul>
+        </div>
+      )}
+      {report.missingFields.length > 0 && (
+        <div className="mt-2">
+          <div className="font-semibold text-red-700">Missing required fields:</div>
+          <ul className="mt-1 list-disc space-y-0.5 pl-5">
+            {report.missingFields.map((d, i) => (
+              <li key={i}><code className="text-xs">{d.username || `row ${d.index + 1}`}</code> — {d.fields.join(", ")}</li>
+            ))}
           </ul>
         </div>
       )}
