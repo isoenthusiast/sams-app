@@ -353,7 +353,7 @@ Client Component → fetch('/api/...', { method: 'POST', body })
 |-------|---------|------------|
 | **Notification** | Stored fabric event for the in-app center (v1), NO outbound transport (email/webhook is Phase 3). Event set v1: `EvidenceRequested` (→ requestee), `EvidenceSubmitted` (→ requester), `EvidenceReviewed` (→ requestee), `CommentShared` (→ entity participants: a finding's assessment assessor / request participants, excluding the author). Emission points live INSIDE the fabric's write handlers (evidence-request PATCH transitions + SharedWithClient comment POST), fired-and-forgotten so an emission failure can NEVER fail the parent write: `emitNotification` AND the pre-emission `userName()` lookup are guarded, and the PATCH call-site wraps the emit calls (fault-injected at BOTH positions: a broken Notification write and a broken pre-emission query both leave the transition at 200). **Overdue actions are computed at READ time** (Action.targetDate < now AND closureDate null, company-scoped) as a synthetic banner in the bell-count response — NEVER stored as Notification rows (so no scheduler). Reads are strictly `recipientUserId`-scoped; `POST /api/notifications/mark-read` explicitly verifies each id belongs to the session user (batch ids are the classic cross-tenant leak → foreign id ⇒ 403, row unchanged). | id (cuid), recipientUserId (FK→User, `onDelete: Cascade`), type (`NotificationType` enum), entityType/entityId (polymorphic target, mirrors Comment; deep-links resolved at read-time), title (≤200), body (≤500), readAt?, companyId, createdAt. Indexes: (recipientUserId, readAt), (companyId). |
 
-#### Outbound Notification Models (v1.15.3, SAMS-009 Phase 3a Feature B)
+#### Outbound Notification Models (v1.16.4, SAMS-009 Phase 3a Feature B)
 
 | Model | Purpose | Key Fields |
 |-------|---------|------------|
@@ -623,7 +623,7 @@ Provider-gated with `session.user.providerRole` (non-provider → 403). Every wr
 | `/api/notifications` | GET | Auth | Current user's notifications, NEWEST first. Strictly `recipientUserId`-scoped. `?unread=1` → unread (readAt null) rows only. Response also carries the READ-TIME bell counts: `unreadCount` (unread rows) and `overdueCount` (COMPUTED company-scoped overdue actions — `Action.targetDate < now AND closureDate null` — as a synthetic banner, never a stored row). Each row is enriched with a resolved `href` (deep-link to the right surface; requestee → `/fla/my-evidence-requests`, requester → `/fla/[assessmentId]`, finding → `/fla/[assessmentId]`). |
 | `/api/notifications/mark-read` | POST | Auth | Mark the current user's notifications read: `{ all: true }` (all unread) or `{ ids: [] }`. EXPLICITLY verifies each supplied id belongs to the SESSION user before touching anything — an id that is another user's notification (or does not exist) yields **403** and leaves every row unchanged (batch ids are the classic cross-tenant leak; the `updateMany` is additionally pinned to `recipientUserId`). Empty ids / neither all nor ids → 400. |
 
-#### Outbound Notification APIs — v1.15.3 (SAMS-009, Phase 3a Feature B)
+#### Outbound Notification APIs — v1.16.4 (SAMS-009, Phase 3a Feature B)
 
 | Route | Method | Auth | Description |
 |-------|--------|------|-------------|
