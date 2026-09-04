@@ -317,6 +317,7 @@ export type AuditChecklistItemWhereInput = {
   template?: Prisma.XOR<Prisma.AuditChecklistTemplateNullableScalarRelationFilter, Prisma.AuditChecklistTemplateWhereInput> | null
   findings?: Prisma.FindingListRelationFilter
   controlLinks?: Prisma.AssessmentChecklistControlListRelationFilter
+  extractionProposals?: Prisma.ExtractionProposalListRelationFilter
 }
 
 export type AuditChecklistItemOrderByWithRelationInput = {
@@ -342,6 +343,7 @@ export type AuditChecklistItemOrderByWithRelationInput = {
   template?: Prisma.AuditChecklistTemplateOrderByWithRelationInput
   findings?: Prisma.FindingOrderByRelationAggregateInput
   controlLinks?: Prisma.AssessmentChecklistControlOrderByRelationAggregateInput
+  extractionProposals?: Prisma.ExtractionProposalOrderByRelationAggregateInput
 }
 
 export type AuditChecklistItemWhereUniqueInput = Prisma.AtLeast<{
@@ -371,6 +373,7 @@ export type AuditChecklistItemWhereUniqueInput = Prisma.AtLeast<{
   template?: Prisma.XOR<Prisma.AuditChecklistTemplateNullableScalarRelationFilter, Prisma.AuditChecklistTemplateWhereInput> | null
   findings?: Prisma.FindingListRelationFilter
   controlLinks?: Prisma.AssessmentChecklistControlListRelationFilter
+  extractionProposals?: Prisma.ExtractionProposalListRelationFilter
 }, "id" | "checklistItemId_assessmentId">
 
 export type AuditChecklistItemOrderByWithAggregationInput = {
@@ -441,6 +444,7 @@ export type AuditChecklistItemCreateInput = {
   template?: Prisma.AuditChecklistTemplateCreateNestedOneWithoutAdoptedItemsInput
   findings?: Prisma.FindingCreateNestedManyWithoutChecklistItemInput
   controlLinks?: Prisma.AssessmentChecklistControlCreateNestedManyWithoutChecklistItemInput
+  extractionProposals?: Prisma.ExtractionProposalCreateNestedManyWithoutAuditChecklistItemInput
 }
 
 export type AuditChecklistItemUncheckedCreateInput = {
@@ -463,6 +467,7 @@ export type AuditChecklistItemUncheckedCreateInput = {
   templateId?: string | null
   findings?: Prisma.FindingUncheckedCreateNestedManyWithoutChecklistItemInput
   controlLinks?: Prisma.AssessmentChecklistControlUncheckedCreateNestedManyWithoutChecklistItemInput
+  extractionProposals?: Prisma.ExtractionProposalUncheckedCreateNestedManyWithoutAuditChecklistItemInput
 }
 
 export type AuditChecklistItemUpdateInput = {
@@ -485,6 +490,7 @@ export type AuditChecklistItemUpdateInput = {
   template?: Prisma.AuditChecklistTemplateUpdateOneWithoutAdoptedItemsNestedInput
   findings?: Prisma.FindingUpdateManyWithoutChecklistItemNestedInput
   controlLinks?: Prisma.AssessmentChecklistControlUpdateManyWithoutChecklistItemNestedInput
+  extractionProposals?: Prisma.ExtractionProposalUpdateManyWithoutAuditChecklistItemNestedInput
 }
 
 export type AuditChecklistItemUncheckedUpdateInput = {
@@ -507,6 +513,7 @@ export type AuditChecklistItemUncheckedUpdateInput = {
   templateId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   findings?: Prisma.FindingUncheckedUpdateManyWithoutChecklistItemNestedInput
   controlLinks?: Prisma.AssessmentChecklistControlUncheckedUpdateManyWithoutChecklistItemNestedInput
+  extractionProposals?: Prisma.ExtractionProposalUncheckedUpdateManyWithoutAuditChecklistItemNestedInput
 }
 
 export type AuditChecklistItemCreateManyInput = {
@@ -819,6 +826,20 @@ export type AuditChecklistItemUpdateOneRequiredWithoutControlLinksNestedInput = 
   update?: Prisma.XOR<Prisma.XOR<Prisma.AuditChecklistItemUpdateToOneWithWhereWithoutControlLinksInput, Prisma.AuditChecklistItemUpdateWithoutControlLinksInput>, Prisma.AuditChecklistItemUncheckedUpdateWithoutControlLinksInput>
 }
 
+export type AuditChecklistItemCreateNestedOneWithoutExtractionProposalsInput = {
+  create?: Prisma.XOR<Prisma.AuditChecklistItemCreateWithoutExtractionProposalsInput, Prisma.AuditChecklistItemUncheckedCreateWithoutExtractionProposalsInput>
+  connectOrCreate?: Prisma.AuditChecklistItemCreateOrConnectWithoutExtractionProposalsInput
+  connect?: Prisma.AuditChecklistItemWhereUniqueInput
+}
+
+export type AuditChecklistItemUpdateOneRequiredWithoutExtractionProposalsNestedInput = {
+  create?: Prisma.XOR<Prisma.AuditChecklistItemCreateWithoutExtractionProposalsInput, Prisma.AuditChecklistItemUncheckedCreateWithoutExtractionProposalsInput>
+  connectOrCreate?: Prisma.AuditChecklistItemCreateOrConnectWithoutExtractionProposalsInput
+  upsert?: Prisma.AuditChecklistItemUpsertWithoutExtractionProposalsInput
+  connect?: Prisma.AuditChecklistItemWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.AuditChecklistItemUpdateToOneWithWhereWithoutExtractionProposalsInput, Prisma.AuditChecklistItemUpdateWithoutExtractionProposalsInput>, Prisma.AuditChecklistItemUncheckedUpdateWithoutExtractionProposalsInput>
+}
+
 export type AuditChecklistItemCreateWithoutAssessmentInput = {
   id?: string
   checklistItemId: string
@@ -838,6 +859,7 @@ export type AuditChecklistItemCreateWithoutAssessmentInput = {
   template?: Prisma.AuditChecklistTemplateCreateNestedOneWithoutAdoptedItemsInput
   findings?: Prisma.FindingCreateNestedManyWithoutChecklistItemInput
   controlLinks?: Prisma.AssessmentChecklistControlCreateNestedManyWithoutChecklistItemInput
+  extractionProposals?: Prisma.ExtractionProposalCreateNestedManyWithoutAuditChecklistItemInput
 }
 
 export type AuditChecklistItemUncheckedCreateWithoutAssessmentInput = {
@@ -859,6 +881,7 @@ export type AuditChecklistItemUncheckedCreateWithoutAssessmentInput = {
   templateId?: string | null
   findings?: Prisma.FindingUncheckedCreateNestedManyWithoutChecklistItemInput
   controlLinks?: Prisma.AssessmentChecklistControlUncheckedCreateNestedManyWithoutChecklistItemInput
+  extractionProposals?: Prisma.ExtractionProposalUncheckedCreateNestedManyWithoutAuditChecklistItemInput
 }
 
 export type AuditChecklistItemCreateOrConnectWithoutAssessmentInput = {
@@ -929,6 +952,7 @@ export type AuditChecklistItemCreateWithoutFindingsInput = {
   templateItem: Prisma.AuditChecklistTemplateItemCreateNestedOneWithoutClonedItemsInput
   template?: Prisma.AuditChecklistTemplateCreateNestedOneWithoutAdoptedItemsInput
   controlLinks?: Prisma.AssessmentChecklistControlCreateNestedManyWithoutChecklistItemInput
+  extractionProposals?: Prisma.ExtractionProposalCreateNestedManyWithoutAuditChecklistItemInput
 }
 
 export type AuditChecklistItemUncheckedCreateWithoutFindingsInput = {
@@ -950,6 +974,7 @@ export type AuditChecklistItemUncheckedCreateWithoutFindingsInput = {
   templateItemId: string
   templateId?: string | null
   controlLinks?: Prisma.AssessmentChecklistControlUncheckedCreateNestedManyWithoutChecklistItemInput
+  extractionProposals?: Prisma.ExtractionProposalUncheckedCreateNestedManyWithoutAuditChecklistItemInput
 }
 
 export type AuditChecklistItemCreateOrConnectWithoutFindingsInput = {
@@ -987,6 +1012,7 @@ export type AuditChecklistItemUpdateWithoutFindingsInput = {
   templateItem?: Prisma.AuditChecklistTemplateItemUpdateOneRequiredWithoutClonedItemsNestedInput
   template?: Prisma.AuditChecklistTemplateUpdateOneWithoutAdoptedItemsNestedInput
   controlLinks?: Prisma.AssessmentChecklistControlUpdateManyWithoutChecklistItemNestedInput
+  extractionProposals?: Prisma.ExtractionProposalUpdateManyWithoutAuditChecklistItemNestedInput
 }
 
 export type AuditChecklistItemUncheckedUpdateWithoutFindingsInput = {
@@ -1008,6 +1034,7 @@ export type AuditChecklistItemUncheckedUpdateWithoutFindingsInput = {
   templateItemId?: Prisma.StringFieldUpdateOperationsInput | string
   templateId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   controlLinks?: Prisma.AssessmentChecklistControlUncheckedUpdateManyWithoutChecklistItemNestedInput
+  extractionProposals?: Prisma.ExtractionProposalUncheckedUpdateManyWithoutAuditChecklistItemNestedInput
 }
 
 export type AuditChecklistItemCreateWithoutTemplateInput = {
@@ -1029,6 +1056,7 @@ export type AuditChecklistItemCreateWithoutTemplateInput = {
   templateItem: Prisma.AuditChecklistTemplateItemCreateNestedOneWithoutClonedItemsInput
   findings?: Prisma.FindingCreateNestedManyWithoutChecklistItemInput
   controlLinks?: Prisma.AssessmentChecklistControlCreateNestedManyWithoutChecklistItemInput
+  extractionProposals?: Prisma.ExtractionProposalCreateNestedManyWithoutAuditChecklistItemInput
 }
 
 export type AuditChecklistItemUncheckedCreateWithoutTemplateInput = {
@@ -1050,6 +1078,7 @@ export type AuditChecklistItemUncheckedCreateWithoutTemplateInput = {
   templateItemId: string
   findings?: Prisma.FindingUncheckedCreateNestedManyWithoutChecklistItemInput
   controlLinks?: Prisma.AssessmentChecklistControlUncheckedCreateNestedManyWithoutChecklistItemInput
+  extractionProposals?: Prisma.ExtractionProposalUncheckedCreateNestedManyWithoutAuditChecklistItemInput
 }
 
 export type AuditChecklistItemCreateOrConnectWithoutTemplateInput = {
@@ -1097,6 +1126,7 @@ export type AuditChecklistItemCreateWithoutTemplateItemInput = {
   template?: Prisma.AuditChecklistTemplateCreateNestedOneWithoutAdoptedItemsInput
   findings?: Prisma.FindingCreateNestedManyWithoutChecklistItemInput
   controlLinks?: Prisma.AssessmentChecklistControlCreateNestedManyWithoutChecklistItemInput
+  extractionProposals?: Prisma.ExtractionProposalCreateNestedManyWithoutAuditChecklistItemInput
 }
 
 export type AuditChecklistItemUncheckedCreateWithoutTemplateItemInput = {
@@ -1118,6 +1148,7 @@ export type AuditChecklistItemUncheckedCreateWithoutTemplateItemInput = {
   templateId?: string | null
   findings?: Prisma.FindingUncheckedCreateNestedManyWithoutChecklistItemInput
   controlLinks?: Prisma.AssessmentChecklistControlUncheckedCreateNestedManyWithoutChecklistItemInput
+  extractionProposals?: Prisma.ExtractionProposalUncheckedCreateNestedManyWithoutAuditChecklistItemInput
 }
 
 export type AuditChecklistItemCreateOrConnectWithoutTemplateItemInput = {
@@ -1165,6 +1196,7 @@ export type AuditChecklistItemCreateWithoutControlLinksInput = {
   templateItem: Prisma.AuditChecklistTemplateItemCreateNestedOneWithoutClonedItemsInput
   template?: Prisma.AuditChecklistTemplateCreateNestedOneWithoutAdoptedItemsInput
   findings?: Prisma.FindingCreateNestedManyWithoutChecklistItemInput
+  extractionProposals?: Prisma.ExtractionProposalCreateNestedManyWithoutAuditChecklistItemInput
 }
 
 export type AuditChecklistItemUncheckedCreateWithoutControlLinksInput = {
@@ -1186,6 +1218,7 @@ export type AuditChecklistItemUncheckedCreateWithoutControlLinksInput = {
   templateItemId: string
   templateId?: string | null
   findings?: Prisma.FindingUncheckedCreateNestedManyWithoutChecklistItemInput
+  extractionProposals?: Prisma.ExtractionProposalUncheckedCreateNestedManyWithoutAuditChecklistItemInput
 }
 
 export type AuditChecklistItemCreateOrConnectWithoutControlLinksInput = {
@@ -1223,6 +1256,7 @@ export type AuditChecklistItemUpdateWithoutControlLinksInput = {
   templateItem?: Prisma.AuditChecklistTemplateItemUpdateOneRequiredWithoutClonedItemsNestedInput
   template?: Prisma.AuditChecklistTemplateUpdateOneWithoutAdoptedItemsNestedInput
   findings?: Prisma.FindingUpdateManyWithoutChecklistItemNestedInput
+  extractionProposals?: Prisma.ExtractionProposalUpdateManyWithoutAuditChecklistItemNestedInput
 }
 
 export type AuditChecklistItemUncheckedUpdateWithoutControlLinksInput = {
@@ -1244,6 +1278,111 @@ export type AuditChecklistItemUncheckedUpdateWithoutControlLinksInput = {
   templateItemId?: Prisma.StringFieldUpdateOperationsInput | string
   templateId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   findings?: Prisma.FindingUncheckedUpdateManyWithoutChecklistItemNestedInput
+  extractionProposals?: Prisma.ExtractionProposalUncheckedUpdateManyWithoutAuditChecklistItemNestedInput
+}
+
+export type AuditChecklistItemCreateWithoutExtractionProposalsInput = {
+  id?: string
+  checklistItemId: string
+  checklistText: string
+  auditStandard: string
+  complianceStatus?: $Enums.ComplianceStatus
+  auditorNotes?: string | null
+  testedDate?: Date | string | null
+  testedBy?: string | null
+  evidenceMethod?: string | null
+  keyQuestions?: string | null
+  whatGoodLooksLike?: string | null
+  controlPoints?: string | null
+  evidenceRequirements?: string | null
+  sortOrder?: number
+  assessment: Prisma.AssessmentCreateNestedOneWithoutChecklistItemsInput
+  templateItem: Prisma.AuditChecklistTemplateItemCreateNestedOneWithoutClonedItemsInput
+  template?: Prisma.AuditChecklistTemplateCreateNestedOneWithoutAdoptedItemsInput
+  findings?: Prisma.FindingCreateNestedManyWithoutChecklistItemInput
+  controlLinks?: Prisma.AssessmentChecklistControlCreateNestedManyWithoutChecklistItemInput
+}
+
+export type AuditChecklistItemUncheckedCreateWithoutExtractionProposalsInput = {
+  id?: string
+  checklistItemId: string
+  checklistText: string
+  auditStandard: string
+  complianceStatus?: $Enums.ComplianceStatus
+  auditorNotes?: string | null
+  testedDate?: Date | string | null
+  testedBy?: string | null
+  evidenceMethod?: string | null
+  keyQuestions?: string | null
+  whatGoodLooksLike?: string | null
+  controlPoints?: string | null
+  evidenceRequirements?: string | null
+  sortOrder?: number
+  assessmentId: string
+  templateItemId: string
+  templateId?: string | null
+  findings?: Prisma.FindingUncheckedCreateNestedManyWithoutChecklistItemInput
+  controlLinks?: Prisma.AssessmentChecklistControlUncheckedCreateNestedManyWithoutChecklistItemInput
+}
+
+export type AuditChecklistItemCreateOrConnectWithoutExtractionProposalsInput = {
+  where: Prisma.AuditChecklistItemWhereUniqueInput
+  create: Prisma.XOR<Prisma.AuditChecklistItemCreateWithoutExtractionProposalsInput, Prisma.AuditChecklistItemUncheckedCreateWithoutExtractionProposalsInput>
+}
+
+export type AuditChecklistItemUpsertWithoutExtractionProposalsInput = {
+  update: Prisma.XOR<Prisma.AuditChecklistItemUpdateWithoutExtractionProposalsInput, Prisma.AuditChecklistItemUncheckedUpdateWithoutExtractionProposalsInput>
+  create: Prisma.XOR<Prisma.AuditChecklistItemCreateWithoutExtractionProposalsInput, Prisma.AuditChecklistItemUncheckedCreateWithoutExtractionProposalsInput>
+  where?: Prisma.AuditChecklistItemWhereInput
+}
+
+export type AuditChecklistItemUpdateToOneWithWhereWithoutExtractionProposalsInput = {
+  where?: Prisma.AuditChecklistItemWhereInput
+  data: Prisma.XOR<Prisma.AuditChecklistItemUpdateWithoutExtractionProposalsInput, Prisma.AuditChecklistItemUncheckedUpdateWithoutExtractionProposalsInput>
+}
+
+export type AuditChecklistItemUpdateWithoutExtractionProposalsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  checklistItemId?: Prisma.StringFieldUpdateOperationsInput | string
+  checklistText?: Prisma.StringFieldUpdateOperationsInput | string
+  auditStandard?: Prisma.StringFieldUpdateOperationsInput | string
+  complianceStatus?: Prisma.EnumComplianceStatusFieldUpdateOperationsInput | $Enums.ComplianceStatus
+  auditorNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  testedDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  testedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  evidenceMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  keyQuestions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatGoodLooksLike?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  controlPoints?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  evidenceRequirements?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  assessment?: Prisma.AssessmentUpdateOneRequiredWithoutChecklistItemsNestedInput
+  templateItem?: Prisma.AuditChecklistTemplateItemUpdateOneRequiredWithoutClonedItemsNestedInput
+  template?: Prisma.AuditChecklistTemplateUpdateOneWithoutAdoptedItemsNestedInput
+  findings?: Prisma.FindingUpdateManyWithoutChecklistItemNestedInput
+  controlLinks?: Prisma.AssessmentChecklistControlUpdateManyWithoutChecklistItemNestedInput
+}
+
+export type AuditChecklistItemUncheckedUpdateWithoutExtractionProposalsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  checklistItemId?: Prisma.StringFieldUpdateOperationsInput | string
+  checklistText?: Prisma.StringFieldUpdateOperationsInput | string
+  auditStandard?: Prisma.StringFieldUpdateOperationsInput | string
+  complianceStatus?: Prisma.EnumComplianceStatusFieldUpdateOperationsInput | $Enums.ComplianceStatus
+  auditorNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  testedDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  testedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  evidenceMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  keyQuestions?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatGoodLooksLike?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  controlPoints?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  evidenceRequirements?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  assessmentId?: Prisma.StringFieldUpdateOperationsInput | string
+  templateItemId?: Prisma.StringFieldUpdateOperationsInput | string
+  templateId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  findings?: Prisma.FindingUncheckedUpdateManyWithoutChecklistItemNestedInput
+  controlLinks?: Prisma.AssessmentChecklistControlUncheckedUpdateManyWithoutChecklistItemNestedInput
 }
 
 export type AuditChecklistItemCreateManyAssessmentInput = {
@@ -1284,6 +1423,7 @@ export type AuditChecklistItemUpdateWithoutAssessmentInput = {
   template?: Prisma.AuditChecklistTemplateUpdateOneWithoutAdoptedItemsNestedInput
   findings?: Prisma.FindingUpdateManyWithoutChecklistItemNestedInput
   controlLinks?: Prisma.AssessmentChecklistControlUpdateManyWithoutChecklistItemNestedInput
+  extractionProposals?: Prisma.ExtractionProposalUpdateManyWithoutAuditChecklistItemNestedInput
 }
 
 export type AuditChecklistItemUncheckedUpdateWithoutAssessmentInput = {
@@ -1305,6 +1445,7 @@ export type AuditChecklistItemUncheckedUpdateWithoutAssessmentInput = {
   templateId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   findings?: Prisma.FindingUncheckedUpdateManyWithoutChecklistItemNestedInput
   controlLinks?: Prisma.AssessmentChecklistControlUncheckedUpdateManyWithoutChecklistItemNestedInput
+  extractionProposals?: Prisma.ExtractionProposalUncheckedUpdateManyWithoutAuditChecklistItemNestedInput
 }
 
 export type AuditChecklistItemUncheckedUpdateManyWithoutAssessmentInput = {
@@ -1364,6 +1505,7 @@ export type AuditChecklistItemUpdateWithoutTemplateInput = {
   templateItem?: Prisma.AuditChecklistTemplateItemUpdateOneRequiredWithoutClonedItemsNestedInput
   findings?: Prisma.FindingUpdateManyWithoutChecklistItemNestedInput
   controlLinks?: Prisma.AssessmentChecklistControlUpdateManyWithoutChecklistItemNestedInput
+  extractionProposals?: Prisma.ExtractionProposalUpdateManyWithoutAuditChecklistItemNestedInput
 }
 
 export type AuditChecklistItemUncheckedUpdateWithoutTemplateInput = {
@@ -1385,6 +1527,7 @@ export type AuditChecklistItemUncheckedUpdateWithoutTemplateInput = {
   templateItemId?: Prisma.StringFieldUpdateOperationsInput | string
   findings?: Prisma.FindingUncheckedUpdateManyWithoutChecklistItemNestedInput
   controlLinks?: Prisma.AssessmentChecklistControlUncheckedUpdateManyWithoutChecklistItemNestedInput
+  extractionProposals?: Prisma.ExtractionProposalUncheckedUpdateManyWithoutAuditChecklistItemNestedInput
 }
 
 export type AuditChecklistItemUncheckedUpdateManyWithoutTemplateInput = {
@@ -1444,6 +1587,7 @@ export type AuditChecklistItemUpdateWithoutTemplateItemInput = {
   template?: Prisma.AuditChecklistTemplateUpdateOneWithoutAdoptedItemsNestedInput
   findings?: Prisma.FindingUpdateManyWithoutChecklistItemNestedInput
   controlLinks?: Prisma.AssessmentChecklistControlUpdateManyWithoutChecklistItemNestedInput
+  extractionProposals?: Prisma.ExtractionProposalUpdateManyWithoutAuditChecklistItemNestedInput
 }
 
 export type AuditChecklistItemUncheckedUpdateWithoutTemplateItemInput = {
@@ -1465,6 +1609,7 @@ export type AuditChecklistItemUncheckedUpdateWithoutTemplateItemInput = {
   templateId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   findings?: Prisma.FindingUncheckedUpdateManyWithoutChecklistItemNestedInput
   controlLinks?: Prisma.AssessmentChecklistControlUncheckedUpdateManyWithoutChecklistItemNestedInput
+  extractionProposals?: Prisma.ExtractionProposalUncheckedUpdateManyWithoutAuditChecklistItemNestedInput
 }
 
 export type AuditChecklistItemUncheckedUpdateManyWithoutTemplateItemInput = {
@@ -1494,11 +1639,13 @@ export type AuditChecklistItemUncheckedUpdateManyWithoutTemplateItemInput = {
 export type AuditChecklistItemCountOutputType = {
   findings: number
   controlLinks: number
+  extractionProposals: number
 }
 
 export type AuditChecklistItemCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   findings?: boolean | AuditChecklistItemCountOutputTypeCountFindingsArgs
   controlLinks?: boolean | AuditChecklistItemCountOutputTypeCountControlLinksArgs
+  extractionProposals?: boolean | AuditChecklistItemCountOutputTypeCountExtractionProposalsArgs
 }
 
 /**
@@ -1525,6 +1672,13 @@ export type AuditChecklistItemCountOutputTypeCountControlLinksArgs<ExtArgs exten
   where?: Prisma.AssessmentChecklistControlWhereInput
 }
 
+/**
+ * AuditChecklistItemCountOutputType without action
+ */
+export type AuditChecklistItemCountOutputTypeCountExtractionProposalsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ExtractionProposalWhereInput
+}
+
 
 export type AuditChecklistItemSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1549,6 +1703,7 @@ export type AuditChecklistItemSelect<ExtArgs extends runtime.Types.Extensions.In
   template?: boolean | Prisma.AuditChecklistItem$templateArgs<ExtArgs>
   findings?: boolean | Prisma.AuditChecklistItem$findingsArgs<ExtArgs>
   controlLinks?: boolean | Prisma.AuditChecklistItem$controlLinksArgs<ExtArgs>
+  extractionProposals?: boolean | Prisma.AuditChecklistItem$extractionProposalsArgs<ExtArgs>
   _count?: boolean | Prisma.AuditChecklistItemCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["auditChecklistItem"]>
 
@@ -1625,6 +1780,7 @@ export type AuditChecklistItemInclude<ExtArgs extends runtime.Types.Extensions.I
   template?: boolean | Prisma.AuditChecklistItem$templateArgs<ExtArgs>
   findings?: boolean | Prisma.AuditChecklistItem$findingsArgs<ExtArgs>
   controlLinks?: boolean | Prisma.AuditChecklistItem$controlLinksArgs<ExtArgs>
+  extractionProposals?: boolean | Prisma.AuditChecklistItem$extractionProposalsArgs<ExtArgs>
   _count?: boolean | Prisma.AuditChecklistItemCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type AuditChecklistItemIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1646,6 +1802,10 @@ export type $AuditChecklistItemPayload<ExtArgs extends runtime.Types.Extensions.
     template: Prisma.$AuditChecklistTemplatePayload<ExtArgs> | null
     findings: Prisma.$FindingPayload<ExtArgs>[]
     controlLinks: Prisma.$AssessmentChecklistControlPayload<ExtArgs>[]
+    /**
+     * SAMS-013: evidence-chain proposals targeting this checklist item.
+     */
+    extractionProposals: Prisma.$ExtractionProposalPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -2064,6 +2224,7 @@ export interface Prisma__AuditChecklistItemClient<T, Null = never, ExtArgs exten
   template<T extends Prisma.AuditChecklistItem$templateArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AuditChecklistItem$templateArgs<ExtArgs>>): Prisma.Prisma__AuditChecklistTemplateClient<runtime.Types.Result.GetResult<Prisma.$AuditChecklistTemplatePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   findings<T extends Prisma.AuditChecklistItem$findingsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AuditChecklistItem$findingsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FindingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   controlLinks<T extends Prisma.AuditChecklistItem$controlLinksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AuditChecklistItem$controlLinksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AssessmentChecklistControlPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  extractionProposals<T extends Prisma.AuditChecklistItem$extractionProposalsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AuditChecklistItem$extractionProposalsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ExtractionProposalPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2575,6 +2736,30 @@ export type AuditChecklistItem$controlLinksArgs<ExtArgs extends runtime.Types.Ex
   take?: number
   skip?: number
   distinct?: Prisma.AssessmentChecklistControlScalarFieldEnum | Prisma.AssessmentChecklistControlScalarFieldEnum[]
+}
+
+/**
+ * AuditChecklistItem.extractionProposals
+ */
+export type AuditChecklistItem$extractionProposalsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ExtractionProposal
+   */
+  select?: Prisma.ExtractionProposalSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ExtractionProposal
+   */
+  omit?: Prisma.ExtractionProposalOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ExtractionProposalInclude<ExtArgs> | null
+  where?: Prisma.ExtractionProposalWhereInput
+  orderBy?: Prisma.ExtractionProposalOrderByWithRelationInput | Prisma.ExtractionProposalOrderByWithRelationInput[]
+  cursor?: Prisma.ExtractionProposalWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ExtractionProposalScalarFieldEnum | Prisma.ExtractionProposalScalarFieldEnum[]
 }
 
 /**

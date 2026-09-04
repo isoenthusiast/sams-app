@@ -279,6 +279,7 @@ export type KnowledgebaseWhereInput = {
   meetingDate?: Prisma.DateTimeNullableFilter<"Knowledgebase"> | Date | string | null
   participants?: Prisma.StringNullableFilter<"Knowledgebase"> | string | null
   tags?: Prisma.KnowledgebaseTagListRelationFilter
+  extractionProposals?: Prisma.ExtractionProposalListRelationFilter
 }
 
 export type KnowledgebaseOrderByWithRelationInput = {
@@ -300,6 +301,7 @@ export type KnowledgebaseOrderByWithRelationInput = {
   meetingDate?: Prisma.SortOrderInput | Prisma.SortOrder
   participants?: Prisma.SortOrderInput | Prisma.SortOrder
   tags?: Prisma.KnowledgebaseTagOrderByRelationAggregateInput
+  extractionProposals?: Prisma.ExtractionProposalOrderByRelationAggregateInput
 }
 
 export type KnowledgebaseWhereUniqueInput = Prisma.AtLeast<{
@@ -325,6 +327,7 @@ export type KnowledgebaseWhereUniqueInput = Prisma.AtLeast<{
   meetingDate?: Prisma.DateTimeNullableFilter<"Knowledgebase"> | Date | string | null
   participants?: Prisma.StringNullableFilter<"Knowledgebase"> | string | null
   tags?: Prisma.KnowledgebaseTagListRelationFilter
+  extractionProposals?: Prisma.ExtractionProposalListRelationFilter
 }, "kID" | "knowledgeName_companyId">
 
 export type KnowledgebaseOrderByWithAggregationInput = {
@@ -392,6 +395,7 @@ export type KnowledgebaseCreateInput = {
   meetingDate?: Date | string | null
   participants?: string | null
   tags?: Prisma.KnowledgebaseTagCreateNestedManyWithoutKbaseInput
+  extractionProposals?: Prisma.ExtractionProposalCreateNestedManyWithoutKnowledgebaseInput
 }
 
 export type KnowledgebaseUncheckedCreateInput = {
@@ -413,6 +417,7 @@ export type KnowledgebaseUncheckedCreateInput = {
   meetingDate?: Date | string | null
   participants?: string | null
   tags?: Prisma.KnowledgebaseTagUncheckedCreateNestedManyWithoutKbaseInput
+  extractionProposals?: Prisma.ExtractionProposalUncheckedCreateNestedManyWithoutKnowledgebaseInput
 }
 
 export type KnowledgebaseUpdateInput = {
@@ -434,6 +439,7 @@ export type KnowledgebaseUpdateInput = {
   meetingDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   participants?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tags?: Prisma.KnowledgebaseTagUpdateManyWithoutKbaseNestedInput
+  extractionProposals?: Prisma.ExtractionProposalUpdateManyWithoutKnowledgebaseNestedInput
 }
 
 export type KnowledgebaseUncheckedUpdateInput = {
@@ -455,6 +461,7 @@ export type KnowledgebaseUncheckedUpdateInput = {
   meetingDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   participants?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tags?: Prisma.KnowledgebaseTagUncheckedUpdateManyWithoutKbaseNestedInput
+  extractionProposals?: Prisma.ExtractionProposalUncheckedUpdateManyWithoutKnowledgebaseNestedInput
 }
 
 export type KnowledgebaseCreateManyInput = {
@@ -605,6 +612,20 @@ export type KnowledgebaseUpdateOneRequiredWithoutTagsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.KnowledgebaseUpdateToOneWithWhereWithoutTagsInput, Prisma.KnowledgebaseUpdateWithoutTagsInput>, Prisma.KnowledgebaseUncheckedUpdateWithoutTagsInput>
 }
 
+export type KnowledgebaseCreateNestedOneWithoutExtractionProposalsInput = {
+  create?: Prisma.XOR<Prisma.KnowledgebaseCreateWithoutExtractionProposalsInput, Prisma.KnowledgebaseUncheckedCreateWithoutExtractionProposalsInput>
+  connectOrCreate?: Prisma.KnowledgebaseCreateOrConnectWithoutExtractionProposalsInput
+  connect?: Prisma.KnowledgebaseWhereUniqueInput
+}
+
+export type KnowledgebaseUpdateOneRequiredWithoutExtractionProposalsNestedInput = {
+  create?: Prisma.XOR<Prisma.KnowledgebaseCreateWithoutExtractionProposalsInput, Prisma.KnowledgebaseUncheckedCreateWithoutExtractionProposalsInput>
+  connectOrCreate?: Prisma.KnowledgebaseCreateOrConnectWithoutExtractionProposalsInput
+  upsert?: Prisma.KnowledgebaseUpsertWithoutExtractionProposalsInput
+  connect?: Prisma.KnowledgebaseWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.KnowledgebaseUpdateToOneWithWhereWithoutExtractionProposalsInput, Prisma.KnowledgebaseUpdateWithoutExtractionProposalsInput>, Prisma.KnowledgebaseUncheckedUpdateWithoutExtractionProposalsInput>
+}
+
 export type KnowledgebaseCreateWithoutTagsInput = {
   kID?: string
   knowledgeName: string
@@ -623,6 +644,7 @@ export type KnowledgebaseCreateWithoutTagsInput = {
   entryType?: $Enums.KnowledgeEntryType
   meetingDate?: Date | string | null
   participants?: string | null
+  extractionProposals?: Prisma.ExtractionProposalCreateNestedManyWithoutKnowledgebaseInput
 }
 
 export type KnowledgebaseUncheckedCreateWithoutTagsInput = {
@@ -643,6 +665,7 @@ export type KnowledgebaseUncheckedCreateWithoutTagsInput = {
   entryType?: $Enums.KnowledgeEntryType
   meetingDate?: Date | string | null
   participants?: string | null
+  extractionProposals?: Prisma.ExtractionProposalUncheckedCreateNestedManyWithoutKnowledgebaseInput
 }
 
 export type KnowledgebaseCreateOrConnectWithoutTagsInput = {
@@ -679,6 +702,7 @@ export type KnowledgebaseUpdateWithoutTagsInput = {
   entryType?: Prisma.EnumKnowledgeEntryTypeFieldUpdateOperationsInput | $Enums.KnowledgeEntryType
   meetingDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   participants?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  extractionProposals?: Prisma.ExtractionProposalUpdateManyWithoutKnowledgebaseNestedInput
 }
 
 export type KnowledgebaseUncheckedUpdateWithoutTagsInput = {
@@ -699,6 +723,107 @@ export type KnowledgebaseUncheckedUpdateWithoutTagsInput = {
   entryType?: Prisma.EnumKnowledgeEntryTypeFieldUpdateOperationsInput | $Enums.KnowledgeEntryType
   meetingDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   participants?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  extractionProposals?: Prisma.ExtractionProposalUncheckedUpdateManyWithoutKnowledgebaseNestedInput
+}
+
+export type KnowledgebaseCreateWithoutExtractionProposalsInput = {
+  kID?: string
+  knowledgeName: string
+  knowledgeContent: string
+  remarks?: string | null
+  createdDate?: Date | string
+  addedBy: string
+  companyId?: string | null
+  processAreaId?: string | null
+  reconciledAt?: Date | string | null
+  documentNumber?: string | null
+  nextReviewDate?: string | null
+  custodianOwner?: string | null
+  authorizer?: string | null
+  department?: string | null
+  entryType?: $Enums.KnowledgeEntryType
+  meetingDate?: Date | string | null
+  participants?: string | null
+  tags?: Prisma.KnowledgebaseTagCreateNestedManyWithoutKbaseInput
+}
+
+export type KnowledgebaseUncheckedCreateWithoutExtractionProposalsInput = {
+  kID?: string
+  knowledgeName: string
+  knowledgeContent: string
+  remarks?: string | null
+  createdDate?: Date | string
+  addedBy: string
+  companyId?: string | null
+  processAreaId?: string | null
+  reconciledAt?: Date | string | null
+  documentNumber?: string | null
+  nextReviewDate?: string | null
+  custodianOwner?: string | null
+  authorizer?: string | null
+  department?: string | null
+  entryType?: $Enums.KnowledgeEntryType
+  meetingDate?: Date | string | null
+  participants?: string | null
+  tags?: Prisma.KnowledgebaseTagUncheckedCreateNestedManyWithoutKbaseInput
+}
+
+export type KnowledgebaseCreateOrConnectWithoutExtractionProposalsInput = {
+  where: Prisma.KnowledgebaseWhereUniqueInput
+  create: Prisma.XOR<Prisma.KnowledgebaseCreateWithoutExtractionProposalsInput, Prisma.KnowledgebaseUncheckedCreateWithoutExtractionProposalsInput>
+}
+
+export type KnowledgebaseUpsertWithoutExtractionProposalsInput = {
+  update: Prisma.XOR<Prisma.KnowledgebaseUpdateWithoutExtractionProposalsInput, Prisma.KnowledgebaseUncheckedUpdateWithoutExtractionProposalsInput>
+  create: Prisma.XOR<Prisma.KnowledgebaseCreateWithoutExtractionProposalsInput, Prisma.KnowledgebaseUncheckedCreateWithoutExtractionProposalsInput>
+  where?: Prisma.KnowledgebaseWhereInput
+}
+
+export type KnowledgebaseUpdateToOneWithWhereWithoutExtractionProposalsInput = {
+  where?: Prisma.KnowledgebaseWhereInput
+  data: Prisma.XOR<Prisma.KnowledgebaseUpdateWithoutExtractionProposalsInput, Prisma.KnowledgebaseUncheckedUpdateWithoutExtractionProposalsInput>
+}
+
+export type KnowledgebaseUpdateWithoutExtractionProposalsInput = {
+  kID?: Prisma.StringFieldUpdateOperationsInput | string
+  knowledgeName?: Prisma.StringFieldUpdateOperationsInput | string
+  knowledgeContent?: Prisma.StringFieldUpdateOperationsInput | string
+  remarks?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  addedBy?: Prisma.StringFieldUpdateOperationsInput | string
+  companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  processAreaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reconciledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  documentNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nextReviewDate?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  custodianOwner?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  authorizer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  department?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  entryType?: Prisma.EnumKnowledgeEntryTypeFieldUpdateOperationsInput | $Enums.KnowledgeEntryType
+  meetingDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  participants?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tags?: Prisma.KnowledgebaseTagUpdateManyWithoutKbaseNestedInput
+}
+
+export type KnowledgebaseUncheckedUpdateWithoutExtractionProposalsInput = {
+  kID?: Prisma.StringFieldUpdateOperationsInput | string
+  knowledgeName?: Prisma.StringFieldUpdateOperationsInput | string
+  knowledgeContent?: Prisma.StringFieldUpdateOperationsInput | string
+  remarks?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  addedBy?: Prisma.StringFieldUpdateOperationsInput | string
+  companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  processAreaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  reconciledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  documentNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  nextReviewDate?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  custodianOwner?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  authorizer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  department?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  entryType?: Prisma.EnumKnowledgeEntryTypeFieldUpdateOperationsInput | $Enums.KnowledgeEntryType
+  meetingDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  participants?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tags?: Prisma.KnowledgebaseTagUncheckedUpdateManyWithoutKbaseNestedInput
 }
 
 
@@ -708,10 +833,12 @@ export type KnowledgebaseUncheckedUpdateWithoutTagsInput = {
 
 export type KnowledgebaseCountOutputType = {
   tags: number
+  extractionProposals: number
 }
 
 export type KnowledgebaseCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   tags?: boolean | KnowledgebaseCountOutputTypeCountTagsArgs
+  extractionProposals?: boolean | KnowledgebaseCountOutputTypeCountExtractionProposalsArgs
 }
 
 /**
@@ -729,6 +856,13 @@ export type KnowledgebaseCountOutputTypeDefaultArgs<ExtArgs extends runtime.Type
  */
 export type KnowledgebaseCountOutputTypeCountTagsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.KnowledgebaseTagWhereInput
+}
+
+/**
+ * KnowledgebaseCountOutputType without action
+ */
+export type KnowledgebaseCountOutputTypeCountExtractionProposalsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ExtractionProposalWhereInput
 }
 
 
@@ -751,6 +885,7 @@ export type KnowledgebaseSelect<ExtArgs extends runtime.Types.Extensions.Interna
   meetingDate?: boolean
   participants?: boolean
   tags?: boolean | Prisma.Knowledgebase$tagsArgs<ExtArgs>
+  extractionProposals?: boolean | Prisma.Knowledgebase$extractionProposalsArgs<ExtArgs>
   _count?: boolean | Prisma.KnowledgebaseCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["knowledgebase"]>
 
@@ -817,6 +952,7 @@ export type KnowledgebaseSelectScalar = {
 export type KnowledgebaseOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"kID" | "knowledgeName" | "knowledgeContent" | "remarks" | "createdDate" | "addedBy" | "companyId" | "processAreaId" | "reconciledAt" | "documentNumber" | "nextReviewDate" | "custodianOwner" | "authorizer" | "department" | "entryType" | "meetingDate" | "participants", ExtArgs["result"]["knowledgebase"]>
 export type KnowledgebaseInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   tags?: boolean | Prisma.Knowledgebase$tagsArgs<ExtArgs>
+  extractionProposals?: boolean | Prisma.Knowledgebase$extractionProposalsArgs<ExtArgs>
   _count?: boolean | Prisma.KnowledgebaseCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type KnowledgebaseIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -826,6 +962,10 @@ export type $KnowledgebasePayload<ExtArgs extends runtime.Types.Extensions.Inter
   name: "Knowledgebase"
   objects: {
     tags: Prisma.$KnowledgebaseTagPayload<ExtArgs>[]
+    /**
+     * SAMS-013: proposals extracted from this transcript (evidence chain).
+     */
+    extractionProposals: Prisma.$ExtractionProposalPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     kID: string
@@ -1253,6 +1393,7 @@ readonly fields: KnowledgebaseFieldRefs;
 export interface Prisma__KnowledgebaseClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   tags<T extends Prisma.Knowledgebase$tagsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Knowledgebase$tagsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$KnowledgebaseTagPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  extractionProposals<T extends Prisma.Knowledgebase$extractionProposalsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Knowledgebase$extractionProposalsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ExtractionProposalPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1713,6 +1854,30 @@ export type Knowledgebase$tagsArgs<ExtArgs extends runtime.Types.Extensions.Inte
   take?: number
   skip?: number
   distinct?: Prisma.KnowledgebaseTagScalarFieldEnum | Prisma.KnowledgebaseTagScalarFieldEnum[]
+}
+
+/**
+ * Knowledgebase.extractionProposals
+ */
+export type Knowledgebase$extractionProposalsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ExtractionProposal
+   */
+  select?: Prisma.ExtractionProposalSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ExtractionProposal
+   */
+  omit?: Prisma.ExtractionProposalOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ExtractionProposalInclude<ExtArgs> | null
+  where?: Prisma.ExtractionProposalWhereInput
+  orderBy?: Prisma.ExtractionProposalOrderByWithRelationInput | Prisma.ExtractionProposalOrderByWithRelationInput[]
+  cursor?: Prisma.ExtractionProposalWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ExtractionProposalScalarFieldEnum | Prisma.ExtractionProposalScalarFieldEnum[]
 }
 
 /**

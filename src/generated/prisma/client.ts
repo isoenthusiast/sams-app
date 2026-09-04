@@ -426,6 +426,11 @@ export type EvidenceRequest = Prisma.EvidenceRequestModel
  */
 export type Notification = Prisma.NotificationModel
 /**
+ * Model ExtractionProposal
+ * 
+ */
+export type ExtractionProposal = Prisma.ExtractionProposalModel
+/**
  * Model NotificationDelivery
  * 
  */

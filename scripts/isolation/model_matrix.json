@@ -28,6 +28,7 @@
     "Comment":                { "scope": { "kind": "direct", "field": "companyId" }, "label": "Comments (fabric, visibility-filtered)" },
     "EvidenceRequest":        { "scope": { "kind": "direct", "field": "companyId" }, "label": "Evidence requests (fabric)" },
     "Notification":           { "scope": { "kind": "direct", "field": "companyId" }, "label": "Notifications (SAMS-006; reads strictly userId-scoped, overdue banner company-scoped)" },
+    "ExtractionProposal":     { "scope": { "kind": "direct", "field": "companyId" }, "label": "Evidence-chain proposals (SAMS-013; unconfirmed are never surfaced in SOC/export)" },
     "ApiKey":                 { "scope": { "kind": "direct", "field": "companyId" }, "label": "Public read-only API keys (SAMS-011; scoped by company — the key's companyId IS the query scope)" },
     "NotificationDelivery":   { "scope": { "kind": "direct", "field": "companyId" }, "label": "Notification deliveries (SAMS-009 outbound audit; company-scoped, fire-and-record)" },
 
