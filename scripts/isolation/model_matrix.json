@@ -3,6 +3,7 @@
   "note": "Model matrix for the Data Trust Gate isolation suite. Every company-scoped Prisma model must appear here with a `scope` that states how a company filter is applied (direct column `companyId`, or a nested relation traversal). A model missing from this matrix, or added without an entry, FAILS the suite (coverage by construction).",
   "models": {
     "Company":                { "scope": { "kind": "root" }, "label": "Root company" },
+    "ActivityLog":            { "scope": { "kind": "direct", "field": "companyId" }, "label": "ActivityLog (GLOBAL audit log by design; companyId is the SAMS-015 per-company chain discriminator — chainless rows have companyId null)" },
     "Standard":               { "scope": { "kind": "direct", "field": "companyId" }, "label": "Management system standards" },
     "AssuranceProtocol":      { "scope": { "kind": "direct", "field": "companyId" }, "label": "Assurance protocols" },
     "ProcessArea":            { "scope": { "kind": "direct", "field": "companyId" }, "label": "Process areas" },
