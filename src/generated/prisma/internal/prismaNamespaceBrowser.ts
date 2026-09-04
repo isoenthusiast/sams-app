@@ -123,7 +123,8 @@ export const ModelName = {
   TestWorker: 'TestWorker',
   Comment: 'Comment',
   EvidenceRequest: 'EvidenceRequest',
-  Notification: 'Notification'
+  Notification: 'Notification',
+  ExtractionProposal: 'ExtractionProposal'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1278,6 +1279,31 @@ export const NotificationScalarFieldEnum = {
 } as const
 
 export type NotificationScalarFieldEnum = (typeof NotificationScalarFieldEnum)[keyof typeof NotificationScalarFieldEnum]
+
+
+export const ExtractionProposalScalarFieldEnum = {
+  id: 'id',
+  status: 'status',
+  knowledgebaseId: 'knowledgebaseId',
+  assessmentId: 'assessmentId',
+  auditChecklistItemId: 'auditChecklistItemId',
+  companyId: 'companyId',
+  spanStart: 'spanStart',
+  spanEnd: 'spanEnd',
+  evidenceExcerpt: 'evidenceExcerpt',
+  suggestedAction: 'suggestedAction',
+  proposedBy: 'proposedBy',
+  proposedByUserId: 'proposedByUserId',
+  confirmedByUserId: 'confirmedByUserId',
+  confirmedAt: 'confirmedAt',
+  rejectedByUserId: 'rejectedByUserId',
+  rejectedAt: 'rejectedAt',
+  transcriptTitle: 'transcriptTitle',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ExtractionProposalScalarFieldEnum = (typeof ExtractionProposalScalarFieldEnum)[keyof typeof ExtractionProposalScalarFieldEnum]
 
 
 export const SortOrder = {

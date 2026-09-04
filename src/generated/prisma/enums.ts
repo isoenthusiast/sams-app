@@ -259,3 +259,12 @@ export const NotificationType = {
 } as const
 
 export type NotificationType = (typeof NotificationType)[keyof typeof NotificationType]
+
+
+export const ProposalStatus = {
+  Proposed: 'Proposed',
+  Confirmed: 'Confirmed',
+  Rejected: 'Rejected'
+} as const
+
+export type ProposalStatus = (typeof ProposalStatus)[keyof typeof ProposalStatus]

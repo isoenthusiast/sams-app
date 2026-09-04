@@ -456,7 +456,8 @@ export const ModelName = {
   TestWorker: 'TestWorker',
   Comment: 'Comment',
   EvidenceRequest: 'EvidenceRequest',
-  Notification: 'Notification'
+  Notification: 'Notification',
+  ExtractionProposal: 'ExtractionProposal'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -472,7 +473,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "activityLog" | "activityLogType" | "assuranceActivityType" | "assuranceProtocol" | "standard" | "processArea" | "subProcess" | "controlSubProcess" | "control" | "assessmentTemplate" | "assessmentTemplateControlLinkage" | "assessmentTemplateActivityType" | "assessment" | "assessmentAssessor" | "controlAssignment" | "requirementConclusion" | "sampleType" | "recordSourceType" | "sample" | "finding" | "action" | "attachment" | "attachmentMapping" | "achievementBadge" | "userAchievement" | "pointTransaction" | "gameAttribute" | "gameAttributeRule" | "emotionalDriveMetric" | "milestone" | "userRole" | "userRoleMapping" | "company" | "department" | "position" | "userCompany" | "userFavorite" | "assessmentActType" | "aact" | "aActControls" | "aActUsers" | "aActDetails" | "knowledgebase" | "tag" | "knowledgebaseTag" | "mapArt2Know" | "requirement" | "mapControl2Requirement" | "gamificationStage" | "webhookLog" | "document" | "mapRequirement2Document" | "riskCategory" | "risk" | "riskMetrics" | "controlRisk" | "backlogItem" | "backlogItemControl" | "auditEvidence" | "auditChecklist2Requirement" | "auditChecklistTemplate" | "auditChecklistTemplateItem" | "auditChecklistItem" | "assessmentChecklistControl" | "reconcileClaim" | "requirementCoverageAudit" | "socStatementAudit" | "testClaim" | "testWorker" | "comment" | "evidenceRequest" | "notification"
+    modelProps: "user" | "activityLog" | "activityLogType" | "assuranceActivityType" | "assuranceProtocol" | "standard" | "processArea" | "subProcess" | "controlSubProcess" | "control" | "assessmentTemplate" | "assessmentTemplateControlLinkage" | "assessmentTemplateActivityType" | "assessment" | "assessmentAssessor" | "controlAssignment" | "requirementConclusion" | "sampleType" | "recordSourceType" | "sample" | "finding" | "action" | "attachment" | "attachmentMapping" | "achievementBadge" | "userAchievement" | "pointTransaction" | "gameAttribute" | "gameAttributeRule" | "emotionalDriveMetric" | "milestone" | "userRole" | "userRoleMapping" | "company" | "department" | "position" | "userCompany" | "userFavorite" | "assessmentActType" | "aact" | "aActControls" | "aActUsers" | "aActDetails" | "knowledgebase" | "tag" | "knowledgebaseTag" | "mapArt2Know" | "requirement" | "mapControl2Requirement" | "gamificationStage" | "webhookLog" | "document" | "mapRequirement2Document" | "riskCategory" | "risk" | "riskMetrics" | "controlRisk" | "backlogItem" | "backlogItemControl" | "auditEvidence" | "auditChecklist2Requirement" | "auditChecklistTemplate" | "auditChecklistTemplateItem" | "auditChecklistItem" | "assessmentChecklistControl" | "reconcileClaim" | "requirementCoverageAudit" | "socStatementAudit" | "testClaim" | "testWorker" | "comment" | "evidenceRequest" | "notification" | "extractionProposal"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -5878,6 +5879,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    ExtractionProposal: {
+      payload: Prisma.$ExtractionProposalPayload<ExtArgs>
+      fields: Prisma.ExtractionProposalFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ExtractionProposalFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExtractionProposalPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ExtractionProposalFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExtractionProposalPayload>
+        }
+        findFirst: {
+          args: Prisma.ExtractionProposalFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExtractionProposalPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ExtractionProposalFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExtractionProposalPayload>
+        }
+        findMany: {
+          args: Prisma.ExtractionProposalFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExtractionProposalPayload>[]
+        }
+        create: {
+          args: Prisma.ExtractionProposalCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExtractionProposalPayload>
+        }
+        createMany: {
+          args: Prisma.ExtractionProposalCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ExtractionProposalCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExtractionProposalPayload>[]
+        }
+        delete: {
+          args: Prisma.ExtractionProposalDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExtractionProposalPayload>
+        }
+        update: {
+          args: Prisma.ExtractionProposalUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExtractionProposalPayload>
+        }
+        deleteMany: {
+          args: Prisma.ExtractionProposalDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ExtractionProposalUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ExtractionProposalUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExtractionProposalPayload>[]
+        }
+        upsert: {
+          args: Prisma.ExtractionProposalUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ExtractionProposalPayload>
+        }
+        aggregate: {
+          args: Prisma.ExtractionProposalAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateExtractionProposal>
+        }
+        groupBy: {
+          args: Prisma.ExtractionProposalGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ExtractionProposalGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ExtractionProposalCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ExtractionProposalCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -7055,6 +7130,31 @@ export const NotificationScalarFieldEnum = {
 export type NotificationScalarFieldEnum = (typeof NotificationScalarFieldEnum)[keyof typeof NotificationScalarFieldEnum]
 
 
+export const ExtractionProposalScalarFieldEnum = {
+  id: 'id',
+  status: 'status',
+  knowledgebaseId: 'knowledgebaseId',
+  assessmentId: 'assessmentId',
+  auditChecklistItemId: 'auditChecklistItemId',
+  companyId: 'companyId',
+  spanStart: 'spanStart',
+  spanEnd: 'spanEnd',
+  evidenceExcerpt: 'evidenceExcerpt',
+  suggestedAction: 'suggestedAction',
+  proposedBy: 'proposedBy',
+  proposedByUserId: 'proposedByUserId',
+  confirmedByUserId: 'confirmedByUserId',
+  confirmedAt: 'confirmedAt',
+  rejectedByUserId: 'rejectedByUserId',
+  rejectedAt: 'rejectedAt',
+  transcriptTitle: 'transcriptTitle',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ExtractionProposalScalarFieldEnum = (typeof ExtractionProposalScalarFieldEnum)[keyof typeof ExtractionProposalScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -7542,6 +7642,20 @@ export type EnumNotificationTypeFieldRefInput<$PrismaModel> = FieldRefInputType<
 export type ListEnumNotificationTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'NotificationType[]'>
     
 
+
+/**
+ * Reference to a field of type 'ProposalStatus'
+ */
+export type EnumProposalStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ProposalStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'ProposalStatus[]'
+ */
+export type ListEnumProposalStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ProposalStatus[]'>
+    
+
 /**
  * Batch Payload for updateMany & deleteMany & createMany
  */
@@ -7725,6 +7839,7 @@ export type GlobalOmitConfig = {
   comment?: Prisma.CommentOmit
   evidenceRequest?: Prisma.EvidenceRequestOmit
   notification?: Prisma.NotificationOmit
+  extractionProposal?: Prisma.ExtractionProposalOmit
 }
 
 /* Types for Logging */
