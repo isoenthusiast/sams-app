@@ -23,6 +23,7 @@ export const NOTIFICATION_TYPE = {
   EVIDENCE_SUBMITTED: "EvidenceSubmitted",
   EVIDENCE_REVIEWED: "EvidenceReviewed",
   COMMENT_SHARED: "CommentShared",
+  ACTION_OVERDUE: "ActionOverdue",
 } as const;
 
 export const TITLE_MAX = 200;
@@ -80,6 +81,73 @@ async function userName(userId: string): Promise<string> {
   }
 }
 
+/**
+ * Post a company-level outbound webhook card (SAMS-009, Phase 3a Feature B).
+ *
+ * Reads the company's `notificationWebhookUrl` (write-only secret): if it is not
+ * configured on the event's company → no-op (a company with no endpoint never
+ * receives a post). If configured → POST `{"text": …}` (Slack-compatible, works
+ * on Slack + Teams legacy connectors) and write a `NotificationDelivery` audit
+ * row (`sent` on 2xx, `failed` otherwise, `responseCode` recorded, always with a
+ * ≤200-char payloadPreview).
+ *
+ * FAILURE-CONTAINMENT (SAMS-006 rule carries over): this function NEVER throws —
+ * any error (missing company, unreachable endpoint, delivery-write failure) is
+ * logged and swallowed so emission can NEVER fail the parent fabric write. An
+ * unreachable/erroring endpoint records status=failed with responseCode null (the
+ * in-app Notification was already written by the caller). Cross-tenant is safe by
+ * construction: only the EVENT's own company URL is read and targetted — never
+ * another company's endpoint.
+ */
+export async function postCompanyWebhook(opts: {
+  companyId: string | null | undefined;
+  text: string;
+  notificationId?: string | null;
+}): Promise<void> {
+  const payloadPreview = (opts.text ?? "").slice(0, 200);
+  try {
+    if (!opts.companyId) return;
+    const company = await prisma.company.findUnique({
+      where: { id: opts.companyId },
+      select: { notificationWebhookUrl: true },
+    });
+    const url = company?.notificationWebhookUrl;
+    if (!url) return; // no endpoint configured for this company → no post
+
+    let status: "sent" | "failed" = "failed";
+    let responseCode: number | null = null;
+    try {
+      const res = await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text: opts.text }),
+        signal: AbortSignal.timeout(8000),
+      });
+      status = res.ok ? "sent" : "failed";
+      responseCode = res.status;
+    } catch (e) {
+      console.error(`[notifications] webhook POST failed (${opts.companyId} → ${url?.slice(0, 32)}…):`, e);
+      status = "failed";
+      responseCode = null;
+    }
+
+    await prisma.notificationDelivery.create({
+      data: {
+        notificationId: opts.notificationId ?? null,
+        channel: "webhook",
+        companyId: opts.companyId,
+        status,
+        responseCode,
+        attemptedAt: new Date(),
+        payloadPreview,
+      },
+    });
+  } catch (e) {
+    // Never fail the parent write / caller. Also never leak the URL value.
+    console.error("[notifications] webhook delivery record failed:", e);
+  }
+}
+
 /** EvidenceRequested — to the requestee. */
 export async function emitEvidenceRequested(params: {
   requestId: string;
@@ -91,6 +159,7 @@ export async function emitEvidenceRequested(params: {
     .findUnique({ where: { id: params.requestId }, select: { title: true } })
     .catch(() => null);
   const requesterName = await userName(params.requesterUserId);
+  const requesteeName = await userName(params.requesteeUserId);
   const title = er?.title ?? "an evidence request";
   await emitNotification({
     recipientUserId: params.requesteeUserId,
@@ -100,6 +169,12 @@ export async function emitEvidenceRequested(params: {
     title: "Evidence requested",
     body: `${requesterName} requested evidence: “${title}”`,
     companyId: params.companyId,
+  });
+  // Company-channel outbound (SAMS-009): once per event, never per-recipient.
+  // Fire-and-record; never throws (fault containment).
+  await postCompanyWebhook({
+    companyId: params.companyId,
+    text: `📨 Evidence requested — ${requesterName} requested evidence from ${requesteeName} for “${title}”.`,
   });
 }
 
@@ -114,6 +189,7 @@ export async function emitEvidenceSubmitted(params: {
     .findUnique({ where: { id: params.requestId }, select: { title: true } })
     .catch(() => null);
   const requesteeName = await userName(params.requesteeUserId);
+  const requesterName = await userName(params.requesterUserId);
   const title = er?.title ?? "an evidence request";
   await emitNotification({
     recipientUserId: params.requesterUserId,
@@ -123,6 +199,10 @@ export async function emitEvidenceSubmitted(params: {
     title: "Evidence submitted",
     body: `${requesteeName} submitted evidence for “${title}”`,
     companyId: params.companyId,
+  });
+  await postCompanyWebhook({
+    companyId: params.companyId,
+    text: `📤 Evidence submitted — ${requesteeName} submitted evidence for “${title}”.`,
   });
 }
 
@@ -148,6 +228,10 @@ export async function emitEvidenceReviewed(params: {
     title: `Evidence ${verdict}`,
     body: `Your evidence for “${title}” was ${verdict}${note}`,
     companyId: params.companyId,
+  });
+  await postCompanyWebhook({
+    companyId: params.companyId,
+    text: `📋 Evidence ${verdict} — Evidence for “${title}” was ${verdict}${note}.`,
   });
 }
 
@@ -206,6 +290,12 @@ export async function notifyCommentShared(params: {
         companyId: params.companyId,
       });
     }
+    // Company-channel outbound (SAMS-009): post ONCE per event (the comment is a
+    // single shared card at the company channel, not one per participant).
+    await postCompanyWebhook({
+      companyId: params.companyId,
+      text: `💬 Comment shared on ${entityLabel} — ${authorName}: ${summary}`,
+    });
   } catch (e) {
     console.error("[notifications] CommentShared emission failed:", e);
   }

@@ -23,7 +23,9 @@
     "admin/extraction",
     "admin/extraction/documents",
     "admin/extraction/extract",
-    "admin/extraction/upload"
+    "admin/extraction/upload",
+    "cron/notify-sweep",
+    "cron/weekly-digest"
   ],
   "routes": [
     {
@@ -452,6 +454,36 @@
       "crossTenantExpectation": "403/404/empty"
     },
     {
+      "route": "admin/api-keys",
+      "companyResource": "api-keys",
+      "scope": "key-company (client Admin of company OR provider; list/create scoped to that company)",
+      "crossTenantExpectation": "403/404/empty"
+    },
+    {
+      "route": "admin/api-keys/[id]",
+      "companyResource": "api-keys",
+      "scope": "key-company (revoke requires manager access to the KEY's company)",
+      "crossTenantExpectation": "403"
+    },
+    {
+      "route": "public/v1/soc",
+      "companyResource": "soc",
+      "scope": "bearer-key company (scope-by-construction; no company param, no override)",
+      "crossTenantExpectation": "key-scoped (never cross-tenant)"
+    },
+    {
+      "route": "public/v1/findings",
+      "companyResource": "findings",
+      "scope": "bearer-key company (scope-by-construction)",
+      "crossTenantExpectation": "key-scoped (never cross-tenant)"
+    },
+    {
+      "route": "public/v1/actions",
+      "companyResource": "actions",
+      "scope": "bearer-key company (scope-by-construction)",
+      "crossTenantExpectation": "key-scoped (never cross-tenant)"
+    },
+    {
       "route": "portal",
       "companyResource": "portal-dashboard",
       "scope": "session company",
@@ -480,6 +512,12 @@
       "companyResource": "activity",
       "scope": "session company",
       "crossTenantExpectation": "403/empty"
+    },
+    {
+      "route": "portal/settings",
+      "companyResource": "notification delivery settings",
+      "scope": "session client-Admin company (write-only webhook secret)",
+      "crossTenantExpectation": "403/notice"
     },
     {
       "route": "portal/findings/[id]/management-response",
@@ -525,9 +563,21 @@
     },
     {
       "route": "portal/settings",
-      "companyResource": "portal settings (theme)",
+      "companyResource": "portal settings (theme + outbound notifications)",
       "scope": "session company",
       "crossTenantExpectation": "403/empty"
+    },
+    {
+      "route": "portal/notifications-settings",
+      "companyResource": "notification delivery settings",
+      "scope": "session client-Admin company (write-only webhook secret)",
+      "crossTenantExpectation": "403"
+    },
+    {
+      "route": "portal/notifications-settings/test",
+      "companyResource": "notification delivery settings",
+      "scope": "session client-Admin company (write-only webhook secret)",
+      "crossTenantExpectation": "403"
     }
   ]
 }

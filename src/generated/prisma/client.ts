@@ -212,6 +212,25 @@ export type UserRoleMapping = Prisma.UserRoleMappingModel
  */
 export type Company = Prisma.CompanyModel
 /**
+ * Model ApiKey
+ * SAMS-011 (Phase 3b, Feature B) — public read-only REST API bearer keys.
+ * SCOPE-BY-CONSTRUCTION (settled decision #2): the key's `companyId` IS the
+ * query scope — every public v1 endpoint resolves the company from the key and
+ * never accepts or honors a company override. Keys are secrets: only the bcrypt
+ * `keyHash` is stored; the plaintext bearer is surfaced to the caller ONCE at
+ * creation and never stored, logged, or returned again.
+ * 
+ * - `label` ≤100 chars (validated at the route layer; free-form for the
+ * caller's own reference).
+ * - `lastUsedAt` bumps on every successful public v1 request (read-only audit
+ * affordance; not required for scope).
+ * - `revokedAt` set on revoke; revoked keys are rejected with 403.
+ * - **Excluded from the client-data export** (Data Trust Gate): this table is
+ * deliberately absent from EXPORT_TABLES in `src/lib/data-trust-export.ts`
+ * (keys never travel with client data).
+ */
+export type ApiKey = Prisma.ApiKeyModel
+/**
  * Model Department
  * 
  */
@@ -406,3 +425,8 @@ export type EvidenceRequest = Prisma.EvidenceRequestModel
  * 
  */
 export type Notification = Prisma.NotificationModel
+/**
+ * Model NotificationDelivery
+ * 
+ */
+export type NotificationDelivery = Prisma.NotificationDeliveryModel
