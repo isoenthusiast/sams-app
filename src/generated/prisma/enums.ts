@@ -255,7 +255,8 @@ export const NotificationType = {
   EvidenceRequested: 'EvidenceRequested',
   EvidenceSubmitted: 'EvidenceSubmitted',
   EvidenceReviewed: 'EvidenceReviewed',
-  CommentShared: 'CommentShared'
+  CommentShared: 'CommentShared',
+  ActionOverdue: 'ActionOverdue'
 } as const
 
 export type NotificationType = (typeof NotificationType)[keyof typeof NotificationType]
@@ -268,3 +269,18 @@ export const ProposalStatus = {
 } as const
 
 export type ProposalStatus = (typeof ProposalStatus)[keyof typeof ProposalStatus]
+
+
+export const NotificationDeliveryChannel = {
+  webhook: 'webhook'
+} as const
+
+export type NotificationDeliveryChannel = (typeof NotificationDeliveryChannel)[keyof typeof NotificationDeliveryChannel]
+
+
+export const NotificationDeliveryStatus = {
+  sent: 'sent',
+  failed: 'failed'
+} as const
+
+export type NotificationDeliveryStatus = (typeof NotificationDeliveryStatus)[keyof typeof NotificationDeliveryStatus]

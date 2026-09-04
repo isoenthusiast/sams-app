@@ -13,6 +13,7 @@ const TABS: Array<{ href: string; label: string; exact?: boolean }> = [
   { href: "/portal/actions", label: "Actions" },
   { href: "/portal/requests", label: "Requests" },
   { href: "/portal/activity", label: "Activity" },
+  { href: "/portal/settings", label: "Settings" },
 ];
 /**
  * SAMS-010 white-label theming (settled decision #2): the portal chrome picks up

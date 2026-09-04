@@ -406,3 +406,8 @@ export type Notification = Prisma.NotificationModel
  * 
  */
 export type ExtractionProposal = Prisma.ExtractionProposalModel
+/**
+ * Model NotificationDelivery
+ * 
+ */
+export type NotificationDelivery = Prisma.NotificationDeliveryModel
