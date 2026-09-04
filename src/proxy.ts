@@ -7,7 +7,12 @@ const { auth } = NextAuth(authConfig);
 export default auth(function proxy(req) {
   const isLoggedIn = !!req.auth;
   const isLoginPage = req.nextUrl.pathname === "/login";
+  const isChangePage = req.nextUrl.pathname === "/change-password";
   const userRole = req.auth?.user?.role;
+  // SAMS-012: a credentials user with the force-password-change flag MUST be on
+  // /change-password until the flag is cleared; direct-URL bypass is redirected
+  // back. SSO users do not carry the flag (they authenticate via their IdP).
+  const mustChange = req.auth?.user?.mustChangePassword === true;
 
   if (!isLoggedIn && !isLoginPage) {
     const loginUrl = new URL("/login", req.nextUrl.origin);
@@ -15,6 +20,15 @@ export default auth(function proxy(req) {
   }
 
   if (isLoggedIn && isLoginPage) {
+    return NextResponse.redirect(new URL(mustChange ? "/change-password" : "/", req.nextUrl.origin));
+  }
+
+  // Force-change gate — redirect BEFORE any other route is served.
+  if (isLoggedIn && mustChange && !isChangePage) {
+    return NextResponse.redirect(new URL("/change-password", req.nextUrl.origin));
+  }
+  // On /change-password but the flag is cleared/not set → no longer forced.
+  if (isLoggedIn && isChangePage && !mustChange) {
     return NextResponse.redirect(new URL("/", req.nextUrl.origin));
   }
 
