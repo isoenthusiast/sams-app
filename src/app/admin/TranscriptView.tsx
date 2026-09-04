@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef, useMemo } from "react";
 import { Button } from "@/components/Button";
 import { showToast } from "@/components/Toast";
+import { EvidenceExtractionPanel } from "@/components/EvidenceExtractionPanel";
 
 type Transcript = {
   kID: string;
@@ -240,9 +241,16 @@ export function TranscriptView({ companyId, companies, processAreas }: Props) {
                 </div>
               )}
               {expandedId === t.kID && (
-                <pre className="mt-2 text-xs text-slate-700 whitespace-pre-wrap bg-slate-50 rounded p-3 max-h-72 overflow-y-auto">
-                  {t.knowledgeContent}
-                </pre>
+                <>
+                  <pre className="mt-2 text-xs text-slate-700 whitespace-pre-wrap bg-slate-50 rounded p-3 max-h-72 overflow-y-auto">
+                    {t.knowledgeContent}
+                  </pre>
+                  <EvidenceExtractionPanel
+                    transcriptId={t.kID}
+                    transcriptTitle={t.knowledgeName}
+                    companyId={effectiveCompany}
+                  />
+                </>
               )}
             </div>
           ))}
