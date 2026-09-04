@@ -229,6 +229,12 @@
       "crossTenantExpectation": "403/404/empty"
     },
     {
+      "route": "admin/companies/[id]/attestation-cadence",
+      "companyResource": "attestation-cadence",
+      "scope": "client Admin/Superuser member of company OR provider (PATCH; derived next-due recomputes immediately)",
+      "crossTenantExpectation": "403"
+    },
+    {
       "route": "admin/control-assignments",
       "companyResource": "control-assignments",
       "crossTenantExpectation": "403/404/empty"
@@ -372,6 +378,12 @@
       "route": "admin/processareas/[id]",
       "companyResource": "processareas",
       "crossTenantExpectation": "403/404/empty"
+    },
+    {
+      "route": "admin/processareas/[id]/attest",
+      "companyResource": "attest",
+      "scope": "SPO (client Admin/Superuser/Assessor member of the PA's company); GET preview + POST sign; server-computed snapshot; cross-tenant → 403",
+      "crossTenantExpectation": "403"
     },
     {
       "route": "admin/requirement-documents",
