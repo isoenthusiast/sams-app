@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 import { SignOutButton } from "./SignOutButton";
 import type { PortalCompany } from "@/lib/portal";
 
@@ -12,12 +13,19 @@ const TABS: Array<{ href: string; label: string; exact?: boolean }> = [
   { href: "/portal/requests", label: "Requests" },
   { href: "/portal/activity", label: "Activity" },
 ];
-
 /**
- * SAMS-005 portal chrome: simplified, no admin/operator nav. Company name
- * header (with a selector limited to the user's OWN UserCompany mappings when
- * they map to more than one), a card-grid nav, an "App" link for Assessor+
- * roles, and sign-out.
+ * SAMS-010 white-label theming (settled decision #2): the portal chrome picks up
+ * the ACTIVE company's `logoUrl` + `primaryColor`. The logo replaces the text
+ * mark with a silent text fallback on load failure (never a broken image); the
+ * primary colour drives the accent via a `--brand` CSS variable set on
+ * <html> and applied to the active nav tab. The header is portal-only, so the
+ * operator app (root layout) stays SAMS-branded — the `--brand` override is
+ * cleaned up when this header unmounts.
+ *
+ * The active company is the one resolved in the layout (server) and selected
+ * client-side via ?companyId= / first-company. Theme is attached per-company on
+ * the server (scope-by-construction), so company A's theme never renders on
+ * company B's portal.
  */
 export function PortalHeader({ companies, userName, userRole }: { companies: PortalCompany[]; userName: string; userRole: string }) {
   const pathname = usePathname();
@@ -28,12 +36,43 @@ export function PortalHeader({ companies, userName, userRole }: { companies: Por
   const activeCompany = companies.find((c) => c.id === requestedCompanyId) ?? companies[0] ?? null;
   const showSelector = companies.length > 1;
 
+  // ── Accent (--brand) — portal-only, cleaned up on unmount ────────────────
+  const primaryColor = activeCompany?.primaryColor ?? null;
+  useEffect(() => {
+    const root = document.documentElement;
+    if (primaryColor) {
+      root.style.setProperty("--brand", primaryColor);
+    } else {
+      root.style.removeProperty("--brand");
+    }
+    return () => {
+      root.style.removeProperty("--brand");
+    };
+  }, [primaryColor]);
+
+  // ── Logo with silent text fallback (no broken image) ────────────────────
+  const [logoFailed, setLogoFailed] = useState(false);
+  useEffect(() => {
+    setLogoFailed(false);
+  }, [activeCompany?.id, activeCompany?.logoUrl]);
+  const showLogo = !!activeCompany?.logoUrl && !logoFailed;
+
   return (
     <header className="border-b border-slate-200 bg-white">
       <div className="mx-auto max-w-7xl px-4 py-3">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div className="flex items-center gap-3">
-            <span className="text-lg font-bold text-slate-900">Client Portal</span>
+            {showLogo ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={activeCompany!.logoUrl!}
+                alt={`${activeCompany!.companyName} logo`}
+                className="h-9 w-auto max-w-40 object-contain"
+                onError={() => setLogoFailed(true)}
+              />
+            ) : (
+              <span className="text-lg font-bold text-slate-900">Client Portal</span>
+            )}
             {showSelector && activeCompany ? (
               <select
                 aria-label="Portal company"
@@ -73,13 +112,27 @@ export function PortalHeader({ companies, userName, userRole }: { companies: Por
                 key={tab.href}
                 href={tab.href}
                 className={`rounded-md px-3 py-1.5 text-sm font-medium ${
-                  active ? "bg-blue-800 text-white" : "text-slate-600 hover:bg-slate-100 hover:text-slate-900"
+                  active ? "text-white" : "text-slate-600 hover:bg-slate-100 hover:text-slate-900"
                 }`}
+                style={active ? { backgroundColor: "var(--brand, #1e40af)" } : undefined}
               >
                 {tab.label}
               </Link>
             );
           })}
+          {userRole === "Admin" ? (
+            <Link
+              href="/portal/settings"
+              className={`rounded-md px-3 py-1.5 text-sm font-medium ${
+                pathname.startsWith("/portal/settings")
+                  ? "text-white"
+                  : "text-slate-600 hover:bg-slate-100 hover:text-slate-900"
+              }`}
+              style={pathname.startsWith("/portal/settings") ? { backgroundColor: "var(--brand, #1e40af)" } : undefined}
+            >
+              Settings
+            </Link>
+          ) : null}
         </nav>
       </div>
     </header>
