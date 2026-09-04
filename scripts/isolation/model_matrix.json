@@ -28,6 +28,7 @@
     "Comment":                { "scope": { "kind": "direct", "field": "companyId" }, "label": "Comments (fabric, visibility-filtered)" },
     "EvidenceRequest":        { "scope": { "kind": "direct", "field": "companyId" }, "label": "Evidence requests (fabric)" },
     "Notification":           { "scope": { "kind": "direct", "field": "companyId" }, "label": "Notifications (SAMS-006; reads strictly userId-scoped, overdue banner company-scoped)" },
+    "ApiKey":                 { "scope": { "kind": "direct", "field": "companyId" }, "label": "Public read-only API keys (SAMS-011; scoped by company — the key's companyId IS the query scope)" },
 
     "Finding":                { "scope": { "kind": "traverse", "path": ["assessment", "companyId"] }, "label": "Findings (via Assessment)" },
     "Action":                 { "scope": { "kind": "traverse", "path": ["finding", "assessment", "companyId"] }, "label": "Actions (via Finding → Assessment)" },
