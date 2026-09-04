@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
-import { emitNotification, postCompanyWebhook, NOTIFICATION_TYPE, TITLE_MAX, BODY_MAX } from "@/lib/notifications";
+import { emitNotification, postCompanyWebhook, NOTIFICATION_TYPE, NOTIFICATION_ENTITY_PROCESS_AREA, TITLE_MAX, BODY_MAX } from "@/lib/notifications";
+import { resolveCadenceDays, deriveAttestationState, companySPOUserIds, countOverdueAttestations } from "@/lib/mic-attestations";
 
 /**
  * Outbound Notifications (SAMS-009, Phase 3a Feature B) — sweep, weekly digest,
@@ -168,6 +169,7 @@ export async function runWeeklyDigest(): Promise<DigestResult> {
       `• Open findings: ${await prisma.finding.count({ where: { assessment: { companyId: company.id } } })}`,
       `• Overdue actions: ${overdue}`,
       `• Open evidence requests: ${openRequests}`,
+      `• Overdue SOC attestations: ${await countOverdueAttestations(company.id)}`,
     ].join("\n");
 
     await postCompanyWebhook({ companyId: company.id, text });
@@ -175,6 +177,99 @@ export async function runWeeklyDigest(): Promise<DigestResult> {
   }
 
   return { companies: companies.length, posted };
+}
+
+export type AttestationDueResult = { companies: number; processAreas: number; notifications: number };
+
+/**
+ * SAMS-014 MIC Ritual — SPO in-app "attestation due" sweep (deterministic, no
+ * scheduler). Called from the `/api/cron/weekly-digest` route (the ONLY recurring
+ * sweep) AFTER the webhook digest loop.
+ *
+ * Deterministic trigger (derived state, no stored flag):
+ *   - Sweeps **ALL companies with ≥1 PA whose derived state == overdue** — NOT
+ *     gated by webhook config (a no-webhook company still gets its in-app bell;
+ *     only the *digest line* is webhook-gated).
+ *   - Recipients: active SPOs (client Admin/Assessor/Superuser with MIC company
+ *     access) — the same gate set as the attest route, so the notified party can
+ *     act.
+ * Dedup (exactly-once per cadence window — no re-spam while a PA stays overdue):
+ *   - Before emitting for a PA+recipient, skip if a `MicAttestationDue`
+ *     notification for that PA+recipient exists with `createdAt > now - cadenceDays`.
+ *   - A PA that stays overdue across weekly runs gets exactly one notification per
+ *     recipient per window; once attested, next-due recomputes from the attestation
+ *     date, the PA leaves *overdue*, and the window naturally re-arms ~cadence later.
+ *
+ * NEVER throws (emission is fire-and-forget); returns a count for the route's JSON.
+ */
+export async function runAttestationDueNotifications(): Promise<AttestationDueResult> {
+  const now = new Date();
+  const companies = await prisma.company.findMany({
+    where: { archivedAt: null },
+    select: { id: true, createdAt: true, attestationCadenceDays: true },
+  });
+
+  let processedCompanies = 0;
+  let processedPas = 0;
+  let notifications = 0;
+
+  for (const company of companies) {
+    const cadenceDays = resolveCadenceDays(company.attestationCadenceDays);
+    const windowStart = new Date(now.getTime() - cadenceDays * 24 * 60 * 60 * 1000);
+    const pas = await prisma.processArea.findMany({
+      where: { companyId: company.id },
+      select: {
+        id: true,
+        name: true,
+        micAttestations: { orderBy: { attestedAt: "desc" }, take: 1, select: { attestedAt: true } },
+      },
+    });
+
+    const overduePas = pas.filter((pa) => {
+      const { state } = deriveAttestationState({
+        lastAttestedAt: pa.micAttestations[0]?.attestedAt ?? null,
+        goLiveAt: company.createdAt,
+        cadenceDays,
+        now,
+      });
+      return state === "overdue";
+    });
+    if (overduePas.length === 0) continue;
+
+    processedCompanies++;
+    const spoIds = await companySPOUserIds(company.id);
+
+    for (const pa of overduePas) {
+      processedPas++;
+      for (const spoId of spoIds) {
+        // Dedup: exactly-once per cadence window.
+        const existing = await prisma.notification.findFirst({
+          where: {
+            recipientUserId: spoId,
+            type: "MicAttestationDue",
+            entityType: NOTIFICATION_ENTITY_PROCESS_AREA,
+            entityId: pa.id,
+            createdAt: { gt: windowStart },
+          },
+          select: { id: true },
+        });
+        if (existing) continue;
+
+        const emitted = await emitNotification({
+          recipientUserId: spoId,
+          type: NOTIFICATION_TYPE.MIC_ATTEST_DUE,
+          entityType: NOTIFICATION_ENTITY_PROCESS_AREA,
+          entityId: pa.id,
+          title: "SOC attestation due",
+          body: `Process area “${pa.name}” is due for a SOC attestation. Review the snapshot and sign it in the process area page.`,
+          companyId: company.id,
+        });
+        if (emitted) notifications++;
+      }
+    }
+  }
+
+  return { companies: processedCompanies, processAreas: processedPas, notifications };
 }
 
 /**

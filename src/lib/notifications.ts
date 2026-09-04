@@ -24,6 +24,9 @@ export const NOTIFICATION_TYPE = {
   EVIDENCE_REVIEWED: "EvidenceReviewed",
   COMMENT_SHARED: "CommentShared",
   ACTION_OVERDUE: "ActionOverdue",
+  /// SAMS-014 MIC Ritual: a PA is newly due for SOC attestation (SPO notify,
+  /// emitted during the weekly-digest sweep, deduped per cadence window).
+  MIC_ATTEST_DUE: "MicAttestationDue",
 } as const;
 
 export const TITLE_MAX = 200;
@@ -31,6 +34,7 @@ export const BODY_MAX = 500;
 
 const NOTIFICATION_ENTITY_EVIDENCE_REQUEST = "EvidenceRequest";
 const NOTIFICATION_ENTITY_FINDING = "Finding";
+export const NOTIFICATION_ENTITY_PROCESS_AREA = "ProcessArea";
 
 /**
  * Core emit. NEVER throws — any error is logged and swallowed so the caller's
