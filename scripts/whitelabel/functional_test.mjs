@@ -155,6 +155,66 @@ async function main() {
   }, adminB.jar);
   assertEq(clearB.status, 200, "adminB clears B's theme (200)");
 
+  console.log("\n[6] Partial-update preservation (Conan round-1 finding #2)");
+  // A is null at this point ([5] cleared it). Set a full theme first.
+  const setFullA = await fetchWithManual(THEME_URL, {
+    method: "PATCH", headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ logoUrl: "https://alpha.example.com/logo.png", primaryColor: "#e11d48" }),
+  }, adminA.jar);
+  assertEq(setFullA.status, 200, "set A's full theme (200)");
+
+  // PATCH {primaryColor:...} (logoUrl OMITTED) → logoUrl MUST be preserved.
+  const partialColor = await fetchWithManual(THEME_URL, {
+    method: "PATCH", headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ primaryColor: "#00ff00" }),
+  }, adminA.jar);
+  assertEq(partialColor.status, 200, "partial (primaryColor only) → 200");
+  const pcJson = await partialColor.json().catch(() => ({}));
+  assertEq(pcJson.company?.logoUrl, "https://alpha.example.com/logo.png", "partial update PRESERVED the existing logoUrl");
+  assertEq(pcJson.company?.primaryColor, "#00ff00", "partial update updated primaryColor");
+
+  // PATCH {logoUrl:null} → clears ONLY logoUrl; primaryColor preserved.
+  const clearLogo = await fetchWithManual(THEME_URL, {
+    method: "PATCH", headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ logoUrl: null }),
+  }, adminA.jar);
+  assertEq(clearLogo.status, 200, "clear logo via null → 200");
+  const clJson = await clearLogo.json().catch(() => ({}));
+  assertEq(clJson.company?.logoUrl, null, "explicit null cleared logoUrl");
+  assertEq(clJson.company?.primaryColor, "#00ff00", "partial preserve kept primaryColor");
+
+  // PATCH {primaryColor:""} → clears ONLY primaryColor.
+  const clearColor = await fetchWithManual(THEME_URL, {
+    method: "PATCH", headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ primaryColor: "" }),
+  }, adminA.jar);
+  assertEq(clearColor.status, 200, "clear colour via '' → 200");
+  const ccJson = await clearColor.json().catch(() => ({}));
+  assertEq(ccJson.company?.primaryColor, null, "'' cleared primaryColor");
+  assertEq(ccJson.company?.logoUrl, null, "logoUrl already null");
+
+  // Empty PATCH body ({}) → no-op; nothing cleared, existing theme preserved.
+  const setFullA2 = await fetchWithManual(THEME_URL, {
+    method: "PATCH", headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ logoUrl: "https://alpha.example.com/logo.png", primaryColor: "#e11d48" }),
+  }, adminA.jar);
+  assertEq(setFullA2.status, 200, "re-set A's full theme (200)");
+  const noop = await fetchWithManual(THEME_URL, {
+    method: "PATCH", headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({}),
+  }, adminA.jar);
+  assertEq(noop.status, 200, "empty PATCH body {} → 200 (no-op)");
+  const noopJson = await noop.json().catch(() => ({}));
+  assertEq(noopJson.company?.logoUrl, "https://alpha.example.com/logo.png", "empty body {} did NOT wipe logoUrl");
+  assertEq(noopJson.company?.primaryColor, "#e11d48", "empty body {} did NOT wipe primaryColor");
+
+  // Restore for the verify_step / UI legacy checks.
+  const clearAFinal = await fetchWithManual(THEME_URL, {
+    method: "PATCH", headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ clear: true }),
+  }, adminA.jar);
+  assertEq(clearAFinal.status, 200, "clear A before handoff (200)");
+
   console.log(`\n=== RESULT: ${checks} checks, ${failures} failures ===`);
   if (failures > 0) process.exitCode = 1;
 }

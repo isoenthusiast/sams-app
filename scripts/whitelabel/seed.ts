@@ -18,6 +18,7 @@ export const WL_IDS = {
   b: "cmp_wl_b",
   adminA: "usr_wl_admin_a",
   adminB: "usr_wl_admin_b",
+  adminMulti: "usr_wl_admin_multi",
   assessorA: "usr_wl_ass_a",
   actType: "at_wl_activity",
   paA: "pa_wl_a",
@@ -36,13 +37,13 @@ const PASSWORD = "Test1234!";
 
 async function cleanUp() {
   const ids = WL_IDS;
-  await prisma.userCompany.deleteMany({ where: { userId: { in: [ids.adminA, ids.adminB, ids.assessorA] } } });
+  await prisma.userCompany.deleteMany({ where: { userId: { in: [ids.adminA, ids.adminB, ids.adminMulti, ids.assessorA] } } });
   await prisma.finding.deleteMany({ where: { id: { in: [ids.findingA, ids.findingB] } } });
   await prisma.assessment.deleteMany({ where: { id: { in: [ids.assessmentA, ids.assessmentB] } } });
   await prisma.requirement.deleteMany({ where: { rId: { in: [ids.reqA, ids.reqB] } } });
   await prisma.processArea.deleteMany({ where: { id: { in: [ids.paA, ids.paB] } } });
   await prisma.standard.deleteMany({ where: { id: { in: [ids.standardA, ids.standardB] } } });
-  await prisma.user.deleteMany({ where: { id: { in: [ids.adminA, ids.adminB, ids.assessorA] } } });
+  await prisma.user.deleteMany({ where: { id: { in: [ids.adminA, ids.adminB, ids.adminMulti, ids.assessorA] } } });
   await prisma.assuranceActivityType.deleteMany({ where: { id: ids.actType } });
   await prisma.company.deleteMany({ where: { id: { in: [ids.a, ids.b] } } });
 }
@@ -84,6 +85,11 @@ export async function seedWhitelabel(): Promise<void> {
       { id: WL_IDS.adminA, name: "WLA Admin", username: "wl_admin_a", passwordHash: hash, role: "Admin", active: true, companyId: WL_IDS.a },
       // Client Admin B — owns WL002.
       { id: WL_IDS.adminB, name: "WLB Admin", username: "wl_admin_b", passwordHash: hash, role: "Admin", active: true, companyId: WL_IDS.b },
+      // Client Admin MULTI — home = WL-A, ALSO mapped to WL-B via UserCompany
+      // (Conan round-1 finding #1): exercises the multi-company portal where the
+      // header must resolve the ACTIVE company server-side, never a companies[0]
+      // fallback, and never leak A's theme onto B's page.
+      { id: WL_IDS.adminMulti, name: "WLM Multi Admin", username: "wl_admin_multi", passwordHash: hash, role: "Admin", active: true, companyId: WL_IDS.a },
       // Client Assessor A — NOT Admin; must be 403 on theme write.
       { id: WL_IDS.assessorA, name: "WLA Assessor", username: "wl_ass_a", passwordHash: hash, role: "Assessor", active: true, companyId: WL_IDS.a },
     ],
@@ -92,6 +98,7 @@ export async function seedWhitelabel(): Promise<void> {
     data: [
       { id: "uc_wl_admin_a", userId: WL_IDS.adminA, companyId: WL_IDS.a },
       { id: "uc_wl_admin_b", userId: WL_IDS.adminB, companyId: WL_IDS.b },
+      { id: "uc_wl_admin_multi_b", userId: WL_IDS.adminMulti, companyId: WL_IDS.b },
       { id: "uc_wl_ass_a", userId: WL_IDS.assessorA, companyId: WL_IDS.a },
     ],
   });

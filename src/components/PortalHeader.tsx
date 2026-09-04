@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { SignOutButton } from "./SignOutButton";
+import { setSelectedCompanyCookie } from "@/lib/useCompany";
 import type { PortalCompany } from "@/lib/portal";
 
 const TABS: Array<{ href: string; label: string; exact?: boolean }> = [
@@ -22,19 +23,38 @@ const TABS: Array<{ href: string; label: string; exact?: boolean }> = [
  * operator app (root layout) stays SAMS-branded — the `--brand` override is
  * cleaned up when this header unmounts.
  *
- * The active company is the one resolved in the layout (server) and selected
- * client-side via ?companyId= / first-company. Theme is attached per-company on
- * the server (scope-by-construction), so company A's theme never renders on
- * company B's portal.
+ * ACTIVE COMPANY (Conan round-1 finding #1): the layout resolves it server-side
+ * with `resolvePortalCompanyId` (cookie > home > first) and passes `activeCompanyId`
+ * down, so the header themes/selects ONLY that company — never a divergent
+ * `companies[0]` fallback. A page's `?companyId=` search param is honoured as the
+ * primary (matching how every portal page resolves the active company: param >
+ * cookie > home > first), so the header and the page it wraps never disagree. The
+ * header selector also writes the `selectedCompanyId` cookie, so a multi-company
+ * Admin's selection survives tab navigation (which drops the search param).
  */
-export function PortalHeader({ companies, userName, userRole }: { companies: PortalCompany[]; userName: string; userRole: string }) {
+export function PortalHeader({ companies, activeCompanyId, userName, userRole }: { companies: PortalCompany[]; activeCompanyId: string | null; userName: string; userRole: string }) {
   const pathname = usePathname();
   const sp = useSearchParams();
   const isAssessorPlus = ["Admin", "Superuser", "Assessor"].includes(userRole);
 
+  // Active company = page param (must be in the user's set) else the server-resolved id.
   const requestedCompanyId = sp.get("companyId");
-  const activeCompany = companies.find((c) => c.id === requestedCompanyId) ?? companies[0] ?? null;
+  const activeCompany =
+    companies.find((c) => c.id === requestedCompanyId) ??
+    companies.find((c) => c.id === activeCompanyId) ??
+    null;
   const showSelector = companies.length > 1;
+
+  // Persist the active company to the cookie so the choice survives tab navigation.
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const resolvedActiveId = activeCompany?.id ?? null;
+  useEffect(() => {
+    if (!resolvedActiveId) return;
+    const match = document.cookie.match(/(?:^|;\s*)selectedCompanyId=([^;]*)/);
+    if (match?.[1] !== resolvedActiveId) {
+      setSelectedCompanyCookie(resolvedActiveId);
+    }
+  }, [resolvedActiveId]);
 
   // ── Accent (--brand) — portal-only, cleaned up on unmount ────────────────
   const primaryColor = activeCompany?.primaryColor ?? null;
@@ -109,6 +129,9 @@ export function PortalHeader({ companies, userName, userRole }: { companies: Por
                 className="rounded-md border border-slate-300 px-2 py-1 text-sm text-slate-700"
                 defaultValue={activeCompany.id}
                 onChange={(e) => {
+                  // Persist the choice cookie so it survives tab navigation, then
+                  // navigate with the search param (page-param primary).
+                  setSelectedCompanyCookie(e.target.value);
                   const url = new URL(window.location.href);
                   url.searchParams.set("companyId", e.target.value);
                   window.location.href = url.toString();

@@ -67,37 +67,59 @@ export async function PATCH(request: Request) {
   }
 
   const clearAll = body.clear === true;
-  let logoUrl: string | null = null;
-  let primaryColor: string | null = null;
-
-  if (!clearAll) {
-    if (body.logoUrl !== undefined && body.logoUrl !== null && body.logoUrl !== "") {
-      const trimmed = String(body.logoUrl).trim();
-      if (!HTTPS_URL.test(trimmed)) {
-        return NextResponse.json({ error: "logoUrl must be an https URL" }, { status: 422 });
+  // Build the update CONDITIONALLY (Conan round-1 finding #2): a PATCH that
+  // omits a field must NOT wipe an existing value. Only keys present in the body
+  // are written; an explicit null/"" clears THAT field; {clear:true} clears both
+  // (reverts to the SAMS default).
+  const data: { logoUrl?: string | null; primaryColor?: string | null } = {};
+  if (clearAll) {
+    data.logoUrl = null;
+    data.primaryColor = null;
+  } else {
+    if (body.logoUrl !== undefined) {
+      if (body.logoUrl === null || body.logoUrl === "") {
+        data.logoUrl = null; // explicit clear of the logo field
+      } else {
+        const trimmed = String(body.logoUrl).trim();
+        if (!HTTPS_URL.test(trimmed)) {
+          return NextResponse.json({ error: "logoUrl must be an https URL" }, { status: 422 });
+        }
+        data.logoUrl = trimmed;
       }
-      logoUrl = trimmed;
     }
-    if (body.primaryColor !== undefined && body.primaryColor !== null && body.primaryColor !== "") {
-      const trimmed = String(body.primaryColor).trim();
-      if (!HEX_COLOR.test(trimmed)) {
-        return NextResponse.json(
-          { error: "primaryColor must be a #RRGGBB hex value" },
-          { status: 422 }
-        );
+    if (body.primaryColor !== undefined) {
+      if (body.primaryColor === null || body.primaryColor === "") {
+        data.primaryColor = null; // explicit clear of the colour field
+      } else {
+        const trimmed = String(body.primaryColor).trim();
+        if (!HEX_COLOR.test(trimmed)) {
+          return NextResponse.json(
+            { error: "primaryColor must be a #RRGGBB hex value" },
+            { status: 422 }
+          );
+        }
+        data.primaryColor = trimmed;
       }
-      primaryColor = trimmed;
     }
   }
 
   let company;
   try {
+    // Empty PATCH body ({}): no-op — return the current theme without writing,
+    // so nothing is accidentally cleared by a field-less update.
+    if (Object.keys(data).length === 0) {
+      company = await prisma.company.findUnique({
+        where: { id: companyId },
+        select: { id: true, companyID: true, companyName: true, logoUrl: true, primaryColor: true },
+      });
+      if (!company) {
+        return NextResponse.json({ error: "Company not found" }, { status: 404 });
+      }
+      return NextResponse.json({ company });
+    }
     company = await prisma.company.update({
       where: { id: companyId },
-      data: {
-        logoUrl: clearAll ? null : logoUrl,
-        primaryColor: clearAll ? null : primaryColor,
-      },
+      data,
       select: { id: true, companyID: true, companyName: true, logoUrl: true, primaryColor: true },
     });
   } catch (error) {
