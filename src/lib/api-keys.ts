@@ -118,12 +118,18 @@ export async function authenticatePublicKey(
 
   if (!matched) {
     // Distinguish a revoked key (403) from an unknown/wrong key (401).
-    const revoked = await prisma.apiKey.findFirst({
+    // bcrypt hashes are salted/non-indexable, so we cannot look up a revoked key
+    // by hash. `findFirst` would return ONE arbitrary revoked row, and a revoked
+    // key would then only get 403 if the presented key happened to match that
+    // specific row — flaky once >1 revoked key exists. Scan ALL revoked keys and
+    // verify the presented credential against each, so a genuinely-revoked key is
+    // always 403 regardless of how many revoked keys exist.
+    const revokedKeys = await prisma.apiKey.findMany({
       where: { revokedAt: { not: null } },
-      select: { id: true, companyId: true, keyHash: true, revokedAt: true },
+      select: { keyHash: true },
     });
-    // Only report 403 when the presented key ACTUALLY matches a revoked key.
-    if (revoked && verifyApiKey(presented, revoked.keyHash)) {
+    const isRevoked = revokedKeys.some((k) => verifyApiKey(presented, k.keyHash));
+    if (isRevoked) {
       return { ok: false, response: pubError("API key has been revoked", 403) };
     }
     return { ok: false, response: pubError("Invalid API key", 401) };
