@@ -33,6 +33,8 @@ export type CompanyMinAggregateOutputType = {
   createdAt: Date | null
   archivedAt: Date | null
   deletionScheduledAt: Date | null
+  logoUrl: string | null
+  primaryColor: string | null
 }
 
 export type CompanyMaxAggregateOutputType = {
@@ -44,6 +46,8 @@ export type CompanyMaxAggregateOutputType = {
   createdAt: Date | null
   archivedAt: Date | null
   deletionScheduledAt: Date | null
+  logoUrl: string | null
+  primaryColor: string | null
 }
 
 export type CompanyCountAggregateOutputType = {
@@ -55,6 +59,8 @@ export type CompanyCountAggregateOutputType = {
   createdAt: number
   archivedAt: number
   deletionScheduledAt: number
+  logoUrl: number
+  primaryColor: number
   _all: number
 }
 
@@ -68,6 +74,8 @@ export type CompanyMinAggregateInputType = {
   createdAt?: true
   archivedAt?: true
   deletionScheduledAt?: true
+  logoUrl?: true
+  primaryColor?: true
 }
 
 export type CompanyMaxAggregateInputType = {
@@ -79,6 +87,8 @@ export type CompanyMaxAggregateInputType = {
   createdAt?: true
   archivedAt?: true
   deletionScheduledAt?: true
+  logoUrl?: true
+  primaryColor?: true
 }
 
 export type CompanyCountAggregateInputType = {
@@ -90,6 +100,8 @@ export type CompanyCountAggregateInputType = {
   createdAt?: true
   archivedAt?: true
   deletionScheduledAt?: true
+  logoUrl?: true
+  primaryColor?: true
   _all?: true
 }
 
@@ -174,6 +186,8 @@ export type CompanyGroupByOutputType = {
   createdAt: Date
   archivedAt: Date | null
   deletionScheduledAt: Date | null
+  logoUrl: string | null
+  primaryColor: string | null
   _count: CompanyCountAggregateOutputType | null
   _min: CompanyMinAggregateOutputType | null
   _max: CompanyMaxAggregateOutputType | null
@@ -206,6 +220,8 @@ export type CompanyWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"Company"> | Date | string
   archivedAt?: Prisma.DateTimeNullableFilter<"Company"> | Date | string | null
   deletionScheduledAt?: Prisma.DateTimeNullableFilter<"Company"> | Date | string | null
+  logoUrl?: Prisma.StringNullableFilter<"Company"> | string | null
+  primaryColor?: Prisma.StringNullableFilter<"Company"> | string | null
   userCompanies?: Prisma.UserCompanyListRelationFilter
   departments?: Prisma.DepartmentListRelationFilter
 }
@@ -219,6 +235,8 @@ export type CompanyOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   archivedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   deletionScheduledAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  logoUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  primaryColor?: Prisma.SortOrderInput | Prisma.SortOrder
   userCompanies?: Prisma.UserCompanyOrderByRelationAggregateInput
   departments?: Prisma.DepartmentOrderByRelationAggregateInput
 }
@@ -235,6 +253,8 @@ export type CompanyWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"Company"> | Date | string
   archivedAt?: Prisma.DateTimeNullableFilter<"Company"> | Date | string | null
   deletionScheduledAt?: Prisma.DateTimeNullableFilter<"Company"> | Date | string | null
+  logoUrl?: Prisma.StringNullableFilter<"Company"> | string | null
+  primaryColor?: Prisma.StringNullableFilter<"Company"> | string | null
   userCompanies?: Prisma.UserCompanyListRelationFilter
   departments?: Prisma.DepartmentListRelationFilter
 }, "id" | "companyID">
@@ -248,6 +268,8 @@ export type CompanyOrderByWithAggregationInput = {
   createdAt?: Prisma.SortOrder
   archivedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   deletionScheduledAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  logoUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  primaryColor?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.CompanyCountOrderByAggregateInput
   _max?: Prisma.CompanyMaxOrderByAggregateInput
   _min?: Prisma.CompanyMinOrderByAggregateInput
@@ -265,6 +287,8 @@ export type CompanyScalarWhereWithAggregatesInput = {
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Company"> | Date | string
   archivedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Company"> | Date | string | null
   deletionScheduledAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Company"> | Date | string | null
+  logoUrl?: Prisma.StringNullableWithAggregatesFilter<"Company"> | string | null
+  primaryColor?: Prisma.StringNullableWithAggregatesFilter<"Company"> | string | null
 }
 
 export type CompanyCreateInput = {
@@ -276,6 +300,8 @@ export type CompanyCreateInput = {
   createdAt?: Date | string
   archivedAt?: Date | string | null
   deletionScheduledAt?: Date | string | null
+  logoUrl?: string | null
+  primaryColor?: string | null
   userCompanies?: Prisma.UserCompanyCreateNestedManyWithoutCompanyInput
   departments?: Prisma.DepartmentCreateNestedManyWithoutCompanyInput
 }
@@ -289,6 +315,8 @@ export type CompanyUncheckedCreateInput = {
   createdAt?: Date | string
   archivedAt?: Date | string | null
   deletionScheduledAt?: Date | string | null
+  logoUrl?: string | null
+  primaryColor?: string | null
   userCompanies?: Prisma.UserCompanyUncheckedCreateNestedManyWithoutCompanyInput
   departments?: Prisma.DepartmentUncheckedCreateNestedManyWithoutCompanyInput
 }
@@ -302,6 +330,8 @@ export type CompanyUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   archivedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deletionScheduledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  primaryColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   userCompanies?: Prisma.UserCompanyUpdateManyWithoutCompanyNestedInput
   departments?: Prisma.DepartmentUpdateManyWithoutCompanyNestedInput
 }
@@ -315,6 +345,8 @@ export type CompanyUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   archivedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deletionScheduledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  primaryColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   userCompanies?: Prisma.UserCompanyUncheckedUpdateManyWithoutCompanyNestedInput
   departments?: Prisma.DepartmentUncheckedUpdateManyWithoutCompanyNestedInput
 }
@@ -328,6 +360,8 @@ export type CompanyCreateManyInput = {
   createdAt?: Date | string
   archivedAt?: Date | string | null
   deletionScheduledAt?: Date | string | null
+  logoUrl?: string | null
+  primaryColor?: string | null
 }
 
 export type CompanyUpdateManyMutationInput = {
@@ -339,6 +373,8 @@ export type CompanyUpdateManyMutationInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   archivedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deletionScheduledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  primaryColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type CompanyUncheckedUpdateManyInput = {
@@ -350,6 +386,8 @@ export type CompanyUncheckedUpdateManyInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   archivedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deletionScheduledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  primaryColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type CompanyCountOrderByAggregateInput = {
@@ -361,6 +399,8 @@ export type CompanyCountOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
   archivedAt?: Prisma.SortOrder
   deletionScheduledAt?: Prisma.SortOrder
+  logoUrl?: Prisma.SortOrder
+  primaryColor?: Prisma.SortOrder
 }
 
 export type CompanyMaxOrderByAggregateInput = {
@@ -372,6 +412,8 @@ export type CompanyMaxOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
   archivedAt?: Prisma.SortOrder
   deletionScheduledAt?: Prisma.SortOrder
+  logoUrl?: Prisma.SortOrder
+  primaryColor?: Prisma.SortOrder
 }
 
 export type CompanyMinOrderByAggregateInput = {
@@ -383,6 +425,8 @@ export type CompanyMinOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
   archivedAt?: Prisma.SortOrder
   deletionScheduledAt?: Prisma.SortOrder
+  logoUrl?: Prisma.SortOrder
+  primaryColor?: Prisma.SortOrder
 }
 
 export type CompanyScalarRelationFilter = {
@@ -427,6 +471,8 @@ export type CompanyCreateWithoutDepartmentsInput = {
   createdAt?: Date | string
   archivedAt?: Date | string | null
   deletionScheduledAt?: Date | string | null
+  logoUrl?: string | null
+  primaryColor?: string | null
   userCompanies?: Prisma.UserCompanyCreateNestedManyWithoutCompanyInput
 }
 
@@ -439,6 +485,8 @@ export type CompanyUncheckedCreateWithoutDepartmentsInput = {
   createdAt?: Date | string
   archivedAt?: Date | string | null
   deletionScheduledAt?: Date | string | null
+  logoUrl?: string | null
+  primaryColor?: string | null
   userCompanies?: Prisma.UserCompanyUncheckedCreateNestedManyWithoutCompanyInput
 }
 
@@ -467,6 +515,8 @@ export type CompanyUpdateWithoutDepartmentsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   archivedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deletionScheduledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  primaryColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   userCompanies?: Prisma.UserCompanyUpdateManyWithoutCompanyNestedInput
 }
 
@@ -479,6 +529,8 @@ export type CompanyUncheckedUpdateWithoutDepartmentsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   archivedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deletionScheduledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  primaryColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   userCompanies?: Prisma.UserCompanyUncheckedUpdateManyWithoutCompanyNestedInput
 }
 
@@ -491,6 +543,8 @@ export type CompanyCreateWithoutUserCompaniesInput = {
   createdAt?: Date | string
   archivedAt?: Date | string | null
   deletionScheduledAt?: Date | string | null
+  logoUrl?: string | null
+  primaryColor?: string | null
   departments?: Prisma.DepartmentCreateNestedManyWithoutCompanyInput
 }
 
@@ -503,6 +557,8 @@ export type CompanyUncheckedCreateWithoutUserCompaniesInput = {
   createdAt?: Date | string
   archivedAt?: Date | string | null
   deletionScheduledAt?: Date | string | null
+  logoUrl?: string | null
+  primaryColor?: string | null
   departments?: Prisma.DepartmentUncheckedCreateNestedManyWithoutCompanyInput
 }
 
@@ -531,6 +587,8 @@ export type CompanyUpdateWithoutUserCompaniesInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   archivedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deletionScheduledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  primaryColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   departments?: Prisma.DepartmentUpdateManyWithoutCompanyNestedInput
 }
 
@@ -543,6 +601,8 @@ export type CompanyUncheckedUpdateWithoutUserCompaniesInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   archivedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   deletionScheduledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  primaryColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   departments?: Prisma.DepartmentUncheckedUpdateManyWithoutCompanyNestedInput
 }
 
@@ -595,6 +655,8 @@ export type CompanySelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   createdAt?: boolean
   archivedAt?: boolean
   deletionScheduledAt?: boolean
+  logoUrl?: boolean
+  primaryColor?: boolean
   userCompanies?: boolean | Prisma.Company$userCompaniesArgs<ExtArgs>
   departments?: boolean | Prisma.Company$departmentsArgs<ExtArgs>
   _count?: boolean | Prisma.CompanyCountOutputTypeDefaultArgs<ExtArgs>
@@ -609,6 +671,8 @@ export type CompanySelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   createdAt?: boolean
   archivedAt?: boolean
   deletionScheduledAt?: boolean
+  logoUrl?: boolean
+  primaryColor?: boolean
 }, ExtArgs["result"]["company"]>
 
 export type CompanySelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -620,6 +684,8 @@ export type CompanySelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   createdAt?: boolean
   archivedAt?: boolean
   deletionScheduledAt?: boolean
+  logoUrl?: boolean
+  primaryColor?: boolean
 }, ExtArgs["result"]["company"]>
 
 export type CompanySelectScalar = {
@@ -631,9 +697,11 @@ export type CompanySelectScalar = {
   createdAt?: boolean
   archivedAt?: boolean
   deletionScheduledAt?: boolean
+  logoUrl?: boolean
+  primaryColor?: boolean
 }
 
-export type CompanyOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "companyID" | "companyName" | "referenceID" | "shortName" | "createdAt" | "archivedAt" | "deletionScheduledAt", ExtArgs["result"]["company"]>
+export type CompanyOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "companyID" | "companyName" | "referenceID" | "shortName" | "createdAt" | "archivedAt" | "deletionScheduledAt" | "logoUrl" | "primaryColor", ExtArgs["result"]["company"]>
 export type CompanyInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   userCompanies?: boolean | Prisma.Company$userCompaniesArgs<ExtArgs>
   departments?: boolean | Prisma.Company$departmentsArgs<ExtArgs>
@@ -666,6 +734,16 @@ export type $CompanyPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
      * Hard delete is MANUAL only (scripts/db/company_hard_delete.ts).
      */
     deletionScheduledAt: Date | null
+    /**
+     * White-label theming (Phase 3b, SAMS-010): portal header logo URL (https).
+     * Additive + nullable; included in client-data export (not secret).
+     */
+    logoUrl: string | null
+    /**
+     * White-label theming (Phase 3b, SAMS-010): portal accent colour, validated
+     * `^#[0-9a-fA-F]{6}$`. Drives portal accents via a `--brand` CSS variable.
+     */
+    primaryColor: string | null
   }, ExtArgs["result"]["company"]>
   composites: {}
 }
@@ -1099,6 +1177,8 @@ export interface CompanyFieldRefs {
   readonly createdAt: Prisma.FieldRef<"Company", 'DateTime'>
   readonly archivedAt: Prisma.FieldRef<"Company", 'DateTime'>
   readonly deletionScheduledAt: Prisma.FieldRef<"Company", 'DateTime'>
+  readonly logoUrl: Prisma.FieldRef<"Company", 'String'>
+  readonly primaryColor: Prisma.FieldRef<"Company", 'String'>
 }
     
 
