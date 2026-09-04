@@ -147,6 +147,12 @@ async function main() {
   assertEq(pub3Json.version, 3, "second publish produced version 3 (no in-place mutate)");
   // Immutability byte-stability of v2 is asserted in verify_step (DB lens).
 
+  console.log("\n[a-neg] Adopt version guard: non-latest toVersion is rejected (preview=applied=audited)");
+  // After v3, the LATEST available is 3; adopting the stale v2 would apply
+  // content that diverges from the previewed/audited diff — must 400.
+  const staleAdopt = await fetchWithManual(`${BASE}/api/operator/content/adopt`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ companyId: IDS.tenant, toVersion: 2, dryRun: false }) }, provider.jar);
+  assertEq(staleAdopt.status, 400, "adopt non-latest version -> 400 (version guard)");
+
   receiver.close();
   console.log(`\n=== RESULT: ${checks} checks, ${failures} failures ===`);
   if (failures > 0) process.exitCode = 1;

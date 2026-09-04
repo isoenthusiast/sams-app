@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { buildExportPackage } from "@/lib/data-trust-export";
-import { publishContentPack } from "@/lib/content-rollforward";
+import { publishContentPack, ACTIVE_CONTENT_WHERE } from "@/lib/content-rollforward";
 
 /**
  * SAMS-016 (Master Content Roll-Forward) — DB-level verify_step.
@@ -44,6 +44,17 @@ async function main() {
   assertTrue(!!f2, "(c) Finding F2 (references CT2) intact");
   const f2ca = await prisma.controlAssignment.findFirst({ where: { assessmentId: f2?.assessmentId, controlId: ctl2?.id } });
   assertTrue(f2ca?.controlId === ctl2?.id, "(c) F2 → CT2 ControlAssignment link resolves (FK intact)");
+
+  // (bind-5) Superseded content is excluded from the editable/selectable content
+  // set (the production filter the control library + new-assignment pickers use),
+  // while the existing-assignment display path above still resolves CT2.
+  // The production filter query returns only Active rows (CT2 Superseded is
+  // dropped); assert that directly instead of a tautological override.
+  const editableSet = await prisma.control.findMany({ where: { companyId: T, ...ACTIVE_CONTENT_WHERE } });
+  const supersededInEditable = editableSet.filter((c) => c.contentStatus === "Superseded");
+  assertEq(supersededInEditable.length, 0, "(bind-5) editable control set returns zero Superseded rows");
+  assertTrue(!editableSet.some((c) => c.controlRef === "C-QM-02"), "(bind-5) superseded C-QM-02 NOT offered in the editable control set");
+  assertTrue(editableSet.some((c) => c.controlRef === "C-QM-01"), "(bind-5) active C-QM-01 still offered in the editable control set");
 
   // (d) Audit entry carries the diff; client notified; export shows version.
   const audit = await prisma.activityLog.findFirst({ where: { activityType: "CONTENT_PACK_ADOPT", refTable: "CompanyContentState", refRecord: T } });
