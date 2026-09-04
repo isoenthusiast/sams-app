@@ -457,7 +457,8 @@ export const ModelName = {
   TestWorker: 'TestWorker',
   Comment: 'Comment',
   EvidenceRequest: 'EvidenceRequest',
-  Notification: 'Notification'
+  Notification: 'Notification',
+  NotificationDelivery: 'NotificationDelivery'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -473,7 +474,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "activityLog" | "activityLogType" | "assuranceActivityType" | "assuranceProtocol" | "standard" | "processArea" | "subProcess" | "controlSubProcess" | "control" | "assessmentTemplate" | "assessmentTemplateControlLinkage" | "assessmentTemplateActivityType" | "assessment" | "assessmentAssessor" | "controlAssignment" | "requirementConclusion" | "sampleType" | "recordSourceType" | "sample" | "finding" | "action" | "attachment" | "attachmentMapping" | "achievementBadge" | "userAchievement" | "pointTransaction" | "gameAttribute" | "gameAttributeRule" | "emotionalDriveMetric" | "milestone" | "userRole" | "userRoleMapping" | "company" | "apiKey" | "department" | "position" | "userCompany" | "userFavorite" | "assessmentActType" | "aact" | "aActControls" | "aActUsers" | "aActDetails" | "knowledgebase" | "tag" | "knowledgebaseTag" | "mapArt2Know" | "requirement" | "mapControl2Requirement" | "gamificationStage" | "webhookLog" | "document" | "mapRequirement2Document" | "riskCategory" | "risk" | "riskMetrics" | "controlRisk" | "backlogItem" | "backlogItemControl" | "auditEvidence" | "auditChecklist2Requirement" | "auditChecklistTemplate" | "auditChecklistTemplateItem" | "auditChecklistItem" | "assessmentChecklistControl" | "reconcileClaim" | "requirementCoverageAudit" | "socStatementAudit" | "testClaim" | "testWorker" | "comment" | "evidenceRequest" | "notification"
+    modelProps: "user" | "activityLog" | "activityLogType" | "assuranceActivityType" | "assuranceProtocol" | "standard" | "processArea" | "subProcess" | "controlSubProcess" | "control" | "assessmentTemplate" | "assessmentTemplateControlLinkage" | "assessmentTemplateActivityType" | "assessment" | "assessmentAssessor" | "controlAssignment" | "requirementConclusion" | "sampleType" | "recordSourceType" | "sample" | "finding" | "action" | "attachment" | "attachmentMapping" | "achievementBadge" | "userAchievement" | "pointTransaction" | "gameAttribute" | "gameAttributeRule" | "emotionalDriveMetric" | "milestone" | "userRole" | "userRoleMapping" | "company" | "apiKey" | "department" | "position" | "userCompany" | "userFavorite" | "assessmentActType" | "aact" | "aActControls" | "aActUsers" | "aActDetails" | "knowledgebase" | "tag" | "knowledgebaseTag" | "mapArt2Know" | "requirement" | "mapControl2Requirement" | "gamificationStage" | "webhookLog" | "document" | "mapRequirement2Document" | "riskCategory" | "risk" | "riskMetrics" | "controlRisk" | "backlogItem" | "backlogItemControl" | "auditEvidence" | "auditChecklist2Requirement" | "auditChecklistTemplate" | "auditChecklistTemplateItem" | "auditChecklistItem" | "assessmentChecklistControl" | "reconcileClaim" | "requirementCoverageAudit" | "socStatementAudit" | "testClaim" | "testWorker" | "comment" | "evidenceRequest" | "notification" | "notificationDelivery"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -5953,6 +5954,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    NotificationDelivery: {
+      payload: Prisma.$NotificationDeliveryPayload<ExtArgs>
+      fields: Prisma.NotificationDeliveryFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.NotificationDeliveryFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NotificationDeliveryPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.NotificationDeliveryFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NotificationDeliveryPayload>
+        }
+        findFirst: {
+          args: Prisma.NotificationDeliveryFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NotificationDeliveryPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.NotificationDeliveryFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NotificationDeliveryPayload>
+        }
+        findMany: {
+          args: Prisma.NotificationDeliveryFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NotificationDeliveryPayload>[]
+        }
+        create: {
+          args: Prisma.NotificationDeliveryCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NotificationDeliveryPayload>
+        }
+        createMany: {
+          args: Prisma.NotificationDeliveryCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.NotificationDeliveryCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NotificationDeliveryPayload>[]
+        }
+        delete: {
+          args: Prisma.NotificationDeliveryDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NotificationDeliveryPayload>
+        }
+        update: {
+          args: Prisma.NotificationDeliveryUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NotificationDeliveryPayload>
+        }
+        deleteMany: {
+          args: Prisma.NotificationDeliveryDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.NotificationDeliveryUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.NotificationDeliveryUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NotificationDeliveryPayload>[]
+        }
+        upsert: {
+          args: Prisma.NotificationDeliveryUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NotificationDeliveryPayload>
+        }
+        aggregate: {
+          args: Prisma.NotificationDeliveryAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateNotificationDelivery>
+        }
+        groupBy: {
+          args: Prisma.NotificationDeliveryGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.NotificationDeliveryGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.NotificationDeliveryCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.NotificationDeliveryCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -6532,7 +6607,8 @@ export const CompanyScalarFieldEnum = {
   archivedAt: 'archivedAt',
   deletionScheduledAt: 'deletionScheduledAt',
   logoUrl: 'logoUrl',
-  primaryColor: 'primaryColor'
+  primaryColor: 'primaryColor',
+  notificationWebhookUrl: 'notificationWebhookUrl'
 } as const
 
 export type CompanyScalarFieldEnum = (typeof CompanyScalarFieldEnum)[keyof typeof CompanyScalarFieldEnum]
@@ -7144,6 +7220,20 @@ export const NotificationScalarFieldEnum = {
 export type NotificationScalarFieldEnum = (typeof NotificationScalarFieldEnum)[keyof typeof NotificationScalarFieldEnum]
 
 
+export const NotificationDeliveryScalarFieldEnum = {
+  id: 'id',
+  notificationId: 'notificationId',
+  channel: 'channel',
+  companyId: 'companyId',
+  status: 'status',
+  responseCode: 'responseCode',
+  attemptedAt: 'attemptedAt',
+  payloadPreview: 'payloadPreview'
+} as const
+
+export type NotificationDeliveryScalarFieldEnum = (typeof NotificationDeliveryScalarFieldEnum)[keyof typeof NotificationDeliveryScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -7631,6 +7721,34 @@ export type EnumNotificationTypeFieldRefInput<$PrismaModel> = FieldRefInputType<
 export type ListEnumNotificationTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'NotificationType[]'>
     
 
+
+/**
+ * Reference to a field of type 'NotificationDeliveryChannel'
+ */
+export type EnumNotificationDeliveryChannelFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'NotificationDeliveryChannel'>
+    
+
+
+/**
+ * Reference to a field of type 'NotificationDeliveryChannel[]'
+ */
+export type ListEnumNotificationDeliveryChannelFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'NotificationDeliveryChannel[]'>
+    
+
+
+/**
+ * Reference to a field of type 'NotificationDeliveryStatus'
+ */
+export type EnumNotificationDeliveryStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'NotificationDeliveryStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'NotificationDeliveryStatus[]'
+ */
+export type ListEnumNotificationDeliveryStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'NotificationDeliveryStatus[]'>
+    
+
 /**
  * Batch Payload for updateMany & deleteMany & createMany
  */
@@ -7815,6 +7933,7 @@ export type GlobalOmitConfig = {
   comment?: Prisma.CommentOmit
   evidenceRequest?: Prisma.EvidenceRequestOmit
   notification?: Prisma.NotificationOmit
+  notificationDelivery?: Prisma.NotificationDeliveryOmit
 }
 
 /* Types for Logging */

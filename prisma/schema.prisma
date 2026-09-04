@@ -721,10 +721,19 @@ model Company {
   /// White-label theming (Phase 3b, SAMS-010): portal accent colour, validated
   /// `^#[0-9a-fA-F]{6}$`. Drives portal accents via a `--brand` CSS variable.
   primaryColor            String?
+  /// Outbound Notifications (SAMS-009, Phase 3a, Feature B): per-company
+  /// incoming webhook URL (Slack-compatible `{"text": …}`). WRITE-ONLY secret:
+  /// settable via the client-Admin portal settings card, MASKED in every API
+  /// response, NEVER written to ActivityLog or a digest post, and excluded from
+  /// the client-data export (exact name added to EXCLUSION_COLUMNS). Nullable —
+  /// null = no webhook configured (no outbound posts for this company).
+  notificationWebhookUrl  String?
   userCompanies UserCompany[]
   departments   Department[]
   /// Public read-only API keys scoped to this company (SAMS-011, Phase 3b).
   apiKeys       ApiKey[]
+  /// Audit rows for every outbound webhook attempt (SAMS-009). Company-scoped.
+  notificationDeliveries  NotificationDelivery[]
 }
 
 /// SAMS-011 (Phase 3b, Feature B) — public read-only REST API bearer keys.
@@ -1664,6 +1673,9 @@ enum NotificationType {
   EvidenceSubmitted
   EvidenceReviewed
   CommentShared
+  /// SAMS-009 sweep: an Action crossed its targetDate (newly overdue) — posted
+  /// to the company channel + in-app to the company's client Admins.
+  ActionOverdue
 }
 
 model Notification {
@@ -1682,7 +1694,52 @@ model Notification {
   readAt          DateTime?
   companyId       String? // denormalized for the company-scoped overdue banner
   createdAt       DateTime         @default(now())
+  /// Outbound audit rows (SAMS-009): webhook deliveries that referenced this
+  /// in-app notification (nullable — company-channel/digest posts set null).
+  deliveries      NotificationDelivery[]
 
   @@index([recipientUserId, readAt])
   @@index([companyId])
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Outbound Notifications (SAMS-009, Phase 3a, Feature B): a per-company webhook
+// transport (Slack-compatible `{"text": …}`) + a delivery audit trail. The
+// same event set as in-app (EvidenceRequested/Submitted/Reviewed, CommentShared)
+// is posted at the COMPANY-channel level once per event (never per-recipient);
+// plus a CRON_SECRET-gated sweep + weekly digest. Delivery is fire-and-record:
+// `postCompanyWebhook` NEVER throws (SAMS-006 fault-containment rule applies —
+// see src/lib/notifications.ts). No retry queue in v1.
+// ─────────────────────────────────────────────────────────────────────────────
+enum NotificationDeliveryChannel {
+  webhook
+}
+
+enum NotificationDeliveryStatus {
+  sent
+  failed
+}
+
+model NotificationDelivery {
+  id             String                      @id @default(cuid())
+  /// Nullable — set when the delivery maps to a single in-app Notification;
+  /// null for company-channel / sweep / digest posts (a state is posted once,
+  /// not once per recipient).
+  notificationId String?
+  notification   Notification?              @relation(fields: [notificationId], references: [id], onDelete: SetNull)
+  channel        NotificationDeliveryChannel @default(webhook)
+  companyId      String
+  company        Company                     @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  status         NotificationDeliveryStatus
+  /// HTTP response code from the webhook POST (null when the request could not
+  /// be made / timed out — those record status=failed with responseCode null).
+  responseCode   Int?
+  attemptedAt    DateTime                    @default(now())
+  /// The `{text}` payload body, truncated to ≤200 chars (audit trail only —
+  /// never contains the webhook URL itself, which is write-only).
+  payloadPreview String?
+
+  @@index([companyId])
+  @@index([notificationId])
+  @@index([status, attemptedAt])
 }
