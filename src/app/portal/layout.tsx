@@ -2,6 +2,7 @@ import { auth } from "@/auth";
 import { cookies } from "next/headers";
 import { Suspense } from "react";
 import { PortalHeader } from "@/components/PortalHeader";
+import { ContentBanner } from "@/components/ContentBanner";
 import { resolvePortalCompanyId } from "@/lib/portal";
 import type { PortalCompany } from "@/lib/portal";
 
@@ -53,6 +54,11 @@ export default async function PortalLayout({ children }: { children: React.React
           userRole={userRole}
         />
       </Suspense>
+      {activeCompanyId ? (
+        <div className="mx-auto max-w-7xl px-4 pt-4">
+          <ContentBanner />
+        </div>
+      ) : null}
       {children}
     </>
   );

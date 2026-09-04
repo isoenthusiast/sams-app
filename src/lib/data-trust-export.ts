@@ -162,6 +162,8 @@ export type ExportPackage = {
     outputFormat: string;
     exclusionList: string[];
     activityLog: { note: string; included: boolean };
+    /// SAMS-016: the tenant's current adopted content-baseline version.
+    contentVersion: number;
     tables: Array<{ model: string; file: string; label: string; rowCount: number }>;
     totalRows: number;
   };
@@ -175,6 +177,11 @@ export async function buildExportPackage(companyId: string): Promise<ExportPacka
     select: { id: true, companyID: true, companyName: true },
   });
   if (!company) throw new Error("Company not found");
+
+  // SAMS-016: the tenant's adopted content-baseline version (defaults to 1 if
+  // the state row is absent, e.g. a pre-feature company never adopted a pack).
+  const contentState = await prisma.companyContentState.findUnique({ where: { companyId }, select: { contentVersion: true } });
+  const contentVersion = contentState?.contentVersion ?? 1;
 
   const entries: ExportPackage["entries"] = [];
   const tables: ExportPackage["manifest"]["tables"] = [];
@@ -200,6 +207,7 @@ export async function buildExportPackage(companyId: string): Promise<ExportPacka
       note: "ActivityLog rows are not company-scoped and are NOT exported; only counts are surfaced here. Raw beforeData/afterData payloads are never included.",
       included: false,
     },
+    contentVersion,
     tables,
     totalRows,
   };
