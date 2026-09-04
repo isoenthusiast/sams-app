@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/prisma";
-import { verifyAuditChain } from "@/lib/audit-chain";
+import { resolveCompanyId, verifyAuditChain, createChainedActivityLog } from "@/lib/audit-chain";
 import { RES } from "./resolver_seed.mts";
 
 /**
@@ -33,6 +33,15 @@ async function main() {
   const appendSample = await row("append_sample");
   assertEq(appendSample?.companyId, A, "Sample → assessment.companyId = A");
   assertTrue(!!appendSample?.chainHash, "Sample (append) row chained");
+
+  console.log("\n[A-runtime] resolveCompanyId (write-path resolver) direct proof");
+  assertEq(await resolveCompanyId("MapControl2Requirement", RES.mcA), A, "resolveCompanyId(MapControl2Requirement) = A");
+  assertEq(await resolveCompanyId("AssessmentTemplate", RES.atA), A, "resolveCompanyId(AssessmentTemplate) = A");
+  assertEq(await resolveCompanyId("Sample", RES.sampleA), A, "resolveCompanyId(Sample) = A");
+  assertEq(await resolveCompanyId("MapControl2Requirement", RES.mcNull), null, "resolveCompanyId(null-Control MC) = null");
+  assertEq(await resolveCompanyId("AssessmentTemplate", RES.atNull), null, "resolveCompanyId(null-companyId AT) = null");
+  assertEq(await resolveCompanyId("Sample", RES.sampleNull), null, "resolveCompanyId(null-company Sample) = null");
+  assertEq(await resolveCompanyId("UnknownTable", "x"), null, "resolveCompanyId(unknown refTable) = null");
 
   console.log("\n[A] genuinely-chainless residue stays null");
   const nullMc = await row("null_mc");
