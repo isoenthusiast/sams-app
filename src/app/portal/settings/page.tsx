@@ -1,5 +1,6 @@
 import { getPortalContext } from "@/lib/portal-server";
 import { PortalThemeSettings } from "@/components/PortalThemeSettings";
+import { PortalApiKeySettings } from "@/components/PortalApiKeySettings";
 import { PortalEmptyState } from "@/components/PortalEmptyState";
 import { Card } from "@/components/Card";
 
@@ -34,7 +35,7 @@ export default async function PortalSettingsPage({ searchParams }: { searchParam
   return (
     <div className="mx-auto max-w-7xl px-4 py-6">
       <h1 className="mb-1 text-2xl font-bold text-slate-900">Settings</h1>
-      <p className="mb-6 text-sm text-slate-600">Branding for your client portal.</p>
+      <p className="mb-6 text-sm text-slate-600">Branding and read-only API access for your client portal.</p>
       <div className="max-w-2xl">
         <PortalThemeSettings
           companyId={ctx.companyId}
@@ -42,6 +43,7 @@ export default async function PortalSettingsPage({ searchParams }: { searchParam
           initialLogoUrl={active?.logoUrl ?? ""}
           initialPrimaryColor={active?.primaryColor ?? ""}
         />
+        <PortalApiKeySettings companyId={ctx.companyId} companyName={active?.companyName ?? "your company"} />
       </div>
     </div>
   );
