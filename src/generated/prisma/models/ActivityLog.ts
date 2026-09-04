@@ -33,6 +33,8 @@ export type ActivityLogMinAggregateOutputType = {
   refTable: string | null
   refRecord: string | null
   createdAt: Date | null
+  companyId: string | null
+  chainHash: string | null
 }
 
 export type ActivityLogMaxAggregateOutputType = {
@@ -44,6 +46,8 @@ export type ActivityLogMaxAggregateOutputType = {
   refTable: string | null
   refRecord: string | null
   createdAt: Date | null
+  companyId: string | null
+  chainHash: string | null
 }
 
 export type ActivityLogCountAggregateOutputType = {
@@ -57,6 +61,8 @@ export type ActivityLogCountAggregateOutputType = {
   beforeData: number
   afterData: number
   createdAt: number
+  companyId: number
+  chainHash: number
   _all: number
 }
 
@@ -70,6 +76,8 @@ export type ActivityLogMinAggregateInputType = {
   refTable?: true
   refRecord?: true
   createdAt?: true
+  companyId?: true
+  chainHash?: true
 }
 
 export type ActivityLogMaxAggregateInputType = {
@@ -81,6 +89,8 @@ export type ActivityLogMaxAggregateInputType = {
   refTable?: true
   refRecord?: true
   createdAt?: true
+  companyId?: true
+  chainHash?: true
 }
 
 export type ActivityLogCountAggregateInputType = {
@@ -94,6 +104,8 @@ export type ActivityLogCountAggregateInputType = {
   beforeData?: true
   afterData?: true
   createdAt?: true
+  companyId?: true
+  chainHash?: true
   _all?: true
 }
 
@@ -180,6 +192,8 @@ export type ActivityLogGroupByOutputType = {
   beforeData: runtime.JsonValue | null
   afterData: runtime.JsonValue | null
   createdAt: Date
+  companyId: string | null
+  chainHash: string | null
   _count: ActivityLogCountAggregateOutputType | null
   _min: ActivityLogMinAggregateOutputType | null
   _max: ActivityLogMaxAggregateOutputType | null
@@ -214,6 +228,8 @@ export type ActivityLogWhereInput = {
   beforeData?: Prisma.JsonNullableFilter<"ActivityLog">
   afterData?: Prisma.JsonNullableFilter<"ActivityLog">
   createdAt?: Prisma.DateTimeFilter<"ActivityLog"> | Date | string
+  companyId?: Prisma.StringNullableFilter<"ActivityLog"> | string | null
+  chainHash?: Prisma.StringNullableFilter<"ActivityLog"> | string | null
   pointTransactions?: Prisma.PointTransactionListRelationFilter
 }
 
@@ -228,6 +244,8 @@ export type ActivityLogOrderByWithRelationInput = {
   beforeData?: Prisma.SortOrderInput | Prisma.SortOrder
   afterData?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  companyId?: Prisma.SortOrderInput | Prisma.SortOrder
+  chainHash?: Prisma.SortOrderInput | Prisma.SortOrder
   pointTransactions?: Prisma.PointTransactionOrderByRelationAggregateInput
 }
 
@@ -245,6 +263,8 @@ export type ActivityLogWhereUniqueInput = Prisma.AtLeast<{
   beforeData?: Prisma.JsonNullableFilter<"ActivityLog">
   afterData?: Prisma.JsonNullableFilter<"ActivityLog">
   createdAt?: Prisma.DateTimeFilter<"ActivityLog"> | Date | string
+  companyId?: Prisma.StringNullableFilter<"ActivityLog"> | string | null
+  chainHash?: Prisma.StringNullableFilter<"ActivityLog"> | string | null
   pointTransactions?: Prisma.PointTransactionListRelationFilter
 }, "id">
 
@@ -259,6 +279,8 @@ export type ActivityLogOrderByWithAggregationInput = {
   beforeData?: Prisma.SortOrderInput | Prisma.SortOrder
   afterData?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  companyId?: Prisma.SortOrderInput | Prisma.SortOrder
+  chainHash?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.ActivityLogCountOrderByAggregateInput
   _max?: Prisma.ActivityLogMaxOrderByAggregateInput
   _min?: Prisma.ActivityLogMinOrderByAggregateInput
@@ -278,6 +300,8 @@ export type ActivityLogScalarWhereWithAggregatesInput = {
   beforeData?: Prisma.JsonNullableWithAggregatesFilter<"ActivityLog">
   afterData?: Prisma.JsonNullableWithAggregatesFilter<"ActivityLog">
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"ActivityLog"> | Date | string
+  companyId?: Prisma.StringNullableWithAggregatesFilter<"ActivityLog"> | string | null
+  chainHash?: Prisma.StringNullableWithAggregatesFilter<"ActivityLog"> | string | null
 }
 
 export type ActivityLogCreateInput = {
@@ -291,6 +315,8 @@ export type ActivityLogCreateInput = {
   beforeData?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   afterData?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
+  companyId?: string | null
+  chainHash?: string | null
   pointTransactions?: Prisma.PointTransactionCreateNestedManyWithoutActivityLogInput
 }
 
@@ -305,6 +331,8 @@ export type ActivityLogUncheckedCreateInput = {
   beforeData?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   afterData?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
+  companyId?: string | null
+  chainHash?: string | null
   pointTransactions?: Prisma.PointTransactionUncheckedCreateNestedManyWithoutActivityLogInput
 }
 
@@ -319,6 +347,8 @@ export type ActivityLogUpdateInput = {
   beforeData?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   afterData?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  chainHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pointTransactions?: Prisma.PointTransactionUpdateManyWithoutActivityLogNestedInput
 }
 
@@ -333,6 +363,8 @@ export type ActivityLogUncheckedUpdateInput = {
   beforeData?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   afterData?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  chainHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pointTransactions?: Prisma.PointTransactionUncheckedUpdateManyWithoutActivityLogNestedInput
 }
 
@@ -347,6 +379,8 @@ export type ActivityLogCreateManyInput = {
   beforeData?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   afterData?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
+  companyId?: string | null
+  chainHash?: string | null
 }
 
 export type ActivityLogUpdateManyMutationInput = {
@@ -360,6 +394,8 @@ export type ActivityLogUpdateManyMutationInput = {
   beforeData?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   afterData?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  chainHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type ActivityLogUncheckedUpdateManyInput = {
@@ -373,6 +409,8 @@ export type ActivityLogUncheckedUpdateManyInput = {
   beforeData?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   afterData?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  chainHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type ActivityLogCountOrderByAggregateInput = {
@@ -386,6 +424,8 @@ export type ActivityLogCountOrderByAggregateInput = {
   beforeData?: Prisma.SortOrder
   afterData?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  companyId?: Prisma.SortOrder
+  chainHash?: Prisma.SortOrder
 }
 
 export type ActivityLogMaxOrderByAggregateInput = {
@@ -397,6 +437,8 @@ export type ActivityLogMaxOrderByAggregateInput = {
   refTable?: Prisma.SortOrder
   refRecord?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  companyId?: Prisma.SortOrder
+  chainHash?: Prisma.SortOrder
 }
 
 export type ActivityLogMinOrderByAggregateInput = {
@@ -408,6 +450,8 @@ export type ActivityLogMinOrderByAggregateInput = {
   refTable?: Prisma.SortOrder
   refRecord?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  companyId?: Prisma.SortOrder
+  chainHash?: Prisma.SortOrder
 }
 
 export type ActivityLogNullableScalarRelationFilter = {
@@ -442,6 +486,8 @@ export type ActivityLogCreateWithoutPointTransactionsInput = {
   beforeData?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   afterData?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
+  companyId?: string | null
+  chainHash?: string | null
 }
 
 export type ActivityLogUncheckedCreateWithoutPointTransactionsInput = {
@@ -455,6 +501,8 @@ export type ActivityLogUncheckedCreateWithoutPointTransactionsInput = {
   beforeData?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   afterData?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
+  companyId?: string | null
+  chainHash?: string | null
 }
 
 export type ActivityLogCreateOrConnectWithoutPointTransactionsInput = {
@@ -484,6 +532,8 @@ export type ActivityLogUpdateWithoutPointTransactionsInput = {
   beforeData?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   afterData?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  chainHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type ActivityLogUncheckedUpdateWithoutPointTransactionsInput = {
@@ -497,6 +547,8 @@ export type ActivityLogUncheckedUpdateWithoutPointTransactionsInput = {
   beforeData?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   afterData?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  chainHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 
@@ -541,6 +593,8 @@ export type ActivityLogSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   beforeData?: boolean
   afterData?: boolean
   createdAt?: boolean
+  companyId?: boolean
+  chainHash?: boolean
   pointTransactions?: boolean | Prisma.ActivityLog$pointTransactionsArgs<ExtArgs>
   _count?: boolean | Prisma.ActivityLogCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["activityLog"]>
@@ -556,6 +610,8 @@ export type ActivityLogSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
   beforeData?: boolean
   afterData?: boolean
   createdAt?: boolean
+  companyId?: boolean
+  chainHash?: boolean
 }, ExtArgs["result"]["activityLog"]>
 
 export type ActivityLogSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -569,6 +625,8 @@ export type ActivityLogSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
   beforeData?: boolean
   afterData?: boolean
   createdAt?: boolean
+  companyId?: boolean
+  chainHash?: boolean
 }, ExtArgs["result"]["activityLog"]>
 
 export type ActivityLogSelectScalar = {
@@ -582,9 +640,11 @@ export type ActivityLogSelectScalar = {
   beforeData?: boolean
   afterData?: boolean
   createdAt?: boolean
+  companyId?: boolean
+  chainHash?: boolean
 }
 
-export type ActivityLogOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "timestamp" | "description" | "activityType" | "username" | "refTable" | "refRecord" | "beforeData" | "afterData" | "createdAt", ExtArgs["result"]["activityLog"]>
+export type ActivityLogOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "timestamp" | "description" | "activityType" | "username" | "refTable" | "refRecord" | "beforeData" | "afterData" | "createdAt" | "companyId" | "chainHash", ExtArgs["result"]["activityLog"]>
 export type ActivityLogInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   pointTransactions?: boolean | Prisma.ActivityLog$pointTransactionsArgs<ExtArgs>
   _count?: boolean | Prisma.ActivityLogCountOutputTypeDefaultArgs<ExtArgs>
@@ -608,6 +668,21 @@ export type $ActivityLogPayload<ExtArgs extends runtime.Types.Extensions.Interna
     beforeData: runtime.JsonValue | null
     afterData: runtime.JsonValue | null
     createdAt: Date
+    /**
+     * SAMS-015 (Tamper-Evident Audit Trail, Feature C): the owning company for a
+     * per-company hash chain. Nullable — the ActivityLog remains a GLOBAL log by
+     * design (see docs/ISOLATION_MODEL.md); `companyId` is a discriminator so the
+     * chain can be verified per company. Rows that resolve to no company (global
+     * / provider-side operator events, cross-tenant context switches that reference
+     * the switch target) are chainless: `companyId = null`, `chainHash = null`.
+     */
+    companyId: string | null
+    /**
+     * sha256(prevChainHash ‖ canonical-field-set). Computed in the same
+     * transaction as the write and backfilled by the SAMS-015 migration. Null for
+     * chainless (companyId null) rows.
+     */
+    chainHash: string | null
   }, ExtArgs["result"]["activityLog"]>
   composites: {}
 }
@@ -1042,6 +1117,8 @@ export interface ActivityLogFieldRefs {
   readonly beforeData: Prisma.FieldRef<"ActivityLog", 'Json'>
   readonly afterData: Prisma.FieldRef<"ActivityLog", 'Json'>
   readonly createdAt: Prisma.FieldRef<"ActivityLog", 'DateTime'>
+  readonly companyId: Prisma.FieldRef<"ActivityLog", 'String'>
+  readonly chainHash: Prisma.FieldRef<"ActivityLog", 'String'>
 }
     
 

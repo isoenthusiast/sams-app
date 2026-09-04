@@ -69,10 +69,24 @@ model ActivityLog {
   createdAt         DateTime           @default(now())
   pointTransactions PointTransaction[]
 
+  /// SAMS-015 (Tamper-Evident Audit Trail, Feature C): the owning company for a
+  /// per-company hash chain. Nullable — the ActivityLog remains a GLOBAL log by
+  /// design (see docs/ISOLATION_MODEL.md); `companyId` is a discriminator so the
+  /// chain can be verified per company. Rows that resolve to no company (global
+  /// / provider-side operator events, cross-tenant context switches that reference
+  /// the switch target) are chainless: `companyId = null`, `chainHash = null`.
+  companyId         String?
+  /// sha256(prevChainHash ‖ canonical-field-set). Computed in the same
+  /// transaction as the write and backfilled by the SAMS-015 migration. Null for
+  /// chainless (companyId null) rows.
+  chainHash         String?
+
   @@index([timestamp])
   @@index([username])
   @@index([activityType])
   @@index([refTable])
+  @@index([companyId])
+  @@index([chainHash])
 }
 
 model ActivityLogType {

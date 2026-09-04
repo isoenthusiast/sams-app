@@ -6254,7 +6254,9 @@ export const ActivityLogScalarFieldEnum = {
   refRecord: 'refRecord',
   beforeData: 'beforeData',
   afterData: 'afterData',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  companyId: 'companyId',
+  chainHash: 'chainHash'
 } as const
 
 export type ActivityLogScalarFieldEnum = (typeof ActivityLogScalarFieldEnum)[keyof typeof ActivityLogScalarFieldEnum]
