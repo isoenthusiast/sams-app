@@ -46,6 +46,8 @@ model User {
   managementResponses  Finding[]          @relation("FindingManagementResponse")
   /// In-app Notifications received by this user (SAMS-006, Phase 2c).
   notifications        Notification[]     @relation("NotificationRecipient")
+  /// Public read-only API keys this user created (SAMS-011, Phase 3b).
+  apiKeys              ApiKey[]           @relation("ApiKeyCreatedBy")
 }
 
 model ActivityLog {
@@ -715,6 +717,38 @@ model Company {
   deletionScheduledAt     DateTime?
   userCompanies UserCompany[]
   departments   Department[]
+  /// Public read-only API keys scoped to this company (SAMS-011, Phase 3b).
+  apiKeys       ApiKey[]
+}
+
+/// SAMS-011 (Phase 3b, Feature B) — public read-only REST API bearer keys.
+/// SCOPE-BY-CONSTRUCTION (settled decision #2): the key's `companyId` IS the
+/// query scope — every public v1 endpoint resolves the company from the key and
+/// never accepts or honors a company override. Keys are secrets: only the bcrypt
+/// `keyHash` is stored; the plaintext bearer is surfaced to the caller ONCE at
+/// creation and never stored, logged, or returned again.
+///
+///   - `label` ≤100 chars (validated at the route layer; free-form for the
+///     caller's own reference).
+///   - `lastUsedAt` bumps on every successful public v1 request (read-only audit
+///     affordance; not required for scope).
+///   - `revokedAt` set on revoke; revoked keys are rejected with 403.
+///   - **Excluded from the client-data export** (Data Trust Gate): this table is
+///     deliberately absent from EXPORT_TABLES in `src/lib/data-trust-export.ts`
+///     (keys never travel with client data).
+model ApiKey {
+  id              String    @id @default(cuid())
+  companyId       String
+  keyHash         String
+  label           String
+  createdAt       DateTime  @default(now())
+  createdByUserId String?
+  lastUsedAt      DateTime?
+  revokedAt       DateTime?
+  company         Company   @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  createdByUser   User?     @relation("ApiKeyCreatedBy", fields: [createdByUserId], references: [id], onDelete: SetNull)
+
+  @@index([companyId])
 }
 
 // ── Organizational Hierarchy — Department → Position → User ─────────
