@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/auth";
 import { getSelectedCompanyId } from "@/lib/authz";
+import { ACTIVE_CONTENT_WHERE } from "@/lib/content-rollforward";
 
 const ISO_STANDARD_NAME = "International Standards (ISO)";
 
@@ -29,6 +30,7 @@ export async function GET(_req: Request) {
         orderBy: { requirementId: "asc" },
         include: {
           controlMappings: {
+            where: { control: ACTIVE_CONTENT_WHERE },
             include: {
               control: {
                 select: { id: true, name: true, controlType: true, processAreaId: true },
@@ -115,6 +117,7 @@ export async function GET(_req: Request) {
   // (these appear as "Unmapped" under their home PA in the tree)
   const unmappedControls = await prisma.control.findMany({
     where: {
+      ...ACTIVE_CONTENT_WHERE,
       ...(companyId ? { companyId } : {}),
       // Only include controls that have no MapControl2Requirement entries
       requirementMappings: { none: {} },

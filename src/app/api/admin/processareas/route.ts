@@ -1,11 +1,12 @@
 import { requireAdmin } from "@/lib/authz";
 import { prisma } from "@/lib/prisma";
+import { ACTIVE_CONTENT_WHERE } from "@/lib/content-rollforward";
 import { NextResponse } from "next/server";
 
 export async function GET() {
   const { response } = await requireAdmin();
   if (response) return response;
-  const pas = await prisma.processArea.findMany({ include: { standardRef: true }, orderBy: { name: "asc" } });
+  const pas = await prisma.processArea.findMany({ where: ACTIVE_CONTENT_WHERE, include: { standardRef: true }, orderBy: { name: "asc" } });
   return NextResponse.json({ processAreas: pas });
 }
 

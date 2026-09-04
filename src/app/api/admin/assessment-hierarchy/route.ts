@@ -1,5 +1,6 @@
 import { requireAdmin, getSelectedCompanyId } from "@/lib/authz";
 import { prisma } from "@/lib/prisma";
+import { ACTIVE_CONTENT_WHERE } from "@/lib/content-rollforward";
 import { NextResponse } from "next/server";
 
 // GET — hierarchical Standard→PA→Requirement→Control tree for assessment creation
@@ -10,7 +11,7 @@ export async function GET() {
   if (response) return response;
 
   const companyId = await getSelectedCompanyId();
-  const where = companyId ? { companyId } : {};
+  const where = { ...ACTIVE_CONTENT_WHERE, ...(companyId ? { companyId } : {}) };
 
   // Fetch requirements with their PA, standard, and control mappings
   const requirements = await prisma.requirement.findMany({
@@ -18,6 +19,7 @@ export async function GET() {
     include: {
       processArea: { select: { id: true, name: true } },
       controlMappings: {
+        where: { control: ACTIVE_CONTENT_WHERE },
         include: {
           control: { select: { id: true, name: true, controlType: true } },
         },
@@ -26,7 +28,7 @@ export async function GET() {
     orderBy: { requirementId: "asc" },
   });
 
-  // Also get all controls with their PA for unmapped controls
+  // Also get all ACTIVE controls with their PA for unmapped controls
   const allControls = await prisma.control.findMany({
     where,
     select: { id: true, name: true, controlType: true, processAreaId: true, processArea: { select: { name: true } } },

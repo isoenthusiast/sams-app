@@ -31,7 +31,9 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ ok: true, ...result });
   } catch (e: any) {
     const msg = e?.message || "Adopt failed";
-    const status = /not found|No update/i.test(msg) ? 400 : 500;
+    // 400 for bad inputs (unknown version, no update, non-latest version guard)
+    // so the operator console surfaces it as a client error, not a 500.
+    const status = /not found|No update|version mismatch|available version/i.test(msg) ? 400 : 500;
     return NextResponse.json({ error: msg }, { status });
   }
 }

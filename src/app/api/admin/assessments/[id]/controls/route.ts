@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/auth";
 import { getSelectedCompanyId } from "@/lib/authz";
+import { ACTIVE_CONTENT_WHERE } from "@/lib/content-rollforward";
 
 // GET /api/admin/assessments/[id]/controls
 // ?mode=available — returns controls NOT yet assigned to this assessment
@@ -35,6 +36,7 @@ export async function GET(req: Request, { params }: { params: Promise<{ id: stri
 
     const controls = await prisma.control.findMany({
       where: {
+        ...ACTIVE_CONTENT_WHERE,
         ...(companyId ? { companyId } : {}),
         id: { notIn: excludeIds.length > 0 ? excludeIds : ["__none__"] },
       },
@@ -47,7 +49,7 @@ export async function GET(req: Request, { params }: { params: Promise<{ id: stri
   }
 
   const controls = await prisma.control.findMany({
-    where: companyId ? { companyId } : {},
+    where: { ...ACTIVE_CONTENT_WHERE, ...(companyId ? { companyId } : {}) },
     include: {
       processArea: { include: { standardRef: true } },
       requirementMappings: { include: { requirement: true } },

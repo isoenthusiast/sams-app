@@ -1,5 +1,6 @@
 import { requireAdmin } from "@/lib/authz";
 import { prisma } from "@/lib/prisma";
+import { ACTIVE_CONTENT_WHERE } from "@/lib/content-rollforward";
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 
@@ -11,7 +12,7 @@ export async function GET() {
   const companyId = cookieStore.get("selectedCompanyId")?.value || null;
 
   const controls = await prisma.control.findMany({
-    where: companyId ? { companyId } : {},
+    where: { ...ACTIVE_CONTENT_WHERE, ...(companyId ? { companyId } : {}) },
     select: {
       id: true,
       name: true,

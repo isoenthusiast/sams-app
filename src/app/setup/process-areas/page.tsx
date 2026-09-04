@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { getSelectedCompanyId } from "@/lib/authz";
 import { redirect } from "next/navigation";
 import { ProcessAreaList } from "@/components/ProcessAreaList";
+import { ACTIVE_CONTENT_WHERE } from "@/lib/content-rollforward";
 
 export const dynamic = "force-dynamic";
 
@@ -12,7 +13,7 @@ export default async function ProcessAreasPage() {
   const companyId = await getSelectedCompanyId();
 
   const processAreas = await prisma.processArea.findMany({
-    where: companyId ? { companyId } : {},
+    where: { ...ACTIVE_CONTENT_WHERE, ...(companyId ? { companyId } : {}) },
     include: {
       standardRef: true,
       _count: { select: { controls: true, subProcesses: true, requirements: true } },

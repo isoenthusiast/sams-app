@@ -35,6 +35,19 @@ export const CONTENT_PACK_PUBLISH = "CONTENT_PACK_PUBLISH";
 export const CONTENT_PACK_ADOPT = "CONTENT_PACK_ADOPT";
 export const MASTER_COMPANY_ID = "SAMS001";
 
+/**
+ * Active-content filter (SAMS-016 binding condition #5).
+ *
+ * Superseded content is retained (read-only; FK links still resolve) because
+ * client data references it, but it must NOT be offered for SELECTION or
+ * EDITING of NEW work. Every editable/selectable content query (control
+ * library, new-assignment pickers, setup pages, template-adopt targets)
+ * spreads this WHERE clause. Display of EXISTING client data (assessment
+ * detail, findings, conclusions, checklist links) deliberately stays
+ * UNFILTERED so a superseded row's link never breaks.
+ */
+export const ACTIVE_CONTENT_WHERE = { contentStatus: "Active" } as const;
+
 // ── Snapshot types ──────────────────────────────────────────────────────────
 export type PackStandard = { key: string; standard: string; sequenceNo: number };
 export type PackProcessArea = { key: string; name: string; description?: string | null; standard?: string | null; pId?: string | null };
@@ -446,6 +459,13 @@ export async function adoptContentPack(opts: { companyId: string; toVersion: num
   const beforeChecksum = await checksumClientData(opts.companyId);
   const status = await computeContentDiff(opts.companyId);
   if (!status.diff) throw new Error("No update available to adopt");
+  // Guard: the diff is always computed against the LATEST pack, so adopting a
+  // non-latest version would apply content that diverges from the previewed /
+  // audited diff. Reject unless toVersion === the available (latest) version so
+  // preview = applied = audited, always.
+  if (opts.toVersion !== status.availableVersion) {
+    throw new Error(`Adopt version mismatch: latest available version is ${status.availableVersion}, requested ${opts.toVersion}`);
+  }
   const diff = status.diff;
 
   if (opts.dryRun) {

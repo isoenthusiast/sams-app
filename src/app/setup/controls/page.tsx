@@ -6,6 +6,7 @@ import Link from "next/link";
 import { Card } from "@/components/Card";
 import { HealthIndicator } from "@/components/HealthIndicator";
 import { Badge } from "@/components/Badge";
+import { ACTIVE_CONTENT_WHERE } from "@/lib/content-rollforward";
 
 export const dynamic = "force-dynamic";
 
@@ -17,7 +18,7 @@ export default async function ControlsPage({ searchParams }: { searchParams: Pro
   const search = sp.search ?? "";
   const paFilter = sp.pa ?? "";
 
-  const where: any = companyId ? { companyId } : {};
+  const where: any = { ...ACTIVE_CONTENT_WHERE, ...(companyId ? { companyId } : {}) };
   if (search) {
     where.OR = [
       { name: { contains: search, mode: "insensitive" } },

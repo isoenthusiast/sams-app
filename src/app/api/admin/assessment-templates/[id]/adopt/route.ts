@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { ACTIVE_CONTENT_WHERE } from "@/lib/content-rollforward";
 
 // POST /api/admin/assessment-templates/[id]/adopt
 // Clones a SAMS001 template into a target company, mapping controls
@@ -26,9 +27,9 @@ export async function POST(
     const targetCompany = await prisma.company.findUnique({ where: { id: targetCompanyId } });
     if (!targetCompany) return NextResponse.json({ error: "Target company not found" }, { status: 404 });
 
-    // Fetch all controls at target company with their process areas for mapping
+    // Fetch all ACTIVE controls at target company with their process areas for mapping
     const targetControls = await prisma.control.findMany({
-      where: { companyId: targetCompanyId },
+      where: { ...ACTIVE_CONTENT_WHERE, companyId: targetCompanyId },
       include: { processArea: { select: { name: true } } },
     });
 

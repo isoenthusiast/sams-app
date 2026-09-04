@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/auth";
 import { getSelectedCompanyId } from "@/lib/authz";
+import { ACTIVE_CONTENT_WHERE } from "@/lib/content-rollforward";
 
 // GET /api/admin/assessments/[id]/requirement-tree
 // Returns Standard → ProcessArea → Requirement → Control tree for the assessment.
@@ -89,6 +90,7 @@ export async function GET(
   // Fetch controls that have NO requirement mappings (unmapped controls)
   const unmappedControls = await prisma.control.findMany({
     where: {
+      ...ACTIVE_CONTENT_WHERE,
       ...(companyId ? { companyId } : {}),
       requirementMappings: { none: {} },
     },

@@ -17,7 +17,7 @@ touched.
 |---|---|
 | **Master publish** | `POST /api/operator/content/publish` snapshots the SAMS001 master content into an **immutable** `ContentPack` (next version). A publish NEVER mutates a prior pack. |
 | **Operator content status** | `GET /api/operator/content` returns each client's `currentVersion`, `availableVersion`, `updateAvailable` and the **diff** (added / changed / conflicts / removed) they preview before adopting. |
-| **Operator adopt** | `POST /api/operator/content/adopt` applies the diff to the tenant's **content** tables by stable key (never wipe-and-reload), marks removed-but-referenced content Superseded, audits the adoption **with the diff attached**, and notifies the client (in-app + portal banner until acknowledged). |
+| **Operator adopt** | `POST /api/operator/content/adopt` applies the diff to the tenant's **content** tables by stable key (never wipe-and-reload), marks removed-but-referenced content Superseded, audits the adoption **with the diff attached**, and notifies the client (in-app + portal banner until acknowledged). Rejects `toVersion !== availableVersion` (400) so **preview = applied = audited**. |
 | **Client banner** | `GET /api/portal/content/banner` + `POST /api/portal/content/acknowledge` — a notice of the APPLIED baseline change, dismissible and persisted across re-login. |
 | **Export** | The client-data export manifest now carries `contentVersion` (the tenant's adopted baseline). |
 
@@ -67,8 +67,13 @@ prevents false "changed"/"conflict" on every row.
 The adopt path marks removed-but-referenced content `contentStatus = Superseded` +
 sets `supersededAt`. Superseded rows:
 - are **never hard-deleted** (client's FK links keep resolving),
-- are excluded from the editable/active content sets,
-- still resolve by link (e.g. a finding's control assignment).
+- are **excluded from the editable/active content sets** — every control library,
+  new-assignment picker, setup page and template-adopt target query spreads the
+  shared `ACTIVE_CONTENT_WHERE = { contentStatus: "Active" }` filter
+  (`src/lib/content-rollforward.ts`), so dead content can never be assigned to
+  NEW work,
+- still resolve by link (e.g. a finding's control assignment; the existing-data
+  display paths stay deliberately UNFILTERED so the FK link never breaks).
 
 Additive columns on `Standard` / `ProcessArea` / `Requirement` / `Control`
 (`contentStatus`, `supersededAt`) are delivered in the SAME additive migration.
