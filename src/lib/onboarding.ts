@@ -282,6 +282,9 @@ export async function provisionUsers(params: {
           companyId,
           managerName: manager?.name ?? row.managerName?.trim() ?? null,
           managerUsername: manager?.username ?? null,
+          // SAMS-012: wizard-provisioned users start with a temp password — force
+          // a change on their first credentials login (settled decision #4).
+          mustChangePassword: true,
         },
       });
       await tx.userCompany.create({ data: { userId: user.id, companyId } });

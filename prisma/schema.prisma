@@ -25,6 +25,10 @@ model User {
   organisationIndicator String?
   preferredName        String?
   active               Boolean                @default(false)
+  /// Force a password change on next credentials login (SAMS-012). Wizard-provisioned
+  /// users (temp password) get this set; credentials login with the flag redirects to
+  /// `/change-password` until it is cleared. Additive, default false — no backfill.
+  mustChangePassword   Boolean                @default(false)
   sortOrder            Int                    @default(0)
   createdAt            DateTime               @default(now())
   totalPoints          Int                    @default(0)
