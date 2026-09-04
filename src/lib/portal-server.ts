@@ -1,5 +1,6 @@
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
+import { cookies } from "next/headers";
 import { resolvePortalCompanyId, type PortalCompany } from "@/lib/portal";
 
 export type PortalContext = {
@@ -24,10 +25,13 @@ export async function getPortalContext(searchParams?: PortalPageSearchParams): P
   const providerRole = (session.user as { providerRole?: string | null }).providerRole ?? null;
 
   const sp = await searchParams;
+  const cookieStore = await cookies();
+  const cookieCompanyId = cookieStore.get("selectedCompanyId")?.value ?? null;
   const { companyId, companies } = await resolvePortalCompanyId({
     userId,
     providerRole,
     selectedCompanyId: sp?.companyId ?? null,
+    cookieCompanyId,
   });
 
   return { userId, userName, userRole, providerRole, companyId, companies };

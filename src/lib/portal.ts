@@ -34,15 +34,24 @@ export function portalCommentWhere(extra: Record<string, unknown> = {}) {
  *   returns null for them so a caller can redirect. A provider who is ALSO a
  *   mapped client user may still open their company's portal, but the landing
  *   rule keeps the default on /operator.
- * - A user's portal companies = {User.companyId} ∪ {UserCompany.companyId}.
- *   If the user has exactly one → that one. If more than one → use
- *   `selectedCompanyId` when it's in the set, else null (the UI shows a
- *   selector limited to the user's mappings). If none → null (empty state).
+ * - A user's portal companies = {User.companyId} ∪ {UserCompany.companyId}
+ *   (archive rows excluded). If the user has exactly one → that one. If they
+ *   have none → null (the guided empty state).
+ * - For 2+ companies, the active company resolves in this order (matching the
+ *   main app's URL-param-primary / cookie-fallback convention):
+ *     1. `selectedCompanyId` (?companyId=) — primary — when it is in the set.
+ *     2. the `selectedCompanyId` cookie — fallback — when it is in the set
+ *        (read server-side by the caller and passed as `cookieCompanyId`).
+ *     3. `User.companyId` (home company) — when it is in the set.
+ *     4. first company by `companyID` (ascending) — deterministic last resort.
+ *   A cross-tenant `?companyId=` that is NOT in the user's set is ignored and
+ *   falls through to the default — it never leaks.
  */
 export async function resolvePortalCompanyId(opts: {
   userId: string;
   providerRole?: string | null;
   selectedCompanyId?: string | null;
+  cookieCompanyId?: string | null;
 }): Promise<{ companyId: string | null; companies: { id: string; companyID: string; companyName: string }[] }> {
   const { userId, providerRole } = opts;
   const user = await prisma.user.findUnique({
@@ -65,10 +74,27 @@ export async function resolvePortalCompanyId(opts: {
     }
   }
   const companies = Array.from(map.values());
+
+  // Empty state ONLY when the user genuinely has zero companies.
   if (companies.length === 0) return { companyId: null, companies: [] };
+  // Single-company regression: that one, regardless of any param/cookie.
   if (companies.length === 1) return { companyId: companies[0].id, companies };
-  const selected = opts.selectedCompanyId && map.has(opts.selectedCompanyId) ? opts.selectedCompanyId : null;
-  return { companyId: selected, companies };
+
+  // 1. URL param (?companyId=) — primary; must be a mapped company.
+  if (opts.selectedCompanyId && map.has(opts.selectedCompanyId)) {
+    return { companyId: opts.selectedCompanyId, companies };
+  }
+  // 2. selectedCompanyId cookie — fallback; must be a mapped company.
+  if (opts.cookieCompanyId && map.has(opts.cookieCompanyId)) {
+    return { companyId: opts.cookieCompanyId, companies };
+  }
+  // 3. Home company (User.companyId) — if present in the set.
+  if (user.companyId && map.has(user.companyId)) {
+    return { companyId: user.companyId, companies };
+  }
+  // 4. First company by companyID (ascending) — deterministic last resort.
+  const first = [...companies].sort((a, b) => a.companyID.localeCompare(b.companyID))[0];
+  return { companyId: first.id, companies };
 }
 
 /**
