@@ -6232,6 +6232,7 @@ export const UserScalarFieldEnum = {
   organisationIndicator: 'organisationIndicator',
   preferredName: 'preferredName',
   active: 'active',
+  mustChangePassword: 'mustChangePassword',
   sortOrder: 'sortOrder',
   createdAt: 'createdAt',
   totalPoints: 'totalPoints',

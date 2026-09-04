@@ -275,13 +275,18 @@ export async function provisionUsers(params: {
         data: {
           name: row.name.trim(),
           username: row.username.trim(),
-          email: row.email?.trim() || null,
+          // P1: store email lowercased (the SSO link-by-email lookup lowercases),
+          // so wizard-provisioned emails always match the Entra email case.
+          email: row.email?.trim()?.toLowerCase() || null,
           passwordHash: hash,
           role,
           active: true,
           companyId,
           managerName: manager?.name ?? row.managerName?.trim() ?? null,
           managerUsername: manager?.username ?? null,
+          // SAMS-012: wizard-provisioned users start with a temp password — force
+          // a change on their first credentials login (settled decision #4).
+          mustChangePassword: true,
         },
       });
       await tx.userCompany.create({ data: { userId: user.id, companyId } });

@@ -53,6 +53,7 @@ export type UserMinAggregateOutputType = {
   organisationIndicator: string | null
   preferredName: string | null
   active: boolean | null
+  mustChangePassword: boolean | null
   sortOrder: number | null
   createdAt: Date | null
   totalPoints: number | null
@@ -76,6 +77,7 @@ export type UserMaxAggregateOutputType = {
   organisationIndicator: string | null
   preferredName: string | null
   active: boolean | null
+  mustChangePassword: boolean | null
   sortOrder: number | null
   createdAt: Date | null
   totalPoints: number | null
@@ -99,6 +101,7 @@ export type UserCountAggregateOutputType = {
   organisationIndicator: number
   preferredName: number
   active: number
+  mustChangePassword: number
   sortOrder: number
   createdAt: number
   totalPoints: number
@@ -136,6 +139,7 @@ export type UserMinAggregateInputType = {
   organisationIndicator?: true
   preferredName?: true
   active?: true
+  mustChangePassword?: true
   sortOrder?: true
   createdAt?: true
   totalPoints?: true
@@ -159,6 +163,7 @@ export type UserMaxAggregateInputType = {
   organisationIndicator?: true
   preferredName?: true
   active?: true
+  mustChangePassword?: true
   sortOrder?: true
   createdAt?: true
   totalPoints?: true
@@ -182,6 +187,7 @@ export type UserCountAggregateInputType = {
   organisationIndicator?: true
   preferredName?: true
   active?: true
+  mustChangePassword?: true
   sortOrder?: true
   createdAt?: true
   totalPoints?: true
@@ -292,6 +298,7 @@ export type UserGroupByOutputType = {
   organisationIndicator: string | null
   preferredName: string | null
   active: boolean
+  mustChangePassword: boolean
   sortOrder: number
   createdAt: Date
   totalPoints: number
@@ -338,6 +345,7 @@ export type UserWhereInput = {
   organisationIndicator?: Prisma.StringNullableFilter<"User"> | string | null
   preferredName?: Prisma.StringNullableFilter<"User"> | string | null
   active?: Prisma.BoolFilter<"User"> | boolean
+  mustChangePassword?: Prisma.BoolFilter<"User"> | boolean
   sortOrder?: Prisma.IntFilter<"User"> | number
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   totalPoints?: Prisma.IntFilter<"User"> | number
@@ -377,6 +385,7 @@ export type UserOrderByWithRelationInput = {
   organisationIndicator?: Prisma.SortOrderInput | Prisma.SortOrder
   preferredName?: Prisma.SortOrderInput | Prisma.SortOrder
   active?: Prisma.SortOrder
+  mustChangePassword?: Prisma.SortOrder
   sortOrder?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   totalPoints?: Prisma.SortOrder
@@ -419,6 +428,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   organisationIndicator?: Prisma.StringNullableFilter<"User"> | string | null
   preferredName?: Prisma.StringNullableFilter<"User"> | string | null
   active?: Prisma.BoolFilter<"User"> | boolean
+  mustChangePassword?: Prisma.BoolFilter<"User"> | boolean
   sortOrder?: Prisma.IntFilter<"User"> | number
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   totalPoints?: Prisma.IntFilter<"User"> | number
@@ -458,6 +468,7 @@ export type UserOrderByWithAggregationInput = {
   organisationIndicator?: Prisma.SortOrderInput | Prisma.SortOrder
   preferredName?: Prisma.SortOrderInput | Prisma.SortOrder
   active?: Prisma.SortOrder
+  mustChangePassword?: Prisma.SortOrder
   sortOrder?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   totalPoints?: Prisma.SortOrder
@@ -489,6 +500,7 @@ export type UserScalarWhereWithAggregatesInput = {
   organisationIndicator?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   preferredName?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   active?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
+  mustChangePassword?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
   sortOrder?: Prisma.IntWithAggregatesFilter<"User"> | number
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
   totalPoints?: Prisma.IntWithAggregatesFilter<"User"> | number
@@ -511,6 +523,7 @@ export type UserCreateInput = {
   organisationIndicator?: string | null
   preferredName?: string | null
   active?: boolean
+  mustChangePassword?: boolean
   sortOrder?: number
   createdAt?: Date | string
   totalPoints?: number
@@ -550,6 +563,7 @@ export type UserUncheckedCreateInput = {
   organisationIndicator?: string | null
   preferredName?: string | null
   active?: boolean
+  mustChangePassword?: boolean
   sortOrder?: number
   createdAt?: Date | string
   totalPoints?: number
@@ -587,6 +601,7 @@ export type UserUpdateInput = {
   organisationIndicator?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   preferredName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalPoints?: Prisma.IntFieldUpdateOperationsInput | number
@@ -626,6 +641,7 @@ export type UserUncheckedUpdateInput = {
   organisationIndicator?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   preferredName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalPoints?: Prisma.IntFieldUpdateOperationsInput | number
@@ -664,6 +680,7 @@ export type UserCreateManyInput = {
   organisationIndicator?: string | null
   preferredName?: string | null
   active?: boolean
+  mustChangePassword?: boolean
   sortOrder?: number
   createdAt?: Date | string
   totalPoints?: number
@@ -686,6 +703,7 @@ export type UserUpdateManyMutationInput = {
   organisationIndicator?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   preferredName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalPoints?: Prisma.IntFieldUpdateOperationsInput | number
@@ -709,6 +727,7 @@ export type UserUncheckedUpdateManyInput = {
   organisationIndicator?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   preferredName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalPoints?: Prisma.IntFieldUpdateOperationsInput | number
@@ -732,6 +751,7 @@ export type UserCountOrderByAggregateInput = {
   organisationIndicator?: Prisma.SortOrder
   preferredName?: Prisma.SortOrder
   active?: Prisma.SortOrder
+  mustChangePassword?: Prisma.SortOrder
   sortOrder?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   totalPoints?: Prisma.SortOrder
@@ -761,6 +781,7 @@ export type UserMaxOrderByAggregateInput = {
   organisationIndicator?: Prisma.SortOrder
   preferredName?: Prisma.SortOrder
   active?: Prisma.SortOrder
+  mustChangePassword?: Prisma.SortOrder
   sortOrder?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   totalPoints?: Prisma.SortOrder
@@ -784,6 +805,7 @@ export type UserMinOrderByAggregateInput = {
   organisationIndicator?: Prisma.SortOrder
   preferredName?: Prisma.SortOrder
   active?: Prisma.SortOrder
+  mustChangePassword?: Prisma.SortOrder
   sortOrder?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   totalPoints?: Prisma.SortOrder
@@ -1126,6 +1148,7 @@ export type UserCreateWithoutAssessmentsInput = {
   organisationIndicator?: string | null
   preferredName?: string | null
   active?: boolean
+  mustChangePassword?: boolean
   sortOrder?: number
   createdAt?: Date | string
   totalPoints?: number
@@ -1164,6 +1187,7 @@ export type UserUncheckedCreateWithoutAssessmentsInput = {
   organisationIndicator?: string | null
   preferredName?: string | null
   active?: boolean
+  mustChangePassword?: boolean
   sortOrder?: number
   createdAt?: Date | string
   totalPoints?: number
@@ -1216,6 +1240,7 @@ export type UserUpdateWithoutAssessmentsInput = {
   organisationIndicator?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   preferredName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalPoints?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1254,6 +1279,7 @@ export type UserUncheckedUpdateWithoutAssessmentsInput = {
   organisationIndicator?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   preferredName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalPoints?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1290,6 +1316,7 @@ export type UserCreateWithoutAssessmentRolesInput = {
   organisationIndicator?: string | null
   preferredName?: string | null
   active?: boolean
+  mustChangePassword?: boolean
   sortOrder?: number
   createdAt?: Date | string
   totalPoints?: number
@@ -1328,6 +1355,7 @@ export type UserUncheckedCreateWithoutAssessmentRolesInput = {
   organisationIndicator?: string | null
   preferredName?: string | null
   active?: boolean
+  mustChangePassword?: boolean
   sortOrder?: number
   createdAt?: Date | string
   totalPoints?: number
@@ -1380,6 +1408,7 @@ export type UserUpdateWithoutAssessmentRolesInput = {
   organisationIndicator?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   preferredName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalPoints?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1418,6 +1447,7 @@ export type UserUncheckedUpdateWithoutAssessmentRolesInput = {
   organisationIndicator?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   preferredName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalPoints?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1454,6 +1484,7 @@ export type UserCreateWithoutManagementResponsesInput = {
   organisationIndicator?: string | null
   preferredName?: string | null
   active?: boolean
+  mustChangePassword?: boolean
   sortOrder?: number
   createdAt?: Date | string
   totalPoints?: number
@@ -1492,6 +1523,7 @@ export type UserUncheckedCreateWithoutManagementResponsesInput = {
   organisationIndicator?: string | null
   preferredName?: string | null
   active?: boolean
+  mustChangePassword?: boolean
   sortOrder?: number
   createdAt?: Date | string
   totalPoints?: number
@@ -1544,6 +1576,7 @@ export type UserUpdateWithoutManagementResponsesInput = {
   organisationIndicator?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   preferredName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalPoints?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1582,6 +1615,7 @@ export type UserUncheckedUpdateWithoutManagementResponsesInput = {
   organisationIndicator?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   preferredName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalPoints?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1618,6 +1652,7 @@ export type UserCreateWithoutAchievementsInput = {
   organisationIndicator?: string | null
   preferredName?: string | null
   active?: boolean
+  mustChangePassword?: boolean
   sortOrder?: number
   createdAt?: Date | string
   totalPoints?: number
@@ -1656,6 +1691,7 @@ export type UserUncheckedCreateWithoutAchievementsInput = {
   organisationIndicator?: string | null
   preferredName?: string | null
   active?: boolean
+  mustChangePassword?: boolean
   sortOrder?: number
   createdAt?: Date | string
   totalPoints?: number
@@ -1708,6 +1744,7 @@ export type UserUpdateWithoutAchievementsInput = {
   organisationIndicator?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   preferredName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalPoints?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1746,6 +1783,7 @@ export type UserUncheckedUpdateWithoutAchievementsInput = {
   organisationIndicator?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   preferredName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalPoints?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1782,6 +1820,7 @@ export type UserCreateWithoutPointsInput = {
   organisationIndicator?: string | null
   preferredName?: string | null
   active?: boolean
+  mustChangePassword?: boolean
   sortOrder?: number
   createdAt?: Date | string
   totalPoints?: number
@@ -1820,6 +1859,7 @@ export type UserUncheckedCreateWithoutPointsInput = {
   organisationIndicator?: string | null
   preferredName?: string | null
   active?: boolean
+  mustChangePassword?: boolean
   sortOrder?: number
   createdAt?: Date | string
   totalPoints?: number
@@ -1872,6 +1912,7 @@ export type UserUpdateWithoutPointsInput = {
   organisationIndicator?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   preferredName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalPoints?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1910,6 +1951,7 @@ export type UserUncheckedUpdateWithoutPointsInput = {
   organisationIndicator?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   preferredName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalPoints?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1946,6 +1988,7 @@ export type UserCreateWithoutEmotionalDrivesInput = {
   organisationIndicator?: string | null
   preferredName?: string | null
   active?: boolean
+  mustChangePassword?: boolean
   sortOrder?: number
   createdAt?: Date | string
   totalPoints?: number
@@ -1984,6 +2027,7 @@ export type UserUncheckedCreateWithoutEmotionalDrivesInput = {
   organisationIndicator?: string | null
   preferredName?: string | null
   active?: boolean
+  mustChangePassword?: boolean
   sortOrder?: number
   createdAt?: Date | string
   totalPoints?: number
@@ -2036,6 +2080,7 @@ export type UserUpdateWithoutEmotionalDrivesInput = {
   organisationIndicator?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   preferredName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalPoints?: Prisma.IntFieldUpdateOperationsInput | number
@@ -2074,6 +2119,7 @@ export type UserUncheckedUpdateWithoutEmotionalDrivesInput = {
   organisationIndicator?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   preferredName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalPoints?: Prisma.IntFieldUpdateOperationsInput | number
@@ -2110,6 +2156,7 @@ export type UserCreateWithoutMilestonesInput = {
   organisationIndicator?: string | null
   preferredName?: string | null
   active?: boolean
+  mustChangePassword?: boolean
   sortOrder?: number
   createdAt?: Date | string
   totalPoints?: number
@@ -2148,6 +2195,7 @@ export type UserUncheckedCreateWithoutMilestonesInput = {
   organisationIndicator?: string | null
   preferredName?: string | null
   active?: boolean
+  mustChangePassword?: boolean
   sortOrder?: number
   createdAt?: Date | string
   totalPoints?: number
@@ -2200,6 +2248,7 @@ export type UserUpdateWithoutMilestonesInput = {
   organisationIndicator?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   preferredName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalPoints?: Prisma.IntFieldUpdateOperationsInput | number
@@ -2238,6 +2287,7 @@ export type UserUncheckedUpdateWithoutMilestonesInput = {
   organisationIndicator?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   preferredName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalPoints?: Prisma.IntFieldUpdateOperationsInput | number
@@ -2274,6 +2324,7 @@ export type UserCreateWithoutRoleMappingsInput = {
   organisationIndicator?: string | null
   preferredName?: string | null
   active?: boolean
+  mustChangePassword?: boolean
   sortOrder?: number
   createdAt?: Date | string
   totalPoints?: number
@@ -2312,6 +2363,7 @@ export type UserUncheckedCreateWithoutRoleMappingsInput = {
   organisationIndicator?: string | null
   preferredName?: string | null
   active?: boolean
+  mustChangePassword?: boolean
   sortOrder?: number
   createdAt?: Date | string
   totalPoints?: number
@@ -2364,6 +2416,7 @@ export type UserUpdateWithoutRoleMappingsInput = {
   organisationIndicator?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   preferredName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalPoints?: Prisma.IntFieldUpdateOperationsInput | number
@@ -2402,6 +2455,7 @@ export type UserUncheckedUpdateWithoutRoleMappingsInput = {
   organisationIndicator?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   preferredName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalPoints?: Prisma.IntFieldUpdateOperationsInput | number
@@ -2438,6 +2492,7 @@ export type UserCreateWithoutApiKeysInput = {
   organisationIndicator?: string | null
   preferredName?: string | null
   active?: boolean
+  mustChangePassword?: boolean
   sortOrder?: number
   createdAt?: Date | string
   totalPoints?: number
@@ -2476,6 +2531,7 @@ export type UserUncheckedCreateWithoutApiKeysInput = {
   organisationIndicator?: string | null
   preferredName?: string | null
   active?: boolean
+  mustChangePassword?: boolean
   sortOrder?: number
   createdAt?: Date | string
   totalPoints?: number
@@ -2528,6 +2584,7 @@ export type UserUpdateWithoutApiKeysInput = {
   organisationIndicator?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   preferredName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalPoints?: Prisma.IntFieldUpdateOperationsInput | number
@@ -2566,6 +2623,7 @@ export type UserUncheckedUpdateWithoutApiKeysInput = {
   organisationIndicator?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   preferredName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalPoints?: Prisma.IntFieldUpdateOperationsInput | number
@@ -2602,6 +2660,7 @@ export type UserCreateWithoutMicAttestationsInput = {
   organisationIndicator?: string | null
   preferredName?: string | null
   active?: boolean
+  mustChangePassword?: boolean
   sortOrder?: number
   createdAt?: Date | string
   totalPoints?: number
@@ -2640,6 +2699,7 @@ export type UserUncheckedCreateWithoutMicAttestationsInput = {
   organisationIndicator?: string | null
   preferredName?: string | null
   active?: boolean
+  mustChangePassword?: boolean
   sortOrder?: number
   createdAt?: Date | string
   totalPoints?: number
@@ -2692,6 +2752,7 @@ export type UserUpdateWithoutMicAttestationsInput = {
   organisationIndicator?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   preferredName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalPoints?: Prisma.IntFieldUpdateOperationsInput | number
@@ -2730,6 +2791,7 @@ export type UserUncheckedUpdateWithoutMicAttestationsInput = {
   organisationIndicator?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   preferredName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalPoints?: Prisma.IntFieldUpdateOperationsInput | number
@@ -2766,6 +2828,7 @@ export type UserCreateWithoutPositionInput = {
   organisationIndicator?: string | null
   preferredName?: string | null
   active?: boolean
+  mustChangePassword?: boolean
   sortOrder?: number
   createdAt?: Date | string
   totalPoints?: number
@@ -2803,6 +2866,7 @@ export type UserUncheckedCreateWithoutPositionInput = {
   organisationIndicator?: string | null
   preferredName?: string | null
   active?: boolean
+  mustChangePassword?: boolean
   sortOrder?: number
   createdAt?: Date | string
   totalPoints?: number
@@ -2870,6 +2934,7 @@ export type UserScalarWhereInput = {
   organisationIndicator?: Prisma.StringNullableFilter<"User"> | string | null
   preferredName?: Prisma.StringNullableFilter<"User"> | string | null
   active?: Prisma.BoolFilter<"User"> | boolean
+  mustChangePassword?: Prisma.BoolFilter<"User"> | boolean
   sortOrder?: Prisma.IntFilter<"User"> | number
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   totalPoints?: Prisma.IntFilter<"User"> | number
@@ -2892,6 +2957,7 @@ export type UserCreateWithoutUserCompaniesInput = {
   organisationIndicator?: string | null
   preferredName?: string | null
   active?: boolean
+  mustChangePassword?: boolean
   sortOrder?: number
   createdAt?: Date | string
   totalPoints?: number
@@ -2930,6 +2996,7 @@ export type UserUncheckedCreateWithoutUserCompaniesInput = {
   organisationIndicator?: string | null
   preferredName?: string | null
   active?: boolean
+  mustChangePassword?: boolean
   sortOrder?: number
   createdAt?: Date | string
   totalPoints?: number
@@ -2982,6 +3049,7 @@ export type UserUpdateWithoutUserCompaniesInput = {
   organisationIndicator?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   preferredName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalPoints?: Prisma.IntFieldUpdateOperationsInput | number
@@ -3020,6 +3088,7 @@ export type UserUncheckedUpdateWithoutUserCompaniesInput = {
   organisationIndicator?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   preferredName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalPoints?: Prisma.IntFieldUpdateOperationsInput | number
@@ -3056,6 +3125,7 @@ export type UserCreateWithoutCommentsInput = {
   organisationIndicator?: string | null
   preferredName?: string | null
   active?: boolean
+  mustChangePassword?: boolean
   sortOrder?: number
   createdAt?: Date | string
   totalPoints?: number
@@ -3094,6 +3164,7 @@ export type UserUncheckedCreateWithoutCommentsInput = {
   organisationIndicator?: string | null
   preferredName?: string | null
   active?: boolean
+  mustChangePassword?: boolean
   sortOrder?: number
   createdAt?: Date | string
   totalPoints?: number
@@ -3146,6 +3217,7 @@ export type UserUpdateWithoutCommentsInput = {
   organisationIndicator?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   preferredName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalPoints?: Prisma.IntFieldUpdateOperationsInput | number
@@ -3184,6 +3256,7 @@ export type UserUncheckedUpdateWithoutCommentsInput = {
   organisationIndicator?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   preferredName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalPoints?: Prisma.IntFieldUpdateOperationsInput | number
@@ -3220,6 +3293,7 @@ export type UserCreateWithoutEvidenceRequestsByInput = {
   organisationIndicator?: string | null
   preferredName?: string | null
   active?: boolean
+  mustChangePassword?: boolean
   sortOrder?: number
   createdAt?: Date | string
   totalPoints?: number
@@ -3258,6 +3332,7 @@ export type UserUncheckedCreateWithoutEvidenceRequestsByInput = {
   organisationIndicator?: string | null
   preferredName?: string | null
   active?: boolean
+  mustChangePassword?: boolean
   sortOrder?: number
   createdAt?: Date | string
   totalPoints?: number
@@ -3299,6 +3374,7 @@ export type UserCreateWithoutEvidenceRequestsFromInput = {
   organisationIndicator?: string | null
   preferredName?: string | null
   active?: boolean
+  mustChangePassword?: boolean
   sortOrder?: number
   createdAt?: Date | string
   totalPoints?: number
@@ -3337,6 +3413,7 @@ export type UserUncheckedCreateWithoutEvidenceRequestsFromInput = {
   organisationIndicator?: string | null
   preferredName?: string | null
   active?: boolean
+  mustChangePassword?: boolean
   sortOrder?: number
   createdAt?: Date | string
   totalPoints?: number
@@ -3389,6 +3466,7 @@ export type UserUpdateWithoutEvidenceRequestsByInput = {
   organisationIndicator?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   preferredName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalPoints?: Prisma.IntFieldUpdateOperationsInput | number
@@ -3427,6 +3505,7 @@ export type UserUncheckedUpdateWithoutEvidenceRequestsByInput = {
   organisationIndicator?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   preferredName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalPoints?: Prisma.IntFieldUpdateOperationsInput | number
@@ -3474,6 +3553,7 @@ export type UserUpdateWithoutEvidenceRequestsFromInput = {
   organisationIndicator?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   preferredName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalPoints?: Prisma.IntFieldUpdateOperationsInput | number
@@ -3512,6 +3592,7 @@ export type UserUncheckedUpdateWithoutEvidenceRequestsFromInput = {
   organisationIndicator?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   preferredName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalPoints?: Prisma.IntFieldUpdateOperationsInput | number
@@ -3548,6 +3629,7 @@ export type UserCreateWithoutNotificationsInput = {
   organisationIndicator?: string | null
   preferredName?: string | null
   active?: boolean
+  mustChangePassword?: boolean
   sortOrder?: number
   createdAt?: Date | string
   totalPoints?: number
@@ -3586,6 +3668,7 @@ export type UserUncheckedCreateWithoutNotificationsInput = {
   organisationIndicator?: string | null
   preferredName?: string | null
   active?: boolean
+  mustChangePassword?: boolean
   sortOrder?: number
   createdAt?: Date | string
   totalPoints?: number
@@ -3638,6 +3721,7 @@ export type UserUpdateWithoutNotificationsInput = {
   organisationIndicator?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   preferredName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalPoints?: Prisma.IntFieldUpdateOperationsInput | number
@@ -3676,6 +3760,7 @@ export type UserUncheckedUpdateWithoutNotificationsInput = {
   organisationIndicator?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   preferredName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalPoints?: Prisma.IntFieldUpdateOperationsInput | number
@@ -3712,6 +3797,7 @@ export type UserCreateManyPositionInput = {
   organisationIndicator?: string | null
   preferredName?: string | null
   active?: boolean
+  mustChangePassword?: boolean
   sortOrder?: number
   createdAt?: Date | string
   totalPoints?: number
@@ -3734,6 +3820,7 @@ export type UserUpdateWithoutPositionInput = {
   organisationIndicator?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   preferredName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalPoints?: Prisma.IntFieldUpdateOperationsInput | number
@@ -3771,6 +3858,7 @@ export type UserUncheckedUpdateWithoutPositionInput = {
   organisationIndicator?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   preferredName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalPoints?: Prisma.IntFieldUpdateOperationsInput | number
@@ -3808,6 +3896,7 @@ export type UserUncheckedUpdateManyWithoutPositionInput = {
   organisationIndicator?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   preferredName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   totalPoints?: Prisma.IntFieldUpdateOperationsInput | number
@@ -3988,6 +4077,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   organisationIndicator?: boolean
   preferredName?: boolean
   active?: boolean
+  mustChangePassword?: boolean
   sortOrder?: boolean
   createdAt?: boolean
   totalPoints?: boolean
@@ -4028,6 +4118,7 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   organisationIndicator?: boolean
   preferredName?: boolean
   active?: boolean
+  mustChangePassword?: boolean
   sortOrder?: boolean
   createdAt?: boolean
   totalPoints?: boolean
@@ -4052,6 +4143,7 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   organisationIndicator?: boolean
   preferredName?: boolean
   active?: boolean
+  mustChangePassword?: boolean
   sortOrder?: boolean
   createdAt?: boolean
   totalPoints?: boolean
@@ -4076,6 +4168,7 @@ export type UserSelectScalar = {
   organisationIndicator?: boolean
   preferredName?: boolean
   active?: boolean
+  mustChangePassword?: boolean
   sortOrder?: boolean
   createdAt?: boolean
   totalPoints?: boolean
@@ -4084,7 +4177,7 @@ export type UserSelectScalar = {
   confidenceInfluencer?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "username" | "email" | "passwordHash" | "role" | "providerRole" | "positionId" | "companyId" | "managerName" | "managerUsername" | "organisationIndicator" | "preferredName" | "active" | "sortOrder" | "createdAt" | "totalPoints" | "dailyPointStreak" | "lastActivityDate" | "confidenceInfluencer", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "username" | "email" | "passwordHash" | "role" | "providerRole" | "positionId" | "companyId" | "managerName" | "managerUsername" | "organisationIndicator" | "preferredName" | "active" | "mustChangePassword" | "sortOrder" | "createdAt" | "totalPoints" | "dailyPointStreak" | "lastActivityDate" | "confidenceInfluencer", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   position?: boolean | Prisma.User$positionArgs<ExtArgs>
   assessments?: boolean | Prisma.User$assessmentsArgs<ExtArgs>
@@ -4162,6 +4255,12 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     organisationIndicator: string | null
     preferredName: string | null
     active: boolean
+    /**
+     * Force a password change on next credentials login (SAMS-012). Wizard-provisioned
+     * users (temp password) get this set; credentials login with the flag redirects to
+     * `/change-password` until it is cleared. Additive, default false — no backfill.
+     */
+    mustChangePassword: boolean
     sortOrder: number
     createdAt: Date
     totalPoints: number
@@ -4621,6 +4720,7 @@ export interface UserFieldRefs {
   readonly organisationIndicator: Prisma.FieldRef<"User", 'String'>
   readonly preferredName: Prisma.FieldRef<"User", 'String'>
   readonly active: Prisma.FieldRef<"User", 'Boolean'>
+  readonly mustChangePassword: Prisma.FieldRef<"User", 'Boolean'>
   readonly sortOrder: Prisma.FieldRef<"User", 'Int'>
   readonly createdAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly totalPoints: Prisma.FieldRef<"User", 'Int'>
