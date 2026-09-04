@@ -80,15 +80,22 @@ export async function validateUserRows(rows: OnboardingUserRow[]): Promise<Onboa
   const invalidRoles: OnboardingUserValidation["invalidRoles"] = [];
   const unresolvedManagers: OnboardingUserValidation["unresolvedManagers"] = [];
 
-  const usernames = rows.map((r) => r.username?.trim().toLowerCase()).filter(Boolean);
+  const usernames = rows.map((r) => r.username?.trim()).filter(Boolean);
   const batchCounts = new Map<string, number>();
-  for (const u of usernames) batchCounts.set(u, (batchCounts.get(u) ?? 0) + 1);
+  for (const u of usernames) {
+    const k = u.toLowerCase();
+    batchCounts.set(k, (batchCounts.get(k) ?? 0) + 1);
+  }
 
-  // Existing usernames (globally unique).
+  // Existing usernames (globally unique). Query case-insensitively so an
+  // operator entering a case-variant of an existing username is still caught
+  // (the DB unique index is case-sensitive, but the wizard should not let a
+  // near-collision through to a raw DB error).
   const existingSet = new Set<string>();
   if (usernames.length > 0) {
+    const unique = [...new Set(usernames)];
     const found = await prisma.user.findMany({
-      where: { username: { in: [...batchCounts.keys()] } },
+      where: { OR: unique.map((u) => ({ username: { equals: u, mode: "insensitive" } })) },
       select: { username: true },
     });
     for (const f of found) existingSet.add(f.username.toLowerCase());
@@ -99,9 +106,10 @@ export async function validateUserRows(rows: OnboardingUserRow[]): Promise<Onboa
 
   for (const row of rows) {
     const u = row.username?.trim().toLowerCase() ?? "";
-    // Duplicate: already exists in DB, OR repeated within this batch.
+    // A row can be both an existing-username duplicate AND a within-batch
+    // duplicate — report each fact independently so the operator sees both.
     if (existingSet.has(u)) duplicates.push({ kind: "existing", username: row.username, name: row.name });
-    else if ((batchCounts.get(u) ?? 0) > 1) duplicates.push({ kind: "batch", username: row.username, name: row.name });
+    if ((batchCounts.get(u) ?? 0) > 1) duplicates.push({ kind: "batch", username: row.username, name: row.name });
 
     // Role check (default Assessor).
     const role = (row.role?.trim() || "Assessor") as Role;
@@ -122,7 +130,7 @@ export async function validateUserRows(rows: OnboardingUserRow[]): Promise<Onboa
     ...duplicates.map((d) => d.username.toLowerCase()),
     ...invalidRoles.map((i) => i.username.toLowerCase()),
   ]);
-  const valid = usernames.filter((u) => !invalidSet.has(u)).length;
+  const valid = usernames.filter((u) => !invalidSet.has(u.toLowerCase())).length;
 
   return {
     total,
